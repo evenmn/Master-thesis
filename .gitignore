@@ -1,0 +1,26 @@
+# compiled files:
+*.o
+*.so
+*.a
+# temporary files:
+*.pyc
+*.bak
+*.swp
+*~
+.*~
+*.old
+tmp*
+temp*
+.#*
+\#*
+# tex files:
+*.log
+*.dvi
+*.aux
+*.blg
+*.idx
+*.nav
+*.out
+*.toc
+*.snm
+*.vrb
