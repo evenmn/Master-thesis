@@ -1,0 +1,58 @@
+\documentclass[norsk,a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{biblatex}
+\usepackage{graphicx} %for å inkludere grafikk
+\usepackage{verbatim} %for å inkludere filer med tegn LaTeX ikke liker
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{color}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{tikz}
+% \usepackage{physics}
+\usepackage{amssymb}
+\usepackage{titlesec}
+\usepackage{comment}
+
+%biblatex
+\iffalse
+\usepackage[
+backend=biber,
+style=alphabetic,
+sorting=ynt
+]{biblatex}
+\fi
+\addbibresource{refs.bib}
+
+%listings
+\lstset{language=c++}
+\lstset{basicstyle=\small}
+\lstset{backgroundcolor=\color{white}}
+\lstset{frame=single}
+\lstset{stringstyle=\ttfamily}
+\lstset{keywordstyle=\color{red}\bfseries}
+\lstset{commentstyle=\itshape\color{blue}}
+\lstset{showspaces=false}
+\lstset{showstringspaces=false}
+\lstset{showtabs=false}
+\lstset{breaklines}
+\lstset{postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\color{red}\hookrightarrow\space}}}
+
+%tikz
+\setcounter{secnumdepth}{4}
+\usetikzlibrary{through, shapes, calc, shapes, arrows, positioning}
+\tikzstyle{neuron}=[draw,circle,minimum size=20pt,inner sep=0pt, fill=white]
+\tikzstyle{stateTransition}=[thick]
+\tikzstyle{learned}=[text=red]
+
+%specific reused text
+\newcommand{\mdate}{\today}
+\newcommand{\mtitle}{Solving Many-body Quantum Problem using Machine Learning}
+\newcommand{\mauthor}{Even M. Nordhagen}
+\newcommand{\massignn}{.}
+
+\input{defs.tex}
