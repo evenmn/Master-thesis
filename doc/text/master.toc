@@ -1,8 +1,0 @@
-\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
-\babel@toc {english}{}
-\defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {1}Background theory}{7}{section.1}
-\defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {1.1}Hamiltonian}{7}{subsection.1.1}
-\defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {1.2}Born-Oppenheimer approximation}{7}{subsection.1.2}
