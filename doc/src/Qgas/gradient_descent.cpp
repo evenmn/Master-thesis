@@ -67,7 +67,7 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int iterations, i
 
     //Define bins for the one body density measure
     int number_of_bins = 500;
-    double max_radius = 3;
+    double max_radius = 5;
     double radial_step = max_radius/number_of_bins;
     double bin_dist[number_of_bins];
     double bins_particles[number_of_bins];
@@ -78,15 +78,15 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int iterations, i
             bin_dist[i] = i * radial_step;
             bins_particles[i] = 0;
         }
-        ob_file.open ("../data/ob_density.dat");
+        ob_file.open ("../../data/ob_density.dat");
     }
 
     //Open file for writing
     ofstream myfile;
-    myfile.open("../data/energy_eta_0p01.txt");
+    myfile.open("../../data/energy.txt");
 
     ofstream myfile1;
-    myfile1.open("../data/local_energies.txt");
+    myfile1.open("../../data/local_energies.txt");
 
     for(int iter=0; iter<iterations; iter++) {
         //averages and energies
@@ -96,7 +96,7 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int iterations, i
         double E_ext       = 0;          //sum of potential energy from HO
         double E_int       = 0;          //sum of potential energy from interaction
         double E_k_tot     = 0;
-        double E_ext_tot     = 0;
+        double E_ext_tot   = 0;
         double E_int_tot   = 0;
         double E = Psi.EL_calc(X, Xa, v, W, D, interaction, E_k, E_ext, E_int);
 

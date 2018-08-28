@@ -76,19 +76,19 @@ double Slater(int P, int D, VectorXd Xa, VectorXd v, double sigma_sqrd) {
         cout << "Number of particles needs to be a magic number" << endl;
         exit(0);
     }
-    /*
+
     MatrixXd D_up = MatrixXd::Zero(int(P/2),int(P/2));
     MatrixXd D_dn = MatrixXd::Zero(int(P/2),int(P/2));
 
     D_up << H(0,0), H(Xa[0],1), H(Xa[1],1),
-            H(0,0), H(Xa[4],1), H(Xa[5],1),
-            H(0,0), H(Xa[8],1), H(Xa[9],1);
+            H(0,0), H(Xa[2],1), H(Xa[3],1),
+            H(0,0), H(Xa[4],1), H(Xa[5],1);
 
-    D_dn << H(0,0), H(Xa[2],1), H(Xa[3],1),
-            H(0,0), H(Xa[6],1), H(Xa[7],1),
+    D_dn << H(0,0), H(Xa[6],1), H(Xa[7],1),
+            H(0,0), H(Xa[8],1), H(Xa[9],1),
             H(0,0), H(Xa[10],1), H(Xa[11],1);
 
-
+    /*
     double n_something = 2*(n_orbitals + 1);
 
     VectorXd levels = VectorXd::Zero(n_something);
@@ -116,7 +116,7 @@ double Slater(int P, int D, VectorXd Xa, VectorXd v, double sigma_sqrd) {
     cout << A << endl;
     return A.determinant() * NQS_WF(Xa, v, sigma);
     */
-    return Gauss_WF(Xa, sigma_sqrd)*Jastrow_NQS(v);//D_up.determinant()* D_dn.determinant()*Gauss_WF(Xa, sigma_sqrd)*Jastrow_NQS(v);
+    return D_up.determinant()* D_dn.determinant()*Gauss_WF(Xa, sigma_sqrd)*Jastrow_NQS(v);
 }
 
 /*
