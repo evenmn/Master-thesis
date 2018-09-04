@@ -40,28 +40,7 @@ double WaveFunction::Psi_value_sqrd(const VectorXd &Xa, const VectorXd &v)
     return Prob * Prob;
 }
 
-
-double WaveFunction::EL_calc(VectorXd X, VectorXd Xa, VectorXd v, MatrixXd W, int D, int interaction, double &E_k, double &E_ext, double &E_int) {
-    // Local energy calculations
-
-    double E = 0;
-    E_k = 0;
-    E_ext = 0;
-    E_int = 0;
-    double E_knew = 0;
-    double E_pnew = 0;
-    double E_intnew = 0;
-    double number = 0;
-
-    VectorXd Vector = VectorXd::Zero(m_M);
-    VectorXd e = VectorXd::Zero(m_N);
-    VectorXd eNominator = VectorXd::Zero(m_N);
-    for(int i=0; i<m_N; i++) {
-        double expi = exp(-v(i));
-        eNominator(i) = expi;
-        e(i) = 1/(1 + expi);
-    }
-
+void Deter(const VectorXd &Xa, VectorXd &diff) {
     // Determinant dependent part
     MatrixXd D_up = MatrixXd::Zero(int(3),int(3));
     MatrixXd D_dn = MatrixXd::Zero(int(3),int(3));
@@ -75,20 +54,41 @@ double WaveFunction::EL_calc(VectorXd X, VectorXd Xa, VectorXd v, MatrixXd W, in
             H(0,0), H(Xa[10],1), H(Xa[11],1);
 
 
-    VectorXd X_up = VectorXd::Zero(m_M);
-    VectorXd X_dn = VectorXd::Zero(m_M);
-    for(int i=0; i<m_M/2; i++) {
+    VectorXd X_up = VectorXd::Zero(12);
+    VectorXd X_dn = VectorXd::Zero(12);
+    for(int i=0; i<6; i++) {
         X_up(i) = X_up(i+6) = Xa(i);
         X_dn(i) = X_dn(i+6) = Xa(i+6);
     }
 
+    for(int i=0; i<6; i++) {
+        diff(i) = 4*(X_up(i+3) - X_up(i+5))/D_up.determinant();
+        diff(i+6) = 4*(X_dn(i+3) - X_dn(i+5))/D_dn.determinant();
+    }
+}
 
-    VectorXd diff = VectorXd::Zero(m_M);
-    for(int i=0; i<m_M/2; i++) {
-        diff(i) = (4/D_up.determinant())*(X_up(i+3) - X_up(i+5));
-        diff(i+6) = (4/D_dn.determinant())*(X_dn(i+3) - X_dn(i+5));
+double WaveFunction::EL_calc(VectorXd X, VectorXd Xa, VectorXd v, MatrixXd W, int D, int interaction, double &E_k, double &E_ext, double &E_int) {
+    // Local energy calculations
+
+    double E = 0;
+    E_k = 0;
+    E_ext = 0;
+    E_int = 0;
+    double E_knew = 0;
+    double E_pnew = 0;
+    double E_intnew = 0;
+    double number = 0;
+
+    VectorXd e = VectorXd::Zero(m_N);
+    VectorXd eNominator = VectorXd::Zero(m_N);
+    for(int i=0; i<m_N; i++) {
+        double expi = exp(-v(i));
+        eNominator(i) = expi;
+        e(i) = 1/(1 + expi);
     }
 
+    VectorXd diff = VectorXd::Zero(m_M);
+    Deter(Xa, diff);
 
     // Kinetic energy
     if(m_sampling==2) {
@@ -143,11 +143,14 @@ double WaveFunction::EL_calc(VectorXd X, VectorXd Xa, VectorXd v, MatrixXd W, in
 
 void WaveFunction::Gradient_a(const VectorXd &Xa, VectorXd &da) {
 
+    VectorXd diff = VectorXd::Zero(m_M);
+    Deter(Xa, diff);
+
     if(m_sampling==2) {
-        da = 0.5*Xa/m_sigma_sqrd;
+        da = 0.5*Xa/m_sigma_sqrd-diff;
     }
     else{
-        da = Xa/m_sigma_sqrd;
+        da = Xa/m_sigma_sqrd-diff;
     }
 
 }
