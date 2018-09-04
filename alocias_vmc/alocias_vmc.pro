@@ -103,7 +103,6 @@ HEADERS += \
 
 # MPI Settings
 release {
-    DEFINES += ARMA_NO_DEBUG
     QMAKE_CXXFLAGS_RELEASE -= -O2
     QMAKE_CXXFLAGS_RELEASE += -O3
 }
