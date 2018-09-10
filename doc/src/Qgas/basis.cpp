@@ -88,58 +88,7 @@ double Slater(int P, int D, VectorXd Xa, VectorXd v, double sigma_sqrd) {
             H(0,0), H(Xa[8],1), H(Xa[9],1),
             H(0,0), H(Xa[10],1), H(Xa[11],1);
 
-    /*
-    double n_something = 2*(n_orbitals + 1);
 
-    VectorXd levels = VectorXd::Zero(n_something);
-    for(int i = 0; i<(n_orbitals+1); i++) {
-        levels(2*i) = i;
-        levels(2*i+1) = i;
-    }
 
-    MatrixXd indices = MatrixXd::Zero(P, D);
-    int counter = 0;
-    for(int i = 0; i<n_something; i++) {
-        for(int j = 0; j<levels(i)+1; j++) {
-            indices(counter,0) = j;
-            indices(counter,1) = levels(i) - j;
-            counter += 1;
-        }
-    }
-
-    MatrixXd A = MatrixXd::Zero(P,P);
-    for(int i = 0; i<P; i++) {
-        for(int j = 0; j<P; j++) {
-            A(i,j) = hermite(Xa(2*i), indices(j,0)) * hermite(Xa(2*i+1), indices(j,1));
-        }
-    }
-    cout << A << endl;
-    return A.determinant() * NQS_WF(Xa, v, sigma);
-    */
-    return D_up.determinant()* D_dn.determinant()*Gauss_WF(Xa, sigma_sqrd)*Jastrow_NQS(v);
+    return D_up.determinant()*D_dn.determinant()*Gauss_WF(Xa, sigma_sqrd)*Jastrow_NQS(v);
 }
-
-/*
-int main() {
-    int P = 6;      // # Particles
-    int D = 2;      // # Dimensions
-    int M = P*D;    // # Visible nodes
-    int N = 2;      // # Hidden nodes
-    int sigma = 1;  // # Variance
-
-    VectorXd Xa = VectorXd::Zero(M);
-    VectorXd v = VectorXd::Zero(N);
-
-    Xa << 0.3, 0.5, 0.1, 0.4, 0.7, 0.2, 0.6, 0.9, 0.2, 0.3, 0.8, 0.8;
-    v << 1, 1;
-
-    clock_t start_time = clock();
-    cout << Slater(P, D, Xa, v, sigma) << endl;
-    clock_t end_time = clock();
-
-    double CPU_time = (double)(end_time - start_time)/CLOCKS_PER_SEC;
-    cout << "CPU time: " << CPU_time << "\n" << endl;
-
-    return 0;
-}
-*/
