@@ -60,19 +60,28 @@ def H(x, n):
         return 2*x*H(x,n-1)-2*(n-1)*H(x,n-2)
 
 
+def dH(x, n):
+    '''Derivative of Hermite polynomial of n'th degree'''
+    if n == 0:
+        return 0
+    else:
+        return 2*n*H(x,n-1)
+
+
 def matrix(Xa, N, D):
     '''N: Number of fully occupied shells'''
     i_list = list(N, D)
     length = len(i_list)
-    print(length)
-    
+
     A = np.ones([length, length])
+    dA = np.ones([length, length])
     
     count = 0
     for i in range(length):
         for j in range(length):
             for k in range(len(i_list[0])):
                 A[i,j] *= H(Xa[D*i+k], i_list[j,k])
+                dA[i,j] += dH(Xa[D*i+k], i_list[j,k])
                 count += 1
                 
     return A
