@@ -45,14 +45,7 @@ void Deter(const VectorXd &Xa, VectorXd &diff) {
     MatrixXd D_up = MatrixXd::Zero(int(3),int(3));
     MatrixXd D_dn = MatrixXd::Zero(int(3),int(3));
 
-    D_up << H(0,0), H(Xa[0],1), H(Xa[1],1),
-            H(0,0), H(Xa[2],1), H(Xa[3],1),
-            H(0,0), H(Xa[4],1), H(Xa[5],1);
-
-    D_dn << H(0,0), H(Xa[6],1), H(Xa[7],1),
-            H(0,0), H(Xa[8],1), H(Xa[9],1),
-            H(0,0), H(Xa[10],1), H(Xa[11],1);
-
+    matrix(Xa, D_up, D_dn);
 
     VectorXd X_up = VectorXd::Zero(12);
     VectorXd X_dn = VectorXd::Zero(12);

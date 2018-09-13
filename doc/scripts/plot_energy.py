@@ -18,7 +18,7 @@ plt.legend()
 plt.show()
 
 '''
-data1 = np.loadtxt("../data/energy.txt")
+data1 = np.loadtxt("../data/energy_P_6_D_2_N_6_inter_BF_iter_3000_MC_2pow20_omega_1_eta_0p01.txt")
 #data2 = np.loadtxt("../data/energy_eta_0p05.txt")
 #data3 = np.loadtxt("../data/energy_eta_0p1.txt")
 #data4 = np.loadtxt("../data/energy_eta_0p5.txt")

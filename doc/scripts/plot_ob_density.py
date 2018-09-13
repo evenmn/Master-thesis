@@ -12,7 +12,7 @@ data1 = np.loadtxt("../data/ob_density.dat")
 label_size = {"size":"14"}
 
 
-r1 = np.linspace(0, 10, len(data1))
+r1 = np.linspace(0, 5, len(data1))
 #r2 = np.linspace(0, 3, len(data2))
 
 data2 = exact(r1)
@@ -21,12 +21,13 @@ data2 = data2/np.sum(data2)
 
 sns.set()
 data1/=(r1)
-plt.plot(r1, data1, '.', markersize=4, label="WO")
+plt.plot(r1, data1, '.', markersize=4, label="Interaction")
 #plt.plot(r1, data2)
 
 #plt.plot(r2, data2, '-', linewidth=1.0, label="W")
+plt.title("6 particles with interaction")
 plt.xlabel("r", **label_size)
 plt.ylabel(r"$\rho$", **label_size)
-plt.legend(loc="best")
+#plt.legend(loc="best")
 plt.savefig("../plots/ob.png")
 plt.show()
