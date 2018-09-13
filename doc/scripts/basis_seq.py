@@ -74,22 +74,44 @@ def matrix(Xa, N, D):
     length = len(i_list)
 
     A = np.ones([length, length])
-    dA = np.ones([length, length])
     
-    count = 0
     for i in range(length):
         for j in range(length):
-            for k in range(len(i_list[0])):
-                A[i,j] *= H(Xa[D*i+k], i_list[j,k])
-                dA[i,j] += dH(Xa[D*i+k], i_list[j,k])
-                count += 1
-                
+            for k in range(D):
+                A[i,j] *= H(Xa[D*i+k], i_list[j,k])          
+              
     return A
     
-Xa = np.array([0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2])
+    
+def derivative(Xa, N, D, k):
+    '''Derivative of A matrix'''
+    i_list = list(N, D)
+    length = len(i_list)
+
+    dA = np.zeros([length, length])
+    
+    # Find relevant row
+    row = int(k/D)
+    
+    # Find indices of relevant row
+    a = np.zeros(D, dtype=int)
+    l = k%D
+    for i in range(D):
+        a[i] = k-l+i
+    
+    # Find matrix
+    for i in range(length):
+        dA[row, i] = dH(Xa[k], i_list[i, l])
+        for j in range(D):
+            if a[j] != k:
+                dA[row, i] *= H(Xa[a[j]], i_list[i, j])
+                
+    return dA
+    
+Xa = np.array([2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2])
 print(matrix(Xa, 2, 3))
                 
-    
+print(derivative(Xa, 2, 3, 5))
     
     
     
