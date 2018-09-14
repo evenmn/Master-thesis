@@ -1,5 +1,4 @@
 import numpy as np
-from scipy.linalg import lu
 
 def list(N, D):
     '''Returns the index list used in Slater'''
@@ -118,10 +117,6 @@ def energy(Xa, N, D, k):
     
     
 Xa = np.array([0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2])
-#print(matrix(Xa, 2, 3))
-                
-#print(derivative(Xa, 2, 3, 5))
-
 print(energy(Xa, 2, 2, 2))   
     
     
