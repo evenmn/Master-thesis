@@ -8,6 +8,7 @@
 #include "hastings_tools.h"
 #include "gibbs_tools.h"
 #include "test.h"
+#include "basis.h"
 
 using namespace Eigen;
 using namespace std;
@@ -22,9 +23,6 @@ double random_position(){
     return dis(gen);
 }
 
-int factorial(int n) {
-  return (n == 1 || n == 0) ? 1 : factorial(n - 1) * n;
-}
 
 void GradientDescent(int P, double Diff, int D, int N, int MC, int iterations, int sampling, double sigma, \
                      double omega, double steplength, double timestep, double eta, bool interaction, bool one_body) {
