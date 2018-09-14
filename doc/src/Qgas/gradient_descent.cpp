@@ -56,6 +56,7 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int iterations, i
     VectorXd X_newa  = VectorXd::Zero(M);
     VectorXd v_new   = VectorXd::Zero(N);
 
+
     for(int i=0; i<N; i++) {
         h(i) = hrand(gen);
     }
@@ -86,6 +87,7 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int iterations, i
     ofstream myfile1;
     myfile1.open("../../data/local_energies.txt");
 
+
     for(int iter=0; iter<iterations; iter++) {
         //averages and energies
         double EL_tot      = 0;          //sum of energies of all states
@@ -96,6 +98,7 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int iterations, i
         double E_k_tot     = 0;
         double E_ext_tot   = 0;
         double E_int_tot   = 0;
+
         double E = Psi.EL_calc(X, Xa, v, W, D, interaction, E_k, E_ext, E_int);
 
         VectorXd da_tot           = VectorXd::Zero(M);

@@ -43,8 +43,8 @@ double WaveFunction::Psi_value_sqrd(const VectorXd &Xa, const VectorXd &v)
 void Deter(const VectorXd &Xa, VectorXd &diff) {
     // Determinant dependent part
 
-    int n_orbitals = 2;
-    int P = 6;
+    int n_orbitals = 3;
+    int P = 12;
     int D = 2;
 
     /*
@@ -149,6 +149,7 @@ double WaveFunction::EL_calc(const VectorXd X, const VectorXd Xa, const VectorXd
     E_k = E_knew;
     E_ext = E_pnew;
     E_int = E_intnew;
+
     return E;
 }
 

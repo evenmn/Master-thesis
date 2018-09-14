@@ -11,10 +11,10 @@ using namespace Eigen;
 
 int main()
 {
-    int     P           = 6;               //Number of particles
+    int     P           = 12;               //Number of particles
     int     D           = 2;               //Number of dimensions
     int     N           = P;              //Number of hidden nodes
-    int     MC          = pow(2,18);        //Number of Monte Carlo cycles
+    int     MC          = pow(2,16);        //Number of Monte Carlo cycles
     int     iterations  = 3200;             //Number of gradient decent cycles
     int     sampling    = 0;               //Brute force- (0), Hastings- (1) or Gibbs' sampling (2)
     bool    interaction = 1;               //Interaction on if true
@@ -23,7 +23,7 @@ int main()
     double  omega       = 1.0;             //Frequency
     double  steplength  = 1.0;             //Steplength for Metropolis
     double  timestep    = 1.0;             //Timestep used in Hastings algorithm
-    double  eta         = 0.1;            //Learning rate for gradient decent
+    double  eta         = 0.01;            //Learning rate for gradient decent
     double  Diff        = 0.5;             //Diffusion constant
 
     GradientDescent(P, Diff, D, N, MC, iterations, sampling, sigma, omega, steplength, timestep, eta, interaction, one_body);
