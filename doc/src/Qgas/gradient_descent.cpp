@@ -8,6 +8,7 @@
 #include "hastings_tools.h"
 #include "gibbs_tools.h"
 #include "test.h"
+#include "basis.h"
 
 using namespace Eigen;
 using namespace std;
@@ -22,9 +23,6 @@ double random_position(){
     return dis(gen);
 }
 
-int factorial(int n) {
-  return (n == 1 || n == 0) ? 1 : factorial(n - 1) * n;
-}
 
 void GradientDescent(int P, double Diff, int D, int N, int MC, int iterations, int sampling, double sigma, \
                      double omega, double steplength, double timestep, double eta, bool interaction, bool one_body) {
@@ -83,7 +81,7 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int iterations, i
 
     //Open file for writing
     ofstream myfile;
-    myfile.open("../../data/energy.txt");
+    myfile.open("../../data/energy_P_6_D_2_N_6_inter_BF_iter_3000_MC_2pow20_omega_1_eta_0p01.txt");
 
     ofstream myfile1;
     myfile1.open("../../data/local_energies.txt");
@@ -109,6 +107,12 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int iterations, i
 
         double accept = 0;
         double tot_dist = 0;
+
+        // Dynamic eta and MC
+        if(iter > 3000) {
+            eta = 0.01;
+            MC = pow(2,23);
+        }
 
         clock_t start_time = clock();
         for(int i=0; i<MC; i++) {

@@ -42,26 +42,25 @@ double WaveFunction::Psi_value_sqrd(const VectorXd &Xa, const VectorXd &v)
 
 void Deter(const VectorXd &Xa, VectorXd &diff) {
     // Determinant dependent part
-    MatrixXd D_up = MatrixXd::Zero(int(3),int(3));
-    MatrixXd D_dn = MatrixXd::Zero(int(3),int(3));
 
-    D_up << H(0,0), H(Xa[0],1), H(Xa[1],1),
-            H(0,0), H(Xa[2],1), H(Xa[3],1),
-            H(0,0), H(Xa[4],1), H(Xa[5],1);
+    int n_orbitals = 2;
+    int P = 6;
+    int D = 2;
 
-    D_dn << H(0,0), H(Xa[6],1), H(Xa[7],1),
-            H(0,0), H(Xa[8],1), H(Xa[9],1),
-            H(0,0), H(Xa[10],1), H(Xa[11],1);
+    MatrixXd D_up = MatrixXd::Ones(int(3),int(3));
+    MatrixXd D_dn = MatrixXd::Ones(int(3),int(3));
 
+    matrix(Xa.head(P), n_orbitals, D, D_up);
+    matrix(Xa.tail(P), n_orbitals, D, D_dn);
 
-    VectorXd X_up = VectorXd::Zero(12);
-    VectorXd X_dn = VectorXd::Zero(12);
-    for(int i=0; i<6; i++) {
-        X_up(i) = X_up(i+6) = Xa(i);
-        X_dn(i) = X_dn(i+6) = Xa(i+6);
+    VectorXd X_up = VectorXd::Zero(2*P);
+    VectorXd X_dn = VectorXd::Zero(2*P);
+    for(int i=0; i<P; i++) {
+        X_up(i) = X_up(i+P) = Xa(i);
+        X_dn(i) = X_dn(i+P) = Xa(i+P);
     }
 
-    for(int i=0; i<6; i++) {
+    for(int i=0; i<P; i++) {
         if(i % 2==0){
             diff(i) = 4*(X_up(i+3) - X_up(i+5))/D_up.determinant();
             diff(i+6) = 4*(X_dn(i+3) - X_dn(i+5))/D_dn.determinant();
