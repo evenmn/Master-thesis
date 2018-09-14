@@ -20,6 +20,18 @@ double H(double x, int n) {
     }
 }
 
+
+double dH(double x, int n) {
+    //Derivative of Hermite polynomial of n'th degree
+    if(n == 0) {
+        return 0;
+    }
+    else {
+        return 2*n*H(x,n-1);
+    }
+}
+
+
 double Jastrow_NQS(VectorXd v) {
     //Neural Quantum State Wavefunction (NQS-WF)
 
@@ -39,24 +51,6 @@ double Gauss_WF(VectorXd Xa, double sigma_sqrd) {
     return exp(-(double)(Xa.transpose() * Xa)/(2 * sigma_sqrd));
 }
 
-
-int magic_numbers(int n) {
-    // Magic numbers of a D-dimensional quantum dot.
-    // Returns total number of particles, N, in n fully
-    // occupied orbitals. Starts at 0, following the
-    // arithmetic series
-    //
-    //    N(n) = S * binomial(n+D, D)
-    //
-    //with S as the number of spin configurations.
-
-    if(n < 0) {
-        return 0;
-    }
-    else {
-        return (n+1)*(n+2);
-    }
-}
 
 double magic_numbers_inverse(int sum) {
     // Given a magic number, 'sum', this function
@@ -106,18 +100,8 @@ int factorial(int n) {
 
 
 int binomial(int n, int p) {
-    //Binomial coefficients
+    //Binomial coefficients, equal to magic numbers
     return factorial(n+p)/(factorial(n)*factorial(p));
-}
-
-double dH(double x, int n) {
-    //Derivative of Hermite polynomial of n'th degree
-    if(n == 0) {
-        return 0;
-    }
-    else {
-        return 2*n*H(x,n-1);
-    }
 }
 
 
@@ -143,7 +127,7 @@ void matrix(const VectorXd &Xa, int N, int D, MatrixXd &A) {
 void derivative(const VectorXd &Xa, int N, int D, int k, MatrixXd &dA) {
     //Derivative of A matrix
 
-    int length = binomial(N, D);
+    int length = binomial(N-1, D);
 
     MatrixXd order = MatrixXd::Zero(length, D);
     list(N, D, order);
@@ -170,24 +154,35 @@ void derivative(const VectorXd &Xa, int N, int D, int k, MatrixXd &dA) {
 }
 
 
-double energy(VectorXd &Xa, int N, int D, int k) {
+double energy(const VectorXd &Xa, int N, int D, int k) {
     // Calculate some kinetic energy
 
-    int length = binomial(N, D);
-    MatrixXd A = MatrixXd::Zero(length, length);
+    int length = binomial(N-1, D);
+
+    MatrixXd A = MatrixXd::Ones(length, length);
     MatrixXd dA = MatrixXd::Zero(length, length);
 
-    matrix(Xa, N, D, A);
-    derivative(Xa, N, D, k, dA);
+    int M = Xa.size();
+    if(k<M/2) {
+        matrix(Xa.head(M/2), N, D, A);
+        derivative(Xa.head(M/2), N, D, k, dA);
+    }
+    else {
+        matrix(Xa.tail(M/2), N, D, A);
+        derivative(Xa.tail(M/2), N, D, k-M/2, dA);
+    }
+
 
     return (A.inverse()*dA).trace();
 }
 
 
-double Slater(int P, int D, const VectorXd &Xa, const VectorXd &v, double sigma_sqrd) {
+double Slater(int D, const VectorXd &Xa, const VectorXd &v, double sigma_sqrd) {
     // Setting up Slater determinant
 
-    double n_orbitals = magic_numbers_inverse(P);   // Number of orbitals given N
+    int M = Xa.size();                                // Number of free dimensions
+    int P = int(M/D);                                 // Number of particles
+    double n_orbitals = magic_numbers_inverse(P)+1;   // Number of orbitals
 
     // Check if the orbitals are fully occupied, otherwise break
     if(fabs(n_orbitals - int(n_orbitals)) > 0.01) {
@@ -195,12 +190,11 @@ double Slater(int P, int D, const VectorXd &Xa, const VectorXd &v, double sigma_
         exit(0);
     }
 
-
     MatrixXd D_up = MatrixXd::Ones(int(P/2),int(P/2));
     MatrixXd D_dn = MatrixXd::Ones(int(P/2),int(P/2));
 
-    matrix(Xa.head(P), n_orbitals+1, D, D_up);
-    matrix(Xa.tail(P), n_orbitals+1, D, D_dn);
+    matrix(Xa.head(M/2), n_orbitals, D, D_up);
+    matrix(Xa.tail(M/2), n_orbitals, D, D_dn);
 
 
     return D_up.determinant()*D_dn.determinant()*Gauss_WF(Xa, sigma_sqrd)*Jastrow_NQS(v);

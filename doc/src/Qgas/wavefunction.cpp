@@ -36,7 +36,7 @@ double WaveFunction::Psi_value_sqrd(const VectorXd &Xa, const VectorXd &v)
 {
     //Unnormalized wave function
 
-    double Prob = Slater(m_M/m_D, m_D, Xa, v, m_sigma_sqrd);
+    double Prob = Slater(m_D, Xa, v, m_sigma_sqrd);
     return Prob * Prob;
 }
 
@@ -47,6 +47,7 @@ void Deter(const VectorXd &Xa, VectorXd &diff) {
     int P = 6;
     int D = 2;
 
+    /*
     MatrixXd D_up = MatrixXd::Ones(int(3),int(3));
     MatrixXd D_dn = MatrixXd::Ones(int(3),int(3));
 
@@ -69,6 +70,11 @@ void Deter(const VectorXd &Xa, VectorXd &diff) {
             diff(i) = 4*(X_up(i+3) - X_up(i+1))/D_up.determinant();
             diff(i+6) = 4*(X_dn(i+3) - X_dn(i+1))/D_dn.determinant();
         }
+    }
+    */
+
+    for(int i=0; i<2*P; i++) {
+        diff(i) = energy(Xa, n_orbitals, D, i);
     }
 }
 
