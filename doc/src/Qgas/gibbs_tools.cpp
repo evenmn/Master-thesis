@@ -5,6 +5,7 @@
 #include "eigen3/Eigen/Dense"
 #include <cmath>
 #include "gibbs_tools.h"
+#include "general_tools.h"
 
 using namespace std;
 

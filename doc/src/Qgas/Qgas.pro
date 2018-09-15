@@ -9,7 +9,8 @@ SOURCES += main.cpp \
     hastings_tools.cpp \
     gibbs_tools.cpp \
     test.cpp \
-    basis.cpp
+    basis.cpp \
+    general_tools.cpp
 
 HEADERS += \
     wavefunction.h \
@@ -17,4 +18,5 @@ HEADERS += \
     hastings_tools.h \
     gibbs_tools.h \
     test.h \
-    basis.h
+    basis.h \
+    general_tools.h

@@ -43,9 +43,12 @@ double WaveFunction::Psi_value_sqrd(const VectorXd &Xa, const VectorXd &v)
 void Deter(const VectorXd &Xa, VectorXd &diff) {
     // Determinant dependent part
 
-    int n_orbitals = 3;
-    int P = 12;
-    int D = 2;
+
+
+    //int n_orbitals = magic_numbers_inverse(20)+1;
+
+    //int P = 20;
+    //int D = 2;
 
     /*
     MatrixXd D_up = MatrixXd::Ones(int(3),int(3));
@@ -73,9 +76,9 @@ void Deter(const VectorXd &Xa, VectorXd &diff) {
     }
     */
 
-    for(int i=0; i<2*P; i++) {
-        diff(i) = energy(Xa, n_orbitals, D, i);
-    }
+    //for(int i=0; i<2*P; i++) {
+    //    diff(i) = energy(Xa, D, i);
+    //}
 }
 
 double WaveFunction::EL_calc(const VectorXd X, const VectorXd Xa, const VectorXd v, const MatrixXd W, \
@@ -89,18 +92,20 @@ double WaveFunction::EL_calc(const VectorXd X, const VectorXd Xa, const VectorXd
     double E_knew = 0;
     double E_pnew = 0;
     double E_intnew = 0;
-    double number = 0;
 
     VectorXd e = VectorXd::Zero(m_N);
     VectorXd eNominator = VectorXd::Zero(m_N);
+    VectorXd diff = VectorXd::Zero(m_M);
+
     for(int i=0; i<m_N; i++) {
         double expi = exp(-v(i));
         eNominator(i) = expi;
         e(i) = 1/(1 + expi);
     }
 
-    VectorXd diff = VectorXd::Zero(m_M);
-    Deter(Xa, diff);
+    for(int i=0; i<m_M; i++) {
+        diff(i) = energy(Xa, D, i);
+    }
 
     // Kinetic energy
     if(m_sampling==2) {

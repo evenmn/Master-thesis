@@ -2,6 +2,7 @@
 #include <ctime>
 #include <cmath>
 #include "eigen3/Eigen/Dense"
+#include "general_tools.h"
 
 using namespace Eigen;
 using namespace std;
@@ -51,16 +52,6 @@ double Gauss_WF(VectorXd Xa, double sigma_sqrd) {
     return exp(-(double)(Xa.transpose() * Xa)/(2 * sigma_sqrd));
 }
 
-
-double magic_numbers_inverse(int sum) {
-    // Given a magic number, 'sum', this function
-    // returns number of orbitals. To be used when
-    // checking if orbitals are fully occupied.
-
-    return (-3 + sqrt(1 + 4*sum))/2;
-}
-
-
 void list(int N, int D, MatrixXd &order) {
     //Returns the index list used in Slater
 
@@ -93,16 +84,6 @@ void list(int N, int D, MatrixXd &order) {
     }
 }
 
-
-int factorial(int n) {
-    return (n == 1 || n == 0) ? 1 : factorial(n - 1) * n;
-}
-
-
-int binomial(int n, int p) {
-    //Binomial coefficients, equal to magic numbers
-    return factorial(n+p)/(factorial(n)*factorial(p));
-}
 
 
 void matrix(const VectorXd &Xa, int N, int D, MatrixXd &A) {
@@ -154,15 +135,17 @@ void derivative(const VectorXd &Xa, int N, int D, int k, MatrixXd &dA) {
 }
 
 
-double energy(const VectorXd &Xa, int N, int D, int k) {
+double energy(const VectorXd &Xa, int D, int k) {
     // Calculate some kinetic energy
 
-    int length = binomial(N-1, D);
+    int M = Xa.size();
+    int N = orbitals(M/D, D);
+    int length = M/(2*D);
 
     MatrixXd A = MatrixXd::Ones(length, length);
     MatrixXd dA = MatrixXd::Zero(length, length);
 
-    int M = Xa.size();
+
     if(k<M/2) {
         matrix(Xa.head(M/2), N, D, A);
         derivative(Xa.head(M/2), N, D, k, dA);
@@ -171,7 +154,6 @@ double energy(const VectorXd &Xa, int N, int D, int k) {
         matrix(Xa.tail(M/2), N, D, A);
         derivative(Xa.tail(M/2), N, D, k-M/2, dA);
     }
-
 
     return (A.inverse()*dA).trace();
 }
@@ -182,7 +164,7 @@ double Slater(int D, const VectorXd &Xa, const VectorXd &v, double sigma_sqrd) {
 
     int M = Xa.size();                                // Number of free dimensions
     int P = int(M/D);                                 // Number of particles
-    double n_orbitals = magic_numbers_inverse(P)+1;   // Number of orbitals
+    double n_orbitals = orbitals(P,D);                // Number of orbitals
 
     // Check if the orbitals are fully occupied, otherwise break
     if(fabs(n_orbitals - int(n_orbitals)) > 0.01) {

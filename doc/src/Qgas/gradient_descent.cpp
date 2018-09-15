@@ -7,6 +7,7 @@
 #include <fstream>
 #include "hastings_tools.h"
 #include "gibbs_tools.h"
+#include "general_tools.h"
 #include "test.h"
 #include "basis.h"
 
