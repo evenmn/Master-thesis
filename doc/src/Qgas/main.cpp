@@ -8,8 +8,8 @@ using namespace std;
 
 int main()
 {
-    int     P           = 8;               //Number of particles
-    int     D           = 3;                //Number of dimensions
+    int     P           = 30;               //Number of particles
+    int     D           = 2;                //Number of dimensions
     int     N           = P;                //Number of hidden nodes
     int     MC          = pow(2,16);        //Number of Monte Carlo cycles
     int     norbitals   = orbitals(P,D);    //Number of orbitals
@@ -21,7 +21,7 @@ int main()
     double  omega       = 1.0;              //Frequency
     double  steplength  = 1.0;              //Steplength for Metropolis
     double  timestep    = 1.0;              //Timestep used in Hastings algorithm
-    double  eta         = pow(10,-(norbitals+1));            //Learning rate for gradient decent
+    double  eta         = pow(10,-(norbitals));            //Learning rate for gradient decent
     double  Diff        = 0.5;             //Diffusion constant
 
 

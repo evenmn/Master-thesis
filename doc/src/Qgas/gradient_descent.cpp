@@ -49,6 +49,7 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int iterations, i
     VectorXd X       = VectorXd::Random(M)    * factor_x;
     VectorXd X_new   = VectorXd::Zero(M);
     VectorXd h       = VectorXd::Zero(N);
+    VectorXd e       = VectorXd::Zero(N);
     VectorXd energies_old = VectorXd::Zero(5);
 
 
@@ -56,10 +57,12 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int iterations, i
     VectorXd v       = b + (W.transpose() * X)/(sigma_sqrd);
     VectorXd X_newa  = VectorXd::Zero(M);
     VectorXd v_new   = VectorXd::Zero(N);
+    VectorXd e_new   = VectorXd::Zero(N);
 
 
     for(int i=0; i<N; i++) {
         h(i) = hrand(gen);
+        e(i) = 1/(1+exp(-v(i)));
     }
 
     WaveFunction Psi;
@@ -88,6 +91,7 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int iterations, i
     ofstream myfile1;
     myfile1.open("../../data/local_energies.txt");
 
+    int eta0 = eta;
 
     for(int iter=0; iter<iterations; iter++) {
         //averages and energies
@@ -114,8 +118,8 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int iterations, i
 
         // Dynamic eta and MC
         if(iter > 3000) {
-            eta = 0.01;
-            MC = pow(2,23);
+            eta = eta0/10;
+            MC = pow(2,20);
         }
 
         clock_t start_time = clock();
@@ -129,6 +133,7 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int iterations, i
                     X_new(M_rand) = X(M_rand) + (2*random_position() - 1.0)*steplength;
                     X_newa = X_new - a;
                     v_new = b + (W.transpose() * X_new)/sigma_sqrd;
+                    for (int i=0; i<N; i++) e_new(i) = 1/(1+exp(-v_new(i)));
                     psi_ratio = Psi.Psi_value_sqrd(X_newa, v_new)/Psi.Psi_value_sqrd(Xa, v);
                 }
 
@@ -137,6 +142,7 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int iterations, i
                     X_new(M_rand) = X(M_rand) + Diff*QForce(Xa, v, W, sigma_sqrd, M_rand)*timestep + eps_gauss(gen)*sqrt(timestep);
                     X_newa = X_new - a;
                     v_new = b + (W.transpose() * X_new)/sigma_sqrd;
+                    for (int i=0; i<N; i++) e_new(i) = 1/(1+exp(-v_new(i)));
                     psi_ratio = GreenFuncSum(X, X_new, X_newa, Xa, v, W, sigma_sqrd, timestep, D, Diff) * \
                                 (Psi.Psi_value_sqrd(X_newa, v_new)/Psi.Psi_value_sqrd(Xa, v));
                 }
@@ -147,6 +153,7 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int iterations, i
                     X  = X_new;
                     Xa = X_newa;
                     v  = v_new;
+                    e  = e_new;
                     E  = Psi.EL_calc(X, Xa, v, W, D, interaction, E_k, E_ext, E_int);
                 }
             }
@@ -196,8 +203,8 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int iterations, i
             VectorXd db = VectorXd::Zero(N);
             MatrixXd dW = MatrixXd::Zero(M,N);
             Psi.Gradient_a(Xa, da);
-            Psi.Gradient_b(v, db);
-            Psi.Gradient_W(X, v, dW);
+            Psi.Gradient_b(e, db);
+            Psi.Gradient_W(X, e, dW);
 
 
             da_tot   += da;

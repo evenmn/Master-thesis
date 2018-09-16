@@ -160,44 +160,31 @@ double WaveFunction::EL_calc(const VectorXd X, const VectorXd Xa, const VectorXd
 
 void WaveFunction::Gradient_a(const VectorXd &Xa, VectorXd &da) {
 
-    VectorXd diff = VectorXd::Zero(m_M);
-    Deter(Xa, diff);
-
     if(m_sampling==2) {
-        da = 0.5*Xa/m_sigma_sqrd-diff;
+        da = 0.5*Xa/m_sigma_sqrd;
     }
     else{
-        da = Xa/m_sigma_sqrd-diff;
+        da = Xa/m_sigma_sqrd;
     }
 
 }
 
-void WaveFunction::Gradient_b(const VectorXd &v, VectorXd &db) {
+void WaveFunction::Gradient_b(const VectorXd &e, VectorXd &db) {
 
     if(m_sampling==2) {
-        for(int i=0; i<m_N; i++)
-            db(i) = 0.5/(1 + exp(-v(i)));
+        db = 0.5*e;
     }
     else{
-        for(int i=0; i<m_N; i++)
-            db(i) = 1/(1 + exp(-v(i)));
+        db = e;
     }
 }
 
-void WaveFunction::Gradient_W(const VectorXd &X, const VectorXd &v, MatrixXd &dW) {
+void WaveFunction::Gradient_W(const VectorXd &X, const VectorXd &e, MatrixXd &dW) {
 
     if(m_sampling==2) {
-        for(int i=0; i<m_N; i++) {
-            for(int j=0; j<m_M; j++) {
-                dW(j,i) = 0.5*X(j)/(m_sigma_sqrd*(1 + exp(-v(i))));
-            }
-        }
+        dW = 0.5*X*e.transpose()/m_sigma_sqrd;
     }
     else{
-        for(int i=0; i<m_N; i++) {
-            for(int j=0; j<m_M; j++) {
-                dW(j,i) = X(j)/(m_sigma_sqrd*(1 + exp(-v(i))));
-            }
-        }
+        dW = X*e.transpose()/m_sigma_sqrd;
     }
 }
