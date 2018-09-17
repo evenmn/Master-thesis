@@ -1,6 +1,7 @@
 #include "wavefunction.h"
 #include "basis.h"
 #include <cmath>
+#include <ctime>
 #include <iostream>
 #include "eigen3/Eigen/Dense"
 
@@ -8,13 +9,16 @@ using namespace std;
 using namespace Eigen;
 
 double rij(VectorXd X, int D) {
+
     double Ep = 0;              // Sum 1/rij
     int P = X.size()/D;
+
     for(int i=0; i<P; i++) {
         for(int j=0; j<i; j++) {
             double dist = 0;
             for(int d=0; d<D; d++) {
-                dist += (X(D*i+d)-X(D*j+d))*(X(D*i+d)-X(D*j+d));
+                double diff = X(D*i+d)-X(D*j+d);
+                dist += diff*diff;
             }
             Ep += 1/sqrt(dist);
         }
@@ -82,25 +86,25 @@ void Deter(const VectorXd &Xa, VectorXd &diff) {
 }
 
 double WaveFunction::EL_calc(const VectorXd X, const VectorXd Xa, const VectorXd v, const MatrixXd W, \
-                             int D, int interaction, double &E_k, double &E_ext, double &E_int) {
+                             int D, int interaction, double &E_kin, double &E_ext, double &E_int) {
     // Local energy calculations
 
-    double E = 0;
-    E_k = 0;
-    E_ext = 0;
-    E_int = 0;
-    double E_knew = 0;
-    double E_pnew = 0;
-    double E_intnew = 0;
+    E_kin = 0;          // Total kinetic energy
+    E_ext = 0;          // Total external potetial energy
+    E_int = 0;          // Total interaction energy
 
-    VectorXd e = VectorXd::Zero(m_N);
-    VectorXd eNominator = VectorXd::Zero(m_N);
+    double E = 0;       // Total energy
+    double E_k = 0;     // Counts kinetic energy of all particles
+    double E_e = 0;     // Counts external energy of all particles
+    double E_i = 0;     // Counts interaction energy of all particles
+
+    VectorXd e_n = VectorXd::Zero(m_N);
+    VectorXd e_p = VectorXd::Zero(m_N);
     VectorXd diff = VectorXd::Zero(m_M);
 
     for(int i=0; i<m_N; i++) {
-        double expi = exp(-v(i));
-        eNominator(i) = expi;
-        e(i) = 1/(1 + expi);
+        e_n(i) = 1/(1 + exp(-v(i)));
+        e_p(i) = 1/(1 + exp(v(i)));
     }
 
     for(int i=0; i<m_M; i++) {
@@ -110,50 +114,49 @@ double WaveFunction::EL_calc(const VectorXd X, const VectorXd Xa, const VectorXd
     // Kinetic energy
     if(m_sampling==2) {
         for(int i=0; i<m_N; i++) {
-            E_knew -= 0.5*(double) (Xa.transpose() * W.col(i)) * e(i);
-            E_knew += 0.5*(double) ((W.col(i)).transpose() * W.col(i)) * eNominator(i) * e(i) * e(i);
+            E_k -= 0.5*(double) (Xa.transpose() * W.col(i)) * e_n(i);
+            E_k += 0.5*(double) ((W.col(i)).transpose() * W.col(i)) * e_n(i) * e_p(i);
             for(int j=0; j<m_N; j++) {
-                E_knew += 0.25*(double) ((W.col(i)).transpose() * W.col(j)) * e(i) * e(j);
+                E_k += 0.25*(double) ((W.col(i)).transpose() * W.col(j)) * e_n(i) * e_n(j);
             }
         }
 
-        E_knew -= 0.5*m_M * m_sigma_sqrd;
-        E_knew += 0.25*Xa.transpose() * Xa;
-        E_knew = -E_knew/(2 * m_sigma_sqrd * m_sigma_sqrd);
-        E_k += E_knew;
+        E_k -= 0.5*m_M * m_sigma_sqrd;
+        E_k += 0.25*Xa.transpose() * Xa;
+        E_k = -E_k/(2 * m_sigma_sqrd * m_sigma_sqrd);
     }
 
     else {
         for(int i=0; i<m_N; i++) {
-            E_knew += 2*(double) (diff.transpose() * W.col(i)) * e(i);
-            E_knew -= 2*(double) (Xa.transpose() * W.col(i)) * e(i)/m_sigma_sqrd;
-            E_knew += (double) ((W.col(i)).transpose() * W.col(i)) * eNominator(i) * e(i)*e(i)/m_sigma_sqrd;
+            E_k += 2*(double) (diff.transpose() * W.col(i)) * e_n(i);
+            E_k -= 2*(double) (Xa.transpose() * W.col(i)) * e_n(i)/m_sigma_sqrd;
+            E_k += (double) ((W.col(i)).transpose() * W.col(i)) * e_n(i)*e_p(i)/m_sigma_sqrd;
             for(int j=0; j<m_N; j++) {
-                E_knew += (double) ((W.col(i)).transpose() * W.col(j)) * e(i) * e(j)/m_sigma_sqrd;
+                E_k += (double) ((W.col(i)).transpose() * W.col(j)) * e_n(i) * e_n(j)/m_sigma_sqrd;
             }
         }
 
-        E_knew -= m_M;
-        E_knew += (double) (Xa.transpose() * Xa)/m_sigma_sqrd;
-        E_knew -= 2*(double) (diff.transpose()*Xa);
-        //E_knew += (double) (diff.transpose()*diff);
-        E_knew = -E_knew/(2 * m_sigma_sqrd);
-        //E_k += E_knew;
+        //E_k += ((W.transpose()*W).cwiseProduct(e_n*e_n.transpose())).sum();
+
+        E_k -= m_M;
+        E_k += (double) (Xa.transpose() * Xa)/m_sigma_sqrd;
+        E_k -= 2*(double) (diff.transpose()*Xa);
+        E_k = -E_k/(2 * m_sigma_sqrd);
     }
 
 
     // Interaction energy
-    if(interaction) E_intnew += rij(X, D);
-    E_int += E_intnew;
+    if(interaction) E_i += rij(X, D);
+    E_int += E_i;
 
     // Harmonic oscillator potential
-    E_pnew += (double) (X.transpose() * X) * m_omega_sqrd/ 2;
-    E_ext += E_pnew;
+    E_e += (double) (X.transpose() * X) * m_omega_sqrd/ 2;
+    E_ext += E_e;
 
-    E = E_knew + E_pnew + E_intnew;
-    E_k = E_knew;
-    E_ext = E_pnew;
-    E_int = E_intnew;
+    E = E_k + E_e + E_i;
+    E_kin = E_k;
+    E_ext = E_e;
+    E_int = E_i;
 
     return E;
 }
