@@ -1,5 +1,8 @@
 #include <iostream>
+#include <string>
+#include <cmath>
 
+using namespace std;
 
 int factorial(int n) {
     return (n == 1 || n == 0) ? 1 : factorial(n - 1) * n;
@@ -21,15 +24,54 @@ double orbitals(int P, int D) {
         }
         else if(orb > P) {
             std::cout << "Please choose a P such that the orbital is full" << std::endl;
-            break;
             exit(0);
         }
         counter += 1;
     }
 }
 
-/*
-char generate_filename(char sampling, int P, int D, int N, int MC, int interaction, double sigma, double omega, double eta, char extention) {
-    return char(extention+"_"+sampling+"_"+"P_"+P+)
+string generate_filename(int sampling, int P, int D, int N, int MC, int interaction, double sigma, double omega, double eta, string name, string extension) {
+
+    // Sampling method
+    string str1;
+    if(sampling == 0) {
+        str1 = "_BF";
+    }
+    else if(sampling == 1) {
+        str1 = "_H";
+    }
+    else if(sampling == 2) {
+        str1 = "_G";
+    }
+
+    // Interaction
+    string str2;
+    if(interaction == 0) {
+        str2 = "_NoInt";
+    }
+    else if(interaction == 1) {
+        str2 = "_Int";
+    }
+
+    string str3 = "_P_" + to_string(P);
+    string str4 = "_D_" + to_string(D);
+    string str5 = "_N_" + to_string(N);
+    string str6 = "_MC_" + to_string(MC);
+
+    // Sigma
+    int sigma_int = int(sigma);
+    int sigma_dec = int(fabs(sigma - sigma_int)*100);
+    string str7 = "_sigma_" + to_string(sigma_int) + "p" + to_string(sigma_dec);
+
+    // Omega
+    int omega_int = int(omega);
+    int omega_dec = int(fabs(omega - omega_int)*100);
+    string str8 = "_omega_" + to_string(omega_int) + "p" + to_string(omega_dec);
+
+    // Eta
+    int eta_int = int(eta);
+    int eta_dec = int(fabs(eta - eta_int)*1000);
+    string str9 = "_eta_" + to_string(eta_int) + "p" + to_string(eta_dec);
+
+    return name + str1 + str2 + str3 + str4 + str5 + str6 + str7 + str8 + str9 + extension;
 }
-*/

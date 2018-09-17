@@ -9,6 +9,8 @@ using namespace std;
 using namespace Eigen;
 
 double rij(VectorXd X, int D) {
+    // Calculating interaction energy between all particles
+    // Could calculate distance matrix to save some computations
 
     double Ep = 0;              // Sum 1/rij
     int P = X.size()/D;

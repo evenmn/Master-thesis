@@ -123,15 +123,91 @@ void derivative(const VectorXd &Xa, int N, int D, int k, MatrixXd &dA) {
         a(i) = k-l+i;
     }
 
+    //VectorXd c = VectorXd::Zero(length);
+
     // Find matrix
     for(int i=0; i<length; i++) {
         dA(row, i) = dH(Xa(k), order(i, l));
+        //c(i) = dH(Xa(k), order(i, l));
         for(int j=0; j<D; j++) {
             if(a(j) != k) {
                 dA(row, i) *= H(Xa(a(j)), order(i, j));
+                //c(i) *= H(Xa(a(j)), order(i, j));
             }
         }
     }
+}
+
+
+void G(const VectorXd &Xa, int N, int D, int k, VectorXd &g) {
+    //Derivative of A matrix
+
+    int length = binomial(N-1, D);
+
+    MatrixXd order = MatrixXd::Zero(length, D);
+    list(N, D, order);
+
+    // Find indices of relevant row
+    VectorXd a = VectorXd::Zero(D);
+    int l = k%D;
+    for(int i=0; i<D; i++) {
+        a(i) = k-l+i;
+    }
+
+    // Find matrix
+    for(int i=0; i<length; i++) {
+        g(i) = dH(Xa(k), order(i, l));
+        for(int j=0; j<D; j++) {
+            if(a(j) != k) {
+                g(i) *= H(Xa(a(j)), order(i, j));
+            }
+        }
+    }
+}
+
+
+
+void removeRow(MatrixXd& matrix, unsigned int rowToRemove)
+{
+    unsigned int numRows = matrix.rows()-1;
+    unsigned int numCols = matrix.cols();
+
+    if( rowToRemove < numRows )
+        matrix.block(rowToRemove,0,numRows-rowToRemove,numCols) = matrix.block(rowToRemove+1,0,numRows-rowToRemove,numCols);
+
+    matrix.conservativeResize(numRows,numCols);
+}
+
+void removeColumn(MatrixXd& matrix, unsigned int colToRemove)
+{
+    unsigned int numRows = matrix.rows();
+    unsigned int numCols = matrix.cols()-1;
+
+    if( colToRemove < numCols )
+        matrix.block(0,colToRemove,numRows,numCols-colToRemove) = matrix.block(0,colToRemove+1,numRows,numCols-colToRemove);
+
+    matrix.conservativeResize(numRows,numCols);
+}
+
+
+double set_up_det(MatrixXd A, unsigned int i, unsigned int j) {
+    // Sets up the determinant of all elements,
+    // but the row i and column j
+
+    removeColumn(A, j);
+    removeRow(A, i);
+
+    return A.determinant();
+}
+
+
+void F(MatrixXd &A, VectorXd &f, unsigned int j) {
+    // Calculate inverse vector
+
+    for(int i=0; i<A.cols(); i++) {
+        f(i) = pow(-1, i+j)*set_up_det(A, i, j);
+    }
+
 }
 
 
@@ -144,15 +220,20 @@ double energy(const VectorXd &Xa, int D, int k) {
 
     MatrixXd A = MatrixXd::Ones(length, length);
     MatrixXd dA = MatrixXd::Zero(length, length);
-
+    VectorXd f = VectorXd::Zero(length);
+    VectorXd g = VectorXd::Zero(length);
 
     if(k<M/2) {
         matrix(Xa.head(M/2), N, D, A);
         derivative(Xa.head(M/2), N, D, k, dA);
+        //F(A, f, k);
+        //G(Xa.head(M/2), N, D, k, g);
     }
     else {
         matrix(Xa.tail(M/2), N, D, A);
         derivative(Xa.tail(M/2), N, D, k-M/2, dA);
+        //F(A, f, k-M/2);
+        //G(Xa.tail(M/2), N, D, k-M/2, g);
     }
 
     return (A.inverse()*dA).trace();
