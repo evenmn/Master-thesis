@@ -87,21 +87,19 @@ void Deter(const VectorXd &Xa, VectorXd &diff) {
 
 double WaveFunction::EL_calc(const VectorXd X, const VectorXd Xa, const VectorXd v, const MatrixXd W, \
                              int D, int interaction, double &E_kin, double &E_ext, double &E_int) {
-    // Local energy calculations
+    /*Local energy calculations*/
 
+    // Set parameters to zero
     E_kin = 0;          // Total kinetic energy
     E_ext = 0;          // Total external potetial energy
     E_int = 0;          // Total interaction energy
 
-    double E = 0;       // Total energy
-    double E_k = 0;     // Counts kinetic energy of all particles
-    double E_e = 0;     // Counts external energy of all particles
-    double E_i = 0;     // Counts interaction energy of all particles
-
+    // Declare Eigen vectors
     VectorXd e_n = VectorXd::Zero(m_N);
     VectorXd e_p = VectorXd::Zero(m_N);
     VectorXd diff = VectorXd::Zero(m_M);
 
+    // Fill up vectors
     for(int i=0; i<m_N; i++) {
         e_n(i) = 1/(1 + exp(-v(i)));
         e_p(i) = 1/(1 + exp(v(i)));
@@ -111,54 +109,48 @@ double WaveFunction::EL_calc(const VectorXd X, const VectorXd Xa, const VectorXd
         diff(i) = energy(Xa, D, i);
     }
 
+    // === ENERGY CALCULATION ===
     // Kinetic energy
     if(m_sampling==2) {
         for(int i=0; i<m_N; i++) {
-            E_k -= 0.5*(double) (Xa.transpose() * W.col(i)) * e_n(i);
-            E_k += 0.5*(double) ((W.col(i)).transpose() * W.col(i)) * e_n(i) * e_p(i);
+            E_kin -= 0.5*(double) (Xa.transpose() * W.col(i)) * e_n(i);
+            E_kin += 0.5*(double) ((W.col(i)).transpose() * W.col(i)) * e_n(i) * e_p(i);
             for(int j=0; j<m_N; j++) {
-                E_k += 0.25*(double) ((W.col(i)).transpose() * W.col(j)) * e_n(i) * e_n(j);
+                E_kin += 0.25*(double) ((W.col(i)).transpose() * W.col(j)) * e_n(i) * e_n(j);
             }
         }
 
-        E_k -= 0.5*m_M * m_sigma_sqrd;
-        E_k += 0.25*Xa.transpose() * Xa;
-        E_k = -E_k/(2 * m_sigma_sqrd * m_sigma_sqrd);
+        E_kin -= 0.5*m_M * m_sigma_sqrd;
+        E_kin += 0.25*Xa.transpose() * Xa;
+        E_kin = -E_kin/(2 * m_sigma_sqrd * m_sigma_sqrd);
     }
 
     else {
         for(int i=0; i<m_N; i++) {
-            E_k += 2*(double) (diff.transpose() * W.col(i)) * e_n(i);
-            E_k -= 2*(double) (Xa.transpose() * W.col(i)) * e_n(i)/m_sigma_sqrd;
-            E_k += (double) ((W.col(i)).transpose() * W.col(i)) * e_n(i)*e_p(i)/m_sigma_sqrd;
-            for(int j=0; j<m_N; j++) {
-                E_k += (double) ((W.col(i)).transpose() * W.col(j)) * e_n(i) * e_n(j)/m_sigma_sqrd;
-            }
+            E_kin += 2*(double) (diff.transpose() * W.col(i)) * e_n(i);
+            E_kin -= 2*(double) (Xa.transpose() * W.col(i)) * e_n(i)/m_sigma_sqrd;
+            E_kin += (double) ((W.col(i)).transpose() * W.col(i)) * e_n(i)*e_p(i)/m_sigma_sqrd;
+            //for(int j=0; j<m_N; j++) {
+            //    E_k += (double) ((W.col(i)).transpose() * W.col(j)) * e_n(i) * e_n(j)/m_sigma_sqrd;
+            //}
         }
 
-        //E_k += ((W.transpose()*W).cwiseProduct(e_n*e_n.transpose())).sum();
+        E_kin += ((W.transpose()*W).cwiseProduct(e_n*e_n.transpose())).sum();
 
-        E_k -= m_M;
-        E_k += (double) (Xa.transpose() * Xa)/m_sigma_sqrd;
-        E_k -= 2*(double) (diff.transpose()*Xa);
-        E_k = -E_k/(2 * m_sigma_sqrd);
+        E_kin -= m_M;
+        E_kin += (double) (Xa.transpose() * Xa)/m_sigma_sqrd;
+        E_kin -= 2*(double) (diff.transpose()*Xa);
+        E_kin = -E_kin/(2 * m_sigma_sqrd);
     }
 
 
     // Interaction energy
-    if(interaction) E_i += rij(X, D);
-    E_int += E_i;
+    if(interaction) E_int = rij(X, D);
 
     // Harmonic oscillator potential
-    E_e += (double) (X.transpose() * X) * m_omega_sqrd/ 2;
-    E_ext += E_e;
+    E_ext = (double) (X.transpose() * X) * m_omega_sqrd/ 2;
 
-    E = E_k + E_e + E_i;
-    E_kin = E_k;
-    E_ext = E_e;
-    E_int = E_i;
-
-    return E;
+    return E_kin + E_ext + E_int;
 }
 
 void WaveFunction::Gradient_a(const VectorXd &Xa, VectorXd &da) {
@@ -169,7 +161,6 @@ void WaveFunction::Gradient_a(const VectorXd &Xa, VectorXd &da) {
     else{
         da = Xa/m_sigma_sqrd;
     }
-
 }
 
 void WaveFunction::Gradient_b(const VectorXd &e, VectorXd &db) {
