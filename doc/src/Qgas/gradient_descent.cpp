@@ -1,10 +1,12 @@
 #include <iostream>
-#include "wavefunction.h"
 #include <random>
-#include "eigen3/Eigen/Dense"
 #include <cmath>
 #include <ctime>
 #include <fstream>
+#include <string>
+
+#include "eigen3/Eigen/Dense"
+#include "wavefunction.h"
 #include "hastings_tools.h"
 #include "gibbs_tools.h"
 #include "general_tools.h"
@@ -28,12 +30,15 @@ double random_position(){
 void GradientDescent(int P, double Diff, int D, int N, int MC, int iterations, int sampling, double sigma, \
                      double omega, double steplength, double timestep, double eta, bool interaction, bool one_body) {
 
-    //Constants
+    //Declar constants
     double psi_ratio = 0;               //ratio of new and old wave function
     double sigma_sqrd = sigma * sigma;
     int M = P*D;
     int M_rand = 0;
     int N_rand = 0;
+
+    //Data path
+    string path = "../../data/";
 
     //Marsenne Twister Random Number Generator
     normal_distribution<double> eps_gauss(0,1);       //Gaussian distr random number generator
@@ -81,15 +86,19 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int iterations, i
             bin_dist[i] = i * radial_step;
             bins_particles[i] = 0;
         }
-        ob_file.open ("../../data/ob_density.dat");
+        string ob_filename = generate_filename(sampling, P, D, N, MC, interaction, sigma, omega, eta, "OB", ".dat");
+        ob_file.open (path + ob_filename);
     }
 
     //Open file for writing
-    ofstream myfile;
-    myfile.open("../../data/energy_P_6_D_2_N_6_inter_BF_iter_3000_MC_2pow20_omega_1_eta_0p01.txt");
+    string energy_filename = generate_filename(sampling, P, D, N, MC, interaction, sigma, omega, eta, "Energy", ".dat");
+    string local_filename = generate_filename(sampling, P, D, N, MC, interaction, sigma, omega, eta, "Local", ".dat");
 
-    ofstream myfile1;
-    myfile1.open("../../data/local_energies.txt");
+    ofstream energy;
+    ofstream local;
+
+    energy.open(path + energy_filename);
+    local.open(path + local_filename);
 
     int eta0 = eta;
 
@@ -97,14 +106,14 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int iterations, i
         //averages and energies
         double EL_tot      = 0;          //sum of energies of all states
         double EL_tot_sqrd = 0;          //sum of energies of all states squared
-        double E_k         = 0;          //sum of kinetic energies
+        double E_kin       = 0;          //sum of kinetic energies
         double E_ext       = 0;          //sum of potential energy from HO
         double E_int       = 0;          //sum of potential energy from interaction
         double E_k_tot     = 0;
         double E_ext_tot   = 0;
         double E_int_tot   = 0;
 
-        double E = Psi.EL_calc(X, Xa, v, W, D, interaction, E_k, E_ext, E_int);
+        double E = Psi.EL_calc(X, Xa, v, W, D, interaction, E_kin, E_ext, E_int);
 
         VectorXd da_tot           = VectorXd::Zero(M);
         VectorXd daE_tot          = VectorXd::Zero(M);
@@ -154,7 +163,7 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int iterations, i
                     Xa = X_newa;
                     v  = v_new;
                     e  = e_new;
-                    E  = Psi.EL_calc(X, Xa, v, W, D, interaction, E_k, E_ext, E_int);
+                    E  = Psi.EL_calc(X, Xa, v, W, D, interaction, E_kin, E_ext, E_int);
                 }
             }
 
@@ -165,7 +174,7 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int iterations, i
                 h(N_rand) = h_sampling(v, N_rand);
                 Xa = X - a;
                 v = b + (W.transpose() * X)/sigma_sqrd;
-                E = Psi.EL_calc(X, Xa, v, W, D, interaction, E_k, E_ext, E_int);
+                E = Psi.EL_calc(X, Xa, v, W, D, interaction, E_kin, E_ext, E_int);
             }
 
             if(one_body && iter == iterations-1) {
@@ -195,7 +204,7 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int iterations, i
                 }
             }
             if((iter-iterations-1)%100==0) {
-                myfile1 << E << endl;
+                local << E << endl;
             }
 
 
@@ -216,8 +225,8 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int iterations, i
 
             EL_tot      += E;
             EL_tot_sqrd += E*E;
-            E_k_tot     += E_k;
-            E_ext_tot     += E_ext;
+            E_k_tot     += E_kin;
+            E_ext_tot   += E_ext;
             E_int_tot   += E_int;
         }
         clock_t end_time = clock();
@@ -279,10 +288,10 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int iterations, i
         W -= 2*eta*(dWE_tot - EL_avg*dW_tot)/MC;
 
         //Write to file
-        myfile << EL_avg << "\n";
+        energy << EL_avg << "\n";
     }
     //Close myfile
-    if(myfile.is_open())  myfile.close();
-    if(myfile1.is_open()) myfile1.close();
+    if(energy.is_open())  energy.close();
+    if(local.is_open()) local.close();
 
 }
