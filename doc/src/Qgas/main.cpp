@@ -8,7 +8,7 @@ using namespace std;
 
 int main()
 {
-    int     P           = 12;               //Number of particles
+    int     P           = 6;               //Number of particles
     int     D           = 2;                //Number of dimensions
     int     N           = P;                //Number of hidden nodes
     int     MC          = pow(2,16);        //Number of Monte Carlo cycles

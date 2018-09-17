@@ -126,15 +126,21 @@ double WaveFunction::EL_calc(const VectorXd X, const VectorXd Xa, const VectorXd
     }
 
     else {
+        /*
         for(int i=0; i<m_N; i++) {
             E_kin += 2*(double) (diff.transpose() * W.col(i)) * e_n(i);
+            var += 2*(double) (diff.transpose() * W.col(i)) * e_n(i);
             E_kin -= 2*(double) (Xa.transpose() * W.col(i)) * e_n(i)/m_sigma_sqrd;
             E_kin += (double) ((W.col(i)).transpose() * W.col(i)) * e_n(i)*e_p(i)/m_sigma_sqrd;
-            //for(int j=0; j<m_N; j++) {
-            //    E_k += (double) ((W.col(i)).transpose() * W.col(j)) * e_n(i) * e_n(j)/m_sigma_sqrd;
-            //}
+            for(int j=0; j<m_N; j++) {
+                E_k += (double) ((W.col(i)).transpose() * W.col(j)) * e_n(i) * e_n(j)/m_sigma_sqrd;
+            }
         }
+        */
 
+        E_kin += 2*(W*e_n).transpose()*diff;
+        E_kin += (W.cwiseAbs2()*e_p.cwiseProduct(e_n)).sum();
+        E_kin -= (2/m_sigma_sqrd)*(Xa.transpose()*W)*e_n;
         E_kin += ((W.transpose()*W).cwiseProduct(e_n*e_n.transpose())).sum();
 
         E_kin -= m_M;
