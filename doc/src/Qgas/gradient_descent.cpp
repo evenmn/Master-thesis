@@ -27,7 +27,7 @@ double random_position(){
 }
 
 
-void GradientDescent(int P, double Diff, int D, int N, int MC, int iterations, int sampling, double sigma, \
+void GradientDescent(int P, double Diff, int D, int N, int MC, int norbitals, int iterations, int sampling, double sigma, \
                      double omega, double steplength, double timestep, double eta, bool interaction, bool one_body) {
 
     //Declar constants
@@ -57,21 +57,32 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int iterations, i
     VectorXd e       = VectorXd::Zero(N);
     VectorXd energies_old = VectorXd::Zero(5);
 
-
     VectorXd Xa      = X - a;
     VectorXd v       = b + (W.transpose() * X)/(sigma_sqrd);
     VectorXd X_newa  = VectorXd::Zero(M);
     VectorXd v_new   = VectorXd::Zero(N);
     VectorXd e_new   = VectorXd::Zero(N);
 
+    //Set up determinant matrix
+    int O = norbitals;
+    int P_half = P/2;
 
+    MatrixXd A_up = MatrixXd::Ones(P_half, P_half);
+    MatrixXd A_dn = MatrixXd::Ones(P_half, P_half);
+
+    matrix(Xa.head(M/2), O, D, P_half, A_up);
+    matrix(Xa.tail(M/2), O, D, P_half, A_dn);
+
+    cout << A_up << endl;
+
+    //Update h and e
     for(int i=0; i<N; i++) {
         h(i) = hrand(gen);
         e(i) = 1/(1+exp(-v(i)));
     }
 
     WaveFunction Psi;
-    Psi.setTrialWF(N, M, D, sampling, sigma_sqrd, omega);
+    Psi.setTrialWF(N, M, D, norbitals, sampling, sigma_sqrd, omega);
 
     //Define bins for the one body density measure
     int number_of_bins = 500;
@@ -100,8 +111,6 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int iterations, i
     energy.open(path + energy_filename);
     local.open(path + local_filename);
 
-    int eta0 = eta;
-
     for(int iter=0; iter<iterations; iter++) {
         //averages and energies
         double EL_tot      = 0;          //sum of energies of all states
@@ -113,7 +122,7 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int iterations, i
         double E_ext_tot   = 0;
         double E_int_tot   = 0;
 
-        double E = Psi.EL_calc(X, Xa, v, W, D, interaction, E_kin, E_ext, E_int);
+        double E = Psi.EL_calc(X, Xa, v, W, interaction, E_kin, E_ext, E_int);
 
         VectorXd da_tot           = VectorXd::Zero(M);
         VectorXd daE_tot          = VectorXd::Zero(M);
@@ -124,12 +133,6 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int iterations, i
 
         double accept = 0;
         double tot_dist = 0;
-
-        // Dynamic eta and MC
-        if(iter > 3000) {
-            eta = eta0/10;
-            MC = pow(2,20);
-        }
 
         clock_t start_time = clock();
         for(int i=0; i<MC; i++) {
@@ -163,7 +166,7 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int iterations, i
                     Xa = X_newa;
                     v  = v_new;
                     e  = e_new;
-                    E  = Psi.EL_calc(X, Xa, v, W, D, interaction, E_kin, E_ext, E_int);
+                    E  = Psi.EL_calc(X, Xa, v, W, interaction, E_kin, E_ext, E_int);
                 }
             }
 
@@ -174,7 +177,7 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int iterations, i
                 h(N_rand) = h_sampling(v, N_rand);
                 Xa = X - a;
                 v = b + (W.transpose() * X)/sigma_sqrd;
-                E = Psi.EL_calc(X, Xa, v, W, D, interaction, E_kin, E_ext, E_int);
+                E = Psi.EL_calc(X, Xa, v, W, interaction, E_kin, E_ext, E_int);
             }
 
             if(one_body && iter == iterations-1) {

@@ -25,7 +25,7 @@ int main()
     double  Diff        = 0.5;             //Diffusion constant
 
 
-    GradientDescent(P, Diff, D, N, MC, iterations, sampling, sigma, omega, steplength, timestep, eta, interaction, one_body);
+    GradientDescent(P, Diff, D, N, MC, norbitals, iterations, sampling, sigma, omega, steplength, timestep, eta, interaction, one_body);
 
     //test_E_L_calc();
 

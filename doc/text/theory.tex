@@ -1,0 +1,89 @@
+\section{Background theory}
+Here I might present basic quantum mechanics briefly.
+
+\subsection{Hamiltonian and wavefunction}
+Quantum quantities can be found by solving eigenvalue equations with the wavefunction as eigenfunction. 
+\begin{equation}
+\label{eq:Energy}
+\hat{\text{H}}\Psi_n(\boldsymbol{x})=\epsilon_n\Psi_n(\boldsymbol{x})
+\end{equation}
+
+
+\subsection{Born-Oppenheimer approximation}
+The Born-Oppenheimer approximation is the assumption that we can split the Hamiltonian in a one-body part and a two-body part, and calculate the energies separately. 
+
+\begin{equation}
+\label{eq:Hamiltonian}
+\hat{\text{H}} = \sum_{i=1}^{P} (-\frac{1}{2} \nabla_i^2 + \frac{1}{2} \omega^2 r_i ^2) + \sum_{i<j} \frac{1}{r_{ij}} 
+\end{equation}
+In atomic units. 
+
+\subsection{Wavefunction properties}
+Assume we have a permutation operator $\hat{P}$ which switches two coordinates in the wave function,
+
+\begin{equation}
+\hat{P}\Psi_n(\bs{x}_1,\hdots,\bs{x}_i,\hdots,\bs{x}_j,\hdots,\bs{x}_M)=p\Psi_n(\bs{x}_1,\hdots,\bs{x}_j,\hdots,\bs{x}_i,\hdots,\bs{x}_M),
+\end{equation}
+where $p$ is just a factor which comes from the transformation. If we again apply the $\hat{P}$ operator, we should switch the same coordinates back, and we expect to end up with the initial wave function. For that reason, $p=\pm1$. \footnote{This was true until 1976, when J.M. Leinaas and J. Myrheim discovered the anyon, https://www.uio.no/studier/emner/matnat/fys/FYS4130/v14/documents/kompendium.pdf.}
+
+The particles that have an antisymmetric (AS) wavefunction under exchange of two coordinates are called fermions, named after Enrico Fermi, and have half integer spin. On the other hand, the particles that have a symmetric (S) wavefunction under exchange of two coordinates are called bosons, named after Satyendra Nath Bose, and have integer spin. 
+
+It turns out that because of their antisymmetric wavefunction, two identical fermions cannot be found at the same position at the same time, known as the Pauli principle. This causes some difficulties when dealing with multiple fermions, because we always need to ensure that the total wavefunction becomes zero if two identical particles happen to be at the same position. To do this, we introduce a Slater determinant as described in the next chapter. in this particular project, we are going to focus on fermions, just because they are more difficult to handle, but much of the theory and implementation applies for bosons as well. 
+
+Read https://manybodyphysics.github.io/FYS4480/doc/pub/secondquant/html/secondquant-bs.html
+
+
+\subsection{Slater determinant} \label{sec:slater}
+For a system of more particles we can define a total wavefunction, which is a composition of all the single particle wavefuncions (SPF) and contains all the information about the system. The way we compile the SPFs needs to be based on Pauli's exclusion, which states that two identical fermions cannot possibly be in the same state at the same time. If this happens, we set the total wavefunction to zero, which is done by defining the wavefunction as a determinant. 
+
+Consider a system of two identical fermions with SPFs $\phi_1$ and $\phi_2$ at positions $\boldsymbol{r}_1$ and $\boldsymbol{r}_2$ respectively. The way we define the wavefunction of the system is then
+\begin{equation}
+\Psi_T=
+\begin{vmatrix}
+\phi_1(\boldsymbol{r}_1) & \phi_2(\boldsymbol{r}_1)\\
+\phi_1(\boldsymbol{r}_2) & \phi_2(\boldsymbol{r}_2)
+\end{vmatrix}
+=\phi_1(\boldsymbol{r}_1)\phi_2(\boldsymbol{r}_2)-\phi_2(\boldsymbol{r}_1)\phi_1(\boldsymbol{r}_2),
+\end{equation}
+which is set to zero if the particles are at the same position. This is called a Slater determinant, and yields the same no matter how big the system is.
+
+Notice that we denote the wavefunction with the $'T'$, which indicates that it is a trial wavefunction. We do this because the spin part is avoided with $\psi$ as the radial parts only, thus this wavefunction is not the true wavefunction. We will look closer at how we can factorize out the spin part later. The spin part is assumed to not affect the energies. For bosons the total wavefunction is defined similarly, but with no negative signs since the Pauli principle does not apply for fermions. 
+
+A general Slater determinant for a system of $N$ particles takes the form
+
+\begin{equation}
+\Psi(\boldsymbol{r}_1,\boldsymbol{r}_2,\hdots,\boldsymbol{r}_N)=
+\begin{vmatrix}
+\psi_1(\boldsymbol{r}_1) & \psi_2(\boldsymbol{r}_1) & \hdots & \psi_N(\boldsymbol{r}_1)\\
+\psi_1(\boldsymbol{r}_2) & \psi_2(\boldsymbol{r}_2) & \hdots & \psi_N(\boldsymbol{r}_2)\\
+\vdots & \vdots & \ddots & \vdots \\
+\psi_1(\boldsymbol{r}_N) & \psi_2(\boldsymbol{r}_N) & \hdots & \psi_N(\boldsymbol{r}_N)
+\end{vmatrix}
+\end{equation}
+where the $\psi$'s are the true single particle wavefunctions, which are the tensor products 
+\begin{equation}
+\psi=\phi\otimes\xi
+\end{equation}
+with $\xi$ as the spin part. 
+
+\subsubsection{Electron system}
+For our purpose we will study fermions with spin $\sigma=\pm 1/2$ only, which can be seen as an electron gas. In this particular case, the SPFs can be arranged in spin-up and spin-down parts, such that the Slater determinant can be simplied to 
+\begin{equation}
+\Psi(\boldsymbol{r}_1,\boldsymbol{r}_2,\hdots,\boldsymbol{r}_N)=
+\begin{vmatrix}
+\phi_1(\boldsymbol{r}_1)\xi_{\uparrow} & \phi_1(\boldsymbol{r}_1)\xi_{\downarrow} & \hdots & \phi_{N/2}(\boldsymbol{r}_1)\xi_{\downarrow}\\
+\phi_1(\boldsymbol{r}_2)\xi_{\uparrow} & \phi_1(\boldsymbol{r}_2)\xi_{\downarrow} & \hdots & \phi_{N/2}(\boldsymbol{r}_2)\xi_{\downarrow}\\
+\vdots & \vdots & \ddots & \vdots \\
+\phi_1(\boldsymbol{r}_N)\xi_{\uparrow} & \phi_1(\boldsymbol{r}_N)\xi_{\downarrow} & \hdots & \phi_{N/2}(\boldsymbol{r}_N)\xi_{\downarrow}
+\end{vmatrix}.
+\end{equation}
+This is called the wavefunction ansatz, because assumptions are raised, like two particles with opposite spins are found to be at the same position all the time, i.e, an equal number of fermions have spin up as spin down, are applied. Further the...
+
+SHOULD END UP WITH SPLITTED DETERMINANTS HERE
+
+For a detailed walkthrough, see appendix I in REF(The Stochastic Gradient Approximation: an application to Li nanoclusters, Daniel Nissenbaum). 
+
+\subsection{Jastrow factor}
+
+\subsubsection{CUSP condition}
+

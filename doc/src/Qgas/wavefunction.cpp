@@ -28,11 +28,12 @@ double rij(VectorXd X, int D) {
     return Ep;
 }
 
-int WaveFunction::setTrialWF(int N, int M, int D, int sampling, double sigma_sqrd, double omega)
+int WaveFunction::setTrialWF(int N, int M, int D, int norbitals, int sampling, double sigma_sqrd, double omega)
 {
     m_N          = N;
     m_M          = M;
     m_D          = D;
+    m_norbitals  = norbitals;
     m_sampling   = sampling;
     m_sigma_sqrd = sigma_sqrd;
     m_omega_sqrd = omega*omega;
@@ -42,7 +43,7 @@ double WaveFunction::Psi_value_sqrd(const VectorXd &Xa, const VectorXd &v)
 {
     //Unnormalized wave function
 
-    double Prob = Slater(m_D, Xa, v, m_sigma_sqrd);
+    double Prob = Slater(m_D, m_norbitals, Xa, v, m_sigma_sqrd);
     return Prob * Prob;
 }
 
@@ -88,7 +89,7 @@ void Deter(const VectorXd &Xa, VectorXd &diff) {
 }
 
 double WaveFunction::EL_calc(const VectorXd X, const VectorXd Xa, const VectorXd v, const MatrixXd W, \
-                             int D, int interaction, double &E_kin, double &E_ext, double &E_int) {
+                             int interaction, double &E_kin, double &E_ext, double &E_int) {
     /*Local energy calculations*/
 
     // Set parameters to zero
@@ -108,7 +109,7 @@ double WaveFunction::EL_calc(const VectorXd X, const VectorXd Xa, const VectorXd
     }
 
     for(int i=0; i<m_M; i++) {
-        diff(i) = energy(Xa, D, i);
+        diff(i) = energy(Xa, m_D, m_norbitals, i);
     }
 
     // === ENERGY CALCULATION ===
@@ -153,7 +154,7 @@ double WaveFunction::EL_calc(const VectorXd X, const VectorXd Xa, const VectorXd
 
 
     // Interaction energy
-    if(interaction) E_int = rij(X, D);
+    if(interaction) E_int = rij(X, m_D);
 
     // Harmonic oscillator potential
     E_ext = (double) (X.transpose() * X) * m_omega_sqrd/ 2;

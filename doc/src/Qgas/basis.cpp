@@ -85,33 +85,43 @@ void list(int N, int D, MatrixXd &order) {
 }
 
 
+double A_elements(const VectorXd &Xa, int M_half, int D, int O, int i, int j) {
 
-void matrix(const VectorXd &Xa, int N, int D, MatrixXd &A) {
-    //N: Number of fully occupied shells
+    MatrixXd order = MatrixXd::Zero(M_half, D);
+    list(O, D, order);
 
-    int length = binomial(N-1, D);
+    double element = 1;
 
-    MatrixXd order = MatrixXd::Zero(length, D);
-    list(N, D, order);
+    for(int k=0; k<D; k++) {
+        element *= H(Xa(D*i+k), order(j,k));
+    }
 
+    return element;
+}
 
-    for(int i=0; i<length; i++) {
-        for(int j=0; j<length; j++) {
-            for(int k=0; k<D; k++) {
-                A(i,j) *= H(Xa(D*i+k), order(j,k));
-            }
-        }
+void A_rows(const VectorXd &Xa, int M_half, int D, int O, int j, MatrixXd &A) {
+    for(int i=0; i<M_half; i++) {
+        A(i,j) = A_elements(Xa, M_half, D, O, i, j);
     }
 }
 
 
-void derivative(const VectorXd &Xa, int N, int D, int k, MatrixXd &dA) {
+void matrix(const VectorXd &Xa, int O, int D, int M_half, MatrixXd &A) {
+    //O: Number of fully occupied shells
+
+    for(int j=0; j<M_half; j++) {
+        A_rows(Xa, M_half, D, O, j, A);
+    }
+}
+
+
+void derivative(const VectorXd &Xa, int O, int D, int k, MatrixXd &dA) {
     //Derivative of A matrix
 
-    int length = binomial(N-1, D);
+    int length = binomial(O-1, D);
 
     MatrixXd order = MatrixXd::Zero(length, D);
-    list(N, D, order);
+    list(O, D, order);
 
     // Find relevant row
     int row = int(k/D);
@@ -139,108 +149,58 @@ void derivative(const VectorXd &Xa, int N, int D, int k, MatrixXd &dA) {
 }
 
 
-void G(const VectorXd &Xa, int N, int D, int k, VectorXd &g) {
-    //Derivative of A matrix
-
-    int length = binomial(N-1, D);
-
-    MatrixXd order = MatrixXd::Zero(length, D);
-    list(N, D, order);
-
-    // Find indices of relevant row
-    VectorXd a = VectorXd::Zero(D);
-    int l = k%D;
-    for(int i=0; i<D; i++) {
-        a(i) = k-l+i;
-    }
-
-    // Find matrix
-    for(int i=0; i<length; i++) {
-        g(i) = dH(Xa(k), order(i, l));
-        for(int j=0; j<D; j++) {
-            if(a(j) != k) {
-                g(i) *= H(Xa(a(j)), order(i, j));
-            }
-        }
-    }
+void derivative2(const VectorXd &Xa, int O, int D, int k, MatrixXd &dA) {
+    // Do nothing
 }
 
 
-
-void removeRow(MatrixXd& matrix, unsigned int rowToRemove)
-{
-    unsigned int numRows = matrix.rows()-1;
-    unsigned int numCols = matrix.cols();
-
-    if( rowToRemove < numRows )
-        matrix.block(rowToRemove,0,numRows-rowToRemove,numCols) = matrix.block(rowToRemove+1,0,numRows-rowToRemove,numCols);
-
-    matrix.conservativeResize(numRows,numCols);
-}
-
-void removeColumn(MatrixXd& matrix, unsigned int colToRemove)
-{
-    unsigned int numRows = matrix.rows();
-    unsigned int numCols = matrix.cols()-1;
-
-    if( colToRemove < numCols )
-        matrix.block(0,colToRemove,numRows,numCols-colToRemove) = matrix.block(0,colToRemove+1,numRows,numCols-colToRemove);
-
-    matrix.conservativeResize(numRows,numCols);
-}
-
-
-double set_up_det(MatrixXd A, unsigned int i, unsigned int j) {
-    // Sets up the determinant of all elements,
-    // but the row i and column j
-
-    removeColumn(A, j);
-    removeRow(A, i);
-
-    return A.determinant();
-}
-
-
-void F(MatrixXd &A, VectorXd &f, unsigned int j) {
-    // Calculate inverse vector
-
-    for(int i=0; i<A.cols(); i++) {
-        f(i) = pow(-1, i+j)*set_up_det(A, i, j);
-    }
-
-}
-
-
-double energy(const VectorXd &Xa, int D, int k) {
+double energy(const VectorXd &Xa, int D, int O, int k) {
     // Calculate some kinetic energy
 
     int M = Xa.size();
-    int N = orbitals(M/D, D);
     int length = M/(2*D);
 
     MatrixXd A = MatrixXd::Ones(length, length);
     MatrixXd dA = MatrixXd::Zero(length, length);
-    VectorXd f = VectorXd::Zero(length);
-    VectorXd g = VectorXd::Zero(length);
 
     if(k<M/2) {
-        matrix(Xa.head(M/2), N, D, A);
-        derivative(Xa.head(M/2), N, D, k, dA);
-        //F(A, f, k);
-        //G(Xa.head(M/2), N, D, k, g);
+        matrix(Xa.head(M/2), O, D, length, A);
+        derivative(Xa.head(M/2), O, D, k, dA);
     }
     else {
-        matrix(Xa.tail(M/2), N, D, A);
-        derivative(Xa.tail(M/2), N, D, k-M/2, dA);
-        //F(A, f, k-M/2);
-        //G(Xa.tail(M/2), N, D, k-M/2, g);
+        matrix(Xa.tail(M/2), O, D, length, A);
+        derivative(Xa.tail(M/2), O, D, k-M/2, dA);
     }
 
     return (A.inverse()*dA).trace();
 }
 
+double energy2(const VectorXd &Xa, int D, int O, VectorXd &diff) {
+    // Calculating grad(det(D))
 
-double Slater(int D, const VectorXd &Xa, const VectorXd &v, double sigma_sqrd) {
+    int M_half = Xa.size()/2;
+    int length = M_half/D;
+
+    MatrixXd A_up = MatrixXd::Ones(length, length);
+    MatrixXd A_dn = MatrixXd::Ones(length, length);
+
+    matrix(Xa.head(M_half), O, D, M_half, A_up);
+    matrix(Xa.tail(M_half), O, D, M_half, A_dn);
+
+    for(int k = 0; k<M_half; k++) {
+        MatrixXd dA = MatrixXd::Zero(length, length);
+        derivative(Xa.head(M_half), O, D, k, dA);
+
+    }
+    for(int k = M_half; k<M_half*2; k++) {
+        MatrixXd dA = MatrixXd::Zero(length, length);
+        derivative(Xa.tail(M_half), O, D, k, dA);
+    }
+
+}
+
+
+double Slater(int D, int O, const VectorXd &Xa, const VectorXd &v, double sigma_sqrd) {
     // Setting up Slater determinant
 
     int M = Xa.size();                                // Number of free dimensions
@@ -256,8 +216,8 @@ double Slater(int D, const VectorXd &Xa, const VectorXd &v, double sigma_sqrd) {
     MatrixXd D_up = MatrixXd::Ones(int(P/2),int(P/2));
     MatrixXd D_dn = MatrixXd::Ones(int(P/2),int(P/2));
 
-    matrix(Xa.head(M/2), n_orbitals, D, D_up);
-    matrix(Xa.tail(M/2), n_orbitals, D, D_dn);
+    matrix(Xa.head(M/2), n_orbitals, D, P/2, D_up);
+    matrix(Xa.tail(M/2), n_orbitals, D, P/2, D_dn);
 
 
     return D_up.determinant()*D_dn.determinant()*Gauss_WF(Xa, sigma_sqrd)*Jastrow_NQS(v);
