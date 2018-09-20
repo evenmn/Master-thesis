@@ -65,7 +65,7 @@ void test_E_L_calc(){
     cout << "E_kin: " << E_kin << endl;
     cout << "E_ext: " << E_ext << endl;
     cout << "E_int: " << E_int << endl;
-
-
-
 }
+
+/*Should implement tests which test diff for 2 particles and that the matrices are set up correctly for 6 particles
+ */

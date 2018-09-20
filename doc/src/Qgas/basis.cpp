@@ -149,8 +149,35 @@ void derivative(const VectorXd &Xa, int O, int D, int k, MatrixXd &dA) {
 }
 
 
-void derivative2(const VectorXd &Xa, int O, int D, int k, MatrixXd &dA) {
-    // Do nothing
+void derivative2(const VectorXd &Xa, int O, int D, MatrixXd &dA) {
+    //Derivative of A matrix
+
+    int length = binomial(O-1, D);
+
+    MatrixXd order = MatrixXd::Zero(length, D);
+    list(O, D, order);
+
+    for(int k=0; k<length*D; k++) {
+        // Find relevant row
+        int row = int(k/D);
+
+        // Find indices of relevant row
+        VectorXd a = VectorXd::Zero(D);
+        int l = k%D;
+        for(int i=0; i<D; i++) {
+            a(i) = k-l+i;
+        }
+
+        // Find matrix
+        for(int i=0; i<length; i++) {
+            dA(row, D*i+l) = dH(Xa(k), order(i, l));
+            for(int j=0; j<D; j++) {
+                if(a(j) != k) {
+                    dA(row, D*i+l) *= H(Xa(a(j)), order(i, j));
+                }
+            }
+        }
+    }
 }
 
 
@@ -171,6 +198,7 @@ double energy(const VectorXd &Xa, int D, int O, int k) {
         matrix(Xa.tail(M/2), O, D, length, A);
         derivative(Xa.tail(M/2), O, D, k-M/2, dA);
     }
+
 
     return (A.inverse()*dA).trace();
 }

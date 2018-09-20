@@ -6,6 +6,7 @@
 #include <string>
 
 #include "eigen3/Eigen/Dense"
+#include "eigen3/Eigen/LU"
 #include "wavefunction.h"
 #include "hastings_tools.h"
 #include "gibbs_tools.h"
@@ -64,16 +65,26 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int norbitals, in
     VectorXd e_new   = VectorXd::Zero(N);
 
     //Set up determinant matrix
+    // PLAN: REDUCE THE NUMBER OF MATRICES BY PUTTING A_up AND A_dn IN ONE ETC
     int O = norbitals;
     int P_half = P/2;
 
     MatrixXd A_up = MatrixXd::Ones(P_half, P_half);
     MatrixXd A_dn = MatrixXd::Ones(P_half, P_half);
+    MatrixXd A_up_inv = MatrixXd::Ones(P_half, P_half);
+    MatrixXd A_dn_inv = MatrixXd::Ones(P_half, P_half);
 
     matrix(Xa.head(M/2), O, D, P_half, A_up);
     matrix(Xa.tail(M/2), O, D, P_half, A_dn);
 
-    cout << A_up << endl;
+    A_up_inv = A_up.inverse();
+    A_dn_inv = A_dn.inverse();
+
+    MatrixXd dA_up = MatrixXd::Zero(P/2,P);
+    MatrixXd dA_dn = MatrixXd::Zero(P/2,P);
+
+    derivative2(Xa.head(M/2), O, D, dA_up);
+    derivative2(Xa.tail(M/2), O, D, dA_dn);
 
     //Update h and e
     for(int i=0; i<N; i++) {
@@ -136,6 +147,9 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int norbitals, in
 
         clock_t start_time = clock();
         for(int i=0; i<MC; i++) {
+
+            cout << A_up << endl;
+
             X_new = X;              //Setting new matrix equal to old one
             M_rand = mrand(gen);    //Random particle and dimension
 
@@ -166,6 +180,17 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int norbitals, in
                     Xa = X_newa;
                     v  = v_new;
                     e  = e_new;
+                    int row = int(M_rand/D);
+                    //cout << M_rand << endl;
+                    //cout << row << endl;
+
+                    if(row < P/2){
+                        A_rows(Xa.head(M/2), P/2, D, norbitals, row, A_up);
+                    }
+                    else {
+                        A_rows(Xa.tail(M/2), P/2, D, norbitals, row-P/2, A_dn);
+                    }
+
                     E  = Psi.EL_calc(X, Xa, v, W, interaction, E_kin, E_ext, E_int);
                 }
             }
