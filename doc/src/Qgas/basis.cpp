@@ -99,8 +99,8 @@ double A_elements(const VectorXd &Xa, int M_half, int D, int O, int i, int j) {
     return element;
 }
 
-void A_rows(const VectorXd &Xa, int M_half, int D, int O, int j, MatrixXd &A) {
-    for(int i=0; i<M_half; i++) {
+void A_rows(const VectorXd &Xa, int M_half, int D, int O, int i, MatrixXd &A) {
+    for(int j=0; j<M_half; j++) {
         A(i,j) = A_elements(Xa, M_half, D, O, i, j);
     }
 }
@@ -133,16 +133,42 @@ void derivative(const VectorXd &Xa, int O, int D, int k, MatrixXd &dA) {
         a(i) = k-l+i;
     }
 
-    //VectorXd c = VectorXd::Zero(length);
-
     // Find matrix
     for(int i=0; i<length; i++) {
         dA(row, i) = dH(Xa(k), order(i, l));
-        //c(i) = dH(Xa(k), order(i, l));
         for(int j=0; j<D; j++) {
             if(a(j) != k) {
                 dA(row, i) *= H(Xa(a(j)), order(i, j));
-                //c(i) *= H(Xa(a(j)), order(i, j));
+            }
+        }
+    }
+}
+
+
+void derivative3(const VectorXd &Xa, int O, int D, int k, MatrixXd &dA) {
+    //Derivative of A matrix
+
+    int length = binomial(O-1, D);
+
+    MatrixXd order = MatrixXd::Zero(length, D);
+    list(O, D, order);
+
+    // Find relevant row
+    int row = int(k/D);
+
+    // Find indices of relevant row
+    VectorXd a = VectorXd::Zero(D);
+    int l = k%D;
+    for(int i=0; i<D; i++) {
+        a(i) = k-l+i;
+    }
+
+    // Find matrix
+    for(int i=0; i<length; i++) {
+        dA(row, D*i+l) = dH(Xa(k), order(i, l));
+        for(int j=0; j<D; j++) {
+            if(a(j) != k) {
+                dA(row, D*i+l) *= H(Xa(a(j)), order(i, j));
             }
         }
     }
@@ -158,25 +184,7 @@ void derivative2(const VectorXd &Xa, int O, int D, MatrixXd &dA) {
     list(O, D, order);
 
     for(int k=0; k<length*D; k++) {
-        // Find relevant row
-        int row = int(k/D);
-
-        // Find indices of relevant row
-        VectorXd a = VectorXd::Zero(D);
-        int l = k%D;
-        for(int i=0; i<D; i++) {
-            a(i) = k-l+i;
-        }
-
-        // Find matrix
-        for(int i=0; i<length; i++) {
-            dA(row, D*i+l) = dH(Xa(k), order(i, l));
-            for(int j=0; j<D; j++) {
-                if(a(j) != k) {
-                    dA(row, D*i+l) *= H(Xa(a(j)), order(i, j));
-                }
-            }
-        }
+        derivative3(Xa, O, D, k, dA);
     }
 }
 

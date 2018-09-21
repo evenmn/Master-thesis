@@ -148,8 +148,6 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int norbitals, in
         clock_t start_time = clock();
         for(int i=0; i<MC; i++) {
 
-            cout << A_up << endl;
-
             X_new = X;              //Setting new matrix equal to old one
             M_rand = mrand(gen);    //Random particle and dimension
 
@@ -181,15 +179,32 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int norbitals, in
                     v  = v_new;
                     e  = e_new;
                     int row = int(M_rand/D);
-                    //cout << M_rand << endl;
+                    cout << M_rand << endl;
                     //cout << row << endl;
+
+                    // Find indices of relevant row
+                    VectorXd c = VectorXd::Zero(D);
+                    int l = M_rand%D;
+                    for(int i=0; i<D; i++) {
+                        c(i) = M_rand-l+i;
+                    }
 
                     if(row < P/2){
                         A_rows(Xa.head(M/2), P/2, D, norbitals, row, A_up);
+                        for(int i=0; i<D; i++) {
+                            derivative3(Xa.head(M/2), O, D, c(i), dA_up);
+                        }
                     }
                     else {
                         A_rows(Xa.tail(M/2), P/2, D, norbitals, row-P/2, A_dn);
+                        for(int i=0; i<D; i++) {
+                            derivative3(Xa.tail(M/2), O, D, c(i)-M/2, dA_dn);
+                        }
                     }
+
+                    //cout << A_up << "\n" << endl;
+                    cout << dA_up << "\n" << endl;
+
 
                     E  = Psi.EL_calc(X, Xa, v, W, interaction, E_kin, E_ext, E_int);
                 }
