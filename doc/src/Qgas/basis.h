@@ -13,3 +13,4 @@ void derivative3(const VectorXd &Xa, int O, int D, int k, MatrixXd &dA);
 void derivative4(const VectorXd &Xa, int O, int D, int k, MatrixXd &dA);
 void derivative5(const VectorXd &Xa, int O, int D, MatrixXd &dA);
 void A_rows(const VectorXd &Xa, int M_half, int D, int O, int j, MatrixXd &A);
+void rij(const VectorXd &X, int D, MatrixXd &Dist);

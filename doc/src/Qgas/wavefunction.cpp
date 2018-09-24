@@ -1,32 +1,14 @@
 #include "wavefunction.h"
 #include "basis.h"
+#include "eigen3/Eigen/Dense"
+
 #include <cmath>
 #include <ctime>
 #include <iostream>
-#include "eigen3/Eigen/Dense"
 
 using namespace std;
 using namespace Eigen;
 
-double rij(VectorXd X, int D) {
-    // Calculating interaction energy between all particles
-    // Could calculate distance matrix to save some computations
-
-    double Ep = 0;              // Sum 1/rij
-    int P = X.size()/D;
-
-    for(int i=0; i<P; i++) {
-        for(int j=0; j<i; j++) {
-            double dist = 0;
-            for(int d=0; d<D; d++) {
-                double diff = X(D*i+d)-X(D*j+d);
-                dist += diff*diff;
-            }
-            Ep += 1/sqrt(dist);
-        }
-    }
-    return Ep;
-}
 
 int WaveFunction::setTrialWF(int N, int M, int D, int norbitals, int sampling, double sigma_sqrd, double omega)
 {
@@ -128,32 +110,18 @@ double WaveFunction::EL_calc(const VectorXd X, const VectorXd Xa, const VectorXd
     // === ENERGY CALCULATION ===
     // Kinetic energy
     if(m_sampling==2) {
-        for(int i=0; i<m_N; i++) {
-            E_kin -= 0.5*(double) (Xa.transpose() * W.col(i)) * e_n(i);
-            E_kin += 0.5*(double) ((W.col(i)).transpose() * W.col(i)) * e_n(i) * e_p(i);
-            for(int j=0; j<m_N; j++) {
-                E_kin += 0.25*(double) ((W.col(i)).transpose() * W.col(j)) * e_n(i) * e_n(j);
-            }
-        }
+        E_kin += (W*e_n).transpose()*diff;
+        E_kin += 0.25*(W.cwiseAbs2()*e_p.cwiseProduct(e_n)).sum();
+        E_kin -= (1/(2*m_sigma_sqrd))*(Xa.transpose()*W)*e_n;
+        E_kin += 0.5*((W.transpose()*W).cwiseProduct(e_n*e_n.transpose())).sum();
 
         E_kin -= 0.5*m_M * m_sigma_sqrd;
         E_kin += 0.25*Xa.transpose() * Xa;
+        E_kin -= (double) (diff.transpose()*Xa);
         E_kin = -E_kin/(2 * m_sigma_sqrd * m_sigma_sqrd);
     }
 
     else {
-        /*
-        for(int i=0; i<m_N; i++) {
-            E_kin += 2*(double) (diff.transpose() * W.col(i)) * e_n(i);
-            var += 2*(double) (diff.transpose() * W.col(i)) * e_n(i);
-            E_kin -= 2*(double) (Xa.transpose() * W.col(i)) * e_n(i)/m_sigma_sqrd;
-            E_kin += (double) ((W.col(i)).transpose() * W.col(i)) * e_n(i)*e_p(i)/m_sigma_sqrd;
-            for(int j=0; j<m_N; j++) {
-                E_k += (double) ((W.col(i)).transpose() * W.col(j)) * e_n(i) * e_n(j)/m_sigma_sqrd;
-            }
-        }
-        */
-
         E_kin += 2*(W*e_n).transpose()*diff;
         E_kin += (W.cwiseAbs2()*e_p.cwiseProduct(e_n)).sum();
         E_kin -= (2/m_sigma_sqrd)*(Xa.transpose()*W)*e_n;
@@ -167,7 +135,11 @@ double WaveFunction::EL_calc(const VectorXd X, const VectorXd Xa, const VectorXd
 
 
     // Interaction energy
-    if(interaction) E_int = rij(X, m_D);
+    if(interaction) {
+        MatrixXd Dist = MatrixXd::Zero(P,P);
+        rij(X, m_D, Dist);
+        E_int = Dist.sum();
+    }
 
     // Harmonic oscillator potential
     E_ext = (double) (X.transpose() * X) * m_omega_sqrd/ 2;

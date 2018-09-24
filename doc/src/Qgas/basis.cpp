@@ -3,9 +3,13 @@
 #include <cmath>
 #include "eigen3/Eigen/Dense"
 #include "general_tools.h"
+#include "basis.h"
 
 using namespace Eigen;
 using namespace std;
+
+
+// === BASIS PART ===
 
 double H(double x, int n) {
     //Hermite polynomial of n'th degree
@@ -85,6 +89,33 @@ void list(int N, int D, MatrixXd &order) {
 }
 
 
+double Slater(int D, int O, const VectorXd &Xa, const VectorXd &v, double sigma_sqrd) {
+    // Setting up Slater determinant
+
+    int M = Xa.size();                                // Number of free dimensions
+    int P = int(M/D);                                 // Number of particles
+    double n_orbitals = orbitals(P,D);                // Number of orbitals
+
+    // Check if the orbitals are fully occupied, otherwise break
+    if(fabs(n_orbitals - int(n_orbitals)) > 0.01) {
+        cout << "Number of particles needs to be a magic number" << endl;
+        exit(0);
+    }
+
+    MatrixXd D_up = MatrixXd::Ones(int(P/2),int(P/2));
+    MatrixXd D_dn = MatrixXd::Ones(int(P/2),int(P/2));
+
+    matrix(Xa.head(M/2), n_orbitals, D, P/2, D_up);
+    matrix(Xa.tail(M/2), n_orbitals, D, P/2, D_dn);
+
+
+    return D_up.determinant()*D_dn.determinant()*Gauss_WF(Xa, sigma_sqrd)*Jastrow_NQS(v);
+}
+
+
+// === DETERMINANT MATRIX PART ===
+
+
 double A_elements(const VectorXd &Xa, int M_half, int D, int O, int i, int j) {
 
     MatrixXd order = MatrixXd::Zero(M_half, D);
@@ -113,6 +144,9 @@ void matrix(const VectorXd &Xa, int O, int D, int M_half, MatrixXd &A) {
         A_rows(Xa, M_half, D, O, j, A);
     }
 }
+
+
+// === DERIVATIVE PART ===
 
 
 void derivative(const VectorXd &Xa, int O, int D, int k, MatrixXd &dA) {
@@ -232,6 +266,45 @@ void derivative5(const VectorXd &Xa, int O, int D, MatrixXd &dA) {
 }
 
 
+// === CALCULATE DISTANCE MATRIX ===
+void rij_element(const VectorXd &X, int D, int i, int j, MatrixXd &Dist) {
+    // Update element (i,j) in distance matrix
+
+    double dist = 0;
+    for(int d=0; d<D; d++) {
+        double diff = X(D*i+d)-X(D*j+d);
+        dist += diff*diff;
+    }
+    Dist(i,j) = 1/sqrt(dist);
+}
+
+void rij(const VectorXd &X, int D, MatrixXd &Dist) {
+    // Fill up the entire distance matrix
+
+    int P = X.size()/D;
+
+    for(int i=0; i<P; i++) {
+        for(int j=0; j<i; j++) {
+            rij_element(X, D, i, j, Dist);
+        }
+    }
+}
+
+void rij_cross(const VectorXd &X, int D, int par, MatrixXd &Dist) {
+    // Update Dist when particle par is changed
+
+    int P = X.size()/D;
+
+    for(int i=0; i<P; i++) {
+        rij_element(X, D, par, i, Dist);
+        rij_element(X, D, i, par, Dist);
+    }
+}
+
+
+// === ENERGY CALCULATION ===
+
+
 double energy(const VectorXd &Xa, int D, int O, int k) {
     // Calculate some kinetic energy
 
@@ -276,28 +349,4 @@ double energy2(const VectorXd &Xa, int D, int O, VectorXd &diff) {
         derivative(Xa.tail(M_half), O, D, k, dA);
     }
 
-}
-
-
-double Slater(int D, int O, const VectorXd &Xa, const VectorXd &v, double sigma_sqrd) {
-    // Setting up Slater determinant
-
-    int M = Xa.size();                                // Number of free dimensions
-    int P = int(M/D);                                 // Number of particles
-    double n_orbitals = orbitals(P,D);                // Number of orbitals
-
-    // Check if the orbitals are fully occupied, otherwise break
-    if(fabs(n_orbitals - int(n_orbitals)) > 0.01) {
-        cout << "Number of particles needs to be a magic number" << endl;
-        exit(0);
-    }
-
-    MatrixXd D_up = MatrixXd::Ones(int(P/2),int(P/2));
-    MatrixXd D_dn = MatrixXd::Ones(int(P/2),int(P/2));
-
-    matrix(Xa.head(M/2), n_orbitals, D, P/2, D_up);
-    matrix(Xa.tail(M/2), n_orbitals, D, P/2, D_dn);
-
-
-    return D_up.determinant()*D_dn.determinant()*Gauss_WF(Xa, sigma_sqrd)*Jastrow_NQS(v);
 }

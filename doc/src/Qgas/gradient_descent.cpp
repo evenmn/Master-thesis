@@ -28,7 +28,7 @@ double random_position(){
 }
 
 
-void GradientDescent(int P, double Diff, int D, int N, int MC, int norbitals, int iterations, int sampling, double sigma, \
+void GradientDescent(int P, double Diff, int D, int N, int MC, int O, int iterations, int sampling, double sigma, \
                      double omega, double steplength, double timestep, double eta, bool interaction, bool one_body) {
 
     //Declar constants
@@ -66,7 +66,6 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int norbitals, in
 
     //Set up determinant matrix
     // PLAN: REDUCE THE NUMBER OF MATRICES BY PUTTING A_up AND A_dn IN ONE ETC
-    int O = norbitals;
     int P_half = P/2;
 
     MatrixXd A_up = MatrixXd::Ones(P_half, P_half);
@@ -93,7 +92,7 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int norbitals, in
     }
 
     WaveFunction Psi;
-    Psi.setTrialWF(N, M, D, norbitals, sampling, sigma_sqrd, omega);
+    Psi.setTrialWF(N, M, D, O, sampling, sigma_sqrd, omega);
 
     //Define bins for the one body density measure
     int number_of_bins = 500;
@@ -193,7 +192,7 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int norbitals, in
 
                     double R = 0;
                     if(row < P/2){
-                        A_rows(Xa.head(M/2), P/2, D, norbitals, row, A_up);
+                        A_rows(Xa.head(M/2), P/2, D, O, row, A_up);
                         A_up_inv = A_up.inverse();
                         for(int i=0; i<D; i++) {
                             derivative4(Xa.head(M/2), O, D, c(i), dA_up);
@@ -209,7 +208,7 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int norbitals, in
 
                     }
                     else {
-                        A_rows(Xa.tail(M/2), P/2, D, norbitals, row-P/2, A_dn);
+                        A_rows(Xa.tail(M/2), P/2, D, O, row-P/2, A_dn);
                         A_dn_inv = A_dn.inverse();
                         for(int i=0; i<D; i++) {
                             derivative4(Xa.tail(M/2), O, D, c(i)-M/2, dA_dn);
@@ -249,7 +248,7 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int norbitals, in
 
                 double R = 0;
                 if(row < P/2){
-                    A_rows(Xa.head(M/2), P/2, D, norbitals, row, A_up);
+                    A_rows(Xa.head(M/2), P/2, D, O, row, A_up);
                     for(int i=0; i<D; i++) {
                         derivative3(Xa.head(M/2), O, D, c(i), dA_up);
                     }
@@ -261,7 +260,7 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int norbitals, in
                     }
                 }
                 else {
-                    A_rows(Xa.tail(M/2), P/2, D, norbitals, row-P/2, A_dn);
+                    A_rows(Xa.tail(M/2), P/2, D, O, row-P/2, A_dn);
                     for(int i=0; i<D; i++) {
                         derivative3(Xa.tail(M/2), O, D, c(i)-M/2, dA_dn);
                     }

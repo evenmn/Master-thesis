@@ -7,12 +7,6 @@
 using namespace std;
 using namespace Eigen;
 
-void test_without_argument() {
-    test_E_L_calc();
-    test_orbitals();
-    test_matrix();
-}
-
 void test_energy_convergence(double energy, double omega, int M, bool interaction) {
 
     double error  = 0;
@@ -111,4 +105,10 @@ void test_matrix() {
         cout << "Function 'matrix' in 'basis.cpp' returns wrong answer" << endl;
         exit(0);
     }
+}
+
+void test_without_argument() {
+    test_E_L_calc();
+    test_orbitals();
+    test_matrix();
 }
