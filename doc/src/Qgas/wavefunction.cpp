@@ -88,7 +88,7 @@ void Deter(const VectorXd &Xa, VectorXd &diff) {
     //}
 }
 
-double WaveFunction::EL_calc(const VectorXd X, const VectorXd Xa, const VectorXd v, const MatrixXd W, \
+double WaveFunction::EL_calc(const VectorXd X, const VectorXd Xa, const VectorXd v, const MatrixXd W, const MatrixXd &A_up_inv, const MatrixXd &A_dn_inv, const MatrixXd &dA_up, const MatrixXd &dA_dn,\
                              int interaction, double &E_kin, double &E_ext, double &E_int) {
     /*Local energy calculations*/
 
@@ -108,8 +108,21 @@ double WaveFunction::EL_calc(const VectorXd X, const VectorXd Xa, const VectorXd
         e_p(i) = 1/(1 + exp(v(i)));
     }
 
+    int P = m_M/m_D;
+
     for(int i=0; i<m_M; i++) {
-        diff(i) = energy(Xa, m_D, m_norbitals, i);
+        //diff(i) = energy(Xa, m_D, m_norbitals, i);
+
+
+        for(int j=0; j<P/2; j++) {
+            if(i<m_M/2) {
+                diff(i) += dA_up(i,j)*A_up_inv(j,int(i/m_D));
+            }
+            else {
+                diff(i) += dA_dn(i-m_M/2,j)*A_dn_inv(j,int((i-m_M/2)/m_D));
+            }
+        }
+
     }
 
     // === ENERGY CALCULATION ===

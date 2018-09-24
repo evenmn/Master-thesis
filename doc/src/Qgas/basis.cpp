@@ -175,6 +175,36 @@ void derivative3(const VectorXd &Xa, int O, int D, int k, MatrixXd &dA) {
 }
 
 
+void derivative4(const VectorXd &Xa, int O, int D, int k, MatrixXd &dA) {
+    //Derivative of A matrix
+
+    int length = binomial(O-1, D);
+
+    MatrixXd order = MatrixXd::Zero(length, D);
+    list(O, D, order);
+
+    // Find relevant row
+    int row = int(k/D);
+
+    // Find indices of relevant row
+    VectorXd a = VectorXd::Zero(D);
+    int l = k%D;
+    for(int i=0; i<D; i++) {
+        a(i) = k-l+i;
+    }
+
+    // Find matrix
+    for(int i=0; i<length; i++) {
+        dA(k, i) = dH(Xa(k), order(i, l));
+        for(int j=0; j<D; j++) {
+            if(a(j) != k) {
+                dA(k, i) *= H(Xa(a(j)), order(i, j));
+            }
+        }
+    }
+}
+
+
 void derivative2(const VectorXd &Xa, int O, int D, MatrixXd &dA) {
     //Derivative of A matrix
 
@@ -185,6 +215,19 @@ void derivative2(const VectorXd &Xa, int O, int D, MatrixXd &dA) {
 
     for(int k=0; k<length*D; k++) {
         derivative3(Xa, O, D, k, dA);
+    }
+}
+
+void derivative5(const VectorXd &Xa, int O, int D, MatrixXd &dA) {
+    //Derivative of A matrix
+
+    int length = binomial(O-1, D);
+
+    MatrixXd order = MatrixXd::Zero(length, D);
+    list(O, D, order);
+
+    for(int k=0; k<length*D; k++) {
+        derivative4(Xa, O, D, k, dA);
     }
 }
 

@@ -60,11 +60,11 @@ void test_E_L_calc(){
     double E_ext = 0;
     double E_int = 0;
 
-    E = Psi.EL_calc(X, Xa, v, W, interaction, E_kin, E_ext, E_int);
-    cout << "E: " << E << endl;
-    cout << "E_kin: " << E_kin << endl;
-    cout << "E_ext: " << E_ext << endl;
-    cout << "E_int: " << E_int << endl;
+    //E = Psi.EL_calc(X, Xa, v, W, interaction, E_kin, E_ext, E_int);
+    //cout << "E: " << E << endl;
+    //cout << "E_kin: " << E_kin << endl;
+    //cout << "E_ext: " << E_ext << endl;
+    //cout << "E_int: " << E_int << endl;
 }
 
 /*Should implement tests which test diff for 2 particles and that the matrices are set up correctly for 6 particles

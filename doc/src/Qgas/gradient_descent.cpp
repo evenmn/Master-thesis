@@ -80,11 +80,11 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int norbitals, in
     A_up_inv = A_up.inverse();
     A_dn_inv = A_dn.inverse();
 
-    MatrixXd dA_up = MatrixXd::Zero(P/2,P);
-    MatrixXd dA_dn = MatrixXd::Zero(P/2,P);
+    MatrixXd dA_up = MatrixXd::Zero(P,P/2);
+    MatrixXd dA_dn = MatrixXd::Zero(P,P/2);
 
-    derivative2(Xa.head(M/2), O, D, dA_up);
-    derivative2(Xa.tail(M/2), O, D, dA_dn);
+    derivative5(Xa.head(M/2), O, D, dA_up);
+    derivative5(Xa.tail(M/2), O, D, dA_dn);
 
     //Update h and e
     for(int i=0; i<N; i++) {
@@ -133,7 +133,7 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int norbitals, in
         double E_ext_tot   = 0;
         double E_int_tot   = 0;
 
-        double E = Psi.EL_calc(X, Xa, v, W, interaction, E_kin, E_ext, E_int);
+        double E = Psi.EL_calc(X, Xa, v, W, A_up_inv, A_dn_inv, dA_up, dA_dn, interaction, E_kin, E_ext, E_int);
 
         VectorXd da_tot           = VectorXd::Zero(M);
         VectorXd daE_tot          = VectorXd::Zero(M);
@@ -178,9 +178,11 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int norbitals, in
                     Xa = X_newa;
                     v  = v_new;
                     e  = e_new;
+
+                    //cout << A_dn*A_dn_inv << "\n" << endl;
+
+                    //Additional stuff
                     int row = int(M_rand/D);
-                    cout << M_rand << endl;
-                    //cout << row << endl;
 
                     // Find indices of relevant row
                     VectorXd c = VectorXd::Zero(D);
@@ -189,24 +191,45 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int norbitals, in
                         c(i) = M_rand-l+i;
                     }
 
+                    double R = 0;
                     if(row < P/2){
                         A_rows(Xa.head(M/2), P/2, D, norbitals, row, A_up);
+                        A_up_inv = A_up.inverse();
+
+                        //cout << A_up << endl;
+                        //cout << 2*Xa << "\n" << endl;
+
                         for(int i=0; i<D; i++) {
-                            derivative3(Xa.head(M/2), O, D, c(i), dA_up);
+                            derivative4(Xa.head(M/2), O, D, c(i), dA_up);
                         }
+                        /*
+                        for(int j=0; j<P/2; j++) {
+                            R += A_up(i, j)*A_up_inv(j, i);
+                        }
+                        for(int j=0; j<P/2; j++) {
+                            A_up_inv(j, i) = A_up_inv(j, i)/R;
+                        }
+                        */
+
                     }
                     else {
                         A_rows(Xa.tail(M/2), P/2, D, norbitals, row-P/2, A_dn);
+                        A_dn_inv = A_dn.inverse();
                         for(int i=0; i<D; i++) {
-                            derivative3(Xa.tail(M/2), O, D, c(i)-M/2, dA_dn);
+                            derivative4(Xa.tail(M/2), O, D, c(i)-M/2, dA_dn);
                         }
+                        /*
+                        for(int j=0; j<P/2; j++) {
+                            R += A_dn(row-P/2, j)*A_dn_inv(j,row-P/2);
+                        }
+                        for(int j=0; j<P/2; j++) {
+                            A_dn_inv(j,row-P/2) /=R;
+                        }
+                        */
+                        //cout << A_dn*A_dn_inv << "\n" << endl;
                     }
 
-                    //cout << A_up << "\n" << endl;
-                    cout << dA_up << "\n" << endl;
-
-
-                    E  = Psi.EL_calc(X, Xa, v, W, interaction, E_kin, E_ext, E_int);
+                    E  = Psi.EL_calc(X, Xa, v, W, A_up_inv, A_dn_inv, dA_up, dA_dn, interaction, E_kin, E_ext, E_int);
                 }
             }
 
@@ -217,8 +240,46 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int norbitals, in
                 h(N_rand) = h_sampling(v, N_rand);
                 Xa = X - a;
                 v = b + (W.transpose() * X)/sigma_sqrd;
-                E = Psi.EL_calc(X, Xa, v, W, interaction, E_kin, E_ext, E_int);
+
+                //Additional stuff
+                int row = int(M_rand/D);
+
+                // Find indices of relevant row
+                VectorXd c = VectorXd::Zero(D);
+                int l = M_rand%D;
+                for(int i=0; i<D; i++) {
+                    c(i) = M_rand-l+i;
+                }
+
+                double R = 0;
+                if(row < P/2){
+                    A_rows(Xa.head(M/2), P/2, D, norbitals, row, A_up);
+                    for(int i=0; i<D; i++) {
+                        derivative3(Xa.head(M/2), O, D, c(i), dA_up);
+                    }
+                    for(int j=0; j<P/2; j++) {
+                        R += A_up(row, j)*A_up_inv(j,row);
+                    }
+                    for(int j=0; j<P/2; j++) {
+                        A_up_inv(j,row) /=R;
+                    }
+                }
+                else {
+                    A_rows(Xa.tail(M/2), P/2, D, norbitals, row-P/2, A_dn);
+                    for(int i=0; i<D; i++) {
+                        derivative3(Xa.tail(M/2), O, D, c(i)-M/2, dA_dn);
+                    }
+                    for(int j=0; j<P/2; j++) {
+                        R += A_dn(row-P/2, j)*A_dn_inv(j,row-P/2);
+                    }
+                    for(int j=0; j<P/2; j++) {
+                        A_dn_inv(j,row-P/2) /=R;
+                    }
+                }
+
+                E  = Psi.EL_calc(X, Xa, v, W, A_up_inv, A_dn_inv, dA_up, dA_dn, interaction, E_kin, E_ext, E_int);
             }
+
 
             if(one_body && iter == iterations-1) {
                 for(int j=0; j<P; j++) {
