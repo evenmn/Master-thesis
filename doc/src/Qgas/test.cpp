@@ -1,9 +1,17 @@
 #include <iostream>
 #include <eigen3/Eigen/Dense>
 #include "wavefunction.h"
+#include "basis.h"
+#include "general_tools.h"
 
 using namespace std;
 using namespace Eigen;
+
+void test_without_argument() {
+    test_E_L_calc();
+    test_orbitals();
+    test_matrix();
+}
 
 void test_energy_convergence(double energy, double omega, int M, bool interaction) {
 
@@ -69,3 +77,38 @@ void test_E_L_calc(){
 
 /*Should implement tests which test diff for 2 particles and that the matrices are set up correctly for 6 particles
  */
+
+void test_orbitals() {
+    int P = 6;
+    int D = 2;
+
+    int orb = orbitals(P,D);
+
+    if(orb != 2) {
+        cout << "Function 'orbitals' in 'general_tools.cpp' returns wrong answer" << endl;
+        exit(0);
+    }
+}
+
+void test_matrix() {
+    int P = 6;          // Particles
+    int D = 2;          // Dimensions
+    int M = P*D;        // Free dimensions
+    int O = 2;          // #orbitals
+
+    MatrixXd A = MatrixXd::Ones(P/2, P/2);
+    VectorXd Xa = VectorXd::Random(M);
+
+
+    matrix(Xa.head(M/2), O, D, P/2, A);
+
+    MatrixXd B(3,3);
+    B << 1, 2*Xa(0), 2*Xa(1),
+         1, 2*Xa(2), 2*Xa(3),
+         1, 2*Xa(4), 2*Xa(5);
+
+    if(A.isApprox(B) == 0) {
+        cout << "Function 'matrix' in 'basis.cpp' returns wrong answer" << endl;
+        exit(0);
+    }
+}

@@ -195,10 +195,6 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int norbitals, in
                     if(row < P/2){
                         A_rows(Xa.head(M/2), P/2, D, norbitals, row, A_up);
                         A_up_inv = A_up.inverse();
-
-                        //cout << A_up << endl;
-                        //cout << 2*Xa << "\n" << endl;
-
                         for(int i=0; i<D; i++) {
                             derivative4(Xa.head(M/2), O, D, c(i), dA_up);
                         }
