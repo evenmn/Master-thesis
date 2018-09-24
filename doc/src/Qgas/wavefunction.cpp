@@ -70,7 +70,7 @@ void Deter(const VectorXd &Xa, VectorXd &diff) {
     //}
 }
 
-double WaveFunction::EL_calc(const VectorXd X, const VectorXd Xa, const VectorXd v, const MatrixXd W, const MatrixXd &A_up_inv, const MatrixXd &A_dn_inv, const MatrixXd &dA_up, const MatrixXd &dA_dn,\
+double WaveFunction::EL_calc(const VectorXd X, const VectorXd Xa, const VectorXd v, const MatrixXd W, const MatrixXd &Dist, const MatrixXd &A_up_inv, const MatrixXd &A_dn_inv, const MatrixXd &dA_up, const MatrixXd &dA_dn,\
                              int interaction, double &E_kin, double &E_ext, double &E_int) {
     /*Local energy calculations*/
 
@@ -133,13 +133,8 @@ double WaveFunction::EL_calc(const VectorXd X, const VectorXd Xa, const VectorXd
         E_kin = -E_kin/(2 * m_sigma_sqrd);
     }
 
-
     // Interaction energy
-    if(interaction) {
-        MatrixXd Dist = MatrixXd::Zero(P,P);
-        rij(X, m_D, Dist);
-        E_int = Dist.sum();
-    }
+    if(interaction) E_int = Dist.sum();
 
     // Harmonic oscillator potential
     E_ext = (double) (X.transpose() * X) * m_omega_sqrd/ 2;

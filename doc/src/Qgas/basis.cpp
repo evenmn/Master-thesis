@@ -295,8 +295,12 @@ void rij_cross(const VectorXd &X, int D, int par, MatrixXd &Dist) {
 
     int P = X.size()/D;
 
-    for(int i=0; i<P; i++) {
+    // Update row
+    for(int i=0; i<par; i++) {
         rij_element(X, D, par, i, Dist);
+    }
+    // Update column
+    for(int i=par+1; i<P; i++) {
         rij_element(X, D, i, par, Dist);
     }
 }

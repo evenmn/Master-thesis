@@ -79,11 +79,16 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int O, int iterat
     A_up_inv = A_up.inverse();
     A_dn_inv = A_dn.inverse();
 
+    // Derivative matrix
     MatrixXd dA_up = MatrixXd::Zero(P,P/2);
     MatrixXd dA_dn = MatrixXd::Zero(P,P/2);
 
     derivative5(Xa.head(M/2), O, D, dA_up);
     derivative5(Xa.tail(M/2), O, D, dA_dn);
+
+    // Distance matrix
+    MatrixXd Dist = MatrixXd::Zero(P,P);
+    rij(X, D, Dist);
 
     //Update h and e
     for(int i=0; i<N; i++) {
@@ -132,7 +137,7 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int O, int iterat
         double E_ext_tot   = 0;
         double E_int_tot   = 0;
 
-        double E = Psi.EL_calc(X, Xa, v, W, A_up_inv, A_dn_inv, dA_up, dA_dn, interaction, E_kin, E_ext, E_int);
+        double E = Psi.EL_calc(X, Xa, v, W, Dist, A_up_inv, A_dn_inv, dA_up, dA_dn, interaction, E_kin, E_ext, E_int);
 
         VectorXd da_tot           = VectorXd::Zero(M);
         VectorXd daE_tot          = VectorXd::Zero(M);
@@ -178,10 +183,11 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int O, int iterat
                     v  = v_new;
                     e  = e_new;
 
-                    //cout << A_dn*A_dn_inv << "\n" << endl;
-
                     //Additional stuff
                     int row = int(M_rand/D);
+
+                    //Distance matrix
+                    rij_cross(X, D, row, Dist);
 
                     // Find indices of relevant row
                     VectorXd c = VectorXd::Zero(D);
@@ -224,7 +230,7 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int O, int iterat
                         //cout << A_dn*A_dn_inv << "\n" << endl;
                     }
 
-                    E  = Psi.EL_calc(X, Xa, v, W, A_up_inv, A_dn_inv, dA_up, dA_dn, interaction, E_kin, E_ext, E_int);
+                    E  = Psi.EL_calc(X, Xa, v, W, Dist, A_up_inv, A_dn_inv, dA_up, dA_dn, interaction, E_kin, E_ext, E_int);
                 }
             }
 
@@ -272,7 +278,7 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int O, int iterat
                     }
                 }
 
-                E  = Psi.EL_calc(X, Xa, v, W, A_up_inv, A_dn_inv, dA_up, dA_dn, interaction, E_kin, E_ext, E_int);
+                E  = Psi.EL_calc(X, Xa, v, W, Dist, A_up_inv, A_dn_inv, dA_up, dA_dn, interaction, E_kin, E_ext, E_int);
             }
 
 
