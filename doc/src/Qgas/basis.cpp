@@ -93,20 +93,13 @@ double Slater(int D, int O, const VectorXd &Xa, const VectorXd &v, double sigma_
     // Setting up Slater determinant
 
     int M = Xa.size();                                // Number of free dimensions
-    int P = int(M/D);                                 // Number of particles
-    double n_orbitals = orbitals(P,D);                // Number of orbitals
+    int P_half = int(M/(2*D));                        // Number of particles
 
-    // Check if the orbitals are fully occupied, otherwise break
-    if(fabs(n_orbitals - int(n_orbitals)) > 0.01) {
-        cout << "Number of particles needs to be a magic number" << endl;
-        exit(0);
-    }
+    MatrixXd D_up = MatrixXd::Ones(P_half,P_half);
+    MatrixXd D_dn = MatrixXd::Ones(P_half,P_half);
 
-    MatrixXd D_up = MatrixXd::Ones(int(P/2),int(P/2));
-    MatrixXd D_dn = MatrixXd::Ones(int(P/2),int(P/2));
-
-    matrix(Xa.head(M/2), n_orbitals, D, P/2, D_up);
-    matrix(Xa.tail(M/2), n_orbitals, D, P/2, D_dn);
+    matrix(Xa.head(M/2), O, D, P_half, D_up);
+    matrix(Xa.tail(M/2), O, D, P_half, D_dn);
 
 
     return D_up.determinant()*D_dn.determinant()*Gauss_WF(Xa, sigma_sqrd)*Jastrow_NQS(v);
@@ -116,9 +109,10 @@ double Slater(int D, int O, const VectorXd &Xa, const VectorXd &v, double sigma_
 // === DETERMINANT MATRIX PART ===
 
 
-double A_elements(const VectorXd &Xa, int M_half, int D, int O, int i, int j) {
+double A_elements(const VectorXd &Xa, int P_half, int D, int O, int i, int j) {
+    // Updates an element in A-matrix
 
-    MatrixXd order = MatrixXd::Zero(M_half, D);
+    MatrixXd order = MatrixXd::Zero(P_half, D);
     list(O, D, order);
 
     double element = 1;
@@ -130,18 +124,20 @@ double A_elements(const VectorXd &Xa, int M_half, int D, int O, int i, int j) {
     return element;
 }
 
-void A_rows(const VectorXd &Xa, int M_half, int D, int O, int i, MatrixXd &A) {
-    for(int j=0; j<M_half; j++) {
-        A(i,j) = A_elements(Xa, M_half, D, O, i, j);
+void A_rows(const VectorXd &Xa, int P_half, int D, int O, int i, MatrixXd &A) {
+    // Updates a row in A-matrix
+
+    for(int j=0; j<P_half; j++) {
+        A(i,j) = A_elements(Xa, P_half, D, O, i, j);
     }
 }
 
 
-void matrix(const VectorXd &Xa, int O, int D, int M_half, MatrixXd &A) {
-    //O: Number of fully occupied shells
+void matrix(const VectorXd &Xa, int O, int D, int P_half, MatrixXd &A) {
+    // Update the entire matrix
 
-    for(int j=0; j<M_half; j++) {
-        A_rows(Xa, M_half, D, O, j, A);
+    for(int j=0; j<P_half; j++) {
+        A_rows(Xa, P_half, D, O, j, A);
     }
 }
 

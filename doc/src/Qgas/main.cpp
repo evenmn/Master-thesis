@@ -22,7 +22,7 @@ int main()
     double  omega       = 1.0;              //Frequency
     double  steplength  = 1.0;              //Steplength for Metropolis
     double  timestep    = 1.0;              //Timestep used in Hastings algorithm
-    double  eta         = pow(2*10,-O);     //Learning rate for gradient decent
+    double  eta         = pow(5*10,-O);     //Learning rate for gradient decent
     double  Diff        = 0.5;              //Diffusion constant
 
 
