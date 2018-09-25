@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cmath>
 
-#include "gradient_descent.h"
+#include "VMC.h"
 #include "general_tools.h"
 #include "test.h"
 
@@ -14,7 +14,7 @@ int main()
     int     N           = P;                //Number of hidden nodes
     int     MC          = pow(2,16);        //Number of Monte Carlo cycles
     int     O           = orbitals(P,D);    //Number of orbitals
-    int     iterations  = 3200;             //Number of gradient decent cycles
+    int     iterations  = 3000;             //Number of gradient decent cycles
     int     sampling    = 0;                //Brute force- (0), Hastings- (1) or Gibbs' sampling (2)
     bool    interaction = 1;                //Interaction on if true
     bool    one_body    = 1;                //Calculating onebody density if true
@@ -22,7 +22,7 @@ int main()
     double  omega       = 1.0;              //Frequency
     double  steplength  = 1.0;              //Steplength for Metropolis
     double  timestep    = 1.0;              //Timestep used in Hastings algorithm
-    double  eta         = pow(5*10,-O);     //Learning rate for gradient decent
+    double  eta         = pow(50*10,-O);     //Learning rate for gradient decent
     double  Diff        = 0.5;              //Diffusion constant
 
 

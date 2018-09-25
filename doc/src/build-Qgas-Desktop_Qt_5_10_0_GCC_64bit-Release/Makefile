@@ -52,20 +52,22 @@ OBJECTS_DIR   = ./
 
 SOURCES       = ../Qgas/main.cpp \
 		../Qgas/wavefunction.cpp \
-		../Qgas/gradient_descent.cpp \
 		../Qgas/hastings_tools.cpp \
 		../Qgas/gibbs_tools.cpp \
 		../Qgas/test.cpp \
 		../Qgas/basis.cpp \
-		../Qgas/general_tools.cpp 
+		../Qgas/general_tools.cpp \
+		../Qgas/VMC.cpp \
+		../Qgas/gradient_descent.cpp 
 OBJECTS       = main.o \
 		wavefunction.o \
-		gradient_descent.o \
 		hastings_tools.o \
 		gibbs_tools.o \
 		test.o \
 		basis.o \
-		general_tools.o
+		general_tools.o \
+		VMC.o \
+		gradient_descent.o
 DIST          = ../../../../Qt/5.10.0/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../../Qt/5.10.0/gcc_64/mkspecs/common/unix.conf \
 		../../../../Qt/5.10.0/gcc_64/mkspecs/common/linux.conf \
@@ -243,19 +245,21 @@ DIST          = ../../../../Qt/5.10.0/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../../Qt/5.10.0/gcc_64/mkspecs/features/yacc.prf \
 		../../../../Qt/5.10.0/gcc_64/mkspecs/features/lex.prf \
 		../Qgas/Qgas.pro wavefunction.h \
-		gradient_descent.h \
 		hastings_tools.h \
 		gibbs_tools.h \
 		test.h \
 		basis.h \
-		general_tools.h ../Qgas/main.cpp \
+		general_tools.h \
+		VMC.h \
+		gradient_descent.h ../Qgas/main.cpp \
 		../Qgas/wavefunction.cpp \
-		../Qgas/gradient_descent.cpp \
 		../Qgas/hastings_tools.cpp \
 		../Qgas/gibbs_tools.cpp \
 		../Qgas/test.cpp \
 		../Qgas/basis.cpp \
-		../Qgas/general_tools.cpp
+		../Qgas/general_tools.cpp \
+		../Qgas/VMC.cpp \
+		../Qgas/gradient_descent.cpp
 QMAKE_TARGET  = Qgas
 DESTDIR       = 
 TARGET        = Qgas
@@ -665,7 +669,7 @@ compiler_clean:
 
 ####### Compile
 
-main.o: ../Qgas/main.cpp ../Qgas/gradient_descent.h \
+main.o: ../Qgas/main.cpp ../Qgas/VMC.h \
 		../Qgas/general_tools.h \
 		../Qgas/test.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../Qgas/main.cpp
@@ -879,219 +883,6 @@ wavefunction.o: ../Qgas/wavefunction.cpp ../Qgas/wavefunction.h \
 		../Qgas/eigen3/Eigen/src/Eigenvalues/SelfAdjointEigenSolver_LAPACKE.h \
 		../Qgas/basis.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o wavefunction.o ../Qgas/wavefunction.cpp
-
-gradient_descent.o: ../Qgas/gradient_descent.cpp ../Qgas/wavefunction.h \
-		../Qgas/eigen3/Eigen/Dense \
-		../Qgas/eigen3/Eigen/Core \
-		../Qgas/eigen3/Eigen/src/Core/util/DisableStupidWarnings.h \
-		../Qgas/eigen3/Eigen/src/Core/util/Macros.h \
-		../Qgas/eigen3/Eigen/src/Core/util/MKL_support.h \
-		../Qgas/eigen3/Eigen/src/misc/blas.h \
-		../Qgas/eigen3/Eigen/src/Core/util/Constants.h \
-		../Qgas/eigen3/Eigen/src/Core/util/Meta.h \
-		../Qgas/eigen3/Eigen/src/Core/util/ForwardDeclarations.h \
-		../Qgas/eigen3/Eigen/src/Core/util/StaticAssert.h \
-		../Qgas/eigen3/Eigen/src/Core/util/XprHelper.h \
-		../Qgas/eigen3/Eigen/src/Core/util/Memory.h \
-		../Qgas/eigen3/Eigen/src/Core/NumTraits.h \
-		../Qgas/eigen3/Eigen/src/Core/MathFunctions.h \
-		../Qgas/eigen3/Eigen/src/Core/GenericPacketMath.h \
-		../Qgas/eigen3/Eigen/src/Core/MathFunctionsImpl.h \
-		../Qgas/eigen3/Eigen/src/Core/arch/SSE/PacketMath.h \
-		../Qgas/eigen3/Eigen/src/Core/arch/AVX/PacketMath.h \
-		../Qgas/eigen3/Eigen/src/Core/arch/AVX512/PacketMath.h \
-		../Qgas/eigen3/Eigen/src/Core/arch/AVX512/MathFunctions.h \
-		../Qgas/eigen3/Eigen/src/Core/arch/SSE/Complex.h \
-		../Qgas/eigen3/Eigen/src/Core/arch/SSE/MathFunctions.h \
-		../Qgas/eigen3/Eigen/src/Core/arch/AVX/MathFunctions.h \
-		../Qgas/eigen3/Eigen/src/Core/arch/AVX/Complex.h \
-		../Qgas/eigen3/Eigen/src/Core/arch/AVX/TypeCasting.h \
-		../Qgas/eigen3/Eigen/src/Core/arch/SSE/TypeCasting.h \
-		../Qgas/eigen3/Eigen/src/Core/arch/AltiVec/PacketMath.h \
-		../Qgas/eigen3/Eigen/src/Core/arch/AltiVec/MathFunctions.h \
-		../Qgas/eigen3/Eigen/src/Core/arch/AltiVec/Complex.h \
-		../Qgas/eigen3/Eigen/src/Core/arch/NEON/PacketMath.h \
-		../Qgas/eigen3/Eigen/src/Core/arch/NEON/MathFunctions.h \
-		../Qgas/eigen3/Eigen/src/Core/arch/NEON/Complex.h \
-		../Qgas/eigen3/Eigen/src/Core/arch/ZVector/PacketMath.h \
-		../Qgas/eigen3/Eigen/src/Core/arch/ZVector/MathFunctions.h \
-		../Qgas/eigen3/Eigen/src/Core/arch/ZVector/Complex.h \
-		../Qgas/eigen3/Eigen/src/Core/arch/CUDA/Half.h \
-		../Qgas/eigen3/Eigen/src/Core/arch/CUDA/PacketMathHalf.h \
-		../Qgas/eigen3/Eigen/src/Core/arch/CUDA/TypeCasting.h \
-		../Qgas/eigen3/Eigen/src/Core/arch/CUDA/PacketMath.h \
-		../Qgas/eigen3/Eigen/src/Core/arch/CUDA/MathFunctions.h \
-		../Qgas/eigen3/Eigen/src/Core/arch/Default/Settings.h \
-		../Qgas/eigen3/Eigen/src/Core/functors/TernaryFunctors.h \
-		../Qgas/eigen3/Eigen/src/Core/functors/BinaryFunctors.h \
-		../Qgas/eigen3/Eigen/src/Core/functors/UnaryFunctors.h \
-		../Qgas/eigen3/Eigen/src/Core/functors/NullaryFunctors.h \
-		../Qgas/eigen3/Eigen/src/Core/functors/StlFunctors.h \
-		../Qgas/eigen3/Eigen/src/Core/functors/AssignmentFunctors.h \
-		../Qgas/eigen3/Eigen/src/Core/arch/CUDA/Complex.h \
-		../Qgas/eigen3/Eigen/src/Core/IO.h \
-		../Qgas/eigen3/Eigen/src/Core/DenseCoeffsBase.h \
-		../Qgas/eigen3/Eigen/src/Core/DenseBase.h \
-		../Qgas/eigen3/Eigen/src/plugins/BlockMethods.h \
-		../Qgas/eigen3/Eigen/src/Core/MatrixBase.h \
-		../Qgas/eigen3/Eigen/src/plugins/CommonCwiseUnaryOps.h \
-		../Qgas/eigen3/Eigen/src/plugins/CommonCwiseBinaryOps.h \
-		../Qgas/eigen3/Eigen/src/plugins/MatrixCwiseUnaryOps.h \
-		../Qgas/eigen3/Eigen/src/plugins/MatrixCwiseBinaryOps.h \
-		../Qgas/eigen3/Eigen/src/Core/EigenBase.h \
-		../Qgas/eigen3/Eigen/src/Core/Product.h \
-		../Qgas/eigen3/Eigen/src/Core/CoreEvaluators.h \
-		../Qgas/eigen3/Eigen/src/Core/AssignEvaluator.h \
-		../Qgas/eigen3/Eigen/src/Core/Assign.h \
-		../Qgas/eigen3/Eigen/src/Core/ArrayBase.h \
-		../Qgas/eigen3/Eigen/src/plugins/ArrayCwiseUnaryOps.h \
-		../Qgas/eigen3/Eigen/src/plugins/ArrayCwiseBinaryOps.h \
-		../Qgas/eigen3/Eigen/src/Core/util/BlasUtil.h \
-		../Qgas/eigen3/Eigen/src/Core/DenseStorage.h \
-		../Qgas/eigen3/Eigen/src/Core/NestByValue.h \
-		../Qgas/eigen3/Eigen/src/Core/ReturnByValue.h \
-		../Qgas/eigen3/Eigen/src/Core/NoAlias.h \
-		../Qgas/eigen3/Eigen/src/Core/PlainObjectBase.h \
-		../Qgas/eigen3/Eigen/src/Core/Matrix.h \
-		../Qgas/eigen3/Eigen/src/Core/Array.h \
-		../Qgas/eigen3/Eigen/src/Core/CwiseTernaryOp.h \
-		../Qgas/eigen3/Eigen/src/Core/CwiseBinaryOp.h \
-		../Qgas/eigen3/Eigen/src/Core/CwiseUnaryOp.h \
-		../Qgas/eigen3/Eigen/src/Core/CwiseNullaryOp.h \
-		../Qgas/eigen3/Eigen/src/Core/CwiseUnaryView.h \
-		../Qgas/eigen3/Eigen/src/Core/SelfCwiseBinaryOp.h \
-		../Qgas/eigen3/Eigen/src/Core/Dot.h \
-		../Qgas/eigen3/Eigen/src/Core/StableNorm.h \
-		../Qgas/eigen3/Eigen/src/Core/Stride.h \
-		../Qgas/eigen3/Eigen/src/Core/MapBase.h \
-		../Qgas/eigen3/Eigen/src/Core/Map.h \
-		../Qgas/eigen3/Eigen/src/Core/Ref.h \
-		../Qgas/eigen3/Eigen/src/Core/Block.h \
-		../Qgas/eigen3/Eigen/src/Core/VectorBlock.h \
-		../Qgas/eigen3/Eigen/src/Core/Transpose.h \
-		../Qgas/eigen3/Eigen/src/Core/DiagonalMatrix.h \
-		../Qgas/eigen3/Eigen/src/Core/Diagonal.h \
-		../Qgas/eigen3/Eigen/src/Core/DiagonalProduct.h \
-		../Qgas/eigen3/Eigen/src/Core/Redux.h \
-		../Qgas/eigen3/Eigen/src/Core/Visitor.h \
-		../Qgas/eigen3/Eigen/src/Core/Fuzzy.h \
-		../Qgas/eigen3/Eigen/src/Core/Swap.h \
-		../Qgas/eigen3/Eigen/src/Core/CommaInitializer.h \
-		../Qgas/eigen3/Eigen/src/Core/GeneralProduct.h \
-		../Qgas/eigen3/Eigen/src/Core/Solve.h \
-		../Qgas/eigen3/Eigen/src/Core/Inverse.h \
-		../Qgas/eigen3/Eigen/src/Core/SolverBase.h \
-		../Qgas/eigen3/Eigen/src/Core/PermutationMatrix.h \
-		../Qgas/eigen3/Eigen/src/Core/Transpositions.h \
-		../Qgas/eigen3/Eigen/src/Core/TriangularMatrix.h \
-		../Qgas/eigen3/Eigen/src/Core/SelfAdjointView.h \
-		../Qgas/eigen3/Eigen/src/Core/products/GeneralBlockPanelKernel.h \
-		../Qgas/eigen3/Eigen/src/Core/products/Parallelizer.h \
-		../Qgas/eigen3/Eigen/src/Core/ProductEvaluators.h \
-		../Qgas/eigen3/Eigen/src/Core/products/GeneralMatrixVector.h \
-		../Qgas/eigen3/Eigen/src/Core/products/GeneralMatrixMatrix.h \
-		../Qgas/eigen3/Eigen/src/Core/SolveTriangular.h \
-		../Qgas/eigen3/Eigen/src/Core/products/GeneralMatrixMatrixTriangular.h \
-		../Qgas/eigen3/Eigen/src/Core/products/SelfadjointMatrixVector.h \
-		../Qgas/eigen3/Eigen/src/Core/products/SelfadjointMatrixMatrix.h \
-		../Qgas/eigen3/Eigen/src/Core/products/SelfadjointProduct.h \
-		../Qgas/eigen3/Eigen/src/Core/products/SelfadjointRank2Update.h \
-		../Qgas/eigen3/Eigen/src/Core/products/TriangularMatrixVector.h \
-		../Qgas/eigen3/Eigen/src/Core/products/TriangularMatrixMatrix.h \
-		../Qgas/eigen3/Eigen/src/Core/products/TriangularSolverMatrix.h \
-		../Qgas/eigen3/Eigen/src/Core/products/TriangularSolverVector.h \
-		../Qgas/eigen3/Eigen/src/Core/BandMatrix.h \
-		../Qgas/eigen3/Eigen/src/Core/CoreIterators.h \
-		../Qgas/eigen3/Eigen/src/Core/ConditionEstimator.h \
-		../Qgas/eigen3/Eigen/src/Core/BooleanRedux.h \
-		../Qgas/eigen3/Eigen/src/Core/Select.h \
-		../Qgas/eigen3/Eigen/src/Core/VectorwiseOp.h \
-		../Qgas/eigen3/Eigen/src/Core/Random.h \
-		../Qgas/eigen3/Eigen/src/Core/Replicate.h \
-		../Qgas/eigen3/Eigen/src/Core/Reverse.h \
-		../Qgas/eigen3/Eigen/src/Core/ArrayWrapper.h \
-		../Qgas/eigen3/Eigen/src/Core/products/GeneralMatrixMatrix_BLAS.h \
-		../Qgas/eigen3/Eigen/src/Core/products/GeneralMatrixVector_BLAS.h \
-		../Qgas/eigen3/Eigen/src/Core/products/GeneralMatrixMatrixTriangular_BLAS.h \
-		../Qgas/eigen3/Eigen/src/Core/products/SelfadjointMatrixMatrix_BLAS.h \
-		../Qgas/eigen3/Eigen/src/Core/products/SelfadjointMatrixVector_BLAS.h \
-		../Qgas/eigen3/Eigen/src/Core/products/TriangularMatrixMatrix_BLAS.h \
-		../Qgas/eigen3/Eigen/src/Core/products/TriangularMatrixVector_BLAS.h \
-		../Qgas/eigen3/Eigen/src/Core/products/TriangularSolverMatrix_BLAS.h \
-		../Qgas/eigen3/Eigen/src/Core/Assign_MKL.h \
-		../Qgas/eigen3/Eigen/src/Core/GlobalFunctions.h \
-		../Qgas/eigen3/Eigen/src/Core/util/ReenableStupidWarnings.h \
-		../Qgas/eigen3/Eigen/LU \
-		../Qgas/eigen3/Eigen/src/misc/Kernel.h \
-		../Qgas/eigen3/Eigen/src/misc/Image.h \
-		../Qgas/eigen3/Eigen/src/LU/FullPivLU.h \
-		../Qgas/eigen3/Eigen/src/LU/PartialPivLU.h \
-		../Qgas/eigen3/Eigen/src/misc/lapacke.h \
-		../Qgas/eigen3/Eigen/src/misc/lapacke_mangling.h \
-		../Qgas/eigen3/Eigen/src/LU/PartialPivLU_LAPACKE.h \
-		../Qgas/eigen3/Eigen/src/LU/Determinant.h \
-		../Qgas/eigen3/Eigen/src/LU/InverseImpl.h \
-		../Qgas/eigen3/Eigen/src/LU/arch/Inverse_SSE.h \
-		../Qgas/eigen3/Eigen/Cholesky \
-		../Qgas/eigen3/Eigen/src/Cholesky/LLT.h \
-		../Qgas/eigen3/Eigen/src/Cholesky/LDLT.h \
-		../Qgas/eigen3/Eigen/src/Cholesky/LLT_LAPACKE.h \
-		../Qgas/eigen3/Eigen/QR \
-		../Qgas/eigen3/Eigen/Jacobi \
-		../Qgas/eigen3/Eigen/src/Jacobi/Jacobi.h \
-		../Qgas/eigen3/Eigen/Householder \
-		../Qgas/eigen3/Eigen/src/Householder/Householder.h \
-		../Qgas/eigen3/Eigen/src/Householder/HouseholderSequence.h \
-		../Qgas/eigen3/Eigen/src/Householder/BlockHouseholder.h \
-		../Qgas/eigen3/Eigen/src/QR/HouseholderQR.h \
-		../Qgas/eigen3/Eigen/src/QR/FullPivHouseholderQR.h \
-		../Qgas/eigen3/Eigen/src/QR/ColPivHouseholderQR.h \
-		../Qgas/eigen3/Eigen/src/QR/CompleteOrthogonalDecomposition.h \
-		../Qgas/eigen3/Eigen/src/QR/HouseholderQR_LAPACKE.h \
-		../Qgas/eigen3/Eigen/src/QR/ColPivHouseholderQR_LAPACKE.h \
-		../Qgas/eigen3/Eigen/SVD \
-		../Qgas/eigen3/Eigen/src/misc/RealSvd2x2.h \
-		../Qgas/eigen3/Eigen/src/SVD/UpperBidiagonalization.h \
-		../Qgas/eigen3/Eigen/src/SVD/SVDBase.h \
-		../Qgas/eigen3/Eigen/src/SVD/JacobiSVD.h \
-		../Qgas/eigen3/Eigen/src/SVD/BDCSVD.h \
-		../Qgas/eigen3/Eigen/src/SVD/JacobiSVD_LAPACKE.h \
-		../Qgas/eigen3/Eigen/Geometry \
-		../Qgas/eigen3/Eigen/src/Geometry/OrthoMethods.h \
-		../Qgas/eigen3/Eigen/src/Geometry/EulerAngles.h \
-		../Qgas/eigen3/Eigen/src/Geometry/Homogeneous.h \
-		../Qgas/eigen3/Eigen/src/Geometry/RotationBase.h \
-		../Qgas/eigen3/Eigen/src/Geometry/Rotation2D.h \
-		../Qgas/eigen3/Eigen/src/Geometry/Quaternion.h \
-		../Qgas/eigen3/Eigen/src/Geometry/AngleAxis.h \
-		../Qgas/eigen3/Eigen/src/Geometry/Transform.h \
-		../Qgas/eigen3/Eigen/src/Geometry/Translation.h \
-		../Qgas/eigen3/Eigen/src/Geometry/Scaling.h \
-		../Qgas/eigen3/Eigen/src/Geometry/Hyperplane.h \
-		../Qgas/eigen3/Eigen/src/Geometry/ParametrizedLine.h \
-		../Qgas/eigen3/Eigen/src/Geometry/AlignedBox.h \
-		../Qgas/eigen3/Eigen/src/Geometry/Umeyama.h \
-		../Qgas/eigen3/Eigen/src/Geometry/arch/Geometry_SSE.h \
-		../Qgas/eigen3/Eigen/Eigenvalues \
-		../Qgas/eigen3/Eigen/src/Eigenvalues/Tridiagonalization.h \
-		../Qgas/eigen3/Eigen/src/Eigenvalues/RealSchur.h \
-		../Qgas/eigen3/Eigen/src/Eigenvalues/HessenbergDecomposition.h \
-		../Qgas/eigen3/Eigen/src/Eigenvalues/EigenSolver.h \
-		../Qgas/eigen3/Eigen/src/Eigenvalues/SelfAdjointEigenSolver.h \
-		../Qgas/eigen3/Eigen/src/Eigenvalues/GeneralizedSelfAdjointEigenSolver.h \
-		../Qgas/eigen3/Eigen/src/Eigenvalues/ComplexSchur.h \
-		../Qgas/eigen3/Eigen/src/Eigenvalues/ComplexEigenSolver.h \
-		../Qgas/eigen3/Eigen/src/Eigenvalues/RealQZ.h \
-		../Qgas/eigen3/Eigen/src/Eigenvalues/GeneralizedEigenSolver.h \
-		../Qgas/eigen3/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h \
-		../Qgas/eigen3/Eigen/src/Eigenvalues/RealSchur_LAPACKE.h \
-		../Qgas/eigen3/Eigen/src/Eigenvalues/ComplexSchur_LAPACKE.h \
-		../Qgas/eigen3/Eigen/src/Eigenvalues/SelfAdjointEigenSolver_LAPACKE.h \
-		../Qgas/hastings_tools.h \
-		../Qgas/gibbs_tools.h \
-		../Qgas/test.h \
-		../Qgas/basis.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o gradient_descent.o ../Qgas/gradient_descent.cpp
 
 hastings_tools.o: ../Qgas/hastings_tools.cpp ../Qgas/wavefunction.h \
 		../Qgas/eigen3/Eigen/Dense \
@@ -1511,7 +1302,8 @@ gibbs_tools.o: ../Qgas/gibbs_tools.cpp ../Qgas/wavefunction.h \
 		../Qgas/eigen3/Eigen/src/Eigenvalues/ComplexSchur_LAPACKE.h \
 		../Qgas/eigen3/Eigen/src/Eigenvalues/SelfAdjointEigenSolver_LAPACKE.h \
 		../Qgas/hastings_tools.h \
-		../Qgas/gibbs_tools.h
+		../Qgas/gibbs_tools.h \
+		../Qgas/general_tools.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o gibbs_tools.o ../Qgas/gibbs_tools.cpp
 
 test.o: ../Qgas/test.cpp ../Qgas/eigen3/Eigen/Dense \
@@ -1720,7 +1512,9 @@ test.o: ../Qgas/test.cpp ../Qgas/eigen3/Eigen/Dense \
 		../Qgas/eigen3/Eigen/src/Eigenvalues/RealSchur_LAPACKE.h \
 		../Qgas/eigen3/Eigen/src/Eigenvalues/ComplexSchur_LAPACKE.h \
 		../Qgas/eigen3/Eigen/src/Eigenvalues/SelfAdjointEigenSolver_LAPACKE.h \
-		../Qgas/wavefunction.h
+		../Qgas/wavefunction.h \
+		../Qgas/basis.h \
+		../Qgas/general_tools.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o test.o ../Qgas/test.cpp
 
 basis.o: ../Qgas/basis.cpp ../Qgas/eigen3/Eigen/Dense \
@@ -1928,11 +1722,230 @@ basis.o: ../Qgas/basis.cpp ../Qgas/eigen3/Eigen/Dense \
 		../Qgas/eigen3/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h \
 		../Qgas/eigen3/Eigen/src/Eigenvalues/RealSchur_LAPACKE.h \
 		../Qgas/eigen3/Eigen/src/Eigenvalues/ComplexSchur_LAPACKE.h \
-		../Qgas/eigen3/Eigen/src/Eigenvalues/SelfAdjointEigenSolver_LAPACKE.h
+		../Qgas/eigen3/Eigen/src/Eigenvalues/SelfAdjointEigenSolver_LAPACKE.h \
+		../Qgas/general_tools.h \
+		../Qgas/basis.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o basis.o ../Qgas/basis.cpp
 
 general_tools.o: ../Qgas/general_tools.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o general_tools.o ../Qgas/general_tools.cpp
+
+VMC.o: ../Qgas/VMC.cpp ../Qgas/eigen3/Eigen/Dense \
+		../Qgas/eigen3/Eigen/Core \
+		../Qgas/eigen3/Eigen/src/Core/util/DisableStupidWarnings.h \
+		../Qgas/eigen3/Eigen/src/Core/util/Macros.h \
+		../Qgas/eigen3/Eigen/src/Core/util/MKL_support.h \
+		../Qgas/eigen3/Eigen/src/misc/blas.h \
+		../Qgas/eigen3/Eigen/src/Core/util/Constants.h \
+		../Qgas/eigen3/Eigen/src/Core/util/Meta.h \
+		../Qgas/eigen3/Eigen/src/Core/util/ForwardDeclarations.h \
+		../Qgas/eigen3/Eigen/src/Core/util/StaticAssert.h \
+		../Qgas/eigen3/Eigen/src/Core/util/XprHelper.h \
+		../Qgas/eigen3/Eigen/src/Core/util/Memory.h \
+		../Qgas/eigen3/Eigen/src/Core/NumTraits.h \
+		../Qgas/eigen3/Eigen/src/Core/MathFunctions.h \
+		../Qgas/eigen3/Eigen/src/Core/GenericPacketMath.h \
+		../Qgas/eigen3/Eigen/src/Core/MathFunctionsImpl.h \
+		../Qgas/eigen3/Eigen/src/Core/arch/SSE/PacketMath.h \
+		../Qgas/eigen3/Eigen/src/Core/arch/AVX/PacketMath.h \
+		../Qgas/eigen3/Eigen/src/Core/arch/AVX512/PacketMath.h \
+		../Qgas/eigen3/Eigen/src/Core/arch/AVX512/MathFunctions.h \
+		../Qgas/eigen3/Eigen/src/Core/arch/SSE/Complex.h \
+		../Qgas/eigen3/Eigen/src/Core/arch/SSE/MathFunctions.h \
+		../Qgas/eigen3/Eigen/src/Core/arch/AVX/MathFunctions.h \
+		../Qgas/eigen3/Eigen/src/Core/arch/AVX/Complex.h \
+		../Qgas/eigen3/Eigen/src/Core/arch/AVX/TypeCasting.h \
+		../Qgas/eigen3/Eigen/src/Core/arch/SSE/TypeCasting.h \
+		../Qgas/eigen3/Eigen/src/Core/arch/AltiVec/PacketMath.h \
+		../Qgas/eigen3/Eigen/src/Core/arch/AltiVec/MathFunctions.h \
+		../Qgas/eigen3/Eigen/src/Core/arch/AltiVec/Complex.h \
+		../Qgas/eigen3/Eigen/src/Core/arch/NEON/PacketMath.h \
+		../Qgas/eigen3/Eigen/src/Core/arch/NEON/MathFunctions.h \
+		../Qgas/eigen3/Eigen/src/Core/arch/NEON/Complex.h \
+		../Qgas/eigen3/Eigen/src/Core/arch/ZVector/PacketMath.h \
+		../Qgas/eigen3/Eigen/src/Core/arch/ZVector/MathFunctions.h \
+		../Qgas/eigen3/Eigen/src/Core/arch/ZVector/Complex.h \
+		../Qgas/eigen3/Eigen/src/Core/arch/CUDA/Half.h \
+		../Qgas/eigen3/Eigen/src/Core/arch/CUDA/PacketMathHalf.h \
+		../Qgas/eigen3/Eigen/src/Core/arch/CUDA/TypeCasting.h \
+		../Qgas/eigen3/Eigen/src/Core/arch/CUDA/PacketMath.h \
+		../Qgas/eigen3/Eigen/src/Core/arch/CUDA/MathFunctions.h \
+		../Qgas/eigen3/Eigen/src/Core/arch/Default/Settings.h \
+		../Qgas/eigen3/Eigen/src/Core/functors/TernaryFunctors.h \
+		../Qgas/eigen3/Eigen/src/Core/functors/BinaryFunctors.h \
+		../Qgas/eigen3/Eigen/src/Core/functors/UnaryFunctors.h \
+		../Qgas/eigen3/Eigen/src/Core/functors/NullaryFunctors.h \
+		../Qgas/eigen3/Eigen/src/Core/functors/StlFunctors.h \
+		../Qgas/eigen3/Eigen/src/Core/functors/AssignmentFunctors.h \
+		../Qgas/eigen3/Eigen/src/Core/arch/CUDA/Complex.h \
+		../Qgas/eigen3/Eigen/src/Core/IO.h \
+		../Qgas/eigen3/Eigen/src/Core/DenseCoeffsBase.h \
+		../Qgas/eigen3/Eigen/src/Core/DenseBase.h \
+		../Qgas/eigen3/Eigen/src/plugins/BlockMethods.h \
+		../Qgas/eigen3/Eigen/src/Core/MatrixBase.h \
+		../Qgas/eigen3/Eigen/src/plugins/CommonCwiseUnaryOps.h \
+		../Qgas/eigen3/Eigen/src/plugins/CommonCwiseBinaryOps.h \
+		../Qgas/eigen3/Eigen/src/plugins/MatrixCwiseUnaryOps.h \
+		../Qgas/eigen3/Eigen/src/plugins/MatrixCwiseBinaryOps.h \
+		../Qgas/eigen3/Eigen/src/Core/EigenBase.h \
+		../Qgas/eigen3/Eigen/src/Core/Product.h \
+		../Qgas/eigen3/Eigen/src/Core/CoreEvaluators.h \
+		../Qgas/eigen3/Eigen/src/Core/AssignEvaluator.h \
+		../Qgas/eigen3/Eigen/src/Core/Assign.h \
+		../Qgas/eigen3/Eigen/src/Core/ArrayBase.h \
+		../Qgas/eigen3/Eigen/src/plugins/ArrayCwiseUnaryOps.h \
+		../Qgas/eigen3/Eigen/src/plugins/ArrayCwiseBinaryOps.h \
+		../Qgas/eigen3/Eigen/src/Core/util/BlasUtil.h \
+		../Qgas/eigen3/Eigen/src/Core/DenseStorage.h \
+		../Qgas/eigen3/Eigen/src/Core/NestByValue.h \
+		../Qgas/eigen3/Eigen/src/Core/ReturnByValue.h \
+		../Qgas/eigen3/Eigen/src/Core/NoAlias.h \
+		../Qgas/eigen3/Eigen/src/Core/PlainObjectBase.h \
+		../Qgas/eigen3/Eigen/src/Core/Matrix.h \
+		../Qgas/eigen3/Eigen/src/Core/Array.h \
+		../Qgas/eigen3/Eigen/src/Core/CwiseTernaryOp.h \
+		../Qgas/eigen3/Eigen/src/Core/CwiseBinaryOp.h \
+		../Qgas/eigen3/Eigen/src/Core/CwiseUnaryOp.h \
+		../Qgas/eigen3/Eigen/src/Core/CwiseNullaryOp.h \
+		../Qgas/eigen3/Eigen/src/Core/CwiseUnaryView.h \
+		../Qgas/eigen3/Eigen/src/Core/SelfCwiseBinaryOp.h \
+		../Qgas/eigen3/Eigen/src/Core/Dot.h \
+		../Qgas/eigen3/Eigen/src/Core/StableNorm.h \
+		../Qgas/eigen3/Eigen/src/Core/Stride.h \
+		../Qgas/eigen3/Eigen/src/Core/MapBase.h \
+		../Qgas/eigen3/Eigen/src/Core/Map.h \
+		../Qgas/eigen3/Eigen/src/Core/Ref.h \
+		../Qgas/eigen3/Eigen/src/Core/Block.h \
+		../Qgas/eigen3/Eigen/src/Core/VectorBlock.h \
+		../Qgas/eigen3/Eigen/src/Core/Transpose.h \
+		../Qgas/eigen3/Eigen/src/Core/DiagonalMatrix.h \
+		../Qgas/eigen3/Eigen/src/Core/Diagonal.h \
+		../Qgas/eigen3/Eigen/src/Core/DiagonalProduct.h \
+		../Qgas/eigen3/Eigen/src/Core/Redux.h \
+		../Qgas/eigen3/Eigen/src/Core/Visitor.h \
+		../Qgas/eigen3/Eigen/src/Core/Fuzzy.h \
+		../Qgas/eigen3/Eigen/src/Core/Swap.h \
+		../Qgas/eigen3/Eigen/src/Core/CommaInitializer.h \
+		../Qgas/eigen3/Eigen/src/Core/GeneralProduct.h \
+		../Qgas/eigen3/Eigen/src/Core/Solve.h \
+		../Qgas/eigen3/Eigen/src/Core/Inverse.h \
+		../Qgas/eigen3/Eigen/src/Core/SolverBase.h \
+		../Qgas/eigen3/Eigen/src/Core/PermutationMatrix.h \
+		../Qgas/eigen3/Eigen/src/Core/Transpositions.h \
+		../Qgas/eigen3/Eigen/src/Core/TriangularMatrix.h \
+		../Qgas/eigen3/Eigen/src/Core/SelfAdjointView.h \
+		../Qgas/eigen3/Eigen/src/Core/products/GeneralBlockPanelKernel.h \
+		../Qgas/eigen3/Eigen/src/Core/products/Parallelizer.h \
+		../Qgas/eigen3/Eigen/src/Core/ProductEvaluators.h \
+		../Qgas/eigen3/Eigen/src/Core/products/GeneralMatrixVector.h \
+		../Qgas/eigen3/Eigen/src/Core/products/GeneralMatrixMatrix.h \
+		../Qgas/eigen3/Eigen/src/Core/SolveTriangular.h \
+		../Qgas/eigen3/Eigen/src/Core/products/GeneralMatrixMatrixTriangular.h \
+		../Qgas/eigen3/Eigen/src/Core/products/SelfadjointMatrixVector.h \
+		../Qgas/eigen3/Eigen/src/Core/products/SelfadjointMatrixMatrix.h \
+		../Qgas/eigen3/Eigen/src/Core/products/SelfadjointProduct.h \
+		../Qgas/eigen3/Eigen/src/Core/products/SelfadjointRank2Update.h \
+		../Qgas/eigen3/Eigen/src/Core/products/TriangularMatrixVector.h \
+		../Qgas/eigen3/Eigen/src/Core/products/TriangularMatrixMatrix.h \
+		../Qgas/eigen3/Eigen/src/Core/products/TriangularSolverMatrix.h \
+		../Qgas/eigen3/Eigen/src/Core/products/TriangularSolverVector.h \
+		../Qgas/eigen3/Eigen/src/Core/BandMatrix.h \
+		../Qgas/eigen3/Eigen/src/Core/CoreIterators.h \
+		../Qgas/eigen3/Eigen/src/Core/ConditionEstimator.h \
+		../Qgas/eigen3/Eigen/src/Core/BooleanRedux.h \
+		../Qgas/eigen3/Eigen/src/Core/Select.h \
+		../Qgas/eigen3/Eigen/src/Core/VectorwiseOp.h \
+		../Qgas/eigen3/Eigen/src/Core/Random.h \
+		../Qgas/eigen3/Eigen/src/Core/Replicate.h \
+		../Qgas/eigen3/Eigen/src/Core/Reverse.h \
+		../Qgas/eigen3/Eigen/src/Core/ArrayWrapper.h \
+		../Qgas/eigen3/Eigen/src/Core/products/GeneralMatrixMatrix_BLAS.h \
+		../Qgas/eigen3/Eigen/src/Core/products/GeneralMatrixVector_BLAS.h \
+		../Qgas/eigen3/Eigen/src/Core/products/GeneralMatrixMatrixTriangular_BLAS.h \
+		../Qgas/eigen3/Eigen/src/Core/products/SelfadjointMatrixMatrix_BLAS.h \
+		../Qgas/eigen3/Eigen/src/Core/products/SelfadjointMatrixVector_BLAS.h \
+		../Qgas/eigen3/Eigen/src/Core/products/TriangularMatrixMatrix_BLAS.h \
+		../Qgas/eigen3/Eigen/src/Core/products/TriangularMatrixVector_BLAS.h \
+		../Qgas/eigen3/Eigen/src/Core/products/TriangularSolverMatrix_BLAS.h \
+		../Qgas/eigen3/Eigen/src/Core/Assign_MKL.h \
+		../Qgas/eigen3/Eigen/src/Core/GlobalFunctions.h \
+		../Qgas/eigen3/Eigen/src/Core/util/ReenableStupidWarnings.h \
+		../Qgas/eigen3/Eigen/LU \
+		../Qgas/eigen3/Eigen/src/misc/Kernel.h \
+		../Qgas/eigen3/Eigen/src/misc/Image.h \
+		../Qgas/eigen3/Eigen/src/LU/FullPivLU.h \
+		../Qgas/eigen3/Eigen/src/LU/PartialPivLU.h \
+		../Qgas/eigen3/Eigen/src/misc/lapacke.h \
+		../Qgas/eigen3/Eigen/src/misc/lapacke_mangling.h \
+		../Qgas/eigen3/Eigen/src/LU/PartialPivLU_LAPACKE.h \
+		../Qgas/eigen3/Eigen/src/LU/Determinant.h \
+		../Qgas/eigen3/Eigen/src/LU/InverseImpl.h \
+		../Qgas/eigen3/Eigen/src/LU/arch/Inverse_SSE.h \
+		../Qgas/eigen3/Eigen/Cholesky \
+		../Qgas/eigen3/Eigen/src/Cholesky/LLT.h \
+		../Qgas/eigen3/Eigen/src/Cholesky/LDLT.h \
+		../Qgas/eigen3/Eigen/src/Cholesky/LLT_LAPACKE.h \
+		../Qgas/eigen3/Eigen/QR \
+		../Qgas/eigen3/Eigen/Jacobi \
+		../Qgas/eigen3/Eigen/src/Jacobi/Jacobi.h \
+		../Qgas/eigen3/Eigen/Householder \
+		../Qgas/eigen3/Eigen/src/Householder/Householder.h \
+		../Qgas/eigen3/Eigen/src/Householder/HouseholderSequence.h \
+		../Qgas/eigen3/Eigen/src/Householder/BlockHouseholder.h \
+		../Qgas/eigen3/Eigen/src/QR/HouseholderQR.h \
+		../Qgas/eigen3/Eigen/src/QR/FullPivHouseholderQR.h \
+		../Qgas/eigen3/Eigen/src/QR/ColPivHouseholderQR.h \
+		../Qgas/eigen3/Eigen/src/QR/CompleteOrthogonalDecomposition.h \
+		../Qgas/eigen3/Eigen/src/QR/HouseholderQR_LAPACKE.h \
+		../Qgas/eigen3/Eigen/src/QR/ColPivHouseholderQR_LAPACKE.h \
+		../Qgas/eigen3/Eigen/SVD \
+		../Qgas/eigen3/Eigen/src/misc/RealSvd2x2.h \
+		../Qgas/eigen3/Eigen/src/SVD/UpperBidiagonalization.h \
+		../Qgas/eigen3/Eigen/src/SVD/SVDBase.h \
+		../Qgas/eigen3/Eigen/src/SVD/JacobiSVD.h \
+		../Qgas/eigen3/Eigen/src/SVD/BDCSVD.h \
+		../Qgas/eigen3/Eigen/src/SVD/JacobiSVD_LAPACKE.h \
+		../Qgas/eigen3/Eigen/Geometry \
+		../Qgas/eigen3/Eigen/src/Geometry/OrthoMethods.h \
+		../Qgas/eigen3/Eigen/src/Geometry/EulerAngles.h \
+		../Qgas/eigen3/Eigen/src/Geometry/Homogeneous.h \
+		../Qgas/eigen3/Eigen/src/Geometry/RotationBase.h \
+		../Qgas/eigen3/Eigen/src/Geometry/Rotation2D.h \
+		../Qgas/eigen3/Eigen/src/Geometry/Quaternion.h \
+		../Qgas/eigen3/Eigen/src/Geometry/AngleAxis.h \
+		../Qgas/eigen3/Eigen/src/Geometry/Transform.h \
+		../Qgas/eigen3/Eigen/src/Geometry/Translation.h \
+		../Qgas/eigen3/Eigen/src/Geometry/Scaling.h \
+		../Qgas/eigen3/Eigen/src/Geometry/Hyperplane.h \
+		../Qgas/eigen3/Eigen/src/Geometry/ParametrizedLine.h \
+		../Qgas/eigen3/Eigen/src/Geometry/AlignedBox.h \
+		../Qgas/eigen3/Eigen/src/Geometry/Umeyama.h \
+		../Qgas/eigen3/Eigen/src/Geometry/arch/Geometry_SSE.h \
+		../Qgas/eigen3/Eigen/Eigenvalues \
+		../Qgas/eigen3/Eigen/src/Eigenvalues/Tridiagonalization.h \
+		../Qgas/eigen3/Eigen/src/Eigenvalues/RealSchur.h \
+		../Qgas/eigen3/Eigen/src/Eigenvalues/HessenbergDecomposition.h \
+		../Qgas/eigen3/Eigen/src/Eigenvalues/EigenSolver.h \
+		../Qgas/eigen3/Eigen/src/Eigenvalues/SelfAdjointEigenSolver.h \
+		../Qgas/eigen3/Eigen/src/Eigenvalues/GeneralizedSelfAdjointEigenSolver.h \
+		../Qgas/eigen3/Eigen/src/Eigenvalues/ComplexSchur.h \
+		../Qgas/eigen3/Eigen/src/Eigenvalues/ComplexEigenSolver.h \
+		../Qgas/eigen3/Eigen/src/Eigenvalues/RealQZ.h \
+		../Qgas/eigen3/Eigen/src/Eigenvalues/GeneralizedEigenSolver.h \
+		../Qgas/eigen3/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h \
+		../Qgas/eigen3/Eigen/src/Eigenvalues/RealSchur_LAPACKE.h \
+		../Qgas/eigen3/Eigen/src/Eigenvalues/ComplexSchur_LAPACKE.h \
+		../Qgas/eigen3/Eigen/src/Eigenvalues/SelfAdjointEigenSolver_LAPACKE.h \
+		../Qgas/wavefunction.h \
+		../Qgas/hastings_tools.h \
+		../Qgas/gibbs_tools.h \
+		../Qgas/general_tools.h \
+		../Qgas/test.h \
+		../Qgas/basis.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o VMC.o ../Qgas/VMC.cpp
+
+gradient_descent.o: ../Qgas/gradient_descent.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o gradient_descent.o ../Qgas/gradient_descent.cpp
 
 ####### Install
 

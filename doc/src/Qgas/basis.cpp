@@ -116,11 +116,9 @@ double A_elements(const VectorXd &Xa, int P_half, int D, int O, int i, int j) {
     list(O, D, order);
 
     double element = 1;
-
     for(int k=0; k<D; k++) {
         element *= H(Xa(D*i+k), order(j,k));
     }
-
     return element;
 }
 
@@ -148,9 +146,10 @@ void matrix(const VectorXd &Xa, int O, int D, int P_half, MatrixXd &A) {
 void derivative(const VectorXd &Xa, int O, int D, int k, MatrixXd &dA) {
     //Derivative of A matrix
 
-    int length = binomial(O-1, D);
+    int M = Xa.size();                                // Number of free dimensions
+    int P_half = int(M/D);                        // Number of particles
 
-    MatrixXd order = MatrixXd::Zero(length, D);
+    MatrixXd order = MatrixXd::Zero(P_half, D);
     list(O, D, order);
 
     // Find relevant row
@@ -164,7 +163,7 @@ void derivative(const VectorXd &Xa, int O, int D, int k, MatrixXd &dA) {
     }
 
     // Find matrix
-    for(int i=0; i<length; i++) {
+    for(int i=0; i<P_half; i++) {
         dA(row, i) = dH(Xa(k), order(i, l));
         for(int j=0; j<D; j++) {
             if(a(j) != k) {
@@ -178,9 +177,10 @@ void derivative(const VectorXd &Xa, int O, int D, int k, MatrixXd &dA) {
 void derivative3(const VectorXd &Xa, int O, int D, int k, MatrixXd &dA) {
     //Derivative of A matrix
 
-    int length = binomial(O-1, D);
+    int M = Xa.size();                                // Number of free dimensions
+    int P_half = int(M/D);                        // Number of particles
 
-    MatrixXd order = MatrixXd::Zero(length, D);
+    MatrixXd order = MatrixXd::Zero(P_half, D);
     list(O, D, order);
 
     // Find relevant row
@@ -194,7 +194,7 @@ void derivative3(const VectorXd &Xa, int O, int D, int k, MatrixXd &dA) {
     }
 
     // Find matrix
-    for(int i=0; i<length; i++) {
+    for(int i=0; i<P_half; i++) {
         dA(row, D*i+l) = dH(Xa(k), order(i, l));
         for(int j=0; j<D; j++) {
             if(a(j) != k) {
@@ -208,9 +208,10 @@ void derivative3(const VectorXd &Xa, int O, int D, int k, MatrixXd &dA) {
 void derivative4(const VectorXd &Xa, int O, int D, int k, MatrixXd &dA) {
     //Derivative of A matrix
 
-    int length = binomial(O-1, D);
+    int M = Xa.size();                                // Number of free dimensions
+    int P_half = int(M/D);                        // Number of particles
 
-    MatrixXd order = MatrixXd::Zero(length, D);
+    MatrixXd order = MatrixXd::Zero(P_half, D);
     list(O, D, order);
 
     // Find relevant row
@@ -224,7 +225,7 @@ void derivative4(const VectorXd &Xa, int O, int D, int k, MatrixXd &dA) {
     }
 
     // Find matrix
-    for(int i=0; i<length; i++) {
+    for(int i=0; i<P_half; i++) {
         dA(k, i) = dH(Xa(k), order(i, l));
         for(int j=0; j<D; j++) {
             if(a(j) != k) {
@@ -235,28 +236,12 @@ void derivative4(const VectorXd &Xa, int O, int D, int k, MatrixXd &dA) {
 }
 
 
-void derivative2(const VectorXd &Xa, int O, int D, MatrixXd &dA) {
-    //Derivative of A matrix
-
-    int length = binomial(O-1, D);
-
-    MatrixXd order = MatrixXd::Zero(length, D);
-    list(O, D, order);
-
-    for(int k=0; k<length*D; k++) {
-        derivative3(Xa, O, D, k, dA);
-    }
-}
-
 void derivative5(const VectorXd &Xa, int O, int D, MatrixXd &dA) {
     //Derivative of A matrix
 
-    int length = binomial(O-1, D);
+    int M = Xa.size();                                // Number of free dimensions
 
-    MatrixXd order = MatrixXd::Zero(length, D);
-    list(O, D, order);
-
-    for(int k=0; k<length*D; k++) {
+    for(int k=0; k<M/2; k++) {
         derivative4(Xa, O, D, k, dA);
     }
 }
@@ -331,21 +316,21 @@ double energy2(const VectorXd &Xa, int D, int O, VectorXd &diff) {
     // Calculating grad(det(D))
 
     int M_half = Xa.size()/2;
-    int length = M_half/D;
+    int P_half = M_half/D;
 
-    MatrixXd A_up = MatrixXd::Ones(length, length);
-    MatrixXd A_dn = MatrixXd::Ones(length, length);
+    MatrixXd A_up = MatrixXd::Ones(P_half, P_half);
+    MatrixXd A_dn = MatrixXd::Ones(P_half, P_half);
 
-    matrix(Xa.head(M_half), O, D, M_half, A_up);
-    matrix(Xa.tail(M_half), O, D, M_half, A_dn);
+    matrix(Xa.head(M_half), O, D, P_half, A_up);
+    matrix(Xa.tail(M_half), O, D, P_half, A_dn);
 
     for(int k = 0; k<M_half; k++) {
-        MatrixXd dA = MatrixXd::Zero(length, length);
+        MatrixXd dA = MatrixXd::Zero(P_half, P_half);
         derivative(Xa.head(M_half), O, D, k, dA);
 
     }
     for(int k = M_half; k<M_half*2; k++) {
-        MatrixXd dA = MatrixXd::Zero(length, length);
+        MatrixXd dA = MatrixXd::Zero(P_half, P_half);
         derivative(Xa.tail(M_half), O, D, k, dA);
     }
 
