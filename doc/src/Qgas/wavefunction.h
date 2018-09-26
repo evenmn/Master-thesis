@@ -20,3 +20,4 @@ public:
 };
 
 void matrix(const VectorXd &Xa, int O, int D, int P_half, MatrixXd &A);
+void A_rows(const VectorXd &Xa, int P_half, int D, int O, int i, MatrixXd &A);

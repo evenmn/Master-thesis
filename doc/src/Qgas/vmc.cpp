@@ -13,7 +13,6 @@
 #include "general_tools.h"
 #include "gradient_descent.h"
 #include "test.h"
-#include "basis.h"
 #include "energy.h"
 
 using namespace Eigen;
@@ -33,7 +32,7 @@ double random_position(){
 void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sampling, double sigma, \
                      double omega, double steplength, double timestep, double eta, bool interaction, bool one_body) {
 
-    //Declar constants
+    //Declare constants
     double psi_ratio = 0;               //ratio of new and old wave function
     double sigma_sqrd = sigma * sigma;
     int M = P*D;
@@ -42,6 +41,16 @@ void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sa
 
     //Data path
     string path = "../../data/";
+
+    // Make objects
+    WaveFunction Psi;
+    GradientDescent GD;
+    Energy ENG;
+
+    Psi.setTrialWF(N, M, D, O, sampling, sigma_sqrd, omega);
+    GD.init(sampling, sigma_sqrd);
+    ENG.init(N, M, D, O, sampling, sigma_sqrd, omega);
+
 
     //Marsenne Twister Random Number Generator
     normal_distribution<double> eps_gauss(0,1);       //Gaussian distr random number generator
@@ -85,27 +94,18 @@ void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sa
     MatrixXd dA_up = MatrixXd::Zero(P,P/2);
     MatrixXd dA_dn = MatrixXd::Zero(P,P/2);
 
-    derivative5(Xa.head(M/2), O, D, dA_up);
-    derivative5(Xa.tail(M/2), O, D, dA_dn);
+    ENG.dA_matrix(Xa.head(M/2), dA_up);
+    ENG.dA_matrix(Xa.tail(M/2), dA_dn);
 
     // Distance matrix
     MatrixXd Dist = MatrixXd::Zero(P,P);
-    rij(X, D, Dist);
+    ENG.rij(X, Dist);
 
     //Update h and e
     for(int i=0; i<N; i++) {
         h(i) = hrand(gen);
         e(i) = 1/(1+exp(-v(i)));
     }
-
-    // Make objects
-    WaveFunction Psi;
-    GradientDescent GD;
-    Energy ENG;
-
-    Psi.setTrialWF(N, M, D, O, sampling, sigma_sqrd, omega);
-    GD.init(sampling, sigma_sqrd);
-    ENG.init(N, M, D, O, sampling, sigma_sqrd, omega);
 
     //Define bins for the one body density measure
     int number_of_bins = 500;
@@ -195,7 +195,7 @@ void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sa
                     int row = int(M_rand/D);
 
                     //Distance matrix
-                    rij_cross(X, D, row, Dist);
+                    ENG.rij_cross(X, row, Dist);
 
                     // Find indices of relevant row
                     VectorXd c = VectorXd::Zero(D);
@@ -209,7 +209,7 @@ void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sa
                         A_rows(Xa.head(M/2), P/2, D, O, row, A_up);
                         A_up_inv = A_up.inverse();
                         for(int i=0; i<D; i++) {
-                            derivative4(Xa.head(M/2), O, D, c(i), dA_up);
+                            ENG.dA_row(Xa.head(M/2), c(i), dA_up);
                         }
                         /*
                         for(int j=0; j<P/2; j++) {
@@ -225,7 +225,7 @@ void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sa
                         A_rows(Xa.tail(M/2), P/2, D, O, row-P/2, A_dn);
                         A_dn_inv = A_dn.inverse();
                         for(int i=0; i<D; i++) {
-                            derivative4(Xa.tail(M/2), O, D, c(i)-M/2, dA_dn);
+                            ENG.dA_row(Xa.tail(M/2), c(i)-M/2, dA_dn);
                         }
                         /*
                         for(int j=0; j<P/2; j++) {
@@ -264,7 +264,7 @@ void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sa
                 if(row < P/2){
                     A_rows(Xa.head(M/2), P/2, D, O, row, A_up);
                     for(int i=0; i<D; i++) {
-                        derivative3(Xa.head(M/2), O, D, c(i), dA_up);
+                        ENG.dA_row(Xa.head(M/2), c(i), dA_up);
                     }
                     for(int j=0; j<P/2; j++) {
                         R += A_up(row, j)*A_up_inv(j,row);
@@ -276,7 +276,7 @@ void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sa
                 else {
                     A_rows(Xa.tail(M/2), P/2, D, O, row-P/2, A_dn);
                     for(int i=0; i<D; i++) {
-                        derivative3(Xa.tail(M/2), O, D, c(i)-M/2, dA_dn);
+                        ENG.dA_row(Xa.tail(M/2), c(i)-M/2, dA_dn);
                     }
                     for(int j=0; j<P/2; j++) {
                         R += A_dn(row-P/2, j)*A_dn_inv(j,row-P/2);

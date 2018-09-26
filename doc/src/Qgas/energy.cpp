@@ -11,46 +11,59 @@ using namespace std;
 using namespace Eigen;
 
 
-void rij_element(const VectorXd &X, int D, int i, int j, MatrixXd &Dist) {
+int Energy::init(int N, int M, int D, int O, int sampling, double sigma_sqrd, double omega)
+{
+    m_N          = N;
+    m_P          = M/D;
+    m_Phalf      = M/(2*D);
+    m_M          = M;
+    m_D          = D;
+    m_O          = O;
+    m_sampling   = sampling;
+    m_sigma_sqrd = sigma_sqrd;
+    m_omega_sqrd = omega*omega;
+}
+
+
+void Energy::rij_element(const VectorXd &X, int i, int j, MatrixXd &Dist) {
     // Update element (i,j) in distance matrix
 
     double dist = 0;
-    for(int d=0; d<D; d++) {
-        double diff = X(D*i+d)-X(D*j+d);
+    for(int d=0; d<m_D; d++) {
+        double diff = X(m_D*i+d)-X(m_D*j+d);
         dist += diff*diff;
     }
     Dist(i,j) = 1/sqrt(dist);
 }
 
 
-void rij(const VectorXd &X, int D, MatrixXd &Dist) {
+void Energy::rij(const VectorXd &X, MatrixXd &Dist) {
     // Fill up the entire distance matrix
 
-    int P = X.size()/D;
-
-    for(int i=0; i<P; i++) {
+    for(int i=0; i<m_P; i++) {
         for(int j=0; j<i; j++) {
-            rij_element(X, D, i, j, Dist);
+            Energy::rij_element(X, i, j, Dist);
         }
     }
 }
 
-void rij_cross(const VectorXd &X, int D, int par, MatrixXd &Dist) {
+void Energy::rij_cross(const VectorXd &X, int par, MatrixXd &Dist) {
     // Update Dist when particle par is changed
-
-    int P = X.size()/D;
 
     // Update row
     for(int i=0; i<par; i++) {
-        rij_element(X, D, par, i, Dist);
+        Energy::rij_element(X, par, i, Dist);
     }
     // Update column
-    for(int i=par+1; i<P; i++) {
-        rij_element(X, D, i, par, Dist);
+    for(int i=par+1; i<m_P; i++) {
+        Energy::rij_element(X, i, par, Dist);
     }
 }
 
-double dH(double x, int n) {
+
+// === DERIVATIVE PART ===
+
+double Energy::dH(double x, int n) {
     //Derivative of Hermite polynomial of n'th degree
     if(n == 0) {
         return 0;
@@ -61,9 +74,7 @@ double dH(double x, int n) {
 }
 
 
-// === DERIVATIVE PART ===
-
-
+/*
 void derivative(const VectorXd &Xa, int O, int D, int k, MatrixXd &dA) {
     //Derivative of A matrix
 
@@ -124,31 +135,31 @@ void derivative3(const VectorXd &Xa, int O, int D, int k, MatrixXd &dA) {
         }
     }
 }
+*/
+
+void Energy::dA_element(const VectorXd &Xa, int k, MatrixXd &dA) {
+    //Update element of dA
+    double h = 1;
+}
 
 
-void derivative4(const VectorXd &Xa, int O, int D, int k, MatrixXd &dA) {
-    //Derivative of A matrix
+void Energy::dA_row(const VectorXd &Xa, int k, MatrixXd &dA) {
+    //Update row of dA
 
-    int M = Xa.size();                                // Number of free dimensions
-    int P_half = int(M/D);                        // Number of particles
-
-    MatrixXd order = MatrixXd::Zero(P_half, D);
-    list(O, D, order);
-
-    // Find relevant row
-    int row = int(k/D);
+    MatrixXd order = MatrixXd::Zero(m_Phalf, m_D);
+    list(m_O, m_D, order);
 
     // Find indices of relevant row
-    VectorXd a = VectorXd::Zero(D);
-    int l = k%D;
-    for(int i=0; i<D; i++) {
+    VectorXd a = VectorXd::Zero(m_D);
+    int l = k%m_D;
+    for(int i=0; i<m_D; i++) {
         a(i) = k-l+i;
     }
 
     // Find matrix
-    for(int i=0; i<P_half; i++) {
+    for(int i=0; i<m_Phalf; i++) {
         dA(k, i) = dH(Xa(k), order(i, l));
-        for(int j=0; j<D; j++) {
+        for(int j=0; j<m_D; j++) {
             if(a(j) != k) {
                 dA(k, i) *= H(Xa(a(j)), order(i, j));
             }
@@ -157,69 +168,14 @@ void derivative4(const VectorXd &Xa, int O, int D, int k, MatrixXd &dA) {
 }
 
 
-void derivative5(const VectorXd &Xa, int O, int D, MatrixXd &dA) {
-    //Derivative of A matrix
+void Energy::dA_matrix(const VectorXd &Xa, MatrixXd &dA) {
+    //Initialize the entire dA matrix
 
-    int M = Xa.size();                                // Number of free dimensions
-
-    for(int k=0; k<M/2; k++) {
-        derivative4(Xa, O, D, k, dA);
+    for(int k=0; k<m_Phalf; k++) {
+        Energy::dA_row(Xa, k, dA);
     }
 }
 
-
-int Energy::init(int N, int M, int D, int norbitals, int sampling, double sigma_sqrd, double omega)
-{
-    m_N          = N;
-    m_M          = M;
-    m_D          = D;
-    m_norbitals  = norbitals;
-    m_sampling   = sampling;
-    m_sigma_sqrd = sigma_sqrd;
-    m_omega_sqrd = omega*omega;
-}
-
-
-void Deter(const VectorXd &Xa, VectorXd &diff) {
-    // Determinant dependent part
-
-
-
-    //int n_orbitals = magic_numbers_inverse(20)+1;
-
-    //int P = 20;
-    //int D = 2;
-
-    /*
-    MatrixXd D_up = MatrixXd::Ones(int(3),int(3));
-    MatrixXd D_dn = MatrixXd::Ones(int(3),int(3));
-
-    matrix(Xa.head(P), n_orbitals, D, D_up);
-    matrix(Xa.tail(P), n_orbitals, D, D_dn);
-
-    VectorXd X_up = VectorXd::Zero(2*P);
-    VectorXd X_dn = VectorXd::Zero(2*P);
-    for(int i=0; i<P; i++) {
-        X_up(i) = X_up(i+P) = Xa(i);
-        X_dn(i) = X_dn(i+P) = Xa(i+P);
-    }
-
-    for(int i=0; i<P; i++) {
-        if(i % 2==0){
-            diff(i) = 4*(X_up(i+3) - X_up(i+5))/D_up.determinant();
-            diff(i+6) = 4*(X_dn(i+3) - X_dn(i+5))/D_dn.determinant();
-        }
-        else {
-            diff(i) = 4*(X_up(i+3) - X_up(i+1))/D_up.determinant();
-            diff(i+6) = 4*(X_dn(i+3) - X_dn(i+1))/D_dn.determinant();
-        }
-    }
-    */
-
-    //for(int i=0; i<2*P; i++) {
-    //    diff(i) = energy(Xa, D, i);
-    //}
-}
 
 double Energy::EL_calc(const VectorXd X, const VectorXd Xa, const VectorXd v, const MatrixXd W, const MatrixXd &Dist, const MatrixXd &A_up_inv, const MatrixXd &A_dn_inv, const MatrixXd &dA_up, const MatrixXd &dA_dn,\
                              int interaction, double &E_kin, double &E_ext, double &E_int) {
@@ -241,13 +197,11 @@ double Energy::EL_calc(const VectorXd X, const VectorXd Xa, const VectorXd v, co
         e_p(i) = 1/(1 + exp(v(i)));
     }
 
-    int P = m_M/m_D;
-
     for(int i=0; i<m_M; i++) {
         //diff(i) = energy(Xa, m_D, m_norbitals, i);
 
 
-        for(int j=0; j<P/2; j++) {
+        for(int j=0; j<m_Phalf; j++) {
             if(i<m_M/2) {
                 diff(i) += dA_up(i,j)*A_up_inv(j,int(i/m_D));
             }

@@ -248,7 +248,6 @@ DIST          = ../../../../Qt/5.10.0/gcc_64/mkspecs/features/spec_pre.prf \
 		hastings_tools.h \
 		gibbs_tools.h \
 		test.h \
-		basis.h \
 		general_tools.h \
 		gradient_descent.h \
 		energy.h \
@@ -1720,7 +1719,7 @@ test.o: ../Qgas/test.cpp ../Qgas/eigen3/Eigen/Dense \
 		../Qgas/eigen3/Eigen/src/Eigenvalues/ComplexSchur_LAPACKE.h \
 		../Qgas/eigen3/Eigen/src/Eigenvalues/SelfAdjointEigenSolver_LAPACKE.h \
 		../Qgas/wavefunction.h \
-		../Qgas/basis.h \
+		../Qgas/energy.h \
 		../Qgas/general_tools.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o test.o ../Qgas/test.cpp
 
@@ -2563,7 +2562,6 @@ vmc.o: ../Qgas/vmc.cpp ../Qgas/eigen3/Eigen/Dense \
 		../Qgas/general_tools.h \
 		../Qgas/gradient_descent.h \
 		../Qgas/test.h \
-		../Qgas/basis.h \
 		../Qgas/energy.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o vmc.o ../Qgas/vmc.cpp
 

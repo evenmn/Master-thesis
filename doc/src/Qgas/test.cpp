@@ -160,3 +160,44 @@ double energy2(const VectorXd &Xa, int D, int O, VectorXd &diff) {
     }
 }
 */
+
+void Deter(const VectorXd &Xa, VectorXd &diff) {
+    // Determinant dependent part
+
+
+
+    //int n_orbitals = magic_numbers_inverse(20)+1;
+
+    //int P = 20;
+    //int D = 2;
+
+    /*
+    MatrixXd D_up = MatrixXd::Ones(int(3),int(3));
+    MatrixXd D_dn = MatrixXd::Ones(int(3),int(3));
+
+    matrix(Xa.head(P), n_orbitals, D, D_up);
+    matrix(Xa.tail(P), n_orbitals, D, D_dn);
+
+    VectorXd X_up = VectorXd::Zero(2*P);
+    VectorXd X_dn = VectorXd::Zero(2*P);
+    for(int i=0; i<P; i++) {
+        X_up(i) = X_up(i+P) = Xa(i);
+        X_dn(i) = X_dn(i+P) = Xa(i+P);
+    }
+
+    for(int i=0; i<P; i++) {
+        if(i % 2==0){
+            diff(i) = 4*(X_up(i+3) - X_up(i+5))/D_up.determinant();
+            diff(i+6) = 4*(X_dn(i+3) - X_dn(i+5))/D_dn.determinant();
+        }
+        else {
+            diff(i) = 4*(X_up(i+3) - X_up(i+1))/D_up.determinant();
+            diff(i+6) = 4*(X_dn(i+3) - X_dn(i+1))/D_dn.determinant();
+        }
+    }
+    */
+
+    //for(int i=0; i<2*P; i++) {
+    //    diff(i) = energy(Xa, D, i);
+    //}
+}
