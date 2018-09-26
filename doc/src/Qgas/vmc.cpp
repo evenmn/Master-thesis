@@ -11,8 +11,10 @@
 #include "hastings_tools.h"
 #include "gibbs_tools.h"
 #include "general_tools.h"
+#include "gradient_descent.h"
 #include "test.h"
 #include "basis.h"
+#include "energy.h"
 
 using namespace Eigen;
 using namespace std;
@@ -28,7 +30,7 @@ double random_position(){
 }
 
 
-void GradientDescent(int P, double Diff, int D, int N, int MC, int O, int iterations, int sampling, double sigma, \
+void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sampling, double sigma, \
                      double omega, double steplength, double timestep, double eta, bool interaction, bool one_body) {
 
     //Declar constants
@@ -96,8 +98,14 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int O, int iterat
         e(i) = 1/(1+exp(-v(i)));
     }
 
+    // Make objects
     WaveFunction Psi;
+    GradientDescent GD;
+    Energy ENG;
+
     Psi.setTrialWF(N, M, D, O, sampling, sigma_sqrd, omega);
+    GD.init(sampling, sigma_sqrd);
+    ENG.init(N, M, D, O, sampling, sigma_sqrd, omega);
 
     //Define bins for the one body density measure
     int number_of_bins = 500;
@@ -137,7 +145,7 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int O, int iterat
         double E_ext_tot   = 0;
         double E_int_tot   = 0;
 
-        double E = Psi.EL_calc(X, Xa, v, W, Dist, A_up_inv, A_dn_inv, dA_up, dA_dn, interaction, E_kin, E_ext, E_int);
+        double E = ENG.EL_calc(X, Xa, v, W, Dist, A_up_inv, A_dn_inv, dA_up, dA_dn, interaction, E_kin, E_ext, E_int);
 
         VectorXd da_tot           = VectorXd::Zero(M);
         VectorXd daE_tot          = VectorXd::Zero(M);
@@ -230,7 +238,7 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int O, int iterat
                         //cout << A_dn*A_dn_inv << "\n" << endl;
                     }
 
-                    E  = Psi.EL_calc(X, Xa, v, W, Dist, A_up_inv, A_dn_inv, dA_up, dA_dn, interaction, E_kin, E_ext, E_int);
+                    E  = ENG.EL_calc(X, Xa, v, W, Dist, A_up_inv, A_dn_inv, dA_up, dA_dn, interaction, E_kin, E_ext, E_int);
                 }
             }
 
@@ -278,7 +286,7 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int O, int iterat
                     }
                 }
 
-                E  = Psi.EL_calc(X, Xa, v, W, Dist, A_up_inv, A_dn_inv, dA_up, dA_dn, interaction, E_kin, E_ext, E_int);
+                E  = ENG.EL_calc(X, Xa, v, W, Dist, A_up_inv, A_dn_inv, dA_up, dA_dn, interaction, E_kin, E_ext, E_int);
             }
 
 
@@ -316,9 +324,9 @@ void GradientDescent(int P, double Diff, int D, int N, int MC, int O, int iterat
             VectorXd da = VectorXd::Zero(M);
             VectorXd db = VectorXd::Zero(N);
             MatrixXd dW = MatrixXd::Zero(M,N);
-            Psi.Gradient_a(Xa, da);
-            Psi.Gradient_b(e, db);
-            Psi.Gradient_W(X, e, dW);
+            GD.Gradient_a(Xa, da);
+            GD.Gradient_b(e, db);
+            GD.Gradient_W(X, e, dW);
 
 
             da_tot   += da;

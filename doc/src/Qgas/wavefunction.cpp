@@ -1,5 +1,5 @@
 #include "wavefunction.h"
-#include "basis.h"
+#include "general_tools.h"
 #include "eigen3/Eigen/Dense"
 
 #include <cmath>
@@ -8,6 +8,76 @@
 
 using namespace std;
 using namespace Eigen;
+
+
+// === DETERMINANT MATRIX PART ===
+
+
+double A_elements(const VectorXd &Xa, int P_half, int D, int O, int i, int j) {
+    // Updates an element in A-matrix
+
+    MatrixXd order = MatrixXd::Zero(P_half, D);
+    list(O, D, order);
+
+    double element = 1;
+    for(int k=0; k<D; k++) {
+        element *= H(Xa(D*i+k), order(j,k));
+    }
+    return element;
+}
+
+void A_rows(const VectorXd &Xa, int P_half, int D, int O, int i, MatrixXd &A) {
+    // Updates a row in A-matrix
+
+    for(int j=0; j<P_half; j++) {
+        A(i,j) = A_elements(Xa, P_half, D, O, i, j);
+    }
+}
+
+
+void matrix(const VectorXd &Xa, int O, int D, int P_half, MatrixXd &A) {
+    // Update the entire matrix
+
+    for(int j=0; j<P_half; j++) {
+        A_rows(Xa, P_half, D, O, j, A);
+    }
+}
+
+double Jastrow_NQS(VectorXd v) {
+    //Neural Quantum State Wavefunction (NQS-WF)
+
+    int N = v.size();
+    double prod = 1;
+    for(int i=0; i < N; i++) {
+        prod *= (1 + exp(v(i)));
+    }
+
+    return prod;
+}
+
+
+double Gauss_WF(VectorXd Xa, double sigma_sqrd) {
+    //Gaussian WF
+
+    return exp(-(double)(Xa.transpose() * Xa)/(2 * sigma_sqrd));
+}
+
+
+double Slater(int D, int O, const VectorXd &Xa, const VectorXd &v, double sigma_sqrd) {
+    // Setting up Slater determinant
+
+    int M = Xa.size();                                // Number of free dimensions
+    int P_half = int(M/(2*D));                        // Number of particles
+
+    MatrixXd D_up = MatrixXd::Ones(P_half,P_half);
+    MatrixXd D_dn = MatrixXd::Ones(P_half,P_half);
+
+    matrix(Xa.head(M/2), O, D, P_half, D_up);
+    matrix(Xa.tail(M/2), O, D, P_half, D_dn);
+
+
+    return D_up.determinant()*D_dn.determinant()*Gauss_WF(Xa, sigma_sqrd)*Jastrow_NQS(v);
+}
 
 
 int WaveFunction::setTrialWF(int N, int M, int D, int norbitals, int sampling, double sigma_sqrd, double omega)
@@ -21,6 +91,7 @@ int WaveFunction::setTrialWF(int N, int M, int D, int norbitals, int sampling, d
     m_omega_sqrd = omega*omega;
 }
 
+
 double WaveFunction::Psi_value_sqrd(const VectorXd &Xa, const VectorXd &v)
 {
     //Unnormalized wave function
@@ -29,145 +100,3 @@ double WaveFunction::Psi_value_sqrd(const VectorXd &Xa, const VectorXd &v)
     return Prob * Prob;
 }
 
-void Deter(const VectorXd &Xa, VectorXd &diff) {
-    // Determinant dependent part
-
-
-
-    //int n_orbitals = magic_numbers_inverse(20)+1;
-
-    //int P = 20;
-    //int D = 2;
-
-    /*
-    MatrixXd D_up = MatrixXd::Ones(int(3),int(3));
-    MatrixXd D_dn = MatrixXd::Ones(int(3),int(3));
-
-    matrix(Xa.head(P), n_orbitals, D, D_up);
-    matrix(Xa.tail(P), n_orbitals, D, D_dn);
-
-    VectorXd X_up = VectorXd::Zero(2*P);
-    VectorXd X_dn = VectorXd::Zero(2*P);
-    for(int i=0; i<P; i++) {
-        X_up(i) = X_up(i+P) = Xa(i);
-        X_dn(i) = X_dn(i+P) = Xa(i+P);
-    }
-
-    for(int i=0; i<P; i++) {
-        if(i % 2==0){
-            diff(i) = 4*(X_up(i+3) - X_up(i+5))/D_up.determinant();
-            diff(i+6) = 4*(X_dn(i+3) - X_dn(i+5))/D_dn.determinant();
-        }
-        else {
-            diff(i) = 4*(X_up(i+3) - X_up(i+1))/D_up.determinant();
-            diff(i+6) = 4*(X_dn(i+3) - X_dn(i+1))/D_dn.determinant();
-        }
-    }
-    */
-
-    //for(int i=0; i<2*P; i++) {
-    //    diff(i) = energy(Xa, D, i);
-    //}
-}
-
-double WaveFunction::EL_calc(const VectorXd X, const VectorXd Xa, const VectorXd v, const MatrixXd W, const MatrixXd &Dist, const MatrixXd &A_up_inv, const MatrixXd &A_dn_inv, const MatrixXd &dA_up, const MatrixXd &dA_dn,\
-                             int interaction, double &E_kin, double &E_ext, double &E_int) {
-    /*Local energy calculations*/
-
-    // Set parameters to zero
-    E_kin = 0;          // Total kinetic energy
-    E_ext = 0;          // Total external potetial energy
-    E_int = 0;          // Total interaction energy
-
-    // Declare Eigen vectors
-    VectorXd e_n = VectorXd::Zero(m_N);
-    VectorXd e_p = VectorXd::Zero(m_N);
-    VectorXd diff = VectorXd::Zero(m_M);
-
-    // Fill up vectors
-    for(int i=0; i<m_N; i++) {
-        e_n(i) = 1/(1 + exp(-v(i)));
-        e_p(i) = 1/(1 + exp(v(i)));
-    }
-
-    int P = m_M/m_D;
-
-    for(int i=0; i<m_M; i++) {
-        //diff(i) = energy(Xa, m_D, m_norbitals, i);
-
-
-        for(int j=0; j<P/2; j++) {
-            if(i<m_M/2) {
-                diff(i) += dA_up(i,j)*A_up_inv(j,int(i/m_D));
-            }
-            else {
-                diff(i) += dA_dn(i-m_M/2,j)*A_dn_inv(j,int((i-m_M/2)/m_D));
-            }
-        }
-
-    }
-
-    // === ENERGY CALCULATION ===
-    // Kinetic energy
-    if(m_sampling==2) {
-        E_kin += (W*e_n).transpose()*diff;
-        E_kin += 0.25*(W.cwiseAbs2()*e_p.cwiseProduct(e_n)).sum();
-        E_kin -= (1/(2*m_sigma_sqrd))*(Xa.transpose()*W)*e_n;
-        E_kin += 0.5*((W.transpose()*W).cwiseProduct(e_n*e_n.transpose())).sum();
-
-        E_kin -= 0.5*m_M * m_sigma_sqrd;
-        E_kin += 0.25*Xa.transpose() * Xa;
-        E_kin -= (double) (diff.transpose()*Xa);
-        E_kin = -E_kin/(2 * m_sigma_sqrd * m_sigma_sqrd);
-    }
-
-    else {
-        E_kin += 2*(W*e_n).transpose()*diff;
-        E_kin += (W.cwiseAbs2()*e_p.cwiseProduct(e_n)).sum();
-        E_kin -= (2/m_sigma_sqrd)*(Xa.transpose()*W)*e_n;
-        E_kin += ((W.transpose()*W).cwiseProduct(e_n*e_n.transpose())).sum();
-
-        E_kin -= m_M;
-        E_kin += (double) (Xa.transpose() * Xa)/m_sigma_sqrd;
-        E_kin -= 2*(double) (diff.transpose()*Xa);
-        E_kin = -E_kin/(2 * m_sigma_sqrd);
-    }
-
-    // Interaction energy
-    if(interaction) E_int = Dist.sum();
-
-    // Harmonic oscillator potential
-    E_ext = (double) (X.transpose() * X) * m_omega_sqrd/ 2;
-
-    return E_kin + E_ext + E_int;
-}
-
-void WaveFunction::Gradient_a(const VectorXd &Xa, VectorXd &da) {
-
-    if(m_sampling==2) {
-        da = 0.5*Xa/m_sigma_sqrd;
-    }
-    else{
-        da = Xa/m_sigma_sqrd;
-    }
-}
-
-void WaveFunction::Gradient_b(const VectorXd &e, VectorXd &db) {
-
-    if(m_sampling==2) {
-        db = 0.5*e;
-    }
-    else{
-        db = e;
-    }
-}
-
-void WaveFunction::Gradient_W(const VectorXd &X, const VectorXd &e, MatrixXd &dW) {
-
-    if(m_sampling==2) {
-        dW = 0.5*X*e.transpose()/m_sigma_sqrd;
-    }
-    else{
-        dW = X*e.transpose()/m_sigma_sqrd;
-    }
-}

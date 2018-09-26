@@ -1,7 +1,7 @@
 #include <iostream>
 #include <eigen3/Eigen/Dense>
 #include "wavefunction.h"
-#include "basis.h"
+#include "energy.h"
 #include "general_tools.h"
 
 using namespace std;
@@ -69,8 +69,6 @@ void test_E_L_calc(){
     //cout << "E_int: " << E_int << endl;
 }
 
-/*Should implement tests which test diff for 2 particles and that the matrices are set up correctly for 6 particles
- */
 
 void test_orbitals() {
     int P = 6;
@@ -112,3 +110,53 @@ void test_without_argument() {
     test_orbitals();
     test_matrix();
 }
+
+
+// === ENERGY CALCULATION ===
+
+/*
+double energy(const VectorXd &Xa, int D, int O, int k) {
+    // Calculate some kinetic energy
+
+    int M = Xa.size();
+    int length = M/(2*D);
+
+    MatrixXd A = MatrixXd::Ones(length, length);
+    MatrixXd dA = MatrixXd::Zero(length, length);
+
+    if(k<M/2) {
+        matrix(Xa.head(M/2), O, D, length, A);
+        derivative(Xa.head(M/2), O, D, k, dA);
+    }
+    else {
+        matrix(Xa.tail(M/2), O, D, length, A);
+        derivative(Xa.tail(M/2), O, D, k-M/2, dA);
+    }
+
+
+    return (A.inverse()*dA).trace();
+}
+
+double energy2(const VectorXd &Xa, int D, int O, VectorXd &diff) {
+    // Calculating grad(det(D))
+
+    int M_half = Xa.size()/2;
+    int P_half = M_half/D;
+
+    MatrixXd A_up = MatrixXd::Ones(P_half, P_half);
+    MatrixXd A_dn = MatrixXd::Ones(P_half, P_half);
+
+    matrix(Xa.head(M_half), O, D, P_half, A_up);
+    matrix(Xa.tail(M_half), O, D, P_half, A_dn);
+
+    for(int k = 0; k<M_half; k++) {
+        MatrixXd dA = MatrixXd::Zero(P_half, P_half);
+        derivative(Xa.head(M_half), O, D, k, dA);
+
+    }
+    for(int k = M_half; k<M_half*2; k++) {
+        MatrixXd dA = MatrixXd::Zero(P_half, P_half);
+        derivative(Xa.tail(M_half), O, D, k, dA);
+    }
+}
+*/
