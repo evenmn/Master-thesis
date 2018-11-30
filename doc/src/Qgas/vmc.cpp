@@ -11,7 +11,7 @@
 #include "hastings_tools.h"
 #include "gibbs_tools.h"
 #include "general_tools.h"
-#include "gradient_descent.h"
+#include "optimization.h"
 #include "test.h"
 #include "energy.h"
 
@@ -44,11 +44,11 @@ void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sa
 
     // Make objects
     WaveFunction Psi;
-    GradientDescent GD;
+    Optimization OPT;
     Energy ENG;
 
     Psi.setTrialWF(N, M, D, O, sampling, sigma_sqrd, omega);
-    GD.init(sampling, sigma_sqrd);
+    OPT.init(sampling, sigma_sqrd, M, N);
     ENG.init(N, M, D, O, sampling, sigma_sqrd, omega);
 
 
@@ -324,9 +324,9 @@ void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sa
             VectorXd da = VectorXd::Zero(M);
             VectorXd db = VectorXd::Zero(N);
             MatrixXd dW = MatrixXd::Zero(M,N);
-            GD.Gradient_a(Xa, da);
-            GD.Gradient_b(e, db);
-            GD.Gradient_W(X, e, dW);
+            OPT.Gradient_a(Xa, da);
+            OPT.Gradient_b(e, db);
+            OPT.Gradient_W(X, e, dW);
 
 
             da_tot   += da;
@@ -395,10 +395,31 @@ void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sa
         }
         */
 
-        //Gradient descent
-        a -= 2*eta*(daE_tot - EL_avg*da_tot)/MC;
-        b -= 2*eta*(dbE_tot - EL_avg*db_tot)/MC;
-        W -= 2*eta*(dWE_tot - EL_avg*dW_tot)/MC;
+        // Declare optimization arrays
+        VectorXd opt_a = VectorXd::Zero(M);
+        VectorXd opt_b = VectorXd::Zero(N);
+        MatrixXd opt_W = MatrixXd::Zero(M,N);
+
+        int optimization = 0;
+
+        if(optimization==0) {
+            // Gradient Descent
+            OPT.GD_a(eta, EL_avg, MC, daE_tot, da_tot, opt_a);
+            OPT.GD_b(eta, EL_avg, MC, dbE_tot, db_tot, opt_b);
+            OPT.GD_W(eta, EL_avg, MC, dWE_tot, dW_tot, opt_W);
+        }
+        else if(optimization==1) {
+            // ADAM
+
+        }
+
+        // Optimization
+        a -= opt_a;
+        b -= opt_b;
+        W -= opt_W;
+        //a -= 2*eta*(daE_tot - EL_avg*da_tot)/MC;
+        //b -= 2*eta*(dbE_tot - EL_avg*db_tot)/MC;
+        //W -= 2*eta*(dWE_tot - EL_avg*dW_tot)/MC;
 
         //Write to file
         energy << EL_avg << "\n";

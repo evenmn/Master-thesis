@@ -9,9 +9,9 @@ SOURCES += main.cpp \
     gibbs_tools.cpp \
     test.cpp \
     general_tools.cpp \
-    gradient_descent.cpp \
     energy.cpp \
-    vmc.cpp
+    vmc.cpp \
+    optimization.cpp
 
 HEADERS += \
     wavefunction.h \
@@ -19,6 +19,6 @@ HEADERS += \
     gibbs_tools.h \
     test.h \
     general_tools.h \
-    gradient_descent.h \
     energy.h \
-    vmc.h
+    vmc.h \
+    optimization.h

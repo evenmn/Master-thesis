@@ -9,12 +9,12 @@ using namespace std;
 
 int main()
 {
-    int     P           = 6;               //Number of particles
+    int     P           = 2;               //Number of particles
     int     D           = 2;                //Number of dimensions
     int     N           = P;                //Number of hidden nodes
-    int     MC          = pow(2,20);        //Number of Monte Carlo cycles
-    int     O           = orbitals(P,D);    //Number of orbitals
-    int     iterations  = 3000;             //Number of gradient decent cycles
+    int     MC          = int(pow(2,14));        //Number of Monte Carlo cycles
+    int     O           = int(orbitals(P,D));    //Number of orbitals
+    int     iterations  = 100;             //Number of gradient decent cycles
     int     sampling    = 0;                //Brute force- (0), Hastings- (1) or Gibbs' sampling (2)
     bool    interaction = 1;                //Interaction on if true
     bool    one_body    = 1;                //Calculating onebody density if true
