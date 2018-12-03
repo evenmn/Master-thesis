@@ -1,7 +1,8 @@
-\section{Background theory}
+\section{Quantum Many-Body Physics} \label{sec:quantum}
 Here I might present basic quantum mechanics briefly.
 
-\subsection{Hamiltonian and wavefunction}
+\subsection{Elementary Quantum Theory} \label{subsec:elementary}
+\subsubsection{The Schrödinger Equation} \label{subsubsec:schrodinger}
 Quantum quantities can be found by solving eigenvalue equations with the wavefunction as eigenfunction. 
 \begin{equation}
 \label{eq:Energy}
@@ -9,7 +10,7 @@ Quantum quantities can be found by solving eigenvalue equations with the wavefun
 \end{equation}
 
 
-\subsection{Born-Oppenheimer approximation}
+\subsubsection{Born-Oppenheimer approximation} \label{subsubsec:bornoppenheimer}
 The Born-Oppenheimer approximation is the assumption that we can split the Hamiltonian in a one-body part and a two-body part, and calculate the energies separately. 
 
 \begin{equation}
@@ -18,7 +19,11 @@ The Born-Oppenheimer approximation is the assumption that we can split the Hamil
 \end{equation}
 In atomic units. 
 
-\subsection{Wavefunction properties}
+\subsubsection{Postulates of Quantum Mechanics} \label{subsubsec:postulates}
+
+\subsubsection{Symmetry and anti-symmetry} \label{subsubsec:symmetry}
+
+\subsection{Wavefunction properties} \label{subsec:wavefunction}
 Assume we have a permutation operator $\hat{P}$ which switches two coordinates in the wave function,
 
 \begin{equation}
@@ -33,7 +38,7 @@ It turns out that because of their antisymmetric wavefunction, two identical fer
 Read https://manybodyphysics.github.io/FYS4480/doc/pub/secondquant/html/secondquant-bs.html
 
 
-\subsection{Slater determinant} \label{sec:slater}
+\subsubsection{Slater determinant} \label{subsubsec:slater}
 For a system of more particles we can define a total wavefunction, which is a composition of all the single particle wavefuncions (SPF) and contains all the information about the system. The way we compile the SPFs needs to be based on Pauli's exclusion, which states that two identical fermions cannot possibly be in the same state at the same time. If this happens, we set the total wavefunction to zero, which is done by defining the wavefunction as a determinant. 
 
 Consider a system of two identical fermions with SPFs $\phi_1$ and $\phi_2$ at positions $\boldsymbol{r}_1$ and $\boldsymbol{r}_2$ respectively. The way we define the wavefunction of the system is then
@@ -66,7 +71,7 @@ where the $\psi$'s are the true single particle wavefunctions, which are the ten
 \end{equation}
 with $\xi$ as the spin part. 
 
-\subsubsection{Electron system}
+\subsubsection{Electron system} \label{subsubsec:electronsystem}
 For our purpose we will study fermions with spin $\sigma=\pm 1/2$ only, which can be seen as an electron gas. In this particular case, the SPFs can be arranged in spin-up and spin-down parts, such that the Slater determinant can be simplied to 
 \begin{equation}
 \Psi(\boldsymbol{r}_1,\boldsymbol{r}_2,\hdots,\boldsymbol{r}_N)=
@@ -83,7 +88,17 @@ SHOULD END UP WITH SPLITTED DETERMINANTS HERE
 
 For a detailed walkthrough, see appendix I in REF(The Stochastic Gradient Approximation: an application to Li nanoclusters, Daniel Nissenbaum). 
 
-\subsection{Jastrow factor}
+\subsubsection{Basis set} \label{subsubsec:basisset}
 
-\subsubsection{CUSP condition}
+\subsubsection{Jastrow factor} \label{subsubsec:jastrow}
+
+\subsubsection{CUSP condition} \label{subsubsec:cusp}
+
+\subsection{Potentials and basis sets} \label{subsec:potentials}
+\subsubsection{Quantum dots} \label{subsubsec:quantumdots}
+Artificial atoms
+\subsubsection{Atomic and molecular systems} \label{subsubsec:atomic}
+\subsubsection{Electron gas} \label{subsubsec:electrongas}
+\subsubsection{Helium gas} \label{subsubsec:heliumgas}
+He$^3$ and He$^4$
 
