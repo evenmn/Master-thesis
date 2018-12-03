@@ -2,6 +2,114 @@
 \subsection{Foundation} \label{subsec:foundation}
 \subsection{Structure} \label{subsec:structure}
 Add structure chart
+\begin{figure} [H]
+	\centering
+	\begin{tikzpicture}[
+	>={Latex[width=2mm,length=2mm]},
+	base/.style = {rectangle, rounded corners, draw=black,
+		minimum width=2cm, minimum height=0.5cm, text
+		centered, font=\sffamily},
+	basecode/.style = {rectangle, rounded corners, draw=black,
+		minimum width=2cm, minimum height=0.5cm, text
+		centered, font=\sffamily, align=left},
+	activityStarts/.style = {base, fill=blue!30, drop shadow},
+	startstop/.style = {base, fill=red!25, drop shadow},
+	startstopcode/.style = {basecode, fill=Red!25, drop shadow},
+	activityRuns/.style = {base, fill=green!25, drop shadow},
+	process/.style = {base, fill=white!15, font=\sffamily, drop shadow},
+	processcode/.style = {basecode, fill=white!15, font=\sffamily, drop shadow},
+	scale=0.8, 
+	node distance=1.5cm, 
+	every node/.style={fill=white, font=\sffamily},
+	align=center]
+	\node (pre) [activityStarts] {
+		Pre-build two-body matrix $D_{pqrs}$ \\
+		Pre-build one-body matrix $h_{pq}$ \\
+		Pre-build overlap matrix $S_{pq}$ \\
+		Initialize $\blds{C}$ 
+	};
+	\node (Fock) [activityRuns, below of=pre, yshift=-1.2cm] {
+		Set Fock-matrix $\blds{F}$
+	};
+	\node (Fockmix) [activityRuns, below of=Fock, yshift=-0.7cm] {
+		Perform mixing of $\blds{F}$ \\
+		(Optional)
+	};
+	\node (Fockmixeq) [process, right of=Fockmix, xshift=2.4cm] {
+		\ref{eq:extrapolF}
+	};
+	\draw[->] (Fock) -- (Fockmix);
+	\draw[-] (Fockmix) -- (Fockmixeq);
+	\node (RHF) [process, above right of=Fock, xshift=3.0cm, yshift=-0.2cm] {
+		Use \ref{eq:FockRestrictedDef} if RHF
+	};
+	\node (UHF) [process, below right of=Fock, xshift=3.0cm, yshift=0.1cm] {
+		Use \ref{eq:UHFFockdef} if UHF
+	};
+	\draw[-] (Fock) to [out=15, in=180] (RHF);
+	\draw[-] (Fock) to [out=-15, in=180] (UHF);
+	\draw[->] (pre) -- (Fock);
+	\node (eigcomp) [activityRuns, below of=Fock, yshift=-2.5cm] {
+		Solve generalized \\ 
+		eigenvalue problem. \\
+		$\blds{F}\blds{C} = \blds{\varepsilon}\blds{S}\blds{C}$
+	};
+	\draw[->] (Fockmix) -- (eigcomp);
+	\node (density) [activityRuns, below of=eigcomp] {
+		Set density matrix $\blds{\rho}$.
+	};
+	\draw[->] (eigcomp) -- (density);
+	\node (densityeq) [process, right of=density, xshift=2.5cm] {
+		\ref{eq:densitymatrixdef}
+	};
+	\draw[-] (density) -- (densityeq);
+	\node (mix) [activityRuns, below of=density] {
+		Perform mixing of $\blds{\rho}$. \\
+		(Optional)
+	};
+	\draw[->] (density) -- (mix);
+	\node (mixeq) [process, right of=mix, xshift=2.5cm] {
+		\ref{eq:mixing}
+	};
+	\draw[-] (mix) -- (mixeq);
+	\node (conv) [startstop, below of=mix] {
+		Check convergence.
+	};
+	\node (conveq) [process, right of=conv, xshift=2.5cm] {
+		\ref{eq:HFconvthresh}
+	};
+	\draw[->] (mix) -- (conv);
+	\draw[-] (conv) -- (conveq);
+	\node (no) [above left of=conv, xshift=-4.0cm] {
+		$\blds{\varepsilon}^{\text{HF}}_{\text{new}} -
+		\blds{\varepsilon}^{\text{HF}}_{\text{old}} \geq \epsilon$
+	};
+	\draw[->] (conv) to [out=180,in=-90] (no);
+	\node (keepOld) [process, above of=no, yshift=1.5cm, xshift=-0.5cm] {
+		Save energy eigenvalues and \\
+		density matrix(mixed). \\
+		$\blds{\varepsilon}^{\text{HF}}_{\text{old}} =
+		\blds{\varepsilon}^{\text{HF}}_{\text{new}}$ \\
+		$\blds{\rho}_{\text{old}} = \blds{\rho}_{\text{new}}$
+	};
+	\draw[->] (no) to [out=90,in=-90] (keepOld);
+	\draw[->] (keepOld) to [out=90,in=180] (Fock);
+	\node (yes) [below of=conv] {
+		$\blds{\varepsilon}^{\text{HF}}_{\text{new}} -
+		\blds{\varepsilon}^{\text{HF}}_{\text{old}} < \epsilon$
+	};
+	\draw[->] (conv) -- (yes);
+	\node (end) [activityStarts, below of=yes] {
+		Output energy
+	};
+	\node (endeq) [process, right of=end, xshift=3.0cm] {
+		\ref{eq:energyJKHF, eq:ch3Efunc}
+	};
+	\draw[->] (yes) -- (end);
+	\draw[-] (end) -- (endeq);
+	\end{tikzpicture}
+	\caption{Hartree-Fock Algorithm.}
+\end{figure}
 \subsection{Optimization algorithms} \label{subsec:optimization}
 \subsubsection{Stochastic Gradient Descent} \label{subsubsec:sgd}
 \subsubsection{ADAM} \label{subsubsec:adam}

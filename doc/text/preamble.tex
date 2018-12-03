@@ -9,6 +9,7 @@
 \usepackage{amsmath}
 \usepackage{float}
 \usepackage{color}
+\usepackage{xcolor}
 \usepackage{listings}
 \usepackage{hyperref}
 \usepackage{amsmath}
@@ -44,10 +45,14 @@ sorting=ynt
 
 %tikz
 \setcounter{secnumdepth}{4}
-\usetikzlibrary{through, shapes, calc, shapes, arrows, positioning}
+\usetikzlibrary{through, shapes, calc, shapes, arrows, positioning, arrows.meta, shadows}
 \tikzstyle{neuron}=[draw,circle,minimum size=20pt,inner sep=0pt, fill=white]
 \tikzstyle{stateTransition}=[thick]
 \tikzstyle{learned}=[text=red]
+
+%\newcommand{\blds}[1]{\boldsymbol{{#1}}} % better bold in mathmode (from amsmath)
+%\newcommand{\Arf}[1]{\Autoref{#1}}
+%\renewcommand\normalfont\huge\bfseries\scshape\color{ForestGreen}
 
 %specific reused text
 \newcommand{\mdate}{\today}
