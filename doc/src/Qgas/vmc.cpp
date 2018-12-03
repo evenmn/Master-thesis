@@ -46,6 +46,7 @@ void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sa
     WaveFunction Psi;
     Optimization OPT;
     Energy ENG;
+    Slater Slat;
 
     Psi.setTrialWF(N, M, D, O, sampling, sigma_sqrd, omega);
     OPT.init(sampling, sigma_sqrd, M, N);
@@ -84,8 +85,8 @@ void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sa
     MatrixXd A_up_inv = MatrixXd::Ones(P_half, P_half);
     MatrixXd A_dn_inv = MatrixXd::Ones(P_half, P_half);
 
-    matrix(Xa.head(M/2), O, D, P_half, A_up);
-    matrix(Xa.tail(M/2), O, D, P_half, A_dn);
+    Slat.matrix(Xa.head(M/2), O, D, P_half, A_up);
+    Slat.matrix(Xa.tail(M/2), O, D, P_half, A_dn);
 
     A_up_inv = A_up.inverse();
     A_dn_inv = A_dn.inverse();
@@ -206,7 +207,7 @@ void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sa
 
                     double R = 0;
                     if(row < P/2){
-                        A_rows(Xa.head(M/2), P/2, D, O, row, A_up);
+                        Slat.A_rows(Xa.head(M/2), P/2, D, O, row, A_up);
                         A_up_inv = A_up.inverse();
                         for(int i=0; i<D; i++) {
                             ENG.dA_row(Xa.head(M/2), c(i), dA_up);
@@ -222,7 +223,7 @@ void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sa
 
                     }
                     else {
-                        A_rows(Xa.tail(M/2), P/2, D, O, row-P/2, A_dn);
+                        Slat.A_rows(Xa.tail(M/2), P/2, D, O, row-P/2, A_dn);
                         A_dn_inv = A_dn.inverse();
                         for(int i=0; i<D; i++) {
                             ENG.dA_row(Xa.tail(M/2), c(i)-M/2, dA_dn);
@@ -262,7 +263,7 @@ void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sa
 
                 double R = 0;
                 if(row < P/2){
-                    A_rows(Xa.head(M/2), P/2, D, O, row, A_up);
+                    Slat.A_rows(Xa.head(M/2), P/2, D, O, row, A_up);
                     for(int i=0; i<D; i++) {
                         ENG.dA_row(Xa.head(M/2), c(i), dA_up);
                     }
@@ -274,7 +275,7 @@ void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sa
                     }
                 }
                 else {
-                    A_rows(Xa.tail(M/2), P/2, D, O, row-P/2, A_dn);
+                    Slat.A_rows(Xa.tail(M/2), P/2, D, O, row-P/2, A_dn);
                     for(int i=0; i<D; i++) {
                         ENG.dA_row(Xa.tail(M/2), c(i)-M/2, dA_dn);
                     }

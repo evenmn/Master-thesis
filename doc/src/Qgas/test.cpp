@@ -91,8 +91,9 @@ void test_matrix() {
     MatrixXd A = MatrixXd::Ones(P/2, P/2);
     VectorXd Xa = VectorXd::Random(M);
 
+    Slater Slat;
 
-    matrix(Xa.head(M/2), O, D, P/2, A);
+    Slat.matrix(Xa.head(M/2), O, D, P/2, A);
 
     MatrixXd B(3,3);
     B << 1, 2*Xa(0), 2*Xa(1),
