@@ -22,4 +22,7 @@ public:
     void GD_a(const double eta, const double EL_avg, const double MC, const VectorXd &daE_tot, const VectorXd &da_tot, VectorXd &opt_a);
     void GD_b(const double eta, const double EL_avg, const double MC, const VectorXd &dbE_tot, const VectorXd &db_tot, VectorXd &opt_b);
     void GD_W(const double eta, const double EL_avg, const double MC, const MatrixXd &dWE_tot, const MatrixXd &dW_tot, MatrixXd &opt_W);
+    void ADAM_a(const double eta, int i, VectorXd &m, VectorXd &v, const double b1, const double b2, const double EL_avg, const double MC, const VectorXd &daE_tot, const VectorXd &da_tot, VectorXd &opt_a);
+    void ADAM_b(const double eta, int i, VectorXd &m, VectorXd &v, const double b1, const double b2, const double EL_avg, const double MC, const VectorXd &dbE_tot, const VectorXd &db_tot, VectorXd &opt_b);
+    void ADAM_W(const double eta, int i, MatrixXd &m, MatrixXd &v, const double b1, const double b2, const double EL_avg, const double MC, const MatrixXd &dWE_tot, const MatrixXd &dW_tot, MatrixXd &opt_W);
 };

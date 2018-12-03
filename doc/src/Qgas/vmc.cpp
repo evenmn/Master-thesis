@@ -410,7 +410,17 @@ void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sa
         }
         else if(optimization==1) {
             // ADAM
-
+            VectorXd ma = VectorXd::Zero(M);
+            VectorXd va = VectorXd::Zero(M);
+            VectorXd mb = VectorXd::Zero(N);
+            VectorXd vb = VectorXd::Zero(N);
+            MatrixXd mW = MatrixXd::Zero(M,N);
+            MatrixXd vW = MatrixXd::Zero(M,N);
+            double b1 = 0.9;
+            double b2 = 0.99;
+            OPT.ADAM_a(eta, iter, ma, va, b1, b2, EL_avg, MC, daE_tot, da_tot, opt_a);
+            OPT.ADAM_b(eta, iter, mb, vb, b1, b2, EL_avg, MC, dbE_tot, db_tot, opt_b);
+            OPT.ADAM_W(eta, iter, mW, vW, b1, b2, EL_avg, MC, dWE_tot, dW_tot, opt_W);
         }
 
         // Optimization
