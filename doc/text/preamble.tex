@@ -1,7 +1,7 @@
 \documentclass[norsk,a4paper,12pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
-\usepackage{biblatex}
+\usepackage{csquotes}	% Supports babel
 \usepackage{graphicx} %for å inkludere grafikk
 \usepackage{verbatim} %for å inkludere filer med tegn LaTeX ikke liker
 \usepackage{tabularx}
@@ -14,19 +14,27 @@
 \usepackage{hyperref}
 \usepackage{amsmath}
 \usepackage{tikz}
-% \usepackage{physics}
+\usepackage{physics}	% Dirac notation
 \usepackage{amssymb}
 \usepackage{titlesec}
 \usepackage{comment}
+\usepackage{fancybox}	% Oval equation box
+\usepackage{enumitem}	% Itemize settings
+\usepackage{subfig}		% Sub figures
+\usepackage{subfloat}	% Figures side by side
+\usepackage{geometry}	% Change margins on each page
+\usepackage{empheq}		% Beautiful boxes
+\usepackage{multirow}	% Multirow in table
+\usepackage{multicol}	% Multicolumn in table
+\usepackage{varwidth}	% Rotate text in table
+\usepackage{arydshln}   % Dashed lines in table
 
 %biblatex
-\iffalse
 \usepackage[
-backend=biber,
+backend=bibtex,
 style=alphabetic,
 sorting=ynt
 ]{biblatex}
-\fi
 \addbibresource{refs.bib}
 
 %listings

@@ -2,32 +2,39 @@
 Here I might present basic quantum mechanics briefly.
 
 \subsection{Elementary Quantum Theory} \label{subsec:elementary}
-\subsubsection{The Schrödinger Equation} \label{subsubsec:schrodinger}
-Quantum quantities can be found by solving eigenvalue equations with the wavefunction as eigenfunction. 
-\begin{equation}
-\label{eq:Energy}
-\hat{\text{H}}\Psi_n(\boldsymbol{x})=\epsilon_n\Psi_n(\boldsymbol{x})
-\end{equation}
-
-
-\subsubsection{Born-Oppenheimer approximation} \label{subsubsec:bornoppenheimer}
-The Born-Oppenheimer approximation is the assumption that we can split the Hamiltonian in a one-body part and a two-body part, and calculate the energies separately. 
-
-\begin{equation}
-\label{eq:Hamiltonian}
-\hat{\text{H}} = \sum_{i=1}^{P} (-\frac{1}{2} \nabla_i^2 + \frac{1}{2} \omega^2 r_i ^2) + \sum_{i<j} \frac{1}{r_{ij}} 
-\end{equation}
-In atomic units. 
-
+Even though it is called elementary, quantum mechanics is not basic at all. 
 \subsubsection{Postulates of Quantum Mechanics} \label{subsubsec:postulates}
 We will first list the postulates of quantum mechanics, and then discuss their importance
 \begin{itemize}
-	\item The state of a quantum mechanical syste is completely specified by its wavefunction
+	\item The state of a quantum mechanical system is completely specified by its wavefunction
 	\item To every observable in classical mechanics there corresponds a linear, Hermitian operator in quantum mechanics. 
 	\item 
 \end{itemize}
 
+\subsubsection{The Schrödinger Equation} \label{subsubsec:schrodinger}
+A natural starting point is with the Schrödinger equation, which gives the energy eigenstates of a system defined by a Hamiltonian $\hatH$ and its eigenfunctions, $\Psi$, which are the wavefunctions,
+\begin{equation}
+\label{eq:Energy}
+\hat{\text{H}}\psin=\epsilon_n\psin.
+\end{equation}
+
+Solving equation \eqref{eq:Energy} with respect to the energies, we obtains some integrals,
+\begin{equation}
+\epsilon_n=\frac{\int d\bs{r}\psinc\hatH\psin}{\int d\bs{r}\psinc\psin},
+\end{equation}
+which not necessarily are trivial to solve. The integral in the nominator gives the normalization, and ensures that the wavefunction is normalized. If this already is the case, we can omit the nominator and focus on solving the integral in the denominator. The equation can be expressed more elegantly using Dirac braket notation,
+\begin{equation}
+\epsilon_n=\mel{n}{\hatH}{n},
+\end{equation}
+where the first part, $\bra{n}$ is called a bra and the last part, $\ket{n}$ is called a ket. At first this might look artificial and less informative, but it simplifies the notation significantly. More information about the notation is found in Appendix B. 
+\cite{GriffQuan}
+
 \subsubsection{The Variational Principle}
+In the equations above, the presented wavefunctions are assumed to be the exact eigenfunctions of the Hamiltonian. But often we do not know the exact wavefunctions, and we need to guess what the wavefunctions might be. In those cases we make use of the variational principle, which states that only the groundstate wavefunction is able to give the groundstate energy. All other wavefunctions with the required properties (see section \ref{subsec:wavefunction}) give higher energies, and mathematically we can express the statement with
+\begin{equation}
+\epsilon_0\leq\mel{\Psi_T}{\hatH}{\Psi_T}.
+\end{equation}
+We have here introduced a trial wavefunction $\Psi_T$ which not necessary is the true groundstate wavefunction. This means that we can adjust our trail wavefunction with respect to the energy, and the lower energy we get the better is our wavefunction. 
 
 \subsubsection{Symmetry and anti-symmetry} \label{subsubsec:symmetry}
 Assume we have a permutation operator $\hat{P}$ which switches two coordinates in the wave function,
@@ -114,13 +121,26 @@ Specific systems need specific basis sets
 \subsubsection{Quantum dots} \label{subsubsec:quantumdots}
 Quantum dots are very small particles, and contain fermions or bosons hold together by an external potential. Since these particles have discrete electronic states like an atom, they are often called artificial atoms. 
 
-In this thesis we will study electrons trapped in harmonic oscillators, and we will use the Hermite functions as our basis set. The one dimensional Hermite functions read
+In this thesis we will study electrons trapped in harmonic oscillators,
+\begin{equation}
+\label{eq:HOHamiltonian}
+\hat{\text{H}} = \sum_{i=1}^{P} (-\frac{1}{2} \nabla_i^2 + \frac{1}{2} \omega^2 r_i ^2) + \sum_{i<j} \frac{1}{r_{ij}} 
+\end{equation}
+and we will use the Hermite functions as our basis set. The one dimensional Hermite functions read
 \begin{equation}
 f_n(x)=H_n(x)\exp(-x^2/2)
 \end{equation}
 and are known to be the exact SPFs in a harmonic oscillator. 
 
 \subsubsection{Atomic and molecular systems} \label{subsubsec:atomic}
+We will also investigate real atoms, which have Hamiltonians defined by the Born-Oppenheimer approximation.  
+
+\begin{equation}
+\label{eq:AtomicHamiltonian}
+\hat{\text{H}} = \sum_{i=1}^{P} (-\frac{1}{2} \nabla_i^2 + \frac{1}{2} \omega^2 \frac{1}{r_i}) + \sum_{i<j} \frac{1}{r_{ij}} 
+\end{equation}
+In atomic units. 
+
 \subsubsection{Electron gas} \label{subsubsec:electrongas}
 \subsubsection{Helium gas} \label{subsubsec:heliumgas}
 He$^3$ and He$^4$
