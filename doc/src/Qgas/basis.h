@@ -1,4 +1,5 @@
-#ifndef BASIS_H
-#define BASIS_H
+#pragma once
+#include "eigen3/Eigen/Dense"
 
-#endif // BASIS_H
+void list(int N, int D, Eigen::MatrixXd &order);
+double H(double x, int n);

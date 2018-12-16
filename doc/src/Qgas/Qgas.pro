@@ -11,7 +11,8 @@ SOURCES += main.cpp \
     general_tools.cpp \
     energy.cpp \
     vmc.cpp \
-    optimization.cpp
+    optimization.cpp \
+    basis.cpp
 
 HEADERS += \
     wavefunction.h \
@@ -21,4 +22,5 @@ HEADERS += \
     general_tools.h \
     energy.h \
     vmc.h \
-    optimization.h
+    optimization.h \
+    basis.h

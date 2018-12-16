@@ -98,7 +98,7 @@ void Optimization::ADAM_a(const double eta, int i, VectorXd &m, VectorXd &v, con
     VectorXd m_ = m/(1-pow(b1, (i+1)));
     VectorXd v_ = v/(1-pow(b2, (i+1)));
     for(int j=0; j<m_M; j++) {
-        opt_a(i) = m_(i)/sqrt(v_(i));
+        opt_a(j) = eta*m_(j)/sqrt(v_(j));
     }
 }
 
@@ -110,8 +110,8 @@ void Optimization::ADAM_b(const double eta, int i, VectorXd &m, VectorXd &v, con
     v = v*b2 + (1-b2)*DB.cwiseAbs2();
     VectorXd m_ = m/(1-pow(b1, (i+1)));
     VectorXd v_ = v/(1-pow(b2, (i+1)));
-    for(int j=0; j<m_M; j++) {
-        opt_b(i) = m_(i)/sqrt(v_(i));
+    for(int j=0; j<m_N; j++) {
+        opt_b(j) = eta*m_(j)/sqrt(v_(j));
     }
 }
 
@@ -125,7 +125,7 @@ void Optimization::ADAM_W(const double eta, int i, MatrixXd &m, MatrixXd &v, con
     MatrixXd v_ = v/(1-pow(b2, (i+1)));
     for(int j=0; j<m_M; j++) {
         for(int k=0; k<m_N; k++) {
-            opt_W(j,k) = m_(j,k)/sqrt(v_(j,k));
+            opt_W(j,k) = eta*m_(j,k)/sqrt(v_(j,k));
         }
     }
 }
