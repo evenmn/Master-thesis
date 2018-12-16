@@ -16,6 +16,7 @@ int main()
     int     O           = int(orbitals(P,D));    //Number of orbitals
     int     iterations  = 1000;             //Number of gradient decent cycles
     int     sampling    = 0;                //Brute force- (0), Hastings- (1) or Gibbs' sampling (2)
+    int     optimization= 0;                //Gradient Descent (0), ADAM (1)
     bool    interaction = 1;                //Interaction on if true
     bool    one_body    = 1;                //Calculating onebody density if true
     double  sigma       = 1.0;              //Width of Gaussian distribution
@@ -26,7 +27,7 @@ int main()
     double  Diff        = 0.5;              //Diffusion constant
 
 
-    VMC(P, Diff, D, N, MC, O, iterations, sampling, sigma, omega, steplength, timestep, eta, interaction, one_body);
+    VMC(P, Diff, D, N, MC, O, iterations, sampling, optimization, sigma, omega, steplength, timestep, eta, interaction, one_body);
 
     //test_without_argument();
 

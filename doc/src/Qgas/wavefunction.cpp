@@ -96,6 +96,15 @@ double Jastrow::Jastrow_NQS(const VectorXd &v) {
     return prod;
 }
 
+double Jastrow::PadeJastrow(const VectorXd &Xa) {
+    //Pade-Jastrow factor
+    double sum = 0;
+    for(int i=0; i<m_M; i++) {
+        for(int j=0; j<m_M; j++) {
+            sum += 1;
+        }
+    }
+}
 
 double WaveFunction::Psi_value(int D, int O, const VectorXd &Xa, const VectorXd &v, double sigma_sqrd) {
     // Setting up total wavefunction

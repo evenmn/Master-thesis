@@ -29,7 +29,7 @@ double random_position(){
 }
 
 
-void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sampling, double sigma, \
+void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sampling, int optimization, double sigma, \
                      double omega, double steplength, double timestep, double eta, bool interaction, bool one_body) {
 
     //Declare constants
@@ -242,59 +242,63 @@ void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sa
 
             else if(sampling == 2) {
                 //Gibbs' sampling
-                N_rand = nrand(gen);
-                X(M_rand) = x_sampling(a, h, W, sigma_sqrd, M_rand);
-                h(N_rand) = h_sampling(v, N_rand);
-                Xa = X - a;
-                v = b + (W.transpose() * X)/sigma_sqrd;
+                N_rand = nrand(gen);                                    //Random hidden node
+                X(M_rand) = x_sampling(a, h, W, sigma_sqrd, M_rand);    //Update position of random free dimension
+                h(N_rand) = h_sampling(v, N_rand);                      //Update random hidden node
+                Xa = X - a;                                             //Update Xa
+                v = b + (W.transpose() * X)/sigma_sqrd;                 //Update v
 
                 //Additional stuff
-                int row = int(M_rand/D);
+                int row = int(M_rand/D);                                //Which row in the Slater matrix to update
 
                 // Find indices of relevant row
-                VectorXd c = VectorXd::Zero(D);
-                int l = M_rand%D;
+                VectorXd c = VectorXd::Zero(D);     //Vector with all dimensions
+                int l = M_rand%D;                   //With particle to update position to
                 for(int i=0; i<D; i++) {
-                    c(i) = M_rand-l+i;
+                    c(i) = M_rand-l+i;              //Update vector with all dimensions in correct order
                 }
 
-                double R = 0;
+                double R = 0;                       //To be used when calculate inverse iteratively
                 if(row < P/2){
-                    Slat.A_rows(Xa.head(M/2), H, P/2, D, O, row, A_up);
+                    Slat.A_rows(Xa.head(M/2), H, P/2, D, O, row, A_up);     //Update Slater matrix
+
+                    for(int j=0; j<P/2; j++) {
+                        R += A_up(row, j)*A_up_inv(j, row);
+                    }
+                    for(int j=0; j<P/2; j++) {
+                        A_up_inv(j, row) /= R;              //Update inverse of Slater matrix by iterations
+                    }
                     for(int i=0; i<D; i++) {
-                        ENG.dA_row(Xa.head(M/2), int(c(i)), dA_up);
+                        ENG.dA_row(Xa.head(M/2), int(c(i)), dA_up);         //Update derivative of Slater matrix
                     }
-                    for(int j=0; j<P/2; j++) {
-                        R += A_up(row, j)*A_up_inv(j,row);
-                    }
-                    for(int j=0; j<P/2; j++) {
-                        A_up_inv(j,row) /=R;
-                    }
+
                 }
                 else {
-                    Slat.A_rows(Xa.tail(M/2), H, P/2, D, O, row-P/2, A_dn);
+                    row -= P/2;
+                    Slat.A_rows(Xa.tail(M/2), H, P/2, D, O, row, A_dn); //Update Slater matrix
+
+                    for(int j=0; j<P/2; j++) {
+                        R += A_dn(row, j)*A_dn_inv(j,row);
+                    }
+                    for(int j=0; j<P/2; j++) {
+                        A_dn_inv(j,row) /=R;                        //Update inverse of Slater matrix by iterations
+                    }
                     for(int i=0; i<D; i++) {
-                        ENG.dA_row(Xa.tail(M/2), int(c(i)-M/2), dA_dn);
-                    }
-                    for(int j=0; j<P/2; j++) {
-                        R += A_dn(row-P/2, j)*A_dn_inv(j,row-P/2);
-                    }
-                    for(int j=0; j<P/2; j++) {
-                        A_dn_inv(j,row-P/2) /=R;
+                        ENG.dA_row(Xa.tail(M/2), int(c(i)-M/2), dA_dn);     //Update derivative of Slater matrix
                     }
                 }
 
-                E  = ENG.EL_calc(X, Xa, v, W, Dist, A_up_inv, A_dn_inv, dA_up, dA_dn, interaction, E_kin, E_ext, E_int);
+                E  = ENG.EL_calc(X, Xa, v, W, Dist, A_up_inv, A_dn_inv, dA_up, dA_dn, interaction, E_kin, E_ext, E_int);    //Update energy
             }
 
-
+            //CALCULATE ONEBODY DENSITIES
             if(one_body && iter == iterations-1) {
                 for(int j=0; j<P; j++) {
                     double dist = 0;
                     for(int d=0; d<D; d++) {
                         dist += X(D*j+d)*X(D*j+d);
                     }
-                    double r = sqrt(dist);      //Distance from particle to origin
+                    double r = sqrt(dist);      //Distance from particle j to origin
                     for(int k=0; k<number_of_bins; k++) {
                         if(r < bin_dist[k]) {
                             bins_particles[k] += 1;
@@ -304,6 +308,7 @@ void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sa
                 }
             }
 
+            //DISTANCE BETWEEN ALL PARTICLES
             if(iter == iterations - 1) {
                 for(int j=0; j<P; j++) {
                     for(int k=0; k<j; k++) {
@@ -314,10 +319,13 @@ void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sa
                     }
                 }
             }
+
+            //WRITE LOCAL ENERGY TO FILE FOR BLOCKING
             if((iter-iterations-1)%100==0) {
                 local << E << endl;
             }
 
+            //UPDATE GRADIENTS
             VectorXd da = VectorXd::Zero(M);
             VectorXd db = VectorXd::Zero(N);
             MatrixXd dW = MatrixXd::Zero(M,N);
@@ -397,8 +405,6 @@ void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sa
         VectorXd opt_a = VectorXd::Zero(M);
         VectorXd opt_b = VectorXd::Zero(N);
         MatrixXd opt_W = MatrixXd::Zero(M,N);
-
-        int optimization = 1;
 
         if(optimization==0) {
             // Gradient Descent
