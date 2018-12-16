@@ -3,6 +3,7 @@
 #include "wavefunction.h"
 #include "energy.h"
 #include "general_tools.h"
+#include "basis.h"
 
 using namespace std;
 using namespace Eigen;
@@ -93,7 +94,7 @@ void test_matrix() {
 
     Slater Slat;
 
-    Slat.matrix(Xa.head(M/2), O, D, P/2, A);
+    Slat.matrix(Xa.head(M/2), H, O, D, P/2, A);
 
     MatrixXd B(3,3);
     B << 1, 2*Xa(0), 2*Xa(1),

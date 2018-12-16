@@ -1,5 +1,6 @@
 #include "wavefunction.h"
 #include "general_tools.h"
+#include "basis.h"
 #include "eigen3/Eigen/Dense"
 
 #include <cmath>
@@ -23,7 +24,7 @@ int WaveFunction::setTrialWF(int N, int M, int D, int norbitals, int sampling, d
 
 // === SLATER ===
 
-double Slater::A_elements(const VectorXd &Xa, int P_half, int D, int O, int i, int j) {
+double Slater::A_elements(const VectorXd &Xa, double f(double, int), int P_half, int D, int O, int i, int j) {
     // Updates an element in A-matrix
 
     MatrixXd order = MatrixXd::Zero(P_half, D);
@@ -31,35 +32,41 @@ double Slater::A_elements(const VectorXd &Xa, int P_half, int D, int O, int i, i
 
     double element = 1;
     for(int k=0; k<D; k++) {
-        element *= H(Xa(D*i+k), order(j,k));
+        element *= f(Xa(D*i+k), order(j,k));
     }
+
     return element;
 }
 
-void Slater::A_rows(const VectorXd &Xa, int P_half, int D, int O, int i, MatrixXd &A) {
+void Slater::A_rows(const VectorXd &Xa, double f(double, int), int P_half, int D, int O, int i, MatrixXd &A) {
     // Updates a row in A-matrix
 
     for(int j=0; j<P_half; j++) {
-        A(i,j) = A_elements(Xa, P_half, D, O, i, j);
+        A(i,j) = A_elements(Xa, f, P_half, D, O, i, j);
     }
 }
 
-
-void Slater::matrix(const VectorXd &Xa, int O, int D, int P_half, MatrixXd &A) {
+void Slater::matrix(const VectorXd &Xa, double f(double, int), int O, int D, int P_half, MatrixXd &A) {
     // Update the entire matrix
 
     for(int j=0; j<P_half; j++) {
-        A_rows(Xa, P_half, D, O, j, A);
+        A_rows(Xa, f, P_half, D, O, j, A);
     }
 }
 
-double Slater::Gauss_WF(VectorXd Xa, double sigma_sqrd) {
-    //Gaussian WF
+double Slater::Gauss_ML(const VectorXd &Xa, double sigma_sqrd) {
+    // Biased Gaussian
 
     return exp(-(double)(Xa.transpose() * Xa)/(2 * sigma_sqrd));
 }
 
-double Slater::SlaterDet(int D, int O, const VectorXd &Xa) {
+double Slater::Gauss(const VectorXd &X, double alpha) {
+    // Gaussian with a variational parameter
+
+    return exp(-(double)(X.transpose() * X) * alpha);
+}
+
+double Slater::SlaterDet(const VectorXd &Xa, double f(double, int), int D, int O) {
     // Setting up Slater determinant
 
     int M = Xa.size();                                // Number of free dimensions
@@ -68,8 +75,8 @@ double Slater::SlaterDet(int D, int O, const VectorXd &Xa) {
     MatrixXd D_up = MatrixXd::Ones(P_half,P_half);
     MatrixXd D_dn = MatrixXd::Ones(P_half,P_half);
 
-    matrix(Xa.head(M/2), O, D, P_half, D_up);
-    matrix(Xa.tail(M/2), O, D, P_half, D_dn);
+    matrix(Xa.head(M/2), f, O, D, P_half, D_up);
+    matrix(Xa.tail(M/2), f, O, D, P_half, D_dn);
 
     return D_up.determinant()*D_dn.determinant();
 }
@@ -102,7 +109,7 @@ double WaveFunction::Psi_value(int D, int O, const VectorXd &Xa, const VectorXd 
     int system = 0;
     if(system == 0) {
         // Hermite functions and NQS
-        slater = Slat.SlaterDet(m_D, m_norbitals, Xa) * Slat.Gauss_WF(Xa, sigma_sqrd);
+        slater = Slat.SlaterDet(Xa, H, m_D, m_norbitals) * Slat.Gauss_ML(Xa, sigma_sqrd);
         jastrow = Jast.Jastrow_NQS(v);
     }
 
