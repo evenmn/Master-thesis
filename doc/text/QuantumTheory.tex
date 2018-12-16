@@ -36,8 +36,11 @@ In the equations above, the presented wavefunctions are assumed to be the exact 
 \end{equation}
 We have here introduced a trial wavefunction $\Psi_T$ which not necessary is the true groundstate wavefunction. This means that we can adjust our trail wavefunction with respect to the energy, and the lower energy we get the better is our wavefunction. 
 
+\subsection{Wavefunction} \label{subsec:wavefunction}
+In quantum mechanical calculations, the wavefunction is often the problem. As the first postulate of quantum mechanics states, the wavefunction carries all the information about the system, which is an enormous amount of information when the system gets large. We have methods to expand the total wavefunction in Slater Determinants if various single particle functions (SPFs), known as Full Configuration Interaction (FCI), which gives the exact wavefunction when all SPFs are taken into account. The problem is that even for relatively small systems, the computational expensiveness becomes unmanageable for normal computers, and we need to look for approximative methods. An example is the Hartree-Fock method, which optimize a Slater Determinant such that the energy is minimized. More about the different methods in section \ref{sec:methods}. Before that, we will look at which properties the wavefunction needs to take.
+
 \subsubsection{Symmetry and anti-symmetry} \label{subsubsec:symmetry}
-Assume we have a permutation operator $\hat{P}$ which switches two coordinates in the wave function,
+Assume we have a permutation operator $\hat{P}$ which switches two coordinates in the wavefunction,
 
 \begin{equation}
 \hat{P}\Psi_n(\bs{x}_1,\hdots,\bs{x}_i,\hdots,\bs{x}_j,\hdots,\bs{x}_M)=p\Psi_n(\bs{x}_1,\hdots,\bs{x}_j,\hdots,\bs{x}_i,\hdots,\bs{x}_M),
@@ -46,20 +49,16 @@ where $p$ is just a factor which comes from the transformation. If we again appl
 
 The particles that have an antisymmetric (AS) wavefunction under exchange of two coordinates are called fermions, named after Enrico Fermi, and have half integer spin. On the other hand, the particles that have a symmetric (S) wavefunction under exchange of two coordinates are called bosons, named after Satyendra Nath Bose, and have integer spin. 
 
-It turns out that because of their antisymmetric wavefunction, two identical fermions cannot be found at the same position at the same time, known as the Pauli principle. This causes some difficulties when dealing with multiple fermions, because we always need to ensure that the total wavefunction becomes zero if two identical particles happen to be at the same position. To do this, we introduce a Slater determinant as described in the next chapter. in this particular project, we are going to focus on fermions, just because they are more difficult to handle, but much of the theory and implementation applies for bosons as well. 
+It turns out that two identical fermions, because of their antisymmetric wavefunction, cannot be found at the same position at the same time, known as the Pauli principle. This causes some difficulties when dealing with multiple fermions, because we always need to ensure that the total wavefunction becomes zero if two identical particles happen to be at the same position. To do this, we introduce a Slater determinant as described in the next section. In this particular project, we are going to focus on fermions, just because they are more difficult to handle, but much of the theory and implementation applies for bosons as well. 
 
 Read https://manybodyphysics.github.io/FYS4480/doc/pub/secondquant/html/secondquant-bs.html
 
-\subsection{Wavefunction properties} \label{subsec:wavefunction}
-
-
-
 \subsubsection{Slater determinant} \label{subsubsec:slater}
-For a system of more particles we can define a total wavefunction, which is a composition of all the single particle wavefuncions (SPF) and contains all the information about the system. The way we compile the SPFs needs to be based on Pauli's exclusion, which states that two identical fermions cannot possibly be in the same state at the same time. If this happens, we set the total wavefunction to zero, which is done by defining the wavefunction as a determinant. 
+For a system of more particles we can define a total wavefunction, which is a composition of all the single particle wavefunctions (SPFs) and contains all the information about the system. The way we compile the SPFs needs to be based on Pauli's exclusion as discussed above.
 
-Consider a system of two identical fermions with SPFs $\phi_1$ and $\phi_2$ at positions $\boldsymbol{r}_1$ and $\boldsymbol{r}_2$ respectively. The way we define the wavefunction of the system is then
+Consider a system of two fermions with SPFs $\phi_1$ and $\phi_2$ at positions $\boldsymbol{r}_1$ and $\boldsymbol{r}_2$ respectively. The way we define the wavefunction of the system is then
 \begin{equation}
-\Psi_T=
+\Psi_T(\bs{r}_1, \bs{r}_2)=
 \begin{vmatrix}
 \phi_1(\boldsymbol{r}_1) & \phi_2(\boldsymbol{r}_1)\\
 \phi_1(\boldsymbol{r}_2) & \phi_2(\boldsymbol{r}_2)
@@ -68,7 +67,7 @@ Consider a system of two identical fermions with SPFs $\phi_1$ and $\phi_2$ at p
 \end{equation}
 which is set to zero if the particles are at the same position. This is called a Slater determinant, and yields the same no matter how big the system is.
 
-Notice that we denote the wavefunction with the $'T'$, which indicates that it is a trial wavefunction. We do this because the spin part is avoided with $\psi$ as the radial parts only, thus this wavefunction is not the true wavefunction. We will look closer at how we can factorize out the spin part later. The spin part is assumed to not affect the energies. For bosons the total wavefunction is defined similarly, but with no negative signs since the Pauli principle does not apply for fermions. 
+Notice that we denote the wavefunction with the $'T'$, which indicates that it is a trial wavefunction. We do this because the spin part is avoided with $\psi$ as the radial parts only, thus this wavefunction is not the true wavefunction. We will look closer at how we can factorize out the spin part later. The spin part is assumed to not affect the energies. For bosons the total wavefunction is defined similarly, but with no negative signs since the Pauli principle does not apply. This is called a permanent. 
 
 A general Slater determinant for a system of $N$ particles takes the form
 
@@ -116,6 +115,7 @@ Until now, we have been fiddling with the wavefunction in multiple ways. Are we 
 The CUSP condition states that 
 
 \subsection{Systems and basis sets} \label{subsec:potentials}
+
 Specific systems need specific basis sets
 
 \subsubsection{Quantum dots} \label{subsubsec:quantumdots}
