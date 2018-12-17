@@ -43,7 +43,6 @@ void test_E_L_calc(){
     int interaction = 0;
 
     WaveFunction Psi;
-    Psi.setTrialWF(N, M, D, norbitals, sampling, sigma_sqrd, omega);
 
     MatrixXd W       = MatrixXd::Zero(M, N);
     VectorXd a       = VectorXd::Zero(M);
@@ -63,7 +62,7 @@ void test_E_L_calc(){
     double E_ext = 0;
     double E_int = 0;
 
-    //E = Psi.EL_calc(X, Xa, v, W, interaction, E_kin, E_ext, E_int);
+    //E = Psi.EL_calc(E_kin, E_ext, E_int);
     //cout << "E: " << E << endl;
     //cout << "E_kin: " << E_kin << endl;
     //cout << "E_ext: " << E_ext << endl;
@@ -75,7 +74,7 @@ void test_orbitals() {
     int P = 6;
     int D = 2;
 
-    int orb = orbitals(P,D);
+    int orb = orbitals();
 
     if(orb != 2) {
         cout << "Function 'orbitals' in 'general_tools.cpp' returns wrong answer" << endl;
@@ -94,7 +93,7 @@ void test_matrix() {
 
     Slater Slat;
 
-    Slat.matrix(Xa.head(M/2), H, O, D, P/2, A);
+    Slat.matrix(Xa.head(M/2), H, A);
 
     MatrixXd B(3,3);
     B << 1, 2*Xa(0), 2*Xa(1),

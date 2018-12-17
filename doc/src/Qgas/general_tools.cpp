@@ -1,4 +1,6 @@
 #include "eigen3/Eigen/Dense"
+#include "common.h"
+
 #include <iostream>
 #include <string>
 #include <cmath>
@@ -14,13 +16,13 @@ double binomial(int n, int p) {
     return factorial(n+p)/(factorial(n)*factorial(p));
 }
 
-double orbitals(int P, int D) {
+double orbitals() {
 
     int counter = 0;
     while(true) {
         double orb = 2*binomial(counter, D);
         if(int(orb) == P) {
-            return counter+1;
+            return int(counter+1);
             break;
         }
         else if(orb > P) {
@@ -31,7 +33,7 @@ double orbitals(int P, int D) {
     }
 }
 
-string generate_filename(int sampling, int P, int D, int N, int MC, int interaction, double sigma, double omega, double eta, string name, string extension) {
+string generate_filename(string name, string extension) {
 
     // Sampling method
     string str1;

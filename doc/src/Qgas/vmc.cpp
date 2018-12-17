@@ -14,9 +14,23 @@
 #include "test.h"
 #include "energy.h"
 #include "basis.h"
+#include "common.h"
 
 using namespace Eigen;
 using namespace std;
+
+//Declare some stuff
+int    M;
+int    P_half;
+double sigma_sqrd;
+
+MatrixXd W;
+VectorXd X;
+VectorXd v;
+VectorXd e;
+VectorXd a;
+VectorXd b;
+VectorXd Xa;
 
 //Mersenne Twister RNG
 random_device rd;                       //Will be used to obtain a seed for the random number engine
@@ -28,14 +42,13 @@ double random_position(){
     return dis(gen);
 }
 
-
-void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sampling, int optimization, double sigma, \
-                     double omega, double steplength, double timestep, double eta, bool interaction, bool one_body) {
+void VMC() {
 
     //Declare constants
     double psi_ratio = 0;               //ratio of new and old wave function
-    double sigma_sqrd = sigma * sigma;  //Sigma squared
-    int M = P*D;                        //Number of free dimensions
+    sigma_sqrd = sigma * sigma;         //Sigma squared
+    M = P*D;                            //Number of free dimensions
+    P_half = int(P/2);                  //Number of particles with spin up
     int M_rand = 0;                     //Which M to update
     int N_rand = 0;                     //Which N to update
 
@@ -48,11 +61,6 @@ void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sa
     Energy ENG;                         //Energy calculation object
     Slater Slat;                        //Slater object
 
-    Psi.setTrialWF(N, M, D, O, sampling, sigma_sqrd, omega);    //Initialize wavefunction
-    OPT.init(sampling, sigma_sqrd, M, N);                       //Initialize optimization
-    ENG.init(N, M, D, O, sampling, sigma_sqrd, omega);          //Initialize energy calculation
-
-
     //Marsenne Twister Random Number Generator
     normal_distribution<double> eps_gauss(0,1);       //Gaussian distr random number generator
     uniform_int_distribution<> mrand(0, M-1);         //Random number between 0 and M
@@ -61,39 +69,37 @@ void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sa
     double factor = 0.5;                                    //Factor on initial weights
     double factor_x = 5.0;                                  //Factor on initial positions
 
-    MatrixXd W       = MatrixXd::Random(M, N) * factor;     //Initialize W
-    VectorXd a       = VectorXd::Random(M)    * factor;     //Initialize a
-    VectorXd b       = VectorXd::Random(N)    * factor;     //Initialize b
-    VectorXd X       = VectorXd::Random(M)    * factor_x;   //initialize X
+    W       = MatrixXd::Random(M, N) * factor;     //Initialize W
+    a       = VectorXd::Random(M)    * factor;     //Initialize a
+    b       = VectorXd::Random(N)    * factor;     //Initialize b
+    X       = VectorXd::Random(M)    * factor_x;   //initialize X
     VectorXd X_new   = VectorXd::Zero(M);                   //Declare X_new
     VectorXd h       = VectorXd::Zero(N);                   //Declare h
-    VectorXd e       = VectorXd::Zero(N);                   //Declare e
+    e       = VectorXd::Zero(N);                   //Declare e
     VectorXd energies_old = VectorXd::Zero(5);              //Store old energies to check convergence
 
-    VectorXd Xa      = X - a;                                   //Define useful array Xa = X - a
-    VectorXd v       = b + (W.transpose() * X)/(sigma_sqrd);    //Define useful exponent array
+    Xa      = X - a;                                            //Define useful array Xa = X - a
+    v       = b + (W.transpose() * X)/(sigma_sqrd);    //Define useful exponent array
     VectorXd X_newa  = VectorXd::Zero(M);                       //Define updated Xa-array
     VectorXd v_new   = VectorXd::Zero(N);                       //Define updated v-array
     VectorXd e_new   = VectorXd::Zero(N);                       //define updated e-array
 
     //Set up determinant matrix
     // PLAN: REDUCE THE NUMBER OF MATRICES BY PUTTING A_up AND A_dn IN ONE ETC
-    int P_half = P/2;                                       //Number of particles with spin up
-
     MatrixXd A_up = MatrixXd::Ones(P_half, P_half);         //Slater matrix for spin up
     MatrixXd A_dn = MatrixXd::Ones(P_half, P_half);         //Slater matrix for spin down
     MatrixXd A_up_inv = MatrixXd::Ones(P_half, P_half);     //Slater matrix for spin up inverse
     MatrixXd A_dn_inv = MatrixXd::Ones(P_half, P_half);     //Slater matrix for spin down inverse
 
-    Slat.matrix(Xa.head(M/2), H, O, D, P_half, A_up);       //Update Slater matrix for spin up
-    Slat.matrix(Xa.tail(M/2), H, O, D, P_half, A_dn);       //Update Slater matrix for spin down
+    Slat.matrix(Xa.head(M/2), H, A_up);       //Update Slater matrix for spin up
+    Slat.matrix(Xa.tail(M/2), H, A_dn);       //Update Slater matrix for spin down
 
     A_up_inv = A_up.inverse();                              //Calculate the inverse
     A_dn_inv = A_dn.inverse();                              //Slater matrices
 
     // Derivative matrix
-    MatrixXd dA_up = MatrixXd::Zero(P,P/2);                 //Declare derivatives of the
-    MatrixXd dA_dn = MatrixXd::Zero(P,P/2);                 //Slater matrices
+    MatrixXd dA_up = MatrixXd::Zero(P,P_half);                 //Declare derivatives of the
+    MatrixXd dA_dn = MatrixXd::Zero(P,P_half);                 //Slater matrices
 
     ENG.dA_matrix(Xa.head(M/2), dA_up);                     //Update the derivatives of the
     ENG.dA_matrix(Xa.tail(M/2), dA_dn);                     //Slater matrices
@@ -121,13 +127,13 @@ void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sa
             bin_dist[i] = i * radial_step;                  //Set up bin_dist array
             bins_particles[i] = 0;                          //Initialize bins_particles
         }
-        string ob_filename = generate_filename(sampling, P, D, N, MC, interaction, sigma, omega, eta, "OB", ".dat");
+        string ob_filename = generate_filename("OB", ".dat");
         ob_file.open (path + ob_filename);                  //Open OB file based on parameters
     }
 
     //Open file for writing
-    string energy_filename = generate_filename(sampling, P, D, N, MC, interaction, sigma, omega, eta, "Energy", ".dat");
-    string local_filename = generate_filename(sampling, P, D, N, MC, interaction, sigma, omega, eta, "Local", ".dat");
+    string energy_filename = generate_filename("Energy", ".dat");
+    string local_filename = generate_filename("Local", ".dat");
 
     ofstream energy;
     ofstream local;
@@ -147,7 +153,7 @@ void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sa
         double E_int_tot   = 0;          //sum of potential energy from interaction
 
         //Initial energy
-        double E = ENG.EL_calc(X, Xa, v, W, Dist, A_up_inv, A_dn_inv, dA_up, dA_dn, interaction, E_kin, E_ext, E_int);
+        double E = ENG.EL_calc(Dist, A_up_inv, A_dn_inv, dA_up, dA_dn, E_kin, E_ext, E_int);
 
         double accept = 0;          //Number of accepted moves
         double tot_dist = 0;        //Total interaction energy
@@ -207,13 +213,13 @@ void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sa
                     }
 
                     double R = 0;                       //To be used when calculate inverse iteratively
-                    if(row < P/2){
-                        Slat.A_rows(Xa.head(M/2), H, P/2, D, O, row, A_up);     //Update Slater matrix
+                    if(row < P_half){
+                        Slat.A_rows(Xa.head(M/2), H, row, A_up);     //Update Slater matrix
 
-                        for(int j=0; j<P/2; j++) {
+                        for(int j=0; j<P_half; j++) {
                             R += A_up(row, j)*A_up_inv(j, row);
                         }
-                        for(int j=0; j<P/2; j++) {
+                        for(int j=0; j<P_half; j++) {
                             A_up_inv(j, row) /= R;              //Update inverse of Slater matrix by iterations
                         }
                         for(int i=0; i<D; i++) {
@@ -223,12 +229,12 @@ void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sa
                     }
                     else {
                         row -= P/2;
-                        Slat.A_rows(Xa.tail(M/2), H, P/2, D, O, row, A_dn); //Update Slater matrix
+                        Slat.A_rows(Xa.tail(M/2), H, row, A_dn); //Update Slater matrix
 
-                        for(int j=0; j<P/2; j++) {
+                        for(int j=0; j<P_half; j++) {
                             R += A_dn(row, j)*A_dn_inv(j,row);
                         }
-                        for(int j=0; j<P/2; j++) {
+                        for(int j=0; j<P_half; j++) {
                             A_dn_inv(j,row) /=R;                        //Update inverse of Slater matrix by iterations
                         }
                         for(int i=0; i<D; i++) {
@@ -236,7 +242,7 @@ void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sa
                         }
                     }
 
-                    E  = ENG.EL_calc(X, Xa, v, W, Dist, A_up_inv, A_dn_inv, dA_up, dA_dn, interaction, E_kin, E_ext, E_int);    //Update energy
+                    E  = ENG.EL_calc(Dist, A_up_inv, A_dn_inv, dA_up, dA_dn, E_kin, E_ext, E_int);    //Update energy
                 }
             }
 
@@ -260,12 +266,12 @@ void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sa
 
                 double R = 0;                       //To be used when calculate inverse iteratively
                 if(row < P/2){
-                    Slat.A_rows(Xa.head(M/2), H, P/2, D, O, row, A_up);     //Update Slater matrix
+                    Slat.A_rows(Xa.head(M/2), H, row, A_up);     //Update Slater matrix
 
-                    for(int j=0; j<P/2; j++) {
+                    for(int j=0; j<P_half; j++) {
                         R += A_up(row, j)*A_up_inv(j, row);
                     }
-                    for(int j=0; j<P/2; j++) {
+                    for(int j=0; j<P_half; j++) {
                         A_up_inv(j, row) /= R;              //Update inverse of Slater matrix by iterations
                     }
                     for(int i=0; i<D; i++) {
@@ -274,13 +280,13 @@ void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sa
 
                 }
                 else {
-                    row -= P/2;
-                    Slat.A_rows(Xa.tail(M/2), H, P/2, D, O, row, A_dn); //Update Slater matrix
+                    row -= P_half;
+                    Slat.A_rows(Xa.tail(M/2), H, row, A_dn); //Update Slater matrix
 
-                    for(int j=0; j<P/2; j++) {
+                    for(int j=0; j<P_half; j++) {
                         R += A_dn(row, j)*A_dn_inv(j,row);
                     }
-                    for(int j=0; j<P/2; j++) {
+                    for(int j=0; j<P_half; j++) {
                         A_dn_inv(j,row) /=R;                        //Update inverse of Slater matrix by iterations
                     }
                     for(int i=0; i<D; i++) {
@@ -288,7 +294,7 @@ void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sa
                     }
                 }
 
-                E  = ENG.EL_calc(X, Xa, v, W, Dist, A_up_inv, A_dn_inv, dA_up, dA_dn, interaction, E_kin, E_ext, E_int);    //Update energy
+                E  = ENG.EL_calc(Dist, A_up_inv, A_dn_inv, dA_up, dA_dn, E_kin, E_ext, E_int);    //Update energy
             }
 
             //CALCULATE ONEBODY DENSITIES
@@ -408,9 +414,9 @@ void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sa
 
         if(optimization==0) {
             // Gradient Descent
-            OPT.GD_a(eta, EL_avg, MC, daE_tot, da_tot, opt_a);
-            OPT.GD_b(eta, EL_avg, MC, dbE_tot, db_tot, opt_b);
-            OPT.GD_W(eta, EL_avg, MC, dWE_tot, dW_tot, opt_W);
+            OPT.GD_a(EL_avg, daE_tot, da_tot, opt_a);
+            OPT.GD_b(EL_avg, dbE_tot, db_tot, opt_b);
+            OPT.GD_W(EL_avg, dWE_tot, dW_tot, opt_W);
         }
         else if(optimization==1) {
             // ADAM
@@ -422,9 +428,9 @@ void VMC(int P, double Diff, int D, int N, int MC, int O, int iterations, int sa
             MatrixXd vW = MatrixXd::Zero(M,N);
             double b1 = 0.9;
             double b2 = 0.99;
-            OPT.ADAM_a(eta, iter, ma, va, b1, b2, EL_avg, MC, daE_tot, da_tot, opt_a);
-            OPT.ADAM_b(eta, iter, mb, vb, b1, b2, EL_avg, MC, dbE_tot, db_tot, opt_b);
-            OPT.ADAM_W(eta, iter, mW, vW, b1, b2, EL_avg, MC, dWE_tot, dW_tot, opt_W);
+            OPT.ADAM_a(iter, ma, va, b1, b2, EL_avg, daE_tot, da_tot, opt_a);
+            OPT.ADAM_b(iter, mb, vb, b1, b2, EL_avg, dbE_tot, db_tot, opt_b);
+            OPT.ADAM_W(iter, mW, vW, b1, b2, EL_avg, dWE_tot, dW_tot, opt_W);
         }
 
         // Optimization
