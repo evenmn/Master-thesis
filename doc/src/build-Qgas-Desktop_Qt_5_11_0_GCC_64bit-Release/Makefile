@@ -262,7 +262,8 @@ DIST          = ../../../../Programs/QT/5.11.0/gcc_64/mkspecs/features/spec_pre.
 		energy.h \
 		vmc.h \
 		optimization.h \
-		basis.h ../Qgas/main.cpp \
+		basis.h \
+		common.h ../Qgas/main.cpp \
 		../Qgas/wavefunction.cpp \
 		../Qgas/hastings_tools.cpp \
 		../Qgas/gibbs_tools.cpp \
@@ -912,7 +913,8 @@ main.o: ../Qgas/main.cpp ../Qgas/vmc.h \
 		../Qgas/eigen3/Eigen/src/Eigenvalues/RealSchur_LAPACKE.h \
 		../Qgas/eigen3/Eigen/src/Eigenvalues/ComplexSchur_LAPACKE.h \
 		../Qgas/eigen3/Eigen/src/Eigenvalues/SelfAdjointEigenSolver_LAPACKE.h \
-		../Qgas/test.h
+		../Qgas/test.h \
+		../Qgas/common.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../Qgas/main.cpp
 
 wavefunction.o: ../Qgas/wavefunction.cpp ../Qgas/wavefunction.h \
@@ -1123,7 +1125,8 @@ wavefunction.o: ../Qgas/wavefunction.cpp ../Qgas/wavefunction.h \
 		../Qgas/eigen3/Eigen/src/Eigenvalues/ComplexSchur_LAPACKE.h \
 		../Qgas/eigen3/Eigen/src/Eigenvalues/SelfAdjointEigenSolver_LAPACKE.h \
 		../Qgas/general_tools.h \
-		../Qgas/basis.h
+		../Qgas/basis.h \
+		../Qgas/common.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o wavefunction.o ../Qgas/wavefunction.cpp
 
 hastings_tools.o: ../Qgas/hastings_tools.cpp ../Qgas/wavefunction.h \
@@ -1965,7 +1968,8 @@ general_tools.o: ../Qgas/general_tools.cpp ../Qgas/eigen3/Eigen/Dense \
 		../Qgas/eigen3/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h \
 		../Qgas/eigen3/Eigen/src/Eigenvalues/RealSchur_LAPACKE.h \
 		../Qgas/eigen3/Eigen/src/Eigenvalues/ComplexSchur_LAPACKE.h \
-		../Qgas/eigen3/Eigen/src/Eigenvalues/SelfAdjointEigenSolver_LAPACKE.h
+		../Qgas/eigen3/Eigen/src/Eigenvalues/SelfAdjointEigenSolver_LAPACKE.h \
+		../Qgas/common.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o general_tools.o ../Qgas/general_tools.cpp
 
 energy.o: ../Qgas/energy.cpp ../Qgas/energy.h \
@@ -2175,7 +2179,9 @@ energy.o: ../Qgas/energy.cpp ../Qgas/energy.h \
 		../Qgas/eigen3/Eigen/src/Eigenvalues/RealSchur_LAPACKE.h \
 		../Qgas/eigen3/Eigen/src/Eigenvalues/ComplexSchur_LAPACKE.h \
 		../Qgas/eigen3/Eigen/src/Eigenvalues/SelfAdjointEigenSolver_LAPACKE.h \
-		../Qgas/general_tools.h
+		../Qgas/basis.h \
+		../Qgas/general_tools.h \
+		../Qgas/common.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o energy.o ../Qgas/energy.cpp
 
 vmc.o: ../Qgas/vmc.cpp ../Qgas/eigen3/Eigen/Dense \
@@ -2391,7 +2397,8 @@ vmc.o: ../Qgas/vmc.cpp ../Qgas/eigen3/Eigen/Dense \
 		../Qgas/optimization.h \
 		../Qgas/test.h \
 		../Qgas/energy.h \
-		../Qgas/basis.h
+		../Qgas/basis.h \
+		../Qgas/common.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o vmc.o ../Qgas/vmc.cpp
 
 optimization.o: ../Qgas/optimization.cpp ../Qgas/eigen3/Eigen/Dense \
@@ -2600,7 +2607,8 @@ optimization.o: ../Qgas/optimization.cpp ../Qgas/eigen3/Eigen/Dense \
 		../Qgas/eigen3/Eigen/src/Eigenvalues/RealSchur_LAPACKE.h \
 		../Qgas/eigen3/Eigen/src/Eigenvalues/ComplexSchur_LAPACKE.h \
 		../Qgas/eigen3/Eigen/src/Eigenvalues/SelfAdjointEigenSolver_LAPACKE.h \
-		../Qgas/optimization.h
+		../Qgas/optimization.h \
+		../Qgas/common.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o optimization.o ../Qgas/optimization.cpp
 
 basis.o: ../Qgas/basis.cpp ../Qgas/eigen3/Eigen/Dense \

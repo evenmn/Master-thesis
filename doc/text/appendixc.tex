@@ -1,0 +1,27 @@
+\section{Appendix C - Scaling}
+
+\subsection{Harmonic Oscillator - Natural units}
+Hamiltonian is in one dimension given by
+\begin{equation}
+H=-\frac{\hbar^2}{2m}\frac{\partial^2}{\partial x^2}+\frac{1}{2}m\omega^2x^2
+\label{eq:HamiltonianHO}
+\end{equation}
+which has corresponding wavefunctions
+\begin{equation}
+\psi_n(x)=\frac{1}{\sqrt{2^nn!}}\cdot\bigg(\frac{m\omega}{\pi\hbar}\bigg)^{1/4}\exp\Big(-\frac{m\omega}{2\hbar}x^2\Big)H_n\Big(\sqrt{\frac{m\omega}{\hbar}}x\Big).
+\end{equation}
+We want to get rid of $\hbar$ and $m$ in equation \eqref{eq:HamiltonianHO}, and we start with scaling $H'\equiv H/\hbar$, such that the Hamiltonian reduces to
+\begin{equation}
+H'=-\frac{\hbar}{2m}\frac{\partial^2}{\partial x^2}+\frac{1}{2}\frac{m\omega^2}{\hbar}x^2
+\end{equation}
+One can now observe that the fraction $\hbar/m$ comes in both terms, which we can take out by scaling the length $x'\equiv x\cdot\sqrt{m/\hbar}$. The final Hamiltonian is
+\begin{equation}
+H=\frac{1}{2}\frac{\partial^2}{\partial x^2}+\frac{1}{2}\omega^2x^2
+\end{equation}
+which corresponds to setting $\hbar=m=1$. In natural units, one often sets $\omega=1$ as well by scaling $H'=H/\hbar\omega$, but since we want to keep the $\omega$-dependency, we do it slightly different. This means that the exact wavefunctions for the one-particle-one-dimension case is
+\begin{equation}
+\psi_n(x)=\exp\Big(-\frac{\omega}{2}x^2\Big)H_n(\sqrt{\omega}x)
+\end{equation}
+where we take advantage of the Metropolis algorithm and ignore the normalization constant.
+
+\subsection{Atomic systems - Atomic units}

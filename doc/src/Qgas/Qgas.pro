@@ -23,4 +23,5 @@ HEADERS += \
     energy.h \
     vmc.h \
     optimization.h \
-    basis.h
+    basis.h \
+    common.h

@@ -4,29 +4,47 @@
 #include "vmc.h"
 #include "general_tools.h"
 #include "test.h"
+#include "common.h"
 
 using namespace std;
 
+int     P;
+int     D;
+int     N;
+int     MC;
+int     O;
+int     iterations;
+int     sampling;
+int     optimization;
+bool    interaction;
+bool    one_body;
+double  sigma;
+double  omega;
+double  steplength;
+double  timestep;
+double  eta;
+double  Diff;
+
 int main()
 {
-    int     P           = 2;                //Number of particles
-    int     D           = 2;                //Number of dimensions
-    int     N           = P;                //Number of hidden nodes
-    int     MC          = int(pow(2,20));        //Number of Monte Carlo cycles
-    int     O           = int(orbitals(P,D));    //Number of orbitals
-    int     iterations  = 1000;             //Number of gradient decent cycles
-    int     sampling    = 0;                //Brute force- (0), Hastings- (1) or Gibbs' sampling (2)
-    bool    interaction = 1;                //Interaction on if true
-    bool    one_body    = 1;                //Calculating onebody density if true
-    double  sigma       = 1.0;              //Width of Gaussian distribution
-    double  omega       = 1.0;              //Frequency
-    double  steplength  = 1.0;              //Steplength for Metropolis
-    double  timestep    = 1.0;              //Timestep used in Hastings algorithm
-    double  eta         = 0.1; //pow(50*10,-O);     //Learning rate for gradient decent
-    double  Diff        = 0.5;              //Diffusion constant
+    P           = 2;                //Number of particles
+    D           = 2;                //Number of dimensions
+    N           = P;                //Number of hidden nodes
+    MC          = int(pow(2,20));   //Number of Monte Carlo cycles
+    O           = orbitals();       //Number of orbitals
+    iterations  = 1000;             //Number of gradient decent iterations
+    sampling    = 0;                //Brute force- (0), Hastings- (1) or Gibbs' sampling (2)
+    optimization= 0;                //Gradient Descent (0), ADAM (1)
+    interaction = 1;                //Interaction on if true
+    one_body    = 1;                //Calculating onebody density if true
+    sigma       = 1.0;              //Width of Gaussian distribution
+    omega       = 0.9;              //Frequency
+    steplength  = 1.0;              //Steplength for Metropolis
+    timestep    = 1.0;              //Timestep used in Hastings algorithm
+    eta         = 5*pow(10,-O);     //Learning rate for optimization
+    Diff        = 0.5;              //Diffusion constant
 
-
-    VMC(P, Diff, D, N, MC, O, iterations, sampling, sigma, omega, steplength, timestep, eta, interaction, one_body);
+    VMC();
 
     //test_without_argument();
 
