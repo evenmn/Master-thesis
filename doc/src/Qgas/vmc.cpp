@@ -29,6 +29,7 @@ MatrixXd W;
 VectorXd X;
 VectorXd v;
 VectorXd e;
+VectorXd e_p;
 VectorXd a;
 VectorXd b;
 VectorXd Xa;

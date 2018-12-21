@@ -29,6 +29,7 @@ extern Eigen::MatrixXd W;
 extern Eigen::VectorXd X;
 extern Eigen::VectorXd v;
 extern Eigen::VectorXd e;
+extern Eigen::VectorXd e_p;
 extern Eigen::VectorXd a;
 extern Eigen::VectorXd b;
 extern Eigen::VectorXd Xa;

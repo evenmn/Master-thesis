@@ -3,6 +3,7 @@
 #include "general_tools.h"
 #include "eigen3/Eigen/Dense"
 #include "common.h"
+#include "wavefunction.h"
 
 #include <cmath>
 #include <ctime>
@@ -198,6 +199,8 @@ double Energy::EL_calc(const MatrixXd &A_up_inv, const MatrixXd &A_dn_inv, const
 
     }
 
+    Slater Slat;
+
     // === ENERGY CALCULATION ===
     // Kinetic energy
     if(sampling==2) {
@@ -213,16 +216,26 @@ double Energy::EL_calc(const MatrixXd &A_up_inv, const MatrixXd &A_dn_inv, const
     }
 
     else {
-        E_kin += 2*(W*e_n).transpose()*diff;
-        E_kin += (W.cwiseAbs2()*e_p.cwiseProduct(e_n)).sum();
-        E_kin -= (2/sigma_sqrd)*(Xa.transpose()*W)*e_n;
-        E_kin += ((W.transpose()*W).cwiseProduct(e_n*e_n.transpose())).sum();
+        int engcal = 0;
+        if(engcal==0) {
+            E_kin += 2*(W*e_n).transpose()*diff;
+            E_kin += (W.cwiseAbs2()*e_p.cwiseProduct(e_n)).sum();
+            E_kin -= (2/sigma_sqrd)*(Xa.transpose()*W)*e_n;
+            E_kin += ((W.transpose()*W).cwiseProduct(e_n*e_n.transpose())).sum();
 
-        E_kin -= M;
-        E_kin += double(Xa.transpose() * Xa)/sigma_sqrd;        //Xa^2/sigma^2
-        E_kin -= double(2*diff.transpose()*Xa);
-        //E_kin +=                                              //Pade-Jastrow
-        E_kin = -E_kin/(2 * sigma_sqrd);
+            //E_kin -= M;
+            E_kin += Slat.Gauss_ML(Xa, 0, 2);
+            E_kin += double(Xa.transpose() * Xa) * omega * omega/sigma_sqrd;        //Xa^2/sigma^2
+            E_kin -= double(2*diff.transpose()*Xa);
+            //E_kin +=                                              //Pade-Jastrow
+            E_kin = -E_kin/(2 * sigma_sqrd);
+        }
+        else {
+            for(int k=0; k<M; k++) {
+                E_kin += k;
+            }
+        }
+
     }
 
     // Interaction energy

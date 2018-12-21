@@ -4,9 +4,10 @@
 #include "eigen3/Eigen/Dense"
 #include "common.h"
 
-#include <cmath>
-#include <ctime>
-#include <iostream>
+#include <cstdarg>   // Variadic templates
+#include <cmath>     // Math
+#include <ctime>     // Time
+#include <iostream>  // Function
 
 using namespace std;
 using namespace Eigen;
@@ -43,17 +44,39 @@ void Slater::matrix(const VectorXd &Xa, double f(double, int), MatrixXd &A) {
     }
 }
 
-double Slater::Gauss_ML(const VectorXd &Xa) {
-    // Biased Gaussian
 
-    return exp(-(double)(omega * Xa.transpose() * Xa)/(2 * sigma_sqrd));
+double Slater::Gauss_ML(const VectorXd &Xa, int k, int type) {
+    // Biased Gaussian
+    if(type == 0) {
+        return exp(-(double)(omega * Xa.transpose() * Xa)/(2 * sigma_sqrd));
+    }
+    else if(type == 1) {
+        // First derivative
+        return -double(omega * Xa(k))/sigma_sqrd;
+    }
+    else if(type == 2) {
+        // Second derivative
+        return -M/sigma_sqrd;
+    }
 }
 
-double Slater::Gauss(const VectorXd &X, double alpha) {
+
+double Slater::Gauss(const VectorXd &X, double alpha, int k, int type) {
     // Gaussian with a variational parameter
 
-    return exp(-(double)(X.transpose() * X) * alpha);
+    if(type == 0) {
+        return exp(-(double)(omega * X.transpose() * X) * alpha);
+    }
+    else if(type == 1) {
+        // First derivative
+        return double(omega * X(k))/alpha;
+    }
+    else if(type == 2) {
+        // Second derivative
+        return omega/alpha;
+    }
 }
+
 
 double Slater::SlaterDet(const VectorXd &Xa, double f(double, int)) {
     // Setting up Slater determinant
@@ -70,15 +93,24 @@ double Slater::SlaterDet(const VectorXd &Xa, double f(double, int)) {
 
 // === JASTROW ===
 
-double Jastrow::Jastrow_NQS(const VectorXd &v) {
+double Jastrow::Jastrow_NQS(const VectorXd &v, int k, int type) {
     //Neural Quantum State Wavefunction (NQS-WF)
 
-    double prod = 1;
-    for(int i=0; i < N; i++) {
-        prod *= (1 + exp(v(i)));
+    if(type == 0) {
+        double prod = 1;
+        for(int i=0; i < N; i++) {
+            prod *= (1 + exp(v(i)));
+        }
+        return prod;
     }
-
-    return prod;
+    else if(type == 1) {
+        // First derivative
+        return double(W.row(k) * e)/sigma_sqrd;
+    }
+    else if(type == 2) {
+        // Second derivative
+        return (W.cwiseAbs2()*e_p.cwiseProduct(e)).sum();
+    }
 }
 
 
@@ -93,6 +125,23 @@ double Jastrow::PadeJastrow() {
     return exp(sum);
 }
 
+double WTF(double f1, double f2, double f3) {
+    // Returns total WF
+
+    return f1 * f2 * f3;
+}
+
+double ENG(double f1(VectorXd, int, int), VectorXd &f11, double f2(VectorXd, int, int), VectorXd &f21, double f3(VectorXd, int, int), VectorXd &f31) {
+    // Return kinetic energy
+
+    double e1 = 0;
+    for(int k=0; k<M; k++) {
+        e1 += f1(f11, k, 1) + f2(f21, k, 1) + f3(f31, k, 1);
+    }
+    double e2 = f1(f11, 0, 2)*f1(f11, 0, 2) + f2(f21, 0, 2)*f2(f21, 0, 2) + f3(f31, 0, 2)*f3(f31, 0, 2);
+
+    return e1*e1 + e2;
+}
 
 double WaveFunction::Psi_value(const VectorXd &Xa, const VectorXd &v) {
     // Setting up total wavefunction
@@ -104,10 +153,24 @@ double WaveFunction::Psi_value(const VectorXd &Xa, const VectorXd &v) {
     double jastrow = 0;
 
     int system = 0;
+    // Idea: Make function which takes an arbitrary number of functions as
+    // arguments and return the total wf and kinetic energy
+    double result;
     if(system == 0) {
         // Hermite functions and NQS
-        slater = Slat.SlaterDet(Xa, H) * Slat.Gauss_ML(Xa);
-        jastrow = Jast.Jastrow_NQS(v);
+        result = WTF(Slat.SlaterDet(Xa, H), Slat.Gauss_ML(Xa, 0, 0), Jast.Jastrow_NQS(v, 0, 0));
+
+
+        slater = Slat.SlaterDet(Xa, H) * Slat.Gauss_ML(Xa, 0, 0);
+        jastrow = Jast.Jastrow_NQS(v, 0, 0);
+
+        //double e1 = Slat.Gauss_ML(Xa, 0, 2) * Slat.Gauss_ML(Xa, 0, 2) + Jast.Jastrow_NQS(v, 0, 2)*Jast.Jastrow_NQS(v, 0, 2);
+        //double e2 = 0;
+        //for(int i=0; i<M; i++) {
+        //    e2 += Slat.Gauss_ML(Xa, i, 1) + Jast.Jastrow_NQS(v, i, 1);
+        //}
+        //double energy = e1 + e2*e2;
+
     }
 
     return slater * jastrow;

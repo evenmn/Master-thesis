@@ -16,15 +16,16 @@ public:
     double A_elements(const VectorXd &Xa, double f(double, int), int i, int j);
     void A_rows(const VectorXd &Xa, double f(double, int), int i, MatrixXd &A);
     void matrix(const VectorXd &Xa, double f(double, int), MatrixXd &A);
-    double Gauss(const VectorXd &X, double alpha);
-    double Gauss_ML(const VectorXd &Xa);
+    double Gauss(const VectorXd &X, double alpha, int k, int type);
+    //double Gauss_ML(const VectorXd &Xa);
+    double Gauss_ML(const VectorXd &Xa, int k, int type);
     double SlaterDet(const VectorXd &Xa, double f(double, int));
 };
 
 class Jastrow: public WaveFunction {
 public:
     Jastrow() {}
-    double Jastrow_NQS(const VectorXd &v);
+    double Jastrow_NQS(const VectorXd &v, int k, int type);
     double PadeJastrow();
 };
 
