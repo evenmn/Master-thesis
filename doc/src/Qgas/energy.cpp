@@ -175,12 +175,12 @@ double Energy::EL_calc(const MatrixXd &A_up_inv, const MatrixXd &A_dn_inv, const
 
     // Declare Eigen vectors
     VectorXd e_n = VectorXd::Zero(N);
-    VectorXd e_p = VectorXd::Zero(N);
+    e_p = VectorXd::Zero(N);
     VectorXd diff = VectorXd::Zero(M);
 
     // Fill up vectors
     for(int i=0; i<N; i++) {
-        e_n(i) = 1/(1 + exp(-v(i)));
+        e(i) = 1/(1 + exp(-v(i)));
         e_p(i) = 1/(1 + exp(v(i)));
     }
 
@@ -200,6 +200,7 @@ double Energy::EL_calc(const MatrixXd &A_up_inv, const MatrixXd &A_dn_inv, const
     }
 
     Slater Slat;
+    Jastrow Jast;
 
     // === ENERGY CALCULATION ===
     // Kinetic energy
@@ -216,23 +217,31 @@ double Energy::EL_calc(const MatrixXd &A_up_inv, const MatrixXd &A_dn_inv, const
     }
 
     else {
-        int engcal = 0;
+        int engcal = 1;
         if(engcal==0) {
-            E_kin += 2*(W*e_n).transpose()*diff;
-            E_kin += (W.cwiseAbs2()*e_p.cwiseProduct(e_n)).sum();
-            E_kin -= (2/sigma_sqrd)*(Xa.transpose()*W)*e_n;
-            E_kin += ((W.transpose()*W).cwiseProduct(e_n*e_n.transpose())).sum();
+            E_kin += 2*(W*e).transpose()*diff;
+            E_kin += (W.cwiseAbs2()*e_p.cwiseProduct(e)).sum();
+            E_kin -= (2/sigma_sqrd)*(Xa.transpose()*W)*e;
+            E_kin += ((W.transpose()*W).cwiseProduct(e*e.transpose())).sum();
 
-            //E_kin -= M;
+            E_kin -= M;
+            E_kin += double(Xa.transpose() * Xa) * omega * omega/sigma_sqrd;        //Xa^2/sigma^2
+            E_kin -= double(2*diff.transpose()*Xa);
+            E_kin = -E_kin/(2 * sigma_sqrd);
+        }
+        else if(engcal==1) {
+            E_kin += 2*(W*e).transpose()*diff;
+            E_kin += Jast.Jastrow_NQS(v, 0, 2);
+            E_kin -= (2/sigma_sqrd)*(Xa.transpose()*W)*e;
+            E_kin += ((W.transpose()*W).cwiseProduct(e*e.transpose())).sum();
+
             E_kin += Slat.Gauss_ML(Xa, 0, 2);
             E_kin += double(Xa.transpose() * Xa) * omega * omega/sigma_sqrd;        //Xa^2/sigma^2
             E_kin -= double(2*diff.transpose()*Xa);
-            //E_kin +=                                              //Pade-Jastrow
             E_kin = -E_kin/(2 * sigma_sqrd);
-        }
-        else {
+
             for(int k=0; k<M; k++) {
-                E_kin += k;
+                E_kin += 0;
             }
         }
 

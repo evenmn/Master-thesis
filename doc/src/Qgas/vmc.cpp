@@ -182,7 +182,7 @@ void VMC() {
                     X_new(M_rand) = X(M_rand) + (2*random_position() - 1.0)*steplength;         //Update position
                     X_newa = X_new - a;                                                         //Update X - a
                     v_new = b + (W.transpose() * X_new)/sigma_sqrd;                             //Update v
-                    for (int i=0; i<N; i++) e_new(i) = 1/(1+exp(-v_new(i)));                    //Update e
+                    //for (int i=0; i<N; i++) e_new(i) = 1/(1+exp(-v_new(i)));                    //Update e
                     psi_ratio = Psi.Psi_value_sqrd(X_newa, v_new)/Psi.Psi_value_sqrd(Xa, v);    //Calculate ratio
                 }
 
@@ -192,7 +192,7 @@ void VMC() {
                                     timestep + eps_gauss(gen)*sqrt(timestep);                   //Update position
                     X_newa = X_new - a;                                                         //Update X - a
                     v_new = b + (W.transpose() * X_new)/sigma_sqrd;                             //Update v
-                    for (int i=0; i<N; i++) e_new(i) = 1/(1+exp(-v_new(i)));                    //Update e
+                    //for (int i=0; i<N; i++) e_new(i) = 1/(1+exp(-v_new(i)));                    //Update e
                     psi_ratio = GreenFuncSum(X, X_new, X_newa, Xa, v, W, sigma_sqrd, timestep, D, Diff) * \
                                 (Psi.Psi_value_sqrd(X_newa, v_new)/Psi.Psi_value_sqrd(Xa, v));  //Calculate ratio
                 }
@@ -203,7 +203,8 @@ void VMC() {
                     X  = X_new;                         //Set new position to actual position
                     Xa = X_newa;                        //Set new Xa to actual Xa
                     v  = v_new;                         //Set new v to actual v
-                    e  = e_new;                         //Set new e to actual e
+                    //for (int i=0; i<N; i++) e(i) = 1/(1+exp(-v(i)));                    //Update e
+                    //e  = e_new;                         //Set new e to actual e
 
                     int row = int(M_rand/D);            //Which row in the Slater matrix to update
                     ENG.rij_cross(row);                 //Update distance matrix

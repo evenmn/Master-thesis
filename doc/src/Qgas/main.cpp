@@ -33,7 +33,7 @@ int main()
     MC          = int(pow(2,20));   //Number of Monte Carlo cycles
     O           = orbitals();       //Number of orbitals
     iterations  = 1000;             //Number of gradient decent iterations
-    sampling    = 0;                //Brute force- (0), Hastings- (1) or Gibbs' sampling (2)
+    sampling    = 1;                //Brute force- (0), Hastings- (1) or Gibbs' sampling (2)
     optimization= 0;                //Gradient Descent (0), ADAM (1)
     interaction = 1;                //Interaction on if true
     one_body    = 1;                //Calculating onebody density if true
