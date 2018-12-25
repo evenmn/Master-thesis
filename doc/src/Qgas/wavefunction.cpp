@@ -78,16 +78,26 @@ double Slater::Gauss(const VectorXd &X, double alpha, int k, int type) {
 }
 
 
-double Slater::SlaterDet(const VectorXd &Xa, double f(double, int)) {
+double Slater::SlaterDet(const VectorXd &Xa, double f(double, int), int k, int type) {
     // Setting up Slater determinant
 
-    MatrixXd D_up = MatrixXd::Ones(P_half,P_half);
-    MatrixXd D_dn = MatrixXd::Ones(P_half,P_half);
+    if(type == 0) {
+        MatrixXd D_up = MatrixXd::Ones(P_half,P_half);
+        MatrixXd D_dn = MatrixXd::Ones(P_half,P_half);
 
-    matrix(Xa.head(M_half), f, D_up);
-    matrix(Xa.tail(M_half), f, D_dn);
+        matrix(Xa.head(M_half), f, D_up);
+        matrix(Xa.tail(M_half), f, D_dn);
 
-    return D_up.determinant()*D_dn.determinant();
+        return D_up.determinant()*D_dn.determinant();
+    }
+    else if(type == 1) {
+        // First derivative
+        return diff(k);
+    }
+    else if(type == 2) {
+        // Second derivative
+        return -double(diff.transpose() * diff);
+    }
 }
 
 
@@ -158,10 +168,10 @@ double WaveFunction::Psi_value(const VectorXd &Xa, const VectorXd &v) {
     double result;
     if(system == 0) {
         // Hermite functions and NQS
-        result = WTF(Slat.SlaterDet(Xa, H), Slat.Gauss_ML(Xa, 0, 0), Jast.Jastrow_NQS(v, 0, 0));
+        //result = WTF(Slat.SlaterDet(Xa, H), Slat.Gauss_ML(Xa, 0, 0), Jast.Jastrow_NQS(v, 0, 0));
 
 
-        slater = Slat.SlaterDet(Xa, H) * Slat.Gauss_ML(Xa, 0, 0);
+        slater = Slat.SlaterDet(Xa, H, 0, 0) * Slat.Gauss_ML(Xa, 0, 0);
         jastrow = Jast.Jastrow_NQS(v, 0, 0);
 
         //double e1 = Slat.Gauss_ML(Xa, 0, 2) * Slat.Gauss_ML(Xa, 0, 2) + Jast.Jastrow_NQS(v, 0, 2)*Jast.Jastrow_NQS(v, 0, 2);
@@ -183,3 +193,8 @@ double WaveFunction::Psi_value_sqrd(const VectorXd &Xa, const VectorXd &v) {
     return Prob * Prob;
 }
 
+double WaveFunction::Psi_ratio() {
+    //Ratio between new and old probability distribution
+
+    return Psi_value_sqrd(X_newa, v_new)/Psi_value_sqrd(Xa, v);
+}

@@ -32,9 +32,19 @@ VectorXd e;
 VectorXd e_p;
 VectorXd a;
 VectorXd b;
+VectorXd h;
 VectorXd Xa;
+VectorXd X_new;
+VectorXd X_newa;
+VectorXd v_new;
+VectorXd diff;
 MatrixXd Dist;
 MatrixXd Dist_inv;
+MatrixXd A_up_inv;
+MatrixXd A_dn_inv;
+MatrixXd dA_up;
+MatrixXd dA_dn;
+
 
 //Mersenne Twister RNG
 random_device rd;                       //Will be used to obtain a seed for the random number engine
@@ -78,22 +88,20 @@ void VMC() {
     a       = VectorXd::Random(M)    * factor;     //Initialize a
     b       = VectorXd::Random(N)    * factor;     //Initialize b
     X       = VectorXd::Random(M)    * factor_x;   //initialize X
-    VectorXd X_new   = VectorXd::Zero(M);                   //Declare X_new
-    VectorXd h       = VectorXd::Zero(N);                   //Declare h
     e       = VectorXd::Zero(N);                   //Declare e
-    VectorXd energies_old = VectorXd::Zero(5);              //Store old energies to check convergence
+    e_p     = VectorXd::Zero(N);
+    X_new   = VectorXd::Zero(M);                   //Declare X_new
+    X_newa  = VectorXd::Zero(M);                   //Define updated Xa-array
+    v_new   = VectorXd::Zero(N);                   //Define updated v-array
+    h       = VectorXd::Random(N);                 //Declare h
+    //VectorXd energies_old = VectorXd::Zero(5);              //Store old energies to check convergence
 
     Xa      = X - a;                                            //Define useful array Xa = X - a
     v       = b + (W.transpose() * X)/(sigma_sqrd);             //Define useful exponent array
-    VectorXd X_newa  = VectorXd::Zero(M);                       //Define updated Xa-array
-    VectorXd v_new   = VectorXd::Zero(N);                       //Define updated v-array
-    VectorXd e_new   = VectorXd::Zero(N);                       //define updated e-array
 
     //Set up determinant matrix
     MatrixXd A_up = MatrixXd::Ones(P_half, P_half);         //Slater matrix for spin up
     MatrixXd A_dn = MatrixXd::Ones(P_half, P_half);         //Slater matrix for spin down
-    MatrixXd A_up_inv = MatrixXd::Ones(P_half, P_half);     //Slater matrix for spin up inverse
-    MatrixXd A_dn_inv = MatrixXd::Ones(P_half, P_half);     //Slater matrix for spin down inverse
 
     Slat.matrix(Xa.head(M_half), H, A_up);                  //Update Slater matrix for spin up
     Slat.matrix(Xa.tail(M_half), H, A_dn);                  //Update Slater matrix for spin down
@@ -102,8 +110,8 @@ void VMC() {
     A_dn_inv = A_dn.inverse();                              //Slater matrices
 
     // Derivative matrix
-    MatrixXd dA_up = MatrixXd::Zero(P,P_half);              //Declare derivatives of the
-    MatrixXd dA_dn = MatrixXd::Zero(P,P_half);              //Slater matrices
+    dA_up = MatrixXd::Zero(P,P_half);              //Declare derivatives of the
+    dA_dn = MatrixXd::Zero(P,P_half);              //Slater matrices
 
     ENG.dA_matrix(Xa.head(M_half), dA_up);                  //Update the derivatives of the
     ENG.dA_matrix(Xa.tail(M_half), dA_dn);                  //Slater matrices
@@ -112,12 +120,6 @@ void VMC() {
     Dist = MatrixXd::Zero(P,P);                             //Declare distance matrix
     Dist_inv = MatrixXd::Zero(P,P);                         //Declare distance matrix
     ENG.rij();                                              //Update distance matrix
-
-    //Update h and e
-    for(int i=0; i<N; i++) {
-        h(i) = hrand(gen);                                  //Initialize h to be used in Gibbs
-        e(i) = 1/(1+exp(-v(i)));                            //Initialize e
-    }
 
     //Define bins for the one body density measure
     int number_of_bins = 500;                               //Number of bins in OB density
@@ -159,7 +161,7 @@ void VMC() {
         double accept      = 0;          //Number of accepted moves
 
         //Initial energy
-        double E = ENG.EL_calc(A_up_inv, A_dn_inv, dA_up, dA_dn, E_kin, E_ext, E_int);
+        double E = ENG.EL_calc(E_kin, E_ext, E_int);
 
         VectorXd da_tot           = VectorXd::Zero(M);      //Declare vector with sum over all da's
         VectorXd daE_tot          = VectorXd::Zero(M);      //Declare vector with sum over all db's
@@ -179,22 +181,18 @@ void VMC() {
                 //Metropolis sampling
                 if(sampling == 0) {
                     //Standard Metropolis
-                    X_new(M_rand) = X(M_rand) + (2*random_position() - 1.0)*steplength;         //Update position
-                    X_newa = X_new - a;                                                         //Update X - a
-                    v_new = b + (W.transpose() * X_new)/sigma_sqrd;                             //Update v
-                    //for (int i=0; i<N; i++) e_new(i) = 1/(1+exp(-v_new(i)));                    //Update e
-                    psi_ratio = Psi.Psi_value_sqrd(X_newa, v_new)/Psi.Psi_value_sqrd(Xa, v);    //Calculate ratio
+                    X_new(M_rand) = X(M_rand) + (2*random_position() - 1.0)*dx;      //Update position
+                    X_newa = X_new - a;                                              //Update X - a
+                    v_new = b + (W.transpose() * X_new)/sigma_sqrd;                  //Update v
+                    psi_ratio = Psi.Psi_ratio();                                     //Calculate ratio
                 }
 
                 else if(sampling == 1) {
                     //Metropolis-Hastings
-                    X_new(M_rand) = X(M_rand) + Diff*QForce(Xa, v, W, sigma_sqrd, M_rand) * \
-                                    timestep + eps_gauss(gen)*sqrt(timestep);                   //Update position
-                    X_newa = X_new - a;                                                         //Update X - a
-                    v_new = b + (W.transpose() * X_new)/sigma_sqrd;                             //Update v
-                    //for (int i=0; i<N; i++) e_new(i) = 1/(1+exp(-v_new(i)));                    //Update e
-                    psi_ratio = GreenFuncSum(X, X_new, X_newa, Xa, v, W, sigma_sqrd, timestep, D, Diff) * \
-                                (Psi.Psi_value_sqrd(X_newa, v_new)/Psi.Psi_value_sqrd(Xa, v));  //Calculate ratio
+                    X_new(M_rand) = X(M_rand) + Diff*QForce(Xa, M_rand)*dt + eps_gauss(gen)*sqrt(dt);   //Update position
+                    X_newa = X_new - a;                                                                 //Update X - a
+                    v_new = b + (W.transpose() * X_new)/sigma_sqrd;                                     //Update v
+                    psi_ratio = GreenFuncSum() * Psi.Psi_ratio();                                       //Calculate ratio
                 }
 
                 if(psi_ratio >= random_position()) {
@@ -203,8 +201,6 @@ void VMC() {
                     X  = X_new;                         //Set new position to actual position
                     Xa = X_newa;                        //Set new Xa to actual Xa
                     v  = v_new;                         //Set new v to actual v
-                    //for (int i=0; i<N; i++) e(i) = 1/(1+exp(-v(i)));                    //Update e
-                    //e  = e_new;                         //Set new e to actual e
 
                     int row = int(M_rand/D);            //Which row in the Slater matrix to update
                     ENG.rij_cross(row);                 //Update distance matrix
@@ -253,7 +249,7 @@ void VMC() {
                         }
                     }
 
-                    E  = ENG.EL_calc(A_up_inv, A_dn_inv, dA_up, dA_dn, E_kin, E_ext, E_int);    //Update energy
+                    E  = ENG.EL_calc(E_kin, E_ext, E_int);    //Update energy
                 }
             }
 
@@ -311,7 +307,7 @@ void VMC() {
                     }
                 }
 
-                E  = ENG.EL_calc(A_up_inv, A_dn_inv, dA_up, dA_dn, E_kin, E_ext, E_int);    //Update energy
+                E  = ENG.EL_calc(E_kin, E_ext, E_int);    //Update energy
             }
 
             //CALCULATE ONEBODY DENSITIES

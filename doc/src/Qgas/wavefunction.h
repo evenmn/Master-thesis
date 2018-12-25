@@ -8,6 +8,7 @@ public:
     WaveFunction() {}
     double Psi_value(const VectorXd &Xa, const VectorXd &v);
     double Psi_value_sqrd(const VectorXd &Xa, const VectorXd &v);
+    double Psi_ratio();
 };
 
 class Slater: public WaveFunction {
@@ -19,7 +20,7 @@ public:
     double Gauss(const VectorXd &X, double alpha, int k, int type);
     //double Gauss_ML(const VectorXd &Xa);
     double Gauss_ML(const VectorXd &Xa, int k, int type);
-    double SlaterDet(const VectorXd &Xa, double f(double, int));
+    double SlaterDet(const VectorXd &Xa, double f(double, int), int k, int type);
 };
 
 class Jastrow: public WaveFunction {

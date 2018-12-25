@@ -7,7 +7,7 @@ class Energy
 {
 public:
     Energy() {}
-    double EL_calc(const MatrixXd &A_up_inv, const MatrixXd &A_dn_inv, const MatrixXd &dA_up, const MatrixXd &dA_dn, double &E_kin, double &E_ext, double &E_int);
+    double EL_calc(double &E_kin, double &E_ext, double &E_int);
     void dA_row(const VectorXd &Xa, int k, MatrixXd &dA);
     void dA_matrix(const VectorXd &Xa, MatrixXd &dA);
     void dA_element(const VectorXd &Xa, int k, MatrixXd &dA);

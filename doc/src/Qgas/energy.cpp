@@ -165,7 +165,7 @@ void Energy::dA_matrix(const VectorXd &Xa, MatrixXd &dA) {
 }
 
 
-double Energy::EL_calc(const MatrixXd &A_up_inv, const MatrixXd &A_dn_inv, const MatrixXd &dA_up, const MatrixXd &dA_dn, double &E_kin, double &E_ext, double &E_int) {
+double Energy::EL_calc(double &E_kin, double &E_ext, double &E_int) {
     //Local energy calculations
 
     // Set parameters to zero
@@ -174,9 +174,7 @@ double Energy::EL_calc(const MatrixXd &A_up_inv, const MatrixXd &A_dn_inv, const
     E_int = 0;          // Total interaction energy
 
     // Declare Eigen vectors
-    VectorXd e_n = VectorXd::Zero(N);
-    e_p = VectorXd::Zero(N);
-    VectorXd diff = VectorXd::Zero(M);
+    diff = VectorXd::Zero(M);
 
     // Fill up vectors
     for(int i=0; i<N; i++) {
@@ -185,18 +183,14 @@ double Energy::EL_calc(const MatrixXd &A_up_inv, const MatrixXd &A_dn_inv, const
     }
 
     for(int i=0; i<M; i++) {
-        //diff(i) = energy(Xa, m_D, m_norbitals, i);
-
-
         for(int j=0; j<P_half; j++) {
-            if(i<M/2) {
-                diff(i) += dA_up(i,j)*A_up_inv(j,int(i/D));
+            if(i<M_half) {
+                diff(i) += dA_up(i,j)*A_up_inv(j,int(i/2));
             }
             else {
-                diff(i) += dA_dn(i-M/2,j)*A_dn_inv(j,int((i-M/2)/D));
+                diff(i) += dA_dn(i-M_half,j)*A_dn_inv(j,int((i-M_half)/2));
             }
         }
-
     }
 
     Slater Slat;
@@ -205,10 +199,10 @@ double Energy::EL_calc(const MatrixXd &A_up_inv, const MatrixXd &A_dn_inv, const
     // === ENERGY CALCULATION ===
     // Kinetic energy
     if(sampling==2) {
-        E_kin += (W*e_n).transpose()*diff;
-        E_kin += 0.25*(W.cwiseAbs2()*e_p.cwiseProduct(e_n)).sum();
-        E_kin -= (1/(2*sigma_sqrd))*(Xa.transpose()*W)*e_n;
-        E_kin += 0.5*((W.transpose()*W).cwiseProduct(e_n*e_n.transpose())).sum();
+        E_kin += (W*e).transpose()*diff;
+        E_kin += 0.25*(W.cwiseAbs2()*e_p.cwiseProduct(e)).sum();
+        E_kin -= (1/(2*sigma_sqrd))*(Xa.transpose()*W)*e;
+        E_kin += 0.5*((W.transpose()*W).cwiseProduct(e*e.transpose())).sum();
 
         E_kin -= 0.5*M * sigma_sqrd;
         E_kin += 0.25*Xa.transpose() * Xa;
@@ -220,31 +214,29 @@ double Energy::EL_calc(const MatrixXd &A_up_inv, const MatrixXd &A_dn_inv, const
         int engcal = 1;
         if(engcal==0) {
             E_kin += 2*(W*e).transpose()*diff;
-            E_kin += (W.cwiseAbs2()*e_p.cwiseProduct(e)).sum();
+            E_kin += (W.cwiseAbs2()*e_p.cwiseProduct(e)).sum();                     //NQS Jastrow secder
             E_kin -= (2/sigma_sqrd)*(Xa.transpose()*W)*e;
             E_kin += ((W.transpose()*W).cwiseProduct(e*e.transpose())).sum();
 
-            E_kin -= M;
+            E_kin -= M;                                                             //Gauss ML secder
             E_kin += double(Xa.transpose() * Xa) * omega * omega/sigma_sqrd;        //Xa^2/sigma^2
             E_kin -= double(2*diff.transpose()*Xa);
             E_kin = -E_kin/(2 * sigma_sqrd);
         }
         else if(engcal==1) {
-            E_kin += 2*(W*e).transpose()*diff;
             E_kin += Jast.Jastrow_NQS(v, 0, 2);
-            E_kin -= (2/sigma_sqrd)*(Xa.transpose()*W)*e;
-            E_kin += ((W.transpose()*W).cwiseProduct(e*e.transpose())).sum();
-
             E_kin += Slat.Gauss_ML(Xa, 0, 2);
-            E_kin += double(Xa.transpose() * Xa) * omega * omega/sigma_sqrd;        //Xa^2/sigma^2
-            E_kin -= double(2*diff.transpose()*Xa);
-            E_kin = -E_kin/(2 * sigma_sqrd);
+            E_kin += Slat.SlaterDet(Xa, H, 0, 2);
 
             for(int k=0; k<M; k++) {
-                E_kin += 0;
+                double p1 = Jast.Jastrow_NQS(v, k, 1);
+                double p2 = Slat.Gauss_ML(Xa, k, 1);
+                double p3 = Slat.SlaterDet(Xa, H, k, 1);
+                double sum = p1 + p2 + p3;
+                E_kin += sum*sum;
             }
+            E_kin = -E_kin/(2);
         }
-
     }
 
     // Interaction energy
