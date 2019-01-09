@@ -19,7 +19,7 @@ public:
     void matrix(const VectorXd &Xa, double f(double, int), MatrixXd &A);
     double Gauss(const VectorXd &X, double alpha, int k, int type);
     double Gauss_ML(const VectorXd &Xa, int k, int type);
-    double Gauss_partly(const VectorXd &Xa, int k, int type);
+    double Gauss_partly(const VectorXd &X, int k, int type);
     double SlaterDet(const VectorXd &Xa, int k, int type);
 };
 

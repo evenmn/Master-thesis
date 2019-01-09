@@ -146,10 +146,10 @@ void Energy::dA_row(const VectorXd &Xa, int k, MatrixXd &dA) {
 
     // Find matrix
     for(int i=0; i<P_half; i++) {
-        dA(k, i) = dH(Xa(k), order(i, l));
+        dA(k, i) = dH(Xa(k), int(order(i, l)));
         for(int j=0; j<D; j++) {
-            if(a(j) != k) {
-                dA(k, i) *= H(Xa(a(j)), order(i, j));
+            if(int(a(j)) != k) {
+                dA(k, i) *= H(Xa(int(a(j))), int(order(i, j)));
             }
         }
     }

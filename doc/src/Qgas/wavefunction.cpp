@@ -22,7 +22,7 @@ double Slater::A_elements(const VectorXd &Xa, double f(double, int), int i, int 
 
     double element = 1;
     for(int k=0; k<D; k++) {
-        element *= f(sqrt(omega) * Xa(D*i+k), order(j,k));
+        element *= f(sqrt(omega) * Xa(D*i+k), int(order(j,k)));
     }
 
     return element;
@@ -48,7 +48,7 @@ double Slater::Gauss(const VectorXd &X, double alpha, int k, int type) {
     // Gaussian with a variational parameter
 
     if(type == 0) {
-        return exp(-(double)(omega * X.transpose() * X) * alpha);
+        return exp(-double(omega * X.transpose() * X) * alpha);
     }
     else if(type == 1) {
         // First derivative
@@ -64,7 +64,7 @@ double Slater::Gauss(const VectorXd &X, double alpha, int k, int type) {
 double Slater::Gauss_ML(const VectorXd &Xa, int k, int type) {
     // Biased Gaussian
     if(type == 0) {
-        return exp(-(double)(omega * Xa.transpose() * Xa)/(2 * sigma_sqrd));
+        return exp(-double(omega * Xa.transpose() * Xa)/(2 * sigma_sqrd));
     }
     else if(type == 1) {
         // First derivative
@@ -77,10 +77,10 @@ double Slater::Gauss_ML(const VectorXd &Xa, int k, int type) {
 }
 
 
-double Slater::Gauss_partly(const VectorXd &Xa, int k, int type) {
+double Slater::Gauss_partly(const VectorXd &X, int k, int type) {
     // Part to go from restricted to partly restricted
     if(type == 0) {
-        return exp(-(double)(X.transpose()*C*X)/(2*sigma_sqrd));
+        return exp(-double(X.transpose()*C*X)/(2*sigma_sqrd));
     }
     else if(type == 1) {
         //First derivative
@@ -151,14 +151,15 @@ double Jastrow::Jastrow_NQS(const VectorXd &v, int k, int type) {
 
 double Jastrow::PadeJastrow(int k, int type) {
     //Pade-Jastrow factor
-    double A = 1; double B = 1;
+    MatrixXd A = MatrixXd::Ones(P, P);
+    double B = 1;
     if(type == 0) {
         double sum = 0;
         for(int i=0; i<P; i++) {
             for(int j=0; j<i; j++) {
                 double rij = Dist(i,j);
                 double f = 1/(1 + B*rij);
-                sum += A*f*rij;
+                sum += A(i,j)*f*rij;
             }
         }
         return exp(sum);
@@ -172,7 +173,7 @@ double Jastrow::PadeJastrow(int k, int type) {
             double ximxj = X(k)-X(D*j+k_d);
             double rij = Dist(k_p,j);
             double f = 1/(1 + B*rij);
-            result += A*f*f*ximxj/rij;
+            result += A(k_p,j)*f*f*ximxj/rij;
         }
         return result;
     }
@@ -186,7 +187,7 @@ double Jastrow::PadeJastrow(int k, int type) {
                 double ximxj = (X(i)-X(D*j+i_d))*(X(i)-X(D*j+i_d));
                 double rij = Dist(i_p,j);
                 double f = 1/(1 + B*rij);
-                result += (A*f*f/rij)*(1 - ximxj/(rij*rij) - 2*B*ximxj*f);
+                result += (A(i_p,j)*f*f/rij)*(1 - ximxj/(rij*rij) - 2*B*ximxj*f);
             }
         }
         return result;
@@ -254,7 +255,7 @@ double WaveFunction::Psi_value(const VectorXd &Xa, const VectorXd &v) {
         // Hermite functions and NQS
 
         slater = Slat.SlaterDet(Xa, 0, 0) * Slat.Gauss_ML(Xa, 0, 0); // * Slat.Gauss_partly(Xa, 0, 0);
-        jastrow = Jast.Jastrow_NQS(v, 0, 0) * Jast.PadeJastrow(0, 0);
+        jastrow = Jast.PadeJastrow(0, 0) * Jast.Jastrow_NQS(v, 0, 0);
     }
 
     return slater * jastrow;
