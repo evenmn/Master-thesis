@@ -3,6 +3,7 @@
 #include "hastings_tools.h"
 #include "common.h"
 #include "eigen3/Eigen/Dense"
+#include "wavefunction.h"
 
 #include <random>
 #include <cmath>
@@ -12,11 +13,23 @@ using namespace std;
 
 double QForce(const VectorXd &Xa, int i) {
 
-    double QF = -Xa(i);
+    double QFa = -Xa(i);
     for(int j=0; j<N; j++) {
-        QF += W(i,j)*e(j);
+        QFa += W(i,j)*e(j);
     }
-    return QF*(2/(sigma_sqrd));
+
+    Slater Slat;
+    Jastrow Jast;
+
+
+    double QF = 0;
+    QF += Jast.Jastrow_NQS(v, i, 1);
+    QF += Slat.Gauss_ML(Xa, i, 1);
+    QF += Slat.SlaterDet(Xa, i, 1);
+    QF += Jast.PadeJastrow(i, 1);
+    //QF += Slat.Gauss_partly(Xa, k, 1);
+
+    return 2*QF;
 }
 
 double GreenFuncSum() {

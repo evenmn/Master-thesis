@@ -2,8 +2,8 @@
 #include "basis.h"
 #include "general_tools.h"
 #include "eigen3/Eigen/Dense"
-#include "common.h"
 #include "wavefunction.h"
+#include "common.h"
 
 #include <cmath>
 #include <ctime>
@@ -225,14 +225,18 @@ double Energy::EL_calc(double &E_kin, double &E_ext, double &E_int) {
         }
         else if(engcal==1) {
             E_kin += Jast.Jastrow_NQS(v, 0, 2);
+            E_kin += Jast.PadeJastrow(0, 2);
             E_kin += Slat.Gauss_ML(Xa, 0, 2);
-            E_kin += Slat.SlaterDet(Xa, H, 0, 2);
+            E_kin += Slat.SlaterDet(Xa, 0, 2);
+            //E_kin += Slat.Gauss_partly(Xa, 0, 2);
 
             for(int k=0; k<M; k++) {
                 double p1 = Jast.Jastrow_NQS(v, k, 1);
                 double p2 = Slat.Gauss_ML(Xa, k, 1);
-                double p3 = Slat.SlaterDet(Xa, H, k, 1);
-                double sum = p1 + p2 + p3;
+                double p3 = Slat.SlaterDet(Xa, k, 1);
+                double p4 = Jast.PadeJastrow(k, 1);
+                //double p5 = Slat.Gauss_partly(Xa, k, 1);
+                double sum = p1 + p2 + p3 + p4;
                 E_kin += sum*sum;
             }
             E_kin = -E_kin/(2);

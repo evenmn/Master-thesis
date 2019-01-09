@@ -26,6 +26,7 @@ extern int     M_half;
 extern double  sigma_sqrd;
 
 extern Eigen::MatrixXd W;
+extern Eigen::MatrixXd C;
 extern Eigen::VectorXd X;
 extern Eigen::VectorXd v;
 extern Eigen::VectorXd e;

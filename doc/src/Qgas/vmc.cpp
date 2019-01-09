@@ -26,6 +26,7 @@ int    P_half;
 double sigma_sqrd;
 
 MatrixXd W;
+MatrixXd C;
 VectorXd X;
 VectorXd v;
 VectorXd e;
@@ -85,6 +86,7 @@ void VMC() {
     double factor_x = 5.0;                                  //Factor on initial positions
 
     W       = MatrixXd::Random(M, N) * factor;     //Initialize W
+    C       = MatrixXd::Random(M, M) * factor;     //Initialize C
     a       = VectorXd::Random(M)    * factor;     //Initialize a
     b       = VectorXd::Random(N)    * factor;     //Initialize b
     X       = VectorXd::Random(M)    * factor_x;   //initialize X
@@ -189,6 +191,9 @@ void VMC() {
 
                 else if(sampling == 1) {
                     //Metropolis-Hastings
+                    //cout << (2*random_position() - 1.0)*dx << endl;
+                    //cout << Diff*QForce(Xa, M_rand)*dt + eps_gauss(gen)*sqrt(dt) << "\n" << endl;
+
                     X_new(M_rand) = X(M_rand) + Diff*QForce(Xa, M_rand)*dt + eps_gauss(gen)*sqrt(dt);   //Update position
                     X_newa = X_new - a;                                                                 //Update X - a
                     v_new = b + (W.transpose() * X_new)/sigma_sqrd;                                     //Update v

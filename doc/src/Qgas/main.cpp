@@ -30,17 +30,17 @@ int main()
     P           = 2;                //Number of particles
     D           = 2;                //Number of dimensions
     N           = P;                //Number of hidden nodes
-    MC          = int(pow(2,20));   //Number of Monte Carlo cycles
+    MC          = int(pow(2,18));   //Number of Monte Carlo cycles
     O           = orbitals();       //Number of orbitals
     iterations  = 1000;             //Number of gradient decent iterations
-    sampling    = 0;                //Brute force- (0), Hastings- (1) or Gibbs' sampling (2)
+    sampling    = 1;                //Brute force- (0), Hastings- (1) or Gibbs' sampling (2)
     optimization= 0;                //Gradient Descent (0), ADAM (1)
     interaction = 1;                //Interaction on if true
     one_body    = 1;                //Calculating onebody density if true
     sigma       = 1.0;              //Width of Gaussian distribution
     omega       = 1.0;              //Frequency
     dx          = 1.0;              //Steplength for Metropolis
-    dt          = 1.0;              //Timestep used in Hastings algorithm
+    dt          = 0.1;              //Timestep used in Hastings algorithm
     eta         = 5*pow(10,-O);     //Learning rate for optimization
     Diff        = 0.5;              //Diffusion constant
 
