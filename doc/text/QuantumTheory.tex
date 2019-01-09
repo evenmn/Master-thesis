@@ -1,65 +1,76 @@
-\section{Quantum Many-Body Physics} \label{sec:quantum}
+\chapter{Quantum Many-Body Physics} \label{sec:quantum}
 Here I might present basic quantum mechanics briefly.
 
-\subsection{Elementary Quantum Theory} \label{subsec:elementary}
+\section{Electronic structure calculations} \label{subsec:elementary}
 Even though it is called elementary, quantum mechanics is not basic at all. 
-\subsubsection{Postulates of Quantum Mechanics} \label{subsubsec:postulates}
-We will first list the postulates of quantum mechanics, and then discuss their importance
-\begin{itemize}
-	\item The state of a quantum mechanical system is completely specified by its wavefunction
-	\item To every observable in classical mechanics there corresponds a linear, Hermitian operator in quantum mechanics. 
-	\item 
-\end{itemize}
 
-\subsubsection{The Schrödinger Equation} \label{subsubsec:schrodinger}
-A natural starting point is with the Schrödinger equation, which gives the energy eigenstates of a system defined by a Hamiltonian $\hatH$ and its eigenfunctions, $\Psi$, which are the wavefunctions,
+\subsection{The Schrödinger Equation} \label{subsubsec:schrodinger}
+The Schrödinger equation is a natural starting point, which gives the energy eigenstates of a system defined by a Hamiltonian $\hatH$ and its eigenfunctions, $\Psi$, which are the wave functions. The time-independent Schrödinger equation reads
 \begin{equation}
 \label{eq:Energy}
-\hat{\text{H}}\psin=\epsilon_n\psin.
+ \hat{\mathcal{H}}\psin=\epsilon_n\psin
 \end{equation}
+where the electronic Hamiltonian takes the form
+\begin{equation}
+\hatH=-\sum_i^N\frac{\hbar^2}{2m}\nabla_i^2+\sum_i^Nu_i + \sum_i^N\sum_{j>i}^Mk\frac{e^2}{r_{ij}}
+\end{equation}
+with $u_i$ as an arbitrary external potential and the last term as the Coulomb potential between electrons. $r_{ij}$ is the relative distance between electron $i$ and $j$, defined by $r_{ij}\equiv|\bs{r}_i-\bs{r}_j|$.
 
-Solving equation \eqref{eq:Energy} with respect to the energies, we obtains some integrals,
+Setting up equation \eqref{eq:Energy} with respect to the energies, we obtain some integrals,
 \begin{equation}
 \epsilon_n=\frac{\int d\bs{r}\psinc\hatH\psin}{\int d\bs{r}\psinc\psin},
 \end{equation}
-which not necessarily are trivial to solve. The integral in the nominator gives the normalization, and ensures that the wavefunction is normalized. If this already is the case, we can omit the nominator and focus on solving the integral in the denominator. The equation can be expressed more elegantly using Dirac braket notation,
+which not necessarily are trivial to solve. If we take the wave function squared we get the probability of finding a particle at a certain position,
 \begin{equation}
-\epsilon_n=\mel{n}{\hatH}{n},
+P(\bs{r})=\psinc\psin=|\psin|^2
 \end{equation}
-where the first part, $\bra{n}$ is called a bra and the last part, $\ket{n}$ is called a ket. At first this might look artificial and less informative, but it simplifies the notation significantly. More information about the notation is found in Appendix B. 
+so the nominator is simply the integral over all probabilities. If the wave function is normalized correctly, this should always give 1. Assuming that is the case, the expectation value can be expressed more elegantly by using Dirac notation,
+\begin{equation}
+E[\Psi]=\mel{\Psi}{\hatH}{\Psi},
+\end{equation}
+where the first part, $\bra{\Psi}$ is called a bra and the last part, $\ket{\Psi}$ is called a ket. At first this might look artificial and less informative, but it simplifies the notation significantly. More information about the notation is found in Appendix B. 
+
+We often do not know the exact wave function, and need to guess a trial wave function. Henceforth, we will use $\Psi$ as the exact total wave function, $\psi$ as the exact single particle function (SPF), $\Phi$ as the total trial wave function and $\phi$ as the trial SPF. 
 \cite{GriffQuan}
 
-\subsubsection{The Variational Principle}
-In the equations above, the presented wavefunctions are assumed to be the exact eigenfunctions of the Hamiltonian. But often we do not know the exact wavefunctions, and we need to guess what the wavefunctions might be. In those cases we make use of the variational principle, which states that only the groundstate wavefunction is able to give the groundstate energy. All other wavefunctions with the required properties (see section \ref{subsec:wavefunction}) give higher energies, and mathematically we can express the statement with
+\subsection{The Variational Principle}
+In the equations above, the presented wave functions are assumed to be the exact eigen functions of the Hamiltonian. But often we do not know the exact wave functions, and we need to guess what the wave functions might be. In those cases we make use of the variational principle, which states that only the groundstate wave function is able to give the groundstate energy. All other wave functions with the required properties (see section \ref{subsec:wavefunction}) give higher energies, and mathematically we can express the statement with
 \begin{equation}
-\epsilon_0\leq\mel{\Psi_T}{\hatH}{\Psi_T}.
+\epsilon_0\leq\mel{\Phi}{\hatH}{\Phi}.
 \end{equation}
-We have here introduced a trial wavefunction $\Psi_T$ which not necessary is the true groundstate wavefunction. This means that we can adjust our trail wavefunction with respect to the energy, and the lower energy we get the better is our wavefunction. 
+We have here introduced a trial wave function $\Psi_T$ which not necessary is the true ground state wave function. This means that we can adjust our trail wave function with respect to the energy, and the lower energy we get the better is our wave function. 
 
-\subsubsection{Symmetry and anti-symmetry} \label{subsubsec:symmetry}
-Assume we have a permutation operator $\hat{P}$ which switches two coordinates in the wave function,
+\subsection{Assumption raised}
+\begin{itemize}
+	\item Non-relativistic
+	\item Point-like particles
+	\item Born-Oppenheimer
+\end{itemize}
+
+\section{Wave function properties} \label{subsec:wavefunction}
+By the first postulate of quantum mechanics, the wave function contains all the information specifying the state of the system. This means that all observable in classical mechanics can also be measured from the wave function, so finding the wave function is the goal. We will focus on Variational Monte Carlo (VMC), which is a method that calculates the energy and optimizes the wave function iteratively based on an initial wave function guess. There are some requirements that the wave function needs to fulfill: It needs to be symmetric or anti-symmetric under exchange of two coordinates, the CUSP condition should be satisfied and it needs to approach zero at the edges. As long as these conditions are fulfilled, the variational principle is fulfilled. 
+
+\subsection{Bosons and fermions} \label{subsubsec:symmetry}
+An introductary sentence is needed to increase the FLOW. 
+Assume we have a permutation operator $\hat{P}$ which exchanges two coordinates in the wave function,
 
 \begin{equation}
-\hat{P}\Psi_n(\bs{x}_1,\hdots,\bs{x}_i,\hdots,\bs{x}_j,\hdots,\bs{x}_M)=p\Psi_n(\bs{x}_1,\hdots,\bs{x}_j,\hdots,\bs{x}_i,\hdots,\bs{x}_M),
+\hat{P}(i\rightarrow j)\Psi_n(\bs{x}_1,\hdots,\bs{x}_i,\hdots,\bs{x}_j,\hdots,\bs{x}_M)=p\Psi_n(\bs{x}_1,\hdots,\bs{x}_j,\hdots,\bs{x}_i,\hdots,\bs{x}_M),
 \end{equation}
 where $p$ is just a factor which comes from the transformation. If we again apply the $\hat{P}$ operator, we should switch the same coordinates back, and we expect to end up with the initial wave function. For that reason, $p=\pm1$. \footnote{This was true until 1976, when J.M. Leinaas and J. Myrheim discovered the anyon, https://www.uio.no/studier/emner/matnat/fys/FYS4130/v14/documents/kompendium.pdf.}
 
 The particles that have an antisymmetric (AS) wavefunction under exchange of two coordinates are called fermions, named after Enrico Fermi, and have half integer spin. On the other hand, the particles that have a symmetric (S) wavefunction under exchange of two coordinates are called bosons, named after Satyendra Nath Bose, and have integer spin. 
 
-It turns out that because of their antisymmetric wavefunction, two identical fermions cannot be found at the same position at the same time, known as the Pauli principle. This causes some difficulties when dealing with multiple fermions, because we always need to ensure that the total wavefunction becomes zero if two identical particles happen to be at the same position. To do this, we introduce a Slater determinant as described in the next chapter. in this particular project, we are going to focus on fermions, just because they are more difficult to handle, but much of the theory and implementation applies for bosons as well. 
+It turns out that because of their antisymmetric wavefunction, two identical fermions cannot be found at the same position at the same time, known as the Pauli principle. This causes some difficulties when dealing with multiple fermions, because we always need to ensure that the total wavefunction becomes zero if two identical particles happen to be at the same position. To do this, we introduce a Slater determinant as described in the next chapter. In this particular project, we are going to focus on electrons and therefore fermions. Anyway, much of the theory applies for bosons as well.
 
 Read https://manybodyphysics.github.io/FYS4480/doc/pub/secondquant/html/secondquant-bs.html
 
-\subsection{Wavefunction properties} \label{subsec:wavefunction}
-
-
-
-\subsubsection{Slater determinant} \label{subsubsec:slater}
-For a system of more particles we can define a total wavefunction, which is a composition of all the single particle wavefuncions (SPF) and contains all the information about the system. The way we compile the SPFs needs to be based on Pauli's exclusion, which states that two identical fermions cannot possibly be in the same state at the same time. If this happens, we set the total wavefunction to zero, which is done by defining the wavefunction as a determinant. 
+\subsection{Slater determinant} \label{subsubsec:slater}
+For a system of more particles we can define a total wavefunction, which is a composition of all the single particle wavefunctions (SPF) and contains all the information about the system. For fermions we need to compile the SPFs such that the Pauli principle is fulfilled at all times. One way to do this is by setting up the SPFs in a determinant, known as a Slater determinant.
 
 Consider a system of two identical fermions with SPFs $\phi_1$ and $\phi_2$ at positions $\boldsymbol{r}_1$ and $\boldsymbol{r}_2$ respectively. The way we define the wavefunction of the system is then
 \begin{equation}
-\Psi_T=
+\Psi_T(\bs{r}_1,\bs{r}_2)=
 \begin{vmatrix}
 \phi_1(\boldsymbol{r}_1) & \phi_2(\boldsymbol{r}_1)\\
 \phi_1(\boldsymbol{r}_2) & \phi_2(\boldsymbol{r}_2)
@@ -68,7 +79,7 @@ Consider a system of two identical fermions with SPFs $\phi_1$ and $\phi_2$ at p
 \end{equation}
 which is set to zero if the particles are at the same position. This is called a Slater determinant, and yields the same no matter how big the system is.
 
-Notice that we denote the wavefunction with the $'T'$, which indicates that it is a trial wavefunction. We do this because the spin part is avoided with $\psi$ as the radial parts only, thus this wavefunction is not the true wavefunction. We will look closer at how we can factorize out the spin part later. The spin part is assumed to not affect the energies. For bosons the total wavefunction is defined similarly, but with no negative signs since the Pauli principle does not apply for fermions. 
+Notice that we denote the wave function with the $'T'$, which indicates that it is a trial wave function. We do this because the spin part is avoided with $\psi$ as the radial parts only, thus this wavefunction is not the true wavefunction. We will look closer at how we can factorize out the spin part later. The spin part is assumed to not affect the energies.
 
 A general Slater determinant for a system of $N$ particles takes the form
 
@@ -81,14 +92,16 @@ A general Slater determinant for a system of $N$ particles takes the form
 \psi_1(\boldsymbol{r}_N) & \psi_2(\boldsymbol{r}_N) & \hdots & \psi_N(\boldsymbol{r}_N)
 \end{vmatrix}
 \end{equation}
-where the $\psi$'s are the true single particle wavefunctions, which are the tensor products 
+where the $\psi$'s are the true single particle wave functions, which are the tensor products 
 \begin{equation}
 \psi=\phi\otimes\xi
 \end{equation}
 with $\xi$ as the spin part. 
 
-\subsubsection{Electron system} \label{subsubsec:electronsystem}
-For our purpose we will study fermions with spin $\sigma=\pm 1/2$ only, which can be seen as an electron gas. In this particular case, the SPFs can be arranged in spin-up and spin-down parts, such that the Slater determinant can be simplied to 
+There is a similar "Slater permanent" which applies for bosons. It is similar to a determinant, but all negative signs are replaced by positive signs. 
+
+\subsection{Electron systems} \label{subsubsec:electronsystem}
+For our purpose we will study fermions with spin $\sigma=\pm 1/2$ only, which can be seen as electrons. In this particular case, the SPFs can be arranged in spin-up and spin-down parts, such that the Slater determinant can be simplied to 
 \begin{equation}
 \Psi(\boldsymbol{r}_1,\boldsymbol{r}_2,\hdots,\boldsymbol{r}_N)=
 \begin{vmatrix}
@@ -104,21 +117,21 @@ SHOULD END UP WITH SPLITTED DETERMINANTS HERE
 
 For a detailed walkthrough, see appendix I in REF(The Stochastic Gradient Approximation: an application to Li nanoclusters, Daniel Nissenbaum). 
 
-\subsubsection{Basis set} \label{subsubsec:basisset}
-To go further, we need to define a basis set, $\phi_n(\blds{r})$ which should be chosen carefully based on the system. 
+\subsection{Cusp condition} \label{subsubsec:cusp}
+The Coulomb potential gives a cusp when two charged particles approach each other. This means that the wave function should also have a cusp, known as the Coulomb cusp condition, Kato theorem or just the cusp condition. 
 
-\subsubsection{Jastrow factor} \label{subsubsec:jastrow}
+\subsection{Basis set} \label{subsubsec:basisset}
+To go further, we need to define a basis set, $\phi_n(\bs{r})$ which should be chosen carefully based on the system. 
+
+\subsection{Jastrow factor} \label{subsubsec:jastrow}
 Often we add a Jastrow factor to improve the flexibility of the wave function. The Slater determinant itself is usually not able to capture interaction properties, so by multiplying with another function, we might get a better estimate. 
 
-\subsubsection{CUSP condition} \label{subsubsec:cusp}
-Until now, we have been fiddling with the wavefunction in multiple ways. Are we really allowed to fix it in  whichever way we want? The answer is yes, as long as it satisfies the CUSP condition. 
 
-The CUSP condition states that 
 
-\subsection{Systems and basis sets} \label{subsec:potentials}
+\section{Systems and basis sets} \label{subsec:potentials}
 Specific systems need specific basis sets
 
-\subsubsection{Quantum dots} \label{subsubsec:quantumdots}
+\subsection{Quantum dots} \label{subsubsec:quantumdots}
 Quantum dots are very small particles, and contain fermions or bosons hold together by an external potential. Since these particles have discrete electronic states like an atom, they are often called artificial atoms. 
 
 In this thesis we will study electrons trapped in harmonic oscillators,
@@ -132,7 +145,7 @@ f_n(x)=H_n(x)\exp(-x^2/2)
 \end{equation}
 and are known to be the exact SPFs in a harmonic oscillator. 
 
-\subsubsection{Atomic and molecular systems} \label{subsubsec:atomic}
+\subsection{Atomic and molecular systems} \label{subsubsec:atomic}
 We will also investigate real atoms, which have Hamiltonians defined by the Born-Oppenheimer approximation.  
 
 \begin{equation}
