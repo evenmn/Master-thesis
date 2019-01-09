@@ -44,6 +44,22 @@ void Slater::matrix(const VectorXd &Xa, double f(double, int), MatrixXd &A) {
     }
 }
 
+double Slater::Gauss(const VectorXd &X, double alpha, int k, int type) {
+    // Gaussian with a variational parameter
+
+    if(type == 0) {
+        return exp(-(double)(omega * X.transpose() * X) * alpha);
+    }
+    else if(type == 1) {
+        // First derivative
+        return -double(omega * X(k))/alpha;
+    }
+    else if(type == 2) {
+        // Second derivative
+        return -omega/alpha;
+    }
+}
+
 
 double Slater::Gauss_ML(const VectorXd &Xa, int k, int type) {
     // Biased Gaussian
@@ -61,33 +77,52 @@ double Slater::Gauss_ML(const VectorXd &Xa, int k, int type) {
 }
 
 
-double Slater::Gauss(const VectorXd &X, double alpha, int k, int type) {
-    // Gaussian with a variational parameter
-
+double Slater::Gauss_partly(const VectorXd &Xa, int k, int type) {
+    // Part to go from restricted to partly restricted
     if(type == 0) {
-        return exp(-(double)(omega * X.transpose() * X) * alpha);
+        return exp(-(double)(X.transpose()*C*X)/(2*sigma_sqrd));
     }
     else if(type == 1) {
-        // First derivative
-        return double(omega * X(k))/alpha;
+        //First derivative
+        double result = 0;
+        result += C(k,k) * X(k);
+        for(int i=0; i<M; i++) {
+            result += C(k,i) * X(i);
+        }
+        return -result/(2*sigma_sqrd);
     }
     else if(type == 2) {
-        // Second derivative
-        return omega/alpha;
+        //Second derivative
+        double result = 0;
+        for(int i=0; i<M; i++) {
+            result += C(i,i);
+        }
+        return -result/sigma_sqrd;
+        //return -(C.diagonal()).sum()/sigma_sqrd;
     }
 }
 
 
-double Slater::SlaterDet(const VectorXd &Xa, double f(double, int)) {
+double Slater::SlaterDet(const VectorXd &Xa, int k, int type) {
     // Setting up Slater determinant
 
-    MatrixXd D_up = MatrixXd::Ones(P_half,P_half);
-    MatrixXd D_dn = MatrixXd::Ones(P_half,P_half);
+    if(type == 0) {
+        MatrixXd D_up = MatrixXd::Ones(P_half,P_half);
+        MatrixXd D_dn = MatrixXd::Ones(P_half,P_half);
 
-    matrix(Xa.head(M_half), f, D_up);
-    matrix(Xa.tail(M_half), f, D_dn);
+        matrix(Xa.head(M_half), H, D_up);
+        matrix(Xa.tail(M_half), H, D_dn);
 
-    return D_up.determinant()*D_dn.determinant();
+        return D_up.determinant()*D_dn.determinant();
+    }
+    else if(type == 1) {
+        // First derivative
+        return diff(k);
+    }
+    else if(type == 2) {
+        // Second derivative
+        return -double(diff.transpose() * diff);
+    }
 }
 
 
@@ -114,34 +149,96 @@ double Jastrow::Jastrow_NQS(const VectorXd &v, int k, int type) {
 }
 
 
-double Jastrow::PadeJastrow() {
+double Jastrow::PadeJastrow(int k, int type) {
     //Pade-Jastrow factor
-    double sum = 0;
-    for(int i=0; i<M; i++) {
-        for(int j=0; j<M; j++) {
-            sum += Dist(i,j)/(1+Dist(i,j));
+    double A = 1; double B = 1;
+    if(type == 0) {
+        double sum = 0;
+        for(int i=0; i<P; i++) {
+            for(int j=0; j<i; j++) {
+                double rij = Dist(i,j);
+                double f = 1/(1 + B*rij);
+                sum += A*f*rij;
+            }
         }
+        return exp(sum);
     }
-    return exp(sum);
-}
-
-double WTF(double f1, double f2, double f3) {
-    // Returns total WF
-
-    return f1 * f2 * f3;
-}
-
-double ENG(double f1(VectorXd, int, int), VectorXd &f11, double f2(VectorXd, int, int), VectorXd &f21, double f3(VectorXd, int, int), VectorXd &f31) {
-    // Return kinetic energy
-
-    double e1 = 0;
-    for(int k=0; k<M; k++) {
-        e1 += f1(f11, k, 1) + f2(f21, k, 1) + f3(f31, k, 1);
+    else if(type == 1) {
+        // First derivative
+        double result = 0;
+        int k_p = int(k/D);     //Particle
+        int k_d = k%D;          //Dimension
+        for(int j=0; j<k_p; j++) {
+            double ximxj = X(k)-X(D*j+k_d);
+            double rij = Dist(k_p,j);
+            double f = 1/(1 + B*rij);
+            result += A*f*f*ximxj/rij;
+        }
+        return result;
     }
-    double e2 = f1(f11, 0, 2)*f1(f11, 0, 2) + f2(f21, 0, 2)*f2(f21, 0, 2) + f3(f31, 0, 2)*f3(f31, 0, 2);
-
-    return e1*e1 + e2;
+    else if(type == 2) {
+        // Second derivative
+        double result = 0;
+        for(int i=0; i<M; i++) {
+            int i_p = int(i/D);     //Particle
+            int i_d = i%D;          //Dimension
+            for(int j=0; j<i_p; j++) {
+                double ximxj = (X(i)-X(D*j+i_d))*(X(i)-X(D*j+i_d));
+                double rij = Dist(i_p,j);
+                double f = 1/(1 + B*rij);
+                result += (A*f*f/rij)*(1 - ximxj/(rij*rij) - 2*B*ximxj*f);
+            }
+        }
+        return result;
+    }
 }
+
+
+double Jastrow::CartPadeJastrow(int k, int type) {
+    //Cartesian Pade-Jastrow
+    MatrixXd A = MatrixXd::Ones(P, P);
+    double B = 1;
+    if(type == 0) {
+        double sum = 0;
+        for(int i=0; i<P; i++) {
+            for(int j=0; j<i; j++) {
+                for(int d=0; d<D; d++) {
+                    double dist = (X(D*i+d)-X(D*j+d));
+                    double f = 1/(1+B*dist);
+                    sum += A(i,j)*dist*f;
+                }
+            }
+        }
+        return exp(sum);
+    }
+    else if(type == 1) {
+        // First derivative
+        double sum = 0;
+        int k_p = int(k/D);     //Particle
+        int k_d = k%D;          //Dimension
+        for(int j=0; j<k_p; j++) {
+            double dist = (X(k)-X(D*j+k_d));
+            double f = 1/(1+B*dist);
+            sum += A(k_p,j)*f*f;
+        }
+        return sum;
+    }
+    else if(type == 2) {
+        // Second derivative
+        double sum = 0;
+        for(int k=0; k<M; k++) {
+            int k_p = int(k/D);     //Particle
+            int k_d = k%D;          //Dimension
+            for(int j=0; j<k_p; j++) {
+                double dist = (X(k)-X(D*j+k_d));
+                double f = 1/(1+B*dist);
+                sum -= 2*A(k_p,j)*B*f*f*f;
+            }
+        }
+        return sum;
+    }
+}
+
 
 double WaveFunction::Psi_value(const VectorXd &Xa, const VectorXd &v) {
     // Setting up total wavefunction
@@ -153,33 +250,25 @@ double WaveFunction::Psi_value(const VectorXd &Xa, const VectorXd &v) {
     double jastrow = 0;
 
     int system = 0;
-    // Idea: Make function which takes an arbitrary number of functions as
-    // arguments and return the total wf and kinetic energy
-    double result;
     if(system == 0) {
         // Hermite functions and NQS
-        result = WTF(Slat.SlaterDet(Xa, H), Slat.Gauss_ML(Xa, 0, 0), Jast.Jastrow_NQS(v, 0, 0));
 
-
-        slater = Slat.SlaterDet(Xa, H) * Slat.Gauss_ML(Xa, 0, 0);
-        jastrow = Jast.Jastrow_NQS(v, 0, 0);
-
-        //double e1 = Slat.Gauss_ML(Xa, 0, 2) * Slat.Gauss_ML(Xa, 0, 2) + Jast.Jastrow_NQS(v, 0, 2)*Jast.Jastrow_NQS(v, 0, 2);
-        //double e2 = 0;
-        //for(int i=0; i<M; i++) {
-        //    e2 += Slat.Gauss_ML(Xa, i, 1) + Jast.Jastrow_NQS(v, i, 1);
-        //}
-        //double energy = e1 + e2*e2;
-
+        slater = Slat.SlaterDet(Xa, 0, 0) * Slat.Gauss_ML(Xa, 0, 0); // * Slat.Gauss_partly(Xa, 0, 0);
+        jastrow = Jast.Jastrow_NQS(v, 0, 0) * Jast.PadeJastrow(0, 0);
     }
 
     return slater * jastrow;
 }
 
 double WaveFunction::Psi_value_sqrd(const VectorXd &Xa, const VectorXd &v) {
-    //Unnormalized wave function
+    //Unnormalized wave function squared
 
     double Prob = Psi_value(Xa, v);
     return Prob * Prob;
 }
 
+double WaveFunction::Psi_ratio() {
+    //Ratio between new and old probability distribution
+
+    return Psi_value_sqrd(X_newa, v_new)/Psi_value_sqrd(Xa, v);
+}
