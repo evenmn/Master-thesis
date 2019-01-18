@@ -1,6 +1,98 @@
 \chapter{Methods} \label{sec:methods}
-\section{Configurations Interaction} \label{subsec:ci}
-\section{Hartree-Fock} \label{subsec:hf}
-\section{Variational Monte Carlo} \label{subsec:vmc}
-Based on the variational principle
+Some great methods are developed over the past decade. We will focus on the Hartree-Fock and variational Monte Carlo methods and give a detailed explanation of those methods. Additionally, the well-known methods configuration interaction and coupled cluster will be described briefly for some kind of completeness. 
+
+\section{Quantum Monte Carlo} \label{sec:qmc}
+Monte Carlo methods in quantum mechanics are a bunch of methods that are built on diffusion processes, and includes Variational Monte Carlo (VMC), Diffusion Monte Carlo (DMC) and others. The common denominator is that we move particles in order to find the optimal configuration, usually where the energy is minimized. The particles can be moved isotropic, i.e., uniformly in all directions, or they can be affected by a drift force which makes the process anisotropic. 
+
+\subsubsection{Isotropic processes}
+In isotropic processes, we have random walks where the particles move randomly in space which falls under the category Markov chains. If we assume constant timestep, the step index can be considered the time, thus we have a time-dependent probability density $P(x,t)$. This probability density needs to satisfy the isotropic diffusion equation,
+\begin{equation}
+\frac{\partial P(\bs{x},t)}{\partial t}=D\frac{\partial^2}{\partial \bs{x}^2}P(\bs{x},t).
+\end{equation}
+
+\subsubsection{Anisotropic processes}
+For anisotropic processes, we have a drift and the moves are no longer considered random but falls still under the category Markov chains. Because of the drift, we need to rewrite the diffusion equation and we end up with the Fokker-Planck equation,
+\begin{equation}
+\frac{\partial P(\bs{x},t)}{\partial t}=D\frac{\partial}{\partial \bs{x}}\left(\frac{\partial}{\partial \bs{x}}-F\right)P(\bs{x},t)
+\end{equation}
+which needs to be satisfied. The new positions in coordinate space are given as solution of the Langevin equation 
+\begin{equation}
+\frac{\partial \bs{x}(t)}{\partial t}=D\bs{F}(\bs{x}(t))+\eta
+\end{equation}
+
+\subsection{Variational Monte Carlo} \label{subsec:vmc}
+The Variational Monte Carlo (hereafter, VMC) method is today widely used when it comes to the study of ground state properties of quantum mechanical systems. It is a Monte Carlo method which makes use of Metropolis sampling, and has been used in studies of fermionic systems since the 1970's. \cite{deb2014} If we go back to the variational principle in equation \eqref{eq:variationalprinciple}, we see that by choosing a wave function which satisfies the criteria, we will get an energy larger or equal to the ground state energy. \bigskip
+
+There are two main problems we need to solve
+\begin{enumerate}
+	\item We seldomly know the correct wave function
+	\item The integral we need to find the energy is hard or impossible to solve
+\end{enumerate}
+Let us take the last problem first. The solution is to approximate the integral with a sum,
+\begin{align}
+E &\leq \frac{\int\Phi(\bs{r})^*\hat{H}\Phi(\bs{r}) d\bs{r}}{\int\Phi(\bs{r})^*\Phi(\bs{r}) d\bs{r}} \notag\\
+& = \frac{\int\Phi(\bs{r})^*\Phi(\bs{r})(1/\Phi(\bs{r}))\hat{H}\Phi(\bs{r}) d\bs{r}}{\int\Phi(\bs{r})^*\Phi(\bs{r}) d\bs{r}} \notag\\
+& = \frac{\int P(\bs{r}) E_L(\bs{r}) d\bs{r}}{\int\Phi(\bs{r})^*\Phi(\bs{r}) d\bs{r}} \notag\\
+& \approx \frac{1}{N}\sum_{i=1}^NE_L(\bs{r_i}) \label{eq:energysum}
+\end{align}
+where the local energy is defined as
+\begin{equation}
+E_L(\bs{r})\equiv\frac{1}{\Phi(\bs{r})}\hat{H}\Phi(\bs{r})
+\label{eq:local energy}
+\end{equation}
+and the $\bs{r}_i$ is withdrawn from the probability distribution $P(\bs{r})$. The energy found from equation \eqref{eq:energysum} is an expectation value, and we therefore know that the true energy lies within the standard error. For more statistical details, see \cite{Deb2014}. 
+
+Given a wave function we are now able to estimate the corresponding energy, but how do we find a good wave function? In VMC, we define a wave function with variational parameters, which are adjusted in order to minimize the energy for every iteration. For every iteration, we run $N$ Monte-Carlo cycles where we withdraw a new position $\bs{r}_i$. Whether or not the proposed move should be accepted is determined by the Metropolis algorithm.
+
+\subsubsection{The Metropolis Algorithm}
+The genius of the metropolis algorithm, is that the acceptance of a move is not based on the probabilities themselves, but the ratio between the new and the old probability\\
+. In that way, we avoid calculating the sum over all probabilities, which often is expensive or even impossible to calculate. 
+
+In its simplest form, the move is proposed randomly, and it is accepted if the ratio is larger than a random number between 0 and 1. However, with this approach a lot of moves will be rejected, which wastes CPU time. A better method is \textbf{importance sampling}, which makes a educated guess of the best way to move based on diffusion processes, and move the particle in that direction. 
+
+A time-dependent probability density needs to satisfy the Fokker-Planck equation 
+
+
+\section{Hartree-Fock} \label{sec:hf}
+Describe this detailed
+
+
+\section{Configuration Interaction} \label{subsec:ci}
+The completeness relation
+
 \section{Coupled Cluster} \label{subsec:cc}
+The coupled cluster method is the \textit{de facto} standard wave function-based method for electronic structure calculations. \cite{paldus} The method approximates the wave function with an exponential expansion, 
+\begin{equation}
+\ket{\Psi_{\text{CC}}}=e^{\hat{T}}\ket{\Phi_0}
+\end{equation}
+where $\hatT$ is the cluster operator, entirely given by $\hatT=\hatT_1+\hatT_2 +\hatT_3+\hdots$ with
+\begin{equation}
+\hatT_n = \left( \frac{1}{n!}\right)^2 \sum_{abc...} \sum_{ijk...} t_{ijk...}^{abc...}a_a^\dagger a_b^\dagger a_c^\dagger \cdots a_k a_j a_i.
+\end{equation}
+
+We again want to solve the Schrödinger equation,
+\begin{equation}
+\hat{H}\ket{\Psi}=\hat{H}e^{\hatT}\ket{\Phi_0}=\epsilon e^{\hatT}\ket{\Phi_0},
+\end{equation}
+which can be simplified by multiplying with $e^{-\hatT}$ from the left. This introduces us to the \textbf{similarity transformed Hamiltonian} 
+\begin{equation}
+\bar{H}=e^{-\hatT}\hat{H}e^{\hatT}.
+\end{equation}
+If we on one hand now multiply with the reference bra on the left hand side, we easily observe that
+\begin{equation}
+\mel{\Phi_0}{\bar{H}}{\Phi_0}=\epsilon
+\end{equation}
+which is the coupled cluster energy equation. On the other hand, we can multiply with an excited bra on left hand side, and find that
+\begin{equation}
+\mel{\Phi_{ijk\hdots}^{abc\hdots}}{\bar{H}}{\Phi_0}=0
+\end{equation}
+which are the coupled cluster amplitude equations. The similarity transformed Hamiltonian can be rewritten using the Baker-Campbell-Hausdorff expansion
+\begin{align}
+\label{eq:BCH}
+\bar{H} = \hat{H} &+ [\hat{H},\hat{T}]\notag \\
+&+ \frac{1}{2}[[\hat{H},\hat{T}],\hat{T}]\notag \\
+&+ \frac{1}{6}[[[\hat{H},\hat{T}],\hat{T}],\hat{T}] \\
+&+ \frac{1}{24}[[[[\hat{H},\hat{T}],\hat{T}],\hat{T}],\hat{T}] \notag \\
+&+ \cdots \notag
+\end{align}
+and we are in principle set to solve the amplitude equations with respect to the amplitudes $t_{ijk\hdots}^{abc\hdots}$ and then find the energy. The expansion is able to reproduce the true wave function exactly using a satisfying number of terms and an infinite basis. This is, of course, not possible, but even by limiting us to the first few coupled cluster operators, the results are often good compared to other methods. \cite{crawford}

@@ -24,6 +24,7 @@ int    M;
 int    M_half;
 int    P_half;
 double sigma_sqrd;
+double B;
 
 MatrixXd W;
 MatrixXd C;
@@ -45,6 +46,7 @@ MatrixXd A_up_inv;
 MatrixXd A_dn_inv;
 MatrixXd dA_up;
 MatrixXd dA_dn;
+MatrixXd A;
 
 
 //Mersenne Twister RNG
@@ -62,8 +64,9 @@ void VMC() {
     //Declare constants
     double psi_ratio = 0;               //ratio of new and old wave function
     sigma_sqrd = sigma * sigma;         //Sigma squared
+    B = 2;                              //Pade-Jastrow parameter
     M = P*D;                            //Number of free dimensions
-    M_half = int(M/2);
+    M_half = int(M/2);                  //Number of spatial dimensions with spin up
     P_half = int(P/2);                  //Number of particles with spin up
     int M_rand = 0;                     //Which M to update
     int N_rand = 0;                     //Which N to update
@@ -85,6 +88,7 @@ void VMC() {
     double factor = 0.5;                                    //Factor on initial weights
     double factor_x = 5.0;                                  //Factor on initial positions
 
+    A       = MatrixXd::Ones(P, P);
     W       = MatrixXd::Random(M, N) * factor;     //Initialize W
     C       = MatrixXd::Random(M, M) * factor;     //Initialize C
     a       = VectorXd::Random(M)    * factor;     //Initialize a

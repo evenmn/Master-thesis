@@ -22,18 +22,24 @@
 \usepackage{enumitem}	% Itemize settings
 \usepackage{subfig}		% Sub figures
 \usepackage{subfloat}	% Figures side by side
-\usepackage{geometry}	% Change margins on each page
 \usepackage{empheq}		% Beautiful boxes
 \usepackage{multirow}	% Multirow in table
 \usepackage{multicol}	% Multicolumn in table
 \usepackage{varwidth}	% Rotate text in table
 \usepackage{arydshln}   % Dashed lines in table
 
+% Change margins on each page
+\usepackage[right=2cm, 
+           left=3cm, 
+           top=2.5cm, 
+           bottom=2cm,
+]{geometry}	
+\setlength{\oddsidemargin}{0.5cm}
+
 %biblatex
-\usepackage[
-backend=bibtex,
-style=alphabetic,
-sorting=ynt
+\usepackage[backend=bibtex,
+			style=alphabetic,
+			sorting=ynt
 ]{biblatex}
 \addbibresource{refs.bib}
 
@@ -57,10 +63,6 @@ sorting=ynt
 \tikzstyle{neuron}=[draw,circle,minimum size=20pt,inner sep=0pt, fill=white]
 \tikzstyle{stateTransition}=[thick]
 \tikzstyle{learned}=[text=red]
-
-%\newcommand{\blds}[1]{\boldsymbol{{#1}}} % better bold in mathmode (from amsmath)
-%\newcommand{\Arf}[1]{\Autoref{#1}}
-%\renewcommand\normalfont\huge\bfseries\scshape\color{ForestGreen}
 
 %specific reused text
 \newcommand{\mdate}{\today}

@@ -17,6 +17,38 @@
 \endgroup
 
 \datalist[entry]{ynt/global//global/global}
+  \entry{dirac_1939}{article}{}
+    \name{author}{1}{}{%
+      {{hash=DPAM}{%
+         family={Dirac},
+         familyi={D\bibinitperiod},
+         given={P.\bibnamedelima A.\bibnamedelima M.},
+         giveni={P\bibinitperiod\bibinitdelim A\bibinitperiod\bibinitdelim
+  M\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Cambridge University Press}%
+    }
+    \strng{namehash}{DPAM1}
+    \strng{fullhash}{DPAM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelalpha}{Dir39}
+    \field{sortinit}{1}
+    \field{sortinithash}{1}
+    \verb{doi}
+    \verb 10.1017/S0305004100021162
+    \endverb
+    \field{number}{3}
+    \field{pages}{416–418}
+    \field{title}{A new notation for quantum mechanics}
+    \field{volume}{35}
+    \field{journaltitle}{Mathematical Proceedings of the Cambridge
+  Philosophical Society}
+    \field{year}{1939}
+  \endentry
+
   \entry{GriffQuan}{book}{}
     \name{author}{1}{}{%
       {{hash=GD}{%
@@ -40,6 +72,116 @@
     \field{isbn}{0131911759}
     \field{title}{Introduction to quantum mechanics}
     \field{year}{2005}
+  \endentry
+
+  \entry{paldus}{book}{}
+    \name{author}{1}{}{%
+      {{hash=PJ}{%
+         family={Paldus},
+         familyi={P\bibinitperiod},
+         given={Josef},
+         giveni={J\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Elsevier}%
+    }
+    \strng{namehash}{PJ1}
+    \strng{fullhash}{PJ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelalpha}{Pal05}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \verb{doi}
+    \verb 10.1016/B978-044451719-7/50050-0
+    \endverb
+    \field{isbn}{9780444517197}
+    \field{pages}{115 \bibrangedash  147}
+    \field{title}{The beginnings of coupled-cluster theory: An eyewitness
+  account}
+    \list{location}{1}{%
+      {Amsterdam}%
+    }
+    \field{year}{2005}
+  \endentry
+
+  \entry{crawford}{inbook}{}
+    \name{author}{2}{}{%
+      {{hash=DCT}{%
+         family={Daniel\bibnamedelima Crawford},
+         familyi={D\bibinitperiod\bibinitdelim C\bibinitperiod},
+         given={T},
+         giveni={T},
+      }}%
+      {{hash=FSIH}{%
+         family={F.\bibnamedelima Schaefer\bibnamedelima III},
+         familyi={F\bibinitperiod\bibinitdelim S\bibinitperiod\bibinitdelim
+  I\bibinitperiod},
+         given={Henry},
+         giveni={H\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{DCTFSIH1}
+    \strng{fullhash}{DCTFSIH1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelalpha}{DCFSI07}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \verb{doi}
+    \verb 10.1002/9780470125915.ch2
+    \endverb
+    \field{isbn}{9780470125915}
+    \field{pages}{33 \bibrangedash  136}
+    \field{title}{An Introduction to Coupled Cluster Theory for Computational
+  Chemists}
+    \field{volume}{14}
+    \field{journaltitle}{Rev Comp Chem}
+    \field{month}{01}
+    \field{year}{2007}
+  \endentry
+
+  \entry{deb2014}{article}{}
+    \name{author}{1}{}{%
+      {{hash=DS}{%
+         family={Deb},
+         familyi={D\bibinitperiod},
+         given={Sukanta},
+         giveni={S\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{DS1}
+    \strng{fullhash}{DS1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelalpha}{Deb14}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{abstract}{%
+    In this article, I discuss the use of the Variational Monte Carlo technique
+  in the determination of ground state energies of quantum harmonic oscillators
+  in one and three dimensions. In order to provide a better understanding of
+  this technique, a pre-requisite concept of Monte Carlo integration is also
+  discussed along with numerical examples. The technique can be easily extended
+  to study the ground state energies of hydrogen atom, particle in a box,
+  helium atom and other complex microscopic systems involving N particles in
+  d-dimensions.%
+    }
+    \verb{doi}
+    \verb 10.1007/s12045-014-0079-x
+    \endverb
+    \field{issn}{0973-712X}
+    \field{number}{8}
+    \field{pages}{713\bibrangedash 739}
+    \field{title}{Variational Monte Carlo technique}
+    \verb{url}
+    \verb https://doi.org/10.1007/s12045-014-0079-x
+    \endverb
+    \field{volume}{19}
+    \field{journaltitle}{Resonance}
+    \field{year}{2014}
+    \warn{\item Invalid format of field 'month'}
   \endentry
 \enddatalist
 \endinput

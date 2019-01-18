@@ -52,11 +52,11 @@ double Slater::Gauss(const VectorXd &X, double alpha, int k, int type) {
     }
     else if(type == 1) {
         // First derivative
-        return -double(omega * X(k))/alpha;
+        return -double(omega * X(k))*alpha;
     }
     else if(type == 2) {
         // Second derivative
-        return -omega/alpha;
+        return -omega*alpha;
     }
 }
 
@@ -151,8 +151,6 @@ double Jastrow::Jastrow_NQS(const VectorXd &v, int k, int type) {
 
 double Jastrow::PadeJastrow(int k, int type) {
     //Pade-Jastrow factor
-    MatrixXd A = MatrixXd::Ones(P, P);
-    double B = 1;
     if(type == 0) {
         double sum = 0;
         for(int i=0; i<P; i++) {
@@ -187,7 +185,7 @@ double Jastrow::PadeJastrow(int k, int type) {
                 double ximxj = (X(i)-X(D*j+i_d))*(X(i)-X(D*j+i_d));
                 double rij = Dist(i_p,j);
                 double f = 1/(1 + B*rij);
-                result += (A(i_p,j)*f*f/rij)*(1 - ximxj/(rij*rij) - 2*B*ximxj*f);
+                result += (A(i_p,j)*f*f/rij)*(1 - ximxj/(rij*rij) - 2*B*ximxj*f/rij);
             }
         }
         return result;

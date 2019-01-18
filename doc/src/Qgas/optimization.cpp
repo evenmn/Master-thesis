@@ -39,6 +39,21 @@ void Optimization::Gradient_W(const VectorXd &X, const VectorXd &e, MatrixXd &dW
     }
 }
 
+/*
+double Optimization::Gradient_B() {
+    // Calculating d(Psi)/d(B)
+    double part1 = 0;
+    for(int k=0; k<P; k++) {
+        for(int j=0; j<k; j++) {
+            double
+            part1 += 0.5*A(k,j)
+        }
+    }
+}
+*/
+
+// Total gradients
+
 void Optimization::Total_Gradient_a(const double EL_avg, const VectorXd &daE_tot, const VectorXd &da_tot, VectorXd &DA) {
     // Calculating d(E)/d(a)
     DA =  2*(daE_tot - EL_avg*da_tot)/MC;
@@ -77,6 +92,8 @@ void Optimization::GD_W(const double EL_avg, const MatrixXd &dWE_tot, const Matr
     Total_Gradient_W(EL_avg, dWE_tot, dW_tot, DW);
     opt_W = eta*DW;
 }
+
+//void Optimization::GD_B(const )
 
 
 // ADAM

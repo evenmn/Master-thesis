@@ -24,9 +24,11 @@ extern int     M;
 extern int     P_half;
 extern int     M_half;
 extern double  sigma_sqrd;
+extern double  B;
 
 extern Eigen::MatrixXd W;
 extern Eigen::MatrixXd C;
+extern Eigen::VectorXd h;
 extern Eigen::VectorXd X;
 extern Eigen::VectorXd v;
 extern Eigen::VectorXd e;
@@ -44,3 +46,4 @@ extern Eigen::MatrixXd A_up_inv;
 extern Eigen::MatrixXd A_dn_inv;
 extern Eigen::MatrixXd dA_up;
 extern Eigen::MatrixXd dA_dn;
+extern Eigen::MatrixXd A;
