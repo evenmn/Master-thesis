@@ -1,16 +1,12 @@
 import numpy as np
 
 class WaveFunction:
-    def __init__(self, a, b, N, D, MC, iterations, w, dx, eta):
+    def __init__(self, a, b, N, D, w):
         self.a = a
         self.b = b
         self.N = N
         self.D = D
-        self.MC = MC
-        self.iterations = iterations
         self.w = w
-        self.dx = dx
-        self.eta = eta
 
     def Gauss(self, r):
         '''Gaussian function'''
