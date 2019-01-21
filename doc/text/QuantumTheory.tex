@@ -1,7 +1,7 @@
 \chapter{Quantum Many-Body Physics} \label{sec:quantum}
 Here I might present basic quantum mechanics briefly.
 
-\section{Electronic structure calculations} \label{subsec:elementary}
+\section{Introductory Quantum Physics} \label{subsec:elementary}
 Even though it is called elementary, quantum mechanics is not basic at all. 
 
 \subsection{The Schrödinger Equation} \label{subsubsec:schrodinger}
@@ -49,8 +49,10 @@ We have here introduced a trial wave function $\Psi_T$ which not necessary is th
 	\item Born-Oppenheimer
 \end{itemize}
 
-\section{Wave function properties} \label{subsec:wavefunction}
-By the first postulate of quantum mechanics, the wave function contains all the information specifying the state of the system. This means that all observable in classical mechanics can also be measured from the wave function, so finding the wave function is the goal. We will focus on Variational Monte Carlo (VMC), which is a method that calculates the energy and optimizes the wave function iteratively based on an initial wave function guess. There are some requirements that the wave function needs to fulfill: It needs to be symmetric or anti-symmetric under exchange of two coordinates, the CUSP condition should be satisfied and it needs to approach zero at the edges. As long as these conditions are fulfilled, the variational principle is fulfilled. 
+\section{The Trial Wave Function} \label{subsec:wavefunction}
+By the first postulate of quantum mechanics, the wave function contains all the information specifying the state of the system. This means that all observable in classical mechanics can also be measured from the wave function, resulting finding the wave function as our main goal. 
+
+The true wave function is in most cases unknown, and we need an initial wave function based on educated guesses, called a trial wave function. This function has to meet some requirements in order to be used in the variational principle, including the CUSP condition, normalizable and ... In addition, the wave function should be symmetric or anti-symmetric under exchange of two coordinates.
 
 \subsection{Bosons and fermions} \label{subsubsec:symmetry}
 An introductary sentence is needed to increase the FLOW. 
@@ -102,7 +104,7 @@ with $\xi$ as the spin part.
 
 There is a similar "Slater permanent" which applies for bosons. It is similar to a determinant, but all negative signs are replaced by positive signs. 
 
-\subsection{Electron systems} \label{subsubsec:electronsystem}
+\subsection{Electron structure calculations} \label{subsubsec:electronsystem}
 For our purpose we will study fermions with spin $\sigma=\pm 1/2$ only, which can be seen as electrons. In this particular case, the SPFs can be arranged in spin-up and spin-down parts, such that the Slater determinant can be simplied to 
 \begin{equation}
 \Psi(\boldsymbol{r}_1,\boldsymbol{r}_2,\hdots,\boldsymbol{r}_N)=
