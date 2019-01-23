@@ -13,6 +13,7 @@ The Schrödinger equation is a natural starting point, which gives the energy ei
 where the electronic Hamiltonian takes the form
 \begin{equation}
 \hatH=-\sum_i^N\frac{\hbar^2}{2m}\nabla_i^2+\sum_i^Nu_i + \sum_i^N\sum_{j>i}^Mk\frac{e^2}{r_{ij}}
+\label{eq:ElectronicHamiltonian}
 \end{equation}
 with $u_i$ as an arbitrary external potential and the last term as the Coulomb potential between electrons. $r_{ij}$ is the relative distance between electron $i$ and $j$, defined by $r_{ij}\equiv|\bs{r}_i-\bs{r}_j|$.
 
@@ -132,33 +133,5 @@ Often we add a Jastrow factor to improve the flexibility of the wave function. T
 
 
 
-\section{Systems and basis sets} \label{subsec:potentials}
-Specific systems need specific basis sets
 
-\subsection{Quantum dots} \label{subsubsec:quantumdots}
-Quantum dots are very small particles, and contain fermions or bosons hold together by an external potential. Since these particles have discrete electronic states like an atom, they are often called artificial atoms. 
-
-In this thesis we will study electrons trapped in harmonic oscillators,
-\begin{equation}
-\label{eq:HOHamiltonian}
-\hat{\text{H}} = \sum_{i=1}^{P} (-\frac{1}{2} \nabla_i^2 + \frac{1}{2} \omega^2 r_i ^2) + \sum_{i<j} \frac{1}{r_{ij}} 
-\end{equation}
-and we will use the Hermite functions as our basis set. The one dimensional Hermite functions read
-\begin{equation}
-f_n(x)=H_n(x)\exp(-x^2/2)
-\end{equation}
-and are known to be the exact SPFs in a harmonic oscillator. 
-
-\subsection{Atomic and molecular systems} \label{subsubsec:atomic}
-We will also investigate real atoms, which have Hamiltonians defined by the Born-Oppenheimer approximation.  
-
-\begin{equation}
-\label{eq:AtomicHamiltonian}
-\hat{\text{H}} = \sum_{i=1}^{P} (-\frac{1}{2} \nabla_i^2 + \frac{1}{2} \omega^2 \frac{1}{r_i}) + \sum_{i<j} \frac{1}{r_{ij}} 
-\end{equation}
-In atomic units. 
-
-\subsubsection{Electron gas} \label{subsubsec:electrongas}
-\subsubsection{Helium gas} \label{subsubsec:heliumgas}
-He$^3$ and He$^4$
 

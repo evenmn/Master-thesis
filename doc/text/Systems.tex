@@ -1,0 +1,45 @@
+\chapter{Systems and basis sets} \label{chp:potentials}
+Derive the Hamiltonian given in equation \eqref{eq:ElectronicHamiltonian}, both the kinetic term and the interaction term (Coulomb). Crash course in electrostatics 
+
+We often know the exact wave functions of the systems when interaction is dropped, but 
+
+Specific systems need specific basis sets
+
+\section{Quantum dots} \label{subsubsec:quantumdots}
+Quantum dots are very small particles, and contain fermions or bosons hold together by an external potential. Since these particles have discrete electronic states like an atom, they are often called artificial atoms. 
+
+In this thesis we will study electrons trapped in harmonic oscillators, which gives an external potential affecting particle $i$ is given by
+\begin{equation}
+u_i=\frac{1}{2}\omega^2r_i^2.
+\end{equation}
+Thus, the Hamiltonian reads
+\begin{equation}
+\label{eq:HOHamiltonian}
+\hat{\text{H}} = \sum_{i=1}^{P} (-\frac{1}{2} \nabla_i^2 + \frac{1}{2} \omega^2 r_i ^2) + \sum_{i<j} \frac{1}{r_{ij}} 
+\end{equation}
+and we will use the Hermite functions as our basis set. The one dimensional Hermite functions read
+\begin{equation}
+f_n(x)=H_n(x)\exp(-x^2/2)
+\end{equation}
+and are known to be the exact SPFs in a harmonic oscillator. 
+
+\section{Atomic systems} \label{subsubsec:atomic}
+We will also investigate real atoms, which have Hamiltonians defined by the Born-Oppenheimer approximation.
+
+The External potential affecting particle $i$ is therefore
+\begin{equation}
+u_i=- \frac{1}{2} \frac{Z}{r_i}
+\end{equation}
+
+
+\begin{equation}
+\label{eq:AtomicHamiltonian}
+\hat{\text{H}} = \sum_{i=1}^{P} (-\frac{1}{2} \nabla_i^2 - \frac{1}{2} \frac{Z}{r_i}) + \sum_{i<j} \frac{1}{r_{ij}},
+\end{equation}
+which applies for an atom with stationary nucleus at origin. The first part is related to the kinetic energy, while the second is 
+
+\section{Molecular systems}
+
+\section{Electron gas} \label{subsubsec:electrongas}
+\section{Helium gas} \label{subsubsec:heliumgas}
+He$^3$ and He$^4$
