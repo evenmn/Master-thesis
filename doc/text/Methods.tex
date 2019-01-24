@@ -29,17 +29,24 @@ There are two main problems we need to solve
 \end{enumerate}
 Let us take the last problem first. The solution is to approximate the integral with a sum,
 \begin{align}
-E &\leq \frac{\int\Phi(\bs{r})^*\hat{H}\Phi(\bs{r}) d\bs{r}}{\int\Phi(\bs{r})^*\Phi(\bs{r}) d\bs{r}} \notag\\
-& = \frac{\int\Phi(\bs{r})^*\Phi(\bs{r})(1/\Phi(\bs{r}))\hat{H}\Phi(\bs{r}) d\bs{r}}{\int\Phi(\bs{r})^*\Phi(\bs{r}) d\bs{r}} \notag\\
-& = \frac{\int P(\bs{r}) E_L(\bs{r}) d\bs{r}}{\int\Phi(\bs{r})^*\Phi(\bs{r}) d\bs{r}} \notag\\
-& \approx \frac{1}{N}\sum_{i=1}^NE_L(\bs{r_i}) \label{eq:energysum}
+E &\leq \frac{\int\Psi_T(\bs{r})^*\hat{H}\Psi_T(\bs{r}) d\bs{r}}{\int\Psi_T(\bs{r})^*\Psi_T(\bs{r}) d\bs{r}} \notag\\
+& = \int P(\bs{r}) E_L(\bs{r}) d\bs{r} \notag\\
+& \approx \frac{1}{N}\sum_{i=1}^NE_L(\bs{r}_i) \label{eq:energysum}
 \end{align}
 where the local energy is defined as
 \begin{equation}
-E_L(\bs{r})\equiv\frac{1}{\Phi(\bs{r})}\hat{H}\Phi(\bs{r})
+E_L(\bs{r})\equiv\frac{1}{\Psi_T(\bs{r})}\hat{H}\Psi_T(\bs{r})
 \label{eq:local energy}
 \end{equation}
-and the $\bs{r}_i$ is withdrawn from the probability distribution $P(\bs{r})$. The energy found from equation \eqref{eq:energysum} is an expectation value, and we therefore know that the true energy lies within the standard error. For more statistical details, see \cite{Deb2014}. 
+and the $\bs{r}_i$ is withdrawn from the probability distribution $P(\bs{r})$, which is given by
+\begin{equation}
+P(\bs{r})=\frac{|\Psi_T(\bs{r})|^2}{\int|\Psi_T(\bs{r})|^2d\bs{r}}.
+\end{equation}
+The energy found from equation \eqref{eq:energysum} is an expectation value, and we therefore know that the true energy lies within the standard error. When increasing the number of Monte-Carlo cycles, the standard error decreases and we get a more accurate energy. In the limit $N$ goes to infinity, the variance should approach zero,
+\begin{equation}
+\langle E\rangle=\lim_{N\to\infty} \frac{1}{N}\sum_{i=1}^NE_L(\bs{r}_i).
+\end{equation}
+For more statistical details, see \cite{deb2014}. 
 
 Given a wave function we are now able to estimate the corresponding energy, but how do we find a good wave function? In VMC, we define a wave function with variational parameters, which are adjusted in order to minimize the energy for every iteration. For every iteration, we run $N$ Monte-Carlo cycles where we withdraw a new position $\bs{r}_i$. Whether or not the proposed move should be accepted is determined by the Metropolis algorithm.
 

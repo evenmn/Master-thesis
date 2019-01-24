@@ -1,5 +1,26 @@
 \chapter{Introduction}
-Write introduction here
+Properties and behavior of quantum many-body systems are determined by the laws of quantum physics which have been known since the 1930s. The time-dependent Schrödinger equation describes the bounding energy of atoms and molecules, as well as the interaction between particles in a gas. In addition, it has been used to determine the energy of artificial structures like quantum dots, nanowires and ultracold condensates. [Electronic Structure Quantum Monte Carlo Michal Bajdich, Lubos Mitas] 
+
+Even though we know the laws of quantum mechanics, many challenges are encountered when calculating real-world problems. First, interesting systems often involve large number of particles, which causes expensive calculations. Second, we do not have a good model for the three-body interaction, which is vital when it comes to strong correlations. Paul Dirac recognized those problems already in 1929, 
+
+''\textit{The general theory of quantum mechanics is now almost complete... ...The underlying physical laws necessary for the mathematical theory of a large part of physics and the whole of chemistry are thus completely known, and the difficulty is only that the exact application of these laws leads to equations much too complicated to be soluble.}''\\ 
+
+-Paul Dirac, Quantum Mechanics of Many-Electron Systems, 1929 \bigskip
+
+"At the same time, advent of computer technology has
+offered us a new window of opportunity for studies of quantum (and many other) problems. It
+spawned a “third way” of doing science which is based on simulations, in contrast to analytical
+approaches and experiments. In a broad sense, by simulations we mean computational models of
+reality based on fundamental physical laws. Such models have value when they enable to make
+predictions or to provide new information which is otherwise impossible or too costly to obtain
+otherwise. In this respect, QMC methods represent an illustration and an example of what is the
+potential of such methodologies." [Electronic Structure Quantum Monte Carlo Michal Bajdich, Lubos Mitas] 
+
+History of QMC before and after the invention of electronic computers. Enrico Fermi 1930s similarities between imaginary time Schrödinger equation and stochastic processes in statistical mechanics. Metropolis VMC early 1950s. Kalos Greens's function Monte Carlo late 1950s. Ceperly and Alder 1980 homogeneous electron gas.  
+
+Multi scale calculations are... A field of interest is how a systems behave when the interaction gets weaker. One way to model this, is to have a harmonic oscillator with a decreasing system frequency. 
+
+With machine learning, a function can be fitted to everything as long as we can define a cost function to minimize. The purpose of this thesis is to construct optimal wave functions for different systems by using machine learning.
 
  - Low frequency (weakly interacting electrons) field of interest
  - Multi scale calculations
