@@ -3,7 +3,6 @@
 #include <vector>
 #include "sampler.h"
 #include "system.h"
-#include "particle.h"
 #include "Hamiltonians/hamiltonian.h"
 #include "WaveFunctions/wavefunction.h"
 
@@ -31,7 +30,6 @@ void Sampler::sample(bool acceptedStep) {
      * Note that there are (way) more than the single one here currently.
      */
     double localEnergy = m_system->getHamiltonian()->computeLocalEnergy(m_system->getParticles());
-    //double localEnergy = m_system->getHamiltonian()->computeLocalEnergy(m_particles);
     m_cumulativeEnergy  += localEnergy;
     m_stepNumber++;
 }

@@ -14,7 +14,7 @@ double Random::nextGaussian(double mean, double standardDeviation) {
 }
 
 int Random::nextInt(int upperLimit) {
-    return std::floor(nextDouble() * upperLimit);
+    return int(std::floor(nextDouble() * upperLimit));
 }
 
 double Random::nextDouble()
@@ -36,7 +36,7 @@ double Random::nextDouble()
     k     = (Random::seed)/IQ;
     Random::seed = IA*(Random::seed - k*IQ) - IR*k;
     if(Random::seed < 0) Random::seed += IM;
-    j     = iy/NDIV;
+    j     = int(iy/NDIV);
     iy    = iv[j];
     iv[j] = Random::seed;
     if((temp=AM*iy) > RNMX) return RNMX;

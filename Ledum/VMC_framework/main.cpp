@@ -1,12 +1,12 @@
 #include <iostream>
 #include "system.h"
-#include "particle.h"
 #include "WaveFunctions/wavefunction.h"
 #include "WaveFunctions/simplegaussian.h"
 #include "Hamiltonians/hamiltonian.h"
 #include "Hamiltonians/harmonicoscillator.h"
 #include "InitialStates/initialstate.h"
 #include "InitialStates/randomuniform.h"
+#include "InitialStates/randomnormal.h"
 #include "Math/random.h"
 
 using namespace std;
@@ -23,9 +23,9 @@ int main() {
     // for equilibration.
 
     System* system = new System();
-    system->setHamiltonian              (new HarmonicOscillator(system, omega));
+    system->setHamiltonian              (new HarmonicOscillator(system, omega, numberOfParticles, numberOfDimensions));
     system->setWaveFunction             (new SimpleGaussian(system, alpha));
-    system->setInitialState             (new RandomUniform(system, numberOfDimensions, numberOfParticles));
+    system->setInitialState             (new RandomNormal(system, numberOfDimensions, numberOfParticles));
     system->setEquilibrationFraction    (equilibration);
     system->setStepLength               (stepLength);
     system->runMetropolisSteps          (numberOfSteps);

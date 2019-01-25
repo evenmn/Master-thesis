@@ -7,23 +7,23 @@ SOURCES += main.cpp \
     system.cpp \
     Hamiltonians/hamiltonian.cpp \
     Hamiltonians/harmonicoscillator.cpp \
-    particle.cpp \
     WaveFunctions/wavefunction.cpp \
     InitialStates/initialstate.cpp \
     InitialStates/randomuniform.cpp \
     Math/random.cpp \
     sampler.cpp \
-    WaveFunctions/simplegaussian.cpp
+    WaveFunctions/simplegaussian.cpp \
+    InitialStates/randomnormal.cpp
 
 HEADERS += \
     system.h \
     Hamiltonians/hamiltonian.h \
     Hamiltonians/harmonicoscillator.h \
-    particle.h \
     WaveFunctions/wavefunction.h \
     InitialStates/initialstate.h \
     InitialStates/randomuniform.h \
     Math/random.h \
     sampler.h \
-    WaveFunctions/simplegaussian.h
+    WaveFunctions/simplegaussian.h \
+    InitialStates/randomnormal.h
 

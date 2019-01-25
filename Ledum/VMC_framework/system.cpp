@@ -1,11 +1,11 @@
 #include "system.h"
 #include <cassert>
 #include "sampler.h"
-#include "particle.h"
 #include "WaveFunctions/wavefunction.h"
 #include "Hamiltonians/hamiltonian.h"
 #include "InitialStates/initialstate.h"
 #include "Math/random.h"
+#include <iostream>
 
 bool System::metropolisStep() {
     /* Perform the actual Metropolis step: Choose a particle at random and
@@ -14,11 +14,30 @@ bool System::metropolisStep() {
      * at this new position with the one at the old position).
      */
 
+    Random rand;
+
+    int pRand = rand.nextInt(m_numberOfParticles);
+    int dRand = rand.nextInt(m_numberOfDimensions);
+
+    Eigen::MatrixXd newPositions = m_particles;
+
+    newPositions(pRand, dRand) = m_particles(pRand, dRand) + rand.nextDouble() * m_stepLength;
+
+    double psiOld = getWaveFunction()->evaluate(m_particles);
+    double psiNew = getWaveFunction()->evaluate(newPositions);
+
+    double w = (psiNew * psiNew)/(psiOld * psiOld);
+
+    if(w > rand.nextDouble()) {
+        m_particles(pRand, dRand) = newPositions(pRand, dRand);
+    }
+
     return false;
 }
 
 void System::runMetropolisSteps(int numberOfMetropolisSteps) {
     m_particles                 = m_initialState->getParticles();
+    std::cout << m_particles << std::endl;
     m_sampler                   = new Sampler(this);
     m_numberOfMetropolisSteps   = numberOfMetropolisSteps;
     m_sampler->setNumberOfMetropolisSteps(numberOfMetropolisSteps);
