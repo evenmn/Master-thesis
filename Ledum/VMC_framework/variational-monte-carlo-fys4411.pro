@@ -13,8 +13,7 @@ SOURCES += main.cpp \
     InitialStates/randomuniform.cpp \
     Math/random.cpp \
     sampler.cpp \
-    WaveFunctions/simplegaussian.cpp \
-    InitialStates/randomnormal.cpp
+    WaveFunctions/simplegaussian.cpp
 
 HEADERS += \
     system.h \
@@ -26,6 +25,5 @@ HEADERS += \
     InitialStates/randomuniform.h \
     Math/random.h \
     sampler.h \
-    WaveFunctions/simplegaussian.h \
-    InitialStates/randomnormal.h
+    WaveFunctions/simplegaussian.h
 

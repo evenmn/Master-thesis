@@ -14,10 +14,6 @@ bool System::metropolisStep() {
      * at this new position with the one at the old position).
      */
 
-    //Particle par;
-    //par.adjustPosition(0.1, 0);
-
-
     return false;
 }
 

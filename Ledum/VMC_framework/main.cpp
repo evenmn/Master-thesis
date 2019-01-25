@@ -7,7 +7,6 @@
 #include "Hamiltonians/harmonicoscillator.h"
 #include "InitialStates/initialstate.h"
 #include "InitialStates/randomuniform.h"
-#include "InitialStates/randomnormal.h"
 #include "Math/random.h"
 
 using namespace std;
@@ -23,10 +22,10 @@ int main() {
     double equilibration    = 0.1;          // Amount of the total steps used
     // for equilibration.
 
-    System* system = new System();          // Declare new System with name system
+    System* system = new System();
     system->setHamiltonian              (new HarmonicOscillator(system, omega));
     system->setWaveFunction             (new SimpleGaussian(system, alpha));
-    system->setInitialState             (new RandomNormal(system, numberOfDimensions, numberOfParticles));
+    system->setInitialState             (new RandomUniform(system, numberOfDimensions, numberOfParticles));
     system->setEquilibrationFraction    (equilibration);
     system->setStepLength               (stepLength);
     system->runMetropolisSteps          (numberOfSteps);

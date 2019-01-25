@@ -28,9 +28,10 @@ RandomUniform::RandomUniform(System*    system,
 
 void RandomUniform::setupInitialState() {
     Random rand;
+    Eigen::MatrixXd positions = Eigen::MatrixXd::Zero(m_numberOfParticles, m_numberOfDimensions);
     for (int i=0; i < m_numberOfParticles; i++) {
-        //std::vector<double> position = std::vector<double>();
-        Eigen::VectorXd position = Eigen::VectorXd::Zero(m_numberOfDimensions);
+        std::vector<double> position = std::vector<double>();
+
         for (int j=0; j < m_numberOfDimensions; j++) {
             /* This is where you should actually place the particles in
              * some positions, according to some rule. Since this class is
@@ -43,10 +44,12 @@ void RandomUniform::setupInitialState() {
              * according to their index in the particles list (this is
              * obviously NOT a good idea).
              */
-            position(j) = rand.nextDouble();
+            position.push_back(i);
+            positions(i,j) = rand.nextDouble();
         }
-        m_particles.push_back(new Particle());
-        m_particles.at(i)->setNumberOfDimensions(m_numberOfDimensions);
-        m_particles.at(i)->setPosition(position);
+        m_particles = positions;
+        //m_particles.push_back(new Particle());
+        //m_particles.at(i)->setNumberOfDimensions(m_numberOfDimensions);
+        //m_particles.at(i)->setPosition(position);
     }
 }

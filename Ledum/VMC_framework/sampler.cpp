@@ -14,6 +14,7 @@ using std::endl;
 Sampler::Sampler(System* system) {
     m_system = system;
     m_stepNumber = 0;
+    //m_particles = particles;
 }
 
 void Sampler::setNumberOfMetropolisSteps(int steps) {
@@ -29,8 +30,8 @@ void Sampler::sample(bool acceptedStep) {
     /* Here you should sample all the interesting things you want to measure.
      * Note that there are (way) more than the single one here currently.
      */
-    double localEnergy = m_system->getHamiltonian()->
-                         computeLocalEnergy(m_system->getParticles());
+    double localEnergy = m_system->getHamiltonian()->computeLocalEnergy(m_system->getParticles());
+    //double localEnergy = m_system->getHamiltonian()->computeLocalEnergy(m_particles);
     m_cumulativeEnergy  += localEnergy;
     m_stepNumber++;
 }
@@ -41,7 +42,7 @@ void Sampler::printOutputToTerminal() {
     int     ms = m_system->getNumberOfMetropolisSteps();
     int     p  = m_system->getWaveFunction()->getNumberOfParameters();
     double  ef = m_system->getEquilibrationFraction();
-    Eigen::VectorXd pa = m_system->getWaveFunction()->getParameters();
+    std::vector<double> pa = m_system->getWaveFunction()->getParameters();
 
     cout << endl;
     cout << "  -- System info -- " << endl;
@@ -53,7 +54,7 @@ void Sampler::printOutputToTerminal() {
     cout << "  -- Wave function parameters -- " << endl;
     cout << " Number of parameters : " << p << endl;
     for (int i=0; i < p; i++) {
-        cout << " Parameter " << i+1 << " : " << pa(i) << endl;
+        cout << " Parameter " << i+1 << " : " << pa.at(i) << endl;
     }
     cout << endl;
     cout << "  -- Results -- " << endl;

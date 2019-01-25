@@ -13,8 +13,8 @@ HarmonicOscillator::HarmonicOscillator(System* system, double omega) :
     assert(omega > 0);
     m_omega  = omega;
 }
-
-double HarmonicOscillator::computeLocalEnergy(std::vector<Particle*> particles) {
+//double HarmonicOscillator::computeLocalEnergy(std:vector<Particle*> particles) {
+double HarmonicOscillator::computeLocalEnergy(Eigen::MatrixXd particles) {
     /* Here, you need to compute the kinetic and potential energies. Note that
      * when using numerical differentiation, the computation of the kinetic
      * energy becomes the same for all Hamiltonians, and thus the code for
@@ -25,7 +25,7 @@ double HarmonicOscillator::computeLocalEnergy(std::vector<Particle*> particles) 
      * m_system->getWaveFunction()...
      */
 
-    double potentialEnergy = 0.5 * m_omega * m_omega;
+    double potentialEnergy = 0;
     double kineticEnergy   = 0;
     return kineticEnergy + potentialEnergy;
 }

@@ -8,11 +8,9 @@
 SimpleGaussian::SimpleGaussian(System* system, double alpha) :
         WaveFunction(system) {
     assert(alpha >= 0);
-    //m_numberOfDimensions = numberOfDimensions;
     m_numberOfParameters = 1;
-    //m_alpha = alpha;
-    m_parameters.setZero(1);
-    m_parameters(0) = alpha;
+    m_parameters.reserve(1);
+    m_parameters.push_back(alpha);
 }
 
 double SimpleGaussian::evaluate(std::vector<class Particle*> particles) {
@@ -23,10 +21,6 @@ double SimpleGaussian::evaluate(std::vector<class Particle*> particles) {
      * For the actual expression, use exp(-alpha * r^2), with alpha being the
      * (only) variational parameter.
      */
-    //for(int d=0; d<m_numberOfDimensions; d++) {
-    //    double h = 8.;
-    //}
-
     return 0;
 }
 
