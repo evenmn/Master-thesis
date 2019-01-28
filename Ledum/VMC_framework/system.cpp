@@ -4,6 +4,7 @@
 #include "WaveFunctions/wavefunction.h"
 #include "Hamiltonians/hamiltonian.h"
 #include "InitialStates/initialstate.h"
+#include "Optimization/optimization.h"
 #include "Math/random.h"
 #include <iostream>
 
@@ -20,8 +21,7 @@ bool System::metropolisStep() {
     int dRand = rand.nextInt(m_numberOfDimensions);
 
     Eigen::MatrixXd newPositions = m_particles;
-
-    newPositions(pRand, dRand) = m_particles(pRand, dRand) + rand.nextDouble() * m_stepLength;
+    newPositions(pRand, dRand) = m_particles(pRand, dRand) + (rand.nextDouble() - 0.5) * m_stepLength;
 
     double psiOld = getWaveFunction()->evaluate(m_particles);
     double psiNew = getWaveFunction()->evaluate(newPositions);
@@ -30,6 +30,7 @@ bool System::metropolisStep() {
 
     if(w > rand.nextDouble()) {
         m_particles(pRand, dRand) = newPositions(pRand, dRand);
+        return true;
     }
 
     return false;
@@ -37,24 +38,30 @@ bool System::metropolisStep() {
 
 void System::runMetropolisSteps(int numberOfMetropolisSteps) {
     m_particles                 = m_initialState->getParticles();
-    std::cout << m_particles << std::endl;
     m_sampler                   = new Sampler(this);
     m_numberOfMetropolisSteps   = numberOfMetropolisSteps;
     m_sampler->setNumberOfMetropolisSteps(numberOfMetropolisSteps);
 
-    for (int i=0; i < numberOfMetropolisSteps; i++) {
-        bool acceptedStep = metropolisStep();
+    int iterations = 1;
 
-        /* Here you should sample the energy (and maybe other things using
-         * the m_sampler instance of the Sampler class. Make sure, though,
-         * to only begin sampling after you have let the system equilibrate
-         * for a while. You may handle this using the fraction of steps which
-         * are equilibration steps; m_equilibrationFraction.
-         */
-        m_sampler->sample(acceptedStep);
+    for (int iter = 0; iter < iterations; iter++) {
+        for (int i=0; i < numberOfMetropolisSteps; i++) {
+            bool acceptedStep = metropolisStep();
+
+            /* Here you should sample the energy (and maybe other things using
+             * the m_sampler instance of the Sampler class. Make sure, though,
+             * to only begin sampling after you have let the system equilibrate
+             * for a while. You may handle this using the fraction of steps which
+             * are equilibration steps; m_equilibrationFraction.
+             */
+
+            if(double(i)/m_numberOfMetropolisSteps > m_equilibrationFraction) {
+                m_sampler->sample(acceptedStep);
+            }
+        }
+        m_sampler->computeAverages();
+        m_sampler->printOutputToTerminal();
     }
-    m_sampler->computeAverages();
-    m_sampler->printOutputToTerminal();
 }
 
 void System::setNumberOfParticles(int numberOfParticles) {
@@ -87,4 +94,6 @@ void System::setInitialState(InitialState* initialState) {
     m_initialState = initialState;
 }
 
-
+void System::setOptimizer(Optimization* optimization) {
+    m_optimizer = optimization;
+}

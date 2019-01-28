@@ -1,5 +1,4 @@
 #pragma once
-#include <vector>
 #include <Eigen/Dense>
 
 class System {
@@ -13,9 +12,11 @@ public:
     void setHamiltonian             (class Hamiltonian* hamiltonian);
     void setWaveFunction            (class WaveFunction* waveFunction);
     void setInitialState            (class InitialState* initialState);
+    void setOptimizer               (class Optimization* optimization);
     class WaveFunction*             getWaveFunction()   { return m_waveFunction; }
     class Hamiltonian*              getHamiltonian()    { return m_hamiltonian; }
     class Sampler*                  getSampler()        { return m_sampler; }
+    class Optimization*             getOptimizer()      { return m_optimizer; }
     Eigen::MatrixXd                 getParticles()      { return m_particles; }
     int getNumberOfParticles()          { return m_numberOfParticles; }
     int getNumberOfDimensions()         { return m_numberOfDimensions; }
@@ -32,6 +33,7 @@ private:
     class Hamiltonian*              m_hamiltonian = nullptr;
     class InitialState*             m_initialState = nullptr;
     class Sampler*                  m_sampler = nullptr;
-    Eigen::MatrixXd                 m_particles = Eigen::MatrixXd();
+    class Optimization*             m_optimizer = nullptr;
+    Eigen::MatrixXd                 m_particles; // = Eigen::MatrixXd();
 };
 

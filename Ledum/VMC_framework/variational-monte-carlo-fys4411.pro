@@ -13,7 +13,12 @@ SOURCES += main.cpp \
     Math/random.cpp \
     sampler.cpp \
     WaveFunctions/simplegaussian.cpp \
-    InitialStates/randomnormal.cpp
+    InitialStates/randomnormal.cpp \
+    Optimization/optimization.cpp \
+    Optimization/gradientdescent.cpp \
+    WaveFunctions/hydrogenorbital.cpp \
+    Hamiltonians/atomicnucleus.cpp \
+    WaveFunctions/padejastrow.cpp
 
 HEADERS += \
     system.h \
@@ -25,5 +30,10 @@ HEADERS += \
     Math/random.h \
     sampler.h \
     WaveFunctions/simplegaussian.h \
-    InitialStates/randomnormal.h
+    InitialStates/randomnormal.h \
+    Optimization/optimization.h \
+    Optimization/gradientdescent.h \
+    WaveFunctions/hydrogenorbital.h \
+    Hamiltonians/atomicnucleus.h \
+    WaveFunctions/padejastrow.h
 

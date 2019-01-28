@@ -1,4 +1,4 @@
-#include "harmonicoscillator.h"
+#include "atomicnucleus.h"
 #include <cassert>
 #include <iostream>
 #include "../system.h"
@@ -7,7 +7,7 @@
 using std::cout;
 using std::endl;
 
-HarmonicOscillator::HarmonicOscillator(System* system, double omega, int numberOfParticles, int numberOfDimensions) :
+AtomicNucleus::AtomicNucleus(System* system, double omega, int numberOfParticles, int numberOfDimensions) :
         Hamiltonian(system) {
     assert(omega > 0);
     m_omega  = omega;
@@ -15,7 +15,7 @@ HarmonicOscillator::HarmonicOscillator(System* system, double omega, int numberO
     m_numberOfDimensions = numberOfDimensions;
 }
 
-double HarmonicOscillator::computeLocalEnergy(Eigen::MatrixXd particles) {
+double AtomicNucleus::computeLocalEnergy(Eigen::MatrixXd particles) {
     /* Here, you need to compute the kinetic and potential energies. Note that
      * when using numerical differentiation, the computation of the kinetic
      * energy becomes the same for all Hamiltonians, and thus the code for
@@ -29,12 +29,14 @@ double HarmonicOscillator::computeLocalEnergy(Eigen::MatrixXd particles) {
     //std::cout << particles << std::endl;
 
     Eigen::VectorXd r = Eigen::VectorXd::Zero(m_numberOfParticles);
+    Eigen::VectorXd r_inv = Eigen::VectorXd::Zero(m_numberOfParticles);
     for(int i=0; i<m_numberOfParticles; i++) {
         double sqrtElementWise = 0;
         for(int j=0; j<m_numberOfDimensions; j++) {
             sqrtElementWise += particles(i,j) * particles(i,j);
         }
         r(i) = sqrt(sqrtElementWise);
+        r_inv(i) = 1/r(i);
     }
 
     double interactionEnergy = 0;
@@ -43,7 +45,7 @@ double HarmonicOscillator::computeLocalEnergy(Eigen::MatrixXd particles) {
             interactionEnergy += 1/fabs(r(i) - r(j));
         }
     }
-    double externalEnergy = 0.5 * m_omega * m_omega * (r.cwiseAbs2()).sum();
+    double externalEnergy = -0.5 * m_numberOfParticles * r_inv.sum();
 
     double kineticEnergy  = m_system->getWaveFunction()->computeDoubleDerivative(particles);
     for(int i=0; i<m_numberOfParticles; i++) {
@@ -51,4 +53,3 @@ double HarmonicOscillator::computeLocalEnergy(Eigen::MatrixXd particles) {
     }
     return -0.5 * kineticEnergy + externalEnergy + interactionEnergy;
 }
-

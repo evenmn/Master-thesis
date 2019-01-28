@@ -5,6 +5,7 @@
 #include "system.h"
 #include "Hamiltonians/hamiltonian.h"
 #include "WaveFunctions/wavefunction.h"
+#include "Optimization/optimization.h"
 
 using std::cout;
 using std::endl;
@@ -13,7 +14,7 @@ using std::endl;
 Sampler::Sampler(System* system) {
     m_system = system;
     m_stepNumber = 0;
-    //m_particles = particles;
+    m_acceptenceRatio = 0;
 }
 
 void Sampler::setNumberOfMetropolisSteps(int steps) {
@@ -24,13 +25,26 @@ void Sampler::sample(bool acceptedStep) {
     // Make sure the sampling variable(s) are initialized at the first step.
     if (m_stepNumber == 0) {
         m_cumulativeEnergy = 0;
+        m_dE = 0;
+        m_dEE = 0;
+        m_SqrdE = 0;
     }
 
     /* Here you should sample all the interesting things you want to measure.
      * Note that there are (way) more than the single one here currently.
      */
-    double localEnergy = m_system->getHamiltonian()->computeLocalEnergy(m_system->getParticles());
-    m_cumulativeEnergy  += localEnergy;
+
+    Eigen::MatrixXd particles = m_system->getParticles();
+
+    double grad = m_system->getOptimizer()->gradient(particles);
+    double EL = m_system->getHamiltonian()->computeLocalEnergy(particles);
+
+    m_cumulativeEnergy  += EL;
+    m_dE += grad;
+    m_dEE += grad * EL;
+    m_SqrdE += EL * EL;
+
+    if(acceptedStep) { m_acceptenceRatio += 1; }
     m_stepNumber++;
 }
 
@@ -56,7 +70,9 @@ void Sampler::printOutputToTerminal() {
     }
     cout << endl;
     cout << "  -- Results -- " << endl;
-    cout << " Energy : " << m_energy << endl;
+    cout << " Energy           : " << m_energy << endl;
+    cout << " Acceptence Ratio : " << double(m_acceptenceRatio)/m_numberOfMetropolisSteps << endl;
+    cout << " Variance         : " << 2*(m_SqrdE/m_numberOfMetropolisSteps - m_energy * m_energy) << endl;
     cout << endl;
 }
 

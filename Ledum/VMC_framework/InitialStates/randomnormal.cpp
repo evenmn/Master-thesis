@@ -31,4 +31,5 @@ void RandomNormal::setupInitialState() {
         }
         m_particles = positions;
     }
+    //std::cout << m_particles << std::endl;
 }

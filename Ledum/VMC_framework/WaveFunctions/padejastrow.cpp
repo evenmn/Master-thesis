@@ -1,9 +1,9 @@
-#include "simplegaussian.h"
+#include "padejastrow.h"
 #include <cassert>
 #include "wavefunction.h"
 #include "../system.h"
 
-SimpleGaussian::SimpleGaussian(System* system, double alpha) :
+PadeJastrow::PadeJastrow(System* system, double alpha) :
         WaveFunction(system) {
     assert(alpha >= 0);
     m_numberOfParameters = 1;
@@ -11,7 +11,7 @@ SimpleGaussian::SimpleGaussian(System* system, double alpha) :
     m_parameters.push_back(alpha);
 }
 
-double SimpleGaussian::evaluate(Eigen::MatrixXd particles) {
+double PadeJastrow::evaluate(Eigen::MatrixXd particles) {
     /* You need to implement a Gaussian wave function here. The positions of
      * the particles are accessible through the particle[i].getPosition()
      * function.
@@ -34,7 +34,7 @@ double SimpleGaussian::evaluate(Eigen::MatrixXd particles) {
     return exp(-m_parameters.at(0) * (r.cwiseAbs2()).sum());
 }
 
-double SimpleGaussian::computeFirstDerivative(Eigen::MatrixXd particles, int k) {
+double PadeJastrow::computeFirstDerivative(Eigen::MatrixXd particles, int k) {
     long m_numberOfParticles = particles.rows();
     long m_numberOfDimensions = particles.cols();
     Eigen::VectorXd r = Eigen::VectorXd::Zero(m_numberOfParticles);
@@ -49,7 +49,7 @@ double SimpleGaussian::computeFirstDerivative(Eigen::MatrixXd particles, int k) 
     return -m_parameters.at(0) * r(k);
 }
 
-double SimpleGaussian::computeDoubleDerivative(Eigen::MatrixXd particles) {
+double PadeJastrow::computeDoubleDerivative(Eigen::MatrixXd particles) {
     /* All wave functions need to implement this function, so you need to
      * find the double derivative analytically. Note that by double derivative,
      * we actually mean the sum of the Laplacians with respect to the
@@ -61,7 +61,7 @@ double SimpleGaussian::computeDoubleDerivative(Eigen::MatrixXd particles) {
     return -m_parameters.at(0) * particles.rows() * particles.cols();
 }
 
-double SimpleGaussian::computeFirstEnergyDerivative(Eigen::MatrixXd particles) {
+double PadeJastrow::computeFirstEnergyDerivative(Eigen::MatrixXd particles) {
     long m_numberOfParticles = particles.rows();
     long m_numberOfDimensions = particles.cols();
     Eigen::VectorXd r = Eigen::VectorXd::Zero(m_numberOfParticles);
@@ -75,6 +75,6 @@ double SimpleGaussian::computeFirstEnergyDerivative(Eigen::MatrixXd particles) {
     return 0.5 * double(r.transpose()*r);
 }
 
-double SimpleGaussian::computeDoubleEnergyDerivative(Eigen::MatrixXd particles) {
+double PadeJastrow::computeDoubleEnergyDerivative(Eigen::MatrixXd particles) {
     return 0.5 * particles.rows() * particles.cols();
 }
