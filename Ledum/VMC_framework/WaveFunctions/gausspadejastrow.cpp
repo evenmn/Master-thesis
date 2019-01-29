@@ -1,17 +1,20 @@
-#include "padejastrow.h"
+#include "gausspadejastrow.h"
 #include <cassert>
 #include "wavefunction.h"
 #include "../system.h"
 
-PadeJastrow::PadeJastrow(System* system, double alpha) :
+GaussPadeJastrow::GaussPadeJastrow(System* system, double alpha, double beta, Eigen::MatrixXd Gamma) :
         WaveFunction(system) {
     assert(alpha >= 0);
-    m_numberOfParameters = 1;
-    m_parameters.reserve(1);
+    assert(beta >= 0);
+    m_numberOfParameters = 2;
+    m_parameters.reserve(2);
     m_parameters.push_back(alpha);
+    m_parameters.push_back(beta);
+    m_Gamma = Gamma;
 }
 
-double PadeJastrow::evaluate(Eigen::MatrixXd particles) {
+double GaussPadeJastrow::evaluate(Eigen::MatrixXd particles) {
     /* You need to implement a Gaussian wave function here. The positions of
      * the particles are accessible through the particle[i].getPosition()
      * function.
@@ -23,6 +26,8 @@ double PadeJastrow::evaluate(Eigen::MatrixXd particles) {
     long m_numberOfParticles = particles.rows();
     long m_numberOfDimensions = particles.cols();
     Eigen::VectorXd r = Eigen::VectorXd::Zero(m_numberOfParticles);
+    Eigen::MatrixXd R = Eigen::MatrixXd::Zero(m_numberOfParticles, m_numberOfParticles);
+
     for(int i=0; i<m_numberOfParticles; i++) {
         double sqrtElementWise = 0;
         for(int j=0; j<m_numberOfDimensions; j++) {
@@ -30,14 +35,22 @@ double PadeJastrow::evaluate(Eigen::MatrixXd particles) {
         }
         r(i) = sqrt(sqrtElementWise);
     }
+    double PadeJastrowFactor = 0;
+    for(int i=0; i<m_numberOfParticles; i++) {
+        for(int j=0; j<i; j++) {
+            R(i,j) = fabs(r(i) - r(j));
+            PadeJastrowFactor += m_Gamma(i,j) * R(i,j)/(1 + m_parameters.at(1) * R(i,j));
+        }
+    }
 
-    return exp(-m_parameters.at(0) * (r.cwiseAbs2()).sum());
+    return exp(-0.5 * m_parameters.at(0) * (r.cwiseAbs2()).sum()) * PadeJastrowFactor;
 }
 
-double PadeJastrow::computeFirstDerivative(Eigen::MatrixXd particles, int k) {
+double GaussPadeJastrow::computeDerivative(Eigen::MatrixXd particles) {
     long m_numberOfParticles = particles.rows();
     long m_numberOfDimensions = particles.cols();
     Eigen::VectorXd r = Eigen::VectorXd::Zero(m_numberOfParticles);
+    Eigen::MatrixXd R = Eigen::MatrixXd::Zero(m_numberOfParticles, m_numberOfParticles);
     for(int i=0; i<m_numberOfParticles; i++) {
         double sqrtElementWise = 0;
         for(int j=0; j<m_numberOfDimensions; j++) {
@@ -45,23 +58,24 @@ double PadeJastrow::computeFirstDerivative(Eigen::MatrixXd particles, int k) {
         }
         r(i) = sqrt(sqrtElementWise);
     }
+    double derivative = 0;
+    for(int i=0; i<m_numberOfParticles; i++) {
+        derivative -= 0.5 * m_parameters.at(0) * m_parameters.at(0) * (r.cwiseAbs2()).sum();
+        double derTerm = 0;
+        for(int j=0; j<i; j++) {
+            R(i,j) = fabs(r(i) - r(j));
+            double f = 1/(1 + m_parameters.at(1) * R(i,j));
+            derTerm += m_Gamma(i,j) * f;
+            derivative += m_Gamma(i,j) * f * f * (m_parameters.at(1) * f + m_parameters.at(0) * r(i) - 1/r(i));
+        }
+        derivative -= 0.5 * derTerm * derTerm;
+    }
 
-    return -m_parameters.at(0) * r(k);
+
+    return derivative + 0.5 * m_parameters.at(0) * m_numberOfParticles * m_numberOfDimensions;
 }
 
-double PadeJastrow::computeDoubleDerivative(Eigen::MatrixXd particles) {
-    /* All wave functions need to implement this function, so you need to
-     * find the double derivative analytically. Note that by double derivative,
-     * we actually mean the sum of the Laplacians with respect to the
-     * coordinates of each particle.
-     *
-     * This quantity is needed to compute the (local) energy (consider the
-     * Schrödinger equation to see how the two are related).
-     */
-    return -m_parameters.at(0) * particles.rows() * particles.cols();
-}
-
-double PadeJastrow::computeFirstEnergyDerivative(Eigen::MatrixXd particles) {
+double GaussPadeJastrow::computeEnergyDerivative(Eigen::MatrixXd particles) {
     long m_numberOfParticles = particles.rows();
     long m_numberOfDimensions = particles.cols();
     Eigen::VectorXd r = Eigen::VectorXd::Zero(m_numberOfParticles);
@@ -73,8 +87,4 @@ double PadeJastrow::computeFirstEnergyDerivative(Eigen::MatrixXd particles) {
         r(i) = sqrt(sqrtElementWise);
     }
     return 0.5 * double(r.transpose()*r);
-}
-
-double PadeJastrow::computeDoubleEnergyDerivative(Eigen::MatrixXd particles) {
-    return 0.5 * particles.rows() * particles.cols();
 }

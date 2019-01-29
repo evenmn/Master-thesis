@@ -46,10 +46,6 @@ double AtomicNucleus::computeLocalEnergy(Eigen::MatrixXd particles) {
         }
     }
     double externalEnergy = -0.5 * m_numberOfParticles * r_inv.sum();
-
-    double kineticEnergy  = m_system->getWaveFunction()->computeDoubleDerivative(particles);
-    for(int i=0; i<m_numberOfParticles; i++) {
-        kineticEnergy  += m_system->getWaveFunction()->computeFirstDerivative(particles, i);
-    }
+    double kineticEnergy  = m_system->getWaveFunction()->computeDerivative(particles);
     return -0.5 * kineticEnergy + externalEnergy + interactionEnergy;
 }

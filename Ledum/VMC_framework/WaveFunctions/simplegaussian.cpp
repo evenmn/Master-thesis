@@ -1,5 +1,6 @@
 #include "simplegaussian.h"
 #include <cassert>
+#include <iostream>
 #include "wavefunction.h"
 #include "../system.h"
 
@@ -24,17 +25,18 @@ double SimpleGaussian::evaluate(Eigen::MatrixXd particles) {
     long m_numberOfDimensions = particles.cols();
     Eigen::VectorXd r = Eigen::VectorXd::Zero(m_numberOfParticles);
     for(int i=0; i<m_numberOfParticles; i++) {
-        double sqrtElementWise = 0;
+        double sqrdElementWise = 0;
         for(int j=0; j<m_numberOfDimensions; j++) {
-            sqrtElementWise += particles(i,j) * particles(i,j);
+            sqrdElementWise += particles(i,j) * particles(i,j);
         }
-        r(i) = sqrt(sqrtElementWise);
+        r(i) = sqrdElementWise;
     }
 
-    return exp(-m_parameters.at(0) * (r.cwiseAbs2()).sum());
+    return exp(-0.5 * m_parameters.at(0) * r.sum());
 }
 
-double SimpleGaussian::computeFirstDerivative(Eigen::MatrixXd particles, int k) {
+double SimpleGaussian::computeDerivative(Eigen::MatrixXd particles) {
+    // Calculating the kinetic energy term, -0.5 * laplacian
     long m_numberOfParticles = particles.rows();
     long m_numberOfDimensions = particles.cols();
     Eigen::VectorXd r = Eigen::VectorXd::Zero(m_numberOfParticles);
@@ -46,22 +48,10 @@ double SimpleGaussian::computeFirstDerivative(Eigen::MatrixXd particles, int k) 
         r(i) = sqrt(sqrtElementWise);
     }
 
-    return -m_parameters.at(0) * r(k);
+    return 0.5 * m_parameters.at(0) * particles.rows() * particles.cols() - 0.5 * m_parameters.at(0) * m_parameters.at(0) * (r.cwiseAbs2()).sum();
 }
 
-double SimpleGaussian::computeDoubleDerivative(Eigen::MatrixXd particles) {
-    /* All wave functions need to implement this function, so you need to
-     * find the double derivative analytically. Note that by double derivative,
-     * we actually mean the sum of the Laplacians with respect to the
-     * coordinates of each particle.
-     *
-     * This quantity is needed to compute the (local) energy (consider the
-     * Schrödinger equation to see how the two are related).
-     */
-    return -m_parameters.at(0) * particles.rows() * particles.cols();
-}
-
-double SimpleGaussian::computeFirstEnergyDerivative(Eigen::MatrixXd particles) {
+double SimpleGaussian::computeEnergyDerivative(Eigen::MatrixXd particles) {
     long m_numberOfParticles = particles.rows();
     long m_numberOfDimensions = particles.cols();
     Eigen::VectorXd r = Eigen::VectorXd::Zero(m_numberOfParticles);
@@ -72,9 +62,5 @@ double SimpleGaussian::computeFirstEnergyDerivative(Eigen::MatrixXd particles) {
         }
         r(i) = sqrt(sqrtElementWise);
     }
-    return 0.5 * double(r.transpose()*r);
-}
-
-double SimpleGaussian::computeDoubleEnergyDerivative(Eigen::MatrixXd particles) {
-    return 0.5 * particles.rows() * particles.cols();
+    return 0.5 * m_numberOfParticles * m_numberOfDimensions -m_parameters.at(0) * r.sum() * r.sum();
 }

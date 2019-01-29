@@ -43,12 +43,19 @@ double HarmonicOscillator::computeLocalEnergy(Eigen::MatrixXd particles) {
             interactionEnergy += 1/fabs(r(i) - r(j));
         }
     }
+    interactionEnergy = 0;
+
     double externalEnergy = 0.5 * m_omega * m_omega * (r.cwiseAbs2()).sum();
 
-    double kineticEnergy  = m_system->getWaveFunction()->computeDoubleDerivative(particles);
-    for(int i=0; i<m_numberOfParticles; i++) {
-        kineticEnergy  += m_system->getWaveFunction()->computeFirstDerivative(particles, i);
-    }
-    return -0.5 * kineticEnergy + externalEnergy + interactionEnergy;
+    double kineticEnergy  = m_system->getWaveFunction()->computeDerivative(particles);
+
+    /*
+    std::cout << kineticEnergy << std::endl;
+    std::cout << externalEnergy << std::endl;
+    std::cout << interactionEnergy << std::endl;
+    std::cout << " " << std::endl;
+    */
+
+    return kineticEnergy + externalEnergy + interactionEnergy;
 }
 

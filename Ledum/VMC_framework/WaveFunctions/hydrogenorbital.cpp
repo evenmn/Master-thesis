@@ -34,29 +34,11 @@ double HydrogenOrbital::evaluate(Eigen::MatrixXd particles) {
     return exp(-m_parameters.at(0)* m_numberOfParticles * r.sum());
 }
 
-double HydrogenOrbital::computeFirstDerivative(Eigen::MatrixXd particles, int k) {
-
-    long m_numberOfParticles = particles.rows();
-    return -m_parameters.at(0) * m_numberOfParticles;
+double HydrogenOrbital::computeDerivative(Eigen::MatrixXd particles) {
+    // Calculating the kinetic energy term, -0.5 * laplacian
+    return -0.5 * m_parameters.at(0) * m_parameters.at(0);
 }
 
-double HydrogenOrbital::computeDoubleDerivative(Eigen::MatrixXd particles) {
-    /* All wave functions need to implement this function, so you need to
-     * find the double derivative analytically. Note that by double derivative,
-     * we actually mean the sum of the Laplacians with respect to the
-     * coordinates of each particle.
-     *
-     * This quantity is needed to compute the (local) energy (consider the
-     * Schrödinger equation to see how the two are related).
-     */
-    return 0;
-}
-
-double HydrogenOrbital::computeFirstEnergyDerivative(Eigen::MatrixXd particles) {
-    long m_numberOfParticles = particles.rows();
-    return 0.5 * m_numberOfParticles * m_numberOfParticles;
-}
-
-double HydrogenOrbital::computeDoubleEnergyDerivative(Eigen::MatrixXd particles) {
-    return 0;
+double HydrogenOrbital::computeEnergyDerivative(Eigen::MatrixXd particles) {
+    return -m_parameters.at(0);
 }

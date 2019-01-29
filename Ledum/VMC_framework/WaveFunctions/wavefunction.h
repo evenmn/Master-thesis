@@ -8,10 +8,8 @@ public:
     int     getNumberOfParameters() { return m_numberOfParameters; }
     std::vector<double> getParameters() { return m_parameters; }
     virtual double evaluate(Eigen::MatrixXd particles) = 0;
-    virtual double computeFirstDerivative(Eigen::MatrixXd particles, int k) = 0;
-    virtual double computeDoubleDerivative(Eigen::MatrixXd particles) = 0;
-    virtual double computeFirstEnergyDerivative(Eigen::MatrixXd particles) = 0;
-    virtual double computeDoubleEnergyDerivative(Eigen::MatrixXd particles) = 0;
+    virtual double computeDerivative(Eigen::MatrixXd particles) = 0;
+    virtual double computeEnergyDerivative(Eigen::MatrixXd particles) = 0;
 
 protected:
     int     m_numberOfParameters = 0;

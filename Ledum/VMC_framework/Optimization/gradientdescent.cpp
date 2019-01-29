@@ -13,8 +13,7 @@ GradientDescent::GradientDescent(System* system) :
 }
 
 double GradientDescent::gradient(Eigen::MatrixXd particles) {
-    double g = m_system->getWaveFunction()->computeFirstEnergyDerivative(particles);
-    double h = m_system->getWaveFunction()->computeDoubleEnergyDerivative(particles);
+    double gradient = m_system->getWaveFunction()->computeEnergyDerivative(particles);
 
-    return g + h;
+    return gradient;
 }
