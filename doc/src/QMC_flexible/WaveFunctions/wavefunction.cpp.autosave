@@ -1,0 +1,11 @@
+#include "wavefunction.h"
+
+
+WaveFunction::WaveFunction(System* system) {
+    m_system = system;
+}
+
+double WaveFunction::TotalEvaluation(Eigen::MatrixXd particles) {
+    
+    return 0;
+}
