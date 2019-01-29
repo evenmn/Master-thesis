@@ -1,10 +1,10 @@
-#include "gausspadejastrow.h"
+#include "padejastrow.h"
 #include <cassert>
 #include "wavefunction.h"
 #include "../system.h"
 
-GaussPadeJastrow::GaussPadeJastrow(System* system, double alpha, double beta, Eigen::MatrixXd Gamma) :
-        WaveFunction(system) {
+PadeJastrow::PadeJastrow(System* system, double alpha, double beta, Eigen::MatrixXd Gamma) :
+        WaveFunction(m_system) {
     assert(alpha >= 0);
     assert(beta >= 0);
     m_numberOfParameters = 2;
@@ -14,7 +14,7 @@ GaussPadeJastrow::GaussPadeJastrow(System* system, double alpha, double beta, Ei
     m_Gamma = Gamma;
 }
 
-double GaussPadeJastrow::evaluate(Eigen::MatrixXd particles) {
+double PadeJastrow::evaluate(Eigen::MatrixXd particles) {
     /* You need to implement a Gaussian wave function here. The positions of
      * the particles are accessible through the particle[i].getPosition()
      * function.
@@ -46,7 +46,7 @@ double GaussPadeJastrow::evaluate(Eigen::MatrixXd particles) {
     return exp(-0.5 * m_parameters.at(0) * (r.cwiseAbs2()).sum()) * PadeJastrowFactor;
 }
 
-double GaussPadeJastrow::computeDerivative(Eigen::MatrixXd particles) {
+double PadeJastrow::computeDerivative(Eigen::MatrixXd particles) {
     long m_numberOfParticles = particles.rows();
     long m_numberOfDimensions = particles.cols();
     Eigen::VectorXd r = Eigen::VectorXd::Zero(m_numberOfParticles);
@@ -74,7 +74,7 @@ double GaussPadeJastrow::computeDerivative(Eigen::MatrixXd particles) {
     return derivative + 0.5 * m_parameters.at(0) * m_numberOfParticles * m_numberOfDimensions;
 }
 
-double GaussPadeJastrow::computeEnergyDerivative(Eigen::MatrixXd particles) {
+double PadeJastrow::computeEnergyDerivative(Eigen::MatrixXd particles) {
     long m_numberOfParticles = particles.rows();
     long m_numberOfDimensions = particles.cols();
     Eigen::VectorXd r = Eigen::VectorXd::Zero(m_numberOfParticles);

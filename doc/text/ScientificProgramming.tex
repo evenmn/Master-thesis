@@ -1,12 +1,53 @@
 \chapter{Scientific Programming}
+Since this thesis is much about writing code, it is natural including a few words about it. 
+
 The computer's language itself is binary, and is the lowest level. To translate commands to this language, we need a "translator", which is a language that fills the gap between the binary language and human commands. This language is categorized in levels based on how similar they are to the binary language. Low-level languages are similar to the binary language, which means fast but complicated. High-level languages are easy to work with, but are not as fast as low-level languages. Might mention grammar etc
 
+One can either do \textit{procedural programming} or \textit{object oriented programming}. The former means that the code is written in the same order as the program flow goes, while one in the latter defines objects. 
+
 \section{Object Orientated Programming}
+In the everyday life, we are surrounded by objects all the time which we can place in different categories. For instance, a \textit{cat} is an object with a name, race, age and so on, and can be placed in the class \textit{animals}. In object oriented programming, the class could be implemented as
+
+\lstset{basicstyle=\scriptsize}
+\begin{lstlisting}[language=python]
+class Animal:
+  def __init__(self, animal, name, race, age):
+    self.animal = animal
+    self.name = name
+    self.race = race
+    self.age = age
+
+  def __call__(self):
+    return "%s is a %s that's %d years old and of the race %s"%(self.name, self.animal, self.age, self.race)
+\end{lstlisting}
+where...
+
+The next step is to define an object, which in our case is the cat with name "Alma":
+
+\lstset{basicstyle=\scriptsize}
+\begin{lstlisting}[language=python]
+Alma = Animal("cat", "Alma", "Ragdoll", 4)
+print(Alma())
+\end{lstlisting}
+This implies that "Alma" is a cat of race "Ragdoll" and of age 4. When calling this class from "Alma", the class returns
+
+\lstset{basicstyle=\scriptsize}
+\begin{lstlisting}[language=python]
+$python3 simple_class.py
+>>> Alme is a cat that's 4 years old and of the race Ragdoll
+\end{lstlisting}
+
+You might wonder how this is related to scientific programming. The answer is that it is often convenient to define various parts of the code as objects to increase the liability and maximize reuse of code. For example, we use various Hamiltonians, where each can be defined as a subclass of the Hamiltonian superclass. This is also called parent and child, respectively. 
+
+The code above is written in Python, but the exact task could be done in C++. 
+
 In C++ one needs to define constructors and destructors. All variables used inside the functions are defines in the constructor, while they are removed in the destructor to free up memory.  In Python, the constructors are called \texttt{\_\_init\_\_} by default, and memory is handled automatically.
 
 \subsection{Inheritance}
 Parent and child
 Polymorphy: Child inherit from the parents. 
+Virtual functions to achieve runtime polymorphism 
+Should define virtual destructor as well 
 
 \begin{enumerate}
 	\item Single inheritance
@@ -14,5 +55,3 @@ Polymorphy: Child inherit from the parents.
 \end{enumerate}
 
 Python and C++ support multiple inheritances. Multilevel inheritance: Got child and grand child. Hierarchical inheritance: Parent got several children. https://www.geeksforgeeks.org/inheritance-in-python/
-
-\subsection{Polymorphy}

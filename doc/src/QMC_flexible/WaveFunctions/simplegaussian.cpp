@@ -5,7 +5,7 @@
 #include "../system.h"
 
 SimpleGaussian::SimpleGaussian(System* system, double alpha) :
-        WaveFunction(system) {
+        WaveFunction(m_system) {
     assert(alpha >= 0);
     m_numberOfParameters = 1;
     m_parameters.reserve(1);

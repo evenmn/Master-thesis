@@ -7,12 +7,13 @@
 using std::cout;
 using std::endl;
 
-HarmonicOscillator::HarmonicOscillator(System* system, double omega, int numberOfParticles, int numberOfDimensions) :
+HarmonicOscillator::HarmonicOscillator(System* system, double omega, int numberOfParticles, int numberOfDimensions, bool interaction) :
         Hamiltonian(system) {
     assert(omega > 0);
     m_omega  = omega;
     m_numberOfParticles = numberOfParticles;
     m_numberOfDimensions = numberOfDimensions;
+    m_interaction = interaction;
 }
 
 double HarmonicOscillator::computeLocalEnergy(Eigen::MatrixXd particles) {
@@ -38,15 +39,15 @@ double HarmonicOscillator::computeLocalEnergy(Eigen::MatrixXd particles) {
     }
 
     double interactionEnergy = 0;
-    for(int i=0; i<m_numberOfParticles; i++) {
-        for(int j=0; j<i; j++) {
-            interactionEnergy += 1/fabs(r(i) - r(j));
+    if(m_interaction) {
+        for(int i=0; i<m_numberOfParticles; i++) {
+            for(int j=0; j<i; j++) {
+                interactionEnergy += 1/fabs(r(i) - r(j));
+            }
         }
     }
-    interactionEnergy = 0;
 
     double externalEnergy = 0.5 * m_omega * m_omega * (r.cwiseAbs2()).sum();
-
     double kineticEnergy  = m_system->getWaveFunction()->computeDerivative(particles);
 
     /*

@@ -4,7 +4,7 @@
 #include "../system.h"
 
 HydrogenOrbital::HydrogenOrbital(System* system, double beta) :
-        WaveFunction(system) {
+        WaveFunction(m_system) {
     assert(beta >= 0);
     m_numberOfParameters = 1;
     m_parameters.reserve(1);

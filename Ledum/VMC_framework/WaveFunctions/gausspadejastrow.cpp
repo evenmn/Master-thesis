@@ -58,15 +58,14 @@ double GaussPadeJastrow::computeDerivative(Eigen::MatrixXd particles) {
         }
         r(i) = sqrt(sqrtElementWise);
     }
-    double derivative = 0;
+    double derivative = -0.5 * m_parameters.at(0) * m_parameters.at(0) * (r.cwiseAbs2()).sum();
     for(int i=0; i<m_numberOfParticles; i++) {
-        derivative -= 0.5 * m_parameters.at(0) * m_parameters.at(0) * (r.cwiseAbs2()).sum();
         double derTerm = 0;
         for(int j=0; j<i; j++) {
             R(i,j) = fabs(r(i) - r(j));
             double f = 1/(1 + m_parameters.at(1) * R(i,j));
-            derTerm += m_Gamma(i,j) * f;
-            derivative += m_Gamma(i,j) * f * f * (m_parameters.at(1) * f + m_parameters.at(0) * r(i) - 1/r(i));
+            derTerm += m_Gamma(i,j) * f * f;
+            derivative += m_Gamma(i,j) * f * f * (m_parameters.at(1) * f + m_parameters.at(0) * r(i));
         }
         derivative -= 0.5 * derTerm * derTerm;
     }

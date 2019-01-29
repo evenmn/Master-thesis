@@ -23,8 +23,15 @@ bool System::metropolisStep() {
     Eigen::MatrixXd newPositions = m_particles;
     newPositions(pRand, dRand) = m_particles(pRand, dRand) + (rand.nextDouble() - 0.5) * m_stepLength;
 
-    double psiOld = getWaveFunction()->evaluate(m_particles);
-    double psiNew = getWaveFunction()->evaluate(newPositions);
+    //double psiOld = getWaveFunction()->evaluate(m_particles);
+    //double psiNew = getWaveFunction()->evaluate(newPositions);
+
+
+
+    //double psiOld = getWaveFunction().TotalEvaluation(m_particles);
+
+    double psiNew = 1;
+    double psiOld = 1;
 
     double w = (psiNew * psiNew)/(psiOld * psiOld);
 
@@ -86,7 +93,7 @@ void System::setHamiltonian(Hamiltonian* hamiltonian) {
     m_hamiltonian = hamiltonian;
 }
 
-void System::setWaveFunction(WaveFunction* waveFunction) {
+void System::setWaveFunction(std::vector<class WaveFunction *> waveFunction) {
     m_waveFunction = waveFunction;
 }
 

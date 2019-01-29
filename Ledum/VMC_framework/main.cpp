@@ -19,20 +19,22 @@ using namespace std;
 
 
 int main() {
-    int numberOfDimensions  = 2;
-    int numberOfParticles   = 2;
+    int numberOfDimensions  = 1;
+    int numberOfParticles   = 1;
     int numberOfSteps       = int(1e6);
     double omega            = 1.0;          // Oscillator frequency.
     double alpha            = 1.0;          // Variational parameter.
     double beta             = 1.0;          // Variational parameter.
-    Eigen::MatrixXd Gamma   = Eigen::MatrixXd::Random(numberOfParticles, numberOfParticles);
     double stepLength       = 0.1;          // Metropolis step length.
+    bool interaction        = false;
     double equilibration    = 0.1;          // Amount of the total steps used
     // for equilibration.
 
+    Eigen::MatrixXd Gamma   = Eigen::MatrixXd::Ones(numberOfParticles, numberOfParticles);
+
     System* system = new System();
-    system->setHamiltonian              (new HarmonicOscillator(system, omega, numberOfParticles, numberOfDimensions));
-    system->setWaveFunction             (new GaussPadeJastrow(system, alpha, beta, Gamma));
+    system->setHamiltonian              (new HarmonicOscillator(system, omega, numberOfParticles, numberOfDimensions, interaction));
+    system->setWaveFunction             (new SimpleGaussian(system, alpha));
     system->setInitialState             (new RandomNormal(system, numberOfDimensions, numberOfParticles));
     system->setOptimizer                (new GradientDescent(system));
     system->setEquilibrationFraction    (equilibration);

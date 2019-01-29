@@ -1,10 +1,11 @@
 #include <iostream>
 #include <Eigen/Dense>
+#include <vector>
 #include "system.h"
 #include "WaveFunctions/wavefunction.h"
 #include "WaveFunctions/simplegaussian.h"
 #include "WaveFunctions/hydrogenorbital.h"
-#include "WaveFunctions/gausspadejastrow.h"
+#include "WaveFunctions/padejastrow.h"
 #include "Hamiltonians/hamiltonian.h"
 #include "Hamiltonians/harmonicoscillator.h"
 #include "Hamiltonians/atomicnucleus.h"
@@ -33,8 +34,11 @@ int main() {
     Eigen::MatrixXd Gamma   = Eigen::MatrixXd::Ones(numberOfParticles, numberOfParticles);
 
     System* system = new System();
+    std::vector<class WaveFunction*> WaveFunctionElements;
+    WaveFunctionElements.reserve(1);
+    WaveFunctionElements.push_back(new class SimpleGaussian(system, alpha));
     system->setHamiltonian              (new HarmonicOscillator(system, omega, numberOfParticles, numberOfDimensions, interaction));
-    system->setWaveFunction             (new SimpleGaussian(system, alpha));
+    system->setWaveFunction             (WaveFunctionElements);
     system->setInitialState             (new RandomNormal(system, numberOfDimensions, numberOfParticles));
     system->setOptimizer                (new GradientDescent(system));
     system->setEquilibrationFraction    (equilibration);
