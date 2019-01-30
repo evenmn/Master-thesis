@@ -5,7 +5,7 @@
 #include "Hamiltonians/hamiltonian.h"
 #include "InitialStates/initialstate.h"
 #include "Optimization/optimization.h"
-#include "Math/random.h"
+#include "Math/random2.h"
 #include <iostream>
 
 bool System::metropolisStep() {
@@ -15,7 +15,7 @@ bool System::metropolisStep() {
      * at this new position with the one at the old position).
      */
 
-    Random rand;
+    Random2 rand;
 
     int pRand = rand.nextInt(m_numberOfParticles);
     int dRand = rand.nextInt(m_numberOfDimensions);

@@ -33,7 +33,7 @@ double SimpleGaussian::evaluate(Eigen::MatrixXd particles) {
         r(i) = sqrdElementWise;
     }
 
-    return exp(-0.5 * m_alpha * r.sum());
+    return exp(-0.5 * m_alpha * (r.cwiseAbs2()).sum());
 }
 
 double SimpleGaussian::computeFirstDerivative(Eigen::MatrixXd particles, int k) {

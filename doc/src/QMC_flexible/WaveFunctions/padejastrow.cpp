@@ -84,10 +84,10 @@ double PadeJastrow::computeSecondDerivative(Eigen::MatrixXd particles) {
         for(int j=0; j<i; j++) {
             R(i,j) = fabs(r(i) - r(j));
             double f = 1/(1 + m_beta * R(i,j));
-            derivative += 2 * m_Gamma(i,j) * f * f * (1/r(i) - m_beta * f);
+            derivative += m_Gamma(i,j) * f * f * (1/r(i) - m_beta * f);
         }
     }
-    return derivative;
+    return 2 * derivative;
 }
 
 double PadeJastrow::computeFirstEnergyDerivative(Eigen::MatrixXd particles) {

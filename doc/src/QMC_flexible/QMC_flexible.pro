@@ -18,7 +18,8 @@ SOURCES += main.cpp \
     Optimization/gradientdescent.cpp \
     WaveFunctions/hydrogenorbital.cpp \
     Hamiltonians/atomicnucleus.cpp \
-    WaveFunctions/padejastrow.cpp
+    WaveFunctions/padejastrow.cpp \
+    Math/random2.cpp
 
 HEADERS += \
     system.h \
@@ -35,5 +36,6 @@ HEADERS += \
     Optimization/gradientdescent.h \
     WaveFunctions/hydrogenorbital.h \
     Hamiltonians/atomicnucleus.h \
-    WaveFunctions/padejastrow.h
+    WaveFunctions/padejastrow.h \
+    Math/random2.h
 

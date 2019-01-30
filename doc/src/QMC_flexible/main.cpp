@@ -27,7 +27,7 @@ int main() {
     double alpha            = 1.0;          // Variational parameter.
     double beta             = 1.0;          // Variational parameter.
     double stepLength       = 0.1;          // Metropolis step length.
-    bool interaction        = false;
+    bool interaction        = true;
     double equilibration    = 0.1;          // Amount of the total steps used
     // for equilibration.
     
