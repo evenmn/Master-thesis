@@ -23,15 +23,8 @@ bool System::metropolisStep() {
     Eigen::MatrixXd newPositions = m_particles;
     newPositions(pRand, dRand) = m_particles(pRand, dRand) + (rand.nextDouble() - 0.5) * m_stepLength;
 
-    //double psiOld = getWaveFunction()->evaluate(m_particles);
-    //double psiNew = getWaveFunction()->evaluate(newPositions);
-
-
-
-    //double psiOld = getWaveFunction().TotalEvaluation(m_particles);
-
-    double psiNew = 1;
-    double psiOld = 1;
+    double psiOld = evaluateWaveFunction(m_particles);
+    double psiNew = evaluateWaveFunction(newPositions);
 
     double w = (psiNew * psiNew)/(psiOld * psiOld);
 
@@ -93,8 +86,8 @@ void System::setHamiltonian(Hamiltonian* hamiltonian) {
     m_hamiltonian = hamiltonian;
 }
 
-void System::setWaveFunction(std::vector<class WaveFunction *> waveFunction) {
-    m_waveFunction = waveFunction;
+void System::setWaveFunction(std::vector<class WaveFunction *> waveFunctionVector) {
+    m_waveFunctionVector = waveFunctionVector;
 }
 
 void System::setInitialState(InitialState* initialState) {
@@ -103,4 +96,27 @@ void System::setInitialState(InitialState* initialState) {
 
 void System::setOptimizer(Optimization* optimization) {
     m_optimizer = optimization;
+}
+
+double System::evaluateWaveFunction(const Eigen::MatrixXd &particles) {
+    double WF = 0;
+    for(unsigned i = 0; i < m_waveFunctionVector.size(); i++) {
+        WF += m_waveFunctionVector[i]->evaluate(particles);
+    }
+    return WF;
+}
+
+double System::getKineticEnergy(const Eigen::MatrixXd &particles) {
+    double KineticEnergy = 0;
+    for(unsigned i = 0; i < m_waveFunctionVector.size(); i++) {
+        KineticEnergy += m_waveFunctionVector[i]->computeSecondDerivative(particles);
+    }
+    for(int k = 0; k < m_numberOfParticles; k++) {
+        double NablaLnPsi = 0;
+        for(unsigned i = 0; i < m_waveFunctionVector.size(); i++) {
+            NablaLnPsi += m_waveFunctionVector[i]->computeFirstDerivative(particles, k);
+        }
+        KineticEnergy += NablaLnPsi * NablaLnPsi;
+    }
+    return -0.5 * KineticEnergy;
 }

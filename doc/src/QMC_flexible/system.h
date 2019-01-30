@@ -11,17 +11,19 @@ public:
     void setStepLength              (double stepLength);
     void setEquilibrationFraction   (double equilibrationFraction);
     void setHamiltonian             (class Hamiltonian* hamiltonian);
-    void setWaveFunction            (std::vector<class WaveFunction*> waveFunction);
+    void setWaveFunction            (std::vector<class WaveFunction*> waveFunctionVector);
     void setInitialState            (class InitialState* initialState);
     void setOptimizer               (class Optimization* optimization);
-    std::vector<class WaveFunction*>             getWaveFunction()   { return m_waveFunction; }
-    class Hamiltonian*              getHamiltonian()    { return m_hamiltonian; }
-    class Sampler*                  getSampler()        { return m_sampler; }
-    class Optimization*             getOptimizer()      { return m_optimizer; }
-    Eigen::MatrixXd                 getParticles()      { return m_particles; }
-    int getNumberOfParticles()          { return m_numberOfParticles; }
-    int getNumberOfDimensions()         { return m_numberOfDimensions; }
-    int getNumberOfMetropolisSteps()    { return m_numberOfMetropolisSteps; }
+    double evaluateWaveFunction     (const Eigen::MatrixXd &particles);
+    double getKineticEnergy         (const Eigen::MatrixXd &particles);
+    class WaveFunction*                          getWaveFunction()   { return m_waveFunction; }
+    class Hamiltonian*                           getHamiltonian()    { return m_hamiltonian; }
+    class Sampler*                               getSampler()        { return m_sampler; }
+    class Optimization*                          getOptimizer()      { return m_optimizer; }
+    Eigen::MatrixXd                              getParticles()      { return m_particles; }
+    int    getNumberOfParticles()       { return m_numberOfParticles; }
+    int    getNumberOfDimensions()      { return m_numberOfDimensions; }
+    int    getNumberOfMetropolisSteps() { return m_numberOfMetropolisSteps; }
     double getEquilibrationFraction()   { return m_equilibrationFraction; }
 
 private:
@@ -30,8 +32,8 @@ private:
     int                             m_numberOfMetropolisSteps = 0;
     double                          m_equilibrationFraction = 0.0;
     double                          m_stepLength = 0.1;
-    //class WaveFunction*             m_waveFunction = nullptr;
-    std::vector<class WaveFunction*> m_waveFunction;
+    class WaveFunction*             m_waveFunction = nullptr;
+    std::vector<class WaveFunction*> m_waveFunctionVector;
     class Hamiltonian*              m_hamiltonian = nullptr;
     class InitialState*             m_initialState = nullptr;
     class Sampler*                  m_sampler = nullptr;

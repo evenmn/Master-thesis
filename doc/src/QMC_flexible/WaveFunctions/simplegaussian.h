@@ -9,4 +9,6 @@ public:
     double computeSecondDerivative(Eigen::MatrixXd particles);
     double computeFirstEnergyDerivative(Eigen::MatrixXd particles);
     double computeSecondEnergyDerivative(Eigen::MatrixXd particles);
+private:
+    double m_alpha = 0;
 };

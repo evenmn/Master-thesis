@@ -7,6 +7,7 @@
 SimpleGaussian::SimpleGaussian(System* system, double alpha) :
         WaveFunction(m_system) {
     assert(alpha >= 0);
+    m_alpha = alpha;
     m_numberOfParameters = 1;
     m_parameters.reserve(1);
     m_parameters.push_back(alpha);
@@ -32,7 +33,7 @@ double SimpleGaussian::evaluate(Eigen::MatrixXd particles) {
         r(i) = sqrdElementWise;
     }
 
-    return exp(-0.5 * m_parameters.at(0) * r.sum());
+    return exp(-0.5 * m_alpha * r.sum());
 }
 
 double SimpleGaussian::computeFirstDerivative(Eigen::MatrixXd particles, int k) {
@@ -48,11 +49,11 @@ double SimpleGaussian::computeFirstDerivative(Eigen::MatrixXd particles, int k) 
         r(i) = sqrt(sqrtElementWise);
     }
 
-    return -m_parameters.at(0) * r(k);
+    return -m_alpha * r(k);
 }
 
 double SimpleGaussian::computeSecondDerivative(Eigen::MatrixXd particles) {
-    return -m_parameters.at(0) * particles.rows() * particles.cols();
+    return -m_alpha * particles.rows() * particles.cols();
 }
 
 double SimpleGaussian::computeFirstEnergyDerivative(Eigen::MatrixXd particles) {
@@ -66,7 +67,7 @@ double SimpleGaussian::computeFirstEnergyDerivative(Eigen::MatrixXd particles) {
         }
         r(i) = sqrt(sqrtElementWise);
     }
-    return 0.5 * m_numberOfParticles * m_numberOfDimensions -m_parameters.at(0) * r.sum() * r.sum();
+    return 0.5 * m_numberOfParticles * m_numberOfDimensions -m_alpha * r.sum() * r.sum();
 }
 
 double SimpleGaussian::computeSecondEnergyDerivative(Eigen::MatrixXd particles) {

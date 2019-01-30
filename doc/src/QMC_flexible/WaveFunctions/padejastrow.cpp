@@ -3,15 +3,14 @@
 #include "wavefunction.h"
 #include "../system.h"
 
-PadeJastrow::PadeJastrow(System* system, double alpha, double beta, Eigen::MatrixXd Gamma) :
+PadeJastrow::PadeJastrow(System* system, double beta, Eigen::MatrixXd Gamma) :
         WaveFunction(m_system) {
-    assert(alpha >= 0);
     assert(beta >= 0);
-    m_numberOfParameters = 2;
-    m_parameters.reserve(2);
-    m_parameters.push_back(alpha);
+    m_numberOfParameters = 1;
+    m_parameters.reserve(1);
     m_parameters.push_back(beta);
     m_Gamma = Gamma;
+    m_beta = beta;
 }
 
 double PadeJastrow::evaluate(Eigen::MatrixXd particles) {
@@ -35,18 +34,19 @@ double PadeJastrow::evaluate(Eigen::MatrixXd particles) {
         }
         r(i) = sqrt(sqrtElementWise);
     }
+
     double PadeJastrowFactor = 0;
     for(int i=0; i<m_numberOfParticles; i++) {
         for(int j=0; j<i; j++) {
             R(i,j) = fabs(r(i) - r(j));
-            PadeJastrowFactor += m_Gamma(i,j) * R(i,j)/(1 + m_parameters.at(1) * R(i,j));
+            PadeJastrowFactor += m_Gamma(i,j) * R(i,j)/(1 + m_beta * R(i,j));
         }
     }
 
-    return exp(-0.5 * m_parameters.at(0) * (r.cwiseAbs2()).sum()) * PadeJastrowFactor;
+    return exp(PadeJastrowFactor);
 }
 
-double PadeJastrow::computeDerivative(Eigen::MatrixXd particles) {
+double PadeJastrow::computeFirstDerivative(Eigen::MatrixXd particles, int k) {
     long m_numberOfParticles = particles.rows();
     long m_numberOfDimensions = particles.cols();
     Eigen::VectorXd r = Eigen::VectorXd::Zero(m_numberOfParticles);
@@ -58,23 +58,39 @@ double PadeJastrow::computeDerivative(Eigen::MatrixXd particles) {
         }
         r(i) = sqrt(sqrtElementWise);
     }
-    double derivative = -0.5 * m_parameters.at(0) * m_parameters.at(0) * (r.cwiseAbs2()).sum();
-    for(int i=0; i<m_numberOfParticles; i++) {
-        double derTerm = 0;
-        for(int j=0; j<i; j++) {
-            R(i,j) = fabs(r(i) - r(j));
-            double f = 1/(1 + m_parameters.at(1) * R(i,j));
-            derTerm += m_Gamma(i,j) * f * f;
-            derivative += m_Gamma(i,j) * f * f * (m_parameters.at(1) * f + m_parameters.at(0) * r(i));
-        }
-        derivative -= 0.5 * derTerm * derTerm;
+    double derivative = 0;
+    for(int j=0; j<k; j++) {
+        R(k,j) = fabs(r(k) - r(j));
+        double f = 1/(1 + m_beta * R(k,j));
+        derivative+= m_Gamma(k,j) * f * f;
     }
-
-
-    return derivative + 0.5 * m_parameters.at(0) * m_numberOfParticles * m_numberOfDimensions;
+    return derivative;
 }
 
-double PadeJastrow::computeEnergyDerivative(Eigen::MatrixXd particles) {
+double PadeJastrow::computeSecondDerivative(Eigen::MatrixXd particles) {
+    long m_numberOfParticles = particles.rows();
+    long m_numberOfDimensions = particles.cols();
+    Eigen::VectorXd r = Eigen::VectorXd::Zero(m_numberOfParticles);
+    Eigen::MatrixXd R = Eigen::MatrixXd::Zero(m_numberOfParticles, m_numberOfParticles);
+    for(int i=0; i<m_numberOfParticles; i++) {
+        double sqrtElementWise = 0;
+        for(int j=0; j<m_numberOfDimensions; j++) {
+            sqrtElementWise += particles(i,j) * particles(i,j);
+        }
+        r(i) = sqrt(sqrtElementWise);
+    }
+    double derivative = 0;
+    for(int i=0; i<m_numberOfParticles; i++) {
+        for(int j=0; j<i; j++) {
+            R(i,j) = fabs(r(i) - r(j));
+            double f = 1/(1 + m_beta * R(i,j));
+            derivative += 2 * m_Gamma(i,j) * f * f * (1/r(i) - m_beta * f);
+        }
+    }
+    return derivative;
+}
+
+double PadeJastrow::computeFirstEnergyDerivative(Eigen::MatrixXd particles) {
     long m_numberOfParticles = particles.rows();
     long m_numberOfDimensions = particles.cols();
     Eigen::VectorXd r = Eigen::VectorXd::Zero(m_numberOfParticles);
@@ -86,4 +102,8 @@ double PadeJastrow::computeEnergyDerivative(Eigen::MatrixXd particles) {
         r(i) = sqrt(sqrtElementWise);
     }
     return 0.5 * double(r.transpose()*r);
+}
+
+double PadeJastrow::computeSecondEnergyDerivative(Eigen::MatrixXd particles) {
+    return 0;
 }
