@@ -14,6 +14,8 @@ public:
     virtual double computeDoubleEnergyDerivative(Eigen::MatrixXd particles) = 0;
     */
 
+    virtual ~Optimization() = 0;
+
 protected:
     /*
     int     m_numberOfParameters = 0;

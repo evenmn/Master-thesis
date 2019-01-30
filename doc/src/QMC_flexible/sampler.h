@@ -4,7 +4,7 @@ class Sampler {
 public:
     Sampler(class System* system);
     void setNumberOfMetropolisSteps(int steps);
-    void sample(bool acceptedStep);
+    void sample(bool acceptedStep, int stepNumber);
     void printOutputToTerminal();
     void computeAverages();
     double getEnergy()          { return m_energy; }

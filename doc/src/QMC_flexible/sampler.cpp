@@ -21,14 +21,16 @@ void Sampler::setNumberOfMetropolisSteps(int steps) {
     m_numberOfMetropolisSteps = steps;
 }
 
-void Sampler::sample(bool acceptedStep) {
+void Sampler::sample(bool acceptedStep, int stepNumber) {
     // Make sure the sampling variable(s) are initialized at the first step.
-    if (m_stepNumber == 0) {
+    if (stepNumber == 0) {
         m_cumulativeEnergy = 0;
         m_dE = 0;
         m_dEE = 0;
         m_SqrdE = 0;
     }
+
+    //cout << m_cumulativeEnergy << endl;
 
     /* Here you should sample all the interesting things you want to measure.
      * Note that there are (way) more than the single one here currently.

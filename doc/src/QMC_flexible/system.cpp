@@ -56,7 +56,7 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps) {
              */
 
             if(double(i)/m_numberOfMetropolisSteps > m_equilibrationFraction) {
-                m_sampler->sample(acceptedStep);
+                m_sampler->sample(acceptedStep, i);
             }
         }
         m_sampler->computeAverages();

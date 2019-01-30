@@ -7,6 +7,8 @@ public:
     virtual void setupInitialState() = 0;
     Eigen::MatrixXd getParticles() { return m_particles; }
 
+    virtual ~InitialState() = 0;
+
 protected:
     class System* m_system = nullptr;
     Eigen::MatrixXd m_particles;

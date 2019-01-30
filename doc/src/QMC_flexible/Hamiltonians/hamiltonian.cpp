@@ -5,3 +5,4 @@ Hamiltonian::Hamiltonian(System* system) {
     m_system = system;
 }
 
+Hamiltonian::~Hamiltonian() {};

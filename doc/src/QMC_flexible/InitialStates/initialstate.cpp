@@ -4,3 +4,4 @@ InitialState::InitialState(System* system) {
     m_system = system;
 }
 
+InitialState::~InitialState() {};
