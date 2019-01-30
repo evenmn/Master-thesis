@@ -27,7 +27,6 @@ bool System::metropolisStep() {
     double psiNew = evaluateWaveFunction(newPositions);
 
     double w = (psiNew * psiNew)/(psiOld * psiOld);
-
     if(w > rand.nextDouble()) {
         m_particles(pRand, dRand) = newPositions(pRand, dRand);
         return true;
@@ -55,7 +54,7 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps) {
              * are equilibration steps; m_equilibrationFraction.
              */
 
-            if(double(i)/m_numberOfMetropolisSteps > m_equilibrationFraction) {
+            if(double(i)/m_numberOfMetropolisSteps >= m_equilibrationFraction) {
                 m_sampler->sample(acceptedStep, i);
             }
         }

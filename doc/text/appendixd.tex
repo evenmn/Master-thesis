@@ -1,16 +1,98 @@
-\chapter{Appendix D - Local Energy Calculations}
-The local energy is found by 
+\chapter{Wave Function Elements} \label{chp:appendixd}
+
+\section{Kinetic Energy Calculations}
+The local energy, defined in equation \eqref{eq:local energy}, is
+\begin{align}
+E_L &=\frac{1}{\Psi_T}\hatH\Psi_T\\
+&=\sum_{k=1}^M\Big[-\frac{1}{2\Psi_T}\nabla_k^2\Psi_T + U_k + V_k\Big].
+\end{align}
+The first term, which is the kinetic energy term, is the only wave function-dependent one. It will in this appendix be evaluated for various wave function elements. From the definition of differentiation of a logarithm, we have that
 \begin{equation}
-\frac{1}{\Psi_T}\hatH\Psi_T=\sum_{k=1}^M\Big[\frac{1}{\Psi_T}\nabla_k\Psi_T + U_k + V_k\Big].
+\frac{1}{\Psi_T}\nabla_k\Psi_T=\nabla_k\ln\Psi_T,
 \end{equation}
-The kinetic energy term is what we will evaluate here. An useful relation is
+which provides the following useful relation 
 \begin{equation}
-\frac{1}{\Psi_T}\nabla_k\Psi_T=\nabla_k^2\ln\Psi_T + (\nabla_k\ln\Psi_T)^2
+\frac{1}{\Psi_T}\nabla_k^2\Psi_T=\nabla_k^2\ln\Psi_T + (\nabla_k\ln\Psi_T)^2.
 \end{equation}
-which is convenient since the logarithm of the wavefunction is simple. 
+Consider a trial wave function, $\Psi_T$, consisting of a product of $p$ wave function elements, $\{\phi_1, \phi_2\hdots\phi_p\}$,
+\begin{equation}
+\Psi_T = \prod_{i=1}^p\phi_i.
+\end{equation}
+The kinetic energy related to this trial wave function is then computed by
+\begin{equation}
+\frac{1}{\Psi_T}\nabla_k^2\Psi_T=\sum_{i=1}^p\nabla_k^2\ln\phi_i + \Big(\sum_{i=1}^p\nabla_k\ln\phi_i\Big)^2,
+\end{equation}
+which can be computed given all local derivatives $\nabla_k^2\ln\phi_i$ and $\nabla_k\ln\phi_i$. For each wave function element given below, those local derivatives will be evaluated. In addition, we need to know the derivative of the local energy with respect to the variational parameters in order to update the parameters correctly. 
 
-\subsection{Slater determinant}
+\section{Parameter Update}
+In gradient based optimization methods, as we use, one needs to know the gradient of the local energy with respect to all variational parameters $\alpha_i$,
+\begin{equation}
+\partial_{\alpha_i} E_L\equiv\frac{\partial E_L(\alpha_i)}{\partial \alpha_i}.
+\end{equation}
+If we assume that each parameter, $\alpha$, only exists in a wave function element,
+\begin{equation}
+\Psi_T(\alpha)=\phi_1(\alpha)\prod_{i=2}^{p}\phi_i
+\end{equation}
+the derivative of the entire local energy is reduced to the derivative of the kinetic energy term given the wave function element,
+\begin{align}
+\partial_{\alpha} E_L &=\partial_{\alpha}\bigg(\nabla_k^2\ln\phi_1(\alpha)+\sum_{i=2}^p\nabla_k^2\ln\phi_i + \Big(\nabla_k\ln\phi_1(\alpha)+\sum_{i=2}^p\nabla_k\ln\phi_i\Big)^2\bigg)\\
+&=\partial_{\alpha}\nabla_k^2\ln\phi_1(\alpha)+2\Big(\sum_{i=1}^p\nabla_k\ln\phi_i\Big)\cdot\partial_{\alpha}\nabla_k\ln\phi_1(\alpha).
+\end{align}
+The sum is already evaluated in the kinetic energy calculations, which means that to calculate the gradients, it is sufficient to calculate $\partial_{\alpha}\nabla_k\ln\phi_1(\alpha)$ and $\partial_{\alpha}\nabla_k^2\ln\phi_1(\alpha)$ for all wave function elements with respect to their variational parameters.
 
-\subsection{NQS}
+\section{Derivatives}
+\subsection{Simple Gaussian}
+A natural starting point is the Gaussian function, since it appears in all harmonic oscillator calculations. For $N$ particles in $D$ dimensions, the function is given by
+\begin{equation}
+\Psi(\alpha, \bs{r})=\exp\Big[-\frac{1}{2}\alpha\sum_{i=1}^Nr_i^2\Big]
+\end{equation}
+where the derivative with respect to coordinate $r_k$ is
+\begin{equation}
+\nabla_k\ln\Psi(\alpha)=-\alpha r_k
+\end{equation}
+and the second derivative is
+\begin{equation}
+\nabla_k^2\ln\Psi(\alpha)=-\alpha ND.
+\end{equation}
+The gradients for those derivatives are
+\begin{equation}
+\partial_{\alpha} \nabla_k\ln\Psi(\alpha)=-r_k
+\end{equation}
+and
+\begin{equation}
+\partial_{\alpha} \nabla_k^2\ln\Psi(\alpha)=-ND
+\end{equation}
+respectively.
 
-\subsection{Jastrow factor}
+\subsection{Hydrogen-Like Orbitals}
+\begin{equation}
+\Psi(\alpha, \bs{r})=\exp\Big[-\frac{1}{2}\alpha\sum_{i=1}^Nr_i\Big]
+\end{equation}
+where the derivative with respect to coordinate $r_k$ is
+\begin{equation}
+\nabla_k\ln\Psi(\alpha)=-\alpha
+\end{equation}
+and the second derivative is
+\begin{equation}
+\nabla_k^2\ln\Psi(\alpha)=0
+\end{equation}
+The gradients for those derivatives are
+\begin{equation}
+\partial_{\alpha} \nabla_k\ln\Psi(\alpha)=-1
+\end{equation}
+and
+\begin{equation}
+\partial_{\alpha} \nabla_k^2\ln\Psi(\alpha)=0
+\end{equation}
+respectively.  
+
+\subsection{Padé-Jastrow Factor}
+The Padé-Jastrow factor is introduced in order to take care of the correlations. 
+
+\subsection{Slater Determinant}
+We need to introduce the Slater Determinant to study more fermions. 
+
+\subsection{NQS-Gaussian}
+Now over to the real deal; the machine learning inspired wave function elements. 
+
+\subsection{NQS-Jastrow Factor}

@@ -1,11 +1,27 @@
 \chapter{Implementation} \label{sec:implementation}
+In many cases, planning is half the job, and so is true for a good VMC implementation. In fact, the program was restructured three times before we landed on this final version. It is based on Morten Ledum's VMC framework [\url{https://github.com/mortele/variational-monte-carlo-fys4411}], which was meant as an example implementation in the course \textit{FYS4411 - Computational Physics II: Quantum Mechanical Systems}.
+
 During the implementations we had two main areas of focus
 \begin{itemize}
 	\item Efficient code
 	\item High legibility, tidy code
 \end{itemize}
 
-The code is based on Morten Ledum's VMC framework
+Unlike many other VMC codes, our code was developed flexible with respect to the wave functions. This means that one can combine various wave function elements, where each element is implemented separately. For instance, the simple Gaussian function and the Padé-Jastrow factor were implemented separately, but they can easily be combined. The way one does this in practice, is to append multiple wave function elements to the vector \texttt{WaveFunctionElements} in main. If one for instance want to combine the simple Gaussian with the Padé-Jastrow factor, this can be done by
+
+\lstset{basicstyle=\scriptsize}
+\begin{lstlisting}[language=c++]
+System* system = new System();
+std::vector<class WaveFunction*> WaveFunctionElements;
+WaveFunctionElements.reserve(2);
+WaveFunctionElements.push_back(new class SimpleGaussian(system, alpha));
+WaveFunctionElements.push_back(new class PadeJastrow(system, beta, Gamma));
+system->setWaveFunction             (WaveFunctionElements);
+\end{lstlisting}
+
+The big advantage of this implementation is that we do not need to hard code every possible combination of wave function elements, which reduces the number of code lines significantly. This also eases adding new elements, since we only need to calculate the derivatives of the particular element (do not need to worry about cross terms). Exactly how this is done can be read in Appendix \ref{chp:appendixd}. 
+
+The con is that the program will be slightly slower. 
 
 \section{Foundation} \label{subsec:foundation}
 \section{Structure} \label{subsec:structure}

@@ -22,28 +22,34 @@ class Animal:
 \end{lstlisting}
 where...
 
-The next step is to define an object, which in our case is the cat with name "Alma":
+The next step is to define an object, which in our case is the cat with name "Schrodinger":
 
 \lstset{basicstyle=\scriptsize}
 \begin{lstlisting}[language=python]
-Alma = Animal("cat", "Alma", "Ragdoll", 4)
+Alma = Animal("cat", "Schroedeger", "Ragdoll", 4)
 print(Alma())
 \end{lstlisting}
-This implies that "Alma" is a cat of race "Ragdoll" and of age 4. When calling this class from "Alma", the class returns
+This implies that "Schrodinger" is a cat of race "Ragdoll" and of age 4. When calling this class from "Schrodinger", the class returns
 
 \lstset{basicstyle=\scriptsize}
 \begin{lstlisting}[language=python]
 $python3 simple_class.py
->>> Alme is a cat that's 4 years old and of the race Ragdoll
+>>> Schrodinger is a cat that's 4 years old and of the race Ragdoll
 \end{lstlisting}
 
-You might wonder how this is related to scientific programming. The answer is that it is often convenient to define various parts of the code as objects to increase the liability and maximize reuse of code. For example, we use various Hamiltonians, where each can be defined as a subclass of the Hamiltonian superclass. This is also called parent and child, respectively. 
+You might wonder how this is related to scientific programming. The answer is that it is often convenient to define various parts of the code as objects to increase the liability and maximize reuse of code. For example, we use various Hamiltonians, where each can be defined as a subclass of the Hamiltonian superclass. 
 
-The code above is written in Python, but the exact task could be done in C++. 
+The code above is written in Python, but the exact task could be performed in C++. 
+
+INCLUDE C++ IMPLEMENTATION
+
+As one can see, 
 
 In C++ one needs to define constructors and destructors. All variables used inside the functions are defines in the constructor, while they are removed in the destructor to free up memory.  In Python, the constructors are called \texttt{\_\_init\_\_} by default, and memory is handled automatically.
 
 \subsection{Inheritance}
+This is also called parent and child, respectively. 
+
 Parent and child
 Polymorphy: Child inherit from the parents. 
 Virtual functions to achieve runtime polymorphism 

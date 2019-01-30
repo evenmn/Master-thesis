@@ -1,21 +1,2 @@
-\chapter{Appendix A - RBM wavefunction}
-We have seen that the probability of having a set of positions $\boldsymbol{X}$ with a set of hidden nodes $\boldsymbol{h}$ is given by
-\begin{equation}
-F(\boldsymbol{X},\boldsymbol{H})=\frac{1}{Z}e^{-\beta E(\boldsymbol{X},\boldsymbol{H})}
-\end{equation}
-where we set $\beta=1/kT=1$, $Z$ is the partition function and $E(\boldsymbol{X},\boldsymbol{h})$ is the system energy
-\begin{equation}
-E(\boldsymbol{X},\boldsymbol{H})=\sum_{i=1}^{M}\frac{(X_i-a_i)^2}{2\sigma_i^2}-\sum_{j=1}^Nb_jH_j-\sum_{i,j=1}^{M,N}\frac{X_iW_{ij}H_j}{\sigma_i^2}
-\end{equation}
-such that
-\begin{equation}
-F_{\text{RBM}}(\boldsymbol{X},\boldsymbol{h})=e^{\sum_{i=1}^M \frac{(X_i - a_i)^2}{2\sigma^2}} e^{\sum_{j=1}^N\Big(b_jh_j+\sum_{i=1}^M\frac{X_iW_{ij}}{\sigma^2}\Big)}.
-\end{equation}
-We skip the partition function because it will not affect the results (it is just a normalization constant). The probability of a set of positions only is therefore the sum over all sets of $\boldsymbol{h}$, $\{\boldsymbol{h}\}$:
-\begin{align}
-F_{\text{RBM}}(\boldsymbol{X})&=\sum_{\{\boldsymbol{h}\}}e^{\sum_{i=1}^M \frac{(X_i - a_i)^2}{2\sigma^2}} \prod_{j=1}^Ne^{b_jh_j+\sum_{i=1}^M\frac{X_iW_{ij}h_j}{\sigma^2}}\notag\\
-&=\sum_{h_1}\sum_{h_2}\hdots\sum_{h_N}e^{\sum_{i=1}^M \frac{(X_i - a_i)^2}{2\sigma^2}}\cross\notag\\
-&\phantom{=}e^{b_1h_1+\sum_{i=1}^M\frac{X_iW_{i1}h_1}{\sigma^2}}e^{b_2h_2+\sum_{i=1}^M\frac{X_iW_{i2}h_2}{\sigma^2}}\hdots e^{b_Nh_N+\sum_{i=1}^M\frac{X_iW_{iN}h_N}{\sigma^2}}\notag\\
-&=e^{\sum_{i=1}^M \frac{(X_i - a_i)^2}{2\sigma^2}}\prod_{j=1}^N\sum_{h_j=0}^1e^{b_jh_j+\sum_{i=1}^M \frac{X_i W_{ij}h_j}{\sigma^2}}\notag\\
-&=e^{\sum_{i=1}^M \frac{(X_i - a_i)^2}{2\sigma^2}} \prod_j^N (1+ e^{b_j + \frac{\boldsymbol{X}^T\boldsymbol{W}_{*j}}{\sigma^2}})
-\end{align}
+\chapter{Dirac notation}
+The Dirac notation, also called bracket notation, was suggested by Paul Dirac in a 1939 paper with the purpose of improving the reading ease. \cite{dirac_1939}

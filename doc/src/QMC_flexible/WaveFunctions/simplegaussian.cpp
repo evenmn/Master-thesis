@@ -30,7 +30,7 @@ double SimpleGaussian::evaluate(Eigen::MatrixXd particles) {
         for(int j=0; j<m_numberOfDimensions; j++) {
             sqrdElementWise += particles(i,j) * particles(i,j);
         }
-        r(i) = sqrdElementWise;
+        r(i) = sqrt(sqrdElementWise);
     }
 
     return exp(-0.5 * m_alpha * (r.cwiseAbs2()).sum());

@@ -24,6 +24,7 @@ void Sampler::setNumberOfMetropolisSteps(int steps) {
 void Sampler::sample(bool acceptedStep, int stepNumber) {
     // Make sure the sampling variable(s) are initialized at the first step.
     if (stepNumber == 0) {
+        m_acceptenceRatio = 0;
         m_cumulativeEnergy = 0;
         m_dE = 0;
         m_dEE = 0;
