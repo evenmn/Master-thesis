@@ -33,9 +33,9 @@ int main() {
 
     System* system = new System();
     std::vector<class WaveFunction*> WaveFunctionElements;
-    WaveFunctionElements.reserve(1);
+    //WaveFunctionElements.reserve(2);
     WaveFunctionElements.push_back(new class SimpleGaussian(system, alpha));
-    //WaveFunctionElements.push_back(new class PadeJastrow(system, beta, Gamma));
+    WaveFunctionElements.push_back(new class PadeJastrow(system, beta, Gamma));
     system->setHamiltonian              (new HarmonicOscillator(system, omega, numberOfParticles, numberOfDimensions, interaction));
     system->setWaveFunction             (WaveFunctionElements);
     system->setInitialState             (new RandomNormal(system, numberOfDimensions, numberOfParticles));

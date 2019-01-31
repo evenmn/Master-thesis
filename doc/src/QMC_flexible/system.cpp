@@ -21,7 +21,7 @@ bool System::metropolisStep() {
     int dRand = rand.nextInt(m_numberOfDimensions);
 
     Eigen::MatrixXd newPositions = m_particles;
-    newPositions(pRand, dRand) = m_particles(pRand, dRand) + 2*(rand.nextDouble() - 0.5) * m_stepLength;
+    newPositions(pRand, dRand) = m_particles(pRand, dRand) + (rand.nextDouble() - 0.5) * m_stepLength;
 
     //std::cout << m_particles << std::endl;
     //std::cout << " " << std::endl;
