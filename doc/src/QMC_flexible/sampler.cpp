@@ -31,7 +31,7 @@ void Sampler::sample(bool acceptedStep, int stepNumber) {
         m_SqrdE = 0;
     }
 
-    //cout << m_cumulativeEnergy << endl;
+    //cout << m_cumulativeEnergy/stepNumber << endl;
 
     /* Here you should sample all the interesting things you want to measure.
      * Note that there are (way) more than the single one here currently.

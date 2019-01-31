@@ -21,13 +21,22 @@ bool System::metropolisStep() {
     int dRand = rand.nextInt(m_numberOfDimensions);
 
     Eigen::MatrixXd newPositions = m_particles;
-    newPositions(pRand, dRand) = m_particles(pRand, dRand) + (rand.nextDouble() - 0.5) * m_stepLength;
+    newPositions(pRand, dRand) = m_particles(pRand, dRand) + 2*(rand.nextDouble() - 0.5) * m_stepLength;
+
+    //std::cout << m_particles << std::endl;
+    //std::cout << " " << std::endl;
 
     double psiOld = evaluateWaveFunction(m_particles);
     double psiNew = evaluateWaveFunction(newPositions);
 
-    double w = (psiNew * psiNew)/(psiOld * psiOld);
-    if(w > rand.nextDouble()) {
+    double w = psiNew/psiOld;
+    double r = rand.nextDouble();
+
+    //std::cout << w * w << std::endl;
+    //std::cout << r << std::endl;
+    //std::cout << " " << std::endl;
+
+    if(w * w > r) {
         m_particles(pRand, dRand) = newPositions(pRand, dRand);
         return true;
     }

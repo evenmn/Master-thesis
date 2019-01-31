@@ -20,7 +20,7 @@ using namespace std;
 int main() {
     int numberOfDimensions  = 2;
     int numberOfParticles   = 2;
-    int numberOfSteps       = int(1e7);
+    int numberOfSteps       = int(1e6);
     double omega            = 1.0;          // Oscillator frequency.
     double alpha            = 1.0;          // Variational parameter.
     double beta             = 1.0;          // Variational parameter.
@@ -33,9 +33,9 @@ int main() {
 
     System* system = new System();
     std::vector<class WaveFunction*> WaveFunctionElements;
-    WaveFunctionElements.reserve(2);
+    WaveFunctionElements.reserve(1);
     WaveFunctionElements.push_back(new class SimpleGaussian(system, alpha));
-    WaveFunctionElements.push_back(new class PadeJastrow(system, beta, Gamma));
+    //WaveFunctionElements.push_back(new class PadeJastrow(system, beta, Gamma));
     system->setHamiltonian              (new HarmonicOscillator(system, omega, numberOfParticles, numberOfDimensions, interaction));
     system->setWaveFunction             (WaveFunctionElements);
     system->setInitialState             (new RandomNormal(system, numberOfDimensions, numberOfParticles));

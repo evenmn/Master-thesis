@@ -38,11 +38,25 @@ double HarmonicOscillator::computeLocalEnergy(Eigen::MatrixXd particles) {
         r(i) = sqrt(sqrtElementWise);
     }
 
+
+    Eigen::MatrixXd R = Eigen::MatrixXd::Zero(m_numberOfParticles, m_numberOfParticles);
+    for(int i=0; i<m_numberOfParticles; i++) {
+        for(int j=0; j<i; j++) {
+            double sqrtElementWise = 0;
+            for(int d=0; d<m_numberOfDimensions; d++) {
+                double numb = particles(i,d) - particles(j,d);
+                sqrtElementWise += numb * numb;
+            }
+            R(i,j) = sqrt(sqrtElementWise);
+        }
+    }
+
+
     double interactionEnergy = 0;
     if(m_interaction) {
         for(int i=0; i<m_numberOfParticles; i++) {
             for(int j=0; j<i; j++) {
-                interactionEnergy += 1/fabs(r(i) - r(j));
+                interactionEnergy += 1/R(i,j);
             }
         }
     }
