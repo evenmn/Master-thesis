@@ -36,12 +36,12 @@ int main() {
 
     System* system = new System();
     std::vector<class WaveFunction*> WaveFunctionElements;
-    WaveFunctionElements.push_back(new class SimpleGaussian(system, parameters, 0));
-    WaveFunctionElements.push_back(new class PadeJastrow(system, parameters, 1));
-    system->setHamiltonian              (new HarmonicOscillator(system, omega, numberOfParticles, numberOfDimensions, interaction));
+    WaveFunctionElements.push_back(new class SimpleGaussian(system, 0));
+    WaveFunctionElements.push_back(new class PadeJastrow(system, 1));
+    system->setHamiltonian              (new HarmonicOscillator(system, omega, interaction));
     system->setWaveFunction             (WaveFunctionElements);
     system->setInitialState             (new RandomNormal(system, numberOfDimensions, numberOfParticles));
-    system->setInitialWeights           (new Ones(system, numberOfDimensions, numberOfParticles));
+    system->setInitialWeights           (new Ones(system, WaveFunctionElements.size()));
     system->setOptimizer                (new GradientDescent(system));
     system->setEquilibrationFraction    (equilibration);
     system->setStepLength               (stepLength);

@@ -1,0 +1,4 @@
+#ifndef INITIALWEIGHTS_H
+#define INITIALWEIGHTS_H
+
+#endif // INITIALWEIGHTS_H

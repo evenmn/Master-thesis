@@ -19,7 +19,9 @@ SOURCES += main.cpp \
     WaveFunctions/hydrogenorbital.cpp \
     Hamiltonians/atomicnucleus.cpp \
     WaveFunctions/padejastrow.cpp \
-    Math/random2.cpp
+    Math/random2.cpp \
+    InitialWeights/initialweights.cpp \
+    InitialWeights/ones.cpp
 
 HEADERS += \
     system.h \
@@ -37,5 +39,7 @@ HEADERS += \
     WaveFunctions/hydrogenorbital.h \
     Hamiltonians/atomicnucleus.h \
     WaveFunctions/padejastrow.h \
-    Math/random2.h
+    Math/random2.h \
+    InitialWeights/initialweights.h \
+    InitialWeights/ones.h
 

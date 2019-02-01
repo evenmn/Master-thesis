@@ -7,7 +7,7 @@
 using std::cout;
 using std::endl;
 
-HarmonicOscillator::HarmonicOscillator(System* system, double omega, int numberOfParticles, int numberOfDimensions, bool interaction) :
+HarmonicOscillator::HarmonicOscillator(System* system, double omega, bool interaction) :
         Hamiltonian(system) {
     assert(omega > 0);
     m_omega                 = omega;
