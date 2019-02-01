@@ -2,13 +2,14 @@
 #include <cassert>
 #include "wavefunction.h"
 #include "../system.h"
+#include <iostream>
 
 PadeJastrow::PadeJastrow(System* system, double beta, Eigen::MatrixXd Gamma) :
         WaveFunction(m_system) {
     assert(beta >= 0);
     m_numberOfParameters = 1;
-    m_parameters.reserve(1);
-    m_parameters.push_back(beta);
+    //m_parameters.push_back(beta);
+
     m_Gamma = Gamma;
     m_beta = beta;
 }
@@ -52,6 +53,7 @@ double PadeJastrow::evaluate(Eigen::MatrixXd particles) {
             PadeJastrowFactor += m_Gamma(i,j) * R(i,j)/(1 + m_beta * R(i,j));
         }
     }
+    std::cout << "PJ" << std::endl;
 
     return exp(PadeJastrowFactor);
 }

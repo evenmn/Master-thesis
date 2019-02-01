@@ -29,6 +29,9 @@ bool System::metropolisStep() {
     double psiOld = evaluateWaveFunction(m_particles);
     double psiNew = evaluateWaveFunction(newPositions);
 
+    //std::cout << psiOld << std::endl;
+    //std::cout << psiNew << std::endl;
+
     double w = psiNew/psiOld;
     double r = rand.nextDouble();
 
@@ -107,9 +110,9 @@ void System::setOptimizer(Optimization* optimization) {
 }
 
 double System::evaluateWaveFunction(const Eigen::MatrixXd &particles) {
-    double WF = 0;
+    double WF = 1;
     for(unsigned i = 0; i < m_waveFunctionVector.size(); i++) {
-        WF += m_waveFunctionVector[i]->evaluate(particles);
+        WF *= m_waveFunctionVector[i]->evaluate(particles);
     }
     return WF;
 }
@@ -127,4 +130,8 @@ double System::getKineticEnergy(const Eigen::MatrixXd &particles) {
         KineticEnergy += NablaLnPsi * NablaLnPsi;
     }
     return -0.5 * KineticEnergy;
+}
+
+double System::getGradient(const Eigen::MatrixXd &particles) {
+    return 0;
 }

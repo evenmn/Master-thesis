@@ -7,4 +7,6 @@ public:
     double evaluate(Eigen::MatrixXd particles);
     double computeDerivative(Eigen::MatrixXd particles);
     double computeEnergyDerivative(Eigen::MatrixXd particles);
+private:
+    double m_beta = 0;
 };

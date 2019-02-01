@@ -23,17 +23,17 @@ int main() {
     int numberOfSteps       = int(1e6);
     double omega            = 1.0;          // Oscillator frequency.
     double alpha            = 1.0;          // Variational parameter.
-    double beta             = 1.0;          // Variational parameter.
+    double beta             = 2.0;          // Variational parameter.
     double stepLength       = 0.1;          // Metropolis step length.
     bool interaction        = true;
     double equilibration    = 0.0;          // Amount of the total steps used
     // for equilibration.
     
     Eigen::MatrixXd Gamma   = Eigen::MatrixXd::Ones(numberOfParticles, numberOfParticles);
+    //Eigen::MatrixXd parameters = Eigen::MatrixXd::Ones(2, 2*numberOfParticles*numberOfParticles);
 
     System* system = new System();
     std::vector<class WaveFunction*> WaveFunctionElements;
-    //WaveFunctionElements.reserve(2);
     WaveFunctionElements.push_back(new class SimpleGaussian(system, alpha));
     WaveFunctionElements.push_back(new class PadeJastrow(system, beta, Gamma));
     system->setHamiltonian              (new HarmonicOscillator(system, omega, numberOfParticles, numberOfDimensions, interaction));

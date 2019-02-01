@@ -16,6 +16,7 @@ public:
     void setOptimizer               (class Optimization* optimization);
     double evaluateWaveFunction     (const Eigen::MatrixXd &particles);
     double getKineticEnergy         (const Eigen::MatrixXd &particles);
+    double getGradient              (const Eigen::MatrixXd &particles);
     class WaveFunction*                          getWaveFunction()   { return m_waveFunction; }
     class Hamiltonian*                           getHamiltonian()    { return m_hamiltonian; }
     class Sampler*                               getSampler()        { return m_sampler; }

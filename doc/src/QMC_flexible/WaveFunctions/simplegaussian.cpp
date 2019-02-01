@@ -9,8 +9,8 @@ SimpleGaussian::SimpleGaussian(System* system, double alpha) :
     assert(alpha >= 0);
     m_alpha = alpha;
     m_numberOfParameters = 1;
-    m_parameters.reserve(1);
-    m_parameters.push_back(alpha);
+    m_parameters = Eigen::VectorXd::Zero(m_numberOfParameters);
+    //m_parameters.push_back(alpha);
 }
 
 double SimpleGaussian::evaluate(Eigen::MatrixXd particles) {
@@ -32,6 +32,8 @@ double SimpleGaussian::evaluate(Eigen::MatrixXd particles) {
         }
         r(i) = sqrt(sqrdElementWise);
     }
+
+    //std::cout << "Simple" << std::endl;
 
     return exp(-0.5 * m_alpha * (r.cwiseAbs2()).sum());
 }
