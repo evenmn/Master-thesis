@@ -55,12 +55,13 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps) {
     m_numberOfMetropolisSteps   = numberOfMetropolisSteps;
     m_sampler->setNumberOfMetropolisSteps(numberOfMetropolisSteps);
 
+    std::cout << getNumberOfDimensions() << std::endl;
+
     int iterations = 1;
 
     for (int iter = 0; iter < iterations; iter++) {
         for (int i=0; i < numberOfMetropolisSteps; i++) {
             bool acceptedStep = metropolisStep();
-
             /* Here you should sample the energy (and maybe other things using
              * the m_sampler instance of the Sampler class. Make sure, though,
              * to only begin sampling after you have let the system equilibrate
@@ -95,6 +96,10 @@ void System::setEquilibrationFraction(double equilibrationFraction) {
     m_equilibrationFraction = equilibrationFraction;
 }
 
+void System::setInteraction(bool interaction) {
+    m_interaction = interaction;
+}
+
 void System::setHamiltonian(Hamiltonian* hamiltonian) {
     m_hamiltonian = hamiltonian;
 }
@@ -115,7 +120,7 @@ void System::setOptimizer(Optimization* optimization) {
     m_optimizer = optimization;
 }
 
-double System::evaluateWaveFunction(const Eigen::MatrixXd &particles) {
+double System::evaluateWaveFunction(Eigen::MatrixXd particles) {
     double WF = 1;
     for(unsigned i = 0; i < m_waveFunctionVector.size(); i++) {
         WF *= m_waveFunctionVector[i]->evaluate(particles);
@@ -123,21 +128,21 @@ double System::evaluateWaveFunction(const Eigen::MatrixXd &particles) {
     return WF;
 }
 
-double System::getKineticEnergy(const Eigen::MatrixXd &particles) {
+double System::getKineticEnergy() {
     double KineticEnergy = 0;
     for(unsigned i = 0; i < m_waveFunctionVector.size(); i++) {
-        KineticEnergy += m_waveFunctionVector[i]->computeSecondDerivative(particles);
+        KineticEnergy += m_waveFunctionVector[i]->computeSecondDerivative();
     }
     for(int k = 0; k < m_numberOfParticles; k++) {
         double NablaLnPsi = 0;
         for(unsigned i = 0; i < m_waveFunctionVector.size(); i++) {
-            NablaLnPsi += m_waveFunctionVector[i]->computeFirstDerivative(particles, k);
+            NablaLnPsi += m_waveFunctionVector[i]->computeFirstDerivative(k);
         }
         KineticEnergy += NablaLnPsi * NablaLnPsi;
     }
     return -0.5 * KineticEnergy;
 }
 
-double System::getGradient(const Eigen::MatrixXd &particles) {
+double System::getGradient() {
     return 0;
 }

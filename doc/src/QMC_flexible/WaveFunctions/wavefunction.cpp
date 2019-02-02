@@ -1,7 +1,7 @@
 #include "wavefunction.h"
 #include <iostream>
 
-WaveFunction::WaveFunction(std::vector<System *> system) {
+WaveFunction::WaveFunction(System * system) {
     m_system = system;
 }
 

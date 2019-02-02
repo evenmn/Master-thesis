@@ -7,15 +7,17 @@
 using std::cout;
 using std::endl;
 
-AtomicNucleus::AtomicNucleus(System* system, double omega, int numberOfParticles, int numberOfDimensions) :
+AtomicNucleus::AtomicNucleus(System* system, int Z) :
         Hamiltonian(system) {
-    assert(omega > 0);
-    m_omega  = omega;
-    m_numberOfParticles = numberOfParticles;
-    m_numberOfDimensions = numberOfDimensions;
+    assert(Z > 0);
+    m_Z                     = Z;
+    m_numberOfParticles     = m_system->getNumberOfParticles();
+    m_numberOfDimensions    = m_system->getNumberOfDimensions();
+    m_interaction           = m_system->getInteraction();
+    m_particles             = m_system->getParticles();
 }
 
-double AtomicNucleus::computeLocalEnergy(Eigen::MatrixXd particles) {
+double AtomicNucleus::computeLocalEnergy() {
     /* Here, you need to compute the kinetic and potential energies. Note that
      * when using numerical differentiation, the computation of the kinetic
      * energy becomes the same for all Hamiltonians, and thus the code for
@@ -33,19 +35,35 @@ double AtomicNucleus::computeLocalEnergy(Eigen::MatrixXd particles) {
     for(int i=0; i<m_numberOfParticles; i++) {
         double sqrtElementWise = 0;
         for(int j=0; j<m_numberOfDimensions; j++) {
-            sqrtElementWise += particles(i,j) * particles(i,j);
+            sqrtElementWise += m_particles(i,j) * m_particles(i,j);
         }
         r(i) = sqrt(sqrtElementWise);
         r_inv(i) = 1/r(i);
     }
 
-    double interactionEnergy = 0;
+    Eigen::MatrixXd R = Eigen::MatrixXd::Zero(m_numberOfParticles, m_numberOfParticles);
     for(int i=0; i<m_numberOfParticles; i++) {
         for(int j=0; j<i; j++) {
-            interactionEnergy += 1/fabs(r(i) - r(j));
+            double sqrtElementWise = 0;
+            for(int d=0; d<m_numberOfDimensions; d++) {
+                double numb = m_particles(i,d) - m_particles(j,d);
+                sqrtElementWise += numb * numb;
+            }
+            R(i,j) = sqrt(sqrtElementWise);
         }
     }
-    double externalEnergy = -0.5 * m_numberOfParticles * r_inv.sum();
-    double kineticEnergy  = 0; //m_system->getWaveFunction()->computeSecondDerivative(particles);
-    return -0.5 * kineticEnergy + externalEnergy + interactionEnergy;
+
+    double interactionEnergy = 0;
+    if(m_interaction) {
+        for(int i=0; i<m_numberOfParticles; i++) {
+            for(int j=0; j<i; j++) {
+                interactionEnergy += 1/R(i,j);
+            }
+        }
+    }
+
+    double externalEnergy = -0.5 * m_Z * r_inv.sum();
+    double kineticEnergy  = m_system->getKineticEnergy();
+
+    return kineticEnergy + externalEnergy + interactionEnergy;
 }

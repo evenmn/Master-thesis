@@ -1,8 +1,8 @@
 #pragma once
 #include "initialweights.h"
 
-class Ones : public InitialState {
+class Ones : public InitialWeights {
 public:
-    Ones(System* system, int numberOfElements);
-    void setupInitialState();
+    Ones(System* system, unsigned numberOfElements);
+    void setupInitialWeights();
 };

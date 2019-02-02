@@ -1,5 +1,3 @@
-#include <Eigen/Dense>
-#include <vector>
 #include "system.h"
 #include "WaveFunctions/wavefunction.h"
 #include "WaveFunctions/simplegaussian.h"
@@ -18,32 +16,27 @@
 
 using namespace std;
 
-
 int main() {
     int numberOfDimensions  = 2;
     int numberOfParticles   = 2;
     int numberOfSteps       = int(1e6);
     double omega            = 1.0;          // Oscillator frequency.
-    //double alpha            = 1.0;          // Variational parameter.
-    //double beta             = 2.0;          // Variational parameter.
     double stepLength       = 0.1;          // Metropolis step length.
-    bool interaction        = true;
     double equilibration    = 0.0;          // Amount of the total steps used
-    // for equilibration.
-    
-    //Eigen::MatrixXd Gamma   = Eigen::MatrixXd::Ones(numberOfParticles, numberOfParticles);
-    //Eigen::MatrixXd parameters = Eigen::MatrixXd::Ones(2, 2*numberOfParticles*numberOfParticles);
+    bool interaction        = true;
 
     System* system = new System();
     std::vector<class WaveFunction*> WaveFunctionElements;
     WaveFunctionElements.push_back(new class SimpleGaussian(system, 0));
     WaveFunctionElements.push_back(new class PadeJastrow(system, 1));
-    system->setHamiltonian              (new HarmonicOscillator(system, omega, interaction));
+
     system->setWaveFunction             (WaveFunctionElements);
     system->setInitialState             (new RandomNormal(system, numberOfDimensions, numberOfParticles));
     system->setInitialWeights           (new Ones(system, WaveFunctionElements.size()));
+    system->setHamiltonian              (new HarmonicOscillator(system, omega));
     system->setOptimizer                (new GradientDescent(system));
     system->setEquilibrationFraction    (equilibration);
+    system->setInteraction              (interaction);
     system->setStepLength               (stepLength);
     system->runMetropolisSteps          (numberOfSteps);
     return 0;

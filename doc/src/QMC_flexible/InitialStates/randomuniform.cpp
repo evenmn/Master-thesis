@@ -29,6 +29,6 @@ void RandomUniform::setupInitialState() {
         for (int j=0; j < m_numberOfDimensions; j++) {
             positions(i,j) = rand.nextDouble();
         }
-        m_particles = positions;
     }
+    m_particles = positions;
 }

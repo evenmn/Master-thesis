@@ -38,9 +38,10 @@ void Sampler::sample(bool acceptedStep, int stepNumber) {
      */
 
     Eigen::MatrixXd particles = m_system->getParticles();
+    Eigen::MatrixXd parameters = m_system->getWeights();
 
     double grad = m_system->getOptimizer()->gradient(particles);
-    double EL = m_system->getHamiltonian()->computeLocalEnergy(particles);
+    double EL = m_system->getHamiltonian()->computeLocalEnergy();
 
     m_cumulativeEnergy  += EL;
     m_dE += grad;

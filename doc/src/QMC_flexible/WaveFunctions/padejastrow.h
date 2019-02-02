@@ -3,14 +3,13 @@
 
 class PadeJastrow : public WaveFunction {
 public:
-    PadeJastrow(class System* system, double beta, Eigen::MatrixXd Gamma);
+    PadeJastrow(class System* system, int elementNumber);
     double evaluate(Eigen::MatrixXd particles);
-    double computeFirstDerivative(Eigen::MatrixXd particles, int k);
-    double computeSecondDerivative(Eigen::MatrixXd particles);
-    double computeFirstEnergyDerivative(Eigen::MatrixXd particles);
-    double computeSecondEnergyDerivative(Eigen::MatrixXd particles);
+    double computeFirstDerivative(int k);
+    double computeSecondDerivative();
+    double computeFirstEnergyDerivative();
+    double computeSecondEnergyDerivative();
 
 private:
-    Eigen::MatrixXd m_Gamma;
-    double m_beta = 0;
+    int m_elementNumber = 1;
 };

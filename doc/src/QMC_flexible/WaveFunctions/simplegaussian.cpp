@@ -1,15 +1,20 @@
 #include "simplegaussian.h"
 #include <cassert>
 #include <iostream>
-#include "wavefunction.h"
+//#include "wavefunction.h"
 #include "../system.h"
 
-SimpleGaussian::SimpleGaussian(System* system, int elementNumber) :
-        WaveFunction(m_system) {
-    m_parameters = m_system->getWeights();
+SimpleGaussian::SimpleGaussian(System* system,
+                               int elementNumber) :
+        WaveFunction(system) {
+    m_elementNumber      = elementNumber;
+    m_numberOfParticles  = m_system->getNumberOfParticles();
+    m_numberOfDimensions = m_system->getNumberOfDimensions();
 }
 
 double SimpleGaussian::evaluate(Eigen::MatrixXd particles) {
+    m_particles          = m_system->getParticles();
+    m_parameters         = m_system->getWeights();
     /* You need to implement a Gaussian wave function here. The positions of
      * the particles are accessible through the particle[i].getPosition()
      * function.
@@ -18,8 +23,6 @@ double SimpleGaussian::evaluate(Eigen::MatrixXd particles) {
      * (only) variational parameter.
      */
 
-    long m_numberOfParticles = particles.rows();
-    long m_numberOfDimensions = particles.cols();
     Eigen::VectorXd r = Eigen::VectorXd::Zero(m_numberOfParticles);
     for(int i=0; i<m_numberOfParticles; i++) {
         double sqrdElementWise = 0;
@@ -28,46 +31,48 @@ double SimpleGaussian::evaluate(Eigen::MatrixXd particles) {
         }
         r(i) = sqrt(sqrdElementWise);
     }
-
-    //std::cout << "Simple" << std::endl;
-
-    return exp(-0.5 * m_alpha * (r.cwiseAbs2()).sum());
+    return exp(-0.5 * m_parameters(m_elementNumber, 0) * (r.cwiseAbs2()).sum());
 }
 
-double SimpleGaussian::computeFirstDerivative(Eigen::MatrixXd particles, int k) {
+double SimpleGaussian::computeFirstDerivative(int k) {
+    m_particles          = m_system->getParticles();
+    m_parameters         = m_system->getWeights();
     // Calculating the kinetic energy term, -0.5 * laplacian
-    long m_numberOfParticles = particles.rows();
-    long m_numberOfDimensions = particles.cols();
+    std::cout << m_numberOfParticles << std::endl;
     Eigen::VectorXd r = Eigen::VectorXd::Zero(m_numberOfParticles);
     for(int i=0; i<m_numberOfParticles; i++) {
         double sqrtElementWise = 0;
         for(int j=0; j<m_numberOfDimensions; j++) {
-            sqrtElementWise += particles(i,j) * particles(i,j);
+            sqrtElementWise += m_particles(i,j) * m_particles(i,j);
         }
         r(i) = sqrt(sqrtElementWise);
     }
 
-    return -m_alpha * r(k);
+    return -m_parameters(m_elementNumber, 0) * r(k);
 }
 
-double SimpleGaussian::computeSecondDerivative(Eigen::MatrixXd particles) {
-    return -m_alpha * particles.rows() * particles.cols();
+double SimpleGaussian::computeSecondDerivative() {
+    m_particles          = m_system->getParticles();
+    m_parameters         = m_system->getWeights();
+    return -m_parameters(m_elementNumber, 0) * m_numberOfParticles * m_numberOfDimensions;
 }
 
-double SimpleGaussian::computeFirstEnergyDerivative(Eigen::MatrixXd particles) {
-    long m_numberOfParticles = particles.rows();
-    long m_numberOfDimensions = particles.cols();
+double SimpleGaussian::computeFirstEnergyDerivative() {
+    m_particles          = m_system->getParticles();
+    m_parameters         = m_system->getWeights();
     Eigen::VectorXd r = Eigen::VectorXd::Zero(m_numberOfParticles);
     for(int i=0; i<m_numberOfParticles; i++) {
         double sqrtElementWise = 0;
         for(int j=0; j<m_numberOfDimensions; j++) {
-            sqrtElementWise += particles(i,j) * particles(i,j);
+            sqrtElementWise += m_particles(i,j) * m_particles(i,j);
         }
         r(i) = sqrt(sqrtElementWise);
     }
-    return 0.5 * m_numberOfParticles * m_numberOfDimensions -m_alpha * r.sum() * r.sum();
+    return 0.5 * m_numberOfParticles * m_numberOfDimensions - m_parameters(m_elementNumber, 0) * r.sum() * r.sum();
 }
 
-double SimpleGaussian::computeSecondEnergyDerivative(Eigen::MatrixXd particles) {
-    return 0.5 * particles.rows() * particles.cols();
+double SimpleGaussian::computeSecondEnergyDerivative() {
+    m_particles          = m_system->getParticles();
+    m_parameters         = m_system->getWeights();
+    return 0.5 * m_numberOfParticles * m_numberOfDimensions;
 }

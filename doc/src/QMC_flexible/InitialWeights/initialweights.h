@@ -4,7 +4,7 @@
 class InitialWeights {
 public:
     InitialWeights(class System* system);
-    virtual void setupInitialState() = 0;
+    virtual void setupInitialWeights() = 0;
     Eigen::MatrixXd getWeights() { return m_parameters; }
 
     virtual ~InitialWeights() = 0;
@@ -16,4 +16,3 @@ protected:
     unsigned    m_numberOfElements      = 0;
     Eigen::MatrixXd m_parameters;
 };
-

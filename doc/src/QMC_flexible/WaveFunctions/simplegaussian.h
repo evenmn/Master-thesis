@@ -3,12 +3,12 @@
 
 class SimpleGaussian : public WaveFunction {
 public:
-    SimpleGaussian(class System* system, double alpha);
+    SimpleGaussian(class System* system, int elementNumber);
     double evaluate(Eigen::MatrixXd particles);
-    double computeFirstDerivative(Eigen::MatrixXd particles, int k);
-    double computeSecondDerivative(Eigen::MatrixXd particles);
-    double computeFirstEnergyDerivative(Eigen::MatrixXd particles);
-    double computeSecondEnergyDerivative(Eigen::MatrixXd particles);
+    double computeFirstDerivative(int k);
+    double computeSecondDerivative();
+    double computeFirstEnergyDerivative();
+    double computeSecondEnergyDerivative();
 private:
-    double m_alpha = 0;
+    int m_elementNumber = 0;
 };
