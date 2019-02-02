@@ -4,13 +4,9 @@
 #include "wavefunction.h"
 #include "../system.h"
 
-SimpleGaussian::SimpleGaussian(System* system, double alpha) :
+SimpleGaussian::SimpleGaussian(System* system, int elementNumber) :
         WaveFunction(m_system) {
-    assert(alpha >= 0);
-    m_alpha = alpha;
-    m_numberOfParameters = 1;
-    m_parameters = Eigen::VectorXd::Zero(m_numberOfParameters);
-    //m_parameters.push_back(alpha);
+    m_parameters = m_system->getWeights();
 }
 
 double SimpleGaussian::evaluate(Eigen::MatrixXd particles) {

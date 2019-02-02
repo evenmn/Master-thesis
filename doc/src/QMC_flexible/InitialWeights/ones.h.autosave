@@ -4,5 +4,5 @@
 class Ones : public InitialWeights {
 public:
     Ones(System* system, unsigned numberOfElements);
-    void setupInitialState();
+    void setupInitialWeights();
 };

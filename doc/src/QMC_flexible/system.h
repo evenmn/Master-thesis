@@ -13,6 +13,7 @@ public:
     void setHamiltonian             (class Hamiltonian* hamiltonian);
     void setWaveFunction            (std::vector<class WaveFunction*> waveFunctionVector);
     void setInitialState            (class InitialState* initialState);
+    void setInitialWeights          (class InitialWeights* initialWeights);
     void setOptimizer               (class Optimization* optimization);
     double evaluateWaveFunction     (const Eigen::MatrixXd &particles);
     double getKineticEnergy         (const Eigen::MatrixXd &particles);

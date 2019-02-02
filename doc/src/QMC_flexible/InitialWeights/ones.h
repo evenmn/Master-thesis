@@ -1,4 +1,8 @@
-#ifndef ONES_H
-#define ONES_H
+#pragma once
+#include "initialweights.h"
 
-#endif // ONES_H
+class Ones : public InitialState {
+public:
+    Ones(System* system, int numberOfElements);
+    void setupInitialState();
+};
