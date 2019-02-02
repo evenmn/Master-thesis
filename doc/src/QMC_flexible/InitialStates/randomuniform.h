@@ -3,7 +3,7 @@
 
 class RandomUniform : public InitialState {
 public:
-    RandomUniform(System* system, int numberOfDimensions, int numberOfParticles);
+    RandomUniform(System* system);
     void setupInitialState();
 };
 

@@ -5,7 +5,7 @@
 
 class HarmonicOscillator : public Hamiltonian {
 public:
-    HarmonicOscillator(System* system, double omega);
+    HarmonicOscillator(System* system);
     double computeLocalEnergy();
 
 private:

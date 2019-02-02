@@ -4,15 +4,10 @@
 #include "Math/random.h"
 #include "../system.h"
 
-RandomNormal::RandomNormal(System*    system,
-                             int        numberOfDimensions,
-                             int        numberOfParticles)  :
+RandomNormal::RandomNormal(System*    system)  :
         InitialState(system) {
-    assert(numberOfDimensions > 0 && numberOfParticles > 0);
-    m_numberOfDimensions = numberOfDimensions;
-    m_numberOfParticles  = numberOfParticles;
-    m_system->setNumberOfDimensions(numberOfDimensions);
-    m_system->setNumberOfParticles(numberOfParticles);
+    m_numberOfDimensions = m_system->getNumberOfDimensions();
+    m_numberOfParticles  = m_system->getNumberOfParticles();
     setupInitialState();
 }
 

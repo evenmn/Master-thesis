@@ -10,6 +10,7 @@ public:
     void setNumberOfDimensions      (int numberOfDimensions);
     void setStepLength              (double stepLength);
     void setEquilibrationFraction   (double equilibrationFraction);
+    void setFrequency               (double omega);
     void setInteraction             (bool interaction);
     void setHamiltonian             (class Hamiltonian* hamiltonian);
     void setInitialState            (class InitialState* initialState);
@@ -27,6 +28,7 @@ public:
     int                     getNumberOfDimensions()      { return m_numberOfDimensions; }
     int                     getNumberOfMetropolisSteps() { return m_numberOfMetropolisSteps; }
     double                  getEquilibrationFraction()   { return m_equilibrationFraction; }
+    double                  getFrequency()               { return m_omega; }
     bool                    getInteraction()             { return m_interaction; }
 
     double evaluateWaveFunction     (Eigen::MatrixXd particles);
@@ -40,6 +42,7 @@ private:
     bool                                m_interaction               = false;
     double                              m_equilibrationFraction     = 0.0;
     double                              m_stepLength                = 0.1;
+    double                              m_omega                     = 1.0;
     class WaveFunction*                 m_waveFunction              = nullptr;
     class Hamiltonian*                  m_hamiltonian               = nullptr;
     class InitialState*                 m_initialState              = nullptr;

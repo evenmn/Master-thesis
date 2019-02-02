@@ -3,6 +3,6 @@
 
 class RandomNormal : public InitialState {
 public:
-    RandomNormal(System* system, int numberOfDimensions, int numberOfParticles);
+    RandomNormal(System* system);
     void setupInitialState();
 };

@@ -7,14 +7,13 @@
 using std::cout;
 using std::endl;
 
-HarmonicOscillator::HarmonicOscillator(System* system, double omega) :
+HarmonicOscillator::HarmonicOscillator(System* system) :
         Hamiltonian(system) {
-    assert(omega > 0);
-    m_omega                 = omega;
+    m_omega                 = m_system->getFrequency();
+    assert(m_omega > 0);
     m_numberOfParticles     = m_system->getNumberOfParticles();
     m_numberOfDimensions    = m_system->getNumberOfDimensions();
     m_interaction           = m_system->getInteraction();
-    m_particles             = m_system->getParticles();
 }
 
 double HarmonicOscillator::computeLocalEnergy() {
@@ -28,15 +27,13 @@ double HarmonicOscillator::computeLocalEnergy() {
      * m_system->getWaveFunction()...
      */
 
-    std::cout << m_particles << std::endl;
+    m_particles             = m_system->getParticles();
 
     Eigen::VectorXd r = Eigen::VectorXd::Zero(m_numberOfParticles);
     for(int i=0; i<m_numberOfParticles; i++) {
         double sqrtElementWise = 0;
         for(int j=0; j<m_numberOfDimensions; j++) {
-            std::cout << "gkgkgk" << std::endl;
             sqrtElementWise += m_particles(i,j) * m_particles(i,j);
-            std::cout << "gkgkgk" << std::endl;
         }
         r(i) = sqrt(sqrtElementWise);
     }
@@ -62,6 +59,7 @@ double HarmonicOscillator::computeLocalEnergy() {
         }
     }
 
+
     double externalEnergy = 0.5 * m_omega * m_omega * (r.cwiseAbs2()).sum();
     double kineticEnergy  = m_system->getKineticEnergy();
 
@@ -71,6 +69,7 @@ double HarmonicOscillator::computeLocalEnergy() {
     std::cout << interactionEnergy << std::endl;
     std::cout << " " << std::endl;
     */
+
 
     return kineticEnergy + externalEnergy + interactionEnergy;
 }

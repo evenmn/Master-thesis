@@ -4,21 +4,16 @@
 #include "Math/random.h"
 #include "../system.h"
 
-RandomUniform::RandomUniform(System*    system,
-                             int        numberOfDimensions,
-                             int        numberOfParticles)  :
+RandomUniform::RandomUniform(System*    system)  :
         InitialState(system) {
-    assert(numberOfDimensions > 0 && numberOfParticles > 0);
-    m_numberOfDimensions = numberOfDimensions;
-    m_numberOfParticles  = numberOfParticles;
+    m_numberOfDimensions = m_system->getNumberOfDimensions();
+    m_numberOfParticles  = m_system->getNumberOfParticles();
 
     /* The Initial State class is in charge of everything to do with the
      * initialization of the system; this includes determining the number of
      * particles and the number of dimensions used. To make sure everything
      * works as intended, this information is passed to the system here.
      */
-    m_system->setNumberOfDimensions(numberOfDimensions);
-    m_system->setNumberOfParticles(numberOfParticles);
     setupInitialState();
 }
 

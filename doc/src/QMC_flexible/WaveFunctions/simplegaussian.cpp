@@ -37,8 +37,6 @@ double SimpleGaussian::evaluate(Eigen::MatrixXd particles) {
 double SimpleGaussian::computeFirstDerivative(int k) {
     m_particles          = m_system->getParticles();
     m_parameters         = m_system->getWeights();
-    // Calculating the kinetic energy term, -0.5 * laplacian
-    std::cout << m_numberOfParticles << std::endl;
     Eigen::VectorXd r = Eigen::VectorXd::Zero(m_numberOfParticles);
     for(int i=0; i<m_numberOfParticles; i++) {
         double sqrtElementWise = 0;

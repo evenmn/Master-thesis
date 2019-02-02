@@ -55,8 +55,6 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps) {
     m_numberOfMetropolisSteps   = numberOfMetropolisSteps;
     m_sampler->setNumberOfMetropolisSteps(numberOfMetropolisSteps);
 
-    std::cout << getNumberOfDimensions() << std::endl;
-
     int iterations = 1;
 
     for (int iter = 0; iter < iterations; iter++) {
@@ -79,10 +77,12 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps) {
 }
 
 void System::setNumberOfParticles(int numberOfParticles) {
+    assert(numberOfParticles >= 0);
     m_numberOfParticles = numberOfParticles;
 }
 
 void System::setNumberOfDimensions(int numberOfDimensions) {
+    assert(numberOfDimensions >= 0);
     m_numberOfDimensions = numberOfDimensions;
 }
 
@@ -98,6 +98,11 @@ void System::setEquilibrationFraction(double equilibrationFraction) {
 
 void System::setInteraction(bool interaction) {
     m_interaction = interaction;
+}
+
+void System::setFrequency(double omega) {
+    assert(omega >= 0);
+    m_omega = omega;
 }
 
 void System::setHamiltonian(Hamiltonian* hamiltonian) {
