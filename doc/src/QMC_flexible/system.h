@@ -22,18 +22,24 @@ public:
     class Hamiltonian*      getHamiltonian()             { return m_hamiltonian; }
     class Sampler*          getSampler()                 { return m_sampler; }
     class Optimization*     getOptimizer()               { return m_optimizer; }
-    Eigen::MatrixXd         getParticles()               { return m_particles; }
-    Eigen::MatrixXd         getWeights()                 { return m_parameters; }
     int                     getNumberOfParticles()       { return m_numberOfParticles; }
     int                     getNumberOfDimensions()      { return m_numberOfDimensions; }
     int                     getNumberOfMetropolisSteps() { return m_numberOfMetropolisSteps; }
     double                  getEquilibrationFraction()   { return m_equilibrationFraction; }
     double                  getFrequency()               { return m_omega; }
     bool                    getInteraction()             { return m_interaction; }
+    Eigen::MatrixXd         getParticles()               { return m_particles; }
+    Eigen::MatrixXd         getWeights()                 { return m_parameters; }
+    Eigen::MatrixXd         getDistanceMatrix()          { return m_distanceMatrix; }
+    Eigen::VectorXd         getRadialVector()            { return m_radialVector; }
 
-    double evaluateWaveFunction     (Eigen::MatrixXd particles);
+    double evaluateWaveFunction     (Eigen::MatrixXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
+    double evaluateWaveFunctionSqrd (Eigen::MatrixXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
     double getKineticEnergy         ();
-    double getGradient              ();
+    void getGradient                (class WaveFunction* waveFunction, Eigen::VectorXd &TotalGradients);
+    void updateGradient             ();
+    void calculateRadialVector      (Eigen::MatrixXd particles, Eigen::VectorXd &radialVector);
+    void calculateDistanceMatrix    (Eigen::MatrixXd particles, Eigen::MatrixXd &distanceMatrix);
 
 private:
     int                                 m_numberOfParticles         = 0;
@@ -52,5 +58,7 @@ private:
     std::vector<class WaveFunction*>    m_waveFunctionVector;
     Eigen::MatrixXd                     m_particles;
     Eigen::MatrixXd                     m_parameters;
+    Eigen::MatrixXd                     m_distanceMatrix;
+    Eigen::VectorXd                     m_radialVector;
 };
 

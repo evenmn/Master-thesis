@@ -129,7 +129,13 @@ The Coulomb potential gives a cusp when two charged particles approach each othe
 To go further, we need to define a basis set, $\phi_n(\bs{r})$ which should be chosen carefully based on the system. 
 
 \subsection{Jastrow factor} \label{subsubsec:jastrow}
-Often we add a Jastrow factor to improve the flexibility of the wave function. The Slater determinant itself is usually not able to capture interaction properties, so by multiplying with another function, we might get a better estimate. 
+The Jastrow factor is introduced in order to capture interaction properties, ...
+
+We will use the Padé-Jastrow factor, which can be expressed as
+\begin{equation}
+J(\bs{r}; \beta, \gamma) = \exp\bigg(\sum_{i=1}^N\sum_{j=1}^i\frac{\beta(i,j)r_{ij}}{1+\gamma r_{ij}}\bigg)
+\end{equation}
+which gets small when $r_{ij}$ gets small. If we recall that the probability distribution is given by the wave function squared, we see that the Padé-Jastrow factor gives a lower probability of finding particles close to each other, which is what we want.  
 
 
 

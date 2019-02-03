@@ -36,9 +36,9 @@ int main() {
     std::vector<class WaveFunction*> WaveFunctionElements;
     WaveFunctionElements.push_back(new class SimpleGaussian(system, 0));
     WaveFunctionElements.push_back(new class PadeJastrow(system, 1));
-    system->setWaveFunction             (WaveFunctionElements);
     system->setInitialState             (new RandomNormal(system));
     system->setInitialWeights           (new Ones(system, WaveFunctionElements.size()));
+    system->setWaveFunction             (WaveFunctionElements);
     system->setHamiltonian              (new HarmonicOscillator(system));
     system->setOptimizer                (new GradientDescent(system));
     system->runMetropolisSteps          (numberOfSteps);

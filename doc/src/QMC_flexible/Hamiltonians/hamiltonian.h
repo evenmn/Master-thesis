@@ -10,6 +10,8 @@ public:
 protected:
     class System* m_system = nullptr;
     Eigen::MatrixXd m_particles;
+    Eigen::VectorXd m_radialVector;
+    Eigen::MatrixXd m_distanceMatrix;
     Eigen::MatrixXd m_parameters;
     int m_numberOfParticles = 0;
     int m_numberOfDimensions = 0;
