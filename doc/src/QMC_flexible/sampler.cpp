@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cmath>
-#include <vector>
+#include <fstream>
+#include <string>
 #include "sampler.h"
 #include "system.h"
 #include "Hamiltonians/hamiltonian.h"
@@ -25,7 +26,7 @@ void Sampler::setNumberOfMetropolisSteps(int steps) {
 
 void Sampler::sample(bool acceptedStep, int stepNumber) {
     // Make sure the sampling variable(s) are initialized at the first step.
-    if (stepNumber == 0) {
+    if (stepNumber == int(m_numberOfMetropolisSteps * m_system->getEquilibrationFraction())) {
         m_acceptenceRatio = 0;
         m_cumulativeEnergy = 0;
         int maxNumberOfParametersPerElement = m_numberOfParticles * m_numberOfParticles + m_numberOfParticles;
@@ -33,17 +34,7 @@ void Sampler::sample(bool acceptedStep, int stepNumber) {
         m_dEE = Eigen::MatrixXd::Zero(2, maxNumberOfParametersPerElement);
         m_SqrdE = 0;
     }
-
-    //cout << m_cumulativeEnergy/stepNumber << endl;
-
-    /* Here you should sample all the interesting things you want to measure.
-     * Note that there are (way) more than the single one here currently.
-     */
-
-    //Eigen::MatrixXd particles = m_system->getParticles();
-    //Eigen::MatrixXd parameters = m_system->getWeights();
-
-    //double grad = m_system->getOptimizer()->gradient(particles);
+    m_stepNumber = stepNumber;
 
     int maxNumberOfParametersPerElement = m_numberOfParticles * m_numberOfParticles + m_numberOfParticles;
     Eigen::MatrixXd gradients = Eigen::MatrixXd::Zero(2, maxNumberOfParametersPerElement);
@@ -97,4 +88,8 @@ void Sampler::computeAverages(Eigen::MatrixXd &gradients) {
 void Sampler::getEnergyGradient(double EL_avg, Eigen::MatrixXd grad_tot, Eigen::MatrixXd gradE_tot, Eigen::MatrixXd &gradients) {
     double eta = m_system->getLearningRate();
     gradients = 2 * eta * (gradE_tot - EL_avg * grad_tot)/m_system->getNumberOfMetropolisSteps();
+}
+
+void Sampler::printEnergyToFile(std::ostream energy) {
+    energy << m_energy << "\n";
 }

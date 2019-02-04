@@ -1,5 +1,6 @@
 #pragma once
 #include <Eigen/Dense>
+#include <fstream>
 
 class Sampler {
 public:
@@ -7,6 +8,7 @@ public:
     void setNumberOfMetropolisSteps(int steps);
     void sample(bool acceptedStep, int stepNumber);
     void printOutputToTerminal();
+    void printEnergyToFile(std::ostream energy);
     void computeAverages(Eigen::MatrixXd &gradients);
     double getEnergy()          { return m_energy; }
     void getEnergyGradient(double EL_avg, Eigen::MatrixXd grad_tot, Eigen::MatrixXd gradE_tot, Eigen::MatrixXd &gradients);

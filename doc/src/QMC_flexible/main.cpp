@@ -1,6 +1,7 @@
 #include "system.h"
 #include "WaveFunctions/wavefunction.h"
 #include "WaveFunctions/simplegaussian.h"
+#include "WaveFunctions/mlgaussian.h"
 #include "WaveFunctions/hydrogenorbital.h"
 #include "WaveFunctions/padejastrow.h"
 #include "Hamiltonians/hamiltonian.h"
@@ -20,12 +21,13 @@ using namespace std;
 int main() {
     int     numberOfDimensions  = 2;
     int     numberOfParticles   = 2;
-    int     numberOfSteps       = int(1e7);
-    int     numberOfIterations  = 20;
+    int     numberOfSteps       = int(1e6);
+    int     numberOfIterations  = 100;
     double  eta                 = 0.01;         // Learning rate
     double  omega               = 1.0;          // Oscillator frequency
+    double  sigma               = 1.0;          // Width of probability distribution
     double  stepLength          = 0.1;          // Metropolis step length
-    double  equilibration       = 0.0;          // Amount of the total steps used
+    double  equilibration       = 0.1;          // Amount of the total steps used
     bool    interaction         = true;
 
     System* system = new System();
@@ -33,6 +35,7 @@ int main() {
     system->setInteraction              (interaction);
     system->setStepLength               (stepLength);
     system->setFrequency                (omega);
+    system->setWidth                    (sigma);
     system->setLearningRate             (eta);
     system->setNumberOfParticles        (numberOfParticles);
     system->setNumberOfDimensions       (numberOfDimensions);

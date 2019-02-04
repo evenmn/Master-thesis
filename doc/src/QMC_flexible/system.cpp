@@ -1,5 +1,4 @@
 #include "system.h"
-#include <cassert>
 #include "sampler.h"
 #include "WaveFunctions/wavefunction.h"
 #include "Hamiltonians/hamiltonian.h"
@@ -7,7 +6,11 @@
 #include "InitialWeights/initialweights.h"
 //#include "Optimization/optimization.h"
 #include "Math/random2.h"
+
 #include <iostream>
+#include <fstream>
+#include <cassert>
+#include <string>
 
 bool System::metropolisStep() {
     /* Perform the actual Metropolis step: Choose a particle at random and
@@ -54,6 +57,12 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps, int numberOfIterati
     m_numberOfMetropolisSteps   = numberOfMetropolisSteps;
     m_sampler->setNumberOfMetropolisSteps(numberOfMetropolisSteps);
 
+    std::string path = "../../data/";        //Path to data folder
+    std::string energy_filename = generate_filename("Energy", ".dat");
+
+    std::ofstream energy;
+    energy.open(path + energy_filename);                    //Open energy file based on parameters
+
     for (int iter = 0; iter < numberOfIterations; iter++) {
         for (int i=0; i < numberOfMetropolisSteps; i++) {
             bool acceptedStep = metropolisStep();
@@ -72,8 +81,10 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps, int numberOfIterati
         Eigen::MatrixXd gradients = Eigen::MatrixXd::Zero(2, maxNumberOfParametersPerElement);
         m_sampler->computeAverages(gradients);
         m_sampler->printOutputToTerminal();
+        energy << m_sampler->getEnergy() << "\n";
         m_parameters -= gradients;
     }
+    if(energy.is_open())  energy.close();
 }
 
 void System::setNumberOfParticles(int numberOfParticles) {
@@ -101,13 +112,18 @@ void System::setInteraction(bool interaction) {
 }
 
 void System::setFrequency(double omega) {
-    assert(omega >= 0);
+    assert(omega > 0);
     m_omega = omega;
 }
 
 void System::setLearningRate(double eta) {
-    assert(eta >= 0);
+    assert(eta > 0);
     m_eta = eta;
+}
+
+void System::setWidth(double sigma) {
+    assert(sigma > 0);
+    m_sigma = sigma;
 }
 
 void System::setHamiltonian(Hamiltonian* hamiltonian) {
@@ -212,4 +228,8 @@ void System::calculateDistanceMatrix(Eigen::MatrixXd particles, Eigen::MatrixXd 
             distanceMatrix(i,j) = sqrt(sqrtElementWise);
         }
     }
+}
+
+std::string System::generate_filename(std::string name, std::string extension) {
+    return name + extension;
 }

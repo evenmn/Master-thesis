@@ -1,7 +1,6 @@
 #include "simplegaussian.h"
 #include <cassert>
 #include <iostream>
-//#include "wavefunction.h"
 #include "../system.h"
 
 SimpleGaussian::SimpleGaussian(System* system,

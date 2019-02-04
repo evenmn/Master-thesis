@@ -20,7 +20,8 @@ SOURCES += main.cpp \
     Math/random2.cpp \
     InitialWeights/initialweights.cpp \
     InitialWeights/ones.cpp \
-    InitialWeights/randomize.cpp
+    InitialWeights/randomize.cpp \
+    WaveFunctions/mlgaussian.cpp
 
 HEADERS += \
     system.h \
@@ -39,5 +40,6 @@ HEADERS += \
     Math/random2.h \
     InitialWeights/initialweights.h \
     InitialWeights/ones.h \
-    InitialWeights/randomize.h
+    InitialWeights/randomize.h \
+    WaveFunctions/mlgaussian.h
 
