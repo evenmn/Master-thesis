@@ -3,6 +3,6 @@
 
 class Ones : public InitialWeights {
 public:
-    Ones(System* system, unsigned numberOfElements);
+    Ones(System* system, int numberOfElements);
     void setupInitialWeights();
 };

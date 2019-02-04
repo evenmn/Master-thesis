@@ -4,7 +4,7 @@
 class Optimization {
 public:
     Optimization(class System* system);
-    virtual double gradient(Eigen::MatrixXd particles) = 0;
+    virtual void getEnergyGradient(double EL_avg, Eigen::MatrixXd grad_tot, Eigen::MatrixXd gradE_tot, Eigen::MatrixXd &gradients);
     /*int     getNumberOfParameters() { return m_numberOfParameters; }
     std::vector<double> getParameters() { return m_parameters; }
     virtual double evaluate(Eigen::MatrixXd particles) = 0;

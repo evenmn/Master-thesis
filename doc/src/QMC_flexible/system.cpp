@@ -5,7 +5,7 @@
 #include "Hamiltonians/hamiltonian.h"
 #include "InitialStates/initialstate.h"
 #include "InitialWeights/initialweights.h"
-#include "Optimization/optimization.h"
+//#include "Optimization/optimization.h"
 #include "Math/random2.h"
 #include <iostream>
 
@@ -21,8 +21,8 @@ bool System::metropolisStep() {
     int pRand = rand.nextInt(m_numberOfParticles);
     int dRand = rand.nextInt(m_numberOfDimensions);
 
-    Eigen::MatrixXd newPositions = m_particles;
-    Eigen::VectorXd newRadialVector = m_radialVector;
+    Eigen::MatrixXd newPositions      = m_particles;
+    Eigen::VectorXd newRadialVector   = m_radialVector;
     Eigen::MatrixXd newDistanceMatrix = m_distanceMatrix;
 
     newPositions(pRand, dRand) = m_particles(pRand, dRand) + (rand.nextDouble() - 0.5) * m_stepLength;
@@ -30,33 +30,22 @@ bool System::metropolisStep() {
     calculateRadialVector(newPositions, newRadialVector);
     calculateDistanceMatrix(newPositions, newDistanceMatrix);
 
-    //std::cout << m_particles << std::endl;
-    //std::cout << " " << std::endl;
-
     double psiOld = evaluateWaveFunctionSqrd(m_particles, m_radialVector, m_distanceMatrix);
     double psiNew = evaluateWaveFunctionSqrd(newPositions, newRadialVector, newDistanceMatrix);
-
-    //std::cout << psiOld << std::endl;
-    //std::cout << psiNew << std::endl;
 
     double w = psiNew/psiOld;
     double r = rand.nextDouble();
 
-    //std::cout << w * w << std::endl;
-    //std::cout << r << std::endl;
-    //std::cout << " " << std::endl;
-
     if(w > r) {
         m_particles(pRand, dRand) = newPositions(pRand, dRand);
-        m_radialVector = newRadialVector;
-        m_distanceMatrix = newDistanceMatrix;
+        m_radialVector            = newRadialVector;
+        m_distanceMatrix          = newDistanceMatrix;
         return true;
     }
-
     return false;
 }
 
-void System::runMetropolisSteps(int numberOfMetropolisSteps) {
+void System::runMetropolisSteps(int numberOfMetropolisSteps, int numberOfIterations) {
     m_particles                 = m_initialState->getParticles();
     m_radialVector              = m_initialState->getRadialVector();
     m_distanceMatrix            = m_initialState->getDistanceMatrix();
@@ -65,9 +54,7 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps) {
     m_numberOfMetropolisSteps   = numberOfMetropolisSteps;
     m_sampler->setNumberOfMetropolisSteps(numberOfMetropolisSteps);
 
-    int iterations = 1;
-
-    for (int iter = 0; iter < iterations; iter++) {
+    for (int iter = 0; iter < numberOfIterations; iter++) {
         for (int i=0; i < numberOfMetropolisSteps; i++) {
             bool acceptedStep = metropolisStep();
             /* Here you should sample the energy (and maybe other things using
@@ -81,8 +68,11 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps) {
                 m_sampler->sample(acceptedStep, i);
             }
         }
-        m_sampler->computeAverages();
+        int maxNumberOfParametersPerElement = m_numberOfParticles * m_numberOfParticles + m_numberOfParticles;
+        Eigen::MatrixXd gradients = Eigen::MatrixXd::Zero(2, maxNumberOfParametersPerElement);
+        m_sampler->computeAverages(gradients);
         m_sampler->printOutputToTerminal();
+        m_parameters -= gradients;
     }
 }
 
@@ -115,6 +105,11 @@ void System::setFrequency(double omega) {
     m_omega = omega;
 }
 
+void System::setLearningRate(double eta) {
+    assert(eta >= 0);
+    m_eta = eta;
+}
+
 void System::setHamiltonian(Hamiltonian* hamiltonian) {
     m_hamiltonian = hamiltonian;
 }
@@ -131,8 +126,13 @@ void System::setInitialWeights(InitialWeights* initialWeights) {
     m_initialWeights = initialWeights;
 }
 
-void System::setOptimizer(Optimization* optimization) {
-    m_optimizer = optimization;
+//void System::setOptimizer(Optimization* optimizer) {
+//    m_optimizer = optimizer;
+//}
+
+void System::setGradients() {
+    int maxNumberOfParametersPerElement = m_numberOfParticles*m_numberOfParticles + m_numberOfParticles;
+    m_gradients = Eigen::MatrixXd(m_waveFunctionVector.size(), maxNumberOfParametersPerElement);
 }
 
 double System::evaluateWaveFunction(Eigen::MatrixXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
@@ -177,11 +177,17 @@ void System::getGradient(WaveFunction* waveFunction, Eigen::VectorXd &TotalGradi
     }
 }
 
-void System::updateGradient() {
+void System::updateParameters(Eigen::MatrixXd &gradients) {
+
+    /* Can surely do this in a better way, do not even make use of m_gradients
+     * other than declaring it in the header.
+     */
+
     int maxNumberOfParametersPerElement = m_numberOfParticles*m_numberOfParticles + m_numberOfParticles;
     for(unsigned i = 0; i < m_waveFunctionVector.size(); i++) {
         Eigen::VectorXd TotalGradients = Eigen::VectorXd::Zero(maxNumberOfParametersPerElement);
         getGradient(m_waveFunctionVector[i], TotalGradients);
+        gradients.row(i) += TotalGradients;
     }
 }
 

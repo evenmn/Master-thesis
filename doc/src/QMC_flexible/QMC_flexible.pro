@@ -14,14 +14,13 @@ SOURCES += main.cpp \
     sampler.cpp \
     WaveFunctions/simplegaussian.cpp \
     InitialStates/randomnormal.cpp \
-    Optimization/optimization.cpp \
-    Optimization/gradientdescent.cpp \
     WaveFunctions/hydrogenorbital.cpp \
     Hamiltonians/atomicnucleus.cpp \
     WaveFunctions/padejastrow.cpp \
     Math/random2.cpp \
     InitialWeights/initialweights.cpp \
-    InitialWeights/ones.cpp
+    InitialWeights/ones.cpp \
+    InitialWeights/randomize.cpp
 
 HEADERS += \
     system.h \
@@ -34,12 +33,11 @@ HEADERS += \
     sampler.h \
     WaveFunctions/simplegaussian.h \
     InitialStates/randomnormal.h \
-    Optimization/optimization.h \
-    Optimization/gradientdescent.h \
     WaveFunctions/hydrogenorbital.h \
     Hamiltonians/atomicnucleus.h \
     WaveFunctions/padejastrow.h \
     Math/random2.h \
     InitialWeights/initialweights.h \
-    InitialWeights/ones.h
+    InitialWeights/ones.h \
+    InitialWeights/randomize.h
 

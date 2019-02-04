@@ -4,9 +4,7 @@
 #include "Math/random.h"
 #include "../system.h"
 
-Ones::Ones(System*    system,
-                             unsigned numberOfElements)  :
-        InitialWeights(system) {
+Ones::Ones(System* system, int numberOfElements)  :  InitialWeights(system) {
     m_numberOfDimensions = m_system->getNumberOfDimensions();
     m_numberOfParticles  = m_system->getNumberOfParticles();
     m_numberOfElements   = numberOfElements;

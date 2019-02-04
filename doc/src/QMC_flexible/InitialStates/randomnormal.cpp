@@ -21,7 +21,7 @@ void RandomNormal::setupInitialState() {
     }
     m_particles = positions;
 
-    m_radialVector = Eigen::VectorXd::Zero(m_numberOfParticles);
+    m_radialVector   = Eigen::VectorXd::Zero(m_numberOfParticles);
     m_distanceMatrix = Eigen::MatrixXd::Zero(m_numberOfParticles, m_numberOfParticles);
 
     m_system->calculateRadialVector(m_particles, m_radialVector);

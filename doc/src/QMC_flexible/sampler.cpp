@@ -5,7 +5,7 @@
 #include "system.h"
 #include "Hamiltonians/hamiltonian.h"
 #include "WaveFunctions/wavefunction.h"
-#include "Optimization/optimization.h"
+//#include "Optimization/optimization.h"
 
 using std::cout;
 using std::endl;
@@ -13,8 +13,10 @@ using std::endl;
 
 Sampler::Sampler(System* system) {
     m_system = system;
-    m_stepNumber = 0;
-    m_acceptenceRatio = 0;
+    m_stepNumber         = 0;
+    m_acceptenceRatio    = 0;
+    m_numberOfParticles  = m_system->getNumberOfParticles();
+    m_numberOfDimensions = m_system->getNumberOfDimensions();
 }
 
 void Sampler::setNumberOfMetropolisSteps(int steps) {
@@ -26,8 +28,9 @@ void Sampler::sample(bool acceptedStep, int stepNumber) {
     if (stepNumber == 0) {
         m_acceptenceRatio = 0;
         m_cumulativeEnergy = 0;
-        m_dE = 0;
-        m_dEE = 0;
+        int maxNumberOfParametersPerElement = m_numberOfParticles * m_numberOfParticles + m_numberOfParticles;
+        m_dE = Eigen::MatrixXd::Zero(2, maxNumberOfParametersPerElement);
+        m_dEE = Eigen::MatrixXd::Zero(2, maxNumberOfParametersPerElement);
         m_SqrdE = 0;
     }
 
@@ -37,15 +40,20 @@ void Sampler::sample(bool acceptedStep, int stepNumber) {
      * Note that there are (way) more than the single one here currently.
      */
 
-    Eigen::MatrixXd particles = m_system->getParticles();
-    Eigen::MatrixXd parameters = m_system->getWeights();
+    //Eigen::MatrixXd particles = m_system->getParticles();
+    //Eigen::MatrixXd parameters = m_system->getWeights();
 
-    double grad = m_system->getOptimizer()->gradient(particles);
+    //double grad = m_system->getOptimizer()->gradient(particles);
+
+    int maxNumberOfParametersPerElement = m_numberOfParticles * m_numberOfParticles + m_numberOfParticles;
+    Eigen::MatrixXd gradients = Eigen::MatrixXd::Zero(2, maxNumberOfParametersPerElement);
+
     double EL = m_system->getHamiltonian()->computeLocalEnergy();
+    m_system->updateParameters(gradients);
 
     m_cumulativeEnergy  += EL;
-    m_dE += grad;
-    m_dEE += grad * EL;
+    m_dE += gradients;
+    m_dEE += gradients * EL;
     m_SqrdE += EL * EL;
 
     if(acceptedStep) { m_acceptenceRatio += 1; }
@@ -53,8 +61,6 @@ void Sampler::sample(bool acceptedStep, int stepNumber) {
 }
 
 void Sampler::printOutputToTerminal() {
-    int     np = m_system->getNumberOfParticles();
-    int     nd = m_system->getNumberOfDimensions();
     int     ms = m_system->getNumberOfMetropolisSteps();
     int     p  = 1; //m_system->getWaveFunction()->getNumberOfParameters();
     double  ef = m_system->getEquilibrationFraction();
@@ -62,8 +68,8 @@ void Sampler::printOutputToTerminal() {
 
     cout << endl;
     cout << "  -- System info -- " << endl;
-    cout << " Number of particles  : " << np << endl;
-    cout << " Number of dimensions : " << nd << endl;
+    cout << " Number of particles  : " << m_numberOfParticles << endl;
+    cout << " Number of dimensions : " << m_numberOfDimensions << endl;
     cout << " Number of Metropolis steps run : 10^" << std::log10(ms) << endl;
     cout << " Number of equilibration steps  : 10^" << std::log10(std::round(ms*ef)) << endl;
     cout << endl;
@@ -80,9 +86,15 @@ void Sampler::printOutputToTerminal() {
     cout << endl;
 }
 
-void Sampler::computeAverages() {
+void Sampler::computeAverages(Eigen::MatrixXd &gradients) {
     /* Compute the averages of the sampled quantities. You need to think
      * thoroughly through what is written here currently; is this correct?
      */
     m_energy = m_cumulativeEnergy / ((1 - m_system->getEquilibrationFraction()) * m_system->getNumberOfMetropolisSteps());
+    getEnergyGradient(m_energy, m_dE, m_dEE, gradients);
+}
+
+void Sampler::getEnergyGradient(double EL_avg, Eigen::MatrixXd grad_tot, Eigen::MatrixXd gradE_tot, Eigen::MatrixXd &gradients) {
+    double eta = m_system->getLearningRate();
+    gradients = 2 * eta * (gradE_tot - EL_avg * grad_tot)/m_system->getNumberOfMetropolisSteps();
 }

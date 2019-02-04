@@ -17,7 +17,7 @@ double PadeJastrow::evaluate(Eigen::MatrixXd particles, Eigen::VectorXd radialVe
     double PadeJastrowFactor = 0;
     for(int i=0; i<m_numberOfParticles; i++) {
         for(int j=0; j<i; j++) {
-            int l = m_numberOfParticles*i + j + 1;      // Stack Gamma matrix
+            int l = m_numberOfParticles * i + j + 1;      // Stack Gamma matrix
             PadeJastrowFactor += m_parameters(m_elementNumber, l) * distanceMatrix(i,j)/(1 + m_parameters(m_elementNumber, 0) * distanceMatrix(i,j));
         }
     }
@@ -29,11 +29,11 @@ double PadeJastrow::evaluateSqrd(Eigen::MatrixXd particles, Eigen::VectorXd radi
     double PadeJastrowFactor = 0;
     for(int i=0; i<m_numberOfParticles; i++) {
         for(int j=0; j<i; j++) {
-            int l = m_numberOfParticles*i + j + 1;      // Stack Gamma matrix
+            int l = m_numberOfParticles * i + j + 1;      // Stack Gamma matrix
             PadeJastrowFactor += m_parameters(m_elementNumber, l) * distanceMatrix(i,j)/(1 + m_parameters(m_elementNumber, 0) * distanceMatrix(i,j));
         }
     }
-    return exp(2*PadeJastrowFactor);
+    return exp(2 * PadeJastrowFactor);
 }
 
 double PadeJastrow::computeFirstDerivative(int k) {
@@ -42,8 +42,8 @@ double PadeJastrow::computeFirstDerivative(int k) {
     double derivative = 0;
     for(int j=0; j<k; j++) {
         double f = 1/(1 + m_parameters(m_elementNumber, 0) * m_distanceMatrix(k,j));
-        int l = m_numberOfParticles*k + j + 1;      // Stack Gamma matrix
-        derivative+= m_parameters(m_elementNumber, l) * f * f;
+        int l = m_numberOfParticles * k + j + 1;      // Stack Beta matrix
+        derivative += m_parameters(m_elementNumber, l) * f * f;
     }
     return derivative;
 }
@@ -56,7 +56,7 @@ double PadeJastrow::computeSecondDerivative() {
     for(int i=0; i<m_numberOfParticles; i++) {
         for(int j=0; j<i; j++) {
             double f = 1/(1 + m_parameters(m_elementNumber, 0) * m_distanceMatrix(i,j));
-            int l = m_numberOfParticles*i + j + 1;      // Stack Gamma matrix
+            int l = m_numberOfParticles * i + j + 1;      // Stack Beta matrix
             derivative += m_parameters(m_elementNumber, l) * f * f * (1/m_radialVector(i) - m_parameters(m_elementNumber, 0) * f);
         }
     }
@@ -64,19 +64,48 @@ double PadeJastrow::computeSecondDerivative() {
 }
 
 void PadeJastrow::computeFirstEnergyDerivative(Eigen::VectorXd &gradients, int k) {
-    m_particles          = m_system->getParticles();
+    m_distanceMatrix     = m_system->getDistanceMatrix();
     m_parameters         = m_system->getWeights();
-    Eigen::VectorXd r = Eigen::VectorXd::Zero(m_numberOfParticles);
-    for(int i=0; i<m_numberOfParticles; i++) {
-        double sqrtElementWise = 0;
-        for(int j=0; j<m_numberOfDimensions; j++) {
-            sqrtElementWise += m_particles(i,j) * m_particles(i,j);
-        }
-        r(i) = sqrt(sqrtElementWise);
+
+    //Update gamma
+    double derivative = 0;
+    for(int j=0; j<k; j++) {
+        double f = 1/(1 + m_parameters(m_elementNumber, 0) * m_distanceMatrix(k,j));
+        int l = m_numberOfParticles * k + j + 1;      // Stack Beta matrix
+        derivative -= m_parameters(m_elementNumber, l) * m_distanceMatrix(k,j) * f * f * f;
     }
-    gradients(0) = 0.5 * double(r.transpose()*r);
+    gradients(0) = - derivative;
+
+    //Update Beta matrix
+    for(int j=0; j<k; j++) {
+        double f = 1/(1 + m_parameters(m_elementNumber, 0) * m_distanceMatrix(k,j));
+        int l = m_numberOfParticles * k + j + 1;      // Stack Beta matrix
+        gradients(l) = - 0.5 * f * f;
+    }
 }
 
 void PadeJastrow::computeSecondEnergyDerivative(Eigen::VectorXd &gradients) {
+    m_distanceMatrix     = m_system->getDistanceMatrix();
+    m_radialVector       = m_system->getRadialVector();
+    m_parameters         = m_system->getWeights();
 
+    //Update gamma
+    double derivative = 0;
+    for(int i=0; i<m_numberOfParticles; i++) {
+        for(int j=0; j<i; j++) {
+            double f = 1/(1 + m_parameters(m_elementNumber, 0) * m_distanceMatrix(i,j));
+            int l = m_numberOfParticles * i + j + 1;      // Stack Beta matrix
+            derivative -= m_parameters(m_elementNumber, l) * m_distanceMatrix(i,j) * f * f * f * (1 / m_distanceMatrix(i,j) + 2 / m_radialVector(i) -3 * m_parameters(m_elementNumber, 0) * f);
+        }
+    }
+    gradients(0) = - derivative;
+
+    //Update Beta matrix
+    for(int i=0; i < m_numberOfParticles; i++) {
+        for(int j=0; j<i; j++) {
+            double f = 1/(1 + m_parameters(m_elementNumber, 0) * m_distanceMatrix(i,j));
+            int l = m_numberOfParticles * i + j + 1;      // Stack Beta matrix
+            gradients(l) = - f * f * (1/m_radialVector(i) - m_parameters(m_elementNumber, 0) * f);
+        }
+    }
 }

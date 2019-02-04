@@ -64,6 +64,46 @@ and
 \end{equation}
 respectively.
 
+\subsection{Padé-Jastrow Factor}
+The Padé-Jastrow factor is introduced in order to take care of the correlations. It is specified in equation \eqref{eq:PadeJastrow}, 
+\begin{equation}
+J(\bs{r}; \beta, \gamma) = \exp\bigg(\sum_{i=1}^N\sum_{j=1}^i\frac{\beta(i,j)r_{ij}}{1+\gamma r_{ij}}\bigg)
+\end{equation},
+which gives the first and second derivatives
+\begin{equation}
+\nabla_k\ln J=\sum_{j=1}^k\bigg(\frac{\beta_{kj}}{(1+\gamma r_{kj})^2}\bigg)
+\end{equation}
+and
+\begin{equation}
+\nabla_k^2\ln J=\sum_{j=1}^k\bigg(\frac{\beta_{kj}}{(1+\gamma r_{kj})^2}\bigg[\frac{1}{r_k}-\frac{\gamma}{1+\gamma r_{kj}}\bigg]\bigg)
+\end{equation}
+respectively. 
+
+The derivative of those again, with respect to the parameters $\gamma$ and $\beta_{kl}$ are
+\begin{equation}
+\partial_{\gamma}\nabla_k\ln J = -2 \sum_{j=1}^k\bigg(\frac{\beta_{kj}}{(1+\gamma r_{kj})^3}\bigg)
+\end{equation}
+
+\begin{equation}
+\partial_{\gamma}\nabla_k^2\ln J = -2 \sum_{j=1}^k\bigg(\frac{\beta_{kj}}{(1+\gamma r_{kj})^3}\bigg[\frac{1}{r_{kj}} + \frac{2}{r_k} - \frac{3\gamma}{1+\gamma r_{kj}}\bigg]\bigg)
+\end{equation}
+
+\begin{equation}
+\partial_{\beta_{kl}} \nabla_k\ln J = \frac{1}{(1+\gamma r_{kl})^2}
+\end{equation}
+
+\begin{equation}
+\partial_{\beta_{kl}} \nabla_k^2\ln J = \frac{2}{(1+\gamma r_{kl})^2}\bigg[\frac{1}{r_l} - \frac{\gamma}{1+\gamma r_{kl}}\bigg]
+\end{equation}
+
+\subsection{Slater Determinant}
+We need to introduce the Slater Determinant to study more fermions. 
+
+\subsection{NQS-Gaussian}
+Now over to the real deal; the machine learning inspired wave function elements. 
+
+\subsection{NQS-Jastrow Factor}
+
 \subsection{Hydrogen-Like Orbitals}
 \begin{equation}
 \Psi(\alpha, \bs{r})=\exp\Big[-\frac{1}{2}\alpha\sum_{i=1}^Nr_i\Big]
@@ -85,14 +125,3 @@ and
 \partial_{\alpha} \nabla_k^2\ln\Psi(\alpha)=0
 \end{equation}
 respectively.  
-
-\subsection{Padé-Jastrow Factor}
-The Padé-Jastrow factor is introduced in order to take care of the correlations. 
-
-\subsection{Slater Determinant}
-We need to introduce the Slater Determinant to study more fermions. 
-
-\subsection{NQS-Gaussian}
-Now over to the real deal; the machine learning inspired wave function elements. 
-
-\subsection{NQS-Jastrow Factor}

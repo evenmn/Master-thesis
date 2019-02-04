@@ -11,5 +11,6 @@ public:
     void computeFirstEnergyDerivative(Eigen::VectorXd &gradients, int k);
     void computeSecondEnergyDerivative(Eigen::VectorXd &gradients);
 private:
-    int m_elementNumber = 0;
+    int     m_elementNumber = 0;
+    double  m_omega         = 0;
 };
