@@ -21,26 +21,23 @@ bool System::metropolisStep() {
 
     Random2 rand;
 
-    int pRand = rand.nextInt(m_numberOfParticles);
-    int dRand = rand.nextInt(m_numberOfDimensions);
+    int pRand = rand.nextInt(m_numberOfFreeDimensions);
 
-    Eigen::MatrixXd newPositions      = m_particles;
-    Eigen::VectorXd newRadialVector   = m_radialVector;
-    Eigen::MatrixXd newDistanceMatrix = m_distanceMatrix;
+    Eigen::VectorXd newPositions      = m_particles;
+    newPositions(pRand) = m_particles(pRand) + (rand.nextDouble() - 0.5) * m_stepLength;
 
-    newPositions(pRand, dRand) = m_particles(pRand, dRand) + (rand.nextDouble() - 0.5) * m_stepLength;
-
-    calculateRadialVector(newPositions, newRadialVector);
-    calculateDistanceMatrix(newPositions, newDistanceMatrix);
+    Eigen::VectorXd newRadialVector   = calculateRadialVector(newPositions);
+    Eigen::MatrixXd newDistanceMatrix = calculateDistanceMatrix(newPositions);
 
     double psiOld = evaluateWaveFunctionSqrd(m_particles, m_radialVector, m_distanceMatrix);
     double psiNew = evaluateWaveFunctionSqrd(newPositions, newRadialVector, newDistanceMatrix);
+
 
     double w = psiNew/psiOld;
     double r = rand.nextDouble();
 
     if(w > r) {
-        m_particles(pRand, dRand) = newPositions(pRand, dRand);
+        m_particles(pRand)        = newPositions(pRand);
         m_radialVector            = newRadialVector;
         m_distanceMatrix          = newDistanceMatrix;
         return true;
@@ -49,6 +46,7 @@ bool System::metropolisStep() {
 }
 
 void System::runMetropolisSteps(int numberOfMetropolisSteps, int numberOfIterations) {
+
     m_particles                 = m_initialState->getParticles();
     m_radialVector              = m_initialState->getRadialVector();
     m_distanceMatrix            = m_initialState->getDistanceMatrix();
@@ -56,6 +54,10 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps, int numberOfIterati
     m_sampler                   = new Sampler(this);
     m_numberOfMetropolisSteps   = numberOfMetropolisSteps;
     m_sampler->setNumberOfMetropolisSteps(numberOfMetropolisSteps);
+    //Eigen::Map<const Eigen::VectorXd> m_positions(m_particles.data(), m_particles.size());
+
+    //std::cout << m_particles << std::endl;
+    //std::cout << m_positions << std::endl;
 
     std::string path = "../../data/";        //Path to data folder
     std::string energy_filename = generate_filename("Energy", ".dat");
@@ -72,17 +74,15 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps, int numberOfIterati
              * for a while. You may handle this using the fraction of steps which
              * are equilibration steps; m_equilibrationFraction.
              */
-
             if(double(i)/m_numberOfMetropolisSteps >= m_equilibrationFraction) {
                 m_sampler->sample(acceptedStep, i);
             }
         }
-        int maxNumberOfParametersPerElement = m_numberOfParticles * m_numberOfParticles + m_numberOfParticles;
-        Eigen::MatrixXd gradients = Eigen::MatrixXd::Zero(2, maxNumberOfParametersPerElement);
-        m_sampler->computeAverages(gradients);
+
+        Eigen::MatrixXd gradients = m_sampler->computeAverages();
         m_sampler->printOutputToTerminal();
         energy << m_sampler->getEnergy() << "\n";
-        m_parameters -= gradients;
+        //m_parameters -= gradients;
     }
     if(energy.is_open())  energy.close();
 }
@@ -95,6 +95,10 @@ void System::setNumberOfParticles(int numberOfParticles) {
 void System::setNumberOfDimensions(int numberOfDimensions) {
     assert(numberOfDimensions >= 0);
     m_numberOfDimensions = numberOfDimensions;
+}
+
+void System::setNumberOfFreeDimensions() {
+    m_numberOfFreeDimensions = m_numberOfParticles * m_numberOfDimensions;
 }
 
 void System::setStepLength(double stepLength) {
@@ -151,7 +155,7 @@ void System::setGradients() {
     m_gradients = Eigen::MatrixXd(m_waveFunctionVector.size(), maxNumberOfParametersPerElement);
 }
 
-double System::evaluateWaveFunction(Eigen::MatrixXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
+double System::evaluateWaveFunction(Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
     double WF = 1;
     for(unsigned i = 0; i < m_waveFunctionVector.size(); i++) {
         WF *= m_waveFunctionVector[i]->evaluate(particles, radialVector, distanceMatrix);
@@ -159,7 +163,7 @@ double System::evaluateWaveFunction(Eigen::MatrixXd particles, Eigen::VectorXd r
     return WF;
 }
 
-double System::evaluateWaveFunctionSqrd(Eigen::MatrixXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
+double System::evaluateWaveFunctionSqrd(Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
     double WF = 1;
     for(unsigned i = 0; i < m_waveFunctionVector.size(); i++) {
         WF *= m_waveFunctionVector[i]->evaluateSqrd(particles, radialVector, distanceMatrix);
@@ -172,7 +176,7 @@ double System::getKineticEnergy() {
     for(unsigned i = 0; i < m_waveFunctionVector.size(); i++) {
         KineticEnergy += m_waveFunctionVector[i]->computeSecondDerivative();
     }
-    for(int k = 0; k < m_numberOfParticles; k++) {
+    for(int k = 0; k < m_numberOfFreeDimensions; k++) {
         double NablaLnPsi = 0;
         for(unsigned i = 0; i < m_waveFunctionVector.size(); i++) {
             NablaLnPsi += m_waveFunctionVector[i]->computeFirstDerivative(k);
@@ -187,9 +191,9 @@ void System::getGradient(WaveFunction* waveFunction, Eigen::VectorXd &TotalGradi
     Eigen::VectorXd gradients = Eigen::VectorXd::Zero(maxNumberOfParametersPerElement);
     waveFunction->computeSecondEnergyDerivative(gradients);
     TotalGradients += gradients;
-    for(int k = 0; k < m_numberOfParticles; k++) {
+    for(int k = 0; k < m_numberOfFreeDimensions; k++) {
         waveFunction->computeFirstEnergyDerivative(gradients, k);
-        TotalGradients += 2*waveFunction->computeFirstDerivative(k)*gradients;
+        TotalGradients += 2*waveFunction->computeFirstDerivative(k) * gradients;
     }
 }
 
@@ -207,27 +211,31 @@ void System::updateParameters(Eigen::MatrixXd &gradients) {
     }
 }
 
-void System::calculateRadialVector(Eigen::MatrixXd particles, Eigen::VectorXd &radialVector) {
+Eigen::VectorXd System::calculateRadialVector(Eigen::VectorXd particles) {
+    Eigen::VectorXd radialVector = Eigen::VectorXd::Zero(m_numberOfParticles);
     for(int i=0; i<m_numberOfParticles; i++) {
         double sqrtElementWise = 0;
-        for(int j=0; j<m_numberOfDimensions; j++) {
-            sqrtElementWise += particles(i,j) * particles(i,j);
+        for(int d=0; d<m_numberOfDimensions; d++) {
+            sqrtElementWise += particles(i*m_numberOfDimensions + d) * particles(i*m_numberOfDimensions + d);
         }
         radialVector(i) = sqrt(sqrtElementWise);
     }
+    return radialVector;
 }
 
-void System::calculateDistanceMatrix(Eigen::MatrixXd particles, Eigen::MatrixXd &distanceMatrix) {
+Eigen::MatrixXd System::calculateDistanceMatrix(Eigen::VectorXd particles) {
+    Eigen::MatrixXd distanceMatrix = Eigen::MatrixXd::Zero(m_numberOfParticles, m_numberOfParticles);
     for(int i=0; i<m_numberOfParticles; i++) {
         for(int j=0; j<i; j++) {
             double sqrtElementWise = 0;
             for(int d=0; d<m_numberOfDimensions; d++) {
-                double numb = particles(i,d) - particles(j,d);
+                double numb = particles(i*m_numberOfDimensions + d) - particles(j*m_numberOfDimensions + d);
                 sqrtElementWise += numb * numb;
             }
             distanceMatrix(i,j) = sqrt(sqrtElementWise);
         }
     }
+    return distanceMatrix;
 }
 
 std::string System::generate_filename(std::string name, std::string extension) {

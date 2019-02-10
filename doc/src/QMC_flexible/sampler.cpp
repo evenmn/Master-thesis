@@ -77,12 +77,15 @@ void Sampler::printOutputToTerminal() {
     cout << endl;
 }
 
-void Sampler::computeAverages(Eigen::MatrixXd &gradients) {
+Eigen::MatrixXd Sampler::computeAverages() {
     /* Compute the averages of the sampled quantities. You need to think
      * thoroughly through what is written here currently; is this correct?
      */
+    int maxNumberOfParametersPerElement = m_numberOfParticles * m_numberOfParticles + m_numberOfParticles;
+    Eigen::MatrixXd gradients = Eigen::MatrixXd::Zero(2, maxNumberOfParametersPerElement);
     m_energy = m_cumulativeEnergy / ((1 - m_system->getEquilibrationFraction()) * m_system->getNumberOfMetropolisSteps());
     getEnergyGradient(m_energy, m_dE, m_dEE, gradients);
+    return gradients;
 }
 
 void Sampler::getEnergyGradient(double EL_avg, Eigen::MatrixXd grad_tot, Eigen::MatrixXd gradE_tot, Eigen::MatrixXd &gradients) {

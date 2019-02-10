@@ -1,9 +1,11 @@
 #include "system.h"
 #include "WaveFunctions/wavefunction.h"
 #include "WaveFunctions/simplegaussian.h"
+#include "WaveFunctions/cartesiangaussian.h"
 #include "WaveFunctions/mlgaussian.h"
 #include "WaveFunctions/hydrogenorbital.h"
 #include "WaveFunctions/padejastrow.h"
+#include "WaveFunctions/padejastrowcartesian.h"
 #include "Hamiltonians/hamiltonian.h"
 #include "Hamiltonians/harmonicoscillator.h"
 #include "Hamiltonians/atomicnucleus.h"
@@ -39,10 +41,11 @@ int main() {
     system->setLearningRate             (eta);
     system->setNumberOfParticles        (numberOfParticles);
     system->setNumberOfDimensions       (numberOfDimensions);
+    system->setNumberOfFreeDimensions   ();
 
     std::vector<class WaveFunction*> WaveFunctionElements;
-    WaveFunctionElements.push_back      (new class SimpleGaussian(system, 0));
-    WaveFunctionElements.push_back      (new class PadeJastrow   (system, 1));
+    WaveFunctionElements.push_back      (new class CartesianGaussian(system, 0));
+    WaveFunctionElements.push_back      (new class PadeJastrowCartesian   (system, 1));
     system->setInitialState             (new RandomNormal(system));
     system->setInitialWeights           (new Ones(system, int(WaveFunctionElements.size())));
     system->setWaveFunction             (WaveFunctionElements);

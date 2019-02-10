@@ -21,7 +21,9 @@ SOURCES += main.cpp \
     InitialWeights/initialweights.cpp \
     InitialWeights/ones.cpp \
     InitialWeights/randomize.cpp \
-    WaveFunctions/mlgaussian.cpp
+    WaveFunctions/mlgaussian.cpp \
+    WaveFunctions/padejastrowcartesian.cpp \
+    WaveFunctions/cartesiangaussian.cpp
 
 HEADERS += \
     system.h \
@@ -41,5 +43,7 @@ HEADERS += \
     InitialWeights/initialweights.h \
     InitialWeights/ones.h \
     InitialWeights/randomize.h \
-    WaveFunctions/mlgaussian.h
+    WaveFunctions/mlgaussian.h \
+    WaveFunctions/padejastrowcartesian.h \
+    WaveFunctions/cartesiangaussian.h
 

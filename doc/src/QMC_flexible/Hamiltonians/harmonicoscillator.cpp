@@ -30,7 +30,7 @@ double HarmonicOscillator::computeLocalEnergy() {
         }
     }
 
-    double externalEnergy = 0.5 * m_omega * m_omega * (m_radialVector.cwiseAbs2()).sum();
+    double externalEnergy = 0.5 * m_omega * m_omega * (m_particles.cwiseAbs2()).sum();
     double kineticEnergy  = m_system->getKineticEnergy();
 
     /*

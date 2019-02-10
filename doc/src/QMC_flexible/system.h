@@ -9,6 +9,7 @@ public:
     void runMetropolisSteps         (int numberOfMetropolisSteps, int numberOfIterations);
     void setNumberOfParticles       (int numberOfParticles);
     void setNumberOfDimensions      (int numberOfDimensions);
+    void setNumberOfFreeDimensions  ();
     void setStepLength              (double stepLength);
     void setEquilibrationFraction   (double equilibrationFraction);
     void setFrequency               (double omega);
@@ -28,29 +29,32 @@ public:
     //class Optimization*     getOptimizer()               { return m_optimizer; }
     int                     getNumberOfParticles()       { return m_numberOfParticles; }
     int                     getNumberOfDimensions()      { return m_numberOfDimensions; }
+    int                     getNumberOfFreeDimensions()  { return m_numberOfFreeDimensions; }
     int                     getNumberOfMetropolisSteps() { return m_numberOfMetropolisSteps; }
     double                  getEquilibrationFraction()   { return m_equilibrationFraction; }
     double                  getFrequency()               { return m_omega; }
     double                  getWidth()                   { return m_sigma; }
     double                  getLearningRate()            { return m_eta; }
     bool                    getInteraction()             { return m_interaction; }
-    Eigen::MatrixXd         getParticles()               { return m_particles; }
+    Eigen::VectorXd         getParticles()               { return m_particles; }
+    Eigen::VectorXd         getPositions()               { return m_positions; }
     Eigen::MatrixXd         getWeights()                 { return m_parameters; }
     Eigen::MatrixXd         getDistanceMatrix()          { return m_distanceMatrix; }
     Eigen::VectorXd         getRadialVector()            { return m_radialVector; }
 
-    double evaluateWaveFunction     (Eigen::MatrixXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
-    double evaluateWaveFunctionSqrd (Eigen::MatrixXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
+    double evaluateWaveFunction     (Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
+    double evaluateWaveFunctionSqrd (Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
     double getKineticEnergy         ();
     void getGradient                (class WaveFunction* waveFunction, Eigen::VectorXd &TotalGradients);
     void updateParameters           (Eigen::MatrixXd &gradients);
-    void calculateRadialVector      (Eigen::MatrixXd particles, Eigen::VectorXd &radialVector);
-    void calculateDistanceMatrix    (Eigen::MatrixXd particles, Eigen::MatrixXd &distanceMatrix);
+    Eigen::VectorXd calculateRadialVector      (Eigen::VectorXd particles);
+    Eigen::MatrixXd calculateDistanceMatrix    (Eigen::VectorXd particles);
     std::string generate_filename   (std::string name, std::string extension);
 
 private:
     int                                 m_numberOfParticles         = 0;
     int                                 m_numberOfDimensions        = 0;
+    int                                 m_numberOfFreeDimensions    = 0;
     int                                 m_numberOfMetropolisSteps   = 0;
     bool                                m_interaction               = false;
     double                              m_equilibrationFraction     = 0.0;
@@ -65,7 +69,8 @@ private:
     class Sampler*                      m_sampler                   = nullptr;
     //class Optimization*                 m_optimizer                 = nullptr;
     std::vector<class WaveFunction*>    m_waveFunctionVector;
-    Eigen::MatrixXd                     m_particles;
+    Eigen::VectorXd                     m_particles;
+    Eigen::VectorXd                     m_positions;
     Eigen::MatrixXd                     m_parameters;
     Eigen::MatrixXd                     m_distanceMatrix;
     Eigen::VectorXd                     m_radialVector;
