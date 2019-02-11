@@ -33,7 +33,7 @@ int main() {
     int     numberOfDimensions  = 2;
     int     numberOfParticles   = 2;
     int     numberOfSteps       = int(1e6);
-    int     numberOfIterations  = 1000;
+    int     numberOfIterations  = 30;
     double  eta                 = 0.1;         // Learning rate
     double  omega               = 1.0;          // Oscillator frequency
     double  sigma               = 1.0;          // Width of probability distribution
@@ -55,7 +55,8 @@ int main() {
     system->setNumberOfFreeDimensions   ();
 
     std::vector<class WaveFunction*> WaveFunctionElements;
-    WaveFunctionElements.push_back      (new class CartesianGaussian      (system, 0));
+    //WaveFunctionElements.push_back      (new class CartesianGaussian      (system, 0));
+    WaveFunctionElements.push_back      (new class MLGaussian      (system, 0));
     WaveFunctionElements.push_back      (new class PadeJastrowCartesian   (system, 1));
 
     system->setNumberOfWaveFunctionElements(int(WaveFunctionElements.size()));

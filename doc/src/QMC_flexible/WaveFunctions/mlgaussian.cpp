@@ -6,38 +6,39 @@
 MLGaussian::MLGaussian(System* system,
                                int elementNumber) :
         WaveFunction(system) {
-    m_elementNumber      = elementNumber;
-    m_numberOfParticles  = m_system->getNumberOfParticles();
-    m_numberOfDimensions = m_system->getNumberOfDimensions();
-    m_omega              = m_system->getFrequency();
-    m_sigmaSqrd          = m_system->getWidth() * m_system->getWidth();
+    m_elementNumber                     = elementNumber;
+    m_numberOfFreeDimensions            = m_system->getNumberOfFreeDimensions();
+    m_maxNumberOfParametersPerElement   = m_system->getMaxNumberOfParametersPerElement();
+    m_omega                             = m_system->getFrequency();
+    double sigma                        = m_system->getWidth();
+    m_sigmaSqrd = sigma*sigma;
 }
 
-double MLGaussian::evaluate(Eigen::VectorXd particles, Eigen::MatrixXd distanceMatrix) {
+double MLGaussian::evaluate(Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
     m_parameters         = m_system->getWeights();
-    return exp(-double(m_omega * ((particles - (m_parameters.row(m_elementNumber)).head(m_numberOfParticles)).cwiseAbs2()).sum())/(2 * m_sigmaSqrd));
+    Eigen::VectorXd a    = (m_parameters.row(m_elementNumber)).head(m_numberOfFreeDimensions);
+    return exp(-double(m_omega * ((particles - a).cwiseAbs2()).sum())/(2 * m_sigmaSqrd));
 }
 
-double MLGaussian::evaluateSqrd(Eigen::VectorXd particles, Eigen::MatrixXd distanceMatrix) {
+double MLGaussian::evaluateSqrd(Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
     m_parameters         = m_system->getWeights();
-    return exp(-double(m_omega * ((particles - (m_parameters.row(m_elementNumber)).head(m_numberOfParticles)).cwiseAbs2()).sum())/m_sigmaSqrd);
+    Eigen::VectorXd a    = (m_parameters.row(m_elementNumber)).head(m_numberOfFreeDimensions);
+    return exp(-double(m_omega * ((particles - a).cwiseAbs2()).sum())/m_sigmaSqrd);
 }
 
-double MLGaussian::computeFirstDerivative(int k) {
+double MLGaussian::computeFirstDerivative(Eigen::VectorXd particles, int k) {
     m_parameters         = m_system->getWeights();
-    m_particles          = m_system->getParticles();
-    return - m_omega * (m_particles(k) - m_parameters(m_elementNumber, k))/m_sigmaSqrd;
+    return - m_omega * (particles(k) - m_parameters(m_elementNumber, k))/m_sigmaSqrd;
 }
 
 double MLGaussian::computeSecondDerivative() {;
-    return -m_omega * m_numberOfParticles/m_sigmaSqrd;
+    return - m_omega * m_numberOfFreeDimensions/m_sigmaSqrd;
 }
 
-void MLGaussian::computeFirstEnergyDerivative(Eigen::VectorXd &gradients, int k) {
-    m_radialVector       = m_system->getRadialVector();
-    gradients(0) = 0.5 * m_omega * m_radialVector(k);
+Eigen::VectorXd MLGaussian::computeFirstEnergyDerivative(int k) {
+    return - (0.5 * m_omega / m_sigmaSqrd) * Eigen::VectorXd::Ones(m_maxNumberOfParametersPerElement);
 }
 
-void MLGaussian::computeSecondEnergyDerivative(Eigen::VectorXd &gradients) {
-    gradients(0) = 0.5 * m_omega *  m_numberOfParticles * m_numberOfDimensions;
+Eigen::VectorXd MLGaussian::computeSecondEnergyDerivative() {
+    return Eigen::VectorXd::Zero(m_maxNumberOfParametersPerElement);
 }

@@ -14,106 +14,7 @@
 #include <ctime>
 #include <string>
 
-bool System::bruteForceMetropolisStep() {
-    /* Perform the actual Metropolis step: Choose a particle at random and
-     * change it's position by a random amount, and check if the step is
-     * accepted by the Metropolis test (compare the wave function evaluated
-     * at this new position with the one at the old position).
-     */
-
-    Random2 rand;
-
-    int pRand = rand.nextInt(m_numberOfFreeDimensions);
-
-    Eigen::VectorXd newPositions      = m_particles;
-    Eigen::VectorXd newRadialVector   = m_radialVector;
-    Eigen::MatrixXd newDistanceMatrix = m_distanceMatrix;
-
-    newPositions(pRand) = m_particles(pRand) + (rand.nextDouble() - 0.5) * m_stepLength;
-    //calculateDistanceMatrixCross(int(pRand/m_numberOfDimensions), newPositions, newDistanceMatrix);
-
-    newRadialVector   = calculateRadialVector(newPositions);
-    newDistanceMatrix = calculateDistanceMatrix(newPositions);
-
-    double psiOld = evaluateWaveFunctionSqrd(m_particles, m_radialVector, m_distanceMatrix);
-    double psiNew = evaluateWaveFunctionSqrd(newPositions, newRadialVector, newDistanceMatrix);
-
-    double w = psiNew/psiOld;
-    double r = rand.nextDouble();
-
-    if(w > r) {
-        m_particles(pRand)        = newPositions(pRand);
-        m_radialVector            = newRadialVector;
-        m_distanceMatrix          = newDistanceMatrix;
-        return true;
-    }
-    return false;
-}
-
-double System::QForce(const Eigen::VectorXd particles, int i) {
-    double QF = 0;
-    //std::cout << "Have fun" << std::endl;
-    for(unsigned element = 0; element < unsigned(m_numberOfWaveFunctionElements); element++) {
-        //std::cout << element << " " << i << std::endl;
-        QF += m_waveFunctionVector[element]->computeFirstDerivative(particles, i);
-        //std::cout << element << std::endl;
-    }
-    //std::cout << "Thanks" << std::endl;
-    return 2*QF;
-}
-
-double System::GreenFuncSum(const Eigen::VectorXd newPositions) {
-    double GreenSum  = 0;
-    for(int i=0; i<m_numberOfParticles; i++) {
-        double GreenFunc = 0;
-        for(int j=0; j<m_numberOfDimensions; j++) {
-            double QForceOld = QForce(m_particles, m_numberOfDimensions*i+j);
-            double QForceNew = QForce(newPositions, m_numberOfDimensions*i+j);
-            GreenFunc += 0.5*(QForceOld + QForceNew) * (0.5*m_diff*m_stepLength*(QForceOld - QForceNew)-newPositions(m_numberOfDimensions*i+j)+m_particles(m_numberOfDimensions*i+j));
-        }
-        GreenSum += exp(GreenFunc);
-    }
-    return GreenSum;
-}
-
-bool System::importanceSamplingMetropolisStep() {
-    /* Perform the actual Metropolis step: Choose a particle at random and
-     * change it's position by a random amount, and check if the step is
-     * accepted by the Metropolis test (compare the wave function evaluated
-     * at this new position with the one at the old position).
-     */
-
-    Random2 rand;
-
-    int pRand = rand.nextInt(m_numberOfFreeDimensions);
-
-    Eigen::VectorXd newPositions      = m_particles;
-    Eigen::VectorXd newRadialVector   = m_radialVector;
-    Eigen::MatrixXd newDistanceMatrix = m_distanceMatrix;
-
-    newPositions(pRand) = m_particles(pRand) + m_diff * QForce(m_particles, pRand) * 10*m_stepLength + rand.nextGaussian(0,1) * sqrt(10*m_stepLength);   //Update position                                 //Update v
-    //calculateDistanceMatrixCross(int(pRand/m_numberOfDimensions), newPositions, newDistanceMatrix);
-
-    newRadialVector   = calculateRadialVector(newPositions);
-    newDistanceMatrix = calculateDistanceMatrix(newPositions);
-
-    double psiOld = evaluateWaveFunctionSqrd(m_particles, m_radialVector, m_distanceMatrix);
-    double psiNew = evaluateWaveFunctionSqrd(newPositions, newRadialVector, newDistanceMatrix);
-
-    double w = psiNew/psiOld; //GreenFuncSum(newPositions) * (psiNew/psiOld);
-    double r = rand.nextDouble();
-
-    if(w > r) {
-        m_particles(pRand)        = newPositions(pRand);
-        m_radialVector            = newRadialVector;
-        m_distanceMatrix          = newDistanceMatrix;
-        return true;
-    }
-    return false;
-}
-
 void System::runMetropolisSteps(int numberOfMetropolisSteps, int numberOfIterations) {
-
     m_particles                 = m_initialState->getParticles();
     m_radialVector              = m_initialState->getRadialVector();
     m_distanceMatrix            = m_initialState->getDistanceMatrix();
@@ -121,28 +22,22 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps, int numberOfIterati
     m_sampler                   = new Sampler(this);
     m_numberOfMetropolisSteps   = numberOfMetropolisSteps;
     m_sampler->setNumberOfMetropolisSteps(numberOfMetropolisSteps);
-
-    std::string path = "../../data/";        //Path to data folder
+    std::string path = "../../data/";                       //Path to data folder
     std::string energy_filename = generate_filename("Energy", ".dat");
-
     std::ofstream energy;
     energy.open(path + energy_filename);                    //Open energy file based on parameters
-
     for (int iter = 0; iter < numberOfIterations; iter++) {
         clock_t start_time = clock();
         for (int i=0; i < numberOfMetropolisSteps; i++) {
-            //bool acceptedStep = importanceSamplingMetropolisStep();
             bool acceptedStep = m_metropolis->acceptMove();
             m_particles       = m_metropolis->updatePositions();
             m_radialVector    = m_metropolis->updateRadialVector();
             m_distanceMatrix  = m_metropolis->updateDistanceMatrix();
-
             if(double(i)/m_numberOfMetropolisSteps >= m_equilibrationFraction) {
                 m_sampler->sample(acceptedStep, i);
             }
         }
         clock_t end_time = clock();
-
         m_sampler->computeAverages();
         m_sampler->printOutputToTerminal(iter, double(end_time - start_time)/CLOCKS_PER_SEC);
         Eigen::MatrixXd gradients = m_sampler->getEnergyGradient();

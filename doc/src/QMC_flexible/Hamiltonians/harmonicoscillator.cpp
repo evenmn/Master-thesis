@@ -32,9 +32,12 @@ double HarmonicOscillator::computeLocalEnergy() {
         }
     }
     */
+    double interactionEnergy = 0;
+    if(m_interaction) {
+        Eigen::MatrixXd Inverse = m_distanceMatrix.cwiseInverse().unaryExpr([](double v) { return std::isfinite(v)? v : 0.0; });
+        interactionEnergy = Inverse.sum();
+    }
 
-    Eigen::MatrixXd Inverse = m_distanceMatrix.cwiseInverse().unaryExpr([](double v) { return std::isfinite(v)? v : 0.0; });
-    double interactionEnergy = Inverse.sum();
     double externalEnergy = 0.5 * m_omega_sqrd * (m_particles.cwiseAbs2()).sum();
     double kineticEnergy  = m_system->getKineticEnergy();
 
