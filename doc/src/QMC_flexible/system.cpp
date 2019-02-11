@@ -63,15 +63,17 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps, int numberOfIterati
     energy.open(path + energy_filename);                    //Open energy file based on parameters
 
     for (int iter = 0; iter < numberOfIterations; iter++) {
+        clock_t start_time = clock();
         for (int i=0; i < numberOfMetropolisSteps; i++) {
             bool acceptedStep = metropolisStep();
             if(double(i)/m_numberOfMetropolisSteps >= m_equilibrationFraction) {
                 m_sampler->sample(acceptedStep, i);
             }
         }
+        clock_t end_time = clock();
 
         m_sampler->computeAverages();
-        m_sampler->printOutputToTerminal();
+        m_sampler->printOutputToTerminal(iter, double(end_time - start_time)/CLOCKS_PER_SEC);
         Eigen::MatrixXd gradients = m_sampler->getEnergyGradient();
         energy << m_sampler->getEnergy() << "\n";
         m_parameters -= gradients;
@@ -95,6 +97,10 @@ void System::setNumberOfFreeDimensions() {
 
 void System::setNumberOfWaveFunctionElements(int numberOfWaveFunctionElements) {
     m_numberOfWaveFunctionElements = numberOfWaveFunctionElements;
+}
+
+void System::setMaxNumberOfParametersPerElement(int maxNumberOfParametersPerElement) {
+    m_maxNumberOfParametersPerElement = maxNumberOfParametersPerElement;
 }
 
 void System::setStepLength(double stepLength) {
@@ -182,29 +188,23 @@ double System::getKineticEnergy() {
     return -0.5 * KineticEnergy;
 }
 
-void System::getGradient(WaveFunction* waveFunction, Eigen::VectorXd &TotalGradients) {
-    int maxNumberOfParametersPerElement = m_numberOfParticles*m_numberOfParticles + m_numberOfParticles;
-    Eigen::VectorXd gradients = Eigen::VectorXd::Zero(maxNumberOfParametersPerElement);
-    waveFunction->computeSecondEnergyDerivative(gradients);
-    TotalGradients += gradients;
+Eigen::VectorXd System::getGradient(WaveFunction* waveFunction) {
+    //This function calculates the gradients of each element
+    Eigen::VectorXd TotalGradients = waveFunction->computeSecondEnergyDerivative();
     for(int k = 0; k < m_numberOfFreeDimensions; k++) {
-        waveFunction->computeFirstEnergyDerivative(gradients, k);
-        TotalGradients += 2*waveFunction->computeFirstDerivative(k) * gradients;
+        TotalGradients += 2 * waveFunction->computeFirstDerivative(k) * waveFunction->computeFirstEnergyDerivative(k);
     }
+    return TotalGradients;
 }
 
-void System::updateParameters(Eigen::MatrixXd &gradients) {
-
-    /* Can surely do this in a better way, do not even make use of m_gradients
-     * other than declaring it in the header.
-     */
-
-    int maxNumberOfParametersPerElement = m_numberOfParticles*m_numberOfParticles + m_numberOfParticles;
+Eigen::MatrixXd System::updateParameters() {
+    // This function iterates over all WF elements and returns the new gradients
+    int maxNumberOfParametersPerElement = m_numberOfParticles * m_numberOfParticles + m_numberOfParticles;
+    Eigen::MatrixXd gradients = Eigen::MatrixXd::Zero(m_numberOfWaveFunctionElements, maxNumberOfParametersPerElement);
     for(unsigned i = 0; i < m_waveFunctionVector.size(); i++) {
-        Eigen::VectorXd TotalGradients = Eigen::VectorXd::Zero(maxNumberOfParametersPerElement);
-        getGradient(m_waveFunctionVector[i], TotalGradients);
-        gradients.row(i) += TotalGradients;
+        gradients.row(i) += getGradient(m_waveFunctionVector[i]);
     }
+    return gradients;
 }
 
 Eigen::VectorXd System::calculateRadialVector(Eigen::VectorXd particles) {

@@ -7,7 +7,7 @@ public:
     Sampler(class System* system);
     void setNumberOfMetropolisSteps(int steps);
     void sample(bool acceptedStep, int stepNumber);
-    void printOutputToTerminal();
+    void printOutputToTerminal(int iter, double time);
     void printEnergyToFile(std::ostream energy);
     void computeAverages();
     double getEnergy()          { return m_energy; }

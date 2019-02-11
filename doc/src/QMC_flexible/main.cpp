@@ -31,6 +31,7 @@ int main() {
     double  stepLength          = 0.1;          // Metropolis step length
     double  equilibration       = 0.1;          // Amount of the total steps used
     bool    interaction         = true;
+    int     maxNumberOfParametersPerElement = numberOfParticles*numberOfDimensions + numberOfParticles;
 
     System* system = new System();
     system->setEquilibrationFraction    (equilibration);
@@ -41,10 +42,11 @@ int main() {
     system->setLearningRate             (eta);
     system->setNumberOfParticles        (numberOfParticles);
     system->setNumberOfDimensions       (numberOfDimensions);
+    system->setMaxNumberOfParametersPerElement (maxNumberOfParametersPerElement);
     system->setNumberOfFreeDimensions   ();
 
     std::vector<class WaveFunction*> WaveFunctionElements;
-    WaveFunctionElements.push_back      (new class CartesianGaussian(system, 0));
+    WaveFunctionElements.push_back      (new class CartesianGaussian      (system, 0));
     WaveFunctionElements.push_back      (new class PadeJastrowCartesian   (system, 1));
 
     system->setNumberOfWaveFunctionElements(int(WaveFunctionElements.size()));

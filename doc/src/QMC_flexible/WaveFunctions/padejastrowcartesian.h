@@ -8,8 +8,8 @@ public:
     double evaluateSqrd(Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
     double computeFirstDerivative(int k);
     double computeSecondDerivative();
-    void computeFirstEnergyDerivative(Eigen::VectorXd &gradients, int k);
-    void computeSecondEnergyDerivative(Eigen::VectorXd &gradients);
+    Eigen::VectorXd computeFirstEnergyDerivative(int k);
+    Eigen::VectorXd computeSecondEnergyDerivative();
 
     double f(int i, int j);
     double g(int i, int j, int k, int l);

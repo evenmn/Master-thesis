@@ -35,13 +35,10 @@ void Sampler::sample(bool acceptedStep, int stepNumber) {
         m_dEE = Eigen::MatrixXd::Zero(m_numberOfElements, maxNumberOfParametersPerElement);
         m_SqrdE = 0;
     }
-    m_stepNumber = stepNumber;
-
-    int maxNumberOfParametersPerElement = m_numberOfParticles * m_numberOfParticles + m_numberOfParticles;
-    Eigen::MatrixXd gradients = Eigen::MatrixXd::Zero(m_numberOfElements, maxNumberOfParametersPerElement);
+    //m_stepNumber = stepNumber;
 
     double EL = m_system->getHamiltonian()->computeLocalEnergy();
-    m_system->updateParameters(gradients);
+    Eigen::MatrixXd gradients = m_system->updateParameters();
 
     m_cumulativeEnergy  += EL;
     m_dE += gradients;
@@ -49,17 +46,17 @@ void Sampler::sample(bool acceptedStep, int stepNumber) {
     m_SqrdE += EL * EL;
 
     if(acceptedStep) { m_acceptenceRatio += 1; }
-    m_stepNumber++;
+    //m_stepNumber++;
 }
 
-void Sampler::printOutputToTerminal() {
+void Sampler::printOutputToTerminal(int iter, double time) {
     int     ms = m_system->getNumberOfMetropolisSteps();
     int     p  = 1; //m_system->getWaveFunction()->getNumberOfParameters();
     double  ef = m_system->getEquilibrationFraction();
     //std::vector<double> pa = m_system->getWaveFunction()->getParameters();
 
     cout << endl;
-    cout << "  -- System info -- " << endl;
+    cout << "  -- System info: " << iter+1 << " -- " << endl;
     cout << " Number of particles  : " << m_numberOfParticles << endl;
     cout << " Number of dimensions : " << m_numberOfDimensions << endl;
     cout << " Number of Metropolis steps run : 10^" << std::log10(ms) << endl;
@@ -75,6 +72,7 @@ void Sampler::printOutputToTerminal() {
     cout << " Energy           : " << m_energy << endl;
     cout << " Acceptence Ratio : " << double(m_acceptenceRatio)/m_numberOfMetropolisSteps << endl;
     cout << " Variance         : " << 2*(m_SqrdE/m_numberOfMetropolisSteps - m_energy * m_energy) << endl;
+    cout << " Time             : " << time << endl;
     cout << endl;
 }
 

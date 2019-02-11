@@ -10,7 +10,6 @@ CartesianGaussian::CartesianGaussian(System* system,
     m_numberOfFreeDimensions = m_system->getNumberOfFreeDimensions();
     m_maxNumberOfParametersPerElement = m_system->getMaxNumberOfParametersPerElement();
     m_omega              = m_system->getFrequency();
-    //m_alpha              = (m_system->getWeights())(m_elementNumber,0);
 }
 
 double CartesianGaussian::evaluate(Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {

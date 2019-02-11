@@ -10,6 +10,7 @@ public:
     void setNumberOfParticles       (int numberOfParticles);
     void setNumberOfDimensions      (int numberOfDimensions);
     void setNumberOfFreeDimensions  ();
+    void setMaxNumberOfParametersPerElement (int maxNumberOfParametersPerElement);
     void setNumberOfWaveFunctionElements (int numberOfWaveFunctionElements);
     void setStepLength              (double stepLength);
     void setEquilibrationFraction   (double equilibrationFraction);
@@ -32,6 +33,7 @@ public:
     int                     getNumberOfDimensions()      { return m_numberOfDimensions; }
     int                     getNumberOfFreeDimensions()  { return m_numberOfFreeDimensions; }
     int                     getNumberOfMetropolisSteps() { return m_numberOfMetropolisSteps; }
+    int                     getMaxNumberOfParametersPerElement() { return m_maxNumberOfParametersPerElement; }
     int                     getNumberOfWaveFunctionElements() { return m_numberOfWaveFunctionElements; }
     double                  getEquilibrationFraction()   { return m_equilibrationFraction; }
     double                  getFrequency()               { return m_omega; }
@@ -47,8 +49,8 @@ public:
     double evaluateWaveFunction     (Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
     double evaluateWaveFunctionSqrd (Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
     double getKineticEnergy         ();
-    void getGradient                (class WaveFunction* waveFunction, Eigen::VectorXd &TotalGradients);
-    void updateParameters           (Eigen::MatrixXd &gradients);
+    Eigen::VectorXd getGradient(class WaveFunction* waveFunction);
+    Eigen::MatrixXd updateParameters();
     Eigen::VectorXd calculateRadialVector      (Eigen::VectorXd particles);
     Eigen::MatrixXd calculateDistanceMatrix    (Eigen::VectorXd particles);
     std::string generate_filename   (std::string name, std::string extension);
@@ -59,6 +61,7 @@ private:
     int                                 m_numberOfFreeDimensions    = 0;
     int                                 m_numberOfMetropolisSteps   = 0;
     int                                 m_numberOfWaveFunctionElements = 0;
+    int                                 m_maxNumberOfParametersPerElement = 0;
     bool                                m_interaction               = false;
     double                              m_equilibrationFraction     = 0.0;
     double                              m_stepLength                = 0.1;
