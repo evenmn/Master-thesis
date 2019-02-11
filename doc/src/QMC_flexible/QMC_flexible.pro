@@ -26,7 +26,8 @@ SOURCES += main.cpp \
     WaveFunctions/cartesiangaussian.cpp \
     Metropolis/metropolis.cpp \
     Metropolis/bruteforce.cpp \
-    Metropolis/importancesampling.cpp
+    Metropolis/importancesampling.cpp \
+    WaveFunctions/nqsjastrow.cpp
 
 HEADERS += \
     system.h \
@@ -51,5 +52,6 @@ HEADERS += \
     WaveFunctions/cartesiangaussian.h \
     Metropolis/metropolis.h \
     Metropolis/bruteforce.h \
-    Metropolis/importancesampling.h
+    Metropolis/importancesampling.h \
+    WaveFunctions/nqsjastrow.h
 

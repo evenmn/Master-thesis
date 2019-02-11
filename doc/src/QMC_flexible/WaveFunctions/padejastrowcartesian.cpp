@@ -64,14 +64,10 @@ double PadeJastrowCartesian::computeFirstDerivative(const Eigen::VectorXd partic
     int k_p = int(k/m_numberOfDimensions);  //Particle associated with k
     int k_d = k%m_numberOfDimensions;       //Dimension associated with k
 
-    //std::cout << "PadeJastrowCartesian" << std::endl;
-
     double derivative = 0;
     for(int j_p=0; j_p<k_p; j_p++) {
         int j = j_p * m_numberOfDimensions + k_d;
         double F = f(k_p,j_p);
-        //std::cout << k << " " << j << " " << k_p << " " << j_p << std::endl;
-        //std::cout << m_distanceMatrix << std::endl;
         derivative += beta(k_p,j_p) * F * F * (particles(k) - particles(j))/m_distanceMatrix(k_p,j_p);
     }
     return derivative;
