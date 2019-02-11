@@ -10,7 +10,7 @@ public:
     Eigen::VectorXd getParameters() { return m_parameters; }
     virtual double evaluate(Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) = 0;
     virtual double evaluateSqrd(Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) = 0;
-    virtual double computeFirstDerivative(int k) = 0;
+    virtual double computeFirstDerivative(const Eigen::VectorXd particles, int k) = 0;
     virtual double computeSecondDerivative() = 0;
     virtual Eigen::VectorXd computeFirstEnergyDerivative(int k) = 0;
     virtual Eigen::VectorXd computeSecondEnergyDerivative() = 0;

@@ -5,8 +5,6 @@
 
 class System {
 public:
-    bool bruteForceMetropolisStep             ();
-    bool importanceSamplingMetropolisStep     ();
     void runMetropolisSteps         (int numberOfMetropolisSteps, int numberOfIterations);
     void setNumberOfParticles       (int numberOfParticles);
     void setNumberOfDimensions      (int numberOfDimensions);
@@ -51,8 +49,6 @@ public:
     Eigen::VectorXd         getRadialVector()            { return m_radialVector; }
     std::vector<class WaveFunction*> getWaveFunctionElements()  { return m_waveFunctionVector; }
 
-    double QForce(const Eigen::VectorXd particles, int i);
-    double GreenFuncSum(const Eigen::VectorXd newPositions);
     double evaluateWaveFunction     (Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
     double evaluateWaveFunctionSqrd (Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
     double getKineticEnergy         ();

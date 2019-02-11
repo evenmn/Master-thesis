@@ -23,7 +23,10 @@ SOURCES += main.cpp \
     InitialWeights/randomize.cpp \
     WaveFunctions/mlgaussian.cpp \
     WaveFunctions/padejastrowcartesian.cpp \
-    WaveFunctions/cartesiangaussian.cpp
+    WaveFunctions/cartesiangaussian.cpp \
+    Metropolis/metropolis.cpp \
+    Metropolis/bruteforce.cpp \
+    Metropolis/importancesampling.cpp
 
 HEADERS += \
     system.h \
@@ -45,5 +48,8 @@ HEADERS += \
     InitialWeights/randomize.h \
     WaveFunctions/mlgaussian.h \
     WaveFunctions/padejastrowcartesian.h \
-    WaveFunctions/cartesiangaussian.h
+    WaveFunctions/cartesiangaussian.h \
+    Metropolis/metropolis.h \
+    Metropolis/bruteforce.h \
+    Metropolis/importancesampling.h
 

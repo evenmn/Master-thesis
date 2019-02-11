@@ -6,7 +6,7 @@ public:
     CartesianGaussian(class System* system, int elementNumber);
     double evaluate(Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
     double evaluateSqrd(Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
-    double computeFirstDerivative(int k);
+    double computeFirstDerivative(const Eigen::VectorXd particles, int k);
     double computeSecondDerivative();
     Eigen::VectorXd computeFirstEnergyDerivative(int k);
     Eigen::VectorXd computeSecondEnergyDerivative();

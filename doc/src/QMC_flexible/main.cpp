@@ -1,4 +1,5 @@
 #include "system.h"
+
 #include "WaveFunctions/wavefunction.h"
 #include "WaveFunctions/simplegaussian.h"
 #include "WaveFunctions/cartesiangaussian.h"
@@ -6,15 +7,23 @@
 #include "WaveFunctions/hydrogenorbital.h"
 #include "WaveFunctions/padejastrow.h"
 #include "WaveFunctions/padejastrowcartesian.h"
+
 #include "Hamiltonians/hamiltonian.h"
 #include "Hamiltonians/harmonicoscillator.h"
 #include "Hamiltonians/atomicnucleus.h"
+
 #include "InitialStates/initialstate.h"
 #include "InitialStates/randomuniform.h"
 #include "InitialStates/randomnormal.h"
+
 #include "InitialWeights/initialweights.h"
 #include "InitialWeights/ones.h"
 #include "InitialWeights/randomize.h"
+
+#include "Metropolis/metropolis.h"
+#include "Metropolis/bruteforce.h"
+#include "Metropolis/importancesampling.h"
+
 //#include "Optimization/optimization.h"
 //#include "Optimization/gradientdescent.h"
 
@@ -24,8 +33,8 @@ int main() {
     int     numberOfDimensions  = 2;
     int     numberOfParticles   = 2;
     int     numberOfSteps       = int(1e6);
-    int     numberOfIterations  = 100;
-    double  eta                 = 0.01;         // Learning rate
+    int     numberOfIterations  = 1000;
+    double  eta                 = 0.1;         // Learning rate
     double  omega               = 1.0;          // Oscillator frequency
     double  sigma               = 1.0;          // Width of probability distribution
     double  stepLength          = 0.1;          // Metropolis step length
@@ -54,6 +63,7 @@ int main() {
     system->setInitialWeights           (new Ones(system));
     system->setWaveFunction             (WaveFunctionElements);
     system->setHamiltonian              (new HarmonicOscillator(system));
+    system->setMetropolis               (new ImportanceSampling(system));
     //system->setOptimizer                (new GradientDescent(system));
     system->setGradients                ();
     system->runMetropolisSteps          (numberOfSteps, numberOfIterations);

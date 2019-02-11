@@ -10,7 +10,6 @@ CartesianGaussian::CartesianGaussian(System* system,
     m_numberOfFreeDimensions = m_system->getNumberOfFreeDimensions();
     m_maxNumberOfParametersPerElement = m_system->getMaxNumberOfParametersPerElement();
     m_omega              = m_system->getFrequency();
-    //m_alpha              = (m_system->getWeights())(m_elementNumber,0);
 }
 
 double CartesianGaussian::evaluate(Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
@@ -23,10 +22,9 @@ double CartesianGaussian::evaluateSqrd(Eigen::VectorXd particles, Eigen::VectorX
     return exp(- m_omega * m_alpha * (particles.cwiseAbs2()).sum());
 }
 
-double CartesianGaussian::computeFirstDerivative(int k) {
+double CartesianGaussian::computeFirstDerivative(const Eigen::VectorXd particles, int k) {
     m_alpha              = (m_system->getWeights())(m_elementNumber,0);
-    m_particles          = m_system->getParticles();
-    return - m_omega * m_alpha * m_particles(k);
+    return - m_omega * m_alpha * particles(k);
 }
 
 double CartesianGaussian::computeSecondDerivative() {;
