@@ -3,6 +3,6 @@
 
 class Randomize : public InitialWeights {
 public:
-    Randomize(System* system, int numberOfElements);
+    Randomize(System* system);
     void setupInitialWeights();
 };

@@ -10,6 +10,7 @@
 #include <iostream>
 #include <fstream>
 #include <cassert>
+#include <ctime>
 #include <string>
 
 bool System::metropolisStep() {
@@ -54,10 +55,6 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps, int numberOfIterati
     m_sampler                   = new Sampler(this);
     m_numberOfMetropolisSteps   = numberOfMetropolisSteps;
     m_sampler->setNumberOfMetropolisSteps(numberOfMetropolisSteps);
-    //Eigen::Map<const Eigen::VectorXd> m_positions(m_particles.data(), m_particles.size());
-
-    //std::cout << m_particles << std::endl;
-    //std::cout << m_positions << std::endl;
 
     std::string path = "../../data/";        //Path to data folder
     std::string energy_filename = generate_filename("Energy", ".dat");
@@ -68,21 +65,16 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps, int numberOfIterati
     for (int iter = 0; iter < numberOfIterations; iter++) {
         for (int i=0; i < numberOfMetropolisSteps; i++) {
             bool acceptedStep = metropolisStep();
-            /* Here you should sample the energy (and maybe other things using
-             * the m_sampler instance of the Sampler class. Make sure, though,
-             * to only begin sampling after you have let the system equilibrate
-             * for a while. You may handle this using the fraction of steps which
-             * are equilibration steps; m_equilibrationFraction.
-             */
             if(double(i)/m_numberOfMetropolisSteps >= m_equilibrationFraction) {
                 m_sampler->sample(acceptedStep, i);
             }
         }
 
-        Eigen::MatrixXd gradients = m_sampler->computeAverages();
+        m_sampler->computeAverages();
         m_sampler->printOutputToTerminal();
+        Eigen::MatrixXd gradients = m_sampler->getEnergyGradient();
         energy << m_sampler->getEnergy() << "\n";
-        //m_parameters -= gradients;
+        m_parameters -= gradients;
     }
     if(energy.is_open())  energy.close();
 }
@@ -99,6 +91,10 @@ void System::setNumberOfDimensions(int numberOfDimensions) {
 
 void System::setNumberOfFreeDimensions() {
     m_numberOfFreeDimensions = m_numberOfParticles * m_numberOfDimensions;
+}
+
+void System::setNumberOfWaveFunctionElements(int numberOfWaveFunctionElements) {
+    m_numberOfWaveFunctionElements = numberOfWaveFunctionElements;
 }
 
 void System::setStepLength(double stepLength) {

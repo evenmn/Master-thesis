@@ -27,6 +27,8 @@
 \usepackage{multicol}	% Multicolumn in table
 \usepackage{varwidth}	% Rotate text in table
 \usepackage{arydshln}   % Dashed lines in table
+\usepackage{empheq}		% Boxes around equations
+\usepackage{xcolor}		% Advanced color package
 
 % Change margins on each page
 \usepackage[right=2cm, 
@@ -59,10 +61,41 @@
 
 %tikz
 \setcounter{secnumdepth}{4}
-\usetikzlibrary{through, shapes, calc, shapes, arrows, positioning, arrows.meta, shadows}
+\usetikzlibrary{through, shapes, calc, shapes, arrows, positioning, arrows.meta, shadows, er}
 \tikzstyle{neuron}=[draw,circle,minimum size=20pt,inner sep=0pt, fill=white]
 \tikzstyle{stateTransition}=[thick]
 \tikzstyle{learned}=[text=red]
+
+\tikzset{basic/.style={draw,fill=blue!20,text width=1em,text badly centered}}
+\tikzset{input/.style={basic,circle}}
+\tikzset{weights/.style={basic,rectangle}}
+\tikzset{functions/.style={basic,circle,fill=blue!10}}
+
+%empheq blue box
+\definecolor{myblue}{rgb}{.8, .8, 1}
+\newlength\mytemplen
+\newsavebox\mytempbox
+
+\makeatletter
+\newcommand\mybluebox{%
+	\@ifnextchar[%]
+	{\@mybluebox}%
+	{\@mybluebox[0pt]}}
+
+\def\@mybluebox[#1]{%
+	\@ifnextchar[%]
+	{\@@mybluebox[#1]}%
+	{\@@mybluebox[#1][0pt]}}
+
+\def\@@mybluebox[#1][#2]#3{
+	\sbox\mytempbox{#3}%
+	\mytemplen\ht\mytempbox
+	\advance\mytemplen #1\relax
+	\ht\mytempbox\mytemplen
+	\mytemplen\dp\mytempbox
+	\advance\mytemplen #2\relax
+	\dp\mytempbox\mytemplen
+	\colorbox{myblue}{\hspace{1em}\usebox{\mytempbox}\hspace{1em}}}
 
 %specific reused text
 \newcommand{\mdate}{\today}

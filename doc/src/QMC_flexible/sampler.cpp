@@ -18,6 +18,7 @@ Sampler::Sampler(System* system) {
     m_acceptenceRatio    = 0;
     m_numberOfParticles  = m_system->getNumberOfParticles();
     m_numberOfDimensions = m_system->getNumberOfDimensions();
+    m_numberOfElements   = m_system->getNumberOfWaveFunctionElements();
 }
 
 void Sampler::setNumberOfMetropolisSteps(int steps) {
@@ -30,14 +31,14 @@ void Sampler::sample(bool acceptedStep, int stepNumber) {
         m_acceptenceRatio = 0;
         m_cumulativeEnergy = 0;
         int maxNumberOfParametersPerElement = m_numberOfParticles * m_numberOfParticles + m_numberOfParticles;
-        m_dE = Eigen::MatrixXd::Zero(2, maxNumberOfParametersPerElement);
-        m_dEE = Eigen::MatrixXd::Zero(2, maxNumberOfParametersPerElement);
+        m_dE = Eigen::MatrixXd::Zero(m_numberOfElements, maxNumberOfParametersPerElement);
+        m_dEE = Eigen::MatrixXd::Zero(m_numberOfElements, maxNumberOfParametersPerElement);
         m_SqrdE = 0;
     }
     m_stepNumber = stepNumber;
 
     int maxNumberOfParametersPerElement = m_numberOfParticles * m_numberOfParticles + m_numberOfParticles;
-    Eigen::MatrixXd gradients = Eigen::MatrixXd::Zero(2, maxNumberOfParametersPerElement);
+    Eigen::MatrixXd gradients = Eigen::MatrixXd::Zero(m_numberOfElements, maxNumberOfParametersPerElement);
 
     double EL = m_system->getHamiltonian()->computeLocalEnergy();
     m_system->updateParameters(gradients);
@@ -77,22 +78,14 @@ void Sampler::printOutputToTerminal() {
     cout << endl;
 }
 
-Eigen::MatrixXd Sampler::computeAverages() {
+void Sampler::computeAverages() {
     /* Compute the averages of the sampled quantities. You need to think
      * thoroughly through what is written here currently; is this correct?
      */
-    int maxNumberOfParametersPerElement = m_numberOfParticles * m_numberOfParticles + m_numberOfParticles;
-    Eigen::MatrixXd gradients = Eigen::MatrixXd::Zero(2, maxNumberOfParametersPerElement);
     m_energy = m_cumulativeEnergy / ((1 - m_system->getEquilibrationFraction()) * m_system->getNumberOfMetropolisSteps());
-    getEnergyGradient(m_energy, m_dE, m_dEE, gradients);
-    return gradients;
 }
 
-void Sampler::getEnergyGradient(double EL_avg, Eigen::MatrixXd grad_tot, Eigen::MatrixXd gradE_tot, Eigen::MatrixXd &gradients) {
+Eigen::MatrixXd Sampler::getEnergyGradient() {
     double eta = m_system->getLearningRate();
-    gradients = 2 * eta * (gradE_tot - EL_avg * grad_tot)/m_system->getNumberOfMetropolisSteps();
-}
-
-void Sampler::printEnergyToFile(std::ostream energy) {
-    energy << m_energy << "\n";
+    return 2 * eta * (m_dEE - m_energy * m_dE)/m_system->getNumberOfMetropolisSteps();
 }

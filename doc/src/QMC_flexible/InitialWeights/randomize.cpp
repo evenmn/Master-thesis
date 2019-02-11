@@ -4,10 +4,10 @@
 #include "Math/random.h"
 #include "../system.h"
 
-Randomize::Randomize(System*    system, int numberOfElements)  :  InitialWeights(system) {
+Randomize::Randomize(System*    system)  :  InitialWeights(system) {
     m_numberOfDimensions = m_system->getNumberOfDimensions();
     m_numberOfParticles  = m_system->getNumberOfParticles();
-    m_numberOfElements   = numberOfElements;
+    m_numberOfElements   = m_system->getNumberOfWaveFunctionElements();
     setupInitialWeights();
 }
 

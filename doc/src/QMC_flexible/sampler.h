@@ -9,14 +9,15 @@ public:
     void sample(bool acceptedStep, int stepNumber);
     void printOutputToTerminal();
     void printEnergyToFile(std::ostream energy);
-    Eigen::MatrixXd computeAverages();
+    void computeAverages();
     double getEnergy()          { return m_energy; }
-    void getEnergyGradient(double EL_avg, Eigen::MatrixXd grad_tot, Eigen::MatrixXd gradE_tot, Eigen::MatrixXd &gradients);
+    Eigen::MatrixXd getEnergyGradient();
 
 private:
     int     m_numberOfMetropolisSteps = 0;
     int     m_numberOfParticles = 0;
     int     m_numberOfDimensions = 0;
+    int     m_numberOfElements = 0;
     int     m_stepNumber = 0;
     int     m_acceptenceRatio = 0;
     double  m_energy = 0;

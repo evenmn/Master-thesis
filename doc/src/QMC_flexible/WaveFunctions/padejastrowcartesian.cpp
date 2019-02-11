@@ -10,6 +10,7 @@ PadeJastrowCartesian::PadeJastrowCartesian(System* system, int elementNumber) :
     m_elementNumber      = elementNumber;
     m_numberOfParticles  = m_system->getNumberOfParticles();
     m_numberOfDimensions = m_system->getNumberOfDimensions();
+    m_numberOfFreeDimensions = m_system->getNumberOfFreeDimensions();
 }
 
 double PadeJastrowCartesian::f(int i, int j) {
@@ -58,12 +59,13 @@ double PadeJastrowCartesian::evaluateSqrd(Eigen::VectorXd particles, Eigen::Vect
 }
 
 double PadeJastrowCartesian::computeFirstDerivative(int k) {
-    int k_particle = int(k/m_numberOfDimensions);
+    int k_p = int(k/m_numberOfDimensions);  //Particle associated with k
+    int k_d = k%m_numberOfDimensions;       //Dimension associated with k
 
     double derivative = 0;
-    for(int j=0; j<k_particle; j++) {
-        int j_particle = int(j/m_numberOfDimensions);
-        derivative += beta(k_particle,j_particle) * f(k_particle,j_particle) * f(k_particle,j_particle) * g(k,j, k_particle, j_particle);
+    for(int j_p=0; j_p<k_p; j_p++) {
+        int j = j_p * m_numberOfDimensions + k_d;
+        derivative += beta(k_p,j_p) * f(k_p,j_p) * f(k_p,j_p) * g(k,j, k_p, j_p);
     }
     return derivative;
 }
@@ -75,10 +77,11 @@ double PadeJastrowCartesian::computeSecondDerivative() {
 
     double derivative = 0;
     for(int i=0; i<m_numberOfFreeDimensions; i++) {
-        int i_particle = int(i/m_numberOfDimensions);
-        for(int j=0; j<i_particle; j++) {
-            int j_particle = int(j/m_numberOfDimensions);
-            derivative += beta(i_particle,j_particle) * f(i_particle,j_particle) * f(i_particle,j_particle) * (1 - g(i, j, i_particle,j_particle) * g(i, j, i_particle,j_particle) * (1 + 3 * gamma() * m_distanceMatrix(i_particle,j_particle)) * f(i_particle,j_particle)) / m_distanceMatrix(i_particle,j_particle);
+        int i_p = int(i/m_numberOfDimensions);  //Particle associated with k
+        int i_d = i%m_numberOfDimensions;       //Dimension associated with k
+        for(int j_p=0; j_p<i_p; j_p++) {
+            int j = j_p * m_numberOfDimensions + i_d;
+            derivative += beta(i_p,j_p) * f(i_p,j_p) * f(i_p,j_p) * (1 - g(i,j,i_p,j_p) * g(i,j,i_p,j_p) * (1 + 3 * gamma() * m_distanceMatrix(i_p,j_p)) * f(i_p,j_p)) / m_distanceMatrix(i_p,j_p);
         }
     }
     return derivative;
@@ -87,20 +90,21 @@ double PadeJastrowCartesian::computeSecondDerivative() {
 void PadeJastrowCartesian::computeFirstEnergyDerivative(Eigen::VectorXd &gradients, int k) {
     m_particles = m_system->getParticles();
 
-    int k_particle = int(k/m_numberOfDimensions);
+    int k_p = int(k/m_numberOfDimensions);  //Particle associated with k
+    int k_d = k%m_numberOfDimensions;       //Dimension associated with k
 
     //Update beta matrix
-    for(int j=0; j<k_particle; j++) {
-        int j_particle = int(j/m_numberOfDimensions);
-        int l = m_numberOfDimensions * k_particle + j_particle + 1;
-        gradients(l) = f(k_particle,j_particle) * f(k_particle,j_particle) * g(k, j, k_particle,j_particle);
+    for(int j_p=0; j_p<k_p; j_p++) {
+        int j = j_p * m_numberOfDimensions + k_d;
+        int l = m_numberOfDimensions * k_p + j_p + 1;
+        gradients(l) = f(k_p,j_p) * f(k_p,j_p) * g(k,j,k_p,j_p);
     }
 
     //Update gamma
     double derivative = 0;
-    for(int j=0; j<k_particle; j++) {
-        int j_particle = int(j/m_numberOfDimensions);
-        derivative -= beta(k_particle,j_particle) * f(k_particle,j_particle) * f(k_particle,j_particle) * f(k_particle,j_particle) * (m_particles(k) - m_particles(j));
+    for(int j_p=0; j_p<k_p; j_p++) {
+        int j = j_p * m_numberOfDimensions + k_d;
+        derivative -= beta(k_p,j_p) * f(k_p,j_p) * f(k_p,j_p) * f(k_p,j_p) * (m_particles(k) - m_particles(j));
     }
     gradients(0) = 2 * derivative;
 }
@@ -110,21 +114,24 @@ void PadeJastrowCartesian::computeSecondEnergyDerivative(Eigen::VectorXd &gradie
 
     //Update Beta matrix
     for(int i=0; i < m_numberOfFreeDimensions; i++) {
-        int i_particle = int(i/m_numberOfDimensions);
-        for(int j=0; j<i; j++) {
-            int j_particle = int(j/m_numberOfDimensions);
-            int l = m_numberOfParticles * i_particle + j_particle + 1;      // Stack Beta matrix
-            gradients(l) = 0.5 * f(i_particle,j_particle) * f(i_particle,j_particle) * (g(i_particle,j_particle, i, j) * g(i, j, i_particle, j_particle) * (1 + 3 * gamma() * m_distanceMatrix(i_particle,j_particle)) * f(i_particle,j_particle) - 1) / m_distanceMatrix(i_particle,j_particle);
+        int i_p = int(i/m_numberOfDimensions);  //Particle associated with k
+        int i_d = i%m_numberOfDimensions;       //Dimension associated with k
+        for(int j_p=0; j_p<i_p; j_p++) {
+            int j = j_p * m_numberOfDimensions + i_d;
+            int l = m_numberOfParticles * i_p + j_p + 1;      // Stack Beta matrix
+            gradients(l) = 0.5 * f(i_p,j_p) * f(i_p,j_p) * (g(i,j,i_p,j_p) * g(i,j,i_p,j_p) * (1 + 3 * gamma() * m_distanceMatrix(i_p,j_p)) * f(i_p,j_p) - 1) / m_distanceMatrix(i_p,j_p);
         }
     }
 
+    //std::cout << m_numberOfFreeDimensions << std::endl;
     //Update gamma
     double derivative = 0;
-    for(int i=0; i<m_numberOfParticles; i++) {
-        int i_particle = int(i/m_numberOfDimensions);
-        for(int j=0; j<i; j++) {
-            int j_particle = int(j/m_numberOfDimensions);
-            derivative -= beta(i_particle,j_particle) * f(i_particle,j_particle) * f(i_particle,j_particle) * f(i_particle,j_particle) * (3 * g(i,j,i_particle, j_particle) * g(i,j,i_particle, j_particle) * f(i_particle,j_particle) * gamma() * m_distanceMatrix(i_particle,j_particle) - 1);
+    for(int i=0; i<m_numberOfFreeDimensions; i++) {
+        int i_p = int(i/m_numberOfDimensions);  //Particle associated with k
+        int i_d = i%m_numberOfDimensions;       //Dimension associated with k
+        for(int j_p=0; j_p<i_p; j_p++) {
+            int j = j_p * m_numberOfDimensions + i_d;
+            derivative -= beta(i_p,j_p) * f(i_p,j_p) * f(i_p,j_p) * f(i_p,j_p) * (3 * g(i,j,i_p,j_p) * g(i,j,i_p,j_p) * f(i_p,j_p) * gamma() * m_distanceMatrix(i_p,j_p) - 1);
         }
     }
     gradients(0) = derivative;

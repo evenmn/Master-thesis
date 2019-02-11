@@ -10,6 +10,7 @@ public:
     void setNumberOfParticles       (int numberOfParticles);
     void setNumberOfDimensions      (int numberOfDimensions);
     void setNumberOfFreeDimensions  ();
+    void setNumberOfWaveFunctionElements (int numberOfWaveFunctionElements);
     void setStepLength              (double stepLength);
     void setEquilibrationFraction   (double equilibrationFraction);
     void setFrequency               (double omega);
@@ -31,6 +32,7 @@ public:
     int                     getNumberOfDimensions()      { return m_numberOfDimensions; }
     int                     getNumberOfFreeDimensions()  { return m_numberOfFreeDimensions; }
     int                     getNumberOfMetropolisSteps() { return m_numberOfMetropolisSteps; }
+    int                     getNumberOfWaveFunctionElements() { return m_numberOfWaveFunctionElements; }
     double                  getEquilibrationFraction()   { return m_equilibrationFraction; }
     double                  getFrequency()               { return m_omega; }
     double                  getWidth()                   { return m_sigma; }
@@ -56,6 +58,7 @@ private:
     int                                 m_numberOfDimensions        = 0;
     int                                 m_numberOfFreeDimensions    = 0;
     int                                 m_numberOfMetropolisSteps   = 0;
+    int                                 m_numberOfWaveFunctionElements = 0;
     bool                                m_interaction               = false;
     double                              m_equilibrationFraction     = 0.0;
     double                              m_stepLength                = 0.1;
