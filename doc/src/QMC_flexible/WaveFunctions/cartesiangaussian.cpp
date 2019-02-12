@@ -12,19 +12,19 @@ CartesianGaussian::CartesianGaussian(System* system,
     m_omega              = m_system->getFrequency();
 }
 
-double CartesianGaussian::evaluate(Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
+double CartesianGaussian::evaluate(Eigen::VectorXd positions, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
     m_alpha              = (m_system->getWeights())(m_elementNumber,0);
-    return exp(-0.5 * m_omega * m_alpha * (particles.cwiseAbs2()).sum());
+    return exp(-0.5 * m_omega * m_alpha * (positions.cwiseAbs2()).sum());
 }
 
-double CartesianGaussian::evaluateSqrd(Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
+double CartesianGaussian::evaluateSqrd(Eigen::VectorXd positions, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
     m_alpha              = (m_system->getWeights())(m_elementNumber,0);
-    return exp(- m_omega * m_alpha * (particles.cwiseAbs2()).sum());
+    return exp(- m_omega * m_alpha * (positions.cwiseAbs2()).sum());
 }
 
-double CartesianGaussian::computeFirstDerivative(const Eigen::VectorXd particles, int k) {
+double CartesianGaussian::computeFirstDerivative(const Eigen::VectorXd positions, int k) {
     m_alpha              = (m_system->getWeights())(m_elementNumber,0);
-    return - m_omega * m_alpha * particles(k);
+    return - m_omega * m_alpha * positions(k);
 }
 
 double CartesianGaussian::computeSecondDerivative() {;
@@ -34,8 +34,8 @@ double CartesianGaussian::computeSecondDerivative() {;
 
 Eigen::VectorXd CartesianGaussian::computeFirstEnergyDerivative(int k) {
     Eigen::VectorXd gradients = Eigen::VectorXd::Zero(m_maxNumberOfParametersPerElement);
-    m_particles          = m_system->getParticles();
-    gradients(0) = 0.5 * m_omega * m_particles(k);
+    m_positions          = m_system->getParticles();
+    gradients(0) = 0.5 * m_omega * m_positions(k);
     return gradients;
 }
 

@@ -17,7 +17,7 @@ AtomicNucleus::AtomicNucleus(System* system, int Z) :
 }
 
 double AtomicNucleus::computeLocalEnergy() {
-    m_particles             = m_system->getParticles();
+    m_positions             = m_system->getParticles();
     m_radialVector          = m_system->getRadialVector();
     m_distanceMatrix        = m_system->getDistanceMatrix();
 

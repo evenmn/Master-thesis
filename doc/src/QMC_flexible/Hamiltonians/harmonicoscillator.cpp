@@ -18,7 +18,7 @@ HarmonicOscillator::HarmonicOscillator(System* system) :
 }
 
 double HarmonicOscillator::computeLocalEnergy() {
-    m_particles             = m_system->getParticles();
+    m_positions             = m_system->getParticles();
     m_radialVector          = m_system->getRadialVector();
     m_distanceMatrix        = m_system->getDistanceMatrix();
 
@@ -38,7 +38,7 @@ double HarmonicOscillator::computeLocalEnergy() {
         interactionEnergy = Inverse.sum();
     }
 
-    double externalEnergy = 0.5 * m_omega_sqrd * (m_particles.cwiseAbs2()).sum();
+    double externalEnergy = 0.5 * m_omega_sqrd * (m_positions.cwiseAbs2()).sum();
     double kineticEnergy  = m_system->getKineticEnergy();
 
     return kineticEnergy + externalEnergy + interactionEnergy;

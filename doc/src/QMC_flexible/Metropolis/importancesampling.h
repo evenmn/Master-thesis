@@ -7,7 +7,7 @@ class ImportanceSampling : public Metropolis {
 public:
     ImportanceSampling(System* system);
     bool acceptMove();
-    double QForce(const Eigen::VectorXd particles, int i);
+    double QForce(const Eigen::VectorXd positions, int i);
     double GreenFuncSum(const Eigen::VectorXd newPositions);
 
 private:

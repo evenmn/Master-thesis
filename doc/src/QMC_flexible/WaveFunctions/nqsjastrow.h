@@ -6,12 +6,12 @@ public:
     NQSJastrow(class System* system, int elementNumber);
     Eigen::VectorXd b();
     Eigen::MatrixXd W();
-    Eigen::VectorXd v(Eigen::VectorXd particles);
-    Eigen::VectorXd f(Eigen::VectorXd particles);
-    Eigen::VectorXd g(Eigen::VectorXd particles);
-    double evaluate(Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
-    double evaluateSqrd(Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
-    double computeFirstDerivative(const Eigen::VectorXd particles, int k);
+    Eigen::VectorXd v(Eigen::VectorXd positions);
+    Eigen::VectorXd f(Eigen::VectorXd positions);
+    Eigen::VectorXd g(Eigen::VectorXd positions);
+    double evaluate(Eigen::VectorXd positions, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
+    double evaluateSqrd(Eigen::VectorXd positions, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
+    double computeFirstDerivative(const Eigen::VectorXd positions, int k);
     double computeSecondDerivative();
     Eigen::VectorXd computeFirstEnergyDerivative(int k);
     Eigen::VectorXd computeSecondEnergyDerivative();

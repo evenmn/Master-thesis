@@ -12,14 +12,14 @@ SimpleGaussian::SimpleGaussian(System* system,
     m_omega              = m_system->getFrequency();
 }
 
-double SimpleGaussian::evaluate(Eigen::MatrixXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
+double SimpleGaussian::evaluate(Eigen::MatrixXd positions, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
     m_parameters         = m_system->getWeights();
-    return exp(-0.5 * m_omega * m_parameters(m_elementNumber, 0) * (particles.cwiseAbs2()).sum());
+    return exp(-0.5 * m_omega * m_parameters(m_elementNumber, 0) * (positions.cwiseAbs2()).sum());
 }
 
-double SimpleGaussian::evaluateSqrd(Eigen::MatrixXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
+double SimpleGaussian::evaluateSqrd(Eigen::MatrixXd positions, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
     m_parameters        = m_system->getWeights();
-    return exp(- m_omega * m_parameters(m_elementNumber, 0) * (particles.cwiseAbs2()).sum());
+    return exp(- m_omega * m_parameters(m_elementNumber, 0) * (positions.cwiseAbs2()).sum());
 }
 
 double SimpleGaussian::computeFirstDerivative(int k) {

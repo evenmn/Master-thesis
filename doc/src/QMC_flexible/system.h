@@ -44,7 +44,7 @@ public:
     double                  getDiffusionConstant()       { return m_diff; }
     double                  getStepLength()              { return m_stepLength; }
     bool                    getInteraction()             { return m_interaction; }
-    Eigen::VectorXd         getParticles()               { return m_particles; }
+    Eigen::VectorXd         getParticles()               { return m_positions; }
     Eigen::VectorXd         getPositions()               { return m_positions; }
     Eigen::MatrixXd         getWeights()                 { return m_parameters; }
     Eigen::MatrixXd         getDistanceMatrix()          { return m_distanceMatrix; }
@@ -85,7 +85,6 @@ private:
     class Metropolis*                   m_metropolis                = nullptr;
     //class Optimization*                 m_optimizer                 = nullptr;
     std::vector<class WaveFunction*>    m_waveFunctionVector;
-    Eigen::VectorXd                     m_particles;
     Eigen::VectorXd                     m_positions;
     Eigen::MatrixXd                     m_parameters;
     Eigen::MatrixXd                     m_distanceMatrix;

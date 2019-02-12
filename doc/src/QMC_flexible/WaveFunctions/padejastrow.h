@@ -4,8 +4,8 @@
 class PadeJastrow : public WaveFunction {
 public:
     PadeJastrow(class System* system, int elementNumber);
-    double evaluate(Eigen::MatrixXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
-    double evaluateSqrd(Eigen::MatrixXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
+    double evaluate(Eigen::MatrixXd positions, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
+    double evaluateSqrd(Eigen::MatrixXd positions, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
     double computeFirstDerivative(int k);
     double computeSecondDerivative();
     void computeFirstEnergyDerivative(Eigen::VectorXd &gradients, int k);

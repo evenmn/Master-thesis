@@ -29,12 +29,12 @@ Eigen::VectorXd NQSJastrow::b() {
     return (m_parameters.row(m_elementNumber)).head(m_numberOfHiddenNodes);
 }
 
-Eigen::VectorXd NQSJastrow::v(Eigen::VectorXd particles) {
-    return b() + W().transpose() * particles;
+Eigen::VectorXd NQSJastrow::v(Eigen::VectorXd positions) {
+    return b() + W().transpose() * positions;
 }
 
-Eigen::VectorXd NQSJastrow::f(Eigen::VectorXd particles) {
-    Eigen::VectorXd V = v(particles);
+Eigen::VectorXd NQSJastrow::f(Eigen::VectorXd positions) {
+    Eigen::VectorXd V = v(positions);
     Eigen::VectorXd F = Eigen::VectorXd::Zero(m_numberOfHiddenNodes);
     for(int i=0; i<m_numberOfHiddenNodes; i++) {
         F(i) = exp(V(i));
@@ -42,8 +42,8 @@ Eigen::VectorXd NQSJastrow::f(Eigen::VectorXd particles) {
     return F;
 }
 
-Eigen::VectorXd NQSJastrow::g(Eigen::VectorXd particles) {
-    Eigen::VectorXd V = v(particles);
+Eigen::VectorXd NQSJastrow::g(Eigen::VectorXd positions) {
+    Eigen::VectorXd V = v(positions);
     Eigen::VectorXd G = Eigen::VectorXd::Zero(m_numberOfHiddenNodes);
     for(int i=0; i<m_numberOfHiddenNodes; i++) {
         G(i) = 1/(1 + exp(V(i)));
@@ -51,33 +51,33 @@ Eigen::VectorXd NQSJastrow::g(Eigen::VectorXd particles) {
     return G;
 }
 
-double NQSJastrow::evaluate(Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
-    Eigen::VectorXd G = g(particles);
+double NQSJastrow::evaluate(Eigen::VectorXd positions, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
+    Eigen::VectorXd G = g(positions);
     return (G.cwiseInverse()).prod();
 }
 
-double NQSJastrow::evaluateSqrd(Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
-    Eigen::VectorXd G = g(particles);
+double NQSJastrow::evaluateSqrd(Eigen::VectorXd positions, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
+    Eigen::VectorXd G = g(positions);
     return ((G.cwiseInverse()).cwiseAbs2()).prod();
 }
 
-double NQSJastrow::computeFirstDerivative(const Eigen::VectorXd particles, int k) {
-    Eigen::VectorXd F = f(particles);
-    Eigen::VectorXd G = g(particles);
+double NQSJastrow::computeFirstDerivative(const Eigen::VectorXd positions, int k) {
+    Eigen::VectorXd F = f(positions);
+    Eigen::VectorXd G = g(positions);
     Eigen::MatrixXd w = W();
     return double(w.row(k) * (F.cwiseProduct(G))) / m_sigmaSqrd;
 }
 
 double NQSJastrow::computeSecondDerivative() {
-    m_particles = m_system->getParticles();
-    Eigen::VectorXd F = f(m_particles);
-    Eigen::VectorXd G = g(m_particles);
+    m_positions = m_system->getParticles();
+    Eigen::VectorXd F = f(m_positions);
+    Eigen::VectorXd G = g(m_positions);
     Eigen::MatrixXd w = W();
     return (w.cwiseAbs2() * F.cwiseProduct(G.cwiseAbs2())).sum();
 }
 
 Eigen::VectorXd NQSJastrow::computeFirstEnergyDerivative(int k) {
-    m_particles = m_system->getParticles();
+    m_positions = m_system->getParticles();
     Eigen::VectorXd gradients = Eigen::VectorXd::Zero(m_maxNumberOfParametersPerElement);
     return gradients;
 }

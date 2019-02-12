@@ -15,7 +15,7 @@
 #include <string>
 
 void System::runMetropolisSteps(int numberOfMetropolisSteps, int numberOfIterations) {
-    m_particles                 = m_initialState->getParticles();
+    m_positions                 = m_initialState->getParticles();
     m_radialVector              = m_initialState->getRadialVector();
     m_distanceMatrix            = m_initialState->getDistanceMatrix();
     m_parameters                = m_initialWeights->getWeights();
@@ -30,7 +30,7 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps, int numberOfIterati
         clock_t start_time = clock();
         for (int i=0; i < numberOfMetropolisSteps; i++) {
             bool acceptedStep = m_metropolis->acceptMove();
-            m_particles       = m_metropolis->updatePositions();
+            m_positions       = m_metropolis->updatePositions();
             m_radialVector    = m_metropolis->updateRadialVector();
             m_distanceMatrix  = m_metropolis->updateDistanceMatrix();
             if(double(i)/m_numberOfMetropolisSteps >= m_equilibrationFraction) {
@@ -156,7 +156,7 @@ double System::getKineticEnergy() {
     for(int k = 0; k < m_numberOfFreeDimensions; k++) {
         double NablaLnPsi = 0;
         for(auto& i : m_waveFunctionVector) {
-            NablaLnPsi += i->computeFirstDerivative(m_particles, k);
+            NablaLnPsi += i->computeFirstDerivative(m_positions, k);
         }
         KineticEnergy += NablaLnPsi * NablaLnPsi;
     }
@@ -167,7 +167,7 @@ Eigen::VectorXd System::getGradient(WaveFunction* waveFunction) {
     //This function calculates the gradients of each element
     Eigen::VectorXd TotalGradients = waveFunction->computeSecondEnergyDerivative();
     for(int k = 0; k < m_numberOfFreeDimensions; k++) {
-        TotalGradients += 2 * waveFunction->computeFirstDerivative(m_particles, k) * waveFunction->computeFirstEnergyDerivative(k);
+        TotalGradients += 2 * waveFunction->computeFirstDerivative(m_positions, k) * waveFunction->computeFirstEnergyDerivative(k);
     }
     return TotalGradients;
 }

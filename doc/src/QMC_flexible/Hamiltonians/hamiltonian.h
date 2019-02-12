@@ -9,7 +9,7 @@ public:
 
 protected:
     class System* m_system = nullptr;
-    Eigen::VectorXd m_particles;
+    Eigen::VectorXd m_positions;
     Eigen::VectorXd m_radialVector;
     Eigen::MatrixXd m_distanceMatrix;
     Eigen::MatrixXd m_parameters;

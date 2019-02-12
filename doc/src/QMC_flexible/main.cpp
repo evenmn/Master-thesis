@@ -35,7 +35,7 @@ int main() {
     int     numberOfParticles   = 2;
     int     numberOfHiddenNodes = 2;
     int     numberOfSteps       = int(1e6);
-    int     numberOfIterations  = 100;
+    int     numberOfIterations  = 10;
     double  eta                 = 0.2;         // Learning rate
     double  omega               = 1.0;          // Oscillator frequency
     double  sigma               = 1.0;          // Width of probability distribution

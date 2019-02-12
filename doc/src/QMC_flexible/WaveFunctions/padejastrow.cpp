@@ -12,7 +12,7 @@ PadeJastrow::PadeJastrow(System* system, int elementNumber) :
     m_numberOfDimensions = m_system->getNumberOfDimensions();
 }
 
-double PadeJastrow::evaluate(Eigen::MatrixXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
+double PadeJastrow::evaluate(Eigen::MatrixXd positions, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
     m_parameters         = m_system->getWeights();
     double PadeJastrowFactor = 0;
     for(int i=0; i<m_numberOfParticles; i++) {
@@ -24,7 +24,7 @@ double PadeJastrow::evaluate(Eigen::MatrixXd particles, Eigen::VectorXd radialVe
     return exp(PadeJastrowFactor);
 }
 
-double PadeJastrow::evaluateSqrd(Eigen::MatrixXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
+double PadeJastrow::evaluateSqrd(Eigen::MatrixXd positions, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
     m_parameters         = m_system->getWeights();
     double PadeJastrowFactor = 0;
     for(int i=0; i<m_numberOfParticles; i++) {
