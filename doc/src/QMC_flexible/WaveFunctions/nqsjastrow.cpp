@@ -78,12 +78,26 @@ double NQSJastrow::computeSecondDerivative() {
 
 Eigen::VectorXd NQSJastrow::computeFirstEnergyDerivative(int k) {
     m_positions = m_system->getParticles();
+    Eigen::VectorXd F = f(m_positions);
+    Eigen::VectorXd G = g(m_positions);
+    Eigen::MatrixXd w = W();
     Eigen::VectorXd gradients = Eigen::VectorXd::Zero(m_maxNumberOfParametersPerElement);
+
+    // Update b
+    gradients.head(m_numberOfHiddenNodes) = - 0.5 * (((w.row(k)).transpose()).cwiseProduct(G.cwiseProduct(F.cwiseAbs2()))) / m_sigmaSqrd;
+
     return gradients;
 }
 
 Eigen::VectorXd NQSJastrow::computeSecondEnergyDerivative() {
-    m_distanceMatrix     = m_system->getDistanceMatrix();
+    m_positions = m_system->getParticles();
+    Eigen::VectorXd F = f(m_positions);
+    Eigen::VectorXd G = g(m_positions);
+    Eigen::MatrixXd w = W();
     Eigen::VectorXd gradients = Eigen::VectorXd::Zero(m_maxNumberOfParametersPerElement);
+
+    // Update b
+    gradients.head(m_numberOfHiddenNodes) = - 0.5 * ((w.cwiseAbs2()) * F.cwiseProduct((Eigen::VectorXd::Ones(m_numberOfHiddenNodes)-F).cwiseProduct(G.cwiseAbs2()))) / (m_sigmaSqrd + m_sigmaSqrd);
+
     return gradients;
 }
