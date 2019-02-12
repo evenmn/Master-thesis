@@ -8,6 +8,7 @@ public:
     void runMetropolisSteps         (int numberOfMetropolisSteps, int numberOfIterations);
     void setNumberOfParticles       (int numberOfParticles);
     void setNumberOfDimensions      (int numberOfDimensions);
+    void setNumberOfHiddenNodes     (int numberOfHiddenNodes);
     void setNumberOfFreeDimensions  ();
     void setMaxNumberOfParametersPerElement (int maxNumberOfParametersPerElement);
     void setNumberOfWaveFunctionElements (int numberOfWaveFunctionElements);
@@ -31,6 +32,7 @@ public:
     //class Optimization*     getOptimizer()               { return m_optimizer; }
     int                     getNumberOfParticles()       { return m_numberOfParticles; }
     int                     getNumberOfDimensions()      { return m_numberOfDimensions; }
+    int                     getNumberOfHiddenNodes()     { return m_numberOfHiddenNodes; }
     int                     getNumberOfFreeDimensions()  { return m_numberOfFreeDimensions; }
     int                     getNumberOfMetropolisSteps() { return m_numberOfMetropolisSteps; }
     int                     getMaxNumberOfParametersPerElement() { return m_maxNumberOfParametersPerElement; }
@@ -61,6 +63,7 @@ public:
     std::string generate_filename   (std::string name, std::string extension);
 
 private:
+    int                                 m_numberOfHiddenNodes       = 0;
     int                                 m_numberOfParticles         = 0;
     int                                 m_numberOfDimensions        = 0;
     int                                 m_numberOfFreeDimensions    = 0;

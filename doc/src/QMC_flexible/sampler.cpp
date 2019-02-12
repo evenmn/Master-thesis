@@ -19,6 +19,7 @@ Sampler::Sampler(System* system) {
     m_numberOfParticles  = m_system->getNumberOfParticles();
     m_numberOfDimensions = m_system->getNumberOfDimensions();
     m_numberOfElements   = m_system->getNumberOfWaveFunctionElements();
+    m_maxNumberOfParametersPerElement = m_system->getMaxNumberOfParametersPerElement();
 }
 
 void Sampler::setNumberOfMetropolisSteps(int steps) {
@@ -30,9 +31,9 @@ void Sampler::sample(bool acceptedStep, int stepNumber) {
     if (stepNumber == int(m_numberOfMetropolisSteps * m_system->getEquilibrationFraction())) {
         m_acceptenceRatio = 0;
         m_cumulativeEnergy = 0;
-        int maxNumberOfParametersPerElement = m_numberOfParticles * m_numberOfParticles + m_numberOfParticles;
-        m_dE = Eigen::MatrixXd::Zero(m_numberOfElements, maxNumberOfParametersPerElement);
-        m_dEE = Eigen::MatrixXd::Zero(m_numberOfElements, maxNumberOfParametersPerElement);
+
+        m_dE = Eigen::MatrixXd::Zero(m_numberOfElements, m_maxNumberOfParametersPerElement);
+        m_dEE = Eigen::MatrixXd::Zero(m_numberOfElements, m_maxNumberOfParametersPerElement);
         m_SqrdE = 0;
     }
     //m_stepNumber = stepNumber;

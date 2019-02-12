@@ -48,17 +48,22 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps, int numberOfIterati
 }
 
 void System::setNumberOfParticles(int numberOfParticles) {
-    assert(numberOfParticles >= 0);
+    assert(numberOfParticles > 0);
     m_numberOfParticles = numberOfParticles;
 }
 
 void System::setNumberOfDimensions(int numberOfDimensions) {
-    assert(numberOfDimensions >= 0);
+    assert(numberOfDimensions > 0);
     m_numberOfDimensions = numberOfDimensions;
 }
 
 void System::setNumberOfFreeDimensions() {
     m_numberOfFreeDimensions = m_numberOfParticles * m_numberOfDimensions;
+}
+
+void System::setNumberOfHiddenNodes(int numberOfHiddenNodes) {
+    assert(numberOfHiddenNodes > 0);
+    m_numberOfHiddenNodes = numberOfHiddenNodes;
 }
 
 void System::setNumberOfWaveFunctionElements(int numberOfWaveFunctionElements) {
@@ -129,29 +134,29 @@ void System::setGradients() {
 
 double System::evaluateWaveFunction(Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
     double WF = 1;
-    for(unsigned i = 0; i < m_waveFunctionVector.size(); i++) {
-        WF *= m_waveFunctionVector[i]->evaluate(particles, radialVector, distanceMatrix);
+    for(auto& i : m_waveFunctionVector) {
+        WF *= i->evaluate(particles, radialVector, distanceMatrix);
     }
     return WF;
 }
 
 double System::evaluateWaveFunctionSqrd(Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
     double WF = 1;
-    for(unsigned i = 0; i < m_waveFunctionVector.size(); i++) {
-        WF *= m_waveFunctionVector[i]->evaluateSqrd(particles, radialVector, distanceMatrix);
+    for(auto& i : m_waveFunctionVector) {
+        WF *= i->evaluateSqrd(particles, radialVector, distanceMatrix);
     }
     return WF;
 }
 
 double System::getKineticEnergy() {
     double KineticEnergy = 0;
-    for(unsigned i = 0; i < m_waveFunctionVector.size(); i++) {
-        KineticEnergy += m_waveFunctionVector[i]->computeSecondDerivative();
+    for(auto& i : m_waveFunctionVector) {
+        KineticEnergy += i->computeSecondDerivative();
     }
     for(int k = 0; k < m_numberOfFreeDimensions; k++) {
         double NablaLnPsi = 0;
-        for(unsigned i = 0; i < m_waveFunctionVector.size(); i++) {
-            NablaLnPsi += m_waveFunctionVector[i]->computeFirstDerivative(m_particles, k);
+        for(auto& i : m_waveFunctionVector) {
+            NablaLnPsi += i->computeFirstDerivative(m_particles, k);
         }
         KineticEnergy += NablaLnPsi * NablaLnPsi;
     }
@@ -169,8 +174,7 @@ Eigen::VectorXd System::getGradient(WaveFunction* waveFunction) {
 
 Eigen::MatrixXd System::updateParameters() {
     // This function iterates over all WF elements and returns the new gradients
-    int maxNumberOfParametersPerElement = m_numberOfParticles * m_numberOfParticles + m_numberOfParticles;
-    Eigen::MatrixXd gradients = Eigen::MatrixXd::Zero(m_numberOfWaveFunctionElements, maxNumberOfParametersPerElement);
+    Eigen::MatrixXd gradients = Eigen::MatrixXd::Zero(m_numberOfWaveFunctionElements, m_maxNumberOfParametersPerElement);
     for(int i = 0; i < m_numberOfWaveFunctionElements; i++) {
         gradients.row(i) += getGradient(m_waveFunctionVector[i]);
     }

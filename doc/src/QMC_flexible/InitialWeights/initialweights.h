@@ -14,5 +14,6 @@ protected:
     int              m_numberOfDimensions    = 0;
     int              m_numberOfParticles     = 0;
     int              m_numberOfElements      = 0;
+    int              m_maxNumberOfParametersPerElement = 0;
     Eigen::MatrixXd  m_parameters;
 };

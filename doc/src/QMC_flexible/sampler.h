@@ -14,6 +14,7 @@ public:
     Eigen::MatrixXd getEnergyGradient();
 
 private:
+    int     m_maxNumberOfParametersPerElement = 0;
     int     m_numberOfMetropolisSteps = 0;
     int     m_numberOfParticles = 0;
     int     m_numberOfDimensions = 0;
