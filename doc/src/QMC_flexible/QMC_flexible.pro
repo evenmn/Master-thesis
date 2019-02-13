@@ -19,7 +19,6 @@ SOURCES += main.cpp \
     WaveFunctions/padejastrow.cpp \
     Math/random2.cpp \
     InitialWeights/initialweights.cpp \
-    InitialWeights/ones.cpp \
     InitialWeights/randomize.cpp \
     WaveFunctions/mlgaussian.cpp \
     WaveFunctions/padejastrowcartesian.cpp \
@@ -27,7 +26,8 @@ SOURCES += main.cpp \
     Metropolis/metropolis.cpp \
     Metropolis/bruteforce.cpp \
     Metropolis/importancesampling.cpp \
-    WaveFunctions/nqsjastrow.cpp
+    WaveFunctions/nqsjastrow.cpp \
+    InitialWeights/constant.cpp
 
 HEADERS += \
     system.h \
@@ -45,7 +45,6 @@ HEADERS += \
     WaveFunctions/padejastrow.h \
     Math/random2.h \
     InitialWeights/initialweights.h \
-    InitialWeights/ones.h \
     InitialWeights/randomize.h \
     WaveFunctions/mlgaussian.h \
     WaveFunctions/padejastrowcartesian.h \
@@ -53,5 +52,6 @@ HEADERS += \
     Metropolis/metropolis.h \
     Metropolis/bruteforce.h \
     Metropolis/importancesampling.h \
-    WaveFunctions/nqsjastrow.h
+    WaveFunctions/nqsjastrow.h \
+    InitialWeights/constant.h
 

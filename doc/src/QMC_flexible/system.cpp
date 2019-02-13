@@ -23,7 +23,7 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps, int numberOfIterati
     m_numberOfMetropolisSteps   = numberOfMetropolisSteps;
     m_sampler->setNumberOfMetropolisSteps(numberOfMetropolisSteps);
     std::string path = "../../data/";                       //Path to data folder
-    std::string energy_filename = generate_filename("Energy", ".dat");
+    std::string energy_filename = generate_filename("Energy3", ".dat");
     std::ofstream energy;
     energy.open(path + energy_filename);                    //Open energy file based on parameters
     for (int iter = 0; iter < numberOfIterations; iter++) {

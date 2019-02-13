@@ -14,6 +14,7 @@ public:
     Eigen::MatrixXd getEnergyGradient();
 
 private:
+    int     m_numberOfStepsAfterEquilibrium = 0;
     int     m_maxNumberOfParametersPerElement = 0;
     int     m_numberOfMetropolisSteps = 0;
     int     m_numberOfParticles = 0;
@@ -22,6 +23,7 @@ private:
     int     m_stepNumber = 0;
     int     m_acceptenceRatio = 0;
     double  m_energy = 0;
+    double  m_variance = 0;
     double  m_cumulativeEnergy = 0;
     Eigen::MatrixXd  m_dE;
     Eigen::MatrixXd  m_dEE;

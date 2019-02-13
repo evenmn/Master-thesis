@@ -18,7 +18,7 @@
 #include "InitialStates/randomnormal.h"
 
 #include "InitialWeights/initialweights.h"
-#include "InitialWeights/ones.h"
+#include "InitialWeights/constant.h"
 #include "InitialWeights/randomize.h"
 
 #include "Metropolis/metropolis.h"
@@ -35,13 +35,13 @@ int main() {
     int     numberOfParticles   = 2;
     int     numberOfHiddenNodes = 2;
     int     numberOfSteps       = int(1e6);
-    int     numberOfIterations  = 100;
-    double  eta                 = 0.05;         // Learning rate
+    int     numberOfIterations  = 30;
+    double  eta                 = 0.5;         // Learning rate
     double  omega               = 1.0;          // Oscillator frequency
     double  sigma               = 1.0;          // Width of probability distribution
     double  stepLength          = 0.1;          // Metropolis step length
     double  equilibration       = 0.1;          // Amount of the total steps used
-    bool    interaction         = true;
+    bool    interaction         = false;
     int     maxNumberOfParametersPerElement = numberOfParticles*numberOfDimensions*numberOfHiddenNodes + numberOfHiddenNodes;
 
     System* system = new System();
@@ -60,12 +60,12 @@ int main() {
     std::vector<class WaveFunction*> WaveFunctionElements;
     //WaveFunctionElements.push_back      (new class CartesianGaussian      (system, 0));
     WaveFunctionElements.push_back      (new class MLGaussian             (system, 0));
-    WaveFunctionElements.push_back      (new class NQSJastrow             (system, 1));
-    WaveFunctionElements.push_back      (new class PadeJastrowCartesian   (system, 2));
+    //WaveFunctionElements.push_back      (new class NQSJastrow             (system, 1));
+    WaveFunctionElements.push_back      (new class PadeJastrowCartesian   (system, 1));
 
     system->setNumberOfWaveFunctionElements(int(WaveFunctionElements.size()));
     system->setInitialState             (new RandomNormal(system));
-    system->setInitialWeights           (new Ones(system));
+    system->setInitialWeights           (new Constant(system, 1.1));
     system->setWaveFunction             (WaveFunctionElements);
     system->setHamiltonian              (new HarmonicOscillator(system));
     system->setMetropolis               (new ImportanceSampling(system));

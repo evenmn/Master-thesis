@@ -13,13 +13,14 @@ using std::endl;
 
 
 Sampler::Sampler(System* system) {
-    m_system = system;
-    m_stepNumber         = 0;
-    m_acceptenceRatio    = 0;
-    m_numberOfParticles  = m_system->getNumberOfParticles();
-    m_numberOfDimensions = m_system->getNumberOfDimensions();
-    m_numberOfElements   = m_system->getNumberOfWaveFunctionElements();
-    m_maxNumberOfParametersPerElement = m_system->getMaxNumberOfParametersPerElement();
+    m_system                            = system;
+    m_stepNumber                        = 0;
+    m_acceptenceRatio                   = 0;
+    m_numberOfParticles                 = m_system->getNumberOfParticles();
+    m_numberOfDimensions                = m_system->getNumberOfDimensions();
+    m_numberOfElements                  = m_system->getNumberOfWaveFunctionElements();
+    m_maxNumberOfParametersPerElement   = m_system->getMaxNumberOfParametersPerElement();
+    m_numberOfStepsAfterEquilibrium     = int((1 - m_system->getEquilibrationFraction()) * m_system->getNumberOfMetropolisSteps());
 }
 
 void Sampler::setNumberOfMetropolisSteps(int steps) {
@@ -37,6 +38,7 @@ void Sampler::sample(bool acceptedStep, int stepNumber) {
         m_SqrdE = 0;
     }
     //m_stepNumber = stepNumber;
+    m_numberOfStepsAfterEquilibrium     = int((1 - m_system->getEquilibrationFraction()) * m_system->getNumberOfMetropolisSteps());
 
     double EL = m_system->getHamiltonian()->computeLocalEnergy();
     Eigen::MatrixXd gradients = m_system->updateParameters();
@@ -72,19 +74,18 @@ void Sampler::printOutputToTerminal(int iter, double time) {
     cout << "  -- Results -- " << endl;
     cout << " Energy           : " << m_energy << endl;
     cout << " Acceptence Ratio : " << double(m_acceptenceRatio)/m_numberOfMetropolisSteps << endl;
-    cout << " Variance         : " << 2*(m_SqrdE/m_numberOfMetropolisSteps - m_energy * m_energy) << endl;
+    cout << " Variance         : " << m_variance << endl;
+    cout << " STD              : " << sqrt(m_variance) << endl;
     cout << " Time             : " << time << endl;
     cout << endl;
 }
 
 void Sampler::computeAverages() {
-    /* Compute the averages of the sampled quantities. You need to think
-     * thoroughly through what is written here currently; is this correct?
-     */
-    m_energy = m_cumulativeEnergy / ((1 - m_system->getEquilibrationFraction()) * m_system->getNumberOfMetropolisSteps());
+    m_energy = m_cumulativeEnergy / m_numberOfStepsAfterEquilibrium;
+    m_variance = (m_SqrdE/m_numberOfStepsAfterEquilibrium - m_energy * m_energy);
 }
 
 Eigen::MatrixXd Sampler::getEnergyGradient() {
     double eta = m_system->getLearningRate();
-    return 2 * eta * (m_dEE - m_energy * m_dE)/m_system->getNumberOfMetropolisSteps();
+    return 2 * eta * (m_dEE - m_energy * m_dE)/ m_numberOfStepsAfterEquilibrium;
 }

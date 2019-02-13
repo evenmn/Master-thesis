@@ -8,10 +8,10 @@ Randomize::Randomize(System*    system)  :  InitialWeights(system) {
     m_numberOfDimensions = m_system->getNumberOfDimensions();
     m_numberOfParticles  = m_system->getNumberOfParticles();
     m_numberOfElements   = m_system->getNumberOfWaveFunctionElements();
+    m_maxNumberOfParametersPerElement = m_system->getMaxNumberOfParametersPerElement();
     setupInitialWeights();
 }
 
 void Randomize::setupInitialWeights() {
-    int maxNumberOfParametersPerElement = m_numberOfParticles * m_numberOfParticles + m_numberOfParticles;
-    m_parameters = Eigen::MatrixXd::Random(m_numberOfElements, maxNumberOfParametersPerElement);
+    m_parameters = Eigen::MatrixXd::Random(m_numberOfElements, m_maxNumberOfParametersPerElement);
 }
