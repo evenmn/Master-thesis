@@ -17,18 +17,18 @@ MLGaussian::MLGaussian(System* system,
 double MLGaussian::evaluate(Eigen::VectorXd positions, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
     m_parameters         = m_system->getWeights();
     Eigen::VectorXd a    = (m_parameters.row(m_elementNumber)).head(m_numberOfFreeDimensions);
-    return exp(-double(m_omega * ((positions - a).cwiseAbs2()).sum())/(2 * m_sigmaSqrd));
+    return exp(-double(m_omega * ((positions + Eigen::VectorXd::Ones(m_numberOfFreeDimensions) - a).cwiseAbs2()).sum())/(2 * m_sigmaSqrd));
 }
 
 double MLGaussian::evaluateSqrd(Eigen::VectorXd positions, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
     m_parameters         = m_system->getWeights();
     Eigen::VectorXd a    = (m_parameters.row(m_elementNumber)).head(m_numberOfFreeDimensions);
-    return exp(-double(m_omega * ((positions - a).cwiseAbs2()).sum())/m_sigmaSqrd);
+    return exp(-double(m_omega * ((positions + Eigen::VectorXd::Ones(m_numberOfFreeDimensions)- a).cwiseAbs2()).sum())/m_sigmaSqrd);
 }
 
 double MLGaussian::computeFirstDerivative(Eigen::VectorXd positions, int k) {
     m_parameters         = m_system->getWeights();
-    return - m_omega * (positions(k) - m_parameters(m_elementNumber, k))/m_sigmaSqrd;
+    return - m_omega * (positions(k) + 1 - m_parameters(m_elementNumber, k))/m_sigmaSqrd;
 }
 
 double MLGaussian::computeSecondDerivative() {;

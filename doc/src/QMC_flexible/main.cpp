@@ -61,7 +61,7 @@ int main() {
     //WaveFunctionElements.push_back      (new class CartesianGaussian      (system, 0));
     WaveFunctionElements.push_back      (new class MLGaussian             (system, 0));
     //WaveFunctionElements.push_back      (new class NQSJastrow             (system, 1));
-    WaveFunctionElements.push_back      (new class PadeJastrowCartesian   (system, 1));
+    //WaveFunctionElements.push_back      (new class PadeJastrowCartesian   (system, 1));
 
     system->setNumberOfWaveFunctionElements(int(WaveFunctionElements.size()));
     system->setInitialState             (new RandomNormal(system));
