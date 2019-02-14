@@ -11,7 +11,8 @@ public:
     Eigen::VectorXd computeFirstEnergyDerivative(int k);
     Eigen::VectorXd computeSecondEnergyDerivative();
 
-    double f(int i, int j);
+    //double f(int i, int j);
+    Eigen::MatrixXd f();
     double g(int i, int j, int k, int l);
     double beta(int i, int j);
     double gamma();

@@ -5,7 +5,7 @@
 #include "InitialStates/initialstate.h"
 #include "InitialWeights/initialweights.h"
 #include "Metropolis/metropolis.h"
-//#include "Optimization/optimization.h"
+#include "Optimization/optimization.h"
 #include "Math/random2.h"
 
 #include <iostream>
@@ -40,9 +40,8 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps, int numberOfIterati
         clock_t end_time = clock();
         m_sampler->computeAverages();
         m_sampler->printOutputToTerminal(iter, double(end_time - start_time)/CLOCKS_PER_SEC);
-        Eigen::MatrixXd gradients = m_sampler->getEnergyGradient();
         energy << m_sampler->getEnergy() << "\n";
-        m_parameters -= gradients;
+        m_parameters -= m_optimization->updateParameters();
     }
     if(energy.is_open())  energy.close();
 }
@@ -123,9 +122,9 @@ void System::setMetropolis(Metropolis* metropolis) {
     m_metropolis = metropolis;
 }
 
-//void System::setOptimizer(Optimization* optimizer) {
-//    m_optimizer = optimizer;
-//}
+void System::setOptimization(Optimization* optimization) {
+    m_optimization = optimization;
+}
 
 void System::setGradients() {
     int maxNumberOfParametersPerElement = m_numberOfParticles*m_numberOfParticles + m_numberOfParticles;
@@ -161,24 +160,6 @@ double System::getKineticEnergy() {
         KineticEnergy += NablaLnPsi * NablaLnPsi;
     }
     return -0.5 * KineticEnergy;
-}
-
-Eigen::VectorXd System::getGradient(WaveFunction* waveFunction) {
-    //This function calculates the gradients of each element
-    Eigen::VectorXd TotalGradients = waveFunction->computeSecondEnergyDerivative();
-    for(int k = 0; k < m_numberOfFreeDimensions; k++) {
-        TotalGradients += 2 * waveFunction->computeFirstDerivative(m_positions, k) * waveFunction->computeFirstEnergyDerivative(k);
-    }
-    return TotalGradients;
-}
-
-Eigen::MatrixXd System::updateParameters() {
-    // This function iterates over all WF elements and returns the new gradients
-    Eigen::MatrixXd gradients = Eigen::MatrixXd::Zero(m_numberOfWaveFunctionElements, m_maxNumberOfParametersPerElement);
-    for(int i = 0; i < m_numberOfWaveFunctionElements; i++) {
-        gradients.row(i) += getGradient(m_waveFunctionVector[i]);
-    }
-    return gradients;
 }
 
 Eigen::VectorXd System::calculateRadialVector(Eigen::VectorXd particles) {

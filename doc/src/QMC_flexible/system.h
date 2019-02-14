@@ -23,13 +23,13 @@ public:
     void setInitialState            (class InitialState* initialState);
     void setInitialWeights          (class InitialWeights* initialWeights);
     void setMetropolis              (class Metropolis* metropolis);
-    //void setOptimizer               (class Optimization* optimizer);
+    void setOptimization            (class Optimization* optimization);
     void setWaveFunction            (std::vector<class WaveFunction*> waveFunctionVector);
 
     class WaveFunction*     getWaveFunction()            { return m_waveFunction; }
     class Hamiltonian*      getHamiltonian()             { return m_hamiltonian; }
     class Sampler*          getSampler()                 { return m_sampler; }
-    //class Optimization*     getOptimizer()               { return m_optimizer; }
+    class Optimization*     getOptimization()            { return m_optimization; }
     int                     getNumberOfParticles()       { return m_numberOfParticles; }
     int                     getNumberOfDimensions()      { return m_numberOfDimensions; }
     int                     getNumberOfHiddenNodes()     { return m_numberOfHiddenNodes; }
@@ -54,8 +54,6 @@ public:
     double evaluateWaveFunction     (Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
     double evaluateWaveFunctionSqrd (Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
     double getKineticEnergy         ();
-    Eigen::VectorXd getGradient(class WaveFunction* waveFunction);
-    Eigen::MatrixXd updateParameters();
     Eigen::VectorXd calculateRadialVector      (Eigen::VectorXd particles);
     Eigen::MatrixXd calculateDistanceMatrix    (Eigen::VectorXd particles);
     void calculateDistanceMatrixCross(int par, Eigen::VectorXd particles, Eigen::MatrixXd &distanceMatrix);
@@ -83,7 +81,7 @@ private:
     class InitialWeights*               m_initialWeights            = nullptr;
     class Sampler*                      m_sampler                   = nullptr;
     class Metropolis*                   m_metropolis                = nullptr;
-    //class Optimization*                 m_optimizer                 = nullptr;
+    class Optimization*                 m_optimization              = nullptr;
     std::vector<class WaveFunction*>    m_waveFunctionVector;
     Eigen::VectorXd                     m_positions;
     Eigen::MatrixXd                     m_parameters;

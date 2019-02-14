@@ -6,7 +6,7 @@
 #include "system.h"
 #include "Hamiltonians/hamiltonian.h"
 #include "WaveFunctions/wavefunction.h"
-//#include "Optimization/optimization.h"
+#include "Optimization/optimization.h"
 
 using std::cout;
 using std::endl;
@@ -41,7 +41,7 @@ void Sampler::sample(bool acceptedStep, int stepNumber) {
     m_numberOfStepsAfterEquilibrium     = int((1 - m_system->getEquilibrationFraction()) * m_system->getNumberOfMetropolisSteps());
 
     double EL = m_system->getHamiltonian()->computeLocalEnergy();
-    Eigen::MatrixXd gradients = m_system->updateParameters();
+    Eigen::MatrixXd gradients = m_system->getOptimization()->getAllImmediateGradients();
 
     m_cumulativeEnergy  += EL;
     m_dE += gradients;
@@ -65,8 +65,8 @@ void Sampler::printOutputToTerminal(int iter, double time) {
     cout << " Number of Metropolis steps run : 10^" << std::log10(ms) << endl;
     cout << " Number of equilibration steps  : 10^" << std::log10(std::round(ms*ef)) << endl;
     cout << endl;
-    cout << "  -- Wave function parameters -- " << endl;
-    cout << " Number of parameters : " << p << endl;
+    //cout << "  -- Wave function parameters -- " << endl;
+    //cout << " Number of parameters : " << p << endl;
     //for (int i=0; i < p; i++) {
     //    cout << " Parameter " << i+1 << " : " << pa.at(i) << endl;
     //}
@@ -82,10 +82,6 @@ void Sampler::printOutputToTerminal(int iter, double time) {
 
 void Sampler::computeAverages() {
     m_energy = m_cumulativeEnergy / m_numberOfStepsAfterEquilibrium;
-    m_variance = (m_SqrdE/m_numberOfStepsAfterEquilibrium - m_energy * m_energy);
-}
 
-Eigen::MatrixXd Sampler::getEnergyGradient() {
-    double eta = m_system->getLearningRate();
-    return 2 * eta * (m_dEE - m_energy * m_dE)/ m_numberOfStepsAfterEquilibrium;
+    m_variance = (m_SqrdE/m_numberOfStepsAfterEquilibrium - m_energy * m_energy);
 }

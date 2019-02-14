@@ -25,23 +25,24 @@
 #include "Metropolis/bruteforce.h"
 #include "Metropolis/importancesampling.h"
 
-//#include "Optimization/optimization.h"
-//#include "Optimization/gradientdescent.h"
+#include "Optimization/optimization.h"
+#include "Optimization/optimization.h"
+#include "Optimization/gradientdescent.h"
 
 using namespace std;
 
 int main() {
     int     numberOfDimensions  = 2;
-    int     numberOfParticles   = 2;
+    int     numberOfParticles   = 1;
     int     numberOfHiddenNodes = 2;
     int     numberOfSteps       = int(1e6);
-    int     numberOfIterations  = 30;
-    double  eta                 = 0.5;         // Learning rate
+    int     numberOfIterations  = 100;
+    double  eta                 = 0.1;         // Learning rate
     double  omega               = 1.0;          // Oscillator frequency
     double  sigma               = 1.0;          // Width of probability distribution
     double  stepLength          = 0.1;          // Metropolis step length
     double  equilibration       = 0.1;          // Amount of the total steps used
-    bool    interaction         = false;
+    bool    interaction         = true;
     int     maxNumberOfParametersPerElement = numberOfParticles*numberOfDimensions*numberOfHiddenNodes + numberOfHiddenNodes;
 
     System* system = new System();
@@ -58,18 +59,18 @@ int main() {
     system->setNumberOfFreeDimensions   ();
 
     std::vector<class WaveFunction*> WaveFunctionElements;
-    //WaveFunctionElements.push_back      (new class CartesianGaussian      (system, 0));
-    WaveFunctionElements.push_back      (new class MLGaussian             (system, 0));
+    WaveFunctionElements.push_back      (new class CartesianGaussian      (system, 0));
+    //WaveFunctionElements.push_back      (new class MLGaussian             (system, 0));
     //WaveFunctionElements.push_back      (new class NQSJastrow             (system, 1));
     //WaveFunctionElements.push_back      (new class PadeJastrowCartesian   (system, 1));
 
     system->setNumberOfWaveFunctionElements(int(WaveFunctionElements.size()));
     system->setInitialState             (new RandomNormal(system));
-    system->setInitialWeights           (new Constant(system, 1.1));
+    system->setInitialWeights           (new Randomize(system));
     system->setWaveFunction             (WaveFunctionElements);
     system->setHamiltonian              (new HarmonicOscillator(system));
     system->setMetropolis               (new ImportanceSampling(system));
-    //system->setOptimizer                (new GradientDescent(system));
+    system->setOptimization             (new GradientDescent(system));
     system->setGradients                ();
     system->runMetropolisSteps          (numberOfSteps, numberOfIterations);
     return 0;

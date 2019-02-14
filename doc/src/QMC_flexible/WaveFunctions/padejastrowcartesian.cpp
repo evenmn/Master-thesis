@@ -14,10 +14,16 @@ PadeJastrowCartesian::PadeJastrowCartesian(System* system, int elementNumber) :
     m_maxNumberOfParametersPerElement   = m_system->getMaxNumberOfParametersPerElement();
 }
 
-double PadeJastrowCartesian::f(int i, int j) {
-    m_radialVector = m_system->getRadialVector();
-    m_parameters   = m_system->getWeights();
-    return 1/(1 + m_parameters(m_elementNumber, 0) * m_radialVector(i,j));
+//double PadeJastrowCartesian::f(int i, int j) {
+//    m_radialVector = m_system->getRadialVector();
+//    m_parameters   = m_system->getWeights();
+//    return 1/(1 + m_parameters(m_elementNumber, 0) * m_radialVector(i,j));
+//}
+
+Eigen::MatrixXd PadeJastrowCartesian::f() {
+    m_distanceMatrix = m_system->getDistanceMatrix();
+    m_parameters     = m_system->getWeights();
+    return (Eigen::MatrixXd::Ones(m_numberOfParticles, m_numberOfParticles) + m_parameters(m_elementNumber,0) * m_distanceMatrix).cwiseInverse();
 }
 
 double PadeJastrowCartesian::g(int i, int j, int k, int l) {
@@ -63,12 +69,12 @@ double PadeJastrowCartesian::computeFirstDerivative(const Eigen::VectorXd positi
     m_distanceMatrix = m_system->getDistanceMatrix();
     int k_p = int(k/m_numberOfDimensions);  //Particle associated with k
     int k_d = k%m_numberOfDimensions;       //Dimension associated with k
+    Eigen::MatrixXd F = f();
 
     double derivative = 0;
     for(int j_p=0; j_p<k_p; j_p++) {
         int j = j_p * m_numberOfDimensions + k_d;
-        double F = f(k_p,j_p);
-        derivative += beta(k_p,j_p) * F * F * (positions(k) - positions(j))/m_distanceMatrix(k_p,j_p);
+        derivative += beta(k_p,j_p) * F(k_p,j_p) * F(k_p, j_p) * (positions(k) - positions(j))/m_distanceMatrix(k_p,j_p);
     }
     return derivative;
 }
@@ -77,6 +83,7 @@ double PadeJastrowCartesian::computeSecondDerivative() {
     m_radialVector       = m_system->getRadialVector();
     m_distanceMatrix     = m_system->getDistanceMatrix();
     m_parameters         = m_system->getWeights();
+    Eigen::MatrixXd F = f();
 
     double derivative = 0;
     for(int i=0; i<m_numberOfFreeDimensions; i++) {
@@ -84,9 +91,8 @@ double PadeJastrowCartesian::computeSecondDerivative() {
         int i_d = i%m_numberOfDimensions;       //Dimension associated with k
         for(int j_p=0; j_p<i_p; j_p++) {
             int j = j_p * m_numberOfDimensions + i_d;
-            double F = f(i_p,j_p);
             double G = g(i,j,i_p,j_p);
-            derivative += beta(i_p,j_p) * F * F * (1 - G * G * (1 + 3 * gamma() * m_distanceMatrix(i_p,j_p)) * F) / m_distanceMatrix(i_p,j_p);
+            derivative += beta(i_p,j_p) * F(i_p, j_p) * F(i_p, j_p) * (1 - G * G * (1 + 3 * gamma() * m_distanceMatrix(i_p,j_p)) * F(i_p, j_p)) / m_distanceMatrix(i_p,j_p);
         }
     }
     return derivative;
@@ -96,6 +102,7 @@ Eigen::VectorXd PadeJastrowCartesian::computeFirstEnergyDerivative(int k) {
     m_positions = m_system->getParticles();
 
     Eigen::VectorXd gradients = Eigen::VectorXd::Zero(m_maxNumberOfParametersPerElement);
+    Eigen::MatrixXd F = f();
 
     int k_p = int(k/m_numberOfDimensions);  //Particle associated with k
     int k_d = k%m_numberOfDimensions;       //Dimension associated with k
@@ -104,18 +111,16 @@ Eigen::VectorXd PadeJastrowCartesian::computeFirstEnergyDerivative(int k) {
     for(int j_p=0; j_p<k_p; j_p++) {
         int j = j_p * m_numberOfDimensions + k_d;
         int l = m_numberOfDimensions * k_p + j_p + 1;
-        double F = f(k_p,j_p);
-        gradients(l) = F * F * g(k,j,k_p,j_p);
+        gradients(l) = - 0.5 * F(k_p, j_p) * F(k_p, j_p) * g(k,j,k_p,j_p);
     }
 
     //Update gamma
     double derivative = 0;
     for(int j_p=0; j_p<k_p; j_p++) {
         int j = j_p * m_numberOfDimensions + k_d;
-        double F = f(k_p,j_p);
-        derivative -= beta(k_p,j_p) * F * F * F * (m_positions(k) - m_positions(j));
+        derivative += beta(k_p,j_p) * F(k_p, j_p) * F(k_p, j_p) * F(k_p, j_p) * (m_positions(k) - m_positions(j));
     }
-    gradients(0) = 2 * derivative;
+    gradients(0) = derivative;
     return gradients;
 }
 
@@ -123,6 +128,7 @@ Eigen::VectorXd PadeJastrowCartesian::computeSecondEnergyDerivative() {
     m_distanceMatrix     = m_system->getDistanceMatrix();
 
     Eigen::VectorXd gradients = Eigen::VectorXd::Zero(m_maxNumberOfParametersPerElement);
+    Eigen::MatrixXd F = f();
 
     //Update Beta matrix
     for(int i=0; i < m_numberOfFreeDimensions; i++) {
@@ -130,10 +136,9 @@ Eigen::VectorXd PadeJastrowCartesian::computeSecondEnergyDerivative() {
         int i_d = i%m_numberOfDimensions;       //Dimension associated with k
         for(int j_p=0; j_p<i_p; j_p++) {
             int j = j_p * m_numberOfDimensions + i_d;
-            double F = f(i_p,j_p);
             double G = g(i,j,i_p,j_p);
             int l = m_numberOfParticles * i_p + j_p + 1;      // Stack Beta matrix
-            gradients(l) = 0.5 * F * F * (G * G * (1 + 3 * gamma() * m_distanceMatrix(i_p,j_p)) * F - 1) / m_distanceMatrix(i_p,j_p);
+            gradients(l) = 0.5 * F(i_p, j_p) * F(i_p, j_p) * (G * G * (1 + 3 * gamma() * m_distanceMatrix(i_p,j_p)) * F(i_p, j_p) - 1) / m_distanceMatrix(i_p,j_p);
         }
     }
 
@@ -144,9 +149,8 @@ Eigen::VectorXd PadeJastrowCartesian::computeSecondEnergyDerivative() {
         int i_d = i%m_numberOfDimensions;       //Dimension associated with k
         for(int j_p=0; j_p<i_p; j_p++) {
             int j = j_p * m_numberOfDimensions + i_d;
-            double F = f(i_p,j_p);
             double G = g(i,j,i_p,j_p);
-            derivative -= beta(i_p,j_p) * F * F * F * (3 * G * G * F * gamma() * m_distanceMatrix(i_p,j_p) - 1);
+            derivative -= beta(i_p,j_p) * F(i_p, j_p) * F(i_p, j_p) * F(i_p, j_p) * (3 * G * G * F(i_p, j_p) * gamma() * m_distanceMatrix(i_p,j_p) - 1);
         }
     }
     gradients(0) = derivative;

@@ -1,12 +1,16 @@
 #pragma once
 #include "optimization.h"
+#include <Eigen/Dense>
 
 class GradientDescent : public Optimization {
 public:
-    GradientDescent(class System* system);
-    void getEnergyGradient(double EL_avg, Eigen::MatrixXd grad_tot, Eigen::MatrixXd gradE_tot, Eigen::MatrixXd &gradients);
-    /*double computeFirstDerivative(Eigen::MatrixXd particles, int k);
-    double computeDoubleDerivative(Eigen::MatrixXd particles);
-    double computeFirstEnergyDerivative(Eigen::MatrixXd particles);
-    double computeDoubleEnergyDerivative(Eigen::MatrixXd particles); */
+    GradientDescent(System* system);
+    Eigen::VectorXd getImmediateGradients(WaveFunction* waveFunction);
+    Eigen::MatrixXd getAllImmediateGradients();
+    Eigen::MatrixXd updateParameters();
+    Eigen::MatrixXd getEnergyGradient();
+
+private:
+    double m_omega = 0;
+    double m_omega_sqrd = 0;
 };

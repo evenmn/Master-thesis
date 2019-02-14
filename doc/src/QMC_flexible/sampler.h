@@ -11,7 +11,8 @@ public:
     void printEnergyToFile(std::ostream energy);
     void computeAverages();
     double getEnergy()          { return m_energy; }
-    Eigen::MatrixXd getEnergyGradient();
+    Eigen::MatrixXd getdE()     { return m_dE; }
+    Eigen::MatrixXd getdEE()    { return m_dEE; }
 
 private:
     int     m_numberOfStepsAfterEquilibrium = 0;

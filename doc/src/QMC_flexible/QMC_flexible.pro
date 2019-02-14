@@ -27,7 +27,9 @@ SOURCES += main.cpp \
     Metropolis/bruteforce.cpp \
     Metropolis/importancesampling.cpp \
     WaveFunctions/nqsjastrow.cpp \
-    InitialWeights/constant.cpp
+    InitialWeights/constant.cpp \
+    Optimization/optimization.cpp \
+    Optimization/gradientdescent.cpp
 
 HEADERS += \
     system.h \
@@ -53,5 +55,7 @@ HEADERS += \
     Metropolis/bruteforce.h \
     Metropolis/importancesampling.h \
     WaveFunctions/nqsjastrow.h \
-    InitialWeights/constant.h
+    InitialWeights/constant.h \
+    Optimization/optimization.h \
+    Optimization/gradientdescent.h
 
