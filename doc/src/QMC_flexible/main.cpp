@@ -37,7 +37,7 @@ int main() {
     int     numberOfHiddenNodes = 2;
     int     numberOfSteps       = int(1e6);
     int     numberOfIterations  = 100;
-    double  eta                 = 0.1;         // Learning rate
+    double  eta                 = 1.0;         // Learning rate
     double  omega               = 1.0;          // Oscillator frequency
     double  sigma               = 1.0;          // Width of probability distribution
     double  stepLength          = 0.1;          // Metropolis step length
@@ -60,6 +60,15 @@ int main() {
 
     std::vector<class WaveFunction*> WaveFunctionElements;
     WaveFunctionElements.push_back      (new class CartesianGaussian      (system, 0));
+    WaveFunctionElements.push_back      (new class CartesianGaussian      (system, 1));
+    WaveFunctionElements.push_back      (new class CartesianGaussian      (system, 2));
+    WaveFunctionElements.push_back      (new class CartesianGaussian      (system, 3));
+    WaveFunctionElements.push_back      (new class CartesianGaussian      (system, 4));
+    WaveFunctionElements.push_back      (new class CartesianGaussian      (system, 5));
+    WaveFunctionElements.push_back      (new class CartesianGaussian      (system, 6));
+    WaveFunctionElements.push_back      (new class CartesianGaussian      (system, 7));
+    WaveFunctionElements.push_back      (new class CartesianGaussian      (system, 8));
+    WaveFunctionElements.push_back      (new class CartesianGaussian      (system, 9));
     //WaveFunctionElements.push_back      (new class MLGaussian             (system, 0));
     //WaveFunctionElements.push_back      (new class NQSJastrow             (system, 1));
     //WaveFunctionElements.push_back      (new class PadeJastrowCartesian   (system, 1));

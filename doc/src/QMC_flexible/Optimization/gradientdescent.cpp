@@ -43,5 +43,6 @@ Eigen::MatrixXd GradientDescent::getEnergyGradient() {
 }
 
 Eigen::MatrixXd GradientDescent::updateParameters() {
+    cout << getEnergyGradient() << endl;
     return m_eta * getEnergyGradient();
 }
