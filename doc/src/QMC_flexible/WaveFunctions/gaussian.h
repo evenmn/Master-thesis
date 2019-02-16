@@ -1,9 +1,9 @@
 #pragma once
 #include "wavefunction.h"
 
-class CartesianGaussian : public WaveFunction {
+class Gaussian : public WaveFunction {
 public:
-    CartesianGaussian(class System* system, int elementNumber);
+    Gaussian(class System* system, int elementNumber);
     double evaluate(Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
     double evaluateSqrd(Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
     double computeFirstDerivative(const Eigen::VectorXd positions, int k);

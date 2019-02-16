@@ -12,24 +12,22 @@ SOURCES += main.cpp \
     InitialStates/randomuniform.cpp \
     Math/random.cpp \
     sampler.cpp \
-    WaveFunctions/simplegaussian.cpp \
     InitialStates/randomnormal.cpp \
     WaveFunctions/hydrogenorbital.cpp \
     Hamiltonians/atomicnucleus.cpp \
-    WaveFunctions/padejastrow.cpp \
     Math/random2.cpp \
     InitialWeights/initialweights.cpp \
     InitialWeights/randomize.cpp \
     WaveFunctions/mlgaussian.cpp \
-    WaveFunctions/padejastrowcartesian.cpp \
-    WaveFunctions/cartesiangaussian.cpp \
     Metropolis/metropolis.cpp \
     Metropolis/bruteforce.cpp \
     Metropolis/importancesampling.cpp \
     WaveFunctions/nqsjastrow.cpp \
     InitialWeights/constant.cpp \
     Optimization/optimization.cpp \
-    Optimization/gradientdescent.cpp
+    Optimization/gradientdescent.cpp \
+    WaveFunctions/gaussian.cpp \
+    WaveFunctions/padejastrow.cpp
 
 HEADERS += \
     system.h \
@@ -40,22 +38,20 @@ HEADERS += \
     InitialStates/randomuniform.h \
     Math/random.h \
     sampler.h \
-    WaveFunctions/simplegaussian.h \
     InitialStates/randomnormal.h \
     WaveFunctions/hydrogenorbital.h \
     Hamiltonians/atomicnucleus.h \
-    WaveFunctions/padejastrow.h \
     Math/random2.h \
     InitialWeights/initialweights.h \
     InitialWeights/randomize.h \
     WaveFunctions/mlgaussian.h \
-    WaveFunctions/padejastrowcartesian.h \
-    WaveFunctions/cartesiangaussian.h \
     Metropolis/metropolis.h \
     Metropolis/bruteforce.h \
     Metropolis/importancesampling.h \
     WaveFunctions/nqsjastrow.h \
     InitialWeights/constant.h \
     Optimization/optimization.h \
-    Optimization/gradientdescent.h
+    Optimization/gradientdescent.h \
+    WaveFunctions/gaussian.h \
+    WaveFunctions/padejastrow.h
 

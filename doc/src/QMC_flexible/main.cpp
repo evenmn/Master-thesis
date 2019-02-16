@@ -1,12 +1,10 @@
 #include "system.h"
 
 #include "WaveFunctions/wavefunction.h"
-#include "WaveFunctions/simplegaussian.h"
-#include "WaveFunctions/cartesiangaussian.h"
+#include "WaveFunctions/gaussian.h"
 #include "WaveFunctions/mlgaussian.h"
 #include "WaveFunctions/hydrogenorbital.h"
 #include "WaveFunctions/padejastrow.h"
-#include "WaveFunctions/padejastrowcartesian.h"
 #include "WaveFunctions/nqsjastrow.h"
 
 #include "Hamiltonians/hamiltonian.h"
@@ -33,7 +31,7 @@ using namespace std;
 
 int main() {
     int     numberOfDimensions  = 2;
-    int     numberOfParticles   = 1;
+    int     numberOfParticles   = 2;
     int     numberOfHiddenNodes = 2;
     int     numberOfSteps       = int(1e6);
     int     numberOfIterations  = 100;
@@ -59,14 +57,14 @@ int main() {
     system->setNumberOfFreeDimensions   ();
 
     std::vector<class WaveFunction*> WaveFunctionElements;
-    WaveFunctionElements.push_back      (new class CartesianGaussian      (system, 0));
-    //WaveFunctionElements.push_back      (new class MLGaussian             (system, 0));
-    //WaveFunctionElements.push_back      (new class NQSJastrow             (system, 1));
-    //WaveFunctionElements.push_back      (new class PadeJastrowCartesian   (system, 1));
+    WaveFunctionElements.push_back      (new class Gaussian      (system, 0));
+    //WaveFunctionElements.push_back      (new class MLGaussian    (system, 1));
+    //WaveFunctionElements.push_back      (new class NQSJastrow    (system, 1));
+    WaveFunctionElements.push_back      (new class PadeJastrow   (system, 1));
 
     system->setNumberOfWaveFunctionElements(int(WaveFunctionElements.size()));
     system->setInitialState             (new RandomNormal(system));
-    system->setInitialWeights           (new Randomize(system));
+    system->setInitialWeights           (new Randomize(system, 0.1));
     system->setWaveFunction             (WaveFunctionElements);
     system->setHamiltonian              (new HarmonicOscillator(system));
     system->setMetropolis               (new ImportanceSampling(system));

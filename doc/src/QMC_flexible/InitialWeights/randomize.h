@@ -3,6 +3,9 @@
 
 class Randomize : public InitialWeights {
 public:
-    Randomize(System* system);
+    Randomize(System* system, double factor);
     void setupInitialWeights();
+
+private:
+    double m_factor = 0;
 };
