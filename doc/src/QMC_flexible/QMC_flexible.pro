@@ -27,7 +27,8 @@ SOURCES += main.cpp \
     Optimization/optimization.cpp \
     Optimization/gradientdescent.cpp \
     WaveFunctions/gaussian.cpp \
-    WaveFunctions/padejastrow.cpp
+    WaveFunctions/padejastrow.cpp \
+    WaveFunctions/nqsjastrowreal.cpp
 
 HEADERS += \
     system.h \
@@ -53,5 +54,6 @@ HEADERS += \
     Optimization/optimization.h \
     Optimization/gradientdescent.h \
     WaveFunctions/gaussian.h \
-    WaveFunctions/padejastrow.h
+    WaveFunctions/padejastrow.h \
+    WaveFunctions/nqsjastrowreal.h
 

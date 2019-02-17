@@ -6,6 +6,7 @@
 #include "WaveFunctions/hydrogenorbital.h"
 #include "WaveFunctions/padejastrow.h"
 #include "WaveFunctions/nqsjastrow.h"
+#include "WaveFunctions/nqsjastrowreal.h"
 
 #include "Hamiltonians/hamiltonian.h"
 #include "Hamiltonians/harmonicoscillator.h"
@@ -33,7 +34,7 @@ int main() {
     int     numberOfDimensions  = 2;
     int     numberOfParticles   = 2;
     int     numberOfHiddenNodes = 2;
-    int     numberOfSteps       = int(1e6);
+    int     numberOfSteps       = int(1e5);
     int     numberOfIterations  = 100;
     double  eta                 = 0.1;         // Learning rate
     double  omega               = 1.0;          // Oscillator frequency
@@ -57,10 +58,11 @@ int main() {
     system->setNumberOfFreeDimensions   ();
 
     std::vector<class WaveFunction*> WaveFunctionElements;
-    WaveFunctionElements.push_back      (new class Gaussian      (system, 0));
-    //WaveFunctionElements.push_back      (new class MLGaussian    (system, 1));
+    //WaveFunctionElements.push_back      (new class Gaussian      (system, 0));
+    WaveFunctionElements.push_back      (new class MLGaussian    (system, 0));
     //WaveFunctionElements.push_back      (new class NQSJastrow    (system, 1));
-    WaveFunctionElements.push_back      (new class PadeJastrow   (system, 1));
+    WaveFunctionElements.push_back      (new class NQSJastrowReal    (system, 1));
+    //WaveFunctionElements.push_back      (new class PadeJastrow   (system, 2));
 
     system->setNumberOfWaveFunctionElements(int(WaveFunctionElements.size()));
     system->setInitialState             (new RandomNormal(system));
