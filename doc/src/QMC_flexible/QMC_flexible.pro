@@ -29,7 +29,8 @@ SOURCES += main.cpp \
     WaveFunctions/gaussian.cpp \
     WaveFunctions/padejastrow.cpp \
     WaveFunctions/nqsjastrowreal.cpp \
-    WaveFunctions/partlyrestricted.cpp
+    WaveFunctions/partlyrestricted.cpp \
+    WaveFunctions/slaterdeterminant.cpp
 
 HEADERS += \
     system.h \
@@ -57,5 +58,6 @@ HEADERS += \
     WaveFunctions/gaussian.h \
     WaveFunctions/padejastrow.h \
     WaveFunctions/nqsjastrowreal.h \
-    WaveFunctions/partlyrestricted.h
+    WaveFunctions/partlyrestricted.h \
+    WaveFunctions/slaterdeterminant.h
 

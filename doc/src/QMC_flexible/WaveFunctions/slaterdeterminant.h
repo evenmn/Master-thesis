@@ -1,0 +1,26 @@
+#pragma once
+#include "wavefunction.h"
+
+class SlaterDeterminant : public WaveFunction {
+public:
+    SlaterDeterminant(class System* system, int elementNumber);
+    Eigen::MatrixXd list();
+    double updateElement(Eigen::VectorXd positions, double basis(double, int), int i, int j);
+    Eigen::VectorXd updateRow(Eigen::VectorXd positions, double basis(double, int), int i);
+    Eigen::MatrixXd updateMatrix(Eigen::VectorXd positions, double basis(double, int));
+    Eigen::VectorXd dA_row(Eigen::VectorXd positions, int k);
+    Eigen::MatrixXd dA_matrix(Eigen::VectorXd positions);
+
+    double evaluate(Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
+    double evaluateSqrd(Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
+    double computeFirstDerivative(const Eigen::VectorXd positions, int k);
+    double computeSecondDerivative();
+    Eigen::VectorXd computeFirstEnergyDerivative(int k);
+    Eigen::VectorXd computeSecondEnergyDerivative();
+private:
+    int     m_elementNumber     = 2;
+    double  m_omega             = 0;
+    double  m_alpha             = 0;
+    int m_numberOfOrbitals      = 0;
+    int m_numberOfParticlesHalf = 0;
+};

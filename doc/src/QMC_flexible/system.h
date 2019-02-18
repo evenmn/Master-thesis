@@ -9,6 +9,7 @@ public:
     void setNumberOfParticles       (int numberOfParticles);
     void setNumberOfDimensions      (int numberOfDimensions);
     void setNumberOfHiddenNodes     (int numberOfHiddenNodes);
+    void setNumberOfOrbitals        ();
     void setNumberOfFreeDimensions  ();
     void setMaxNumberOfParametersPerElement (int maxNumberOfParametersPerElement);
     void setNumberOfWaveFunctionElements (int numberOfWaveFunctionElements);
@@ -33,6 +34,7 @@ public:
     int                     getNumberOfParticles()       { return m_numberOfParticles; }
     int                     getNumberOfDimensions()      { return m_numberOfDimensions; }
     int                     getNumberOfHiddenNodes()     { return m_numberOfHiddenNodes; }
+    int                     getNumberOfOrbitals()        { return m_numberOfOrbitals; }
     int                     getNumberOfFreeDimensions()  { return m_numberOfFreeDimensions; }
     int                     getNumberOfMetropolisSteps() { return m_numberOfMetropolisSteps; }
     int                     getMaxNumberOfParametersPerElement() { return m_maxNumberOfParametersPerElement; }
@@ -66,6 +68,7 @@ private:
     int                                 m_numberOfDimensions        = 0;
     int                                 m_numberOfFreeDimensions    = 0;
     int                                 m_numberOfMetropolisSteps   = 0;
+    int                                 m_numberOfOrbitals          = 0;
     int                                 m_numberOfWaveFunctionElements = 0;
     int                                 m_maxNumberOfParametersPerElement = 0;
     bool                                m_interaction               = false;

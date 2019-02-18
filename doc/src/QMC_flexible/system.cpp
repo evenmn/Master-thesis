@@ -46,6 +46,36 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps, int numberOfIterati
     if(energy.is_open())  energy.close();
 }
 
+int factorial(int n) {
+    return (n == 1 || n == 0) ? 1 : factorial(n - 1) * n;
+}
+
+double binomial(int n, int p) {
+    //Binomial coefficients, equal to magic numbers
+    return factorial(n+p)/(factorial(n)*factorial(p));
+}
+
+int orbitals(int numberOfParticles, int numberOfDimensions) {
+
+    int counter = 0;
+    while(true) {
+        double orb = 2*binomial(counter, numberOfDimensions);
+        if(int(orb) == numberOfParticles) {
+            return counter+1;
+            break;
+        }
+        else if(orb > numberOfParticles) {
+            std::cout << "This program supports closed-shells only. Please choose a P such that the orbital is full" << std::endl;
+            exit(0);
+        }
+        counter += 1;
+    }
+}
+
+void System::setNumberOfOrbitals() {
+    m_numberOfOrbitals = orbitals(m_numberOfParticles, m_numberOfDimensions);
+}
+
 void System::setNumberOfParticles(int numberOfParticles) {
     assert(numberOfParticles > 0);
     m_numberOfParticles = numberOfParticles;

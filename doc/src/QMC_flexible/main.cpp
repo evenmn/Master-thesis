@@ -8,6 +8,7 @@
 #include "WaveFunctions/nqsjastrow.h"
 #include "WaveFunctions/nqsjastrowreal.h"
 #include "WaveFunctions/partlyrestricted.h"
+#include "WaveFunctions/slaterdeterminant.h"
 
 #include "Hamiltonians/hamiltonian.h"
 #include "Hamiltonians/harmonicoscillator.h"
@@ -33,15 +34,15 @@ using namespace std;
 
 int main() {
     int     numberOfDimensions  = 2;
-    int     numberOfParticles   = 2;
+    int     numberOfParticles   = 6;
     int     numberOfHiddenNodes = 2;
     int     numberOfSteps       = int(1e5);
     int     numberOfIterations  = 100;
-    double  eta                 = 0.1;         // Learning rate
+    double  eta                 = 0.05;         // Learning rate
     double  omega               = 1.0;          // Oscillator frequency
     double  sigma               = 1.0;          // Width of probability distribution
     double  stepLength          = 0.1;          // Metropolis step length
-    double  equilibration       = 0.2;          // Amount of the total steps used
+    double  equilibration       = 0.1;          // Amount of the total steps used
     bool    interaction         = true;
     int     maxNumberOfParametersPerElement = numberOfParticles*numberOfDimensions*numberOfParticles*numberOfDimensions;
 
@@ -56,15 +57,17 @@ int main() {
     system->setNumberOfDimensions       (numberOfDimensions);
     system->setNumberOfHiddenNodes      (numberOfHiddenNodes);
     system->setMaxNumberOfParametersPerElement (maxNumberOfParametersPerElement);
+    system->setNumberOfOrbitals         ();
     system->setNumberOfFreeDimensions   ();
 
     std::vector<class WaveFunction*> WaveFunctionElements;
-    //WaveFunctionElements.push_back      (new class Gaussian      (system, 0));
-    WaveFunctionElements.push_back      (new class MLGaussian    (system, 0));
-    WaveFunctionElements.push_back      (new class NQSJastrow    (system, 1));
-    WaveFunctionElements.push_back      (new class PartlyRestricted (system, 2));
-    //WaveFunctionElements.push_back      (new class NQSJastrowReal    (system, 1));
-    //WaveFunctionElements.push_back      (new class PadeJastrow   (system, 1));
+    //WaveFunctionElements.push_back      (new class Gaussian             (system, 0));
+    WaveFunctionElements.push_back      (new class MLGaussian           (system, 0));
+    //WaveFunctionElements.push_back      (new class NQSJastrow           (system, 1));
+    //WaveFunctionElements.push_back      (new class PartlyRestricted     (system, 1));
+    WaveFunctionElements.push_back      (new class SlaterDeterminant    (system, 1));
+    //WaveFunctionElements.push_back      (new class NQSJastrowReal       (system, 1));
+    //WaveFunctionElements.push_back      (new class PadeJastrow          (system, 1));
 
     system->setNumberOfWaveFunctionElements(int(WaveFunctionElements.size()));
     system->setInitialState             (new RandomNormal(system));
