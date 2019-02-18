@@ -37,7 +37,7 @@ double MLGaussian::computeSecondDerivative() {;
 
 Eigen::VectorXd MLGaussian::computeFirstEnergyDerivative(int k) {
     Eigen::VectorXd gradients = Eigen::VectorXd::Zero(m_maxNumberOfParametersPerElement);
-    gradients(k) = - (0.5 * m_omega / m_sigmaSqrd);
+    gradients(k) = - 0.5 * m_omega / m_sigmaSqrd;
     return gradients;
 }
 

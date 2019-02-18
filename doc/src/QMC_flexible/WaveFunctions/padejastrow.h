@@ -4,12 +4,18 @@
 class PadeJastrow : public WaveFunction {
 public:
     PadeJastrow(class System* system, int elementNumber);
-    double evaluate(Eigen::MatrixXd positions, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
-    double evaluateSqrd(Eigen::MatrixXd positions, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
-    double computeFirstDerivative(int k);
+    double evaluate(Eigen::VectorXd positions, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
+    double evaluateSqrd(Eigen::VectorXd positions, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
+    double computeFirstDerivative(const Eigen::VectorXd positions, int k);
     double computeSecondDerivative();
-    void computeFirstEnergyDerivative(Eigen::VectorXd &gradients, int k);
-    void computeSecondEnergyDerivative(Eigen::VectorXd &gradients);
+    Eigen::VectorXd computeFirstEnergyDerivative(int k);
+    Eigen::VectorXd computeSecondEnergyDerivative();
+
+    //double f(int i, int j);
+    Eigen::MatrixXd f();
+    double g(int i, int j, int k, int l);
+    double beta(int i, int j);
+    double gamma();
 
 private:
     int m_elementNumber = 1;

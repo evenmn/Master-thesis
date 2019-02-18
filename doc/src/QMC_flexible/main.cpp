@@ -1,13 +1,12 @@
 #include "system.h"
 
 #include "WaveFunctions/wavefunction.h"
-#include "WaveFunctions/simplegaussian.h"
-#include "WaveFunctions/cartesiangaussian.h"
+#include "WaveFunctions/gaussian.h"
 #include "WaveFunctions/mlgaussian.h"
 #include "WaveFunctions/hydrogenorbital.h"
 #include "WaveFunctions/padejastrow.h"
-#include "WaveFunctions/padejastrowcartesian.h"
 #include "WaveFunctions/nqsjastrow.h"
+#include "WaveFunctions/nqsjastrowreal.h"
 
 #include "Hamiltonians/hamiltonian.h"
 #include "Hamiltonians/harmonicoscillator.h"
@@ -33,9 +32,9 @@ using namespace std;
 
 int main() {
     int     numberOfDimensions  = 2;
-    int     numberOfParticles   = 1;
+    int     numberOfParticles   = 2;
     int     numberOfHiddenNodes = 2;
-    int     numberOfSteps       = int(1e6);
+    int     numberOfSteps       = int(1e5);
     int     numberOfIterations  = 100;
     double  eta                 = 1.0;         // Learning rate
     double  omega               = 1.0;          // Oscillator frequency
@@ -59,23 +58,15 @@ int main() {
     system->setNumberOfFreeDimensions   ();
 
     std::vector<class WaveFunction*> WaveFunctionElements;
-    WaveFunctionElements.push_back      (new class CartesianGaussian      (system, 0));
-    WaveFunctionElements.push_back      (new class CartesianGaussian      (system, 1));
-    WaveFunctionElements.push_back      (new class CartesianGaussian      (system, 2));
-    WaveFunctionElements.push_back      (new class CartesianGaussian      (system, 3));
-    WaveFunctionElements.push_back      (new class CartesianGaussian      (system, 4));
-    WaveFunctionElements.push_back      (new class CartesianGaussian      (system, 5));
-    WaveFunctionElements.push_back      (new class CartesianGaussian      (system, 6));
-    WaveFunctionElements.push_back      (new class CartesianGaussian      (system, 7));
-    WaveFunctionElements.push_back      (new class CartesianGaussian      (system, 8));
-    WaveFunctionElements.push_back      (new class CartesianGaussian      (system, 9));
-    //WaveFunctionElements.push_back      (new class MLGaussian             (system, 0));
-    //WaveFunctionElements.push_back      (new class NQSJastrow             (system, 1));
-    //WaveFunctionElements.push_back      (new class PadeJastrowCartesian   (system, 1));
+    //WaveFunctionElements.push_back      (new class Gaussian      (system, 0));
+    WaveFunctionElements.push_back      (new class MLGaussian    (system, 0));
+    //WaveFunctionElements.push_back      (new class NQSJastrow    (system, 1));
+    WaveFunctionElements.push_back      (new class NQSJastrowReal    (system, 1));
+    //WaveFunctionElements.push_back      (new class PadeJastrow   (system, 2));
 
     system->setNumberOfWaveFunctionElements(int(WaveFunctionElements.size()));
     system->setInitialState             (new RandomNormal(system));
-    system->setInitialWeights           (new Randomize(system));
+    system->setInitialWeights           (new Randomize(system, 0.1));
     system->setWaveFunction             (WaveFunctionElements);
     system->setHamiltonian              (new HarmonicOscillator(system));
     system->setMetropolis               (new ImportanceSampling(system));

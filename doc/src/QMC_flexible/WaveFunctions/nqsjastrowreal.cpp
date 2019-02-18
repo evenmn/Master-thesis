@@ -1,10 +1,10 @@
-#include "nqsjastrow.h"
+#include "nqsjastrowreal.h"
 #include <cassert>
 #include "wavefunction.h"
 #include "../system.h"
 #include <iostream>
 
-NQSJastrow::NQSJastrow(System* system, int elementNumber) :
+NQSJastrowReal::NQSJastrowReal(System* system, int elementNumber) :
         WaveFunction(system) {
 
     m_elementNumber                     = elementNumber;
@@ -17,7 +17,7 @@ NQSJastrow::NQSJastrow(System* system, int elementNumber) :
     m_sigmaSqrd                         = sigma*sigma;
 }
 
-int fromWToParameterIndex(int i, int j, int numberOfFreeDimensions) {
+int fromWToParameterIndexR(int i, int j, int numberOfFreeDimensions) {
     return j*numberOfFreeDimensions + i;
 }
 
@@ -25,24 +25,24 @@ int fromWToParameterIndex(int i, int j, int numberOfFreeDimensions) {
 //    return i%numberPfFreeDimensions, int(i/numberOfFreeDimensions)
 //}
 
-Eigen::MatrixXd NQSJastrow::W() {
+Eigen::MatrixXd NQSJastrowReal::W() {
     m_parameters = m_system->getWeights();
     Eigen::VectorXd XXX = m_parameters.row(m_elementNumber).segment(m_numberOfHiddenNodes, m_numberOfFreeDimensions*m_numberOfHiddenNodes);
     Eigen::Map<Eigen::MatrixXd> W(XXX.data(), m_numberOfFreeDimensions, m_numberOfHiddenNodes);
     return W;
 }
 
-Eigen::VectorXd NQSJastrow::b() {
+Eigen::VectorXd NQSJastrowReal::b() {
     m_parameters = m_system->getWeights();
     return (m_parameters.row(m_elementNumber)).head(m_numberOfHiddenNodes);
 }
 
-Eigen::VectorXd NQSJastrow::v(Eigen::VectorXd positions) {
+Eigen::VectorXd NQSJastrowReal::v(Eigen::VectorXd positions) {
     Eigen::VectorXd V = b() + W().transpose() * positions;
     return V;
 }
 
-Eigen::VectorXd NQSJastrow::f(Eigen::VectorXd positions) {
+Eigen::VectorXd NQSJastrowReal::f(Eigen::VectorXd positions) {
     Eigen::VectorXd V = v(positions);
     Eigen::VectorXd F = V.array().exp();
 
@@ -53,7 +53,7 @@ Eigen::VectorXd NQSJastrow::f(Eigen::VectorXd positions) {
     return F;
 }
 
-Eigen::VectorXd NQSJastrow::g(Eigen::VectorXd positions) {
+Eigen::VectorXd NQSJastrowReal::g(Eigen::VectorXd positions) {
     Eigen::VectorXd F = f(positions);
     Eigen::VectorXd G = Eigen::VectorXd::Zero(m_numberOfHiddenNodes);
 
@@ -66,7 +66,7 @@ Eigen::VectorXd NQSJastrow::g(Eigen::VectorXd positions) {
     return G;
 }
 
-double NQSJastrow::evaluate(Eigen::VectorXd positions, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
+double NQSJastrowReal::evaluate(Eigen::VectorXd positions, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
     //Eigen::VectorXd G = g(positions);
     //return (G.cwiseInverse()).prod();
 
@@ -83,7 +83,7 @@ double NQSJastrow::evaluate(Eigen::VectorXd positions, Eigen::VectorXd radialVec
     return Prod;
 }
 
-double NQSJastrow::evaluateSqrd(Eigen::VectorXd positions, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
+double NQSJastrowReal::evaluateSqrd(Eigen::VectorXd positions, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
     //Eigen::VectorXd G = g(positions);
     //return ((G.cwiseInverse()).cwiseAbs2()).prod();
 
@@ -100,7 +100,7 @@ double NQSJastrow::evaluateSqrd(Eigen::VectorXd positions, Eigen::VectorXd radia
     return Prod * Prod;
 }
 
-double NQSJastrow::computeFirstDerivative(const Eigen::VectorXd positions, int k) {
+double NQSJastrowReal::computeFirstDerivative(const Eigen::VectorXd positions, int k) {
     //Eigen::VectorXd F = f(positions);
     //Eigen::VectorXd G = g(positions);
     //Eigen::MatrixXd w = W();
@@ -119,7 +119,7 @@ double NQSJastrow::computeFirstDerivative(const Eigen::VectorXd positions, int k
     return Sum1;
 }
 
-double NQSJastrow::computeSecondDerivative() {
+double NQSJastrowReal::computeSecondDerivative() {
     m_positions = m_system->getParticles();
     //Eigen::VectorXd F = f(m_positions);
     //Eigen::VectorXd G = g(m_positions);
@@ -135,13 +135,13 @@ double NQSJastrow::computeSecondDerivative() {
             for(int i=0; i<m_numberOfFreeDimensions; i++) {
                 Sum2 += w(i,j) * m_positions(i) / m_sigmaSqrd;
             }
-            Sum1 += w(k,j) * w(k,j) * exp(B(j) + Sum2) / (m_sigmaSqrd * m_sigmaSqrd * (1 + exp(B(j) + Sum2)) * (1 + exp(B(j) + Sum2)));
+            Sum1 += w(k,j) * w(k,j) / (m_sigmaSqrd * m_sigmaSqrd * (1 + exp(B(j) + Sum2)) * (1 + exp(-B(j) - Sum2)));
         }
     }
     return Sum1;
 }
 
-Eigen::VectorXd NQSJastrow::computeFirstEnergyDerivative(int k) {
+Eigen::VectorXd NQSJastrowReal::computeFirstEnergyDerivative(int k) {
     m_positions = m_system->getParticles();
 
     //Eigen::VectorXd gradients = Eigen::VectorXd::Zero(m_maxNumberOfParametersPerElement);
@@ -153,13 +153,13 @@ Eigen::VectorXd NQSJastrow::computeFirstEnergyDerivative(int k) {
     Eigen::VectorXd gradients = Eigen::VectorXd::Zero(m_maxNumberOfParametersPerElement);
 
     // Update b
-    gradients.head(m_numberOfHiddenNodes) = - 0.5 * (((w.row(k)).transpose()).cwiseProduct(G.cwiseProduct(F.cwiseAbs2()))) / m_sigmaSqrd;
+    //gradients.head(m_numberOfHiddenNodes) = - 0.5 * (((w.row(k)).transpose()).cwiseProduct(G.cwiseProduct(F.cwiseAbs2()))) / m_sigmaSqrd;
 
 
     // Update W
     for(int l=0; l<m_numberOfFreeDimensions; l++) {
         for(int m=0; m<m_numberOfHiddenNodes; m++) {
-            int n = fromWToParameterIndex(l, m, m_numberOfFreeDimensions);
+            int n = fromWToParameterIndexR(l, m, m_numberOfFreeDimensions);
             if(l == k) {
                 gradients(n + m_numberOfHiddenNodes) = -0.5 * G(m) * F(m) * (1 + w(k,m) * G(m) * m_positions(k) / m_sigmaSqrd)/m_sigmaSqrd;
             }
@@ -169,9 +169,9 @@ Eigen::VectorXd NQSJastrow::computeFirstEnergyDerivative(int k) {
         }
     }
 
-    /*
+
     Eigen::VectorXd B = b();
-    Eigen::MatrixXd w = W();
+    //Eigen::MatrixXd w = W();
 
     // Update b
     for(int j=0; j<m_numberOfHiddenNodes; j++) {
@@ -179,8 +179,9 @@ Eigen::VectorXd NQSJastrow::computeFirstEnergyDerivative(int k) {
         for(int i=0; i<m_numberOfFreeDimensions; i++) {
             Sum += w(i,j) * m_positions(i) / m_sigmaSqrd;
         }
-        gradients(j) = - 0.5 * w(k,j) * exp(B(j) - Sum) / (m_sigmaSqrd * (1 + exp(B(j) + Sum) * (1 + exp(B(j) + Sum))));
+        gradients(j) = - 0.5 * w(k,j) / (m_sigmaSqrd * (1 + exp(B(j) + Sum)) * (1 + exp(-B(j) - Sum)));
     }
+    /*
 
     // Update W
     for(int k=0; k<m_numberOfFreeDimensions; k++) {
@@ -197,21 +198,32 @@ Eigen::VectorXd NQSJastrow::computeFirstEnergyDerivative(int k) {
     return gradients;
 }
 
-Eigen::VectorXd NQSJastrow::computeSecondEnergyDerivative() {
+Eigen::VectorXd NQSJastrowReal::computeSecondEnergyDerivative() {
     m_positions = m_system->getParticles();
 
     Eigen::VectorXd F = f(m_positions);
     Eigen::VectorXd G = g(m_positions);
     Eigen::MatrixXd w = W();
+    Eigen::VectorXd B = b();
     Eigen::VectorXd gradients = Eigen::VectorXd::Zero(m_maxNumberOfParametersPerElement);
 
     // Update b
-    gradients.head(m_numberOfHiddenNodes) = - 0.5 * ((w.cwiseAbs2().colwise().sum().transpose()).cwiseProduct(F.cwiseProduct((Eigen::VectorXd::Ones(m_numberOfHiddenNodes)-F).cwiseProduct(G.cwiseProduct(G.cwiseAbs2()))))) / (m_sigmaSqrd * m_sigmaSqrd);
+    //gradients.head(m_numberOfHiddenNodes) = - 0.5 * ((w.cwiseAbs2().colwise().sum().transpose()).cwiseProduct(F.cwiseProduct((Eigen::VectorXd::Ones(m_numberOfHiddenNodes)-F).cwiseProduct(G.cwiseProduct(G.cwiseAbs2()))))) / (m_sigmaSqrd * m_sigmaSqrd);
+
+    for(int k=0; k<m_numberOfFreeDimensions; k++) {
+        for(int j=0; j<m_numberOfHiddenNodes; j++) {
+            double Sum = 0;
+            for(int i=0; i<m_numberOfFreeDimensions; i++) {
+                Sum += w(i,j) * m_positions(i) / m_sigmaSqrd;
+            }
+            gradients(j) = - 0.5 * w(k,j) * w(k,j) * (1 - exp(B(j) - Sum)) / (m_sigmaSqrd * m_sigmaSqrd * (1 + exp(B(j) + Sum)) * (1 + exp(B(j) + Sum)) * (1 + exp(-B(j) - Sum)));
+        }
+    }
 
     // Update W
     for(int l=0; l<m_numberOfFreeDimensions; l++) {
         for(int m=0; m<m_numberOfHiddenNodes; m++) {
-            int k = fromWToParameterIndex(l, m, m_numberOfFreeDimensions);
+            int k = fromWToParameterIndexR(l, m, m_numberOfFreeDimensions);
             gradients(k + m_numberOfHiddenNodes) = F(m) * G(m) * G(m) * (2 * w(l,m) + w.cwiseAbs2().colwise().sum()(m) * m_positions(l) * (1 - F(m)) * G(m))/ (m_sigmaSqrd * m_sigmaSqrd);
         }
     }
