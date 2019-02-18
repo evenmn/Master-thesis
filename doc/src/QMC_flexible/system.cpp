@@ -42,7 +42,6 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps, int numberOfIterati
         m_sampler->printOutputToTerminal(iter, double(end_time - start_time)/CLOCKS_PER_SEC);
         energy << m_sampler->getEnergy() << "\n";
         m_parameters -= m_optimization->updateParameters();
-        //std::cout << m_parameters << std::endl;
     }
     if(energy.is_open())  energy.close();
 }

@@ -73,7 +73,7 @@ void Sampler::printOutputToTerminal(int iter, double time) {
     cout << endl;
     cout << "  -- Results -- " << endl;
     cout << " Energy           : " << m_energy << endl;
-    cout << " Acceptence Ratio : " << double(m_acceptenceRatio)/m_numberOfMetropolisSteps << endl;
+    cout << " Acceptence Ratio : " << double(m_acceptenceRatio)/m_numberOfStepsAfterEquilibrium << endl;
     cout << " Variance         : " << m_variance << endl;
     cout << " STD              : " << sqrt(m_variance) << endl;
     cout << " Time             : " << time << endl;

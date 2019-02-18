@@ -18,10 +18,10 @@ ImportanceSampling::ImportanceSampling(System* system) :
     m_waveFunctionVector    = m_system->getWaveFunctionElements();
 }
 
-double ImportanceSampling::QForce(const Eigen::VectorXd positions, int i) {
+double ImportanceSampling::QuantumForce(const Eigen::VectorXd positions, int i) {
     double QF = 0;
-    for(unsigned element = 0; element < m_waveFunctionVector.size(); element++) {
-        QF += m_waveFunctionVector[element]->computeFirstDerivative(positions, i);
+    for(auto& j : m_waveFunctionVector) {
+        QF += j->computeFirstDerivative(positions, i);
     }
     return 2*QF;
 }
@@ -31,8 +31,8 @@ double ImportanceSampling::GreenFuncSum(const Eigen::VectorXd newPositions) {
     for(int i=0; i<m_numberOfParticles; i++) {
         double GreenFunc = 0;
         for(int j=0; j<m_numberOfDimensions; j++) {
-            double QForceOld = QForce(m_positions, m_numberOfDimensions*i+j);
-            double QForceNew = QForce(newPositions, m_numberOfDimensions*i+j);
+            double QForceOld = QuantumForce(m_positions, m_numberOfDimensions*i+j);
+            double QForceNew = QuantumForce(newPositions, m_numberOfDimensions*i+j);
             GreenFunc += 0.5*(QForceOld + QForceNew) * (0.5*m_diff*m_stepLength*(QForceOld - QForceNew)-newPositions(m_numberOfDimensions*i+j)+m_positions(m_numberOfDimensions*i+j));
         }
         GreenSum += exp(GreenFunc);
@@ -53,7 +53,7 @@ bool ImportanceSampling::acceptMove() {
     Eigen::VectorXd newRadialVector   = m_radialVector;
     Eigen::MatrixXd newDistanceMatrix = m_distanceMatrix;
 
-    newPositions(pRand) = m_positions(pRand) + m_diff * QForce(m_positions, pRand) * 10*m_stepLength + rand.nextGaussian(0,1) * sqrt(10*m_stepLength);   //Update position                                 //Update v
+    newPositions(pRand) = m_positions(pRand) + m_diff * QuantumForce(m_positions, pRand) * m_stepLength + rand.nextGaussian(0,1) * sqrt(m_stepLength);   //Update position                                 //Update v
     //calculateDistanceMatrixCross(int(pRand/m_numberOfDimensions), newPositions, newDistanceMatrix);
 
     newRadialVector   = m_system->calculateRadialVector(newPositions);
@@ -62,7 +62,7 @@ bool ImportanceSampling::acceptMove() {
     double psiOld = m_system->evaluateWaveFunctionSqrd(m_positions, m_radialVector, m_distanceMatrix);
     double psiNew = m_system->evaluateWaveFunctionSqrd(newPositions, newRadialVector, newDistanceMatrix);
 
-    double w = psiNew/psiOld; //GreenFuncSum(newPositions) * (psiNew/psiOld);
+    double w = GreenFuncSum(newPositions) * (psiNew/psiOld);
     double r = rand.nextDouble();
 
     if(w > r) {

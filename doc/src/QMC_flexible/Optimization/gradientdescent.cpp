@@ -37,7 +37,7 @@ Eigen::MatrixXd GradientDescent::getAllImmediateGradients() {
         gradients.row(i) += getImmediateGradients(m_waveFunctionVector[unsigned(i)]);
     }
 
-
+    /*
     Eigen::MatrixXd gradients2 = Eigen::MatrixXd::Zero(m_numberOfWaveFunctionElements, m_maxNumberOfParametersPerElement);
     m_positions = m_system->getPositions();
     Eigen::MatrixXd parameters = m_system->getWeights();
@@ -64,6 +64,7 @@ Eigen::MatrixXd GradientDescent::getAllImmediateGradients() {
     //cout << gradients2 << endl;
     //cout << endl;
     //cout << endl;
+    */
 
     return gradients;
 }
@@ -76,6 +77,5 @@ Eigen::MatrixXd GradientDescent::getEnergyGradient() {
 }
 
 Eigen::MatrixXd GradientDescent::updateParameters() {
-    cout << getEnergyGradient() << endl;
     return m_eta * getEnergyGradient();
 }

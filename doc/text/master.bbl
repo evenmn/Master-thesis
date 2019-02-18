@@ -183,5 +183,48 @@
     \field{year}{2014}
     \warn{\item Invalid format of field 'month'}
   \endentry
+
+  \entry{Gauss}{article}{}
+    \name{author}{1}{}{%
+      {{hash=GC}{%
+         family={Gauss},
+         familyi={G\bibinitperiod},
+         given={C.F.},
+         giveni={C\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{GC1}
+    \strng{fullhash}{GC1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelalpha}{Gau}
+    \field{sortinit}{9}
+    \field{sortinithash}{9}
+    \field{title}{Theoria Motus Corporum Coelestium in Sectionibus Conicis
+  Solem Ambientum}
+  \endentry
+
+  \entry{Legende}{article}{}
+    \name{author}{1}{}{%
+      {{hash=LA}{%
+         family={Legendre},
+         familyi={L\bibinitperiod},
+         given={A.M.},
+         giveni={A\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Libraure pour les Mathématiques}%
+    }
+    \strng{namehash}{LA1}
+    \strng{fullhash}{LA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelalpha}{Leg}
+    \field{sortinit}{9}
+    \field{sortinithash}{9}
+    \field{title}{Nouvelles méthodes pour la détermination des orbites des
+  comètes}
+  \endentry
 \enddatalist
 \endinput
