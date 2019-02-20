@@ -16,7 +16,7 @@ public:
 
     Eigen::MatrixXd calculateDistanceMatrix(Eigen::VectorXd particles);
     double calculateDistanceMatrixElement(int i, int j, Eigen::VectorXd particles);
-    void calculateDistanceMatrixCross(int par, Eigen::VectorXd particles, Eigen::MatrixXd &distanceMatrix);
+    Eigen::MatrixXd calculateDistanceMatrixCross(int par, Eigen::VectorXd particles);
 
     //double f(int i, int j);
     Eigen::MatrixXd f();
@@ -26,5 +26,8 @@ public:
 
 private:
     int m_elementNumber = 1;
+    Eigen::MatrixXd m_distanceMatrix;
     Eigen::MatrixXd m_oldDistanceMatrix;
+    Eigen::VectorXd m_positions;
+    Eigen::VectorXd m_oldPositions;
 };

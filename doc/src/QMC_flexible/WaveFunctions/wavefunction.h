@@ -27,10 +27,9 @@ protected:
     int     m_numberOfParameters = 0;
     int     m_maxNumberOfParametersPerElement = 0;
     Eigen::MatrixXd m_parameters;
-    Eigen::VectorXd m_radialVector;
-    Eigen::MatrixXd m_distanceMatrix;
-    Eigen::VectorXd m_positions;
-    Eigen::VectorXd m_oldPositions;
+    //Eigen::VectorXd m_radialVector;
+    //Eigen::VectorXd m_positions;
+    //Eigen::VectorXd m_oldPositions;
     class System* m_system = nullptr;
 };
 

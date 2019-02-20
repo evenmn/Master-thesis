@@ -24,7 +24,7 @@ void PartlyRestricted::resetArrays() {
 }
 
 void PartlyRestricted::initializeArrays(Eigen::VectorXd positions) {
-
+    m_positions = positions;
 }
 
 double PartlyRestricted::evaluate(Eigen::VectorXd positions) {

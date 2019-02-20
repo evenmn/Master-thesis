@@ -12,17 +12,34 @@ HydrogenOrbital::HydrogenOrbital(System* system, double beta) :
     m_beta = beta;
 }
 
+Eigen::VectorXd HydrogenOrbital::calculateRadialVector(Eigen::VectorXd particles) {
+    Eigen::VectorXd radialVector = Eigen::VectorXd::Zero(m_numberOfParticles);
+    for(int i=0; i<m_numberOfParticles; i++) {
+        double sqrtElementWise = 0;
+        for(int d=0; d<m_numberOfDimensions; d++) {
+            sqrtElementWise += particles(i*m_numberOfDimensions + d) * particles(i*m_numberOfDimensions + d);
+        }
+        radialVector(i) = sqrt(sqrtElementWise);
+    }
+    return radialVector;
+}
+
 void HydrogenOrbital::updateArrays(Eigen::VectorXd positions, int pRand) {
-    m_oldPositions = m_positions;
-    m_positions = positions;
+    m_oldPositions    = m_positions;
+    m_positions       = positions;
+
+    m_oldRadialVector = m_radialVector;
+    m_radialVector    = calculateRadialVector(positions);
 }
 
 void HydrogenOrbital::resetArrays() {
-    m_positions = m_oldPositions;
+    m_positions       = m_oldPositions;
+    m_radialVector    = m_oldRadialVector;
 }
 
 void HydrogenOrbital::initializeArrays(Eigen::VectorXd positions) {
-
+    m_positions       = positions;
+    m_radialVector    = calculateRadialVector(positions);
 }
 
 double HydrogenOrbital::evaluate(Eigen::MatrixXd positions) {

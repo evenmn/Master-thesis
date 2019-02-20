@@ -26,7 +26,7 @@ void SlaterDeterminant::resetArrays() {
 }
 
 void SlaterDeterminant::initializeArrays(Eigen::VectorXd positions) {
-
+    m_positions = positions;
 }
 
 double H(double x, int n) {

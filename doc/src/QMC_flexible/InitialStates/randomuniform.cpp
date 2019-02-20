@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cassert>
 #include "Math/random.h"
+#include "WaveFunctions/wavefunction.h"
 #include "../system.h"
 
 RandomUniform::RandomUniform(System*    system)  :
@@ -12,12 +13,12 @@ RandomUniform::RandomUniform(System*    system)  :
 
 void RandomUniform::setupInitialState() {
     Random rand;
-    Eigen::VectorXd positions = Eigen::VectorXd::Zero(m_numberOfFreeDimensions);
+    m_positions = Eigen::VectorXd::Zero(m_numberOfFreeDimensions);
     for (int i=0; i < m_numberOfFreeDimensions; i++) {
-        positions(i) = rand.nextDouble();
+        m_positions(i) = rand.nextDouble();
     }
-    m_positions = positions;
 
-    m_distanceMatrix = m_system->calculateDistanceMatrix(m_positions);
-    m_radialVector   = m_system->calculateRadialVector(m_positions);
+    for(auto& i : m_system->getWaveFunctionElements()) {
+        i->initializeArrays(m_positions);
+    }
 }

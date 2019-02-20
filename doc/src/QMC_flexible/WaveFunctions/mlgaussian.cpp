@@ -24,7 +24,7 @@ void MLGaussian::resetArrays() {
 }
 
 void MLGaussian::initializeArrays(Eigen::VectorXd positions) {
-
+    m_positions = positions;
 }
 
 double MLGaussian::evaluate(Eigen::VectorXd positions) {

@@ -41,8 +41,10 @@ double PadeJastrow::calculateDistanceMatrixElement(int i, int j, Eigen::VectorXd
 }
 
 
-void PadeJastrow::calculateDistanceMatrixCross(int par, Eigen::VectorXd particles, Eigen::MatrixXd &distanceMatrix) {
+Eigen::MatrixXd PadeJastrow::calculateDistanceMatrixCross(int par, Eigen::VectorXd particles) {
     // Update distance matrix when position of particle "par" is changed
+
+    Eigen::MatrixXd distanceMatrix = Eigen::MatrixXd::Zero(m_numberOfParticles, m_numberOfParticles);
 
     // Update row
     for(int i=0; i<par; i++) {
@@ -52,6 +54,7 @@ void PadeJastrow::calculateDistanceMatrixCross(int par, Eigen::VectorXd particle
     for(int i=par+1; i<m_numberOfParticles; i++) {
         distanceMatrix(i, par) = calculateDistanceMatrixElement(i, par, particles);
     }
+    return distanceMatrix;
 }
 
 void PadeJastrow::initializeArrays(Eigen::VectorXd positions) {
@@ -64,12 +67,13 @@ void PadeJastrow::updateArrays(Eigen::VectorXd positions, int pRand) {
     m_positions = positions;
 
     m_oldDistanceMatrix = m_distanceMatrix;
-    //calculateDistanceMatrixCross(int(pRand/m_numberOfDimensions), positions, m_distanceMatrix);
+    //m_distanceMatrix = calculateDistanceMatrixCross(int(pRand/m_numberOfDimensions), positions);
     m_distanceMatrix = calculateDistanceMatrix(positions);
 }
 
 void PadeJastrow::resetArrays() {
     m_positions = m_oldPositions;
+    m_distanceMatrix = m_oldDistanceMatrix;
 }
 
 
@@ -80,16 +84,15 @@ void PadeJastrow::resetArrays() {
 //}
 
 Eigen::MatrixXd PadeJastrow::f() {
-    //m_distanceMatrix = m_system->getDistanceMatrix();
-    m_parameters     = m_system->getWeights();
+    m_positions = m_system->getPositions();
     m_distanceMatrix = calculateDistanceMatrix(m_positions);
+    m_parameters     = m_system->getWeights();
 
     return (Eigen::MatrixXd::Ones(m_numberOfParticles, m_numberOfParticles) + m_parameters(m_elementNumber,0) * m_distanceMatrix).cwiseInverse();
 }
 
 double PadeJastrow::g(int i, int j, int k, int l) {
-    //m_distanceMatrix    = m_system->getDistanceMatrix();
-    m_positions         = m_system->getParticles();
+    m_positions = m_system->getPositions();
     m_distanceMatrix = calculateDistanceMatrix(m_positions);
     return (m_positions(i) - m_positions(j))/m_distanceMatrix(k,l);
 }
@@ -106,7 +109,6 @@ double PadeJastrow::gamma() {
 }
 
 double PadeJastrow::evaluate(Eigen::VectorXd positions) {
-    m_distanceMatrix = calculateDistanceMatrix(positions);
     double PadeJastrowFactor = 0;
     for(int i=0; i<m_numberOfParticles; i++) {
         for(int j=0; j<i; j++) {
@@ -118,7 +120,6 @@ double PadeJastrow::evaluate(Eigen::VectorXd positions) {
 }
 
 double PadeJastrow::evaluateSqrd(Eigen::VectorXd positions) {
-    m_distanceMatrix = calculateDistanceMatrix(positions);
     double PadeJastrowFactor = 0;
     for(int i=0; i<m_numberOfParticles; i++) {
         for(int j=0; j<i; j++) {
@@ -130,9 +131,6 @@ double PadeJastrow::evaluateSqrd(Eigen::VectorXd positions) {
 }
 
 double PadeJastrow::computeFirstDerivative(const Eigen::VectorXd positions, int k) {
-    //m_distanceMatrix = m_system->getDistanceMatrix();
-    m_distanceMatrix = calculateDistanceMatrix(positions);
-
     int k_p = int(k/m_numberOfDimensions);  //Particle associated with k
     int k_d = k%m_numberOfDimensions;       //Dimension associated with k
 
@@ -148,11 +146,6 @@ double PadeJastrow::computeFirstDerivative(const Eigen::VectorXd positions, int 
 }
 
 double PadeJastrow::computeSecondDerivative() {
-    //m_radialVector       = m_system->getRadialVector();
-    //m_distanceMatrix     = m_system->getDistanceMatrix();
-    m_positions = m_system->getPositions();
-    m_distanceMatrix = calculateDistanceMatrix(m_positions);
-
     m_parameters         = m_system->getWeights();
     Eigen::MatrixXd F = f();
 
@@ -170,9 +163,6 @@ double PadeJastrow::computeSecondDerivative() {
 }
 
 Eigen::VectorXd PadeJastrow::computeFirstEnergyDerivative(int k) {
-    m_positions = m_system->getParticles();
-    m_distanceMatrix = calculateDistanceMatrix(m_positions);
-
     Eigen::VectorXd gradients = Eigen::VectorXd::Zero(m_maxNumberOfParametersPerElement);
     Eigen::MatrixXd F = f();
 
@@ -197,10 +187,6 @@ Eigen::VectorXd PadeJastrow::computeFirstEnergyDerivative(int k) {
 }
 
 Eigen::VectorXd PadeJastrow::computeSecondEnergyDerivative() {
-    //m_distanceMatrix     = m_system->getDistanceMatrix();
-    m_positions = m_system->getParticles();
-    m_distanceMatrix = calculateDistanceMatrix(m_positions);
-
     Eigen::VectorXd gradients = Eigen::VectorXd::Zero(m_maxNumberOfParametersPerElement);
     Eigen::MatrixXd F = f();
 

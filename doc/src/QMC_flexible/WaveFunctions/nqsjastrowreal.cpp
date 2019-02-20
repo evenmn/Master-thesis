@@ -27,7 +27,7 @@ void NQSJastrowReal::resetArrays() {
 }
 
 void NQSJastrowReal::initializeArrays(Eigen::VectorXd positions) {
-
+    m_positions = positions;
 }
 
 int fromWToParameterIndexR(int i, int j, int numberOfFreeDimensions) {

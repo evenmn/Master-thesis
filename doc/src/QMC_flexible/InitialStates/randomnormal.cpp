@@ -21,7 +21,4 @@ void RandomNormal::setupInitialState() {
     for(auto& i : m_system->getWaveFunctionElements()) {
         i->initializeArrays(m_positions);
     }
-
-    //m_distanceMatrix = m_system->calculateDistanceMatrix(m_positions);
-    //m_radialVector   = m_system->calculateRadialVector(m_positions);
 }

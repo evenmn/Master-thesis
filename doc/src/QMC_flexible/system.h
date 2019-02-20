@@ -59,9 +59,6 @@ public:
     double evaluateWaveFunctionSqrd (Eigen::VectorXd particles);
     double getKineticEnergy         ();
     Eigen::VectorXd calculateRadialVector      (Eigen::VectorXd particles);
-    Eigen::MatrixXd calculateDistanceMatrix    (Eigen::VectorXd particles);
-    void calculateDistanceMatrixCross(int par, Eigen::VectorXd particles, Eigen::MatrixXd &distanceMatrix);
-    double calculateDistanceMatrixElement(int i, int j, Eigen::VectorXd particles);
     std::string generate_filename   (std::string name, std::string extension);
 
 private:

@@ -26,4 +26,7 @@ private:
     double  m_alpha             = 0;
     int m_numberOfOrbitals      = 0;
     int m_numberOfParticlesHalf = 0;
+
+    Eigen::VectorXd m_positions;
+    Eigen::VectorXd m_oldPositions;
 };

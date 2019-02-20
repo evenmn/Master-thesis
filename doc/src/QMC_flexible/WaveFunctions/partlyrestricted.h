@@ -17,4 +17,7 @@ private:
     int     m_elementNumber = 0;
     double  m_omega         = 1;
     double  m_sigmaSqrd     = 1;
+
+    Eigen::VectorXd m_positions;
+    Eigen::VectorXd m_oldPositions;
 };

@@ -10,6 +10,14 @@ public:
     double evaluate(Eigen::MatrixXd positions);
     double computeDerivative(Eigen::MatrixXd positions);
     double computeEnergyDerivative(Eigen::MatrixXd positions);
+
+    Eigen::VectorXd calculateRadialVector(Eigen::VectorXd particles);
+
 private:
     double m_beta = 0;
+
+    Eigen::VectorXd m_positions;
+    Eigen::VectorXd m_oldPositions;
+    Eigen::VectorXd m_radialVector;
+    Eigen::VectorXd m_oldRadialVector;
 };

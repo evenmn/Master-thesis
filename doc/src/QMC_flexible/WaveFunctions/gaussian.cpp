@@ -22,7 +22,7 @@ void Gaussian::resetArrays() {
 }
 
 void Gaussian::initializeArrays(Eigen::VectorXd positions) {
-
+    m_positions = positions;
 }
 
 double Gaussian::evaluate(Eigen::VectorXd positions) {
