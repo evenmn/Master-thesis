@@ -43,7 +43,6 @@ public:
     double                  getFrequency()               { return m_omega; }
     double                  getWidth()                   { return m_sigma; }
     double                  getLearningRate()            { return m_eta; }
-    double                  getDiffusionConstant()       { return m_diff; }
     double                  getStepLength()              { return m_stepLength; }
     bool                    getInteraction()             { return m_interaction; }
     Eigen::VectorXd         getParticles()               { return m_positions; }
@@ -53,13 +52,13 @@ public:
     Eigen::VectorXd         getRadialVector()            { return m_radialVector; }
     std::vector<class WaveFunction*> getWaveFunctionElements()  { return m_waveFunctionVector; }
 
-    void updateAllArrays(Eigen::VectorXd particles, int pRand);
-    void resetAllArrays();
-    double evaluateWaveFunction     (Eigen::VectorXd particles);
-    double evaluateWaveFunctionSqrd (Eigen::VectorXd particles);
-    double getKineticEnergy         ();
-    Eigen::VectorXd calculateRadialVector      (Eigen::VectorXd particles);
-    std::string generate_filename   (std::string name, std::string extension);
+    void            updateAllArrays          (Eigen::VectorXd particles, int pRand);
+    void            resetAllArrays           ();
+    void            updateAllParameters      (Eigen::MatrixXd parameters);
+    double          evaluateWaveFunction     (Eigen::VectorXd particles);
+    double          evaluateWaveFunctionSqrd (Eigen::VectorXd particles);
+    double          getKineticEnergy         ();
+    std::string     generate_filename        (std::string name, std::string extension);
 
 private:
     int                                 m_numberOfHiddenNodes       = 0;
@@ -71,7 +70,6 @@ private:
     int                                 m_numberOfWaveFunctionElements = 0;
     int                                 m_maxNumberOfParametersPerElement = 0;
     bool                                m_interaction               = false;
-    const double                        m_diff                      = 0.5;
     double                              m_equilibrationFraction     = 0.0;
     double                              m_stepLength                = 0.1;
     double                              m_omega                     = 1.0;

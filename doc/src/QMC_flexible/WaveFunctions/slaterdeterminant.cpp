@@ -29,6 +29,10 @@ void SlaterDeterminant::initializeArrays(Eigen::VectorXd positions) {
     m_positions = positions;
 }
 
+void SlaterDeterminant::updateParameters(Eigen::MatrixXd parameters) {
+    //m_a = (m_parameters.row(m_elementNumber)).head(m_numberOfFreeDimensions);
+}
+
 double H(double x, int n) {
     //Hermite polynomial of n'th degree
 

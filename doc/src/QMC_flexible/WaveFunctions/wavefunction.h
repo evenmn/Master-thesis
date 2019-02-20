@@ -11,6 +11,7 @@ public:
     virtual void updateArrays(Eigen::VectorXd positions, int pRand) = 0;
     virtual void resetArrays() = 0;
     virtual void initializeArrays(Eigen::VectorXd positions) = 0;
+    virtual void updateParameters(Eigen::MatrixXd parameters) = 0;
     virtual double evaluate(Eigen::VectorXd positions) = 0;
     virtual double evaluateSqrd(Eigen::VectorXd positions) = 0;
     virtual double computeFirstDerivative(const Eigen::VectorXd positions, int k) = 0;

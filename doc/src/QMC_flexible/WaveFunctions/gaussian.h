@@ -7,6 +7,7 @@ public:
     void updateArrays(Eigen::VectorXd positions, int pRand);
     void resetArrays();
     void initializeArrays(Eigen::VectorXd positions);
+    void updateParameters(Eigen::MatrixXd parameters);
     double evaluate(Eigen::VectorXd particles);
     double evaluateSqrd(Eigen::VectorXd particles);
     double computeFirstDerivative(const Eigen::VectorXd positions, int k);

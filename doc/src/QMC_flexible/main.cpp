@@ -36,14 +36,14 @@ int main() {
     int     numberOfDimensions  = 2;
     int     numberOfParticles   = 2;
     int     numberOfHiddenNodes = 2;
-    int     numberOfSteps       = int(1e6);
-    int     numberOfIterations  = 100;
-    double  eta                 = 0.01;         // Learning rate
+    int     numberOfSteps       = int(1e5);
+    int     numberOfIterations  = 20;
+    double  eta                 = 0.5;         // Learning rate
     double  omega               = 1.0;          // Oscillator frequency
     double  sigma               = 1.0;          // Width of probability distribution
     double  stepLength          = 0.1;          // Metropolis step length
     double  equilibration       = 0.1;          // Amount of the total steps used
-    bool    interaction         = true;
+    bool    interaction         = false;
     int     maxNumberOfParametersPerElement = numberOfParticles*numberOfDimensions*numberOfParticles*numberOfDimensions;
 
     System* system = new System();
@@ -61,18 +61,18 @@ int main() {
     system->setNumberOfFreeDimensions   ();
 
     std::vector<class WaveFunction*> WaveFunctionElements;
-    WaveFunctionElements.push_back      (new class Gaussian             (system, 0));
-    //WaveFunctionElements.push_back      (new class MLGaussian           (system, 0));
+    //WaveFunctionElements.push_back      (new class Gaussian             (system, 0));
+    WaveFunctionElements.push_back      (new class MLGaussian           (system, 0));
     //WaveFunctionElements.push_back      (new class NQSJastrow           (system, 1));
     //WaveFunctionElements.push_back      (new class PartlyRestricted     (system, 1));
     //WaveFunctionElements.push_back      (new class SlaterDeterminant    (system, 1));
     //WaveFunctionElements.push_back      (new class NQSJastrowReal       (system, 1));
-    WaveFunctionElements.push_back      (new class PadeJastrow          (system, 1));
+    //WaveFunctionElements.push_back      (new class PadeJastrow          (system, 1));
 
     system->setNumberOfWaveFunctionElements(int(WaveFunctionElements.size()));
     system->setWaveFunction             (WaveFunctionElements);
-    system->setInitialState             (new RandomNormal(system));
     system->setInitialWeights           (new Randomize(system, 0.1));
+    system->setInitialState             (new RandomNormal(system));
     system->setHamiltonian              (new HarmonicOscillator(system));
     system->setMetropolis               (new ImportanceSampling(system));
     system->setOptimization             (new GradientDescent(system));

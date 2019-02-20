@@ -38,6 +38,7 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps, int numberOfIterati
         m_sampler->printOutputToTerminal(iter, double(end_time - start_time)/CLOCKS_PER_SEC);
         energy << m_sampler->getEnergy() << "\n";
         m_parameters -= m_optimization->updateParameters();
+        updateAllParameters(m_parameters);
     }
     if(energy.is_open())  energy.close();
 }
@@ -166,6 +167,12 @@ void System::updateAllArrays(Eigen::VectorXd particles, int pRand) {
 void System::resetAllArrays() {
     for(auto& i : m_waveFunctionVector) {
         i->resetArrays();
+    }
+}
+
+void System::updateAllParameters(Eigen::MatrixXd parameters) {
+    for(auto& i : m_waveFunctionVector) {
+        i->updateParameters(parameters);
     }
 }
 

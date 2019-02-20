@@ -17,7 +17,6 @@ void RandomNormal::setupInitialState() {
     for (int i=0; i < m_numberOfFreeDimensions; i++) {
         m_positions(i) = rand.nextGaussian(0,1);
     }
-
     for(auto& i : m_system->getWaveFunctionElements()) {
         i->initializeArrays(m_positions);
     }

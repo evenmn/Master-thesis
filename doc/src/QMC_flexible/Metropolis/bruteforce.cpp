@@ -13,7 +13,6 @@ BruteForce::BruteForce(System* system) :
     m_numberOfParticles     = m_system->getNumberOfParticles();
     m_numberOfDimensions    = m_system->getNumberOfDimensions();
     m_numberOfFreeDimensions = m_system->getNumberOfFreeDimensions();
-    m_diff                  = m_system->getDiffusionConstant();
     m_stepLength            = m_system->getStepLength();
 }
 

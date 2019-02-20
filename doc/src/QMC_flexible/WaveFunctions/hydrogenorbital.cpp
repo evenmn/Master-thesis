@@ -24,6 +24,11 @@ Eigen::VectorXd HydrogenOrbital::calculateRadialVector(Eigen::VectorXd particles
     return radialVector;
 }
 
+void HydrogenOrbital::initializeArrays(Eigen::VectorXd positions) {
+    m_positions       = positions;
+    m_radialVector    = calculateRadialVector(positions);
+}
+
 void HydrogenOrbital::updateArrays(Eigen::VectorXd positions, int pRand) {
     m_oldPositions    = m_positions;
     m_positions       = positions;
@@ -37,9 +42,8 @@ void HydrogenOrbital::resetArrays() {
     m_radialVector    = m_oldRadialVector;
 }
 
-void HydrogenOrbital::initializeArrays(Eigen::VectorXd positions) {
-    m_positions       = positions;
-    m_radialVector    = calculateRadialVector(positions);
+void HydrogenOrbital::updateParameters(Eigen::MatrixXd parameters) {
+    //m_a = (parameters.row(m_elementNumber)).head(m_numberOfFreeDimensions);
 }
 
 double HydrogenOrbital::evaluate(Eigen::MatrixXd positions) {

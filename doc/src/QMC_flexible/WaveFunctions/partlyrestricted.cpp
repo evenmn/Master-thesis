@@ -27,6 +27,10 @@ void PartlyRestricted::initializeArrays(Eigen::VectorXd positions) {
     m_positions = positions;
 }
 
+void PartlyRestricted::updateParameters(Eigen::MatrixXd parameters) {
+    //m_a = (m_parameters.row(m_elementNumber)).head(m_numberOfFreeDimensions);
+}
+
 double PartlyRestricted::evaluate(Eigen::VectorXd positions) {
     m_parameters         = m_system->getWeights();
 

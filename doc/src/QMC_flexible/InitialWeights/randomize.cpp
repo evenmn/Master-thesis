@@ -15,4 +15,5 @@ Randomize::Randomize(System*    system, double factor)  :  InitialWeights(system
 
 void Randomize::setupInitialWeights() {
     m_parameters = m_factor * Eigen::MatrixXd::Random(m_numberOfElements, m_maxNumberOfParametersPerElement);
+    m_system->updateAllParameters(m_parameters);
 }

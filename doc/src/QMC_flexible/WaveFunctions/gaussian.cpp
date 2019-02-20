@@ -12,6 +12,10 @@ Gaussian::Gaussian(System* system,
     m_omega              = m_system->getFrequency();
 }
 
+void Gaussian::initializeArrays(Eigen::VectorXd positions) {
+    m_positions = positions;
+}
+
 void Gaussian::updateArrays(Eigen::VectorXd positions, int pRand) {
     m_oldPositions = m_positions;
     m_positions = positions;
@@ -21,8 +25,8 @@ void Gaussian::resetArrays() {
     m_positions = m_oldPositions;
 }
 
-void Gaussian::initializeArrays(Eigen::VectorXd positions) {
-    m_positions = positions;
+void Gaussian::updateParameters(Eigen::MatrixXd parameters) {
+    //m_a = (parameters.row(m_elementNumber)).head(m_numberOfFreeDimensions);
 }
 
 double Gaussian::evaluate(Eigen::VectorXd positions) {

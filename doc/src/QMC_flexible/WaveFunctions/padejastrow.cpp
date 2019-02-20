@@ -76,6 +76,9 @@ void PadeJastrow::resetArrays() {
     m_distanceMatrix = m_oldDistanceMatrix;
 }
 
+void PadeJastrow::updateParameters(Eigen::MatrixXd parameters) {
+    //m_a = (m_parameters.row(m_elementNumber)).head(m_numberOfFreeDimensions);
+}
 
 //double PadeJastrowCartesian::f(int i, int j) {
 //    m_radialVector = m_system->getRadialVector();

@@ -15,4 +15,5 @@ Constant::Constant(System* system, double factor)  :  InitialWeights(system) {
 
 void Constant::setupInitialWeights() {
     m_parameters = m_factor * Eigen::MatrixXd::Ones(m_numberOfElements, m_maxNumberOfParametersPerElement);
+    m_system->updateAllParameters(m_parameters);
 }

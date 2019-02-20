@@ -30,6 +30,10 @@ void NQSJastrowReal::initializeArrays(Eigen::VectorXd positions) {
     m_positions = positions;
 }
 
+void NQSJastrowReal::updateParameters(Eigen::MatrixXd parameters) {
+    //m_a = (m_parameters.row(m_elementNumber)).head(m_numberOfFreeDimensions);
+}
+
 int fromWToParameterIndexR(int i, int j, int numberOfFreeDimensions) {
     return j*numberOfFreeDimensions + i;
 }
