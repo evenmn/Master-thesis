@@ -47,7 +47,7 @@ double PadeJastrow::evaluate(Eigen::VectorXd positions, Eigen::VectorXd radialVe
     double PadeJastrowFactor = 0;
     for(int i=0; i<m_numberOfParticles; i++) {
         for(int j=0; j<i; j++) {
-            double f = 1/(1 + gamma() * radialVector(i,j));
+            double f = 1/(1 + gamma() * distanceMatrix(i,j));
             PadeJastrowFactor += beta(i,j) * f * distanceMatrix(i,j);
         }
     }
@@ -58,7 +58,7 @@ double PadeJastrow::evaluateSqrd(Eigen::VectorXd positions, Eigen::VectorXd radi
     double PadeJastrowFactor = 0;
     for(int i=0; i<m_numberOfParticles; i++) {
         for(int j=0; j<i; j++) {
-            double f = 1/(1 + gamma() * radialVector(i,j));
+            double f = 1/(1 + gamma() * distanceMatrix(i,j));
             PadeJastrowFactor += beta(i,j) * f * distanceMatrix(i,j);
         }
     }

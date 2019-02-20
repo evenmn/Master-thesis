@@ -167,7 +167,14 @@ double SlaterDeterminant::evaluateSqrd(Eigen::VectorXd positions, Eigen::VectorX
     Eigen::MatrixXd D_up = updateMatrix(positions.head(m_numberOfFreeDimensions/2), H);
     Eigen::MatrixXd D_dn = updateMatrix(positions.tail(m_numberOfFreeDimensions/2), H);
 
-    return D_up.determinant()*D_dn.determinant()*D_up.determinant()*D_dn.determinant();
+    double D_up_det = D_up.determinant();
+    double D_dn_det = D_dn.determinant();
+    double WF = D_up_det * D_dn_det;
+
+    //std::cout << D_up << std::endl;
+    //std::cout << std::endl;
+
+    return WF*WF;
 }
 
 double SlaterDeterminant::computeFirstDerivative(const Eigen::VectorXd positions, int k) {
@@ -184,14 +191,34 @@ double SlaterDeterminant::computeFirstDerivative(const Eigen::VectorXd positions
             Sum += dA_up(k,j) * D_up.inverse()(j, int(k/2));
         }
         else {
-            Sum += dA_up(k-m_numberOfFreeDimensions/2,j) * D_up.inverse()(j, int((k-m_numberOfFreeDimensions/2)/2));
+            Sum += dA_dn(k-m_numberOfFreeDimensions/2,j) * D_dn.inverse()(j, int((k-m_numberOfFreeDimensions/2)/2));
         }
     }
     return Sum;
 }
 
-double SlaterDeterminant::computeSecondDerivative() {;
-    return 0;
+double SlaterDeterminant::computeSecondDerivative() {
+    m_positions = m_system->getPositions();
+    Eigen::MatrixXd dA_up = dA_matrix(m_positions.head(m_numberOfFreeDimensions/2));
+    Eigen::MatrixXd dA_dn = dA_matrix(m_positions.tail(m_numberOfFreeDimensions/2));
+
+    Eigen::MatrixXd D_up = updateMatrix(m_positions.head(m_numberOfFreeDimensions/2), H);
+    Eigen::MatrixXd D_dn = updateMatrix(m_positions.tail(m_numberOfFreeDimensions/2), H);
+
+    Eigen::VectorXd diff = Eigen::VectorXd::Zero(m_numberOfFreeDimensions);
+
+    double Sum = 0;
+    for(int k=0; k<m_numberOfFreeDimensions; k++) {
+        for(int j=0; j<m_numberOfParticlesHalf; j++) {
+            if(k<m_numberOfFreeDimensions/2) {
+                diff(k) += dA_up(k,j) * D_up.inverse()(j, int(k/2));
+            }
+            else {
+                diff(k) += dA_dn(k-m_numberOfFreeDimensions/2,j) * D_dn.inverse()(j, int((k-m_numberOfFreeDimensions/2)/2));
+            }
+        }
+    }
+    return -double(diff.transpose() * diff);
 }
 
 Eigen::VectorXd SlaterDeterminant::computeFirstEnergyDerivative(int k) {

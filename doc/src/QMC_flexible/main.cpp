@@ -34,11 +34,11 @@ using namespace std;
 
 int main() {
     int     numberOfDimensions  = 2;
-    int     numberOfParticles   = 6;
+    int     numberOfParticles   = 2;
     int     numberOfHiddenNodes = 2;
-    int     numberOfSteps       = int(1e5);
-    int     numberOfIterations  = 100;
-    double  eta                 = 0.05;         // Learning rate
+    int     numberOfSteps       = int(1e6);
+    int     numberOfIterations  = 50;
+    double  eta                 = 0.1;         // Learning rate
     double  omega               = 1.0;          // Oscillator frequency
     double  sigma               = 1.0;          // Width of probability distribution
     double  stepLength          = 0.1;          // Metropolis step length
@@ -65,9 +65,9 @@ int main() {
     WaveFunctionElements.push_back      (new class MLGaussian           (system, 0));
     //WaveFunctionElements.push_back      (new class NQSJastrow           (system, 1));
     //WaveFunctionElements.push_back      (new class PartlyRestricted     (system, 1));
-    WaveFunctionElements.push_back      (new class SlaterDeterminant    (system, 1));
+    //WaveFunctionElements.push_back      (new class SlaterDeterminant    (system, 1));
     //WaveFunctionElements.push_back      (new class NQSJastrowReal       (system, 1));
-    //WaveFunctionElements.push_back      (new class PadeJastrow          (system, 1));
+    WaveFunctionElements.push_back      (new class PadeJastrow          (system, 1));
 
     system->setNumberOfWaveFunctionElements(int(WaveFunctionElements.size()));
     system->setInitialState             (new RandomNormal(system));
