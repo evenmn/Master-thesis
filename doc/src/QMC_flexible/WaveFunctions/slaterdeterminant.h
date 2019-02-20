@@ -17,7 +17,7 @@ public:
     void updateParameters(Eigen::MatrixXd parameters);
     double evaluate();
     double evaluateSqrd();
-    double computeFirstDerivative(const Eigen::VectorXd positions, int k);
+    double computeFirstDerivative(Eigen::VectorXd positions, int k);
     double computeSecondDerivative();
     Eigen::VectorXd computeFirstEnergyDerivative(int k);
     Eigen::VectorXd computeSecondEnergyDerivative();
@@ -30,4 +30,12 @@ private:
 
     Eigen::VectorXd m_positions;
     Eigen::VectorXd m_oldPositions;
+    Eigen::MatrixXd m_D_up;
+    Eigen::MatrixXd m_D_dn;
+    Eigen::MatrixXd m_D_upOld;
+    Eigen::MatrixXd m_D_dnOld;
+    Eigen::MatrixXd m_dD_up;
+    Eigen::MatrixXd m_dD_dn;
+    Eigen::MatrixXd m_dD_upOld;
+    Eigen::MatrixXd m_dD_dnOld;
 };

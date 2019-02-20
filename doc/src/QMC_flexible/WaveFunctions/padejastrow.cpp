@@ -14,21 +14,6 @@ PadeJastrow::PadeJastrow(System* system, int elementNumber) :
     m_maxNumberOfParametersPerElement   = m_system->getMaxNumberOfParametersPerElement();
 }
 
-Eigen::MatrixXd PadeJastrow::calculateDistanceMatrix(Eigen::VectorXd particles) {
-    Eigen::MatrixXd distanceMatrix = Eigen::MatrixXd::Zero(m_numberOfParticles, m_numberOfParticles);
-    for(int i=0; i<m_numberOfParticles; i++) {
-        for(int j=0; j<i; j++) {
-            double sqrtElementWise = 0;
-            for(int d=0; d<m_numberOfDimensions; d++) {
-                double numb = particles(i*m_numberOfDimensions + d) - particles(j*m_numberOfDimensions + d);
-                sqrtElementWise += numb * numb;
-            }
-            distanceMatrix(i,j) = sqrt(sqrtElementWise);
-        }
-    }
-    return distanceMatrix;
-}
-
 double PadeJastrow::calculateDistanceMatrixElement(int i, int j, Eigen::VectorXd particles) {
     // Update element (i,j) in Dist_inv_invance matrix
 
@@ -37,14 +22,21 @@ double PadeJastrow::calculateDistanceMatrixElement(int i, int j, Eigen::VectorXd
         double diff = particles(m_numberOfDimensions*i+d)-particles(m_numberOfDimensions*j+d);
         dist += diff*diff;
     }
-    return dist;
+    return sqrt(dist);
 }
 
-
-Eigen::MatrixXd PadeJastrow::calculateDistanceMatrixCross(int par, Eigen::VectorXd particles) {
-    // Update distance matrix when position of particle "par" is changed
-
+Eigen::MatrixXd PadeJastrow::calculateDistanceMatrix(Eigen::VectorXd particles) {
     Eigen::MatrixXd distanceMatrix = Eigen::MatrixXd::Zero(m_numberOfParticles, m_numberOfParticles);
+    for(int i=0; i<m_numberOfParticles; i++) {
+        for(int j=0; j<i; j++) {
+            distanceMatrix(i,j) = calculateDistanceMatrixElement(i,j,particles);
+        }
+    }
+    return distanceMatrix;
+}
+
+void PadeJastrow::calculateDistanceMatrixCross(int par, Eigen::VectorXd particles, Eigen::MatrixXd &distanceMatrix) {
+    // Update distance matrix when position of particle "par" is changed
 
     // Update row
     for(int i=0; i<par; i++) {
@@ -54,7 +46,6 @@ Eigen::MatrixXd PadeJastrow::calculateDistanceMatrixCross(int par, Eigen::Vector
     for(int i=par+1; i<m_numberOfParticles; i++) {
         distanceMatrix(i, par) = calculateDistanceMatrixElement(i, par, particles);
     }
-    return distanceMatrix;
 }
 
 void PadeJastrow::initializeArrays(Eigen::VectorXd positions) {
@@ -74,8 +65,7 @@ void PadeJastrow::updateArrays(Eigen::VectorXd positions, int pRand) {
     m_positions = positions;
 
     m_oldDistanceMatrix = m_distanceMatrix;
-    //m_distanceMatrix = calculateDistanceMatrixCross(int(pRand/m_numberOfDimensions), positions);
-    m_distanceMatrix = calculateDistanceMatrix(positions);
+    calculateDistanceMatrixCross(int(pRand/m_numberOfDimensions), positions, m_distanceMatrix);
 
     m_oldF  = m_f;
     m_f     = (Eigen::MatrixXd::Ones(m_numberOfParticles, m_numberOfParticles) + m_gamma * m_distanceMatrix).cwiseInverse();
@@ -122,7 +112,7 @@ double PadeJastrow::evaluateSqrd() {
     return exp(2 * PadeJastrowFactor);
 }
 
-double PadeJastrow::computeFirstDerivative(const Eigen::VectorXd positions, int k) {
+double PadeJastrow::computeFirstDerivative(Eigen::VectorXd positions, int k) {
     int k_p = int(k/m_numberOfDimensions);  //Particle associated with k
     int k_d = k%m_numberOfDimensions;       //Dimension associated with k
 

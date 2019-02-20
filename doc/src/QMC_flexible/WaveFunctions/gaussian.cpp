@@ -26,32 +26,27 @@ void Gaussian::resetArrays() {
 }
 
 void Gaussian::updateParameters(Eigen::MatrixXd parameters) {
-    //m_a = (parameters.row(m_elementNumber)).head(m_numberOfFreeDimensions);
+    m_alpha = parameters(m_elementNumber,0);
 }
 
 double Gaussian::evaluate() {
-    m_alpha              = (m_system->getWeights())(m_elementNumber,0);
     return exp(-0.5 * m_omega * m_alpha * (m_positions.cwiseAbs2()).sum());
 }
 
 double Gaussian::evaluateSqrd() {
-    m_alpha              = (m_system->getWeights())(m_elementNumber,0);
     return exp(- m_omega * m_alpha * (m_positions.cwiseAbs2()).sum());
 }
 
-double Gaussian::computeFirstDerivative(const Eigen::VectorXd positions, int k) {
-    m_alpha              = (m_system->getWeights())(m_elementNumber,0);
+double Gaussian::computeFirstDerivative(Eigen::VectorXd positions, int k) {
     return - m_omega * m_alpha * positions(k);
 }
 
 double Gaussian::computeSecondDerivative() {;
-    m_alpha              = (m_system->getWeights())(m_elementNumber,0);
     return - m_omega * m_alpha * m_numberOfFreeDimensions;
 }
 
 Eigen::VectorXd Gaussian::computeFirstEnergyDerivative(int k) {
     Eigen::VectorXd gradients = Eigen::VectorXd::Zero(m_maxNumberOfParametersPerElement);
-    m_positions          = m_system->getParticles();
     gradients(0) = 0.5 * m_omega * m_positions(k);
     return gradients;
 }

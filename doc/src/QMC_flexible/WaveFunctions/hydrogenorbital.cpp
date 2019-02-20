@@ -69,11 +69,11 @@ double HydrogenOrbital::evaluate() {
     return exp(-m_beta* m_numberOfParticles * r.sum());
 }
 
-double HydrogenOrbital::computeDerivative(Eigen::MatrixXd positions) {
+double HydrogenOrbital::computeDerivative() {
     // Calculating the kinetic energy term, -0.5 * laplacian
     return -0.5 * m_beta * m_beta;
 }
 
-double HydrogenOrbital::computeEnergyDerivative(Eigen::MatrixXd positions) {
+double HydrogenOrbital::computeEnergyDerivative() {
     return -m_beta;
 }

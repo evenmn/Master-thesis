@@ -117,7 +117,7 @@ double NQSJastrowReal::evaluateSqrd() {
     return Prod * Prod;
 }
 
-double NQSJastrowReal::computeFirstDerivative(const Eigen::VectorXd positions, int k) {
+double NQSJastrowReal::computeFirstDerivative(Eigen::VectorXd positions, int k) {
     //Eigen::VectorXd F = f(positions);
     //Eigen::VectorXd G = g(positions);
     //Eigen::MatrixXd w = W();

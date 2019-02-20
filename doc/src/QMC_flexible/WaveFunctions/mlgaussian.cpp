@@ -44,7 +44,7 @@ double MLGaussian::evaluateSqrd() {
 }
 
 double MLGaussian::computeFirstDerivative(Eigen::VectorXd positions, int k) {
-    return - m_omega * m_Xa(k)/m_sigmaSqrd;
+    return - m_omega * (positions(k) - m_a(k))/m_sigmaSqrd;
 }
 
 double MLGaussian::computeSecondDerivative() {;

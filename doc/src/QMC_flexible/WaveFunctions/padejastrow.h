@@ -10,14 +10,14 @@ public:
     void updateParameters(Eigen::MatrixXd parameters);
     double evaluate();
     double evaluateSqrd();
-    double computeFirstDerivative(const Eigen::VectorXd positions, int k);
+    double computeFirstDerivative(Eigen::VectorXd positions, int k);
     double computeSecondDerivative();
     Eigen::VectorXd computeFirstEnergyDerivative(int k);
     Eigen::VectorXd computeSecondEnergyDerivative();
 
     Eigen::MatrixXd calculateDistanceMatrix(Eigen::VectorXd particles);
     double calculateDistanceMatrixElement(int i, int j, Eigen::VectorXd particles);
-    Eigen::MatrixXd calculateDistanceMatrixCross(int par, Eigen::VectorXd particles);
+    void calculateDistanceMatrixCross(int par, Eigen::VectorXd particles, Eigen::MatrixXd &distanceMatrix);
 
     //double f(int i, int j);
     Eigen::MatrixXd f();

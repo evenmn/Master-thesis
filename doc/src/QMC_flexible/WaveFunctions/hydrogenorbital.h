@@ -9,8 +9,8 @@ public:
     void initializeArrays(Eigen::VectorXd positions);
     void updateParameters(Eigen::MatrixXd parameters);
     double evaluate();
-    double computeDerivative(Eigen::MatrixXd positions);
-    double computeEnergyDerivative(Eigen::MatrixXd positions);
+    double computeDerivative();
+    double computeEnergyDerivative();
 
     Eigen::VectorXd calculateRadialVector(Eigen::VectorXd particles);
 
