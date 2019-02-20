@@ -46,7 +46,7 @@ void HydrogenOrbital::updateParameters(Eigen::MatrixXd parameters) {
     //m_a = (parameters.row(m_elementNumber)).head(m_numberOfFreeDimensions);
 }
 
-double HydrogenOrbital::evaluate(Eigen::MatrixXd positions) {
+double HydrogenOrbital::evaluate() {
     /* You need to implement a Gaussian wave function here. The positions of
      * the particles are accessible through the particle[i].getPosition()
      * function.
@@ -55,13 +55,13 @@ double HydrogenOrbital::evaluate(Eigen::MatrixXd positions) {
      * (only) variational parameter.
      */
 
-    long m_numberOfParticles = positions.rows();
-    long m_numberOfDimensions = positions.cols();
+    long m_numberOfParticles = m_positions.rows();
+    long m_numberOfDimensions = m_positions.cols();
     Eigen::VectorXd r = Eigen::VectorXd::Zero(m_numberOfParticles);
     for(int i=0; i<m_numberOfParticles; i++) {
         double sqrtElementWise = 0;
         for(int j=0; j<m_numberOfDimensions; j++) {
-            sqrtElementWise += positions(i,j) * positions(i,j);
+            sqrtElementWise += m_positions(i,j) * m_positions(i,j);
         }
         r(i) = sqrt(sqrtElementWise);
     }

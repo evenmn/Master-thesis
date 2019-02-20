@@ -35,11 +35,11 @@ void MLGaussian::resetArrays() {
     m_Xa        = m_oldXa;
 }
 
-double MLGaussian::evaluate(Eigen::VectorXd positions) {
+double MLGaussian::evaluate() {
     return exp(-0.5 * double(m_Xa.transpose() * m_Xa)/m_sigmaSqrd);
 }
 
-double MLGaussian::evaluateSqrd(Eigen::VectorXd positions) {
+double MLGaussian::evaluateSqrd() {
     return exp(-double(m_Xa.transpose() * m_Xa)/m_sigmaSqrd);
 }
 

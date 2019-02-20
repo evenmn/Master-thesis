@@ -173,16 +173,16 @@ Eigen::MatrixXd SlaterDeterminant::updateMatrix(Eigen::VectorXd positions, doubl
     return A;
 }
 
-double SlaterDeterminant::evaluate(Eigen::VectorXd positions) {
-    Eigen::MatrixXd D_up = updateMatrix(positions.head(m_numberOfFreeDimensions/2), H);
-    Eigen::MatrixXd D_dn = updateMatrix(positions.tail(m_numberOfFreeDimensions/2), H);
+double SlaterDeterminant::evaluate() {
+    Eigen::MatrixXd D_up = updateMatrix(m_positions.head(m_numberOfFreeDimensions/2), H);
+    Eigen::MatrixXd D_dn = updateMatrix(m_positions.tail(m_numberOfFreeDimensions/2), H);
 
     return D_up.determinant()*D_dn.determinant();
 }
 
-double SlaterDeterminant::evaluateSqrd(Eigen::VectorXd positions) {
-    Eigen::MatrixXd D_up = updateMatrix(positions.head(m_numberOfFreeDimensions/2), H);
-    Eigen::MatrixXd D_dn = updateMatrix(positions.tail(m_numberOfFreeDimensions/2), H);
+double SlaterDeterminant::evaluateSqrd() {
+    Eigen::MatrixXd D_up = updateMatrix(m_positions.head(m_numberOfFreeDimensions/2), H);
+    Eigen::MatrixXd D_dn = updateMatrix(m_positions.tail(m_numberOfFreeDimensions/2), H);
 
     double D_up_det = D_up.determinant();
     double D_dn_det = D_dn.determinant();

@@ -60,6 +60,13 @@ Eigen::MatrixXd PadeJastrow::calculateDistanceMatrixCross(int par, Eigen::Vector
 void PadeJastrow::initializeArrays(Eigen::VectorXd positions) {
     m_positions = positions;
     m_distanceMatrix = calculateDistanceMatrix(positions);
+    m_f     = (Eigen::MatrixXd::Ones(m_numberOfParticles, m_numberOfParticles) + m_gamma * m_distanceMatrix).cwiseInverse();
+    m_g     = Eigen::MatrixXd::Zero(m_numberOfFreeDimensions, m_numberOfFreeDimensions);
+    for(int i=0; i<m_numberOfFreeDimensions; i++) {
+        for(int j=0; j<m_numberOfFreeDimensions; j++) {
+            m_g(i,j) = (m_positions(i) - m_positions(j))/m_distanceMatrix(int(i/m_numberOfDimensions),int(j/m_numberOfDimensions));
+        }
+    }
 }
 
 void PadeJastrow::updateArrays(Eigen::VectorXd positions, int pRand) {
@@ -69,6 +76,16 @@ void PadeJastrow::updateArrays(Eigen::VectorXd positions, int pRand) {
     m_oldDistanceMatrix = m_distanceMatrix;
     //m_distanceMatrix = calculateDistanceMatrixCross(int(pRand/m_numberOfDimensions), positions);
     m_distanceMatrix = calculateDistanceMatrix(positions);
+
+    m_oldF  = m_f;
+    m_f     = (Eigen::MatrixXd::Ones(m_numberOfParticles, m_numberOfParticles) + m_gamma * m_distanceMatrix).cwiseInverse();
+
+    m_oldG  = m_g;
+    for(int i=0; i<m_numberOfFreeDimensions; i++) {
+        for(int j=0; j<m_numberOfFreeDimensions; j++) {
+            m_g(i,j) = (m_positions(i) - m_positions(j))/m_distanceMatrix(int(i/m_numberOfDimensions),int(j/m_numberOfDimensions));
+        }
+    }
 }
 
 void PadeJastrow::resetArrays() {
@@ -77,57 +94,29 @@ void PadeJastrow::resetArrays() {
 }
 
 void PadeJastrow::updateParameters(Eigen::MatrixXd parameters) {
-    //m_a = (m_parameters.row(m_elementNumber)).head(m_numberOfFreeDimensions);
+    Eigen::VectorXd X = parameters.row(m_elementNumber).segment(1, m_numberOfParticles*m_numberOfParticles);
+    Eigen::Map<Eigen::MatrixXd> beta(X.data(), m_numberOfParticles, m_numberOfParticles);
+    m_beta  = beta.transpose();
+    m_gamma = parameters(m_elementNumber, 0);
 }
 
-//double PadeJastrowCartesian::f(int i, int j) {
-//    m_radialVector = m_system->getRadialVector();
-//    m_parameters   = m_system->getWeights();
-//    return 1/(1 + m_parameters(m_elementNumber, 0) * m_radialVector(i,j));
-//}
-
-Eigen::MatrixXd PadeJastrow::f() {
-    m_positions = m_system->getPositions();
-    m_distanceMatrix = calculateDistanceMatrix(m_positions);
-    m_parameters     = m_system->getWeights();
-
-    return (Eigen::MatrixXd::Ones(m_numberOfParticles, m_numberOfParticles) + m_parameters(m_elementNumber,0) * m_distanceMatrix).cwiseInverse();
-}
-
-double PadeJastrow::g(int i, int j, int k, int l) {
-    m_positions = m_system->getPositions();
-    m_distanceMatrix = calculateDistanceMatrix(m_positions);
-    return (m_positions(i) - m_positions(j))/m_distanceMatrix(k,l);
-}
-
-double PadeJastrow::beta(int i, int j) {
-    m_parameters  = m_system->getWeights();
-    int k = m_numberOfDimensions * i + j + 1;      // Stack Gamma matrix
-    return m_parameters(m_elementNumber, k);
-}
-
-double PadeJastrow::gamma() {
-    m_parameters = m_system->getWeights();
-    return m_parameters(m_elementNumber, 0);
-}
-
-double PadeJastrow::evaluate(Eigen::VectorXd positions) {
+double PadeJastrow::evaluate() {
     double PadeJastrowFactor = 0;
     for(int i=0; i<m_numberOfParticles; i++) {
         for(int j=0; j<i; j++) {
-            double f = 1/(1 + gamma() * m_distanceMatrix(i,j));
-            PadeJastrowFactor += beta(i,j) * f * m_distanceMatrix(i,j);
+            double f = 1/(1 + m_gamma * m_distanceMatrix(i,j));
+            PadeJastrowFactor += m_beta(i,j) * f * m_distanceMatrix(i,j);
         }
     }
     return exp(PadeJastrowFactor);
 }
 
-double PadeJastrow::evaluateSqrd(Eigen::VectorXd positions) {
+double PadeJastrow::evaluateSqrd() {
     double PadeJastrowFactor = 0;
     for(int i=0; i<m_numberOfParticles; i++) {
         for(int j=0; j<i; j++) {
-            double f = 1/(1 + gamma() * m_distanceMatrix(i,j));
-            PadeJastrowFactor += beta(i,j) * f * m_distanceMatrix(i,j);
+            double f = 1/(1 + m_gamma * m_distanceMatrix(i,j));
+            PadeJastrowFactor += m_beta(i,j) * f * m_distanceMatrix(i,j);
         }
     }
     return exp(2 * PadeJastrowFactor);
@@ -137,29 +126,24 @@ double PadeJastrow::computeFirstDerivative(const Eigen::VectorXd positions, int 
     int k_p = int(k/m_numberOfDimensions);  //Particle associated with k
     int k_d = k%m_numberOfDimensions;       //Dimension associated with k
 
-    Eigen::MatrixXd F = f();
-
     double derivative = 0;
     for(int j_p=0; j_p<k_p; j_p++) {
         int j = j_p * m_numberOfDimensions + k_d;
-        derivative += beta(k_p,j_p) * F(k_p,j_p) * F(k_p, j_p) * (positions(k) - positions(j))/m_distanceMatrix(k_p,j_p);
+        derivative += m_beta(k_p,j_p) * m_f(k_p,j_p) * m_f(k_p, j_p) * (positions(k) - positions(j))/m_distanceMatrix(k_p,j_p);
     }
 
     return derivative;
 }
 
 double PadeJastrow::computeSecondDerivative() {
-    m_parameters         = m_system->getWeights();
-    Eigen::MatrixXd F = f();
-
     double derivative = 0;
     for(int i=0; i<m_numberOfFreeDimensions; i++) {
         int i_p = int(i/m_numberOfDimensions);  //Particle associated with k
         int i_d = i%m_numberOfDimensions;       //Dimension associated with k
         for(int j_p=0; j_p<i_p; j_p++) {
             int j = j_p * m_numberOfDimensions + i_d;
-            double G = g(i,j,i_p,j_p);
-            derivative += beta(i_p,j_p) * F(i_p, j_p) * F(i_p, j_p) * (1 - G * G * (1 + 3 * gamma() * m_distanceMatrix(i_p,j_p)) * F(i_p, j_p)) / m_distanceMatrix(i_p,j_p);
+            double G = m_g(i,j);
+            derivative += m_beta(i_p,j_p) * m_f(i_p, j_p) * m_f(i_p, j_p) * (1 - G * G * (1 + 3 * m_gamma * m_distanceMatrix(i_p,j_p)) * m_f(i_p, j_p)) / m_distanceMatrix(i_p,j_p);
         }
     }
     return derivative;
@@ -167,7 +151,6 @@ double PadeJastrow::computeSecondDerivative() {
 
 Eigen::VectorXd PadeJastrow::computeFirstEnergyDerivative(int k) {
     Eigen::VectorXd gradients = Eigen::VectorXd::Zero(m_maxNumberOfParametersPerElement);
-    Eigen::MatrixXd F = f();
 
     int k_p = int(k/m_numberOfDimensions);  //Particle associated with k
     int k_d = k%m_numberOfDimensions;       //Dimension associated with k
@@ -176,14 +159,14 @@ Eigen::VectorXd PadeJastrow::computeFirstEnergyDerivative(int k) {
     for(int j_p=0; j_p<k_p; j_p++) {
         int j = j_p * m_numberOfDimensions + k_d;
         int l = m_numberOfDimensions * k_p + j_p + 1;
-        gradients(l) = - 0.5 * F(k_p, j_p) * F(k_p, j_p) * g(k,j,k_p,j_p);
+        gradients(l) = - 0.5 * m_f(k_p, j_p) * m_f(k_p, j_p) * m_g(k,j);
     }
 
     //Update gamma
     double derivative = 0;
     for(int j_p=0; j_p<k_p; j_p++) {
         int j = j_p * m_numberOfDimensions + k_d;
-        derivative += beta(k_p,j_p) * F(k_p, j_p) * F(k_p, j_p) * F(k_p, j_p) * (m_positions(k) - m_positions(j));
+        derivative += m_beta(k_p,j_p) * m_f(k_p, j_p) * m_f(k_p, j_p) * m_f(k_p, j_p) * (m_positions(k) - m_positions(j));
     }
     gradients(0) = derivative;
     return gradients;
@@ -191,7 +174,6 @@ Eigen::VectorXd PadeJastrow::computeFirstEnergyDerivative(int k) {
 
 Eigen::VectorXd PadeJastrow::computeSecondEnergyDerivative() {
     Eigen::VectorXd gradients = Eigen::VectorXd::Zero(m_maxNumberOfParametersPerElement);
-    Eigen::MatrixXd F = f();
 
     //Update Beta matrix
     for(int i=0; i < m_numberOfFreeDimensions; i++) {
@@ -199,9 +181,9 @@ Eigen::VectorXd PadeJastrow::computeSecondEnergyDerivative() {
         int i_d = i%m_numberOfDimensions;       //Dimension associated with k
         for(int j_p=0; j_p<i_p; j_p++) {
             int j = j_p * m_numberOfDimensions + i_d;
-            double G = g(i,j,i_p,j_p);
+            double G = m_g(i,j);
             int l = m_numberOfParticles * i_p + j_p + 1;      // Stack Beta matrix
-            gradients(l) = 0.5 * F(i_p, j_p) * F(i_p, j_p) * (G * G * (1 + 3 * gamma() * m_distanceMatrix(i_p,j_p)) * F(i_p, j_p) - 1) / m_distanceMatrix(i_p,j_p);
+            gradients(l) = 0.5 * m_f(i_p, j_p) * m_f(i_p, j_p) * (G * G * (1 + 3 * m_gamma * m_distanceMatrix(i_p,j_p)) * m_f(i_p, j_p) - 1) / m_distanceMatrix(i_p,j_p);
         }
     }
 
@@ -212,8 +194,8 @@ Eigen::VectorXd PadeJastrow::computeSecondEnergyDerivative() {
         int i_d = i%m_numberOfDimensions;       //Dimension associated with k
         for(int j_p=0; j_p<i_p; j_p++) {
             int j = j_p * m_numberOfDimensions + i_d;
-            double G = g(i,j,i_p,j_p);
-            derivative -= beta(i_p,j_p) * F(i_p, j_p) * F(i_p, j_p) * F(i_p, j_p) * (3 * G * G * F(i_p, j_p) * gamma() * m_distanceMatrix(i_p,j_p) - 1);
+            double G = m_g(i,j);
+            derivative -= m_beta(i_p,j_p) * m_f(i_p, j_p) * m_f(i_p, j_p) * m_f(i_p, j_p) * (3 * G * G * m_f(i_p, j_p) * m_gamma * m_distanceMatrix(i_p,j_p) - 1);
         }
     }
     gradients(0) = derivative;

@@ -28,9 +28,9 @@ bool BruteForce::acceptMove() {
 
     newPositions(pRand) = m_positions(pRand) + (rand.nextDouble() - 0.5) * m_stepLength;
 
-    double psiOld = m_system->evaluateWaveFunctionSqrd(m_positions);
+    double psiOld = m_system->evaluateWaveFunctionSqrd();
     m_system->updateAllArrays(newPositions, pRand);
-    double psiNew = m_system->evaluateWaveFunctionSqrd(newPositions);
+    double psiNew = m_system->evaluateWaveFunctionSqrd();
 
     double w = psiNew/psiOld;
     double r = rand.nextDouble();

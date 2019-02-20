@@ -12,8 +12,8 @@ public:
     virtual void resetArrays() = 0;
     virtual void initializeArrays(Eigen::VectorXd positions) = 0;
     virtual void updateParameters(Eigen::MatrixXd parameters) = 0;
-    virtual double evaluate(Eigen::VectorXd positions) = 0;
-    virtual double evaluateSqrd(Eigen::VectorXd positions) = 0;
+    virtual double evaluate() = 0;
+    virtual double evaluateSqrd() = 0;
     virtual double computeFirstDerivative(const Eigen::VectorXd positions, int k) = 0;
     virtual double computeSecondDerivative() = 0;
     virtual Eigen::VectorXd computeFirstEnergyDerivative(int k) = 0;

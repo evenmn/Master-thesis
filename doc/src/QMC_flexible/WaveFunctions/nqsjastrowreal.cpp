@@ -83,7 +83,7 @@ Eigen::VectorXd NQSJastrowReal::g(Eigen::VectorXd positions) {
     return G;
 }
 
-double NQSJastrowReal::evaluate(Eigen::VectorXd positions) {
+double NQSJastrowReal::evaluate() {
     //Eigen::VectorXd G = g(positions);
     //return (G.cwiseInverse()).prod();
 
@@ -93,14 +93,14 @@ double NQSJastrowReal::evaluate(Eigen::VectorXd positions) {
     for(int j=0; j<m_numberOfHiddenNodes; j++) {
         double Sum = 0;
         for(int i=0; i<m_numberOfFreeDimensions; i++) {
-            Sum += w(i,j) * positions(i) / m_sigmaSqrd;
+            Sum += w(i,j) * m_positions(i) / m_sigmaSqrd;
         }
         Prod *= 1 + exp(B(j) + Sum);
     }
     return Prod;
 }
 
-double NQSJastrowReal::evaluateSqrd(Eigen::VectorXd positions) {
+double NQSJastrowReal::evaluateSqrd() {
     //Eigen::VectorXd G = g(positions);
     //return ((G.cwiseInverse()).cwiseAbs2()).prod();
 
@@ -110,7 +110,7 @@ double NQSJastrowReal::evaluateSqrd(Eigen::VectorXd positions) {
     for(int j=0; j<m_numberOfHiddenNodes; j++) {
         double Sum = 0;
         for(int i=0; i<m_numberOfFreeDimensions; i++) {
-            Sum += w(i,j) * positions(i) / m_sigmaSqrd;
+            Sum += w(i,j) * m_positions(i) / m_sigmaSqrd;
         }
         Prod *= 1 + exp(B(j) + Sum);
     }

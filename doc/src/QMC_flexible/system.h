@@ -55,8 +55,8 @@ public:
     void            updateAllArrays          (Eigen::VectorXd particles, int pRand);
     void            resetAllArrays           ();
     void            updateAllParameters      (Eigen::MatrixXd parameters);
-    double          evaluateWaveFunction     (Eigen::VectorXd particles);
-    double          evaluateWaveFunctionSqrd (Eigen::VectorXd particles);
+    double          evaluateWaveFunction     ();
+    double          evaluateWaveFunctionSqrd ();
     double          getKineticEnergy         ();
     std::string     generate_filename        (std::string name, std::string extension);
 

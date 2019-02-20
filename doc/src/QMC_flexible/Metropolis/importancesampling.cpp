@@ -50,9 +50,9 @@ bool ImportanceSampling::acceptMove() {
     Eigen::VectorXd newPositions      = m_positions;
     newPositions(pRand) = m_positions(pRand) + m_diff * QuantumForce(m_positions, pRand) * m_stepLength + rand.nextGaussian(0,1) * sqrt(m_stepLength);   //Update position                                 //Update v
 
-    double psiOld = m_system->evaluateWaveFunctionSqrd(m_positions);
+    double psiOld = m_system->evaluateWaveFunctionSqrd();
     m_system->updateAllArrays(newPositions, pRand);
-    double psiNew = m_system->evaluateWaveFunctionSqrd(newPositions);
+    double psiNew = m_system->evaluateWaveFunctionSqrd();
 
     double w = GreenFuncSum(newPositions) * (psiNew/psiOld);
     double r = rand.nextDouble();

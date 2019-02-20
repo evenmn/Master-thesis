@@ -31,26 +31,26 @@ void PartlyRestricted::updateParameters(Eigen::MatrixXd parameters) {
     //m_a = (m_parameters.row(m_elementNumber)).head(m_numberOfFreeDimensions);
 }
 
-double PartlyRestricted::evaluate(Eigen::VectorXd positions) {
+double PartlyRestricted::evaluate() {
     m_parameters         = m_system->getWeights();
 
     double Sum = 0;
     for(int i=0; i<m_numberOfFreeDimensions; i++) {
         for(int j=0; j<m_numberOfFreeDimensions; j++) {
             double c = m_parameters(m_elementNumber, j*m_numberOfFreeDimensions + i);
-            Sum += positions(i) * positions(j) * c;
+            Sum += m_positions(i) * m_positions(j) * c;
         }
     }
     return exp(-0.5 * Sum  / (m_sigmaSqrd * m_sigmaSqrd));
 }
 
-double PartlyRestricted::evaluateSqrd(Eigen::VectorXd positions) {
+double PartlyRestricted::evaluateSqrd() {
     m_parameters         = m_system->getWeights();
     double Sum = 0;
     for(int i=0; i<m_numberOfFreeDimensions; i++) {
         for(int j=0; j<m_numberOfFreeDimensions; j++) {
             double c = m_parameters(m_elementNumber, j*m_numberOfFreeDimensions + i);
-            Sum += positions(i) * positions(j) * c;
+            Sum += m_positions(i) * m_positions(j) * c;
         }
     }
     return exp(- Sum  / (m_sigmaSqrd * m_sigmaSqrd));

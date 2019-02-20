@@ -29,14 +29,14 @@ void Gaussian::updateParameters(Eigen::MatrixXd parameters) {
     //m_a = (parameters.row(m_elementNumber)).head(m_numberOfFreeDimensions);
 }
 
-double Gaussian::evaluate(Eigen::VectorXd positions) {
+double Gaussian::evaluate() {
     m_alpha              = (m_system->getWeights())(m_elementNumber,0);
-    return exp(-0.5 * m_omega * m_alpha * (positions.cwiseAbs2()).sum());
+    return exp(-0.5 * m_omega * m_alpha * (m_positions.cwiseAbs2()).sum());
 }
 
-double Gaussian::evaluateSqrd(Eigen::VectorXd positions) {
+double Gaussian::evaluateSqrd() {
     m_alpha              = (m_system->getWeights())(m_elementNumber,0);
-    return exp(- m_omega * m_alpha * (positions.cwiseAbs2()).sum());
+    return exp(- m_omega * m_alpha * (m_positions.cwiseAbs2()).sum());
 }
 
 double Gaussian::computeFirstDerivative(const Eigen::VectorXd positions, int k) {

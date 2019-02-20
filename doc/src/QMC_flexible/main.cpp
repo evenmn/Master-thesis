@@ -37,13 +37,13 @@ int main() {
     int     numberOfParticles   = 2;
     int     numberOfHiddenNodes = 2;
     int     numberOfSteps       = int(1e5);
-    int     numberOfIterations  = 20;
-    double  eta                 = 0.5;         // Learning rate
+    int     numberOfIterations  = 50;
+    double  eta                 = 0.1;         // Learning rate
     double  omega               = 1.0;          // Oscillator frequency
     double  sigma               = 1.0;          // Width of probability distribution
     double  stepLength          = 0.1;          // Metropolis step length
     double  equilibration       = 0.1;          // Amount of the total steps used
-    bool    interaction         = false;
+    bool    interaction         = true;
     int     maxNumberOfParametersPerElement = numberOfParticles*numberOfDimensions*numberOfParticles*numberOfDimensions;
 
     System* system = new System();
@@ -67,7 +67,7 @@ int main() {
     //WaveFunctionElements.push_back      (new class PartlyRestricted     (system, 1));
     //WaveFunctionElements.push_back      (new class SlaterDeterminant    (system, 1));
     //WaveFunctionElements.push_back      (new class NQSJastrowReal       (system, 1));
-    //WaveFunctionElements.push_back      (new class PadeJastrow          (system, 1));
+    WaveFunctionElements.push_back      (new class PadeJastrow          (system, 1));
 
     system->setNumberOfWaveFunctionElements(int(WaveFunctionElements.size()));
     system->setWaveFunction             (WaveFunctionElements);

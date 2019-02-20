@@ -176,18 +176,18 @@ void System::updateAllParameters(Eigen::MatrixXd parameters) {
     }
 }
 
-double System::evaluateWaveFunction(Eigen::VectorXd particles) {
+double System::evaluateWaveFunction() {
     double WF = 1;
     for(auto& i : m_waveFunctionVector) {
-        WF *= i->evaluate(particles);
+        WF *= i->evaluate();
     }
     return WF;
 }
 
-double System::evaluateWaveFunctionSqrd(Eigen::VectorXd particles) {
+double System::evaluateWaveFunctionSqrd() {
     double WF = 1;
     for(auto& i : m_waveFunctionVector) {
-        WF *= i->evaluateSqrd(particles);
+        WF *= i->evaluateSqrd();
     }
     return WF;
 }

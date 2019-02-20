@@ -8,8 +8,8 @@ public:
     void resetArrays();
     void initializeArrays(Eigen::VectorXd positions);
     void updateParameters(Eigen::MatrixXd parameters);
-    double evaluate(Eigen::VectorXd positions);
-    double evaluateSqrd(Eigen::VectorXd positions);
+    double evaluate();
+    double evaluateSqrd();
     double computeFirstDerivative(const Eigen::VectorXd positions, int k);
     double computeSecondDerivative();
     Eigen::VectorXd computeFirstEnergyDerivative(int k);
@@ -31,4 +31,10 @@ private:
     Eigen::MatrixXd m_oldDistanceMatrix;
     Eigen::VectorXd m_positions;
     Eigen::VectorXd m_oldPositions;
+    Eigen::MatrixXd m_beta;
+    Eigen::MatrixXd m_f;
+    Eigen::MatrixXd m_oldF;
+    Eigen::MatrixXd m_g;
+    Eigen::MatrixXd m_oldG;
+    double m_gamma;
 };

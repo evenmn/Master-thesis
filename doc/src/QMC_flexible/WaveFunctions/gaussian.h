@@ -8,8 +8,8 @@ public:
     void resetArrays();
     void initializeArrays(Eigen::VectorXd positions);
     void updateParameters(Eigen::MatrixXd parameters);
-    double evaluate(Eigen::VectorXd particles);
-    double evaluateSqrd(Eigen::VectorXd particles);
+    double evaluate();
+    double evaluateSqrd();
     double computeFirstDerivative(const Eigen::VectorXd positions, int k);
     double computeSecondDerivative();
     Eigen::VectorXd computeFirstEnergyDerivative(int k);
