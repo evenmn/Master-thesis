@@ -17,6 +17,19 @@ NQSJastrowReal::NQSJastrowReal(System* system, int elementNumber) :
     m_sigmaSqrd                         = sigma*sigma;
 }
 
+void NQSJastrowReal::updateArrays(Eigen::VectorXd positions, int pRand) {
+    m_oldPositions = m_positions;
+    m_positions = positions;
+}
+
+void NQSJastrowReal::resetArrays() {
+    m_positions = m_oldPositions;
+}
+
+void NQSJastrowReal::initializeArrays(Eigen::VectorXd positions) {
+
+}
+
 int fromWToParameterIndexR(int i, int j, int numberOfFreeDimensions) {
     return j*numberOfFreeDimensions + i;
 }
@@ -66,7 +79,7 @@ Eigen::VectorXd NQSJastrowReal::g(Eigen::VectorXd positions) {
     return G;
 }
 
-double NQSJastrowReal::evaluate(Eigen::VectorXd positions, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
+double NQSJastrowReal::evaluate(Eigen::VectorXd positions) {
     //Eigen::VectorXd G = g(positions);
     //return (G.cwiseInverse()).prod();
 
@@ -83,7 +96,7 @@ double NQSJastrowReal::evaluate(Eigen::VectorXd positions, Eigen::VectorXd radia
     return Prod;
 }
 
-double NQSJastrowReal::evaluateSqrd(Eigen::VectorXd positions, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
+double NQSJastrowReal::evaluateSqrd(Eigen::VectorXd positions) {
     //Eigen::VectorXd G = g(positions);
     //return ((G.cwiseInverse()).cwiseAbs2()).prod();
 

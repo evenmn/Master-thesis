@@ -37,10 +37,12 @@ void Sampler::sample(bool acceptedStep, int stepNumber) {
         m_dEE = Eigen::MatrixXd::Zero(m_numberOfElements, m_maxNumberOfParametersPerElement);
         m_SqrdE = 0;
     }
+
     //m_stepNumber = stepNumber;
     m_numberOfStepsAfterEquilibrium     = int((1 - m_system->getEquilibrationFraction()) * m_system->getNumberOfMetropolisSteps());
 
     double EL = m_system->getHamiltonian()->computeLocalEnergy();
+
     Eigen::MatrixXd gradients = m_system->getOptimization()->getAllImmediateGradients();
 
     m_cumulativeEnergy  += EL;

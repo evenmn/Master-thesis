@@ -4,8 +4,11 @@
 class MLGaussian : public WaveFunction {
 public:
     MLGaussian(class System* system, int elementNumber);
-    double evaluate(Eigen::VectorXd positions, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
-    double evaluateSqrd(Eigen::VectorXd positions, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
+    void updateArrays(Eigen::VectorXd positions, int pRand);
+    void resetArrays();
+    void initializeArrays(Eigen::VectorXd positions);
+    double evaluate(Eigen::VectorXd positions);
+    double evaluateSqrd(Eigen::VectorXd positions);
     double computeFirstDerivative(Eigen::VectorXd positions, int k);
     double computeSecondDerivative();
     Eigen::VectorXd computeFirstEnergyDerivative(int k);

@@ -4,8 +4,11 @@
 class Gaussian : public WaveFunction {
 public:
     Gaussian(class System* system, int elementNumber);
-    double evaluate(Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
-    double evaluateSqrd(Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
+    void updateArrays(Eigen::VectorXd positions, int pRand);
+    void resetArrays();
+    void initializeArrays(Eigen::VectorXd positions);
+    double evaluate(Eigen::VectorXd particles);
+    double evaluateSqrd(Eigen::VectorXd particles);
     double computeFirstDerivative(const Eigen::VectorXd positions, int k);
     double computeSecondDerivative();
     Eigen::VectorXd computeFirstEnergyDerivative(int k);

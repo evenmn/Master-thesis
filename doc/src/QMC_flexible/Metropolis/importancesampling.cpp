@@ -13,7 +13,7 @@ ImportanceSampling::ImportanceSampling(System* system) :
     m_numberOfParticles     = m_system->getNumberOfParticles();
     m_numberOfDimensions    = m_system->getNumberOfDimensions();
     m_numberOfFreeDimensions = m_system->getNumberOfFreeDimensions();
-    m_diff                  = m_system->getDiffusionConstant();
+    //m_diff                  = m_system->getDiffusionConstant();
     m_stepLength            = m_system->getStepLength();
     m_waveFunctionVector    = m_system->getWaveFunctionElements();
 }
@@ -42,34 +42,44 @@ double ImportanceSampling::GreenFuncSum(const Eigen::VectorXd newPositions) {
 
 bool ImportanceSampling::acceptMove() {
     m_positions             = m_system->getParticles();
-    m_radialVector          = m_system->getRadialVector();
-    m_distanceMatrix        = m_system->getDistanceMatrix();
+    //m_radialVector          = m_system->getRadialVector();
+    //m_distanceMatrix        = m_system->getDistanceMatrix();
 
     Random2 rand;
 
     int pRand = rand.nextInt(m_numberOfFreeDimensions);
 
     Eigen::VectorXd newPositions      = m_positions;
-    Eigen::VectorXd newRadialVector   = m_radialVector;
-    Eigen::MatrixXd newDistanceMatrix = m_distanceMatrix;
+    //Eigen::VectorXd newRadialVector   = m_radialVector;
+    //Eigen::MatrixXd newDistanceMatrix = m_distanceMatrix;
 
     newPositions(pRand) = m_positions(pRand) + m_diff * QuantumForce(m_positions, pRand) * m_stepLength + rand.nextGaussian(0,1) * sqrt(m_stepLength);   //Update position                                 //Update v
     //calculateDistanceMatrixCross(int(pRand/m_numberOfDimensions), newPositions, newDistanceMatrix);
 
-    newRadialVector   = m_system->calculateRadialVector(newPositions);
-    newDistanceMatrix = m_system->calculateDistanceMatrix(newPositions);
+    //newRadialVector   = m_system->calculateRadialVector(newPositions);
+    //newDistanceMatrix = m_system->calculateDistanceMatrix(newPositions);
 
-    double psiOld = m_system->evaluateWaveFunctionSqrd(m_positions, m_radialVector, m_distanceMatrix);
-    double psiNew = m_system->evaluateWaveFunctionSqrd(newPositions, newRadialVector, newDistanceMatrix);
+    //std::cout << "acceptMove" << std::endl;
+
+    double psiOld = m_system->evaluateWaveFunctionSqrd(m_positions);
+    m_system->updateAllArrays(newPositions, pRand);
+    double psiNew = m_system->evaluateWaveFunctionSqrd(newPositions);
+
+    //std::cout << psiOld << std::endl;
+    //std::cout << psiNew << std::endl;
+    //std::cout << std::endl;
 
     double w = GreenFuncSum(newPositions) * (psiNew/psiOld);
     double r = rand.nextDouble();
 
     if(w > r) {
         m_positions(pRand)        = newPositions(pRand);
-        m_radialVector            = newRadialVector;
-        m_distanceMatrix          = newDistanceMatrix;
+        //m_radialVector            = newRadialVector;
+        //m_distanceMatrix          = newDistanceMatrix;
         return true;
     }
-    return false;
+    else {
+        m_system->resetAllArrays();
+        return false;
+    }
 }

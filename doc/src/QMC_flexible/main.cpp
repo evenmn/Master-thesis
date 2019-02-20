@@ -36,9 +36,9 @@ int main() {
     int     numberOfDimensions  = 2;
     int     numberOfParticles   = 2;
     int     numberOfHiddenNodes = 2;
-    int     numberOfSteps       = int(1e6);
+    int     numberOfSteps       = int(1e5);
     int     numberOfIterations  = 50;
-    double  eta                 = 0.1;         // Learning rate
+    double  eta                 = 0.5;         // Learning rate
     double  omega               = 1.0;          // Oscillator frequency
     double  sigma               = 1.0;          // Width of probability distribution
     double  stepLength          = 0.1;          // Metropolis step length
@@ -70,9 +70,9 @@ int main() {
     WaveFunctionElements.push_back      (new class PadeJastrow          (system, 1));
 
     system->setNumberOfWaveFunctionElements(int(WaveFunctionElements.size()));
+    system->setWaveFunction             (WaveFunctionElements);
     system->setInitialState             (new RandomNormal(system));
     system->setInitialWeights           (new Constant(system, 0.1));
-    system->setWaveFunction             (WaveFunctionElements);
     system->setHamiltonian              (new HarmonicOscillator(system));
     system->setMetropolis               (new ImportanceSampling(system));
     system->setOptimization             (new GradientDescent(system));

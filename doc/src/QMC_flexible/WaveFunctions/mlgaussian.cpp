@@ -14,7 +14,20 @@ MLGaussian::MLGaussian(System* system,
     m_sigmaSqrd = sigma*sigma;
 }
 
-double MLGaussian::evaluate(Eigen::VectorXd positions, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
+void MLGaussian::updateArrays(Eigen::VectorXd positions, int pRand) {
+    m_oldPositions = m_positions;
+    m_positions = positions;
+}
+
+void MLGaussian::resetArrays() {
+    m_positions = m_oldPositions;
+}
+
+void MLGaussian::initializeArrays(Eigen::VectorXd positions) {
+
+}
+
+double MLGaussian::evaluate(Eigen::VectorXd positions) {
     m_parameters         = m_system->getWeights();
     //Eigen::VectorXd a    = (m_parameters.row(m_elementNumber)).head(m_numberOfFreeDimensions);
 
@@ -23,7 +36,7 @@ double MLGaussian::evaluate(Eigen::VectorXd positions, Eigen::VectorXd radialVec
     //return exp(-double(m_omega * ((positions + Eigen::VectorXd::Ones(m_numberOfFreeDimensions) - a).cwiseAbs2()).sum())/(2 * m_sigmaSqrd));
 }
 
-double MLGaussian::evaluateSqrd(Eigen::VectorXd positions, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
+double MLGaussian::evaluateSqrd(Eigen::VectorXd positions) {
     m_parameters         = m_system->getWeights();
     //Eigen::VectorXd a    = (m_parameters.row(m_elementNumber)).head(m_numberOfFreeDimensions);
 

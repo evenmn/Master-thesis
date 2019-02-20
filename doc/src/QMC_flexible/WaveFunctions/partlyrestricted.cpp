@@ -14,7 +14,20 @@ PartlyRestricted::PartlyRestricted(System* system,
     m_sigmaSqrd = sigma*sigma;
 }
 
-double PartlyRestricted::evaluate(Eigen::VectorXd positions, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
+void PartlyRestricted::updateArrays(Eigen::VectorXd positions, int pRand) {
+    m_oldPositions = m_positions;
+    m_positions = positions;
+}
+
+void PartlyRestricted::resetArrays() {
+    m_positions = m_oldPositions;
+}
+
+void PartlyRestricted::initializeArrays(Eigen::VectorXd positions) {
+
+}
+
+double PartlyRestricted::evaluate(Eigen::VectorXd positions) {
     m_parameters         = m_system->getWeights();
 
     double Sum = 0;
@@ -27,7 +40,7 @@ double PartlyRestricted::evaluate(Eigen::VectorXd positions, Eigen::VectorXd rad
     return exp(-0.5 * Sum  / (m_sigmaSqrd * m_sigmaSqrd));
 }
 
-double PartlyRestricted::evaluateSqrd(Eigen::VectorXd positions, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
+double PartlyRestricted::evaluateSqrd(Eigen::VectorXd positions) {
     m_parameters         = m_system->getWeights();
     double Sum = 0;
     for(int i=0; i<m_numberOfFreeDimensions; i++) {

@@ -16,6 +16,19 @@ SlaterDeterminant::SlaterDeterminant(System* system,
     m_omega                             = m_system->getFrequency();
 }
 
+void SlaterDeterminant::updateArrays(Eigen::VectorXd positions, int pRand) {
+    m_oldPositions = m_positions;
+    m_positions = positions;
+}
+
+void SlaterDeterminant::resetArrays() {
+    m_positions = m_oldPositions;
+}
+
+void SlaterDeterminant::initializeArrays(Eigen::VectorXd positions) {
+
+}
+
 double H(double x, int n) {
     //Hermite polynomial of n'th degree
 
@@ -156,14 +169,14 @@ Eigen::MatrixXd SlaterDeterminant::updateMatrix(Eigen::VectorXd positions, doubl
     return A;
 }
 
-double SlaterDeterminant::evaluate(Eigen::VectorXd positions, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
+double SlaterDeterminant::evaluate(Eigen::VectorXd positions) {
     Eigen::MatrixXd D_up = updateMatrix(positions.head(m_numberOfFreeDimensions/2), H);
     Eigen::MatrixXd D_dn = updateMatrix(positions.tail(m_numberOfFreeDimensions/2), H);
 
     return D_up.determinant()*D_dn.determinant();
 }
 
-double SlaterDeterminant::evaluateSqrd(Eigen::VectorXd positions, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
+double SlaterDeterminant::evaluateSqrd(Eigen::VectorXd positions) {
     Eigen::MatrixXd D_up = updateMatrix(positions.head(m_numberOfFreeDimensions/2), H);
     Eigen::MatrixXd D_dn = updateMatrix(positions.tail(m_numberOfFreeDimensions/2), H);
 

@@ -12,6 +12,19 @@ HydrogenOrbital::HydrogenOrbital(System* system, double beta) :
     m_beta = beta;
 }
 
+void HydrogenOrbital::updateArrays(Eigen::VectorXd positions, int pRand) {
+    m_oldPositions = m_positions;
+    m_positions = positions;
+}
+
+void HydrogenOrbital::resetArrays() {
+    m_positions = m_oldPositions;
+}
+
+void HydrogenOrbital::initializeArrays(Eigen::VectorXd positions) {
+
+}
+
 double HydrogenOrbital::evaluate(Eigen::MatrixXd positions) {
     /* You need to implement a Gaussian wave function here. The positions of
      * the particles are accessible through the particle[i].getPosition()

@@ -8,8 +8,11 @@ public:
     WaveFunction(class System *system);
     int     getNumberOfParameters() { return m_numberOfParameters; }
     Eigen::VectorXd getParameters() { return m_parameters; }
-    virtual double evaluate(Eigen::VectorXd positions, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) = 0;
-    virtual double evaluateSqrd(Eigen::VectorXd positions, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) = 0;
+    virtual void updateArrays(Eigen::VectorXd positions, int pRand) = 0;
+    virtual void resetArrays() = 0;
+    virtual void initializeArrays(Eigen::VectorXd positions) = 0;
+    virtual double evaluate(Eigen::VectorXd positions) = 0;
+    virtual double evaluateSqrd(Eigen::VectorXd positions) = 0;
     virtual double computeFirstDerivative(const Eigen::VectorXd positions, int k) = 0;
     virtual double computeSecondDerivative() = 0;
     virtual Eigen::VectorXd computeFirstEnergyDerivative(int k) = 0;
@@ -27,6 +30,7 @@ protected:
     Eigen::VectorXd m_radialVector;
     Eigen::MatrixXd m_distanceMatrix;
     Eigen::VectorXd m_positions;
+    Eigen::VectorXd m_oldPositions;
     class System* m_system = nullptr;
 };
 

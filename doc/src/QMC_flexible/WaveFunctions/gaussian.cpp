@@ -12,12 +12,25 @@ Gaussian::Gaussian(System* system,
     m_omega              = m_system->getFrequency();
 }
 
-double Gaussian::evaluate(Eigen::VectorXd positions, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
+void Gaussian::updateArrays(Eigen::VectorXd positions, int pRand) {
+    m_oldPositions = m_positions;
+    m_positions = positions;
+}
+
+void Gaussian::resetArrays() {
+    m_positions = m_oldPositions;
+}
+
+void Gaussian::initializeArrays(Eigen::VectorXd positions) {
+
+}
+
+double Gaussian::evaluate(Eigen::VectorXd positions) {
     m_alpha              = (m_system->getWeights())(m_elementNumber,0);
     return exp(-0.5 * m_omega * m_alpha * (positions.cwiseAbs2()).sum());
 }
 
-double Gaussian::evaluateSqrd(Eigen::VectorXd positions, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
+double Gaussian::evaluateSqrd(Eigen::VectorXd positions) {
     m_alpha              = (m_system->getWeights())(m_elementNumber,0);
     return exp(- m_omega * m_alpha * (positions.cwiseAbs2()).sum());
 }

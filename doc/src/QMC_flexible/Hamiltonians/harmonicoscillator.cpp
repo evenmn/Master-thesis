@@ -19,15 +19,20 @@ HarmonicOscillator::HarmonicOscillator(System* system) :
 
 double HarmonicOscillator::computeLocalEnergy() {
     m_positions             = m_system->getParticles();
-    m_radialVector          = m_system->getRadialVector();
-    m_distanceMatrix        = m_system->getDistanceMatrix();
+    //m_radialVector          = m_system->getRadialVector();
+    //m_distanceMatrix        = m_system->getDistanceMatrix();
 
 
     double interactionEnergy = 0;
     if(m_interaction) {
         for(int i=0; i<m_numberOfParticles; i++) {
             for(int j=0; j<i; j++) {
-                interactionEnergy += 1/m_distanceMatrix(i,j);
+                double sqrdElementWise = 0;
+                for(int d=0; d<m_numberOfDimensions; d++) {
+                    double numb = m_positions(i*m_numberOfDimensions + d) - m_positions(j*m_numberOfDimensions + d);
+                    sqrdElementWise += numb * numb;
+                }
+                interactionEnergy += 1/sqrt(sqrdElementWise);
             }
         }
     }

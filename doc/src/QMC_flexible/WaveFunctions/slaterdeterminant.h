@@ -11,8 +11,11 @@ public:
     Eigen::VectorXd dA_row(Eigen::VectorXd positions, int k);
     Eigen::MatrixXd dA_matrix(Eigen::VectorXd positions);
 
-    double evaluate(Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
-    double evaluateSqrd(Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
+    void updateArrays(Eigen::VectorXd positions, int pRand);
+    void resetArrays();
+    void initializeArrays(Eigen::VectorXd positions);
+    double evaluate(Eigen::VectorXd particles);
+    double evaluateSqrd(Eigen::VectorXd particles);
     double computeFirstDerivative(const Eigen::VectorXd positions, int k);
     double computeSecondDerivative();
     Eigen::VectorXd computeFirstEnergyDerivative(int k);

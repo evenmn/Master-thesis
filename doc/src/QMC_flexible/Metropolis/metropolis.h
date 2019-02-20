@@ -19,5 +19,5 @@ protected:
     int m_numberOfDimensions = 0;
     int m_numberOfFreeDimensions = 0;
     double m_stepLength = 0;
-    double m_diff = 0;
+    double m_diff = 0.5;
 };

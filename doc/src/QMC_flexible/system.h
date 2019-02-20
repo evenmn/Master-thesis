@@ -53,8 +53,10 @@ public:
     Eigen::VectorXd         getRadialVector()            { return m_radialVector; }
     std::vector<class WaveFunction*> getWaveFunctionElements()  { return m_waveFunctionVector; }
 
-    double evaluateWaveFunction     (Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
-    double evaluateWaveFunctionSqrd (Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix);
+    void updateAllArrays(Eigen::VectorXd particles, int pRand);
+    void resetAllArrays();
+    double evaluateWaveFunction     (Eigen::VectorXd particles);
+    double evaluateWaveFunctionSqrd (Eigen::VectorXd particles);
     double getKineticEnergy         ();
     Eigen::VectorXd calculateRadialVector      (Eigen::VectorXd particles);
     Eigen::MatrixXd calculateDistanceMatrix    (Eigen::VectorXd particles);

@@ -16,8 +16,8 @@
 
 void System::runMetropolisSteps(int numberOfMetropolisSteps, int numberOfIterations) {
     m_positions                 = m_initialState->getParticles();
-    m_radialVector              = m_initialState->getRadialVector();
-    m_distanceMatrix            = m_initialState->getDistanceMatrix();
+    //m_radialVector              = m_initialState->getRadialVector();
+    //m_distanceMatrix            = m_initialState->getDistanceMatrix();
     m_parameters                = m_initialWeights->getWeights();
     m_sampler                   = new Sampler(this);
     m_numberOfMetropolisSteps   = numberOfMetropolisSteps;
@@ -31,8 +31,8 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps, int numberOfIterati
         for (int i=0; i < numberOfMetropolisSteps; i++) {
             bool acceptedStep = m_metropolis->acceptMove();
             m_positions       = m_metropolis->updatePositions();
-            m_radialVector    = m_metropolis->updateRadialVector();
-            m_distanceMatrix  = m_metropolis->updateDistanceMatrix();
+            //m_radialVector    = m_metropolis->updateRadialVector();
+            //m_distanceMatrix  = m_metropolis->updateDistanceMatrix();
             if(double(i)/m_numberOfMetropolisSteps >= m_equilibrationFraction) {
                 m_sampler->sample(acceptedStep, i);
             }
@@ -161,18 +161,30 @@ void System::setGradients() {
     m_gradients = Eigen::MatrixXd(m_waveFunctionVector.size(), maxNumberOfParametersPerElement);
 }
 
-double System::evaluateWaveFunction(Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
+void System::updateAllArrays(Eigen::VectorXd particles, int pRand) {
+    for(auto& i : m_waveFunctionVector) {
+        i->updateArrays(particles, pRand);
+    }
+}
+
+void System::resetAllArrays() {
+    for(auto& i : m_waveFunctionVector) {
+        i->resetArrays();
+    }
+}
+
+double System::evaluateWaveFunction(Eigen::VectorXd particles) {
     double WF = 1;
     for(auto& i : m_waveFunctionVector) {
-        WF *= i->evaluate(particles, radialVector, distanceMatrix);
+        WF *= i->evaluate(particles);
     }
     return WF;
 }
 
-double System::evaluateWaveFunctionSqrd(Eigen::VectorXd particles, Eigen::VectorXd radialVector, Eigen::MatrixXd distanceMatrix) {
+double System::evaluateWaveFunctionSqrd(Eigen::VectorXd particles) {
     double WF = 1;
     for(auto& i : m_waveFunctionVector) {
-        WF *= i->evaluateSqrd(particles, radialVector, distanceMatrix);
+        WF *= i->evaluateSqrd(particles);
     }
     return WF;
 }
