@@ -16,9 +16,11 @@ public:
     Eigen::VectorXd computeSecondEnergyDerivative();
 private:
     int     m_elementNumber = 0;
-    double  m_omega         = 1;
-    double  m_sigmaSqrd     = 1;
+    double  m_sigmaSqrd2    = 1;
+    double  m_oldXCx;
+    double  m_xCx;
 
     Eigen::VectorXd m_positions;
     Eigen::VectorXd m_oldPositions;
+    Eigen::MatrixXd m_c;
 };

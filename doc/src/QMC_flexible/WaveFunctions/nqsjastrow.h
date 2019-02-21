@@ -4,11 +4,6 @@
 class NQSJastrow : public WaveFunction {
 public:
     NQSJastrow(class System* system, int elementNumber);
-    Eigen::VectorXd b();
-    Eigen::MatrixXd W();
-    Eigen::VectorXd v(Eigen::VectorXd positions);
-    Eigen::VectorXd f(Eigen::VectorXd positions);
-    Eigen::VectorXd g(Eigen::VectorXd positions);
     void updateArrays(Eigen::VectorXd positions, int pRand);
     void resetArrays();
     void initializeArrays(Eigen::VectorXd positions);
@@ -27,4 +22,12 @@ private:
 
     Eigen::VectorXd m_positions;
     Eigen::VectorXd m_oldPositions;
+    Eigen::MatrixXd m_W;
+    Eigen::VectorXd m_b;
+    Eigen::VectorXd m_oldV;
+    Eigen::VectorXd m_v;
+    Eigen::VectorXd m_oldN;
+    Eigen::VectorXd m_n;
+    Eigen::VectorXd m_oldP;
+    Eigen::VectorXd m_p;
 };

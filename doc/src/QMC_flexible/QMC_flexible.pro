@@ -28,9 +28,10 @@ SOURCES += main.cpp \
     Optimization/gradientdescent.cpp \
     WaveFunctions/gaussian.cpp \
     WaveFunctions/padejastrow.cpp \
-    WaveFunctions/nqsjastrowreal.cpp \
     WaveFunctions/partlyrestricted.cpp \
-    WaveFunctions/slaterdeterminant.cpp
+    WaveFunctions/slaterdeterminant.cpp \
+    Optimization/barzilaiborwein.cpp \
+    Optimization/gradientdescentmomentum.cpp
 
 HEADERS += \
     system.h \
@@ -57,7 +58,8 @@ HEADERS += \
     Optimization/gradientdescent.h \
     WaveFunctions/gaussian.h \
     WaveFunctions/padejastrow.h \
-    WaveFunctions/nqsjastrowreal.h \
     WaveFunctions/partlyrestricted.h \
-    WaveFunctions/slaterdeterminant.h
+    WaveFunctions/slaterdeterminant.h \
+    Optimization/barzilaiborwein.h \
+    Optimization/gradientdescentmomentum.h
 

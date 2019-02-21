@@ -2,16 +2,15 @@
 #include "optimization.h"
 #include <Eigen/Dense>
 
-class GradientDescent : public Optimization {
+class GradientDescentMomentum : public Optimization {
 public:
-    GradientDescent(System* system);
+    GradientDescentMomentum(System* system, double gamma);
     Eigen::VectorXd getImmediateGradients(WaveFunction* waveFunction);
     Eigen::MatrixXd getAllImmediateGradients();
     Eigen::MatrixXd updateParameters();
     Eigen::MatrixXd getEnergyGradient();
 
 private:
-    double m_omega = 0;
-    double m_omega_sqrd = 0;
-    double m_step = 0;
+    double m_gamma = 0;
+    Eigen::MatrixXd m_v;
 };

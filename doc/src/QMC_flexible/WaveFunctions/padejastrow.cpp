@@ -26,13 +26,21 @@ double PadeJastrow::calculateDistanceMatrixElement(int i, int j, Eigen::VectorXd
 }
 
 Eigen::MatrixXd PadeJastrow::calculateDistanceMatrix(Eigen::VectorXd particles) {
-    Eigen::MatrixXd distanceMatrix = Eigen::MatrixXd::Zero(m_numberOfParticles, m_numberOfParticles);
-    for(int i=0; i<m_numberOfParticles; i++) {
-        for(int j=0; j<i; j++) {
-            distanceMatrix(i,j) = calculateDistanceMatrixElement(i,j,particles);
+    bool loops = true;
+
+    if(loops) {
+        Eigen::MatrixXd distanceMatrix = Eigen::MatrixXd::Zero(m_numberOfParticles, m_numberOfParticles);
+        for(int i=0; i<m_numberOfParticles; i++) {
+            for(int j=0; j<i; j++) {
+                distanceMatrix(i,j) = calculateDistanceMatrixElement(i,j,particles);
+            }
         }
+        return distanceMatrix;
     }
-    return distanceMatrix;
+    else if((loops=false)) {
+        Eigen::Map<Eigen::MatrixXd> r(particles.data(), m_numberOfParticles, m_numberOfDimensions);
+        return Eigen::MatrixXd::Zero(m_numberOfParticles, m_numberOfParticles);
+    }
 }
 
 void PadeJastrow::calculateDistanceMatrixCross(int par, Eigen::VectorXd particles, Eigen::MatrixXd &distanceMatrix) {

@@ -23,9 +23,7 @@ protected:
     int     m_numberOfParticles                 = 0;
     int     m_numberOfDimensions                = 0;
     int     m_numberOfFreeDimensions            = 0;
-    int     m_numberOfParameters                = 0;
     int     m_maxNumberOfParametersPerElement   = 0;
-    Eigen::MatrixXd m_parameters;
     class System* m_system = nullptr;
 };
 

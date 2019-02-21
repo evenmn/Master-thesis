@@ -31,6 +31,7 @@ public:
     class Hamiltonian*      getHamiltonian()             { return m_hamiltonian; }
     class Sampler*          getSampler()                 { return m_sampler; }
     class Optimization*     getOptimization()            { return m_optimization; }
+    class InitialWeights*   getInitialWeights()          { return m_initialWeights; }
     int                     getNumberOfParticles()       { return m_numberOfParticles; }
     int                     getNumberOfDimensions()      { return m_numberOfDimensions; }
     int                     getNumberOfHiddenNodes()     { return m_numberOfHiddenNodes; }

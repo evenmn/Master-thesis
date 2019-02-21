@@ -20,157 +20,96 @@ NQSJastrow::NQSJastrow(System* system, int elementNumber) :
 void NQSJastrow::updateArrays(Eigen::VectorXd positions, int pRand) {
     m_oldPositions = m_positions;
     m_positions = positions;
+
+    m_oldV = m_v;
+    m_oldN = m_n;
+    m_oldP = m_p;
+    m_v = m_b + m_W.transpose() * positions;
+
+    for(int i=0; i<m_numberOfHiddenNodes; i++) {
+        m_n(i) = 1/(1 + exp(-m_v(i)));
+        m_p(i) = 1/(1 + exp(+m_v(i)));
+    }
 }
 
 void NQSJastrow::resetArrays() {
     m_positions = m_oldPositions;
+    m_v         = m_oldV;
+    m_n         = m_oldN;
+    m_p         = m_oldP;
 }
 
 void NQSJastrow::initializeArrays(Eigen::VectorXd positions) {
     m_positions = positions;
+    m_v = m_b + m_W.transpose() * positions;
+
+    for(int i=0; i<m_numberOfHiddenNodes; i++) {
+        m_n(i) = 1/(1 + exp(-m_v(i)));
+        m_p(i) = 1/(1 + exp(+m_v(i)));
+    }
 }
 
 void NQSJastrow::updateParameters(Eigen::MatrixXd parameters) {
-    //m_a = (m_parameters.row(m_elementNumber)).head(m_numberOfFreeDimensions);
+    Eigen::VectorXd XXX = parameters.row(m_elementNumber).segment(m_numberOfHiddenNodes, m_numberOfFreeDimensions*m_numberOfHiddenNodes);
+    Eigen::Map<Eigen::MatrixXd> W(XXX.data(), m_numberOfFreeDimensions, m_numberOfHiddenNodes);
+    m_W = W;
+
+    m_b = parameters.row(m_elementNumber).head(m_numberOfHiddenNodes);
 }
 
 int fromWToParameterIndex(int i, int j, int numberOfFreeDimensions) {
     return j*numberOfFreeDimensions + i;
 }
 
-//double fromParameterToWIndices(int i, int numberOfFreeDimensions) {
-//    return i%numberPfFreeDimensions, int(i/numberOfFreeDimensions)
-//}
-
-Eigen::MatrixXd NQSJastrow::W() {
-    m_parameters = m_system->getWeights();
-    Eigen::VectorXd XXX = m_parameters.row(m_elementNumber).segment(m_numberOfHiddenNodes, m_numberOfFreeDimensions*m_numberOfHiddenNodes);
-    Eigen::Map<Eigen::MatrixXd> W(XXX.data(), m_numberOfFreeDimensions, m_numberOfHiddenNodes);
-    return W;
-}
-
-Eigen::VectorXd NQSJastrow::b() {
-    m_parameters = m_system->getWeights();
-    return (m_parameters.row(m_elementNumber)).head(m_numberOfHiddenNodes);
-}
-
-Eigen::VectorXd NQSJastrow::v(Eigen::VectorXd positions) {
-    Eigen::VectorXd V = b() + W().transpose() * positions;
-    return V;
-}
-
-Eigen::VectorXd NQSJastrow::f(Eigen::VectorXd positions) {
-    Eigen::VectorXd V = v(positions);
-    Eigen::VectorXd F = V.array().exp();
-
-    //for(int i=0; i<m_numberOfHiddenNodes; i++) {
-    //    F(i) = exp(V(i));
-    //}
-
-    return F;
-}
-
-Eigen::VectorXd NQSJastrow::g(Eigen::VectorXd positions) {
-    Eigen::VectorXd F = f(positions);
-    Eigen::VectorXd G = Eigen::VectorXd::Zero(m_numberOfHiddenNodes);
-
-    G = (Eigen::VectorXd::Ones(m_numberOfHiddenNodes) + F).cwiseInverse();
-
-    //for(int i=0; i<m_numberOfHiddenNodes; i++) {
-    //    G(i) = 1/(1 + exp(V(i)));
-    //}
-
-    return G;
-}
-
 double NQSJastrow::evaluate() {
-    //Eigen::VectorXd G = g(positions);
-    //return (G.cwiseInverse()).prod();
-
-    Eigen::VectorXd B = b();
-    Eigen::MatrixXd w = W();
     double Prod = 1;
     for(int j=0; j<m_numberOfHiddenNodes; j++) {
-        double Sum = 0;
-        for(int i=0; i<m_numberOfFreeDimensions; i++) {
-            Sum += w(i,j) * m_positions(i) / m_sigmaSqrd;
-        }
-        Prod *= 1 + exp(B(j) + Sum);
+        Prod *= 1 + exp(m_v(j));
     }
     return Prod;
 }
 
 double NQSJastrow::evaluateSqrd() {
-    //Eigen::VectorXd G = g(positions);
-    //return ((G.cwiseInverse()).cwiseAbs2()).prod();
-
-    Eigen::VectorXd B = b();
-    Eigen::MatrixXd w = W();
     double Prod = 1;
     for(int j=0; j<m_numberOfHiddenNodes; j++) {
-        double Sum = 0;
-        for(int i=0; i<m_numberOfFreeDimensions; i++) {
-            Sum += w(i,j) * m_positions(i) / m_sigmaSqrd;
-        }
-        Prod *= 1 + exp(B(j) + Sum);
+        Prod *= 1 + exp(m_v(j));
     }
     return Prod * Prod;
 }
 
 double NQSJastrow::computeFirstDerivative(Eigen::VectorXd positions, int k) {
-    //Eigen::VectorXd F = f(positions);
-    //Eigen::VectorXd G = g(positions);
-    //Eigen::MatrixXd w = W();
-    //return double(w.row(k) * (F.cwiseProduct(G))) / m_sigmaSqrd;
-
-    Eigen::VectorXd B = b();
-    Eigen::MatrixXd w = W();
     double Sum1 = 0;
     for(int j=0; j<m_numberOfHiddenNodes; j++) {
         double Sum2 = 0;
         for(int i=0; i<m_numberOfFreeDimensions; i++) {
-            Sum2 += w(i,j) * positions(i) / m_sigmaSqrd;
+            Sum2 += m_W(i,j) * positions(i) / m_sigmaSqrd;
         }
-        Sum1 += w(k,j) / (m_sigmaSqrd * (1 + exp(-B(j) - Sum2)));
+        Sum1 += m_W(k,j) / (m_sigmaSqrd * (1 + exp(-m_b(j) - Sum2)));
     }
     return Sum1;
 }
 
 double NQSJastrow::computeSecondDerivative() {
-    m_positions = m_system->getParticles();
-    //Eigen::VectorXd F = f(m_positions);
-    //Eigen::VectorXd G = g(m_positions);
-    //Eigen::MatrixXd w = W();
-    //return (w.cwiseAbs2() * F.cwiseProduct(G.cwiseAbs2())).sum();
-
-    Eigen::VectorXd B = b();
-    Eigen::MatrixXd w = W();
-    double Sum1 = 0;
+    double Sum = 0;
     for(int k=0; k<m_numberOfFreeDimensions; k++) {
         for(int j=0; j<m_numberOfHiddenNodes; j++) {
-            double Sum2 = 0;
-            for(int i=0; i<m_numberOfFreeDimensions; i++) {
-                Sum2 += w(i,j) * m_positions(i) / m_sigmaSqrd;
-            }
-            Sum1 += w(k,j) * w(k,j) * exp(B(j) + Sum2) / (m_sigmaSqrd * m_sigmaSqrd * (1 + exp(B(j) + Sum2)) * (1 + exp(B(j) + Sum2)));
+            Sum += m_W(k,j) * m_W(k,j) * m_n(j) * m_p(j);
         }
     }
-    return Sum1;
+    return Sum / (m_sigmaSqrd * m_sigmaSqrd);
 }
 
 Eigen::VectorXd NQSJastrow::computeFirstEnergyDerivative(int k) {
-    m_positions = m_system->getParticles();
-
-    //Eigen::VectorXd gradients = Eigen::VectorXd::Zero(m_maxNumberOfParametersPerElement);
-
-
-    Eigen::VectorXd F = f(m_positions);
-    Eigen::VectorXd G = g(m_positions);
-    Eigen::MatrixXd w = W();
     Eigen::VectorXd gradients = Eigen::VectorXd::Zero(m_maxNumberOfParametersPerElement);
 
     // Update b
-    gradients.head(m_numberOfHiddenNodes) = - 0.5 * (((w.row(k)).transpose()).cwiseProduct(G.cwiseProduct(F.cwiseAbs2()))) / m_sigmaSqrd;
+    double Sum = 0;
+    for(int k=0; k<m_numberOfFreeDimensions; k++) {
+        for(int j=0; j<m_numberOfHiddenNodes; j++) {
+            Sum += m_W(k,j) * m_n(j) * m_p(j) / m_sigmaSqrd;
+        }
+    }
+    gradients(0) = -0.5 * Sum;
 
 
     // Update W
@@ -178,60 +117,35 @@ Eigen::VectorXd NQSJastrow::computeFirstEnergyDerivative(int k) {
         for(int m=0; m<m_numberOfHiddenNodes; m++) {
             int n = fromWToParameterIndex(l, m, m_numberOfFreeDimensions);
             if(l == k) {
-                gradients(n + m_numberOfHiddenNodes) = -0.5 * G(m) * F(m) * (1 + w(k,m) * G(m) * m_positions(k) / m_sigmaSqrd)/m_sigmaSqrd;
+                gradients(n + m_numberOfHiddenNodes) = -0.5 * m_n(m) * (m_sigmaSqrd + m_W(k,m) * m_p(m) * m_positions(k));
             }
             else {
-                gradients(n + m_numberOfHiddenNodes) = -0.5 * w(k, m) * F(m) * G(m) * G(m) / (m_sigmaSqrd * m_sigmaSqrd);
+                gradients(n + m_numberOfHiddenNodes) = -0.5 * m_W(k, m) * m_n(m) * m_p(m) * m_positions(l);
             }
         }
     }
-
-    /*
-    Eigen::VectorXd B = b();
-    Eigen::MatrixXd w = W();
-
-    // Update b
-    for(int j=0; j<m_numberOfHiddenNodes; j++) {
-        double Sum = 0;
-        for(int i=0; i<m_numberOfFreeDimensions; i++) {
-            Sum += w(i,j) * m_positions(i) / m_sigmaSqrd;
-        }
-        gradients(j) = - 0.5 * w(k,j) * exp(B(j) - Sum) / (m_sigmaSqrd * (1 + exp(B(j) + Sum) * (1 + exp(B(j) + Sum))));
-    }
-
-    // Update W
-    for(int k=0; k<m_numberOfFreeDimensions; k++) {
-        for(int j=0; j<m_numberOfHiddenNodes; j++) {
-            double Sum = 0;
-            for(int i=0; i<m_numberOfFreeDimensions; i++) {
-                Sum += w(i,j) * m_positions(i) / m_sigmaSqrd;
-            }
-            int l = fromWToParameterIndex(k, j, m_numberOfFreeDimensions) + m_numberOfHiddenNodes;
-            gradients(l) = -0.5 * w(k,j) * m_positions(k) * exp(B(j) + Sum) / (m_sigmaSqrd * m_sigmaSqrd * (1 + exp(B(j) + Sum) * (1 + exp(B(j) + Sum))));
-        }
-    }
-    */
-    return gradients;
+    return gradients / (m_sigmaSqrd * m_sigmaSqrd);
 }
 
 Eigen::VectorXd NQSJastrow::computeSecondEnergyDerivative() {
-    m_positions = m_system->getParticles();
-
-    Eigen::VectorXd F = f(m_positions);
-    Eigen::VectorXd G = g(m_positions);
-    Eigen::MatrixXd w = W();
     Eigen::VectorXd gradients = Eigen::VectorXd::Zero(m_maxNumberOfParametersPerElement);
 
     // Update b
-    gradients.head(m_numberOfHiddenNodes) = - 0.5 * ((w.cwiseAbs2().colwise().sum().transpose()).cwiseProduct(F.cwiseProduct((Eigen::VectorXd::Ones(m_numberOfHiddenNodes)-F).cwiseProduct(G.cwiseProduct(G.cwiseAbs2()))))) / (m_sigmaSqrd * m_sigmaSqrd);
+    double Sum = 0;
+    for(int k=0; k<m_numberOfFreeDimensions; k++) {
+        for(int j=0; j<m_numberOfHiddenNodes; j++) {
+            Sum += m_W(k,j) * m_W(k,j) * m_n(j) * m_p(j) * (m_p(j) - m_n(j));
+        }
+    }
+    gradients(0) = -0.5 * Sum / (m_sigmaSqrd * m_sigmaSqrd);
 
     // Update W
     for(int l=0; l<m_numberOfFreeDimensions; l++) {
         for(int m=0; m<m_numberOfHiddenNodes; m++) {
             int k = fromWToParameterIndex(l, m, m_numberOfFreeDimensions);
-            gradients(k + m_numberOfHiddenNodes) = F(m) * G(m) * G(m) * (2 * w(l,m) + w.cwiseAbs2().colwise().sum()(m) * m_positions(l) * (1 - F(m)) * G(m))/ (m_sigmaSqrd * m_sigmaSqrd);
+            gradients(k + m_numberOfHiddenNodes) = m_n(m) * m_p(m) * (2 * m_W(l,m) + m_W.cwiseAbs2().colwise().sum()(m) * m_positions(l) * (m_p(m) - m_n(m)));
         }
     }
 
-    return gradients;
+    return gradients / (m_sigmaSqrd * m_sigmaSqrd);
 }
