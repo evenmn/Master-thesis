@@ -361,7 +361,21 @@ How can we train using unsupervised learning?
 Bayesian statistics
 
 \subsection{Boltzmann Machines}
-Based on a Hopfield network
-How the things are derived, including Boltzmann distribution and stuff from statistical mechanics 
+Boltzmann Machines are based on the more primitive Hopfield network, where a system of nodes is set up which defines the system energy. Inspired by statistical mechanics, the probability of finding the system in a state of energy $E$ is given by
+\begin{equation}
+P=\exp(-E/kT)
+\end{equation}
+which is the Boltzmann distribution, hence the name Boltzmann machine. $k$ is known as Boltzmann's constant and $T$ is the system temperature, but henceforth they both will be avoided by scaling $E'=E/kT$. 
+
+In the most general form, all nodes are connected to all other nodes, that is an unrestricted Boltzmann machine, see figure .. for illustration. 
+
+INSERT FIGURE
+
+In the same manner as in a Feed-forward Neural Network, we can directly multiply each node $s_i$ with its respective inner weights $w_{ij}$ and then with the opposite node $s_j$, which defines the system energy together with the bias contributions. This gives the energy
+\begin{equation}
+E=-\sum_{i=1}^N\sum_{j=i}^N s_iw_{ij}s_j - \sum_{i=1}^Ns_ib_i
+\end{equation}
+for a system of $N$ nodes, which is the so-called binary-binary network and the most basic architecture. During training, the weights are adjusted in order to maximize the probability...
 
 \subsection{Restricted Boltzmann Machines}
+When there is an unrestricted guy, a restricted guy must exist as well. 
