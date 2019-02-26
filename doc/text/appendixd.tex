@@ -35,8 +35,8 @@ If we assume that each parameter, $\alpha$, only exists in a wave function eleme
 \end{equation}
 the derivative of the entire local energy is reduced to the derivative of the kinetic energy term given the wave function element,
 \begin{align}
-\partial_{\alpha} E_L &=\partial_{\alpha}\bigg(\nabla_k^2\ln\phi_1(\alpha)+\sum_{i=2}^p\nabla_k^2\ln\phi_i + \Big(\nabla_k\ln\phi_1(\alpha)+\sum_{i=2}^p\nabla_k\ln\phi_i\Big)^2\bigg)\\
-&=\partial_{\alpha}\nabla_k^2\ln\phi_1(\alpha)+2\Big(\sum_{i=1}^p\nabla_k\ln\phi_i\Big)\cdot\partial_{\alpha}\nabla_k\ln\phi_1(\alpha).
+\partial_{\alpha} E_L &=-\frac{1}{2}\partial_{\alpha}\bigg(\nabla_k^2\ln\phi_1(\alpha)+\sum_{i=2}^p\nabla_k^2\ln\phi_i + \Big(\nabla_k\ln\phi_1(\alpha)+\sum_{i=2}^p\nabla_k\ln\phi_i\Big)^2\bigg)\\
+&=-\frac{1}{2}\partial_{\alpha}\nabla_k^2\ln\phi_1(\alpha)-\Big(\sum_{i=1}^p\nabla_k\ln\phi_i\Big)\cdot\partial_{\alpha}\nabla_k\ln\phi_1(\alpha).
 \end{align}
 The sum is already evaluated in the kinetic energy calculations, which means that to calculate the gradients, it is sufficient to calculate $\partial_{\alpha}\nabla_k\ln\phi_1(\alpha)$ and $\partial_{\alpha}\nabla_k^2\ln\phi_1(\alpha)$ for all wave function elements with respect to their variational parameters.
 
@@ -103,6 +103,8 @@ We need to introduce the Slater Determinant to study more fermions.
 Now over to the real deal; the machine learning inspired wave function elements. 
 
 \subsection{NQS-Jastrow Factor}
+
+\subsection{Partly Restricted Element}
 
 \subsection{Hydrogen-Like Orbitals}
 \begin{equation}
