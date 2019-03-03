@@ -1,27 +1,34 @@
-\chapter{Systems and basis sets} \label{chp:potentials}
-Derive the Hamiltonian given in equation \eqref{eq:ElectronicHamiltonian}, both the kinetic term and the interaction term (Coulomb). Crash course in electrostatics 
+\chapter{Systems} \label{chp:systems}
+\epigraph{We must be clear that when it comes to atoms, language can be used only as in poetry.}{Niels Bohr}
+\begin{figure}[H]
+	\centering
+	\label{fig:harmonicoscillator}
+	\captionsetup[subfigure]{labelformat=empty}
+	\includegraphics[scale=0.9]{Images/qho.jpg}
+	\caption{The quantum harmonic oscillator, with the Hermite functions represented up to 4th order. As in classical mechanics, the harmonic oscillator can describe various quantum systems, such as lattice vibration (phonons) and quantum fields.}
+\end{figure}
 
-We often know the exact wave functions of the systems when interaction is dropped, but when we include interaction the wave functions ae unknown. 
-
-Specific systems need specific basis sets
+When defining a system, we also need to specify the basis set to be used. The single particle functions are often known, and they are well-suited as a basis for the total
 
 \section{Quantum dots} \label{subsubsec:quantumdots}
 Quantum dots are very small particles, and contain fermions or bosons hold together by an external potential. Since these particles have discrete electronic states like an atom, they are often called artificial atoms. 
 
-In this thesis we will study electrons trapped in harmonic oscillators, which gives an external potential affecting particle $i$ is given by
+In this thesis we will study electrons trapped in harmonic oscillators, which give an external potential affecting particle $i$ is given by
 \begin{equation}
-u_i=\frac{1}{2}\omega^2r_i^2.
+u_i=\frac{1}{2}m\omega^2r_i^2.
 \end{equation}
-Thus, the Hamiltonian reads
+Using natural units as described in Appendix B, we can write the Hamiltonian as
 \begin{equation}
 \label{eq:HOHamiltonian}
-\hat{\text{H}} = \sum_{i=1}^{P} (-\frac{1}{2} \nabla_i^2 + \frac{1}{2} \omega^2 r_i ^2) + \sum_{i<j} \frac{1}{r_{ij}} 
+\hat{\mathcal{H}} = \sum_{i=1}^{P} \Big(-\frac{1}{2} \nabla_i^2 + \frac{1}{2} r_i ^2\Big) + \sum_{i<j} \frac{1}{r_{ij}} 
 \end{equation}
-and we will use the Hermite functions as our basis set. The one dimensional Hermite functions read
+where the energy is scaled with respect to atomic units and lengths are scaled with respect to the Bohr radius.
+
+The exact solutions of the non-interacting Hamiltonian are the Hermite functions, 
 \begin{equation}
 f_n(x)=H_n(x)\exp(-x^2/2)
 \end{equation}
-and are known to be the exact SPFs in a harmonic oscillator. 
+which we will use as our basis. The first four Hermite functions are illustrated in figure \eqref{fig:harmonicoscillator}.
 
 \section{Atomic systems} \label{subsubsec:atomic}
 We will also investigate real atoms, which have Hamiltonians defined by the Born-Oppenheimer approximation.
@@ -41,6 +48,8 @@ which applies for an atom with stationary nucleus at origin. The first part is r
 "Colloquially, we call such solutions and derived properties as electronic structure."
 
 \section{Molecular systems}
+
+\section{Bose-Einstein Condensation}
 
 \section{Electron gas} \label{subsubsec:electrongas}
 \section{Helium gas} \label{subsubsec:heliumgas}

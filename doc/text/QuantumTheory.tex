@@ -1,28 +1,63 @@
 \chapter{Quantum Many-Body Physics} \label{sec:quantum}
-Here I might present basic quantum mechanics briefly.
+\epigraph{If you are not completely confused by quantum mechanics, you do not understand it.}{John Wheeler}
+\begin{figure}[H]
+	\centering
+	\captionsetup[subfigure]{labelformat=empty}
+	\includegraphics[scale=3.0]{Images/art_quantum.jpg}
+	\caption{The first photograph of a Hydrogen atom, which shows the true wave function. Published in Phys. rev. lett. 110, 213001 (2017), \textit{Hydrogen atoms under magnification}.}
+\end{figure}
+Around 1900, some physicists thought that there were nothing new to be discovered in physics and all that remained was more precise measurements, as Lord Kelvin famously pointed out. He could not be more wrong. In the following years, things were observed that could only be described by a quantized theory, led by Albert Einstein's explanation of the photoelectric effect in 1905. 
 
+Immense efforts were placed on completing the theory, and contributions from an array of scientists over a period of 20 years were necessary to get it finished. In 1929, Paul Dirac stated something similar to what Lord Kelvin said 30 years earlier, but hopefully with greater accuracy. 
+
+\newpage
 \section{Introductory Quantum Physics} \label{subsec:elementary}
-Even though it is called elementary, quantum mechanics is not basic at all. 
+In this section we will present the fundamentals of the quantum theory, that will make up the framework of this project. The theory is based on David Griffith's incredible textbook, \textit{Introduction to Quantum Mechanics}, where the reader is relegated for in-depth information.
+
+Before we get started, we make a few assumptions in order to simplify our problem. They most important ones are specified below with an explanation why they are valid.
+
+\begin{itemize}
+	\item \textbf{Point-like particles:} First, all particles involved will be assumed to be point-like, such that they lack spatial extension. This includes the nucleus in atomic systems, but it still makes sense since the distance from the nucleus to the electrons is known to be much larger then the nucleus extent.
+	
+	\item \textbf{Non-relativistic spacetime:}  Second, we operate in the non-relativistic spacetime, which is valid as long as we do not approach the speed of light and the forces are not strong. Applying classical physics, we can find that the speed of the electron in a hydrogen atom is about 1\% of the speed of light, and even though the electrons get higher speed in heavier atoms, we do not need to worry about it. The forces acting are the weak Coulomb forces.
+	\item For specific systems we might make new assumptions and approximate. For instance, for atomic systems we will assume that the nucleus is at rest. Those approximations will be discussed consecutively. 
+\end{itemize}
 
 \subsection{The Schrödinger Equation} \label{subsubsec:schrodinger}
-The Schrödinger equation is a natural starting point, which gives the energy eigenstates of a system defined by a Hamiltonian $\hatH$ and its eigenfunctions, $\Psi$, which are the wave functions. The time-independent Schrödinger equation reads
+The Schrödinger equation is a natural starting point, which gives the energy eigenstates of a system defined by a Hamiltonian $\hat{\mathcal{H}}$ and its eigenfunctions, $\Psi$, which are the wave functions. The time-independent Schrödinger equation reads
 \begin{equation}
 \label{eq:Energy}
  \hat{\mathcal{H}}\psin=\epsilon_n\psin
 \end{equation}
-where the electronic Hamiltonian takes the form
+where the Hamiltonian is the total energy operator. By analogy with the classical mechanics, this is given by
 \begin{equation}
-\hatH=-\sum_i^N\frac{\hbar^2}{2m}\nabla_i^2+\sum_i^Nu_i + \sum_i^N\sum_{j>i}^Mk\frac{e^2}{r_{ij}}
+\hat{\mathcal{H}}=\hat{\mathcal{T}}+\hat{\mathcal{V}}
+\end{equation}
+with $\hat{\mathcal{T}}$ and $\hat{\mathcal{V}}$ as the kinetic and potential energy operators respectively. 
+
+The kinetic energy yields $T=p^2/2m$, such that the kinetic energy operator can be represented as 
+\begin{equation}
+\hat{\mathcal{T}}=\frac{\hat{\mathcal{P}}^2}{2m}
+\end{equation}
+according to Ehrenfest's theorem. Further, the momentum operator is $\hat{\mathcal{P}}=-i\hbar\nabla$.
+
+The potential energy can be split into an external part and an interaction part, where the latter is given by the Coulomb interaction. For two identical particles of charge $q$, the repulsive interaction gives the energy
+\begin{equation}
+V_I=k\frac{q^2}{r_{12}}
+\end{equation}
+where $r_{12}$ is the distance between the particles. The total Hamiltonian of a system of $N$ identical particles takes the form
+\begin{equation}
+\hat{\mathcal{H}}=-\sum_i^N\frac{\hbar^2}{2m}\nabla_i^2+\sum_i^Nu_i + \sum_i^N\sum_{j>i}^Mk\frac{q^2}{r_{ij}}
 \label{eq:ElectronicHamiltonian}
 \end{equation}
-with $u_i$ as an arbitrary external potential and the last term as the Coulomb potential between electrons. $r_{ij}$ is the relative distance between electron $i$ and $j$, defined by $r_{ij}\equiv|\bs{r}_i-\bs{r}_j|$.
+which is the farthest we can go without specifying the external potential $u_i$. $r_{ij}$ is the relative distance between particle $i$ and $j$, defined by $r_{ij}\equiv|\bs{r}_i-\bs{r}_j|$.
 
-Setting up equation \eqref{eq:Energy} with respect to the energies, we obtain some integrals,
+Setting up equation \eqref{eq:Energy} with respect to the energies, we obtain an integral,
 \begin{equation}
 \epsilon_n=\frac{\int d\bs{r}\psinc\hatH\psin}{\int d\bs{r}\psinc\psin},
 \label{eq:energyintegral}
 \end{equation}
-which not necessarily are trivial to solve. If we take the wave function squared we get the probability of finding a particle at a certain position,
+which not necessarily is trivial to solve. If we take the wave function squared we get the probability of finding a particle at a certain position,
 \begin{equation}
 P(\bs{r})=\psinc\psin=|\psin|^2
 \end{equation}
@@ -30,25 +65,36 @@ so the nominator is simply the integral over all probabilities. If the wave func
 \begin{equation}
 E[\Psi]=\mel{\Psi}{\hatH}{\Psi},
 \end{equation}
-where the first part, $\bra{\Psi}$ is called a bra and the last part, $\ket{\Psi}$ is called a ket. At first this might look artificial and less informative, but it simplifies the notation significantly. More information about the notation is found in Appendix B. 
+where the first part, $\bra{\Psi}$ is called a bra and the last part, $\ket{\Psi}$ is called a ket. At first this might look artificial and less informative, but it simplifies the notation significantly. More information about the notation is found in Appendix A. 
 
-We often do not know the exact wave function, and need to guess a trial wave function. Henceforth, we will use $\Psi$ as the exact total wave function, $\psi$ as the exact single particle function (SPF), $\Phi$ as the total trial wave function and $\phi$ as the trial SPF. 
+In many cases we do not know the exact wave function, and need to rely on a trial wave function guess. Henceforth, we will use $\Psi$ as the exact total wave function, $\psi$ as the exact single particle function (SPF), $\Psi_T$ as the total trial wave function and $\phi$ as the trial SPF. 
 \cite{GriffQuan}
 
 \subsection{The Variational Principle}
-In the equations above, the presented wave functions are assumed to be the exact eigen functions of the Hamiltonian. But often we do not know the exact wave functions, and we need to guess what the wave functions might be. In those cases we make use of the variational principle, which states that only the groundstate wave function is able to give the groundstate energy. All other wave functions with the required properties (see section \ref{subsec:wavefunction}) give higher energies, and mathematically we can express the statement with
+In the equations above, the presented wave functions are assumed to be the exact eigen functions of the Hamiltonian. But often we do not know the exact wave functions, and we need to guess what the wave functions might be. In those cases we make use of the variational principle, which states that only the exact ground state wave function is able to give the ground state energy. All other wave functions that fulfill the required properties (see section \ref{subsec:wavefunction}) give higher energies, and mathematically we can express the statement
 \begin{equation}
-\epsilon_0\leq\mel{\Psi_T}{\hatH}{\Psi_T}.
+\epsilon_0\leq\mel{\Psi_T}{\hat{\mathcal{H}}}{\Psi_T}.
 \label{eq:variationalprinciple}
 \end{equation}
-We have here introduced a trial wave function $\Psi_T$ which not necessary is the true ground state wave function. This means that we can adjust our trail wave function with respect to the energy, and the lower energy we get the better is our wave function. 
 
-\subsection{Assumptions raised}
-\begin{itemize}
-	\item Non-relativistic
-	\item Point-like particles
-	\item Born-Oppenheimer
-\end{itemize}
+Variational Monte-Carlo is a method based on (and named after) the variational principle, where we vary the trial wave function in order to obtain the lowest energy. It will be detailed in chaper \eqref{chp:methods}.
+
+\subsection{Postulates of Quantum Mechanics}
+The quantum theory is built on a few fundamental postulates, which will always be true. Before we go further, we will take a quick look at some of them.
+
+\begin{enumerate}
+\item Associated with any particle moving in a conservative field of force is a wave function which determines everything that can be known about the system.
+
+\item With every physical observable q there is associated an operator Q, which when operating upon the wavefunction associated with a definite value of that observable will yield that value times the wavefunction.
+
+\item Any operator Q associated with a physically measurable property q will be Hermitian.
+
+\item The set of eigenfunctions of operator Q will form a complete set of linearly independent functions.
+
+\item For a system described by a given wavefunction, the expectation value of any property q can be found by performing the expectation value integral with respect to that wavefunction.
+
+\item The time evolution of the wavefunction is given by the time dependent Schrodinger equation. 
+\end{enumerate}
 
 \section{The Trial Wave Function} \label{subsec:wavefunction}
 By the first postulate of quantum mechanics, the wave function contains all the information specifying the state of the system. This means that all observable in classical mechanics can also be measured from the wave function, resulting finding the wave function as our main goal. 
