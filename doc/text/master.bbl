@@ -49,6 +49,36 @@
     \field{year}{1939}
   \endentry
 
+  \entry{Anyon}{article}{}
+    \name{author}{2}{}{%
+      {{hash=LJ}{%
+         family={Leinaas},
+         familyi={L\bibinitperiod},
+         given={J.M.},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=MJ}{%
+         family={Myrheim},
+         familyi={M\bibinitperiod},
+         given={J.},
+         giveni={J\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{LJMJ1}
+    \strng{fullhash}{LJMJ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelalpha}{LM77}
+    \field{sortinit}{1}
+    \field{sortinithash}{1}
+    \field{number}{1}
+    \field{title}{One the theory of identical particles}
+    \field{volume}{37}
+    \field{journaltitle}{IL NUOVO CIMENTO}
+    \field{year}{1977}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+
   \entry{GriffQuan}{book}{}
     \name{author}{1}{}{%
       {{hash=GD}{%
@@ -140,6 +170,27 @@
     \field{journaltitle}{Rev Comp Chem}
     \field{month}{01}
     \field{year}{2007}
+  \endentry
+
+  \entry{Nissenbaum}{article}{}
+    \name{author}{1}{}{%
+      {{hash=ND}{%
+         family={Nissenbaum},
+         familyi={N\bibinitperiod},
+         given={D.A.},
+         giveni={D\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{ND1}
+    \strng{fullhash}{ND1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelalpha}{Nis08}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{title}{The stochastic gradient approximation: an application to li
+  nanoclusters}
+    \field{year}{2008}
   \endentry
 
   \entry{deb2014}{article}{}

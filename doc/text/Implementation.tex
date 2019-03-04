@@ -1,6 +1,8 @@
 \chapter{Implementation} \label{sec:implementation}
 In many cases, planning is half the job, and so is true for a good VMC implementation. In fact, the program was restructured three times before we landed on this final version. It is based on Morten Ledum's VMC framework [\url{https://github.com/mortele/variational-monte-carlo-fys4411}], which was meant as an example implementation in the course \textit{FYS4411 - Computational Physics II: Quantum Mechanical Systems}.
 
+For profiling, callgrind was used with kcachegrind as profile data visualization. 
+
 During the implementations we had two main areas of focus
 \begin{itemize}
 	\item Efficient code
