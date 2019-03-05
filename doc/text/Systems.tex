@@ -36,6 +36,8 @@ N=s\binom{n+d}{d}
 \end{equation}
 where $s$ is the number of spin configurations (2), $n$ is the principal quantum number and $d$ is the number of dimensions. This is a direct consequence of the Pauli principle, where we in the ground state can have two particles with radial wave functions $\Phi_{n_x=0,n_y=0}$, in the next energy level we have have 4 particles with radial wave functions $\Phi_{n_x=1,n_y=0}$ and $\Phi_{n_x=0,n_y=1}$ with degeneracy 2 and so on. 
 
+INSERT IMAGE
+
 \section{Atomic systems} \label{subsubsec:atomic}
 We will also investigate real atoms, where we freeze out the nucleonic degrees of freedom known as the Born-Oppenheimer approximation. The electrons will in fact affect the nucleus, but due to the mass difference this effect will be negligible.
 
@@ -49,6 +51,21 @@ where $Z$ is the atomic number (number of protons in the nucleus). The total Ham
 \hat{\mathcal{H}} = \sum_{i=1}^{P} \Big(-\frac{1}{2} \nabla_i^2 - \frac{1}{2} \frac{Z}{r_i}\Big) + \sum_{i<j} \frac{1}{r_{ij}},
 \end{equation}
 which also is discussed in Appendix B. 
+
+Again we will study closed shells only, but for atoms we will introduce subshells as well, which are dependent on the azimuthal quantum number $l$ in addition to the principal quantum number $n$. In general, we have that $l=\in [0,n-1]$ such that we only have one subshell for $n=1$. Traditionally the first few subshells are denoted with $s, p, d$ and $f$, 
+
+\begin{table} [H]
+	\caption{Comparison between SI units, natural units and Hartree atomic units.  \vspace{2mm}}
+	\begin{tabularx}{\textwidth}{X|XXX} \hline\hline
+		\label{tab:energies2P2D}
+		Subshell label & $l$ & Max electrons & Name \\ \hline
+		$s$ & 0 & 2 & sharp\\ 
+		$p$ & 1 & 6 & principal\\
+		$d$ & 2 & 10 & diffuse \\
+		$f$ & 3 & 14 &  \\
+		$g$ & 4 & 1 & 1 \\ \hline\hline
+	\end{tabularx}
+\end{table}
 
 "Colloquially, we call such solutions and derived properties as electronic structure."
 
