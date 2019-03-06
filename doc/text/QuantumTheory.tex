@@ -4,11 +4,11 @@
 	\centering
 	\captionsetup[subfigure]{labelformat=empty}
 	\includegraphics[scale=3.0]{Images/art_quantum.jpg}
-	\caption{The first photograph of a Hydrogen atom, which shows the true wave function. Published in Phys. rev. lett. 110, 213001 (2017), \textit{Hydrogen atoms under magnification}.}
+	\caption{The first photograph of a Hydrogen atom was captured by an ultra sensitive camera in 2013. One can actually see the probability distribution $|\Psi(\bs{r})|^2$ with the naked eye. Published in Phys. rev. lett. 110, 213001 (2013), \textit{Hydrogen atoms under magnification}. \cite{hydrogen}}
 \end{figure}
-Around 1900, some physicists thought that there were nothing new to be discovered in physics and all that remained was more precise measurements, as Lord Kelvin famously pointed out. He could not be more wrong. In the following years, things were observed that could only be described by a quantized theory, led by Albert Einstein's explanation of the photoelectric effect in 1905. 
+Around 1900, some physicists thought that there were nothing new to be discovered in physics and all that remained was more precise measurements, as Lord Kelvin famously pointed out. \cite{Kelvin} He could not have been more wrong. In the following years, things were observed that could only be described by a quantized theory, led by Albert Einstein's explanation of the photoelectric effect in 1905. 
 
-Immense efforts were placed on completing the theory, and contributions from an array of scientists over a period of 20 years were necessary to get it finished. In 1929, Paul Dirac stated something similar to what Lord Kelvin said 30 years earlier, but hopefully with greater accuracy. 
+Immense efforts were placed on completing the theory, and contributions from an array of scientists over a period of 20 years were necessary to get it finished. In 1929, Paul Dirac stated something similar to what Lord Kelvin said 30 years earlier, but apparently with greater accuracy. 
 
 \newpage
 \section{Introductory Quantum Physics} \label{subsec:elementary}
@@ -17,10 +17,11 @@ In this section we will present the fundamentals of the quantum theory, that wil
 Before we get started, we make a few assumptions in order to simplify our problem. They most important ones are specified below with an explanation why they are valid.
 
 \begin{itemize}
-	\item \textbf{Point-like particles:} First, all particles involved will be assumed to be point-like, such that they lack spatial extension. This includes the nucleus in atomic systems, but it still makes sense since the distance from the nucleus to the electrons is known to be much larger then the nucleus extent.
+	\item \textbf{Point-like particles:} First, all particles involved will be assumed to be point-like, i.e, that they lack spatial extension. This includes the nucleus in atomic systems, but it still makes sense since the distance from the nucleus to the electrons is known to be much larger then the nucleus extent.
 	
-	\item \textbf{Non-relativistic spacetime:}  Second, we operate in the non-relativistic spacetime, which is valid as long as we do not approach the speed of light and the forces are not strong. Applying classical physics, we can find that the speed of the electron in a hydrogen atom is about 1\% of the speed of light, and even though the electrons get higher speed in heavier atoms, we do not need to worry about it. The forces acting are the weak Coulomb forces.
-	\item For specific systems we might make new assumptions and approximate. For instance, for atomic systems we will assume that the nucleus is at rest. Those approximations will be discussed consecutively. 
+	\item \textbf{Non-relativistic spacetime:}  Second, we operate in the non-relativistic spacetime, which is valid as long as we do not approach the speed of light and we do not involve strong forces. Applying classical physics, we can find that the speed of the electron in a hydrogen atom is about 1\% of the speed of light, and even though the electrons get higher speed in heavier atoms, we do not need to worry about it. The forces acting are the weak Coulomb forces.
+	
+	\item For specific systems we might make new assumptions and approximations. For instance, for atomic systems we will assume that the nucleus is at rest. Those approximations will be discussed consecutively. 
 \end{itemize}
 
 \subsection{The Schrödinger Equation} \label{subsec:schrodinger}
@@ -57,7 +58,7 @@ Setting up equation \eqref{eq:Energy} with respect to the energies, we obtain an
 \epsilon_n=\frac{\int d\bs{r}\psinc\hatH\psin}{\int d\bs{r}\psinc\psin},
 \label{eq:energyintegral}
 \end{equation}
-which not necessarily is trivial to solve. If we take the wave function squared we get the probability of finding a particle at a certain position,
+which not necessarily is trivial to solve. If we take the wave function squared we get the probability distribution,
 \begin{equation}
 P(\bs{r})=\psinc\psin=|\psin|^2
 \end{equation}
@@ -102,15 +103,15 @@ By the first postulate of quantum mechanics, the wave function contains all the 
 The trial wave function needs to meet some requirements in order to be used in the variational principle, and we thus need to make an educated guess on the wave function where the requirements are fulfilled. The requirements are the following:
 
 \begin{enumerate}
-	\item \textbf{Normalizability:} The wave function needs to be normalizable to make physical sense. The total probability should always be 1, and a wave function that cannot be normalized will not have a finite total probability. The consequence is that the wave function needs to converge to zero for large positions. 
+	\item \textbf{Normalizability:} The wave function needs to be normalizable to make physical sense. The total probability should always be 1, and a wave function that cannot be normalized will not have a finite total probability. The consequence is that the wave function needs to converge to zero when the positions get large. 
 	
-	\item \textbf{Cusp condition:} The Cusp condition (also called the Kato theorem) states that the wave function should have a cusp where the potential explodes. An example on this is when charged particles come close to each other. 
+	\item \textbf{Cusp condition:} The cusp condition (also called the Kato theorem) states that the wave function should have a cusp where the potential explodes. An example on this is when charged particles come close to each other. 
 	
 	\item \textbf{Symmetry and anti-symmetry:} The wave function needs to be either symmetric or anti-symmetric under exchange of two coordinates, dependent on whether the particles are fermions or bosons. More about this in the next section.
 \end{enumerate}
 
 \subsection{Bosons and fermions} \label{subsubsec:symmetry}
-Assume we have a permutation operator $\hat{P}$ which exchanges two coordinates in the wave function,
+Assume that we have a permutation operator $\hat{P}$ which exchanges two coordinates in the wave function,
 \begin{equation}
 \hat{P}(i\rightarrow j)\Psi_n(\bs{x}_1,\hdots,\bs{x}_i,\hdots,\bs{x}_j,\hdots,\bs{x}_M)=p\Psi_n(\bs{x}_1,\hdots,\bs{x}_j,\hdots,\bs{x}_i,\hdots,\bs{x}_M),
 \end{equation}
@@ -197,13 +198,15 @@ which saves us from a lot of computations. For a detailed explanation of the spl
 \subsection{Basis set} \label{subsec:basisset}
 To go further, we need to define a basis set, $\phi_n(\bs{r})$ which should be chosen carefully based on the system. For a few systems, we know the exact basis of the non-interacting case, and it is thus a natural basis to use in the Slater determinant. For other systems, the choice of basis might depend on the situation, where we typically need to weigh computational time against accuracy. Concrete examples on both cases will be presented in chapter \eqref{chp:systems}.
 
+Often, one will see that the basis is optimized by the Hartree-Fock method. Using this basis in a single Slater determinant, we obtain the Hartree-Fock energy which sometimes is quite accurate. To get an even better energy estimate, we need to add more Slater determinants, which is the task of the post Hartree-Fock methods. More about this in chapter (\ref{chp:methods}-\ref{chp:posthartreefock}).
+
 \subsection{Jastrow factor} \label{subsubsec:jastrow}
 From electrostatics we know that identical, charged particles will repel each other. This means that the probability of finding two particles close to each other should be low, which needs to be baked into the wave function. One way to do this is to simply multiply the wave function with the distance between the particles; the smaller distance the lower probability. Nevertheless, this does not fulfill the normalizability requirement of the trial wave function, but the same idea lies behind the Padé-Jastrow factor, which reads
 \begin{equation}
 J(\bs{r}; \beta, \gamma) = \exp\bigg(\sum_{i=1}^N\sum_{j=1}^i\frac{\beta(i,j)r_{ij}}{1+\gamma r_{ij}}\bigg).
 \label{eq:PadeJastrow}
 \end{equation}
-This Jastrow factor is known to give accurate results for fermions and bosons because it gives the correct cusp condition, and is the one we gonna use in the standard variational Monte-Carlo simulations. There are also plenty of other Jastrow factors, and in this project we will see if we can create a more flexible and general Jastrow factor using machine learning. Exactly how this is done is presented in chapter \eqref{chp:machinelearning}.
+This Jastrow factor is known to give accurate results for fermions and bosons because it gives the correct cusp condition, and it is the one we gonna use in the standard variational Monte-Carlo simulations. There are also plenty of other Jastrow factors, and in this project we will see if we can create a more flexible and general Jastrow factor using machine learning. Exactly how this is done is presented in chapter \eqref{chp:machinelearning}.
 
 
 

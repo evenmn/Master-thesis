@@ -172,6 +172,29 @@
     \field{year}{2007}
   \endentry
 
+  \entry{Kelvin}{misc}{}
+    \name{author}{1}{}{%
+      {{hash=WE}{%
+         family={Weisstein},
+         familyi={W\bibinitperiod},
+         given={E.W},
+         giveni={E\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{WE1}
+    \strng{fullhash}{WE1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelalpha}{Wei07}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{title}{Kelvin, Lord William Thomson (1824-1907)}
+    \verb{url}
+    \verb http://scienceworld.wolfram.com/biography/Kelvin.html
+    \endverb
+    \field{year}{2007}
+  \endentry
+
   \entry{Nissenbaum}{article}{}
     \name{author}{1}{}{%
       {{hash=ND}{%
@@ -191,6 +214,90 @@
     \field{title}{The stochastic gradient approximation: an application to li
   nanoclusters}
     \field{year}{2008}
+  \endentry
+
+  \entry{hydrogen}{article}{}
+    \name{author}{9}{}{%
+      {{hash=SAS}{%
+         family={Stodolna},
+         familyi={S\bibinitperiod},
+         given={A.\bibnamedelima S.},
+         giveni={A\bibinitperiod\bibinitdelim S\bibinitperiod},
+      }}%
+      {{hash=RA}{%
+         family={Rouz\'ee},
+         familyi={R\bibinitperiod},
+         given={A.},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=LF}{%
+         family={L\'epine},
+         familyi={L\bibinitperiod},
+         given={F.},
+         giveni={F\bibinitperiod},
+      }}%
+      {{hash=CS}{%
+         family={Cohen},
+         familyi={C\bibinitperiod},
+         given={S.},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=RF}{%
+         family={Robicheaux},
+         familyi={R\bibinitperiod},
+         given={F.},
+         giveni={F\bibinitperiod},
+      }}%
+      {{hash=GA}{%
+         family={Gijsbertsen},
+         familyi={G\bibinitperiod},
+         given={A.},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=JJH}{%
+         family={Jungmann},
+         familyi={J\bibinitperiod},
+         given={J.\bibnamedelima H.},
+         giveni={J\bibinitperiod\bibinitdelim H\bibinitperiod},
+      }}%
+      {{hash=BC}{%
+         family={Bordas},
+         familyi={B\bibinitperiod},
+         given={C.},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=VMJJ}{%
+         family={Vrakking},
+         familyi={V\bibinitperiod},
+         given={M.\bibnamedelima J.\bibnamedelima J.},
+         giveni={M\bibinitperiod\bibinitdelim J\bibinitperiod\bibinitdelim
+  J\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {American Physical Society}%
+    }
+    \strng{namehash}{SAS+1}
+    \strng{fullhash}{SASRALFCSRFGAJJHBCVMJJ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelalpha}{Sto+13}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \verb{doi}
+    \verb 10.1103/PhysRevLett.110.213001
+    \endverb
+    \field{issue}{21}
+    \field{pages}{213001}
+    \field{title}{Hydrogen Atoms under Magnification: Direct Observation of the
+  Nodal Structure of Stark States}
+    \verb{url}
+    \verb https://link.aps.org/doi/10.1103/PhysRevLett.110.213001
+    \endverb
+    \field{volume}{110}
+    \field{journaltitle}{Phys. Rev. Lett.}
+    \field{year}{2013}
+    \warn{\item Invalid format of field 'month'}
   \endentry
 
   \entry{deb2014}{article}{}

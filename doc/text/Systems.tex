@@ -13,7 +13,7 @@ When defining a system, we also need to specify the basis set to be used. The si
 \section{Quantum dots} \label{subsubsec:quantumdots}
 Quantum dots are very small particles, and contain fermions or bosons hold together by an external potential. Since these particles have discrete electronic states like an atom, they are often called artificial atoms. 
 
-In this thesis we will study electrons trapped in harmonic oscillators, where the external potential affecting particle $i$ is given by
+In this thesis we will, among other systems, study electrons trapped in harmonic oscillators, where the external potential affecting particle $i$ is given by
 \begin{equation}
 u_i=\frac{1}{2}m\omega^2r_i^2.
 \end{equation}
@@ -26,7 +26,7 @@ where the energy is scaled with respect to atomic units and lengths are scaled w
 
 The exact solutions of the non-interacting Hamiltonian are the Hermite functions, 
 \begin{equation}
-f_n(x)=H_n(x)\exp(-x^2/2)
+\phi_n(x)=H_n(x)\exp(-x^2/2)
 \end{equation}
 which form our basis. $H_n(x)$ is the Hermite polynomial of $n$'th degree, and the first four Hermite functions are illustrated in figure \eqref{fig:harmonicoscillator}.
 
@@ -34,9 +34,9 @@ We will study closed-shell systems only, since the Slater determinant in that ca
 \begin{equation}
 N=s\binom{n+d}{d}
 \end{equation}
-where $s$ is the number of spin configurations (2), $n$ is the principal quantum number and $d$ is the number of dimensions. This is a direct consequence of the Pauli principle, where we in the ground state can have two particles with radial wave functions $\Phi_{n_x=0,n_y=0}$, in the next energy level we have have 4 particles with radial wave functions $\Phi_{n_x=1,n_y=0}$ and $\Phi_{n_x=0,n_y=1}$ with degeneracy 2 and so on. 
+where $s$ is the number of spin configurations (2), $n$ is the principal quantum number and $d$ is the number of dimensions. This is a direct consequence of the Pauli principle, where we in the ground state can have two particles with radial wave functions $\Phi_{n_x=0,n_y=0}$, in the next energy level we have have 4 particles with radial wave functions $\Phi_{n_x=1,n_y=0}$ and $\psi_{n_x=0,n_y=1}$ with degeneracy 2 and so on. 
 
-INSERT IMAGE
+INSERT IMAGE WHICH SHOWS THE NUMBER OF ELECTRON IN EACH LEVEL
 
 \section{Atomic systems} \label{subsubsec:atomic}
 We will also investigate real atoms, where we freeze out the nucleonic degrees of freedom known as the Born-Oppenheimer approximation. The electrons will in fact affect the nucleus, but due to the mass difference this effect will be negligible.
@@ -48,11 +48,34 @@ u_i=- \frac{1}{2} k\frac{Ze^2}{r_i},
 where $Z$ is the atomic number (number of protons in the nucleus). The total Hamiltonian is given in (Hartree) atomic units, 
 \begin{equation}
 \label{eq:AtomicHamiltonian}
-\hat{\mathcal{H}} = \sum_{i=1}^{P} \Big(-\frac{1}{2} \nabla_i^2 - \frac{1}{2} \frac{Z}{r_i}\Big) + \sum_{i<j} \frac{1}{r_{ij}},
+\hat{\mathcal{H}} = \sum_{i=1}^{P} \Big(-\frac{1}{2} \nabla_i^2 - \frac{1}{2} \frac{Z}{r_i}+\frac{l(l+1)}{2r_i^2}\Big) + \sum_{i<j} \frac{1}{r_{ij}},
 \end{equation}
 which also is discussed in Appendix B. 
 
-HERE WE NEED TO WRITE ABOUT THE HYDROGEN-LIKE ORBITALS AND SPHERICAL HARMONICS
+For atomic systems, it is convenient to use spherical coordinates, which allows us to split up the wave function in a radial part and an angular part,
+\begin{equation}
+\psi_{nlm}(r,\theta,\phi)=R_{nl}(r)Y_{lm}(\theta,\phi)
+\end{equation}
+
+The exact radial part for the non-interacting case is called the hydrogen-like orbitals, that is
+\begin{equation}
+R_{nl}(r)\propto r^le^{-Zr/n}\Big[L_{n-l-1}^{2l+1}\Big(\frac{2r}{n}Z\Big)\Big]
+\end{equation}
+where $L_{q}^p(x)$ are the \textit{associated Laguerre polynomials} or \textit{generalized Laguerre polynomials}. More about them and how to calculate them recursively can be found in Appendix C. 
+
+The angular part is given by the \textit{spherical harmonics}
+\begin{equation}
+Y_{lm}(\theta,\phi)\propto P_l^m(\cos\theta)e^{im\phi}
+\end{equation}
+where $P_l^m(x)$ are the \textit{associated Legendre polynomials}. The complex part in the spherical harmonics causes some difficulties, and we will therefore instead use the solid harmonics
+\begin{equation}
+\label{eq:V_ext}
+S_l^m(r,\theta,\phi)\propto r^lP_l^{|m|}(\cos\theta)
+\begin{cases} 
+\cos(m\phi) & \text{if} \quad m\geq0 \\
+\sin(|m|\phi) & \text{if} \quad m<0.
+\end{cases}
+\end{equation}
 
 Again we will study closed shells only, but for atoms we will introduce subshells as well, which are dependent on the azimuthal quantum number $l$ in addition to the principal quantum number $n$. In general, we have that $l=\in [0,n-1]$ such that we only have one subshell for $n=1$. Traditionally, the first few subshells are denoted with $s, p, d$ and $f$, and the meaning can be found in table \eqref{tab:subshells}, together with number of electrons in each subshell.
 
@@ -71,11 +94,15 @@ Again we will study closed shells only, but for atoms we will introduce subshell
 
 For Helium, we have two electrons with $n=1$, which means that both have $l=0$ and both electrons are in the $s$-subshell. We can thus write the electron configuration as $1s^2$. 
 
-Similar as for $n$, we can use the tumble rule the lower $l$ the lower energy, such that for Beryllium all four electrons are still in the $s$-subshell. Beryllium therefore has electron configuration $1s^2 2s^2$ or [He] $2s^2$. Since both subshells are fully occupied, Beryllium can be included in our closed-shell calculations. 
+Similar as for the principal quantum number $n$, we can use the tumble rule the lower $l$ the lower energy, such that for Beryllium all four electrons are still in the $s$-subshell. Beryllium therefore has electron configuration $1s^2 2s^2$ or [He] $2s^2$. Since both subshells are fully occupied, Beryllium can be included in our closed-shell calculations. 
 
-If we continue with the same rules, we see that the next closed-shell atom has a fully occupied $p$-subshell as well, which is Neon with 10 electrons. This is a noble gas, and we can write the electron configuration as [Be] $2p^6$.
+If we continue with the same rules, we see that the next closed-shell atom has a fully occupied $p$-subshell as well, which is Neon with 10 electrons. This is a noble gas, and we can write the electron configuration as [Be] $2p^6$. All noble gases have endings $Xs^2 Xp^6$, which is the reason why they always have 8 valence electrons.
 
-We can now compare this to the periodical system 
+We can now compare this to the periodical system, and observe that the two first rows agrees with the theory presented above: The first row has two elements and the second has eight. However, the third one also has eight elements, which does not fits our theory. The reason is that the angular momentum contribution is not taken into account, i.e., we need to include the Hamiltonian term
+\begin{equation}
+V_L=\frac{l(l+1)}{2r^2}
+\end{equation}
+as well. If we do that, we see that the thumb rule defined above not always holds. Sometimes the a low $l$ in a higher $n$ causes lower energy than a high $l$ in a lower $n$. 
 
 "Colloquially, we call such solutions and derived properties as electronic structure."
 
