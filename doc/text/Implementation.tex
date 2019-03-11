@@ -1,42 +1,174 @@
 \chapter{Implementation} \label{sec:implementation}
-In many cases, planning is half the job, and so is true for a good VMC implementation. In fact, the program was restructured three times before we landed on this final version. It is based on Morten Ledum's VMC framework [\url{https://github.com/mortele/variational-monte-carlo-fys4411}], which was meant as an example implementation in the course \textit{FYS4411 - Computational Physics II: Quantum Mechanical Systems}.
+For many projects, planning is half the job, and so is true for a good VMC implementation. In fact, the program was restructured three times before we landed on this final version. It is based on Morten Ledum's VMC framework [\url{https://github.com/mortele/variational-monte-carlo-fys4411}], which was meant as an example implementation in the course \textit{FYS4411 - Computational Physics II: Quantum Mechanical Systems}. As our development environment, we use \textbf{QT creator}, which offers an elegant platform for writing, compiling and profiling. In addition, one can easily construct a \textit{graphical user interface} (GUI) based on \textbf{QT Widgets}. For all matrix and array operations, the \textbf{Eigen} library was used. All source code can be found at \url{https://github.com/evenmn/VMC/}. \bigskip
 
-For profiling, callgrind was used with kcachegrind as profile data visualization. 
-
-During the implementations we had two main areas of focus
+We had three main areas of focus when developing the code. It should be
 \begin{itemize}
-	\item Efficient code
-	\item High legibility, tidy code
+	\itemsep-0.3em
+	\item efficient
+	\item flexible
+	\item legible.
 \end{itemize}
 
-Unlike many other VMC codes, our code was developed flexible with respect to the wave functions. This means that one can combine various wave function elements, where each element is implemented separately. For instance, the simple Gaussian function and the Padé-Jastrow factor were implemented separately, but they can easily be combined. The way one does this in practice, is to append multiple wave function elements to the vector \texttt{WaveFunctionElements} in main. If one for instance want to combine the simple Gaussian with the Padé-Jastrow factor, this can be done by
+The efficiency is mostly based on recursive computations, such that we do not need to calculate everything over again when it is enough to calculate the fraction between the old the new number. This is highly relevant when it comes to the Slater determinant, but we also do this for other wave function elements. See chapter \eqref{chp:optimization} for more details. 
+
+For profiling, we used \textbf{callgrind} with \textbf{kcachegrind} visualization, which are great tools when we want to find out which functions that steal CPU time. 
+
+Unlike many other VMC codes, our code was developed flexible with respect to the wave functions. This means that one can combine various wave function elements, where each element is implemented separately. For instance, the Gaussian function, the Slater determinant and the Padé-Jastrow factor were implemented separately, but they all can easily be combined. The way one does this in practice, is to append multiple wave function elements to the vector \texttt{WaveFunctionElements} in main. If one for instance want to combine the Gaussian with the Padé-Jastrow factor and the Slater determinant, this can be done by
 
 \lstset{basicstyle=\scriptsize}
-\begin{lstlisting}[language=c++]
+\begin{lstlisting}[language=c++,caption={\texttt{main.cpp}}]
 System* system = new System();
 std::vector<class WaveFunction*> WaveFunctionElements;
-WaveFunctionElements.reserve(2);
-WaveFunctionElements.push_back(new class SimpleGaussian(system, alpha));
-WaveFunctionElements.push_back(new class PadeJastrow(system, beta, Gamma));
-system->setWaveFunction             (WaveFunctionElements);
+WaveFunctionElements.push_back(new class Gaussian(system));
+WaveFunctionElements.push_back(new class PadeJastrow(system));
+WaveFunctionElements.push_back(new class SlaterDeterminant(system));
+system->setWaveFunction(WaveFunctionElements);
 \end{lstlisting}
 
-The big advantage of this implementation is that we do not need to hard code every possible combination of wave function elements, which reduces the number of code lines significantly. This also eases adding new elements, since we only need to calculate the derivatives of the particular element (do not need to worry about cross terms). Exactly how this is done can be read in Appendix \ref{chp:appendixd}. 
+The big advantage of this implementation technique is that we do not need to hard code every possible combination of wave function elements, which reduces the number of code lines significantly. This also eases the operation of adding new elements, since we only need to calculate the derivatives of the particular element (do not need to worry about cross terms). Exactly how this is done can be read in Appendix \ref{chp:appendixe}. The con is that the program will be slightly slower, since even the cross terms that cancel are calculated.
 
-The con is that the program will be slightly slower. 
+To maximize the legibility, we developed a highly object oriented code based on the theory in chapter \eqref{chp:scientificprogramming}. For instance, each wave function element was treated as an object, with the properties \texttt{evaluateSqrd}, \texttt{computeFirstDerivative}, \texttt{computeSecondDerivative}, \texttt{computeFirstEnergyDerivative} and \texttt{computeSecondEnergyDerivative} among others. To ensure that all wave function elements have all the necessary properties, the super class \texttt{WaveFunctions} is equipped with the corresponding virtual functions
+\lstset{basicstyle=\scriptsize}
+\begin{lstlisting}[language=c++,caption={Simplification of \texttt{wavefunction.h}}]
+#pragma once
+#include <Eigen/Dense>
+
+class WaveFunction {
+public:
+	WaveFunction(class System *system);
+	virtual double evaluateSqrd() = 0;
+	virtual double computeFirstDerivative(int k) = 0;
+	virtual double computeSecondDerivative() = 0;
+	virtual Eigen::VectorXd computeFirstEnergyDerivative(int k) = 0;
+	virtual Eigen::VectorXd computeSecondEnergyDerivative() = 0;
+	virtual ~WaveFunction() = 0;
+
+protected:
+	class System* m_system = nullptr;
+};
+\end{lstlisting}
+which serves a template for all the sub classes (wave function elements). Reasonable variable and function names is also important to make the code legible. 
 
 \section{Foundation} \label{subsec:foundation}
+The foundation of the code are all the super classes, nine in the number. They all have multiple sub classes, and the reader needs to specify which sub class to be used. The exception is the \texttt{WaveFunctions} class, as described above, where multiple sub classes can be used. Below, the role of all the super classes will be discussed briefly and the difference between various sub classes will be explained. 
+
+\subsection{Super classes}
+
+\subsubsection{The \texttt{Basis} class}
+In this class, one needs to choose which basis set that should be used in the Slater determinant. There are three required functions:
+\begin{itemize}
+	\item \texttt{numberOfOrbitals()} gives the number of orbitals given the number of particles and dimensions. This is used in the Slater determinant.
+	
+	\item \texttt{evaluate(double x, int n)} gives the the value of element \texttt{n} for a given \texttt{x}. 
+	
+	\item \texttt{evaluateDerivative(double x, int n)} gives the derivative of element \texttt{n} with respect to \texttt{x} for a given \texttt{x}.  
+\end{itemize}
+
+Possible sub classes choices are \texttt{Hermite} and \texttt{HydrogenLike}, where the former is well-suited for quantum dots and the latter is used in atomic structure calculations. 
+
+\subsubsection{The \texttt{Hamiltonians} class}
+In this class, one needs to specify the Hamiltonian of the system. The only required function is \texttt{computeLocalEnergy()}, which returns the local energy. One can choose between the Hamiltonians \texttt{AtomicNucleus} and \texttt{HarmonicOscillator}, where the first one sets up an external potential like the one we find in an atom, and takes the atomic number $Z$ as an argument. The second one sets up a harmonic oscillator potential, and actually the only thing that distinguish the who classes is the external energy calculation. 
+
+\subsubsection{The \texttt{InitialStates} class}
+In one way or another we need to initialize the particle positions, but how we want to do this depends on the situation. The implemented methods are randomly initialized positions drawn from a uniform or normal distribution, \texttt{RandomUniform} and \texttt{RandomNormal} respectively. They consist of the function \texttt{setupInitialState()}.
+
+\subsubsection{The \texttt{InitialWeights} class}
+In the same manner as the \texttt{InitialStates} class, we can initialize the weights in various ways. One way is to set all the weights to the same initial value, represented by the sub class \texttt{Constant}. It takes an argument \texttt{factor} which gives the initial value of all weights.
+
+A second choice is random initial weights, where the class \texttt{Randomize} initializes the weights based on a uniform distribution. Also this class takes the \texttt{factor} argument, which defines the interval. By default, the interval is [-1,1], which corresponds to \texttt{factor=1}.
+
+\subsubsection{The \texttt{Metropolis} class}
+This class is the true sampling class, where the magic sampling is done. Three sampling methods are implemented:
+\begin{itemize}
+	\item \texttt{BruteForce} is the standard Metropolis sampling, where a particle is moved in a totally random direction and the move is accepted if the new probability is high enough.
+
+	\item \texttt{ImportanceSampling} is a more advanced version of the Metropolis algorithm, where the particle is moved in the same direction as the quantum force.
+	
+	\item \texttt{GibbsSampling} is not directly related to the Metropolis algorithm, it is a simple method which is widely used in Boltzmann machines.
+\end{itemize}
+The sub classes need to have the function \texttt{acceptMove()}, where the particle is moved and the the move is either accepted or rejected. To get the new positions, one need to call \texttt{updatePositions()}. which is member of the super class. 
+
+\subsubsection{The \texttt{Optimization} class}
+The next class is the \texttt{Optimization} class, where the weight update is performed in the function \texttt{updateWeights()}. Also the instant gradients (the gradient for each step) is calculated here, in the function \texttt{getAllInstantGradients()}.
+
+Two gradient based stochastic methods are implemented: \texttt{StochasticGradientDescent} and \texttt{ADAM}, with descriptive names. They both takes an argument \texttt{gamma} which is the prefactor in front of the momentum. The reader can consult chapter \eqref{chp:optimization} for details on how the optimization methods work. 
+
+\subsubsection{The \texttt{Plotter} class}
+Not sure if I will keep this as a class
+
+\subsubsection{The \texttt{RNG} class}
+The random number generator (RNG) was implemented as a class to ease the switch between different RNGs. Each subclass need to contain the following functions:
+\begin{itemize}
+	\item \texttt{nextInt(int upperLimit)} returns the next number in the RNG sequence as an integer between 0 and \texttt{upperLimit}.
+	
+	\item \texttt{nextDouble()} returns the next number in the RNG sequence as a double between 0 and 1.
+	
+	\item \texttt{nextGaussian(double mean, double standardDeviation)} returns the next number in the RNG sequence, regenerated by a normal distribution with mean value \texttt{mean} and standard deviation \texttt{standardDeviation}.
+\end{itemize}
+The two available RNGs are the Mersenne Twister number generator, \texttt{MersenneTwister} and... . For the theory behind thoe methods, see section \eqref{sec:RNG}. 
+
+\subsubsection{The \texttt{WaveFunctions} class}
+Last, but not least, the \texttt{WaveFunctions} class contains all the wave function related computations. We have already mentioned it, but all the details are still to be stressed. 
+
+The required functions in the wave function elements are
+\begin{itemize}
+	\item \texttt{updateArrays(Eigen::VectorXd positions, int pRand)} which update position dependent arrays recursively with respect to the new positions, \texttt{positions} and the changed position index \texttt{pRand}. 
+	
+	\item \texttt{resetArrays()} set the arrays back to the old values when a move is rejected.
+	
+	\item \texttt{initializeArrays(Eigen::VectorXd positions)} initialize all arrays at the beginning. This is the only moment when the arrays cannot be updated recursively. 
+	
+	\item \texttt{updateParameters(Eigen::MatrixXd parameters, int elementNumber)} updates the weights. All weights of the system are stored in the parent matrix \texttt{parameters}, while each wave function element has child weight matrices and arrays which are mapped from the parent. They are all updated in this function. \texttt{elementNumber} is the number of the element, and is unique for all the wave function elements.
+	
+	\item \texttt{evaluate()} returns the true value of the wave function element. Usually \texttt{evaluateSqrd()} is more used, since we are interested in the probability, $|\Psi_T(\bs{r})|^2$.
+	
+	\item \texttt{evaluateSqrd()} gives the wave function value squared, which is used in the sampling.
+	
+	\item \texttt{computeFirstDerivative(int k)} returns the first derivative of the wave function element with respect to the position index \texttt{k}.
+	
+	\item \texttt{computeSecondDerivative()} returns the second derivative of the wave function element with respect to all position indices. 
+	
+	\item \texttt{computeFirstEnergyDerivative(int k)} returns the derivative of the position \texttt{k} first derivative of the wave function element with respect to all the weights, $\partial/\partial \alpha_i \nabla_k ln(\psi)$. The outcome is an array.
+	
+	\item \texttt{computeSecondEnergyDerivative()} returns the derivative of the position second derivative of the wave function element with respect to all the weights, $\sum_k\partial/\partial \alpha_i \nabla_k^2 ln(\psi)$. The outcome is an array.
+\end{itemize}
+The wave function elements implemented are 
+\begin{itemize}
+	\item \texttt{Gaussian} is the simple Gaussian function.
+	\item \texttt{PadeJastrow} is the Padé-Jastrow factor.
+	\item \texttt{SlaterDeterminant} is the Slater determinant.
+	\item \texttt{MLGaussian} is the Gaussian part derived from the Boltzmann machines.
+	\item \texttt{NQSJastrow} is the product part derived from the Boltzmann machines. 
+\end{itemize}
+
+New wave function elements can easily be implemented, all one needs to do is to calculate all the derivatives and specify how to update the position dependent arrays recursively. 
+
+\subsection{How to set sub classes?}
+We have now described all the available super classes and sub classes, but how do we set them? As hinted in the beginning of the chapter, the entire system should be specified in \texttt{main.cpp}. For example, a harmonic oscillator Hamiltonian can be set by
+\begin{lstlisting}[language=c++]
+system->setHamiltonian(new HarmonicOscillator(system));
+\end{lstlisting}
+which is calling the function \texttt{setHamiltonian} in the class \texttt{System}. This function sets the official Hamiltonian object to \texttt{HarmonicOscillator}, such that every time we call the super class \texttt{Hamiltonian}, we are forwarded to \texttt{HarmonicOscillator}. The \texttt{System} class is basically filled with functions that set objects and scalars. To make those objects and scalars available in other classes, the \texttt{System} header is equipped with get-functions. For instance, there exist a function 
+\begin{lstlisting}
+class Hamiltonian* getHamiltonian() { return m_hamiltonian; }
+\end{lstlisting}
+which returns the correct Hamiltonian sub class. In the other classes where the \texttt{System} objects appears as \texttt{m\_system}, the local energy can be found by
+\begin{lstlisting}
+double localEnergy = m_system->getHamiltonian->computeLocalEnergy();
+\end{lstlisting}
+Similar functions exist for other essential objects, arrays and scalar. 
+
 \section{Structure} \label{subsec:structure}
-Add structure chart
+How the classes are communicating is no easy task to explain, most classes are calling other classes, there is no tidy way to visualize the actual code flow. However, a simplified structure chart can still be informative, and in figure \eqref{fig:structurechart} the most important calls between the different classes are pointed out. We decided to leave out \texttt{main.cpp} since all it does is to set the different classes. 
 \begin{figure} [H]
 	\centering
 	\begin{tikzpicture}[
 	>={Latex[width=2mm,length=2mm]},
 	base/.style = {rectangle, rounded corners, draw=black,
-		minimum width=2cm, minimum height=0.5cm, text
+		minimum width=4cm, minimum height=2cm, text
 		centered, font=\sffamily},
 	basecode/.style = {rectangle, rounded corners, draw=black,
-		minimum width=2cm, minimum height=0.5cm, text
+		width=5cm, height=5cm, text
 		centered, font=\sffamily, align=left},
 	activityStarts/.style = {base, fill=blue!30, drop shadow},
 	startstop/.style = {base, fill=red!25, drop shadow},
@@ -48,94 +180,52 @@ Add structure chart
 	node distance=1.5cm, 
 	every node/.style={fill=white, font=\sffamily},
 	align=center]
-	\node (pre) [activityStarts] {
-		Pre-build two-body matrix $D_{pqrs}$ \\
-		Pre-build one-body matrix $h_{pq}$ \\
-		Pre-build overlap matrix $S_{pq}$ \\
-		Initialize $\blds{C}$ 
+	
+	% Add boxes
+	\node (WF) [activityStarts] {
+		\texttt{WaveFunctions}
 	};
-	\node (Fock) [activityRuns, below of=pre, yshift=-1.2cm] {
-		Set Fock-matrix $\blds{F}$
+	\node (System) [activityStarts, above of=WF, yshift=+2cm] {
+		\texttt{System}
 	};
-	\node (Fockmix) [activityRuns, below of=Fock, yshift=-0.7cm] {
-		Perform mixing of $\blds{F}$ \\
-		(Optional)
+	\node (Optimization) [activityStarts, right of=System, xshift=+4cm] {
+		\texttt{Optimization}
 	};
-	\node (Fockmixeq) [process, right of=Fockmix, xshift=2.4cm] {
-		\ref{eq:extrapolF}
+	\node (Sampler) [activityStarts, right of=WF, xshift=+4cm] {
+		\texttt{Sampler}
 	};
-	\draw[->] (Fock) -- (Fockmix);
-	\draw[-] (Fockmix) -- (Fockmixeq);
-	\node (RHF) [process, above right of=Fock, xshift=3.0cm, yshift=-0.2cm] {
-		Use \ref{eq:FockRestrictedDef} if RHF
+	\node (Basis) [activityStarts, left of=System, xshift=-4cm] {
+		\texttt{Basis}
 	};
-	\node (UHF) [process, below right of=Fock, xshift=3.0cm, yshift=0.1cm] {
-		Use \ref{eq:UHFFockdef} if UHF
+	\node (Metropolis) [activityStarts, left of=WF, xshift=-4cm] {
+		\texttt{Metropolis}
 	};
-	\draw[-] (Fock) to [out=15, in=180] (RHF);
-	\draw[-] (Fock) to [out=-15, in=180] (UHF);
-	\draw[->] (pre) -- (Fock);
-	\node (eigcomp) [activityRuns, below of=Fock, yshift=-2.5cm] {
-		Solve generalized \\ 
-		eigenvalue problem. \\
-		$\blds{F}\blds{C} = \blds{\varepsilon}\blds{S}\blds{C}$
+	\node (RNG) [activityStarts, below of=WF, yshift=-2cm] {
+		\texttt{RNG}
 	};
-	\draw[->] (Fockmix) -- (eigcomp);
-	\node (density) [activityRuns, below of=eigcomp] {
-		Set density matrix $\blds{\rho}$.
+	\node (InitialWeights) [activityStarts, right of=RNG, xshift=+4cm] {
+		\texttt{InitialWeights}
 	};
-	\draw[->] (eigcomp) -- (density);
-	\node (densityeq) [process, right of=density, xshift=2.5cm] {
-		\ref{eq:densitymatrixdef}
+	\node (InitialState) [activityStarts, left of=RNG, xshift=-4cm] {
+		\texttt{InitialState}
 	};
-	\draw[-] (density) -- (densityeq);
-	\node (mix) [activityRuns, below of=density] {
-		Perform mixing of $\blds{\rho}$. \\
-		(Optional)
-	};
-	\draw[->] (density) -- (mix);
-	\node (mixeq) [process, right of=mix, xshift=2.5cm] {
-		\ref{eq:mixing}
-	};
-	\draw[-] (mix) -- (mixeq);
-	\node (conv) [startstop, below of=mix] {
-		Check convergence.
-	};
-	\node (conveq) [process, right of=conv, xshift=2.5cm] {
-		\ref{eq:HFconvthresh}
-	};
-	\draw[->] (mix) -- (conv);
-	\draw[-] (conv) -- (conveq);
-	\node (no) [above left of=conv, xshift=-4.0cm] {
-		$\blds{\varepsilon}^{\text{HF}}_{\text{new}} -
-		\blds{\varepsilon}^{\text{HF}}_{\text{old}} \geq \epsilon$
-	};
-	\draw[->] (conv) to [out=180,in=-90] (no);
-	\node (keepOld) [process, above of=no, yshift=1.5cm, xshift=-0.5cm] {
-		Save energy eigenvalues and \\
-		density matrix(mixed). \\
-		$\blds{\varepsilon}^{\text{HF}}_{\text{old}} =
-		\blds{\varepsilon}^{\text{HF}}_{\text{new}}$ \\
-		$\blds{\rho}_{\text{old}} = \blds{\rho}_{\text{new}}$
-	};
-	\draw[->] (no) to [out=90,in=-90] (keepOld);
-	\draw[->] (keepOld) to [out=90,in=180] (Fock);
-	\node (yes) [below of=conv] {
-		$\blds{\varepsilon}^{\text{HF}}_{\text{new}} -
-		\blds{\varepsilon}^{\text{HF}}_{\text{old}} < \epsilon$
-	};
-	\draw[->] (conv) -- (yes);
-	\node (end) [activityStarts, below of=yes] {
-		Output energy
-	};
-	\node (endeq) [process, right of=end, xshift=3.0cm] {
-		\ref{eq:energyJKHF, eq:ch3Efunc}
-	};
-	\draw[->] (yes) -- (end);
-	\draw[-] (end) -- (endeq);
+	\draw[->] (RNG) 		 -- node[above] {1} ++(InitialWeights);
+	\draw[->] (WF) 			 -- node[above] {2} ++(InitialWeights);
+	\draw[->] (RNG) 		 -- node[above] {3} ++(InitialState);
+	\draw[->] (Metropolis) 	 -- node[above] {4} ++(System);
+	\draw[->] (WF) 			 -- node[above] {5} ++(Metropolis);
+	\draw[->] (Metropolis) 	 -- node[below] {6} ++(WF);
+	\draw[->] (Basis) 		 -- node[below] {7} ++(WF);
+	\draw[->] (RNG) 		 -- node[above] {8} ++(Metropolis);
+	\draw[->] (Sampler) 	 -- node[above] {9} ++(System);
+	\draw[->] (WF) 			 -- node[above] {10} ++(Sampler);
+	\draw[->] (Optimization) -- node[above] {11} ++(Sampler);
+	\draw[->] (Optimization) -- node[above] {12} ++(System);
+	\draw[->] (WF) 			 -- node[below] {13} ++(Optimization);
+	
 	\end{tikzpicture}
-	\caption{Hartree-Fock Algorithm.}
+	\label{fig:structurechart}
+	\caption{Structure chart.}
 \end{figure}
-\section{Optimization algorithms} \label{subsec:optimization}
-\subsection{Stochastic Gradient Descent} \label{subsubsec:sgd}
-\subsection{ADAM} \label{subsubsec:adam}
+
+This is the main aim of the flow, but 
