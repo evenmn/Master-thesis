@@ -1,13 +1,53 @@
 \chapter{Optimization} \label{chp:optimization}
+\epigraph{Great quote.}{Author}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.4]{Images/example.png}
+	\caption{Caption}
+\end{figure}
+
+Optimization is a wide term..
+
+\newpage
+\section{Minimization Algorithms}
+Suppose we have a very simple model trying to fit a straight line to data points. In that case, we could manually vary the coefficients and find a line that fits the points quite good. However, when the model gets more complicated, this can be a time consuming activity. Would it not be good if the program could do this for us?
+
+In fact, there exist plenty of methods capable of doing this. Some of them rely on the gradients only, and are therefore called gradient methods. Other need both the gradient and the Hessian matrix, and find the minimum based on both the slope and the curvature of the cost function. For our purpose, gradients methods have provided good results over decades, and there is no need for more complicated algorithms. The standard gradient descent method will be discussed firstly, before we move to its stochastic brother. Momentum will be added for both methods. Finally, we examine the ADAM optimizer, which is stochastic of nature and is equipped with momentum by default. 
+
+\subsection{Gradient Descent} \label{sec:gd}
+Perhaps the simplest and most intuitive method for finding the minimum is the gradient descent method (GD), which reads
+\begin{equation}
+\label{eq:GD}
+\alpha_i^{\text{new}}=\alpha_i - \eta\cdot\frac{\partial Q(\alpha_i)}{\partial\alpha_i}
+\end{equation}
+where $\alpha_i^{\text{new}}$ is the updated weight $\alpha$ and $\eta$ is the learning rate. The idea is to find the steepest slope of the cost function $Q(\vec{\alpha})$ with respect to a certain $\alpha_i$, and move in the direction which minimizes the cost function. For every step, the cost function is thus minimized, and when the gradient approaches zero the minimum is found. A possible stop criterion is
+\begin{equation}
+\frac{\partial Q(\alpha_i)}{\partial\alpha_i}<\varepsilon.
+\end{equation}
+where $\varepsilon$ is a tolerance. 
+
+In cases where the cost function is not strictly increasing or decreasing, we will have both local and global minima. Often, it is hard to say whether we are stuck in a local or global minimum, and this is where the stochasticity enters the game.
+
+\subsection{Stochastic Gradient Descent}
+For standard gradient descent, we calculate the gradient based on all sampling points, we say that we have one batch. 
+
+Instead of calculating the gradient based on all sampling points, we can divide the data into multiple batches and calculate the gradient based on one batch and hope that it is a good approximation of the true gradient. Updating weight $\alpha_i$ based on batch $j$ thus yields
+\begin{equation}
+\label{eq:SGD}
+\alpha_i^{\text{new}}=\alpha_i - \eta\cdot\frac{\partial Q_j(\alpha_i)}{\partial\alpha_i}
+\end{equation}
+and a run through all batches is called an \textit{epoch}. 
+
+The reader might ask herself why this helps us, will we not just get a bad gradient approximation? The answer is that the stochasticity adds some coincidence to the system, which makes it less likely to be stuck in local minima. Additionally, it might speed-up the training session. 
+
+\subsection{ADAM}
+
+
+\subsection{Adding momentum}
 
 \section{Optimization of Trial Wave Function}
 \subsection{Energy Minimization}
 \subsection{Variance Minimization}
-
-\section{Minimization Algorithms}
-Gradient methods
-\subsection{Gradient Descent}
-\subsection{Conjugate Gradient}
 
 \section{Computational optimization}
 Write about how we calculate Slater determinants efficiently and things like that

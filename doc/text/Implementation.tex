@@ -1,4 +1,11 @@
 \chapter{Implementation} \label{sec:implementation}
+\epigraph{Great quote.}{Author}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.4]{Images/example.png}
+	\caption{Caption}
+\end{figure}
+
 For many projects, planning is half the job, and so is true for a good VMC implementation. In fact, the program was restructured three times before we landed on this final version. It is based on Morten Ledum's VMC framework [\url{https://github.com/mortele/variational-monte-carlo-fys4411}], which was meant as an example implementation in the course \textit{FYS4411 - Computational Physics II: Quantum Mechanical Systems}. As our development environment, we use \textbf{QT creator}, which offers an elegant platform for writing, compiling and profiling. In addition, one can easily construct a \textit{graphical user interface} (GUI) based on \textbf{QT Widgets}. For all matrix and array operations, the \textbf{Eigen} library was used. All source code can be found at \url{https://github.com/evenmn/VMC/}. \bigskip
 
 We had three main areas of focus when developing the code. It should be
@@ -27,7 +34,7 @@ system->setWaveFunction(WaveFunctionElements);
 
 The big advantage of this implementation technique is that we do not need to hard code every possible combination of wave function elements, which reduces the number of code lines significantly. This also eases the operation of adding new elements, since we only need to calculate the derivatives of the particular element (do not need to worry about cross terms). Exactly how this is done can be read in Appendix \ref{chp:appendixe}. The con is that the program will be slightly slower, since even the cross terms that cancel are calculated.
 
-To maximize the legibility, we developed a highly object oriented code based on the theory in chapter \eqref{chp:scientificprogramming}. For instance, each wave function element was treated as an object, with the properties \texttt{evaluateSqrd}, \texttt{computeFirstDerivative}, \texttt{computeSecondDerivative}, \texttt{computeFirstEnergyDerivative} and \texttt{computeSecondEnergyDerivative} among others. To ensure that all wave function elements have all the necessary properties, the super class \texttt{WaveFunctions} is equipped with the corresponding virtual functions
+To maximize the legibility, we developed a highly object oriented code based on the theory in chapter \eqref{chp:scientificprogramming}. For instance, each wave function element was treated as an object, with the properties \texttt{evaluateRatio}, \texttt{computeFirstDerivative}, \texttt{computeSecondDerivative}, \texttt{computeFirstEnergyDerivative} and \texttt{computeSecondEnergyDerivative} among others. To ensure that all wave function elements have all the necessary properties, the super class \texttt{WaveFunctions} is equipped with the corresponding virtual functions
 \lstset{basicstyle=\scriptsize}
 \begin{lstlisting}[language=c++,caption={Simplification of \texttt{wavefunction.h}}]
 #pragma once
@@ -36,7 +43,7 @@ To maximize the legibility, we developed a highly object oriented code based on 
 class WaveFunction {
 public:
 	WaveFunction(class System *system);
-	virtual double evaluateSqrd() = 0;
+	virtual double evaluateRatio() = 0;
 	virtual double computeFirstDerivative(int k) = 0;
 	virtual double computeSecondDerivative() = 0;
 	virtual Eigen::VectorXd computeFirstEnergyDerivative(int k) = 0;
@@ -48,6 +55,87 @@ protected:
 };
 \end{lstlisting}
 which serves a template for all the sub classes (wave function elements). Reasonable variable and function names is also important to make the code legible. 
+
+\section{Structure} \label{subsec:structure}
+How the classes are communicating is no easy task to explain, most classes are calling other classes, there is no tidy way to visualize the actual code flow. However, a simplified structure chart can still be informative, and in figure \eqref{fig:structurechart1} the most important calls between the different classes are pointed out. We decided to leave out \texttt{main.cpp} since all it does is to set the different classes. 
+\begin{figure} [h]
+	\centering
+	\begin{tikzpicture}[
+	>={Latex[width=2mm,length=2mm]},
+	base/.style = {rectangle, rounded corners, draw=black,
+		minimum width=4cm, minimum height=2cm, text
+		centered, font=\sffamily},
+	blueBox/.style = {base, fill=blue!30, drop shadow},
+	redBox/.style = {base, fill=red!30, drop shadow},
+	whiteBox/.style = {base, fill=white, drop shadow},
+	scale=0.8, 
+	node distance=1.5cm, 
+	every node/.style={fill=white, font=\sffamily},
+	align=center]
+	
+	% Add boxes
+	\node (WF) [redBox] {
+		\texttt{WaveFunctions}
+	};
+	\node (System) [whiteBox, above of=WF, yshift=+2cm] {
+		\texttt{System}
+	};
+	\node (Optimization) [blueBox, right of=System, xshift=+4cm] {
+		\texttt{Optimization}
+	};
+	\node (Sampler) [blueBox, right of=WF, xshift=+4cm] {
+		\texttt{Sampler}
+	};
+	\node (Basis) [blueBox, left of=System, xshift=-4cm] {
+		\texttt{Basis}
+	};
+	\node (Metropolis) [blueBox, left of=WF, xshift=-4cm] {
+		\texttt{Metropolis}
+	};
+	\node (RNG) [blueBox, below of=WF, yshift=-2cm] {
+		\texttt{RNG}
+	};
+	\node (InitialWeights) [blueBox, right of=RNG, xshift=+4cm] {
+		\texttt{InitialWeights}
+	};
+	\node (InitialState) [blueBox, left of=RNG, xshift=-4cm] {
+		\texttt{InitialState}
+	};
+	\draw[->] (RNG) 		 -- node[above] {1} ++(InitialWeights);
+	\draw[->] (WF) 			 -- node[above] {2} ++(InitialWeights);
+	\draw[->] (RNG) 		 -- node[above] {3} ++(InitialState);
+	\draw[->] (Metropolis) 	 -- node[above right] {4} ++(System);
+	\draw[->] (WF) 			 -- node[above] {5} ++(Metropolis);
+	\draw[->] (Metropolis) 	 -- node[below] {6} ++(WF);
+	\draw[->] (Basis) 		 -- node[above left] {7} ++(WF);
+	\draw[->] (RNG) 		 -- node[above] {8} ++(Metropolis);
+	\draw[->] (Sampler) 	 -- node[above left] {9} ++(System);
+	\draw[->] (WF) 			 -- node[above] {10} ++(Sampler);
+	\draw[->] (Optimization) -- node[right] {11} ++(Sampler);
+	\draw[->] (Optimization) -- node[above] {12} ++(System);
+	\draw[->] (WF) 			 -- node[above right] {13} ++(Optimization);
+	
+	\node[anchor=west] at (-9,-7) {1 - Random initial weights};
+	\node[anchor=west] at (-9,-8){2 - Update weights in wave functions};
+	\node[anchor=west] at (-9,-9) {3 - Random initial positions};
+	\node[anchor=west] at (-9,-10) {4 - Accept step};
+	\node[anchor=west] at (-9,-11) {5 - Evaluate wave functions};
+	\node[anchor=west] at (-9,-12) {6 - Update positions};
+	\node[anchor=west] at (-9,-13) {7 - Basis used in Slater determinant};
+	
+	\node[anchor=west] at (1,-7) {8 - Propose random move};
+	\node[anchor=west] at (1,-8) {9 - Sample};
+	\node[anchor=west] at (1,-9) {10 - Compute local energy};
+	\node[anchor=west] at (1,-10) {11 - Calculate instant gradients};
+	\node[anchor=west] at (1,-11) {12 - Calculate energy derivatives};
+	\node[anchor=west] at (1,-12) {13 - Calculate average gradients};
+	
+	\end{tikzpicture}
+	\label{fig:structurechart1}
+	\caption{Structure chart of the implemented code, presenting super classes as tiles. The most important intra-class calls are represented with lines pointing from the sender class towards the receiver class.}
+\end{figure}
+
+This is the main aim of the flow, but the actual flow does also depend on system. For instance, when using importance sampling, we will have an additional call between \texttt{WaveFunctions} and \texttt{Metropolis} due to calculations of the quantum force. 
 
 \section{Foundation} \label{subsec:foundation}
 The foundation of the code are all the super classes, nine in the number. They all have multiple sub classes, and the reader needs to specify which sub class to be used. The exception is the \texttt{WaveFunctions} class, as described above, where multiple sub classes can be used. Below, the role of all the super classes will be discussed briefly and the difference between various sub classes will be explained. 
@@ -120,9 +208,7 @@ The required functions in the wave function elements are
 	
 	\item \texttt{updateParameters(Eigen::MatrixXd parameters, int elementNumber)} updates the weights. All weights of the system are stored in the parent matrix \texttt{parameters}, while each wave function element has child weight matrices and arrays which are mapped from the parent. They are all updated in this function. \texttt{elementNumber} is the number of the element, and is unique for all the wave function elements.
 	
-	\item \texttt{evaluate()} returns the true value of the wave function element. Usually \texttt{evaluateSqrd()} is more used, since we are interested in the probability, $|\Psi_T(\bs{r})|^2$.
-	
-	\item \texttt{evaluateSqrd()} gives the wave function value squared, which is used in the sampling.
+	\item \texttt{evaluateRatio()} returns the ratio between the new and the old probability, \\ $|\Psi_T(\bs{r}_{\text{new}})|^2/|\Psi_T(\bs{r}_{\text{old}})|^2$
 	
 	\item \texttt{computeFirstDerivative(int k)} returns the first derivative of the wave function element with respect to the position index \texttt{k}.
 	
@@ -158,74 +244,4 @@ double localEnergy = m_system->getHamiltonian->computeLocalEnergy();
 \end{lstlisting}
 Similar functions exist for other essential objects, arrays and scalar. 
 
-\section{Structure} \label{subsec:structure}
-How the classes are communicating is no easy task to explain, most classes are calling other classes, there is no tidy way to visualize the actual code flow. However, a simplified structure chart can still be informative, and in figure \eqref{fig:structurechart} the most important calls between the different classes are pointed out. We decided to leave out \texttt{main.cpp} since all it does is to set the different classes. 
-\begin{figure} [H]
-	\centering
-	\begin{tikzpicture}[
-	>={Latex[width=2mm,length=2mm]},
-	base/.style = {rectangle, rounded corners, draw=black,
-		minimum width=4cm, minimum height=2cm, text
-		centered, font=\sffamily},
-	basecode/.style = {rectangle, rounded corners, draw=black,
-		width=5cm, height=5cm, text
-		centered, font=\sffamily, align=left},
-	activityStarts/.style = {base, fill=blue!30, drop shadow},
-	startstop/.style = {base, fill=red!25, drop shadow},
-	startstopcode/.style = {basecode, fill=Red!25, drop shadow},
-	activityRuns/.style = {base, fill=green!25, drop shadow},
-	process/.style = {base, fill=white!15, font=\sffamily, drop shadow},
-	processcode/.style = {basecode, fill=white!15, font=\sffamily, drop shadow},
-	scale=0.8, 
-	node distance=1.5cm, 
-	every node/.style={fill=white, font=\sffamily},
-	align=center]
-	
-	% Add boxes
-	\node (WF) [activityStarts] {
-		\texttt{WaveFunctions}
-	};
-	\node (System) [activityStarts, above of=WF, yshift=+2cm] {
-		\texttt{System}
-	};
-	\node (Optimization) [activityStarts, right of=System, xshift=+4cm] {
-		\texttt{Optimization}
-	};
-	\node (Sampler) [activityStarts, right of=WF, xshift=+4cm] {
-		\texttt{Sampler}
-	};
-	\node (Basis) [activityStarts, left of=System, xshift=-4cm] {
-		\texttt{Basis}
-	};
-	\node (Metropolis) [activityStarts, left of=WF, xshift=-4cm] {
-		\texttt{Metropolis}
-	};
-	\node (RNG) [activityStarts, below of=WF, yshift=-2cm] {
-		\texttt{RNG}
-	};
-	\node (InitialWeights) [activityStarts, right of=RNG, xshift=+4cm] {
-		\texttt{InitialWeights}
-	};
-	\node (InitialState) [activityStarts, left of=RNG, xshift=-4cm] {
-		\texttt{InitialState}
-	};
-	\draw[->] (RNG) 		 -- node[above] {1} ++(InitialWeights);
-	\draw[->] (WF) 			 -- node[above] {2} ++(InitialWeights);
-	\draw[->] (RNG) 		 -- node[above] {3} ++(InitialState);
-	\draw[->] (Metropolis) 	 -- node[above] {4} ++(System);
-	\draw[->] (WF) 			 -- node[above] {5} ++(Metropolis);
-	\draw[->] (Metropolis) 	 -- node[below] {6} ++(WF);
-	\draw[->] (Basis) 		 -- node[below] {7} ++(WF);
-	\draw[->] (RNG) 		 -- node[above] {8} ++(Metropolis);
-	\draw[->] (Sampler) 	 -- node[above] {9} ++(System);
-	\draw[->] (WF) 			 -- node[above] {10} ++(Sampler);
-	\draw[->] (Optimization) -- node[above] {11} ++(Sampler);
-	\draw[->] (Optimization) -- node[above] {12} ++(System);
-	\draw[->] (WF) 			 -- node[below] {13} ++(Optimization);
-	
-	\end{tikzpicture}
-	\label{fig:structurechart}
-	\caption{Structure chart.}
-\end{figure}
-
-This is the main aim of the flow, but 
+\section{Graphical User Interface (GUI)}
