@@ -49,6 +49,34 @@
     \field{year}{1939}
   \endentry
 
+  \entry{heisenberg1971physics}{book}{}
+    \name{author}{1}{}{%
+      {{hash=HW}{%
+         family={Heisenberg},
+         familyi={H\bibinitperiod},
+         given={W.},
+         giveni={W\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{2}{%
+      {Allen}%
+      {Unwin}%
+    }
+    \strng{namehash}{HW1}
+    \strng{fullhash}{HW1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelalpha}{Hei71}
+    \field{sortinit}{1}
+    \field{sortinithash}{1}
+    \field{series}{Harper torchbooks. The Academy library}
+    \field{title}{Physics and Beyond: Encounters and Conversations}
+    \verb{url}
+    \verb https://books.google.no/books?id=O-dEAAAAIAAJ
+    \endverb
+    \field{year}{1971}
+  \endentry
+
   \entry{Anyon}{article}{}
     \name{author}{2}{}{%
       {{hash=LJ}{%
@@ -340,6 +368,27 @@
     \field{journaltitle}{Resonance}
     \field{year}{2014}
     \warn{\item Invalid format of field 'month'}
+  \endentry
+
+  \entry{ledumFramework}{misc}{}
+    \name{author}{1}{}{%
+      {{hash=LM}{%
+         family={Ledum},
+         familyi={L\bibinitperiod},
+         given={Morten},
+         giveni={M\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{LM1}
+    \strng{fullhash}{LM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelalpha}{Led16}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+  \field{howpublished}{\url{https://github.com/mortele/variational-monte-carlo-fys4411}}
+    \field{title}{Simple Variational Monte Carlo solve for FYS4411}
+    \field{year}{2016}
   \endentry
 
   \entry{Gauss}{article}{}
