@@ -4,9 +4,9 @@
 	\centering
 	\captionsetup[subfigure]{labelformat=empty}
 	\includegraphics[scale=3.0]{Images/art_quantum.jpg}
-	\caption{The first photograph of a Hydrogen atom was captured by an ultra sensitive camera in 2013. One can actually see the probability distribution $|\Psi(\bs{r})|^2$ with the naked eye. Published in Phys. rev. lett. 110, 213001 (2013), \textit{Hydrogen atoms under magnification}. \cite{hydrogen}}
+	\caption{The first photograph of a Hydrogen atom was captured by an ultra sensitive camera in 2013. One can actually see the probability distribution $|\Psi(\bs{r})|^2$ with the naked eye. Published in Phys. rev. lett. 110, 213001 (2013), \textit{Hydrogen atoms under magnification}. \cite{stodolna_hydrogen_2013}}
 \end{figure}
-Around 1900, some physicists thought that there were nothing new to be discovered in physics and all that remained was more precise measurements, as Lord Kelvin famously pointed out. \cite{Kelvin} He could not have been more wrong. In the following years, things were observed that could only be described by a quantized theory, led by Albert Einstein's explanation of the photoelectric effect in 1905. 
+Around 1900, some physicists thought that there were nothing new to be discovered in physics and all that remained was more precise measurements, as Lord Kelvin famously pointed out. \cite{weisstein_kelvin_2007} He could not have been more wrong. In the following years, things were observed that could only be described by a quantized theory, led by Albert Einstein's explanation of the photoelectric effect in 1905. 
 
 Immense efforts were placed on completing the theory, and contributions from an array of scientists over a period of 20 years were necessary to get it finished. In 1929, Paul Dirac stated something similar to what Lord Kelvin said 30 years earlier, but apparently with greater accuracy. 
 
@@ -69,7 +69,7 @@ E[\Psi]=\mel{\Psi}{\hatH}{\Psi},
 where the first part, $\bra{\Psi}$ is called a bra and the last part, $\ket{\Psi}$ is called a ket. At first this might look artificial and less informative, but it simplifies the notation significantly. More information about the notation is found in Appendix A. 
 
 In many cases we do not know the exact wave function, and need to rely on a trial wave function guess. Henceforth, we will use $\Psi$ as the exact total wave function, $\psi$ as the exact single particle function (SPF), $\Psi_T$ as the total trial wave function and $\phi$ as the trial SPF. 
-\cite{GriffQuan}
+\cite{griffiths_introduction_2005}
 
 \subsection{The Variational Principle}
 In the equations above, the presented wave functions are assumed to be the exact eigen functions of the Hamiltonian. But often we do not know the exact wave functions, and we need to guess what the wave functions might be. In those cases we make use of the variational principle, which states that only the exact ground state wave function is able to give the ground state energy. All other wave functions that fulfill the required properties (see section \ref{subsec:wavefunction}) give higher energies, and mathematically we can express the statement
@@ -115,7 +115,7 @@ Assume that we have a permutation operator $\hat{P}$ which exchanges two coordin
 \begin{equation}
 \hat{P}(i\rightarrow j)\Psi_n(\bs{x}_1,\hdots,\bs{x}_i,\hdots,\bs{x}_j,\hdots,\bs{x}_M)=p\Psi_n(\bs{x}_1,\hdots,\bs{x}_j,\hdots,\bs{x}_i,\hdots,\bs{x}_M),
 \end{equation}
-where $p$ is just a factor which comes from the transformation. If we again apply the $\hat{P}$ operator, we should switch the same coordinates back, and we expect to end up with the initial wave function. For that reason, $p=\pm1$. \footnote{Actually, in two-dimensional systems we have a third possibility which gives an \textit{anyon}. The theory on this was developed by J.M. Leinaas and J. Myrheim during the 1970's. \cite{Anyon}}
+where $p$ is just a factor which comes from the transformation. If we again apply the $\hat{P}$ operator, we should switch the same coordinates back, and we expect to end up with the initial wave function. For that reason, $p=\pm1$. \footnote{Actually, in two-dimensional systems we have a third possibility which gives an \textit{anyon}. The theory on this was developed by J.M. Leinaas and J. Myrheim during the 1970's. \cite{leinaas_one_1977}}
 
 The particles that have an antisymmetric (AS) wavefunction under exchange of two coordinates are called fermions, named after Enrico Fermi, and have half integer spin. On the other hand, the particles that have a symmetric (S) wavefunction under exchange of two coordinates are called bosons, named after Satyendra Nath Bose, and have integer spin. 
 
@@ -193,7 +193,7 @@ This means that we can split the Slater determinant in a spin up part and a spin
 \begin{equation}
 \Psi(\boldsymbol{r}_1,\boldsymbol{r}_2,\hdots,\boldsymbol{r}_N)=|\hat{D}_{\uparrow}|\cdot |\hat{D}_{\downarrow}|
 \end{equation}
-which saves us from a lot of computations. For a detailed explanation of the splitting, appendix I of Daniel Nissenbaum's dissertation is an excellent read. \cite{Nissenbaum}
+which saves us from a lot of computations. For a detailed explanation of the splitting, appendix I of Daniel Nissenbaum's dissertation is an excellent read. \cite{nissenbaum_stochastic_2008} Szabo \& Ostlund in \cite{szabo_modern_1996} is also a good explanation. 
 
 \subsection{Basis set} \label{subsec:basisset}
 To go further, we need to define a basis set, $\phi_n(\bs{r})$ which should be chosen carefully based on the system. For a few systems, we know the exact basis of the non-interacting case, and it is thus a natural basis to use in the Slater determinant. For other systems, the choice of basis might depend on the situation, where we typically need to weigh computational time against accuracy. Concrete examples on both cases will be presented in chapter \eqref{chp:systems}.

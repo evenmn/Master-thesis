@@ -27,7 +27,7 @@ which needs to be satisfied. The new positions in coordinate space are given as 
 \end{equation}
 
 \subsection{Variational Monte Carlo} \label{subsec:vmc}
-The Variational Monte Carlo (hereafter, VMC) method is today widely used when it comes to the study of ground state properties of quantum mechanical systems. It is a Monte Carlo method which makes use of Metropolis sampling, and has been used in studies of fermionic systems since the 1970's. \cite{deb2014} If we go back to the variational principle in equation \eqref{eq:variationalprinciple}, we see that by choosing a wave function which satisfies the criteria, we will get an energy larger or equal to the ground state energy. \bigskip
+The Variational Monte Carlo (hereafter, VMC) method is today widely used when it comes to the study of ground state properties of quantum mechanical systems. It is a Monte Carlo method which makes use of Metropolis sampling, and has been used in studies of fermionic systems since the 1970's. \cite{deb_variational_2014} If we go back to the variational principle in equation \eqref{eq:variationalprinciple}, we see that by choosing a wave function which satisfies the criteria, we will get an energy larger or equal to the ground state energy. \bigskip
 
 There are two main problems we need to solve
 \begin{enumerate}
@@ -53,7 +53,7 @@ The energy found from equation \eqref{eq:energysum} is an expectation value, and
 \begin{equation}
 \langle E\rangle=\lim_{N\to\infty} \frac{1}{N}\sum_{i=1}^NE_L(\bs{r}_i).
 \end{equation}
-For more statistical details, see \cite{deb2014}. 
+For more statistical details, see \cite{deb_variational_2014}. 
 
 Given a wave function we are now able to estimate the corresponding energy, but how do we find a good wave function? In VMC, we define a wave function with variational parameters, which are adjusted in order to minimize the energy for every iteration. For every iteration, we run $N$ Monte-Carlo cycles where we withdraw a new position $\bs{r}_i$. Whether or not the proposed move should be accepted is determined by the Metropolis algorithm.
 

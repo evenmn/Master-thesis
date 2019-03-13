@@ -5,14 +5,19 @@
 	\includegraphics[scale=0.4]{Images/example.png}
 	\caption{}
 \end{figure}
+Now over to the heart of this thesis: the results...
 
-\section{Ground state energies}
-\subsection{Quantum Dots}
-\subsubsection{Without interaction}
-We will start studying systems with no interaction between particles. The number of closed-shell particles are given by \eqref{eq:HOclosedshell} and the exact energies are found from formula \eqref{eq:HOenergies}. The first 5 closed-shell energies for $\omega=1$ are presented in table \eqref{tab:nointeractionHO2D} and \eqref{tab:nointeractionHO3D} for two and three dimensions respectively.
+\newpage
+\section{No repulsive interaction}
+We start with the non-interacting case in order to prove the flexibility of the implemented code. 
+
+\subsection{Ground state energy}
+\subsubsection{Quantum dots}
+We will start studying systems with no interaction between particles. The number of closed-shell particles are given by equation \eqref{eq:HOclosedshell} and the exact energies are found from formula \eqref{eq:HOenergies}. The first 5 closed-shell energies for $\omega=0.5$ and $\omega=1.0$ are presented in table \eqref{tab:quantumdotswointeraction}.
 
 \begin{table} [H]
 	\caption{ }
+	\label{tab:quantumdotswointeraction}
 	\begin{tabularx}{\textwidth}{r|r|XXX:XXX} \hline\hline
 		\label{tab:nn}
 		& $\omega$ & \multicolumn{3}{c}{0.5}&\multicolumn{3}{c}{1.0}\\ \hline
@@ -33,9 +38,55 @@ We will start studying systems with no interaction between particles. The number
 		&70 & 149.5 & 149.5 & 149.5 & 299.0 & 299.0 & 299 \\ \hline\hline
 	\end{tabularx}
 \end{table}
+We observe that the NQS wave function is able to reproduce the exact energy for most of the cases, but when the number of particles get large, the statistical error gets significant.
 
-\subsubsection{With interaction}
+\subsubsection{Atoms}
+In the next we will 
+\begin{table} [H]
+	\caption{ }
+	\begin{tabularx}{\textwidth}{X|X|X:X:X} \hline\hline
+		\label{tab:nointeractionatoms}
+		Atom & $N$ & $E_{\text{NQS}}$ & $E_{\text{VMC}}$ & $E_{\text{exact}}$ \\ \hline
+		H & 1 & 0.0 & 0.0 & -0.5 \\ 
+		He & 2 & 0.0 & 0.0 & -4 \\
+		Be & 4 & 0.0 & 0.0 & -20 \\
+		Ne & 10 & 0.0 & 0.0 & -200 \\ \hline\hline
+	\end{tabularx}
+\end{table}
 
 
-\section{Comparison of Wave Functions}
-Compare machine learning wave functions to standard VMC wave functions
+\subsection{One-body density}
+
+
+\section{With repulsive interaction}
+\begin{table} [H]
+	\caption{This table presents the energies of $N$ electrons trapped in a three-dimensional oscillator well with frequency $\omega$. The exact energies are calculated analytically by M.Taut, see \cite{taut_two_1993}. The reference is to J. Høgberget CITE HIM (DMC). }. 
+	\begin{tabularx}{\textwidth}{X:X|XXXX} \hline\hline
+		\label{tab:quantumdotswinteraction3D}
+		$N$ & $\omega$ & $E_{\text{NQS}}$ & $E_{\text{VMC}}$ & $E_{\text{ref}} $ & $E_{\text{exact}}$ \\ \hline \\
+		2 & 0.0365 & 0.0 & 0.0 &  & 0.054806 \\ 
+		& 0.1 & 0.0 & 0.0 & 0.499997(3) & 0.5 \\
+		& 0.5 & 0.0 & 0.0 & 2.000000(2) & 2.0 \\
+		& 1.0 & 0.0 & 0.0 & 3.730123(3) &  \\ \hdashline \\
+		
+		8 & 0.0365 & 0.0 & 0.0 & 5.7028(1) \\ 
+		& 0.1 & 0.0 & 0.0 & 12.1927(1) \\
+		& 0.5 & 0.0 & 0.0 & 18.9611(1) \\
+		& 1.0 & 0.0 & 0.0 & 32.6680(1) \\ \hdashline \\
+		
+		20 & 0.0365 & 0.0 & 0.0 & 27.2717(2) \\ 
+		& 0.1 & 0.0 & 0.0 & 56.3868(2) \\
+		& 0.5 & 0.0 & 0.0 & 85.6555(2) \\
+		& 1.0 & 0.0 & 0.0 & 142.8875(2) \\ \hdashline \\
+		
+		40 & 0.0365 & 0.0 & 0.0 \\ 
+		& 0.1 & 0.0 & 0.0 \\
+		& 0.5 & 0.0 & 0.0 \\
+		& 1.0 & 0.0 & 0.0 \\ \hdashline \\
+		
+		70 & 0.0365 & 0.0 & 0.0 \\ 
+		& 0.1 & 0.0 & 0.0 \\
+		& 0.5 & 0.0 & 0.0 \\
+		& 1.0 & 0.0 & 0.0 \\ \hline\hline
+	\end{tabularx}
+\end{table}
