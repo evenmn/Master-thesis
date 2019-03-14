@@ -12,7 +12,7 @@ Optimization is a wide term..
 \section{Minimization Algorithms}
 Suppose we have a very simple model trying to fit a straight line to data points. In that case, we could manually vary the coefficients and find a line that fits the points quite good. However, when the model gets more complicated, this can be a time consuming activity. Would it not be good if the program could do this for us?
 
-In fact, there exist plenty of methods capable of doing this. Some of them rely on the gradients only, and are therefore called gradient methods. Other need both the gradient and the Hessian matrix, and find the minimum based on both the slope and the curvature of the cost function. For our purpose, gradients methods have provided good results over decades, and there is no need for more complicated algorithms. The standard gradient descent method will be discussed firstly, before we move to its stochastic brother. Momentum will be added for both methods. Finally, we examine the ADAM optimizer, which is stochastic of nature and is equipped with momentum by default. 
+In fact, there exist plenty of methods capable of doing this. Some of them rely on the gradients only, and are therefore called gradient methods. Other need both the gradient and the Hessian matrix, and find the minimum based on both the slope and the curvature of the cost function. For our purpose, gradients methods have provided good results over decades, and there is no need for more complicated algorithms. The standard gradient descent method will be discussed firstly, before we move to its stochastic brother. Momentum will be added for both methods. Finally, we examine the ADAM optimizer, which is stochastic by nature and is equipped with momentum by default. 
 
 \subsection{Gradient Descent} \label{sec:gd}
 Perhaps the simplest and most intuitive method for finding the minimum is the gradient descent method (GD), which reads
@@ -41,7 +41,7 @@ and a run through all batches is called an \textit{epoch}.
 The reader might ask herself why this helps us, will we not just get a bad gradient approximation? The answer is that the stochasticity adds some coincidence to the system, which makes it less likely to be stuck in local minima. Additionally, it might speed-up the training session. 
 
 \subsection{ADAM}
-
+ADAM is a method that is stochastic and uses momentum, as mentioned above. 
 
 \subsection{Adding momentum}
 

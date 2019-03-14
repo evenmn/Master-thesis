@@ -1,12 +1,12 @@
 \chapter{Implementation} \label{sec:implementation}
-\epigraph{There are only two hard things in Computer Science: cache invalidation and naming things. \url{https://martinfowler.com/bliki/TwoHardThings.html}}{Phil Karlton}
+\epigraph{There are only two hard things in Computer Science: cache invalidation and naming things.}{Phil Karlton, \cite{fowler_bliki:_nodate}}
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.4]{Images/example.png}
 	\caption{Caption}
 \end{figure}
 
-For many projects, planning is half the job, and so is true for a good VMC implementation. In fact, the program was restructured three times before we landed on this final version. It is based on Morten Ledum's VMC framework found at \cite{ledum_simple_2016}, which was meant as an example implementation in the course \textit{FYS4411 - Computational Physics II: Quantum Mechanical Systems}. As our development environment, we use \textbf{QT creator}, which offers an elegant platform for writing, compiling and profiling. In addition, one can easily construct a \textit{graphical user interface} (GUI) based on \textbf{QT Widgets}. For all matrix and array operations, the \textbf{Eigen} library was used. All source code can be found at \url{https://github.com/evenmn/VMC/}. \bigskip
+For many projects, planning is half the job, and so is true for a good VMC implementation. In fact, the program was restructured three times before we landed on this final version. It is based on Morten Ledum's VMC framework found at \cite{ledum_simple_2016}, which was meant as an example implementation in the course \textit{FYS4411 - Computational Physics II: Quantum Mechanical Systems}. As our development environment, we use \textbf{QT creator}, which offers an elegant platform for writing, compiling and profiling \cite{noauthor_qt_2019}. In addition, one can easily construct a \textit{graphical user interface} (GUI) based on \textbf{QT Widgets}. For all matrix and array operations, the \textbf{Eigen} library was used. All source code can be found at \cite{nordhagen_general_2019}. \bigskip
 
 We had three main areas of focus when developing the code. It should be
 \begin{itemize}
@@ -54,12 +54,13 @@ protected:
 	class System* m_system = nullptr;
 };
 \end{lstlisting}
-which serves a template for all the sub classes (wave function elements). As you might notice, we use the \textbf{lowerCamelCase} naming convention for function and variable names, which means that all words in start with a capital letter except the initial word. For classes, we use the \textbf{UpperCamelCase} to distinguish from function names. This is known to be easy to read, and apart from for example the popular \textbf{snake\_case}, we do not need delimiters between the words, which saves some space. After the naming convention is decided, we are still responsible of giving reasonable names, which is not always an easy task as Phil Karlton points out. When one sees the name, one should know exactly what the variable/function/class is or does. More about naming convention can be read here \url{https://en.wikipedia.org/wiki/Naming_convention_(programming)}.
+which serves a template for all the sub classes (wave function elements). As you might notice, we use the \textbf{lowerCamelCase} naming convention for function and variable names, which means that all words in start with a capital letter except the initial word. For classes, we use the \textbf{UpperCamelCase} to distinguish from function names. This is known to be easy to read, and apart from for example the popular \textbf{snake\_case}, we do not need delimiters between the words, which saves some space. After the naming convention is decided, we are still responsible of giving reasonable names, which is not always an easy task as Phil Karlton points out. When one sees the name, one should know exactly what the variable/function/class is or does. More about naming convention can be read at \cite{noauthor_naming_2019}.
 
 \section{Structure} \label{subsec:structure}
-How the classes are communicating is no easy task to explain, most classes are calling other classes, there is no tidy way to visualize the actual code flow. However, a simplified structure chart can still be informative, and in figure \eqref{fig:structurechart1} the most important calls between the different classes are pointed out. We decided to leave out \texttt{main.cpp} since all it does is to set the different classes. 
+How the classes are communicating is no easy task to explain, most classes are calling other classes, there is no tidy way to visualize the actual code flow. However, a simplified structure chart can still be informative, and in figure \eqref{fig:structurechart} the most important calls between the different classes are pointed out. We decided to leave out \texttt{main.cpp} since all it does is to set the different classes. 
 \begin{figure} [h]
 	\centering
+	\label{fig:structurechart}
 	\begin{tikzpicture}[
 	>={Latex[width=2mm,length=2mm]},
 	base/.style = {rectangle, rounded corners, draw=black,
@@ -131,7 +132,6 @@ How the classes are communicating is no easy task to explain, most classes are c
 	\node[anchor=west] at (1,-12) {13 - Calculate average gradients};
 	
 	\end{tikzpicture}
-	\label{fig:structurechart1}
 	\caption{Structure chart of the implemented code, presenting super classes as tiles. The most important intra-class calls are represented with lines pointing from the sender class towards the receiver class.}
 \end{figure}
 
