@@ -18,30 +18,30 @@ We will start studying systems with no interaction between particles. The number
 \begin{table} [H]
 	\caption{ }
 	\label{tab:quantumdotswointeraction}
-	\begin{tabularx}{\textwidth}{r|r|XXX:XXX} \hline\hline
+	\begin{tabularx}{\textwidth}{r|r|XXXX:XXXX} \hline\hline
 		\label{tab:nn}
-		& $\omega$ & \multicolumn{3}{c}{0.5}&\multicolumn{3}{c}{1.0}\\ \hline
-		& $N$ & $E_{\text{NQS}}$ & $E_{\text{VMC}}$ & $E_{\text{exact}}$ & $E_{\text{NQS}}$ & $E_{\text{VMC}}$ & $E_{\text{exact}}$ \\ \hline
+		& $\omega$ & \multicolumn{4}{c}{0.5}&\multicolumn{4}{c}{1.0}\\ \hline
+		& $N$ & $E_{\text{NQS1}}$ & $E_{\text{NQS2}}$ & $E_{\text{VMC}}$ & $E_{\text{exact}}$ & $E_{\text{NQS1}}$ & $E_{\text{NQS2}}$ & $E_{\text{VMC}}$ & $E_{\text{exact}}$ \\ \hline
 		
 		\parbox[t]{2mm}{\multirow{5}{*}{\rotatebox[origin=c]{90}{2D}}}
-		&2 & 1.0 & 1.0 & 1 & 2.0 & 2.0 & 2\\
-		&6 & 5.0 & 5.0 & 5 & 10.0 & 10.0 & 10 \\
-		&12 & 14.0 & 14.0 & 14 & 28.0 & 28.0 & 28\\
-		&20 & 30.0 & 30.0 & 30 & 60.0 & 60.0 & 60\\
-		&30 & 55.0 & 55.0 & 55 & 110.0 & 110.0 & 110\\ \hline
+		&2 & 0.0 & 0.0 & 1.0 & 1 & 0.0 & 0.0 & 2.0 & 2\\
+		&6 & 0.0 & 0.0 & 0.0 & 5 & 0.0 & 0.0 & 10.0 & 10 \\
+		&12 & 0.0 & 0.0 & 0.0 & 14 & 0.0 & 0.0 & 28.0 & 28\\
+		&20 & 0.0 & 0.0 & 0.0 & 30 & 0.0 & 0.0 & 60.0 & 60\\
+		&30 & 0.0 & 0.0 & 0.0 & 55 & 0.0 & 0.0 & 110.0 & 110\\ \hline
 		
 		\parbox[t]{2mm}{\multirow{5}{*}{\rotatebox[origin=c]{90}{3D}}}
-		&2 & 1.5 & 1.5 & 1.5 & 3.0 & 3.0 & 3 \\
-		&8 & 9.0 & 9.0 & 9 & 18.0 & 18.0 & 18 \\
-		&20 & 27.0 & 27.0 & 27 & 54.0 & 54.0 & 54 \\
-		&40 & 67.0 & 67.0 & 67 & 134.0 & 134.0 & 134 \\
-		&70 & 149.5 & 149.5 & 149.5 & 299.0 & 299.0 & 299 \\ \hline\hline
+		&2 & 0.0 & 0.0 & 0.0 & 1.5 & 0.0 & 0.0 & 3.0 & 3 \\
+		&8 & 0.0 & 0.0 & 0.0 & 9 & 0.0 & 0.0 & 18.0 & 18 \\
+		&20 & 0.0 & 0.0 & 0.0 & 30 & 0.0 & 0.0 & 60.0 & 60 \\
+		&40 & 0.0 & 0.0 & 0.0 & 75 & 0.0 & 0.0 & 150.0 & 150 \\
+		&70 & 0.0 & 0.0 & 0.0 & 157.5 & 0.0 & 0.0 & 315.0 & 315 \\ \hline\hline
 	\end{tabularx}
 \end{table}
 We observe that the NQS wave function is able to reproduce the exact energy for most of the cases, but when the number of particles get large, the statistical error gets significant.
 
 \subsubsection{Atoms}
-In the next we will 
+In the next we will study atoms when the Coulomb interaction is ignored. For those cases, we know the exact answers, given by the Bohr formula presented in equation \eqref{eq:bohrformula}.
 \begin{table} [H]
 	\caption{ }
 	\begin{tabularx}{\textwidth}{X|X|X:X:X} \hline\hline
