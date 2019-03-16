@@ -16,7 +16,7 @@ We start with the non-interacting case in order to prove the flexibility of the 
 We will start studying systems with no interaction between particles. The number of closed-shell particles are given by equation \eqref{eq:HOclosedshell} and the exact energies are found from formula \eqref{eq:HOenergies}. The first 5 closed-shell energies for $\omega=0.5$ and $\omega=1.0$ are presented in table \eqref{tab:quantumdotswointeraction}.
 
 \begin{table} [H]
-	\caption{ }
+	\caption{Energy of $N$ non-interacting electrons trapped in a harmonic oscillator of frequency $\omega=0.5$ and $\omega=1.0$. $E_{\text{NQS1}}$ is the standard NQS wave function with traditional Slater determinant, while $E_{\text{NQS2}}$ is NQS wave function where the RBM itself generates the Slater determinant. }
 	\label{tab:quantumdotswointeraction}
 	\begin{tabularx}{\textwidth}{r|r|XXXX:XXXX} \hline\hline
 		\label{tab:nn}
@@ -24,18 +24,18 @@ We will start studying systems with no interaction between particles. The number
 		& $N$ & $E_{\text{NQS1}}$ & $E_{\text{NQS2}}$ & $E_{\text{VMC}}$ & $E_{\text{exact}}$ & $E_{\text{NQS1}}$ & $E_{\text{NQS2}}$ & $E_{\text{VMC}}$ & $E_{\text{exact}}$ \\ \hline
 		
 		\parbox[t]{2mm}{\multirow{5}{*}{\rotatebox[origin=c]{90}{2D}}}
-		&2 & 0.0 & 0.0 & 1.0 & 1 & 0.0 & 0.0 & 2.0 & 2\\
-		&6 & 0.0 & 0.0 & 0.0 & 5 & 0.0 & 0.0 & 10.0 & 10 \\
-		&12 & 0.0 & 0.0 & 0.0 & 14 & 0.0 & 0.0 & 28.0 & 28\\
-		&20 & 0.0 & 0.0 & 0.0 & 30 & 0.0 & 0.0 & 60.0 & 60\\
-		&30 & 0.0 & 0.0 & 0.0 & 55 & 0.0 & 0.0 & 110.0 & 110\\ \hline
+		&2 & 0.0 & 0.0 & 1.0 & 1 & 2.0 & 0.0 & 2.0 & 2\\
+		&6 & 0.0 & 0.0 & 5.0 & 5 & 0.0 & 0.0 & 10.0 & 10 \\
+		&12 & 0.0 & 0.0 & 14.0 & 14 & 0.0 & 0.0 & 28.0 & 28\\
+		&20 & 0.0 & 0.0 & 30.0 & 30 & 0.0 & 0.0 & 60.0 & 60\\
+		&30 & 0.0 & 0.0 & 55.0 & 55 & 0.0 & 0.0 & 110.0 & 110\\ \hline
 		
 		\parbox[t]{2mm}{\multirow{5}{*}{\rotatebox[origin=c]{90}{3D}}}
-		&2 & 0.0 & 0.0 & 0.0 & 1.5 & 0.0 & 0.0 & 3.0 & 3 \\
-		&8 & 0.0 & 0.0 & 0.0 & 9 & 0.0 & 0.0 & 18.0 & 18 \\
-		&20 & 0.0 & 0.0 & 0.0 & 30 & 0.0 & 0.0 & 60.0 & 60 \\
-		&40 & 0.0 & 0.0 & 0.0 & 75 & 0.0 & 0.0 & 150.0 & 150 \\
-		&70 & 0.0 & 0.0 & 0.0 & 157.5 & 0.0 & 0.0 & 315.0 & 315 \\ \hline\hline
+		&2 & 0.0 & 0.0 & 1.5 & 1.5 & 0.0 & 0.0 & 3.0 & 3 \\
+		&8 & 0.0 & 0.0 & 9.0 & 9 & 0.0 & 0.0 & 18.0 & 18 \\
+		&20 & 0.0 & 0.0 & 30.0 & 30 & 0.0 & 0.0 & 60.0 & 60 \\
+		&40 & 0.0 & 0.0 & 75.0 & 75 & 0.0 & 0.0 & 150.0 & 150 \\
+		&70 & 0.0 & 0.0 & 157.5 & 157.5 & 0.0 & 0.0 & 315.0 & 315 \\ \hline\hline
 	\end{tabularx}
 \end{table}
 We observe that the NQS wave function is able to reproduce the exact energy for most of the cases, but when the number of particles get large, the statistical error gets significant.
