@@ -67,34 +67,40 @@ respectively.
 \subsection{Padé-Jastrow Factor}
 The Padé-Jastrow factor is introduced in order to take care of the correlations. It is specified in equation \eqref{eq:PadeJastrow}, 
 \begin{equation}
-J(\bs{r}; \beta, \gamma) = \exp\bigg(\sum_{i=1}^N\sum_{j=1}^i\frac{\beta(i,j)r_{ij}}{1+\gamma r_{ij}}\bigg)
-\end{equation},
+J(\bs{r}; \beta, \gamma) = \exp\bigg(\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\frac{\beta_{ij}r_{ij}}{1+\gamma r_{ij}}\bigg),
+\end{equation}
+where $N$ is the number of particles. One challenge is that we operate in cartesian coordinates, while the expressed Jastrow factor obviously is easier to handle in spherical coordinates. Since we need to differentiate this with respect to all free dimensions, we need to be careful not confuse the 
 which gives the first and second derivatives
 \begin{equation}
-\nabla_k\ln J=\sum_{j=1}^k\bigg(\frac{\beta_{kj}}{(1+\gamma r_{kj})^2}\bigg)
+\nabla_k\ln J=\sum_{j\neq k=1}^N\frac{\beta_{kj}}{(1+\gamma r_{kj})^2}\frac{x_k-x_j}{r_{kj}}
 \end{equation}
 and
 \begin{equation}
-\nabla_k^2\ln J=\sum_{j=1}^k\bigg(\frac{\beta_{kj}}{(1+\gamma r_{kj})^2}\bigg[\frac{1}{r_k}-\frac{\gamma}{1+\gamma r_{kj}}\bigg]\bigg)
+\nabla_k^2\ln J=\sum_{j\neq k=1}^N\frac{\beta_{kj}}{(1+\gamma r_{kj})^2}\bigg[1-\Big(1+2\frac{\gamma r_{kj}}{1+\gamma r_{kj}}\Big)\frac{(x_k-x_j)^2}{r_{kj}^2}\bigg]\frac{1}{r_{kj}}
 \end{equation}
 respectively. 
 
-The derivative of those again, with respect to the parameters $\gamma$ and $\beta_{kl}$ are
+The derivative of those again with respect to $\gamma$ are
 \begin{equation}
-\partial_{\gamma}\nabla_k\ln J = -2 \sum_{j=1}^k\bigg(\frac{\beta_{kj}}{(1+\gamma r_{kj})^3}\bigg)
+\partial_{\gamma}\nabla_k\ln J = -2 \sum_{j\neq k=1}^N\frac{\beta_{kj}}{(1+\gamma r_{kj})^3}(x_k-x_j)
+\end{equation}
+and
+\begin{equation}
+\partial_{\gamma}\nabla_k^2\ln J = -2 \sum_{j\neq k=1}^N\frac{\beta_{kj}}{(1+\gamma r_{kj})^3}\bigg[1-4\frac{\gamma r_{kj}}{1+\gamma r_{kj}}\frac{(x_k-x_j)^2}{r_{kj}^2}\bigg]
 \end{equation}
 
+By defining 
 \begin{equation}
-\partial_{\gamma}\nabla_k^2\ln J = -2 \sum_{j=1}^k\bigg(\frac{\beta_{kj}}{(1+\gamma r_{kj})^3}\bigg[\frac{1}{r_{kj}} + \frac{2}{r_k} - \frac{3\gamma}{1+\gamma r_{kj}}\bigg]\bigg)
+f_{ij}=\frac{1}{1+\gamma r_{ij}}\quad g_{ij}=\frac{x_i-x_j}{r_{ij}}\quad h_{ij}=\frac{r_{ij}}{1+\gamma r_{ij}}
 \end{equation}
-
-\begin{equation}
-\partial_{\beta_{kl}} \nabla_k\ln J = \frac{1}{(1+\gamma r_{kl})^2}
-\end{equation}
-
-\begin{equation}
-\partial_{\beta_{kl}} \nabla_k^2\ln J = \frac{2}{(1+\gamma r_{kl})^2}\bigg[\frac{1}{r_l} - \frac{\gamma}{1+\gamma r_{kl}}\bigg]
-\end{equation}
+the equations can be written as
+\begin{empheq}[box={\mybluebox[5pt]}]{align}
+\frac{J_{\text{new}}^2}{J_{\text{old}}^2}&=\exp\Big(2\sum_{j=1}^N\beta_{kj}(h_{kj}^{\text{new}}-h_{kj}^{\text{old}})\Big)\\
+\nabla_k\ln J &=\sum_{j\neq k=1}^N\beta_{kj}\cdot f_{kj}^2\cdot g_{kj}\\
+\nabla_k^2\ln J &= \sum_{j\neq k=1}^N\frac{\beta_{kj}}{r_{kj}}f_{kj}^2\Big[1-(1+2\gamma h_{kj})g_{kj}^2\Big]\\
+\partial_{\gamma}\nabla_k\ln J &=\sum_{j\neq k=1}^N\beta_{kj}\cdot f_{kj}^3(x_k-x_j)\\
+\partial_{\gamma}\nabla_k^2\ln J &= \sum_{j\neq k=1}^N \beta_{kj}\cdot f_{kj}^3\Big[1=4\gamma h_{kj}\cdot g_{kj}^2\Big].
+\end{empheq}
 
 \subsection{Slater Determinant}
 We need to introduce the Slater Determinant to study more fermions. 
@@ -103,6 +109,15 @@ We need to introduce the Slater Determinant to study more fermions.
 Now over to the real deal; the machine learning inspired wave function elements. 
 
 \subsection{NQS-Jastrow Factor}
+\begin{equation}
+J=\prod_{j=1}^N\bigg[1+\exp\Big(b_j+\sum_{i=1}^M\frac{W_{ij}x_i}{\sigma^2}\Big)\bigg]
+\end{equation}
+
+\begin{equation}
+\nabla \ln J=\sum_{j=1}^N\frac{W_{kj}}{\sigma^2}\frac{\exp(b_j+\sum_{i=1}^M\frac{W_{ij}x_i}{\sigma^2})}{1+\exp(b_j+\sum_{i=1}^M\frac{W_{ij}x_i}{\sigma^2})}
+\end{equation}
+
+
 
 \subsection{Partly Restricted Element}
 
