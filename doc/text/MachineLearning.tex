@@ -386,3 +386,9 @@ for a system of $N$ nodes, which is the so-called binary-binary network and the 
 
 \subsection{Restricted Boltzmann Machines}
 When there is an unrestricted guy, a restricted guy must exist as well. 
+
+\begin{equation}
+\Psi(\bs{x};\bs{a},\bs{b},\bs{W})=\exp(-\sum_{i=1}^M\frac{(x_i-a_i)^2}{2\sigma^2})\prod_{j=1}^N\bigg(1+\exp\Big(b_j+\sum_{i=1}^N\frac{W_{ij}x_i}{\sigma^2}\Big)\bigg)
+\label{eq:NQSWF}
+\end{equation}
+Need to compare it to standard VMC with Padé-Jastrow factor. 

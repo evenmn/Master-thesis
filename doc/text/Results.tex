@@ -57,6 +57,7 @@ In the next we will study atoms when the Coulomb interaction is ignored. For tho
 
 \subsection{One-body density}
 The one-body densities 
+\iffalse
 \begin{figure} [H]%
 	\centering
 	\subfloat[2D, $\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/onebody_VMC_NQS_P2_D2_w0p5.png}}}
@@ -67,6 +68,7 @@ The one-body densities
 	\caption{One-body densities of two non-interacting electrons in two dimensions figure (a) and (b) and three dimensions}%
 	\label{fig:OB_nointeraction}
 \end{figure}
+\fi
 
 \section{With repulsive interaction}
 \begin{table} [H]
@@ -74,10 +76,10 @@ The one-body densities
 	\begin{tabularx}{\textwidth}{l:l|XXXXXX} \hline\hline
 		\label{tab:quantumdotswinteraction2D}
 		$N$ & $\omega$ & $E_{\text{NQS1}}$ & $E_{\text{NQS2}}$ & $E_{\text{NQS3}}$ & $E_{\text{VMC}}$ & $E_{\text{ref}} $ & $E_{\text{exact}}$ \\ \hline \\
-		2 & 0.1 & 0.0 & 0.0 & 0.0 & 0.4705(9) & 0.44079(1) & \\ 
-		& 0.28 & 0.0 & 0.0 & 0.0 & 1.0275(3) & 1.02164(1) & \\
-		& 0.5 & 0.0 & 0.0 & 0.0 & 1.6607(1) & 1.66021(5) &  \\
-		& 1.0 & 0.0 & 0.0 & 0.0 & 3.00026(9) & 3.00000(1) & 3  \\ \hdashline \\
+		2 & 0.1 & 0.444(2) & 0.0 & 0.0 & 0.4705(9) & 0.44079(1) & \\ 
+		& 0.28 & 1.022(1) & 0.0 & 0.0 & 1.0275(3) & 1.02164(1) & \\
+		& 0.5 & 1.6601(1) & 0.0 & 0.0 & 1.6607(1) & 1.66021(5) &  \\
+		& 1.0 & 2.9999(1) & 0.0 & 0.0 & 3.00026(9) & 3.00000(1) & 3  \\ \hdashline \\
 		
 		6 & 0.1 & 0.0 & 0.0 & 0.0 & 0.0 & 3.55385(5) \\ 
 		& 0.28 & 0.0 & 0.0 & 0.0 & 0.0 & 7.60019(6) \\

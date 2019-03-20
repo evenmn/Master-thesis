@@ -1,0 +1,199 @@
+\chapter{Derivation of Wave Function Elements} \label{chp:WFE}
+In chapter \eqref{chp:quantum} we presented the basic principles behind a many-body trial wave function, including the Slater determinant and the well-known Padé-Jastrow factor. Further, in chapter \eqref{chp:systems}, the common basis functions of the harmonic oscillator and atomic systems were given, and in the previous chapter, \eqref{chp:machinelearning}, we explained how to create wave functions using machine learning. This means that all wave function elements used in this thesis already are given, and in this chapter they are all collected, together with their derivatives and various optimizations. We start with splitting up the kinetic energy calculations and parameter update to see which derivatives we need.
+
+\section{Kinetic Energy Calculations}
+The local energy, defined in equation \eqref{eq:local energy}, is
+\begin{align}
+E_L &=\frac{1}{\Psi_T}\hatH\Psi_T\\
+&=\sum_{k=1}^M\Big[-\frac{1}{2\Psi_T}\nabla_k^2\Psi_T + U_k + V_k\Big].
+\end{align}
+The first term, which is the kinetic energy term, is the only wave function-dependent one. It will in this appendix be evaluated for various wave function elements. From the definition of differentiation of a logarithm, we have that
+\begin{equation}
+\frac{1}{\Psi_T}\nabla_k\Psi_T=\nabla_k\ln\Psi_T,
+\end{equation}
+which provides the following useful relation 
+\begin{equation}
+\frac{1}{\Psi_T}\nabla_k^2\Psi_T=\nabla_k^2\ln\Psi_T + (\nabla_k\ln\Psi_T)^2.
+\end{equation}
+Consider a trial wave function, $\Psi_T$, consisting of a product of $p$ wave function elements, $\{\phi_1, \phi_2\hdots\phi_p\}$,
+\begin{equation}
+\Psi_T = \prod_{i=1}^p\phi_i.
+\end{equation}
+The kinetic energy related to this trial wave function is then computed by
+\begin{equation}
+\frac{1}{\Psi_T}\nabla_k^2\Psi_T=\sum_{i=1}^p\nabla_k^2\ln\phi_i + \Big(\sum_{i=1}^p\nabla_k\ln\phi_i\Big)^2,
+\end{equation}
+which can be computed given all local derivatives $\nabla_k^2\ln\phi_i$ and $\nabla_k\ln\phi_i$. For each wave function element given below, those local derivatives will be evaluated. In addition, we need to know the derivative of the local energy with respect to the variational parameters in order to update the parameters correctly. 
+
+\section{Parameter Update}
+In gradient based optimization methods, as we use, one needs to know the gradient of the local energy with respect to all variational parameters $\alpha_i$,
+\begin{equation}
+\partial_{\alpha_i} E_L\equiv\frac{\partial E_L(\alpha_i)}{\partial \alpha_i}.
+\end{equation}
+If we assume that each parameter, $\alpha$, only exists in a wave function element,
+\begin{equation}
+\Psi_T(\alpha)=\phi_1(\alpha)\prod_{i=2}^{p}\phi_i
+\end{equation}
+the derivative of the entire local energy is reduced to the derivative of the kinetic energy term given the wave function element,
+\begin{align}
+\partial_{\alpha} E_L &=-\frac{1}{2}\partial_{\alpha}\bigg(\nabla_k^2\ln\phi_1(\alpha)+\sum_{i=2}^p\nabla_k^2\ln\phi_i + \Big(\nabla_k\ln\phi_1(\alpha)+\sum_{i=2}^p\nabla_k\ln\phi_i\Big)^2\bigg)\\
+&=-\frac{1}{2}\partial_{\alpha}\nabla_k^2\ln\phi_1(\alpha)-\Big(\sum_{i=1}^p\nabla_k\ln\phi_i\Big)\cdot\partial_{\alpha}\nabla_k\ln\phi_1(\alpha).
+\end{align}
+The sum is already evaluated in the kinetic energy calculations, which means that to calculate the gradients, it is sufficient to calculate $\partial_{\alpha}\nabla_k\ln\phi_1(\alpha)$ and $\partial_{\alpha}\nabla_k^2\ln\phi_1(\alpha)$ for all wave function elements with respect to their variational parameters.
+
+\section{Derivatives}
+\subsection{Simple Gaussian}
+A natural starting point is the Gaussian function, since it appears in all harmonic oscillator calculations and is quite simple to evaluate both in Cartesian and spherical coordinates. We are interested in the former. For $M$ free dimensions, the function is given by
+\begin{equation*}
+\Psi( \bs{x}; \alpha)=\exp\Big[-\frac{1}{2}\omega\alpha\sum_{i=1}^Mx_i^2\Big]
+\end{equation*}
+where the derivative with respect to coordinate $x_k$ is
+\begin{equation*}
+\nabla_k\ln\Psi(\alpha)=-\omega\alpha x_k
+\end{equation*}
+and the sum over all second derivatives is
+\begin{equation*}
+\nabla_k^2\ln\Psi(\alpha)=-\omega\alpha.
+\end{equation*}
+The gradients for those derivatives are
+\begin{equation*}
+\partial_{\alpha} \nabla_k\ln\Psi(\alpha)=-\omega x_k
+\end{equation*}
+and
+\begin{equation*}
+\partial_{\alpha} \nabla_k^2\ln\Psi(\alpha)=-\omega
+\end{equation*}
+respectively. The only thing that can be optimized regarding this element, is the ratio between the new and the old probability. All expressions are collected below
+\begin{empheq}[box={\mybluebox[5pt]}]{align}
+\frac{\Psi_{\text{new}}^2}{\Psi_{\text{old}}^2}&=\exp\Big(\alpha\omega(x_{i,\text{old}}^2-x_{i,\text{new}}^2)\Big)\notag\\
+\nabla_k\ln\Psi&=-\omega\alpha x_k\notag\\
+\nabla_k^2\ln\Psi&=-\omega\alpha\\
+\partial_{\alpha} \nabla_k\ln\Psi&=-\omega x_k\notag\\
+\partial_{\alpha} \nabla_k^2\ln\Psi&=-\omega,\notag
+\end{empheq}
+where $i$ is the changed coordinate.
+
+\subsection{Padé-Jastrow Factor}
+The Padé-Jastrow factor is introduced in order to take care of the correlations. It is specified in equation \eqref{eq:PadeJastrow}, 
+\begin{equation*}
+J(\bs{r}; \beta, \gamma) = \exp\bigg(\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\frac{\beta_{ij}r_{ij}}{1+\gamma r_{ij}}\bigg),
+\end{equation*}
+where $N$ is the number of particles. One challenge is that we operate in cartesian coordinates, while the expressed Jastrow factor obviously is easier to handle in spherical coordinates. Since we need to differentiate this with respect to all free dimensions, we need to be careful not confuse the particle indices and coordinate indices. Let us define $i$ as the coordinate index and $i'$ as the index on the corresponding particle. We then get the first and second derivatives
+\begin{equation*}
+\nabla_k\ln J=\sum_{j'\neq k'=1}^N\frac{\beta_{k'j'}}{(1+\gamma r_{k'j'})^2}\frac{x_k-x_j}{r_{k'j'}}
+\end{equation*}
+and
+\begin{equation*}
+\nabla_k^2\ln J=\sum_{j'\neq k'=1}^N\frac{\beta_{k'j'}}{(1+\gamma r_{k'j'})^2}\bigg[1-\Big(1+2\frac{\gamma r_{k'j'}}{1+\gamma r_{k'j'}}\Big)\frac{(x_k-x_j)^2}{r_{k'j'}^2}\bigg]\frac{1}{r_{k'j'}}
+\end{equation*}
+respectively, where $j$ yields the same dimension as $k$.
+
+The derivative of those again with respect to $\gamma$ are
+\begin{equation*}
+\partial_{\gamma}\nabla_k\ln J = -2 \sum_{j'\neq k'=1}^N\frac{\beta_{k'j'}}{(1+\gamma r_{k'j'})^3}(x_k-x_j)
+\end{equation*}
+and
+\begin{equation*}
+\partial_{\gamma}\nabla_k^2\ln J = -2 \sum_{j'\neq k'=1}^N\frac{\beta_{k'j'}}{(1+\gamma r_{k'j'})^3}\bigg[1-4\frac{\gamma r_{k'j'}}{1+\gamma r_{k'j'}}\frac{(x_k-x_j)^2}{r_{k'j'}^2}\bigg]
+\end{equation*}
+By defining 
+\begin{equation*}
+f_{ij}=\frac{1}{1+\gamma r_{ij}}\quad g_{ij}=\frac{x_i-x_j}{r_{i'j'}}\quad h_{ij}=\frac{r_{ij}}{1+\gamma r_{ij}}
+\end{equation*}
+the equations can be written as
+\begin{empheq}[box={\mybluebox[5pt]}]{align}
+\frac{J_{\text{new}}^2}{J_{\text{old}}^2}&=\exp\Big(2\sum_{j'=1}^N\beta_{i'j'}(h_{i'j'}^{\text{new}}-h_{i'j'}^{\text{old}})\Big)\notag\\
+\nabla_k\ln J &=\sum_{j'\neq k'=1}^N\beta_{k'j'}\cdot f_{k'j'}^2\cdot g_{kj}\notag\\
+\nabla_k^2\ln J &= \sum_{j'\neq k'=1}^N\frac{\beta_{k'j'}}{r_{k'j'}}f_{k'j'}^2\Big[1-(1+2\gamma h_{k'j'})g_{kj}^2\Big]\\
+\partial_{\gamma}\nabla_k\ln J &=\sum_{j'\neq k'=1}^N\beta_{k'j'}\cdot f_{k'j'}^3(x_k-x_j)\notag\\
+\partial_{\gamma}\nabla_k^2\ln J &= \sum_{j'\neq k'=1}^N \beta_{k'j'}\cdot f_{k'j'}^3\Big[1=4\gamma h_{k'j'}\cdot g_{kj}^2\Big]\notag,
+\end{empheq}
+with marked indices ($i'$) as the particle related ones and the unmarked ($i$) as the coordinate related ones. $i'$ is the moved particle. 
+
+\subsection{Slater Determinant}
+We need to introduce the Slater Determinant to study more fermions. 
+
+\subsection{NQS-Gaussian}
+Now over to the real deal; the machine learning inspired wave function elements. The total NQS wave function, presented in equation \eqref{eq:NQSWF}, was decided split up in case we wanted to run them separately. The first part will henceforth be denoted as the NQS-Gaussian,
+\begin{equation}
+\Psi(\bs{x};\bs{a})=\exp(-\sum_{i=1}^M\frac{(x_i-a_i)^2}{2\sigma^2})
+\end{equation}
+while the last part will be denoted as the NQS-Jastrow and is presented in the next subsection. 
+
+The derivatives of the NQS-Gaussian are similar to those of the simple Gaussian, they are therefore just listed up in equation \eqref{eq:NQSGaussian}.
+
+\begin{empheq}[box={\mybluebox[5pt]}]{align}
+\label{eq:NQSGaussian}
+\frac{\Psi_{\text{new}}^2}{\Psi_{\text{old}}^2}&=\exp\Big((x_i^{\text{old}}+x_i^{\text{new}}-2a_i)(x_i^{\text{old}}-x_i^{\text{new}})\Big)\notag\\
+\nabla_k\ln\Psi &= -\frac{x_k-a_k}{\sigma^2}\notag\\
+\nabla_k^2\ln\Psi&=-\frac{1}{\sigma^2}\\
+\partial_{a_l}\nabla_k\ln\Psi&=\frac{1}{\sigma^2}\notag\\
+\partial_{a_l}\nabla_k^2\ln\Psi&=0\notag
+\end{empheq}
+
+\subsection{NQS-Jastrow Factor}
+\begin{equation*}
+J(\bs{x};\bs{b},\bs{W})=\prod_{j=1}^N\bigg[1+\exp\Big(b_j+\sum_{i=1}^M\frac{W_{ij}x_i}{\sigma^2}\Big)\bigg]
+\end{equation*}
+
+\begin{equation*}
+\nabla_k \ln J=\sum_{j=1}^N\frac{W_{kj}}{\sigma^2}\frac{\exp\big(b_j+\sum_{i=1}^M\frac{W_{ij}x_i}{\sigma^2}\big)}{1+\exp\big(b_j+\sum_{i=1}^M\frac{W_{ij}x_i}{\sigma^2}\big)}
+\end{equation*}
+
+\begin{equation*}
+\nabla_k^2 \ln J=\sum_{j=1}^N\frac{W_{kj}^2}{\sigma^4}\frac{\exp\big(b_j+\sum_{i=1}^M\frac{W_{ij}x_i}{\sigma^2}\big)}{\Big(1+\exp\big(b_j+\sum_{i=1}^M\frac{W_{ij}x_i}{\sigma^2}\big)\Big)^2}
+\end{equation*}
+
+\begin{equation*}
+\partial_{b_l}\nabla_k \ln J=\frac{W_{kl}}{\sigma^2}\frac{\exp\big(b_l+\sum_{i=1}^M\frac{W_{il}x_i}{\sigma^2}\big)}{\Big(1+\exp\big(b_l+\sum_{i=1}^M\frac{W_{il}x_i}{\sigma^2}\big)\Big)^2}
+\end{equation*}
+
+\begin{equation*}
+\partial_{b_l}\nabla_k^2 \ln J=\frac{W_{kl}^2}{\sigma^4}\frac{\exp\big(b_l+\sum_{i=1}^M\frac{W_{il}x_i}{\sigma^2}\big)\Big(1-\exp\big(b_l+\sum_{i=1}^M\frac{W_{il}x_i}{\sigma^2}\big)\Big)}{\Big(1+\exp\big(b_l+\sum_{i=1}^M\frac{W_{il}x_i}{\sigma^2}\big)\Big)^3}
+\end{equation*}
+
+\begin{equation*}
+\partial_{W_{ml}}\nabla_k \ln J=\frac{1}{\sigma^2}\frac{\exp\big(b_l+\sum_{i=1}^M\frac{W_{il}x_i}{\sigma^2}\big)}{1+\exp\big(b_l+\sum_{i=1}^M\frac{W_{il}x_i}{\sigma^2}\big)}\delta_{mk}
++\frac{W_{kl}x_m}{\sigma^4}\frac{\exp\big(b_l+\sum_{i=1}^M\frac{W_{il}x_i}{\sigma^2}\big)}{\Big(1+\exp\big(b_l+\sum_{i=1}^M\frac{W_{il}x_i}{\sigma^2}\big)\Big)^2}
+\end{equation*}
+
+\begin{equation*}
+\partial_{W_{ml}}\nabla_k^2 \ln J=2\frac{W_{kl}}{\sigma^4}\frac{\exp\big(b_l+\sum_{i=1}^M\frac{W_{il}x_i}{\sigma^2}\big)}{\Big(1+\exp\big(b_l+\sum_{i=1}^M\frac{W_{il}x_i}{\sigma^2}\big)\Big)^2}\delta_{mk}
++\frac{W_{kl}^2x_m}{\sigma^4}\frac{\exp\big(b_l+\sum_{i=1}^M\frac{W_{il}x_i}{\sigma^2}\big)}{\Big(1+\exp\big(b_l+\sum_{i=1}^M\frac{W_{il}x_i}{\sigma^2}\big)\Big)^3}
+\end{equation*}
+where $\delta_{ij}$ is the Kronecker delta. Defining 
+\begin{equation*}
+p_j\equiv \frac{1}{1+\exp\big(+b_j+\sum_{i=1}^M\frac{W_{ij}x_i}{\sigma^2}\big)}\quad\text{and}\quad n_j\equiv \frac{1}{1+\exp\big(-b_j-\sum_{i=1}^M\frac{W_{ij}x_i}{\sigma^2}\big)}
+\end{equation*}
+the expressions above can be simplified in the following fashion
+\begin{empheq}[box={\mybluebox[5pt]}]{align}
+\frac{J_{\text{new}}^2}{J_{\text{old}}^2}&=\prod_{j=1}^N\frac{p_j^{\text{old}}}{p_j^{\text{new}}}\notag\\
+\nabla_k\ln J &=\sum_{j=1}^N\frac{W_{kj}}{\sigma^2}n_j\notag\\
+\nabla_k^2\ln J &= \sum_{j=1}^N\frac{W_{kj}^2}{\sigma^4}p_jn_j\notag\\
+\partial_{b_l}\nabla_k\ln J &=\frac{W_{kl}}{\sigma^2}p_ln_l\\
+\partial_{b_l}\nabla_k^2\ln J &=\frac{W_{kl}^2}{\sigma^4}p_ln_l(p_l-n_l)\notag\\
+\partial_{W_{ml}}\nabla_k\ln J &=\frac{1}{\sigma^2}n_l\delta_{mk}+\frac{W_{kl}x_m}{\sigma^4}p_ln_l\notag\\
+\partial_{W_{ml}}\nabla_k^2\ln J &=2\frac{W_{kl}}{\sigma^4}p_ln_l\delta_{mk}+\frac{W_{kl}^2x_m}{\sigma^6}p_ln_l(p_l-n_l)\notag
+\end{empheq}
+
+\subsection{Hydrogen-Like Orbitals}
+\begin{equation}
+\Psi(\alpha, \bs{r})=\exp\Big[-\frac{1}{2}\alpha\sum_{i=1}^Nr_i\Big]
+\end{equation}
+where the derivative with respect to coordinate $r_k$ is
+\begin{equation}
+\nabla_k\ln\Psi(\alpha)=-\alpha
+\end{equation}
+and the second derivative is
+\begin{equation}
+\nabla_k^2\ln\Psi(\alpha)=0
+\end{equation}
+The gradients for those derivatives are
+\begin{equation}
+\partial_{\alpha} \nabla_k\ln\Psi(\alpha)=-1
+\end{equation}
+and
+\begin{equation}
+\partial_{\alpha} \nabla_k^2\ln\Psi(\alpha)=0
+\end{equation}
+respectively.  
