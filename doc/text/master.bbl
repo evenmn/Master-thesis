@@ -307,6 +307,45 @@
     \field{year}{2005}
   \endentry
 
+  \entry{trahan_computational_2006}{article}{}
+    \name{author}{3}{}{%
+      {{hash=TJ}{%
+         family={Trahan},
+         familyi={T\bibinitperiod},
+         given={Jamie},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=KA}{%
+         family={Kaw},
+         familyi={K\bibinitperiod},
+         given={Autar},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=MK}{%
+         family={Martin},
+         familyi={M\bibinitperiod},
+         given={Kevin},
+         giveni={K\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{TJKAMK1}
+    \strng{fullhash}{TJKAMK1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{shorttitle}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{shorttitle}{Computational time for finding the inverse of a matrix}
+    \field{title}{Computational time for finding the inverse of a matrix: {LU}
+  decomposition vs. naive gaussian elimination}
+    \verb{file}
+    \verb Full Text:/home/evenmn/Zotero/storage/SUYR3PK3/Trahan et al. - 2006 -
+    \verb  Computational time for finding the inverse of a ma.pdf:application/p
+    \verb df
+    \endverb
+    \field{journaltitle}{University of South Florida}
+    \field{year}{2006}
+  \endentry
+
   \entry{daniel_crawford_introduction_2007}{incollection}{}
     \name{author}{2}{}{%
       {{hash=DCT}{%

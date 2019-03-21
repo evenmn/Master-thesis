@@ -121,7 +121,7 @@ The particles that have an antisymmetric (AS) wavefunction under exchange of two
 
 It turns out that because of their antisymmetric wavefunction, two identical fermions cannot be found at the same position at the same time, known as the Pauli principle. This causes some difficulties when dealing with multiple fermions, because we always need to ensure that the total wavefunction becomes zero if two identical particles happen to be at the same position. To do this, we introduce a Slater determinant as described below. In this particular project, we are going to focus on electrons and therefore fermions. However, much of the theory applies for bosons as well.
 
-\subsection{Slater determinant} \label{subsubsec:slater}
+\subsection{Slater determinant} \label{subsec:slater}
 For a system of more particles we can define a total wavefunction, which is a composition of all the single particle wavefunctions (SPF) and contains all the information about the system. For fermions we need to compile the SPFs such that the Pauli principle is fulfilled at all times. One way to do this is by setting up the SPFs in a determinant, known as a Slater determinant.
 
 Consider a system of two identical fermions with SPFs $\phi_1$ and $\phi_2$ at positions $\boldsymbol{r}_1$ and $\boldsymbol{r}_2$ respectively. The way we define the wavefunction of the system is then
@@ -203,9 +203,20 @@ Often, one will see that the basis is optimized by the Hartree-Fock method. Usin
 \subsection{Jastrow factor} \label{subsubsec:jastrow}
 From electrostatics we know that identical, charged particles will repel each other. This means that the probability of finding two particles close to each other should be low, which needs to be baked into the wave function. One way to do this is to simply multiply the wave function with the distance between the particles; the smaller distance the lower probability. Nevertheless, this does not fulfill the normalizability requirement of the trial wave function, but the same idea lies behind the Padé-Jastrow factor, which reads
 \begin{equation}
-J(\bs{r}; \beta, \gamma) = \exp\bigg(\sum_{i=1}^N\sum_{j=1}^i\frac{\beta(i,j)r_{ij}}{1+\gamma r_{ij}}\bigg).
+J(\bs{r}; \beta, \gamma) = \exp\bigg(\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\frac{\beta_{ij}r_{ij}}{1+\gamma r_{ij}}\bigg).
 \label{eq:PadeJastrow}
 \end{equation}
+$\gamma$ is a variational parameter, while $\beta_{ij}$ depends on the spin of the interacting objects in the following way:
+\begin{equation}
+\label{eq:ajastrow}
+a_{ij}=
+\begin{cases} 
+e^2/8D & \text{if $i,j$ are particles of same spin} \\
+e^2/4D & \text{if $i,j$ are particles of opposite spin}\\
+e^2/2D & \text{if $i,j$ are electron-nuclear pairs}
+\end{cases}
+\end{equation}
+
 This Jastrow factor is known to give accurate results for fermions and bosons because it gives the correct cusp condition, and it is the one we gonna use in the standard variational Monte-Carlo simulations. There are also plenty of other Jastrow factors, and in this project we will see if we can create a more flexible and general Jastrow factor using machine learning. Exactly how this is done is presented in chapter \eqref{chp:machinelearning}.
 
 
