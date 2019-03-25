@@ -422,6 +422,52 @@
     \field{year}{2008}
   \endentry
 
+  \entry{hogberget_quantum_2013}{article}{}
+    \name{author}{1}{}{%
+      {{hash=HJ}{%
+         family={Høgberget},
+         familyi={H\bibinitperiod},
+         given={Jørgen},
+         giveni={J\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {eng}%
+    }
+    \strng{namehash}{HJ1}
+    \strng{fullhash}{HJ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{abstract}{%
+    Oppgaven omhandler utviklingen av en generell Quantum Monte-Carlo (QMC)
+  -løser. Dette er gjort ved å bruke objekt-orientert C++. Oppgaven begynner
+  med en itrodusjon av dette, samt Python-scripting. Videre gås teorien bak
+  QMC grundig igjennom. Optimeringer blir også dekket, ettersom løseren
+  skulle kjøres for et høyt antall partikler. Deretter diskuteres de
+  forskjellige systemene som har blitt simulert, før resultatene fremlegges og
+  diskuteres. De modellerte systemene er kvanteprikker i to og tre dimensjoner,
+  i tillegg til en dobbeltbrønn, atomer og homonukleære diatomiske
+  molekyler.%
+    }
+    \field{title}{Quantum {Monte}-{Carlo} {Studies} of {Generalized}
+  {Many}-body {Systems}}
+    \verb{url}
+    \verb https://www.duo.uio.no/handle/10852/37167
+    \endverb
+    \verb{file}
+    \verb Full Text PDF:/home/evenmn/Zotero/storage/PELJ9DCI/Høgberget - 2013
+    \verb - Quantum Monte-Carlo Studies of Generalized Many-bo.pdf:application/
+    \verb pdf;Snapshot:/home/evenmn/Zotero/storage/GSTFMX8L/37167.html:text/htm
+    \verb l
+    \endverb
+    \field{year}{2013}
+    \field{urlday}{22}
+    \field{urlmonth}{03}
+    \field{urlyear}{2019}
+  \endentry
+
   \entry{stodolna_hydrogen_2013}{article}{}
     \name{author}{9}{}{%
       {{hash=SAS}{%
