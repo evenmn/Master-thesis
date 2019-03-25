@@ -380,12 +380,17 @@ INSERT FIGURE
 
 In the same manner as in a Feed-forward Neural Network, we can directly multiply each node $s_i$ with its respective inner weights $w_{ij}$ and then with the opposite node $s_j$, which defines the system energy together with the bias contributions. This gives the energy
 \begin{equation}
-E=-\sum_{i=1}^N\sum_{j=i}^N s_iw_{ij}s_j - \sum_{i=1}^Ns_ib_i
+E=- \sum_{i=1}^Ns_ib_i-\sum_{i=1}^N\sum_{j=i}^N s_iw_{ij}s_j 
+\label{eq:unrestrictedboltzmannmachine}
 \end{equation}
 for a system of $N$ nodes, which is the so-called binary-binary network and the most basic architecture. During training, the weights are adjusted in order to maximize the probability...
 
 \subsection{Restricted Boltzmann Machines}
-When there is an unrestricted guy, a restricted guy must exist as well. 
+When there is an unrestricted guy, a restricted guy must exist as well. What we term restricted means in this case, is that we ignore intra-layer connections and keep only the inter-layer ones. In the same manner as in equation \eqref{eq:unrestrictedboltzmannmachine}, we can look at the linear case, where each node is multiplied with the corresponding weight. We decide to split the bias nodes into one part connected to the \textit{visible} layer, $a_i$, and one part connected to the \textit{hidden} layer, $b_i$. The system energy then reads
+\begin{equation}
+E=- \sum_{i=1}^Mx_ia_i- \sum_{j=1}^Nh_jb_j-\sum_{i=1}^N\sum_{j=i}^N s_iw_{ij}s_j 
+\label{eq:binarybinary}
+\end{equation}
 
 \begin{equation}
 \Psi(\bs{x};\bs{a},\bs{b},\bs{W})=\exp(-\sum_{i=1}^M\frac{(x_i-a_i)^2}{2\sigma^2})\prod_{j=1}^N\bigg(1+\exp\Big(b_j+\sum_{i=1}^N\frac{W_{ij}x_i}{\sigma^2}\Big)\bigg)
