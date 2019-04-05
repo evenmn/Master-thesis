@@ -1,0 +1,950 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 2.9 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated as
+% required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+\datalist[entry]{ynt/global//global/global}
+  \entry{legendre_nouvelles_1805}{article}{}
+    \name{author}{1}{}{%
+      {{hash=LA}{%
+         family={Legendre},
+         familyi={L\bibinitperiod},
+         given={A.M.},
+         giveni={A\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{LA1}
+    \strng{fullhash}{LA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{1}
+    \field{sortinithash}{1}
+    \field{title}{Nouvelles méthodes pour la détermination des orbites des
+  comètes}
+    \field{year}{1805}
+  \endentry
+
+  \entry{gauss_theoria_1809}{article}{}
+    \name{author}{1}{}{%
+      {{hash=GC}{%
+         family={Gauss},
+         familyi={G\bibinitperiod},
+         given={C.F.},
+         giveni={C\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{GC1}
+    \strng{fullhash}{GC1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{1}
+    \field{sortinithash}{1}
+    \field{title}{Theoria {Motus} {Corporum} {Coelestium} in {Sectionibus}
+  {Conicis} {Solem} {Ambientum}}
+    \field{year}{1809}
+  \endentry
+
+  \entry{dirac_new_1939}{article}{}
+    \name{author}{1}{}{%
+      {{hash=DPAM}{%
+         family={Dirac},
+         familyi={D\bibinitperiod},
+         given={P.\bibnamedelima A.\bibnamedelima M.},
+         giveni={P\bibinitperiod\bibinitdelim A\bibinitperiod\bibinitdelim
+  M\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{DPAM1}
+    \strng{fullhash}{DPAM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{1}
+    \field{sortinithash}{1}
+    \verb{doi}
+    \verb 10.1017/S0305004100021162
+    \endverb
+    \field{number}{3}
+    \field{pages}{416\bibrangedash 418}
+    \field{title}{A new notation for quantum mechanics}
+    \field{volume}{35}
+    \field{journaltitle}{Mathematical Proceedings of the Cambridge
+  Philosophical Society}
+    \field{year}{1939}
+  \endentry
+
+  \entry{heisenberg_physics_1971}{book}{}
+    \name{author}{1}{}{%
+      {{hash=HW}{%
+         family={Heisenberg},
+         familyi={H\bibinitperiod},
+         given={W.},
+         giveni={W\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{2}{%
+      {Allen}%
+      {Unwin}%
+    }
+    \strng{namehash}{HW1}
+    \strng{fullhash}{HW1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{1}
+    \field{sortinithash}{1}
+    \field{series}{Harper torchbooks. {The} {Academy} library}
+    \field{title}{Physics and {Beyond}: {Encounters} and {Conversations}}
+    \verb{url}
+    \verb https://books.google.no/books?id=O-dEAAAAIAAJ
+    \endverb
+    \field{year}{1971}
+  \endentry
+
+  \entry{leinaas_one_1977}{article}{}
+    \name{author}{2}{}{%
+      {{hash=LJ}{%
+         family={Leinaas},
+         familyi={L\bibinitperiod},
+         given={J.M.},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=MJ}{%
+         family={Myrheim},
+         familyi={M\bibinitperiod},
+         given={J.},
+         giveni={J\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{LJMJ1}
+    \strng{fullhash}{LJMJ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{1}
+    \field{sortinithash}{1}
+    \field{number}{1}
+    \field{title}{One the theory of identical particles}
+    \field{volume}{37}
+    \field{journaltitle}{IL NUOVO CIMENTO}
+    \field{month}{08}
+    \field{year}{1977}
+  \endentry
+
+  \entry{taut_two_1993}{article}{}
+    \name{author}{1}{}{%
+      {{hash=TM}{%
+         family={Taut},
+         familyi={T\bibinitperiod},
+         given={M.},
+         giveni={M\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{TM1}
+    \strng{fullhash}{TM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{shorttitle}
+    \field{sortinit}{1}
+    \field{sortinithash}{1}
+    \field{abstract}{%
+    The problem of the Schrödinger equation for two electrons (interacting
+  with Coulomb potentials) in an external harmonic-oscillator potential is
+  revisited and shown to be solvable analytically for a particular, denumerably
+  infinite set of oscillator frequencies. Solutions are given for ground and
+  excited states in the singlet and triplet spin configurations.%
+    }
+    \verb{doi}
+    \verb 10.1103/PhysRevA.48.3561
+    \endverb
+    \field{number}{5}
+    \field{pages}{3561\bibrangedash 3566}
+    \field{shorttitle}{Two electrons in an external oscillator potential}
+    \field{title}{Two electrons in an external oscillator potential:
+  {Particular} analytic solutions of a {Coulomb} correlation problem}
+    \verb{url}
+    \verb https://link.aps.org/doi/10.1103/PhysRevA.48.3561
+    \endverb
+    \field{volume}{48}
+    \verb{file}
+    \verb APS Snapshot:/home/evenmn/Zotero/storage/J2DIF2FB/PhysRevA.48.html:te
+    \verb xt/html;Full Text PDF:/home/evenmn/Zotero/storage/VI5FZYVP/Taut - 199
+    \verb 3 - Two electrons in an external oscillator potential.pdf:application
+    \verb /pdf
+    \endverb
+    \field{journaltitle}{Physical Review A}
+    \field{month}{11}
+    \field{year}{1993}
+    \field{urlday}{13}
+    \field{urlmonth}{03}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{szabo_modern_1996}{book}{}
+    \name{author}{2}{}{%
+      {{hash=SA}{%
+         family={Szabo},
+         familyi={S\bibinitperiod},
+         given={Attila},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=ONS}{%
+         family={Ostlund},
+         familyi={O\bibinitperiod},
+         given={Neil\bibnamedelima S.},
+         giveni={N\bibinitperiod\bibinitdelim S\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {English}%
+    }
+    \list{publisher}{1}{%
+      {Dover Publications}%
+    }
+    \strng{namehash}{SAONS1}
+    \strng{fullhash}{SAONS1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{shorttitle}
+    \field{sortinit}{1}
+    \field{sortinithash}{1}
+    \field{abstract}{%
+    The aim of this graduate-level textbook is to present and explain, at other
+  than a superficial level, modem ab initio approaches to the calculation of
+  the electronic structure and properties of molecules. The first three
+  chapters contain introductory material culminating in a thorough discussion
+  of the Hartree-Fock approximation.The remaining four chapters describe a
+  variety of more sophisticated approaches, which improve upon this
+  approximation.Among the highlights of the seven chapters are (1) a review of
+  the mathematics (mostly matrix algebra) required for the rest of the book,
+  (2) an introduction to the basic techniques, ideas, and notations of quantum
+  chemistry, (3) a thorough discussion of the Hartree-Fock approximation, (4) a
+  treatment of configuration interaction (Cl) and approaches incorporating
+  electron correlation, (5) a description of the independent electron pair
+  approximation and a variety of more sophisticated approaches that incorporate
+  coupling between pairs, (6) a consideration of the perturbative approach to
+  the calculation of the correlation energy of many-electron systems and (7) a
+  brief introduction to the use of the one-particle many-body Green's function
+  in quantum chemistry.Over 150 exercises, designed to help the reader acquire
+  a working knowledge of the material, are embedded in the text. The book is
+  largely self-contained and requires no prerequisite other than a solid
+  undergraduate physical chemistry course; however, some exposure to quantum
+  chemistry will enhance the student's appreciation of the material. Clear and
+  well-written, this text is ideal for the second semester of a two-semester
+  course in quantum chemistry, or for a special topics course.%
+    }
+    \field{edition}{Revised ed. edition}
+    \field{isbn}{978-0-486-69186-2}
+    \field{shorttitle}{Modern {Quantum} {Chemistry}}
+    \field{title}{Modern {Quantum} {Chemistry}: {Introduction} to {Advanced}
+  {Electronic} {Structure} {Theory}}
+    \list{location}{1}{%
+      {Mineola, N.Y}%
+    }
+    \field{month}{07}
+    \field{year}{1996}
+  \endentry
+
+  \entry{griffiths_introduction_2005}{book}{}
+    \name{author}{1}{}{%
+      {{hash=GD}{%
+         family={Griffiths},
+         familyi={G\bibinitperiod},
+         given={D.J.},
+         giveni={D\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Pearson PH}%
+    }
+    \strng{namehash}{GD1}
+    \strng{fullhash}{GD1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{edition}{2nd Edition}
+    \field{isbn}{0-13-191175-9}
+    \field{title}{Introduction to quantum mechanics}
+    \field{year}{2005}
+  \endentry
+
+  \entry{paldus_beginnings_2005}{book}{}
+    \name{author}{1}{}{%
+      {{hash=PJ}{%
+         family={Paldus},
+         familyi={P\bibinitperiod},
+         given={Josef},
+         giveni={J\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Elsevier}%
+    }
+    \strng{namehash}{PJ1}
+    \strng{fullhash}{PJ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \verb{doi}
+    \verb 10.1016/B978-044451719-7/50050-0
+    \endverb
+    \field{isbn}{978-0-444-51719-7}
+    \field{title}{The beginnings of coupled-cluster theory: {An} eyewitness
+  account}
+    \list{location}{1}{%
+      {Amsterdam}%
+    }
+    \field{year}{2005}
+  \endentry
+
+  \entry{trahan_computational_2006}{article}{}
+    \name{author}{3}{}{%
+      {{hash=TJ}{%
+         family={Trahan},
+         familyi={T\bibinitperiod},
+         given={Jamie},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=KA}{%
+         family={Kaw},
+         familyi={K\bibinitperiod},
+         given={Autar},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=MK}{%
+         family={Martin},
+         familyi={M\bibinitperiod},
+         given={Kevin},
+         giveni={K\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{TJKAMK1}
+    \strng{fullhash}{TJKAMK1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{shorttitle}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{shorttitle}{Computational time for finding the inverse of a matrix}
+    \field{title}{Computational time for finding the inverse of a matrix: {LU}
+  decomposition vs. naive gaussian elimination}
+    \verb{file}
+    \verb Full Text:/home/evenmn/Zotero/storage/SUYR3PK3/Trahan et al. - 2006 -
+    \verb  Computational time for finding the inverse of a ma.pdf:application/p
+    \verb df
+    \endverb
+    \field{journaltitle}{University of South Florida}
+    \field{year}{2006}
+  \endentry
+
+  \entry{daniel_crawford_introduction_2007}{incollection}{}
+    \name{author}{2}{}{%
+      {{hash=DCT}{%
+         family={Daniel\bibnamedelima Crawford},
+         familyi={D\bibinitperiod\bibinitdelim C\bibinitperiod},
+         given={T},
+         giveni={T},
+      }}%
+      {{hash=FSIH}{%
+         family={F.\bibnamedelima Schaefer\bibnamedelima III},
+         familyi={F\bibinitperiod\bibinitdelim S\bibinitperiod\bibinitdelim
+  I\bibinitperiod},
+         given={Henry},
+         giveni={H\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{DCTFSIH1}
+    \strng{fullhash}{DCTFSIH1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{booktitle}{Rev {Comp} {Chem}}
+    \verb{doi}
+    \verb 10.1002/9780470125915.ch2
+    \endverb
+    \field{isbn}{978-0-470-12591-5}
+    \field{pages}{33 \bibrangedash  136}
+    \field{title}{An {Introduction} to {Coupled} {Cluster} {Theory} for
+  {Computational} {Chemists}}
+    \field{volume}{14}
+    \field{year}{2007}
+  \endentry
+
+  \entry{weisstein_kelvin_2007}{book}{}
+    \name{author}{1}{}{%
+      {{hash=WE}{%
+         family={Weisstein},
+         familyi={W\bibinitperiod},
+         given={E.W},
+         giveni={E\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{WE1}
+    \strng{fullhash}{WE1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{title}{Kelvin, {Lord} {William} {Thomson} (1824-1907)}
+    \verb{url}
+    \verb http://scienceworld.wolfram.com/biography/Kelvin.html
+    \endverb
+    \field{year}{2007}
+  \endentry
+
+  \entry{nissenbaum_stochastic_2008}{article}{}
+    \name{author}{1}{}{%
+      {{hash=ND}{%
+         family={Nissenbaum},
+         familyi={N\bibinitperiod},
+         given={D.A.},
+         giveni={D\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{ND1}
+    \strng{fullhash}{ND1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{title}{The stochastic gradient approximation: an application to li
+  nanoclusters}
+    \field{year}{2008}
+  \endentry
+
+  \entry{hogberget_quantum_2013}{article}{}
+    \name{author}{1}{}{%
+      {{hash=HJ}{%
+         family={Høgberget},
+         familyi={H\bibinitperiod},
+         given={Jørgen},
+         giveni={J\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {eng}%
+    }
+    \strng{namehash}{HJ1}
+    \strng{fullhash}{HJ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{abstract}{%
+    Oppgaven omhandler utviklingen av en generell Quantum Monte-Carlo (QMC)
+  -løser. Dette er gjort ved å bruke objekt-orientert C++. Oppgaven begynner
+  med en itrodusjon av dette, samt Python-scripting. Videre gås teorien bak
+  QMC grundig igjennom. Optimeringer blir også dekket, ettersom løseren
+  skulle kjøres for et høyt antall partikler. Deretter diskuteres de
+  forskjellige systemene som har blitt simulert, før resultatene fremlegges og
+  diskuteres. De modellerte systemene er kvanteprikker i to og tre dimensjoner,
+  i tillegg til en dobbeltbrønn, atomer og homonukleære diatomiske
+  molekyler.%
+    }
+    \field{title}{Quantum {Monte}-{Carlo} {Studies} of {Generalized}
+  {Many}-body {Systems}}
+    \verb{url}
+    \verb https://www.duo.uio.no/handle/10852/37167
+    \endverb
+    \verb{file}
+    \verb Full Text PDF:/home/evenmn/Zotero/storage/PELJ9DCI/Høgberget - 2013
+    \verb - Quantum Monte-Carlo Studies of Generalized Many-bo.pdf:application/
+    \verb pdf;Snapshot:/home/evenmn/Zotero/storage/GSTFMX8L/37167.html:text/htm
+    \verb l
+    \endverb
+    \field{year}{2013}
+    \field{urlday}{22}
+    \field{urlmonth}{03}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{stodolna_hydrogen_2013}{article}{}
+    \name{author}{9}{}{%
+      {{hash=SAS}{%
+         family={Stodolna},
+         familyi={S\bibinitperiod},
+         given={A.\bibnamedelima S.},
+         giveni={A\bibinitperiod\bibinitdelim S\bibinitperiod},
+      }}%
+      {{hash=RA}{%
+         family={Rouzée},
+         familyi={R\bibinitperiod},
+         given={A.},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=LF}{%
+         family={Lépine},
+         familyi={L\bibinitperiod},
+         given={F.},
+         giveni={F\bibinitperiod},
+      }}%
+      {{hash=CS}{%
+         family={Cohen},
+         familyi={C\bibinitperiod},
+         given={S.},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=RF}{%
+         family={Robicheaux},
+         familyi={R\bibinitperiod},
+         given={F.},
+         giveni={F\bibinitperiod},
+      }}%
+      {{hash=GA}{%
+         family={Gijsbertsen},
+         familyi={G\bibinitperiod},
+         given={A.},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=JJH}{%
+         family={Jungmann},
+         familyi={J\bibinitperiod},
+         given={J.\bibnamedelima H.},
+         giveni={J\bibinitperiod\bibinitdelim H\bibinitperiod},
+      }}%
+      {{hash=BC}{%
+         family={Bordas},
+         familyi={B\bibinitperiod},
+         given={C.},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=VMJJ}{%
+         family={Vrakking},
+         familyi={V\bibinitperiod},
+         given={M.\bibnamedelima J.\bibnamedelima J.},
+         giveni={M\bibinitperiod\bibinitdelim J\bibinitperiod\bibinitdelim
+  J\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{SAS+1}
+    \strng{fullhash}{SASRALFCSRFGAJJHBCVMJJ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \verb{doi}
+    \verb 10.1103/PhysRevLett.110.213001
+    \endverb
+    \field{number}{21}
+    \field{pages}{213001}
+    \field{title}{Hydrogen {Atoms} under {Magnification}: {Direct}
+  {Observation} of the {Nodal} {Structure} of {Stark} {States}}
+    \verb{url}
+    \verb https://link.aps.org/doi/10.1103/PhysRevLett.110.213001
+    \endverb
+    \field{volume}{110}
+    \field{journaltitle}{Phys. Rev. Lett.}
+    \field{month}{05}
+    \field{year}{2013}
+  \endentry
+
+  \entry{calcavecchia_sign_2014}{article}{}
+    \name{author}{4}{}{%
+      {{hash=CF}{%
+         family={Calcavecchia},
+         familyi={C\bibinitperiod},
+         given={Francesco},
+         giveni={F\bibinitperiod},
+      }}%
+      {{hash=PF}{%
+         family={Pederiva},
+         familyi={P\bibinitperiod},
+         given={Francesco},
+         giveni={F\bibinitperiod},
+      }}%
+      {{hash=KMH}{%
+         family={Kalos},
+         familyi={K\bibinitperiod},
+         given={Malvin\bibnamedelima H.},
+         giveni={M\bibinitperiod\bibinitdelim H\bibinitperiod},
+      }}%
+      {{hash=KTD}{%
+         family={Kühne},
+         familyi={K\bibinitperiod},
+         given={Thomas\bibnamedelima D.},
+         giveni={T\bibinitperiod\bibinitdelim D\bibinitperiod},
+      }}%
+    }
+    \keyw{Condensed Matter - Disordered Systems and Neural Networks, Quantum
+  Physics, Condensed Matter - Statistical Mechanics, Condensed Matter -
+  Strongly Correlated Electrons, Physics - Computational Physics}
+    \strng{namehash}{CF+1}
+    \strng{fullhash}{CFPFKMHKTD1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{abstract}{%
+    We present a whole series of novel methods to alleviate the sign problem of
+  the Fermionic Shadow Wave Function in the context of Variational Monte Carlo.
+  The effectiveness of our new techniques is demonstrated on the example of
+  liquid 3He. We found that although the variance is substantially reduced, the
+  gain in efficiency is restricted by the increased computational cost. Yet,
+  this development not only extends the scope of the Fermionic Shadow Wave
+  Function, but also facilitates highly accurate Quantum Monte Carlo
+  simulations previously thought not feasible.%
+    }
+    \verb{doi}
+    \verb 10.1103/PhysRevE.90.053304
+    \endverb
+    \field{issn}{1539-3755, 1550-2376}
+    \field{note}{arXiv: 1404.6944}
+    \field{number}{5}
+    \field{title}{On the {Sign} {Problem} of the {Fermionic} {Shadow} {Wave}
+  {Function}}
+    \verb{url}
+    \verb http://arxiv.org/abs/1404.6944
+    \endverb
+    \field{volume}{90}
+    \verb{file}
+    \verb arXiv\:1404.6944 PDF:/home/evenmn/Zotero/storage/V2FWZENT/Calcavecchi
+    \verb a et al. - 2014 - On the Sign Problem of the Fermionic Shadow Wave F.
+    \verb pdf:application/pdf;arXiv.org Snapshot:/home/evenmn/Zotero/storage/5R
+    \verb TIE6J8/1404.html:text/html
+    \endverb
+    \field{journaltitle}{Physical Review E}
+    \field{annotation}{%
+    Comment: 11 pages, 6 figures, 5 tables%
+    }
+    \field{month}{11}
+    \field{year}{2014}
+    \field{urlday}{13}
+    \field{urlmonth}{03}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{deb_variational_2014}{article}{}
+    \name{author}{1}{}{%
+      {{hash=DS}{%
+         family={Deb},
+         familyi={D\bibinitperiod},
+         given={Sukanta},
+         giveni={S\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{DS1}
+    \strng{fullhash}{DS1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{abstract}{%
+    In this article, I discuss the use of the Variational Monte Carlo technique
+  in the determination of ground state energies of quantum harmonic oscillators
+  in one and three dimensions. In order to provide a better understanding of
+  this technique, a pre-requisite concept of Monte Carlo integration is also
+  discussed along with numerical examples. The technique can be easily extended
+  to study the ground state energies of hydrogen atom, particle in a box,
+  helium atom and other complex microscopic systems involving N particles in
+  d-dimensions.%
+    }
+    \verb{doi}
+    \verb 10.1007/s12045-014-0079-x
+    \endverb
+    \field{issn}{0973-712X}
+    \field{number}{8}
+    \field{pages}{713\bibrangedash 739}
+    \field{title}{Variational {Monte} {Carlo} technique}
+    \verb{url}
+    \verb https://doi.org/10.1007/s12045-014-0079-x
+    \endverb
+    \field{volume}{19}
+    \field{journaltitle}{Resonance}
+    \field{month}{08}
+    \field{year}{2014}
+  \endentry
+
+  \entry{kingma_adam:_2014}{article}{}
+    \name{author}{2}{}{%
+      {{hash=KDP}{%
+         family={Kingma},
+         familyi={K\bibinitperiod},
+         given={Diederik\bibnamedelima P.},
+         giveni={D\bibinitperiod\bibinitdelim P\bibinitperiod},
+      }}%
+      {{hash=BJ}{%
+         family={Ba},
+         familyi={B\bibinitperiod},
+         given={Jimmy},
+         giveni={J\bibinitperiod},
+      }}%
+    }
+    \keyw{Computer Science - Machine Learning}
+    \strng{namehash}{KDPBJ1}
+    \strng{fullhash}{KDPBJ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{shorttitle}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{abstract}{%
+    We introduce Adam, an algorithm for first-order gradient-based optimization
+  of stochastic objective functions, based on adaptive estimates of lower-order
+  moments. The method is straightforward to implement, is computationally
+  efficient, has little memory requirements, is invariant to diagonal rescaling
+  of the gradients, and is well suited for problems that are large in terms of
+  data and/or parameters. The method is also appropriate for non-stationary
+  objectives and problems with very noisy and/or sparse gradients. The
+  hyper-parameters have intuitive interpretations and typically require little
+  tuning. Some connections to related algorithms, on which Adam was inspired,
+  are discussed. We also analyze the theoretical convergence properties of the
+  algorithm and provide a regret bound on the convergence rate that is
+  comparable to the best known results under the online convex optimization
+  framework. Empirical results demonstrate that Adam works well in practice and
+  compares favorably to other stochastic optimization methods. Finally, we
+  discuss AdaMax, a variant of Adam based on the infinity norm.%
+    }
+    \field{note}{arXiv: 1412.6980}
+    \field{shorttitle}{Adam}
+    \field{title}{Adam: {A} {Method} for {Stochastic} {Optimization}}
+    \verb{url}
+    \verb http://arxiv.org/abs/1412.6980
+    \endverb
+    \verb{file}
+    \verb arXiv\:1412.6980 PDF:/home/evenmn/Zotero/storage/JSEXV938/Kingma and
+    \verb Ba - 2014 - Adam A Method for Stochastic Optimization.pdf:application
+    \verb /pdf;arXiv.org Snapshot:/home/evenmn/Zotero/storage/5SL7PDHD/1412.htm
+    \verb l:text/html
+    \endverb
+    \field{journaltitle}{arXiv:1412.6980 [cs]}
+    \field{annotation}{%
+    Comment: Published as a conference paper at the 3rd International
+  Conference for Learning Representations, San Diego, 2015%
+    }
+    \field{month}{12}
+    \field{year}{2014}
+    \field{urlday}{14}
+    \field{urlmonth}{03}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{ledum_simple_2016}{book}{}
+    \name{author}{1}{}{%
+      {{hash=LM}{%
+         family={Ledum},
+         familyi={L\bibinitperiod},
+         given={Morten},
+         giveni={M\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{LM1}
+    \strng{fullhash}{LM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{title}{Simple {Variational} {Monte} {Carlo} solve for {FYS}4411}
+    \verb{url}
+    \verb https://github.com/mortele/variational-monte-carlo-fys4411
+    \endverb
+    \field{year}{2016}
+  \endentry
+
+  \entry{carleo_solving_2017}{article}{}
+    \name{author}{2}{}{%
+      {{hash=CG}{%
+         family={Carleo},
+         familyi={C\bibinitperiod},
+         given={Giuseppe},
+         giveni={G\bibinitperiod},
+      }}%
+      {{hash=TM}{%
+         family={Troyer},
+         familyi={T\bibinitperiod},
+         given={Matthias},
+         giveni={M\bibinitperiod},
+      }}%
+    }
+    \keyw{Condensed Matter - Disordered Systems and Neural Networks, Condensed
+  Matter - Quantum Gases, Quantum Physics}
+    \strng{namehash}{CGTM1}
+    \strng{fullhash}{CGTM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{abstract}{%
+    The challenge posed by the many-body problem in quantum physics originates
+  from the difficulty of describing the non-trivial correlations encoded in the
+  exponential complexity of the many-body wave function. Here we demonstrate
+  that systematic machine learning of the wave function can reduce this
+  complexity to a tractable computational form, for some notable cases of
+  physical interest. We introduce a variational representation of quantum
+  states based on artificial neural networks with variable number of hidden
+  neurons. A reinforcement-learning scheme is then demonstrated, capable of
+  either finding the ground-state or describing the unitary time evolution of
+  complex interacting quantum systems. We show that this approach achieves very
+  high accuracy in the description of equilibrium and dynamical properties of
+  prototypical interacting spins models in both one and two dimensions, thus
+  offering a new powerful tool to solve the quantum many-body problem.%
+    }
+    \verb{doi}
+    \verb 10.1126/science.aag2302
+    \endverb
+    \field{issn}{0036-8075, 1095-9203}
+    \field{note}{arXiv: 1606.02318}
+    \field{number}{6325}
+    \field{pages}{602\bibrangedash 606}
+    \field{title}{Solving the {Quantum} {Many}-{Body} {Problem} with
+  {Artificial} {Neural} {Networks}}
+    \verb{url}
+    \verb http://arxiv.org/abs/1606.02318
+    \endverb
+    \field{volume}{355}
+    \verb{file}
+    \verb arXiv\:1606.02318 PDF:/home/evenmn/Zotero/storage/AAYR3TZI/Carleo and
+    \verb  Troyer - 2017 - Solving the Quantum Many-Body Problem with Artific.p
+    \verb df:application/pdf;arXiv.org Snapshot:/home/evenmn/Zotero/storage/FEH
+    \verb ZSZHP/1606.html:text/html
+    \endverb
+    \field{journaltitle}{Science}
+    \field{month}{02}
+    \field{year}{2017}
+    \field{urlday}{13}
+    \field{urlmonth}{03}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{noauthor_naming_2019}{misc}{}
+    \list{language}{1}{%
+      {en}%
+    }
+    \field{labeltitlesource}{title}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{abstract}{%
+    In computer programming, a naming convention is a set of rules for choosing
+  the character sequence to be used for identifiers which denote variables,
+  types, functions, and other entities in source code and documentation.
+  Reasons for using a naming convention (as opposed to allowing programmers to
+  choose any character sequence) include the following: To reduce the effort
+  needed to read and understand source code; To enable code reviews to focus on
+  more important issues than arguing over syntax and naming standards. To
+  enable code quality review tools to focus their reporting mainly on
+  significant issues other than syntax and style preferences.The choice of
+  naming conventions can be an enormously controversial issue, with partisans
+  of each holding theirs to be the best and others to be inferior.
+  Colloquially, this is said to be a matter of dogma. Many companies have also
+  established their own set of conventions.%
+    }
+    \field{note}{Page Version ID: 882668262}
+    \field{title}{Naming convention (programming)}
+    \verb{url}
+    \verb https://en.wikipedia.org/w/index.php?title=Naming_convention_(program
+    \verb ming)&oldid=882668262
+    \endverb
+    \verb{file}
+    \verb Snapshot:/home/evenmn/Zotero/storage/I4XYWMN5/index.html:text/html
+    \endverb
+    \field{journaltitle}{Wikipedia}
+    \field{month}{02}
+    \field{year}{2019}
+    \field{urlday}{14}
+    \field{urlmonth}{03}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{nordhagen_general_2019}{misc}{}
+    \name{author}{1}{}{%
+      {{hash=NEM}{%
+         family={Nordhagen},
+         familyi={N\bibinitperiod},
+         given={Even\bibnamedelima Marius},
+         giveni={E\bibinitperiod\bibinitdelim M\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{NEM1}
+    \strng{fullhash}{NEM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{shorttitle}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{note}{original-date: 2019-02-21T19:10:19Z}
+    \field{shorttitle}{General variational {Monte}-{Carlo} solver written in
+  {C}++}
+    \field{title}{General variational {Monte}-{Carlo} solver written in {C}++:
+  evenmn/{VMC}}
+    \verb{url}
+    \verb https://github.com/evenmn/VMC
+    \endverb
+    \field{month}{03}
+    \field{year}{2019}
+    \field{urlday}{14}
+    \field{urlmonth}{03}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{noauthor_qt_2019}{misc}{}
+    \list{language}{1}{%
+      {en}%
+    }
+    \field{labeltitlesource}{title}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{abstract}{%
+    We are happy to announce the release of Qt Creator 4.8.2! I failed to
+  decide which individual bug fixes to highlight here, so please just have a
+  look at our change log for details :). Get Qt Creator 4.8.2 The opensource
+  version is available on the Qt download page, and you find commercially
+  licensed packages …%
+    }
+    \field{title}{Qt {Creator} 4.8.2 released}
+    \verb{url}
+    \verb https://blog.qt.io/blog/2019/03/01/qt-creator-4-8-2-released/
+    \endverb
+    \verb{file}
+    \verb Snapshot:/home/evenmn/Zotero/storage/TA9ZCVUT/qt-creator-4-8-2-releas
+    \verb ed.html:text/html
+    \endverb
+    \field{journaltitle}{Qt Blog}
+    \field{month}{03}
+    \field{year}{2019}
+    \field{urlday}{14}
+    \field{urlmonth}{03}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{fowler_bliki:_nodate}{misc}{}
+    \name{author}{1}{}{%
+      {{hash=FM}{%
+         family={Fowler},
+         familyi={F\bibinitperiod},
+         given={Martin},
+         giveni={M\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{FM1}
+    \strng{fullhash}{FM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{shorttitle}
+    \field{sortinit}{9}
+    \field{sortinithash}{9}
+    \field{abstract}{%
+    There are only two hard things in Computer Science: cache invalidation and
+  naming things -- Phil Karlton (bonus variations on the page)%
+    }
+    \field{shorttitle}{bliki}
+    \field{title}{bliki: {TwoHardThings}}
+    \verb{url}
+    \verb https://martinfowler.com/bliki/TwoHardThings.html
+    \endverb
+    \verb{file}
+    \verb Snapshot:/home/evenmn/Zotero/storage/34LDXNHI/TwoHardThings.html:text
+    \verb /html
+    \endverb
+    \field{journaltitle}{martinfowler.com}
+    \field{urlday}{14}
+    \field{urlmonth}{03}
+    \field{urlyear}{2019}
+  \endentry
+\enddatalist
+\endinput
