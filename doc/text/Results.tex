@@ -16,26 +16,26 @@ We start with the non-interacting case in order to prove the flexibility of the 
 We will start studying systems with no interaction between particles. The number of closed-shell particles are given by equation \eqref{eq:HOclosedshell} and the exact energies are found from formula \eqref{eq:HOenergies}. The first 5 closed-shell energies for $\omega=0.5$ and $\omega=1.0$ are presented in table \eqref{tab:quantumdotswointeraction}.
 
 \begin{table} [H]
-	\caption{Energy of $N$ non-interacting electrons trapped in a harmonic oscillator of frequency $\omega=0.5$ and $\omega=1.0$. $E_{\text{NQS1}}$ is the standard NQS wave function with traditional Slater determinant, while $E_{\text{NQS2}}$ is NQS wave function where the RBM itself generates the Slater determinant. }
+	\caption{Energy of $N$ non-interacting electrons trapped in a harmonic oscillator of frequency $\omega=0.5$ and $\omega=1.0$. $E_{\text{RBM}}$ is a single Slater determinant with a plain Boltzmann machine baked in, while $E_{\text{VMC}}$ is standard variational Monte-Carlo.}
 	\label{tab:quantumdotswointeraction}
-	\begin{tabularx}{\textwidth}{r|r|XXXX:XXXX} \hline\hline
+	\begin{tabularx}{\textwidth}{r|r|XXX:XXX} \hline\hline
 		\label{tab:nn}
-		& $\omega$ & \multicolumn{4}{c}{0.5}&\multicolumn{4}{c}{1.0}\\ \hline
-		& $N$ & $E_{\text{NQS1}}$ & $E_{\text{NQS2}}$ & $E_{\text{VMC}}$ & $E_{\text{exact}}$ & $E_{\text{NQS1}}$ & $E_{\text{NQS2}}$ & $E_{\text{VMC}}$ & $E_{\text{exact}}$ \\ \hline
+		& $\omega$ & \multicolumn{3}{c}{0.5}&\multicolumn{3}{c}{1.0}\\ \hline
+		& $N$ & $E_{\text{RBM}}$ & $E_{\text{VMC}}$ & $E_{\text{exact}}$ & $E_{\text{RBM}}$ & $E_{\text{VMC}}$ & $E_{\text{exact}}$ \\ \hline
 		
 		\parbox[t]{2mm}{\multirow{5}{*}{\rotatebox[origin=c]{90}{2D}}}
-		&2 & 1.00045(5) & 0.0 & 1.0 & 1 & 2.00098(5) & 0.0 & 2.0 & 2\\
-		&6 & 5.009(2) & 0.0 & 5.0 & 5 & 10.010(1) & 0.0 & 10.0 & 10 \\
-		&12 & 0.0 & 0.0 & 14.0 & 14 & 0.0 & 0.0 & 28.0 & 28\\
-		&20 & 0.0 & 0.0 & 30.0 & 30 & 0.0 & 0.0 & 60.0 & 60\\
-		&30 & 0.0 & 0.0 & 55.0 & 55 & 0.0 & 0.0 & 110.0 & 110\\ \hline
+		&2 & 1.00045(5) & 1.0 & 1 & 2.00098(5) & 2.0 & 2\\
+		&6 & 5.009(2) & 5.0 & 5 & 10.010(1) & 10.0 & 10 \\
+		&12 & - & 14.0 & 14 & - & 28.0 & 28\\
+		&20 & - & 30.0 & 30 & - & 60.0 & 60\\
+		&30 & - & 55.0 & 55 & - & 110.0 & 110\\ \hline
 		
 		\parbox[t]{2mm}{\multirow{5}{*}{\rotatebox[origin=c]{90}{3D}}}
-		&2 & 1.5050(3) & 0.0 & 1.5 & 1.5 & 3.0063(2) & 0.0 & 3.0 & 3 \\
-		&8 & 0.0 & 0.0 & 9.0 & 9 & 0.0 & 0.0 & 18.0 & 18 \\
-		&20 & 0.0 & 0.0 & 30.0 & 30 & 0.0 & 0.0 & 60.0 & 60 \\
-		&40 & 0.0 & 0.0 & 75.0 & 75 & 0.0 & 0.0 & 150.0 & 150 \\
-		&70 & 0.0 & 0.0 & 157.5 & 157.5 & 0.0 & 0.0 & 315.0 & 315 \\ \hline\hline
+		&2 & 1.5050(3) & 1.5 & 1.5 & 3.0063(2) & 3.0 & 3 \\
+		&8 & - & 9.0 & 9 & - & 18.0 & 18 \\
+		&20 & - & 30.0 & 30 & - & 60.0 & 60 \\
+		&40 & - & 75.0 & 75 & - & 150.0 & 150 \\
+		&70 & - & 157.5 & 157.5 & - & 315.0 & 315 \\ \hline\hline
 	\end{tabularx}
 \end{table}
 We observe that the NQS wave function is able to reproduce the exact energy for most of the cases, but when the number of particles get large, the statistical error gets significant.
@@ -43,14 +43,14 @@ We observe that the NQS wave function is able to reproduce the exact energy for 
 \subsubsection{Atoms}
 In the next we will study atoms when the Coulomb interaction is ignored. For those cases, we know the exact answers, given by the Bohr formula presented in equation \eqref{eq:bohrformula}.
 \begin{table} [H]
-	\caption{ }
+	\caption{The table shows the computed energies of non-interacting atoms with the analytical solution to the right. $E_{\text{RBM}}$ is a single Slater determinant with a plain Boltzmann machine baked in, while $E_{\text{VMC}}$ is standard variational Monte-Carlo.}
 	\begin{tabularx}{\textwidth}{X|X|X:X:X} \hline\hline
 		\label{tab:nointeractionatoms}
-		Atom & $N$ & $E_{\text{NQS}}$ & $E_{\text{VMC}}$ & $E_{\text{exact}}$ \\ \hline
-		H & 1 & 0.0 & -0.5 & -0.5 \\ 
-		He & 2 & 0.0 & -4.0 & -4 \\
-		Be & 4 & 0.0 & 0.0 & -20 \\
-		Ne & 10 & 0.0 & 0.0 & -200 \\ \hline\hline
+		Atom & $N$ & $E_{\text{RBM}}$ & $E_{\text{VMC}}$ & $E_{\text{exact}}$ \\ \hline
+		H & 1 & - & -0.5 & -0.5 \\ 
+		He & 2 & - & -4.0 & -4 \\
+		Be & 4 & - & - & -20 \\
+		Ne & 10 & - & - & -200 \\ \hline\hline
 	\end{tabularx}
 \end{table}
 
@@ -71,66 +71,66 @@ The one-body densities
 
 \section{With repulsive interaction}
 \begin{table} [H]
-	\caption{This table presents the energies of $N$ electrons trapped in a two-dimensional oscillator well with frequency $\omega$. $E_{\text{RBM}}$ is plain restricted Boltzmann machine (RBM) with Slater determinant, $E_{\text{RBM+PJ}}$ is RBM with Padé-Jastrow factor (PJ), and $E_{\text{VMC}}$ is standard variational Monte-Carlo. The reference is to J. Høgberget's Diffusion Monte-Carlo (DMC) calculations \cite{hogberget_quantum_2013}.} 
+	\caption{This table presents the energies of $N$ electrons trapped in a two-dimensional oscillator well with frequency $\omega$. $E_{\text{RBM}}$ is plain restricted Boltzmann machine (RBM) with Slater determinant, $E_{\text{RBM+PJ}}$ is RBM with Padé-Jastrow factor (PJ), and $E_{\text{VMC}}$ is standard variational Monte-Carlo. The reference is to J. Høgberget's diffusion Monte-Carlo (DMC) calculations \cite{hogberget_quantum_2013}.} 
 	\begin{tabularx}{\textwidth}{l:l|XXXXXX} \hline\hline
 		\label{tab:quantumdotswinteraction2D}
-		$N$ & $\omega$ & $E_{\text{RBM+PJ}}$ & $E_{\text{RBM}}$ & $E_{\text{NQS3}}$ & $E_{\text{VMC}}$ & $E_{\text{ref}} $ & $E_{\text{exact}}$ \\ \hline \\
-		2 & 0.1 & 0.4427(2) & 0.4745(3) & 0.0 & 0.44206(3) & 0.44079(1) & \\ 
-		& 0.28 & 1.0225(1) & 1.0962(5) & 0.0 & 1.02233(2) & 1.02164(1) & \\
-		& 0.5 & 1.6599(1) & 1.7264(5) & 0.0 & 1.66020(2) & 1.65977(1)  \\
-		& 1.0 & 3.00002(2) & 3.0824(6) & 0.0 & 3.00030(1) & 3.00000(1) & 3  \\ \hdashline \\
+		$N$ & $\omega$ & $E_{\text{RBM+PJ}}$ & $E_{\text{RBM}}$ & $E_{\text{...}}$ & $E_{\text{VMC}}$ & $E_{\text{ref}} $ & $E_{\text{exact}}$ \\ \hline \\
+		2 & 0.1 & 0.4427(2) & 0.4745(3) & - & 0.44206(3) & 0.44079(1) & - \\ 
+		& 0.28 & 1.0225(1) & 1.0962(5) & - & 1.02233(2) & 1.02164(1) & - \\
+		& 0.5 & 1.6599(1) & 1.7264(5) & - & 1.66020(2) & 1.65977(1)  & - \\
+		& 1.0 & 3.00002(2) & 3.0824(6) & - & 3.00030(1) & 3.00000(1) & 3  \\ \hdashline \\
 		
-		6 & 0.1 & 3.69343(7) & 0.0 & 0.0 & 3.5678(1) & 3.55385(5) \\ 
-		& 0.28 & 7.65591(9) & 0.0 & 0.0 & 7.6198(1) & 7.60019(6) \\
-		& 0.5 & 11.8228(1) & 0.0 & 0.0 & 11.8106(1) & 11.78484(6) \\
-		& 1.0 & 20.2084(2) & 0.0 & 0.0 & 20.1954(3) & 20.15932(8) \\ \hdashline \\
+		6 & 0.1 & 3.69343(7) & 3.737(3) & - & 3.5678(1) & 3.55385(5) & - \\ 
+		& 0.28 & 7.65591(9) & 7.963(8) & - & 7.6198(1) & 7.60019(6) & - \\
+		& 0.5 & 11.8228(1) & 12.265(1) & - & 11.8106(1) & 11.78484(6) & - \\
+		& 1.0 & 20.2084(2) & 20.826(3) & - & 20.1954(3) & 20.15932(8) & - \\ \hdashline \\
 		
-		12 & 0.1 & 0.0 & 0.0 & 0.0 & 0.0 & 12.26984(8) \\ 
-		& 0.28 & 0.0 & 0.0 & 0.0 & 0.0 & 25.63577(9) \\
-		& 0.5 & 0.0 & 0.0 & 0.0 & 0.0 & 39.1596(1) \\
-		& 1.0 & 0.0 & 0.0 & 0.0 & 0.0 & 65.7001(1) \\ \hdashline \\
+		12 & 0.1 & - & - & - & - & 12.26984(8) & -\\ 
+		& 0.28 & - & - & - & - & 25.63577(9) & -\\
+		& 0.5 & - & - & - & - & 39.1596(1) & - \\
+		& 1.0 & - & - & - & - & 65.7001(1) & - \\ \hdashline \\
 		
-		20 & 0.1 & 0.0 & 0.0 & 0.0 & 0.0 & 29.9779(1) \\ 
-		& 0.28 & 0.0 & 0.0 & 0.0 & 0.0 & 61.9268(1) \\
-		& 0.5 & 0.0 & 0.0 & 0.0 & 0.0 & 93.8752(1) \\
-		& 1.0 & 0.0 & 0.0 & 0.0 & 0.0 & 155.8822(1) \\ \hdashline \\
+		20 & 0.1 & - & - & - & - & 29.9779(1) & - \\ 
+		& 0.28 & - & - & - & - & 61.9268(1) & - \\
+		& 0.5 & - & - & - & - & 93.8752(1) & - \\
+		& 1.0 & - & - & - & - & 155.8822(1) & - \\ \hdashline \\
 		
-		30 & 0.1 & 0.0 & 0.0 & 0.0 & 0.0 & 60.4205(2)\\ 
-		& 0.28 & 0.0 & 0.0 & 0.0 & 0.0 & 123.9683(2)\\
-		& 0.5 & 0.0 & 0.0 & 0.0 & 0.0 & 187.0426(2)\\
-		& 1.0 & 0.0 & 0.0 & 0.0 & 0.0 & 308.5627(2)\\ \hline\hline
+		30 & 0.1 & - & - & - & - & 60.4205(2) & -\\ 
+		& 0.28 & - & - & - & - & 123.9683(2) & - \\
+		& 0.5 & - & - & - & - & 187.0426(2) & -\\
+		& 1.0 & - & - & - & - & 308.5627(2) & -\\ \hline\hline
 	\end{tabularx}
 \end{table}
 
 \begin{table} [H]
-	\caption{This table presents the energies of $N$ electrons trapped in a three-dimensional oscillator well with frequency $\omega$. $E_{\text{RBM}}$ is plain restricted Boltzmann machine (RBM) with Slater determinant, $E_{\text{RBM+PJ}}$ is RBM with Padé-Jastrow factor (PJ), and $E_{\text{VMC}}$ is standard variational Monte-Carlo. The exact energies are calculated analytically by M.Taut, see \cite{taut_two_1993}. The reference is to J. Høgberget's Diffusion Monte-Carlo (DMC) calculations \cite{hogberget_quantum_2013}. } 
+	\caption{This table presents the energies of $N$ electrons trapped in a three-dimensional oscillator well with frequency $\omega$. $E_{\text{RBM}}$ is plain restricted Boltzmann machine (RBM) with Slater determinant, $E_{\text{RBM+PJ}}$ is RBM with Padé-Jastrow factor (PJ), and $E_{\text{VMC}}$ is standard variational Monte-Carlo. The exact energies are calculated analytically by M.Taut, see \cite{taut_two_1993}. The reference is to J. Høgberget's diffusion Monte-Carlo (DMC) calculations \cite{hogberget_quantum_2013}. } 
 	\begin{tabularx}{\textwidth}{l:l|XXXXXX} \hline\hline
 		\label{tab:quantumdotswinteraction3D}
-		$N$ & $\omega$ & $E_{\text{RBM+PJ}}$ & $E_{\text{RBM}}$ & $E_{\text{NQS3}}$ & $E_{\text{VMC}}$ & $E_{\text{ref}} $ & $E_{\text{exact}}$ \\ \hline \\
-		2 & 0.1 & 0.50073(7) & 0.5262(2) & 0.0 & 0.52099(1) & 0.499997(3) & 0.5 \\
-		& 0.28 & 1.20201(5) & 1.2399(4) & 0.0 & 1.20212(2) & 1.201725(2) & \\
-		& 0.5 & 2.00009(4) & 2.0399(6) & 0.0 & 2.00010(2) & 2.000000(2) & 2.0 \\
-		& 1.0 & 3.73032(4) & 3.7661(9) & 0.0 & 3.73017(2) & 3.730123(3) &  \\ \hdashline \\
+		$N$ & $\omega$ & $E_{\text{RBM+PJ}}$ & $E_{\text{RBM}}$ & $E_{\text{...}}$ & $E_{\text{VMC}}$ & $E_{\text{ref}} $ & $E_{\text{exact}}$ \\ \hline \\
+		2 & 0.1 & 0.50073(7) & 0.5262(2) & - & 0.52099(1) & 0.499997(3) & 0.5 \\
+		& 0.28 & 1.20201(5) & 1.2399(4) & - & 1.20212(2) & 1.201725(2) & - \\
+		& 0.5 & 2.00009(4) & 2.0399(6) & - & 2.00010(2) & 2.000000(2) & 2.0 \\
+		& 1.0 & 3.73032(4) & 3.7661(9) & - & 3.73017(2) & 3.730123(3) & - \\ \hdashline \\
 		
-		8 & 0.1 & 0.0 & 0.0 & 0.0 & 5.8504(1) & 5.7028(1) \\ 
-		& 0.28 & 0.0 & 0.0 & 0.0 & 12.3102(1) & 12.1927(1) \\
-		& 0.5 & 0.0 & 0.0 & 0.0 & 19.0211(1) & 18.9611(1) \\
-		& 1.0 & 0.0 & 0.0 & 0.0 & 32.6955(1) & 32.6680(1) \\ \hdashline \\
+		8 & 0.1 & - & 6.667(9) & - & 5.8504(1) & 5.7028(1) & -\\ 
+		& 0.28 & - & 13.10(1) & - & 12.3102(1) & 12.1927(1) & -\\
+		& 0.5 & - & 19.89(1) & - & 19.0211(1) & 18.9611(1) & -\\
+		& 1.0 & - & 33.467(9) & - & 32.6955(1) & 32.6680(1) & -\\ \hdashline \\
 		
-		20 & 0.1 & 0.0 & 0.0 & 0.0 & 27.72(2) & 27.2717(2) \\ 
-		& 0.28 & 0.0 & 0.0 & 0.0 & 56.534(3) & 56.3868(2) \\
-		& 0.5 & 0.0 & 0.0 & 0.0 & 85.771(4) & 85.6555(2) \\
-		& 1.0 & 0.0 & 0.0 & 0.0 & 142.946(6) & 142.8875(2) \\ \hdashline \\
+		20 & 0.1 & - & - & - & 27.72(2) & 27.2717(2) & -\\ 
+		& 0.28 & - & - & - & 56.534(3) & 56.3868(2) & -\\
+		& 0.5 & - & - & - & 85.771(4) & 85.6555(2) & -\\
+		& 1.0 & - & - & - & 142.946(6) & 142.8875(2) & -\\ \hdashline \\
 		
-		40 & 0.1 & 0.0 & 0.0 & 0.0 & 0.0 \\ 
-		& 0.28 & 0.0 & 0.0 & 0.0 & 0.0 \\
-		& 0.5 & 0.0 & 0.0 & 0.0 & 0.0 \\
-		& 1.0 & 0.0 & 0.0 & 0.0 & 0.0 \\ \hdashline \\
+		40 & 0.1 & - & - & - & - & - & -\\ 
+		& 0.28 & - & - & - & - & - & -\\
+		& 0.5 & - & - & - & - & - & -\\
+		& 1.0 & - & - & - & - & - & -\\ \hdashline \\
 		
-		70 & 0.1 & 0.0 & 0.0 & 0.0 & 0.0 \\ 
-		& 0.28 & 0.0 & 0.0 & 0.0 & 0.0 \\
-		& 0.5 & 0.0 & 0.0 & 0.0 & 0.0 \\
-		& 1.0 & 0.0 & 0.0 & 0.0 & 0.0 \\ \hline\hline
+		70 & 0.1 & - & - & - & - & - & -\\ 
+		& 0.28 & - & - & - & - & - & -\\
+		& 0.5 & - & - & - & - & - & -\\
+		& 1.0 & - & - & - & - & - & -\\ \hline\hline
 	\end{tabularx}
 \end{table}
 
@@ -138,23 +138,45 @@ The one-body densities
 \subsubsection{Two dimensions}
 \begin{figure} [H]%
 	\centering
-	\subfloat[2 particles]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/onebody_NQS_P2_D2_allfreq.png}}}
-	\subfloat[6 particles]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/onebody_VMC_P2_D2_allfreq.png} }}\\
+	\subfloat[2 particles, RBM]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/onebody_NQS_P2_D2_allfreq.png}}}
+	\subfloat[2 particles, VMC]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/onebody_VMC_P2_D2_allfreq.png} }}\\
 	
-	\subfloat[12 particles]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/onebody_VMC_NQS_P2_D2_allfreq.png} }}
-	\subfloat[20 particles]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/onebody_VMC_NQS_P2_D3_w1p0.png} }}
+	\subfloat[2 particles RBM \& VMC]{{\includegraphics[width=16cm]{/home/evenmn/VMC/doc/html/onebody_VMC_NQS_P2_D2_allfreq.png} }}
+	%\subfloat[20 particles]{{\includegraphics[width=6cm]{Images/example.png} }}
+	\caption{One-body densities of two non-interacting electrons in two dimensions for various oscillator frequencies.}%
+	\label{fig:OB_interaction_2P_2D}
+\end{figure}
+
+\begin{figure} [H]%
+	\centering
+	\subfloat[6 particles, RBM]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/onebody_NQS_P6_D2_allfreq.png}}}
+	\subfloat[6 particles, VMC]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/onebody_VMC_P6_D2_allfreq.png} }}\\
+	
+	\subfloat[6 particles RBM \& VMC]{{\includegraphics[width=16cm]{/home/evenmn/VMC/doc/html/onebody_VMC_NQS_P6_D2_allfreq.png} }}
+	%\subfloat[20 particles]{{\includegraphics[width=6cm]{Images/example.png} }}
 	\caption{One-body densities of two non-interacting electrons in two dimensions figure (a) and (b) and three dimensions}%
-	\label{fig:OB_interaction_2D}
+	\label{fig:OB_interaction_6P_2D}
 \end{figure}
 
 \subsubsection{Three dimensions}
 \begin{figure} [H]%
 	\centering
-	\subfloat[2 particles]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/onebody_VMC_NQS_P2_D2_w0p5.png}}}
-	\subfloat[8 particles]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/onebody_VMC_NQS_P2_D2_w1p0.png} }}\\
+	\subfloat[2 particles, RBM]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/onebody_NQS_P2_D3_allfreq.png}}}
+	\subfloat[2 particles, VMC]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/onebody_VMC_P2_D3_allfreq.png} }}\\
 	
-	\subfloat[20 particles]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/onebody_VMC_NQS_P2_D3_w0p5.png} }}
-	\subfloat[40 particles]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/onebody_VMC_NQS_P2_D3_w1p0.png} }}
+	\subfloat[2 particles RBM \& VMC]{{\includegraphics[width=16cm]{/home/evenmn/VMC/doc/html/onebody_VMC_NQS_P2_D3_allfreq.png} }}
+	%\subfloat[20 particles]{{\includegraphics[width=6cm]{Images/example.png} }}
 	\caption{One-body densities of two non-interacting electrons in two dimensions figure (a) and (b) and three dimensions}%
-	\label{fig:OB_interaction_3D}
+	\label{fig:OB_interaction_2P_3D}
+\end{figure}
+
+\begin{figure} [H]%
+	\centering
+	\subfloat[8 particles, RBM]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/onebody_NQS_P8_D3_allfreq.png}}}
+	\subfloat[8 particles, VMC]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/onebody_VMC_P8_D3_allfreq.png} }}\\
+	
+	\subfloat[8 particles RBM \& VMC]{{\includegraphics[width=16cm]{/home/evenmn/VMC/doc/html/onebody_VMC_NQS_P8_D3_allfreq.png} }}
+	%\subfloat[20 particles]{{\includegraphics[width=6cm]{Images/example.png} }}
+	\caption{One-body densities of two non-interacting electrons in two dimensions figure (a) and (b) and three dimensions}%
+	\label{fig:OB_interaction_8P_3D}
 \end{figure}
