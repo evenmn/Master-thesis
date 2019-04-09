@@ -71,11 +71,12 @@ The one-body densities
 
 \section{With repulsive interaction}
 \begin{table} [H]
-	\caption{This table presents the energies of $N$ electrons trapped in a two-dimensional oscillator well with frequency $\omega$. $E_{\text{RBM}}$ is plain restricted Boltzmann machine (RBM) with Slater determinant, $E_{\text{RBM+PJ}}$ is RBM with Padé-Jastrow factor (PJ), and $E_{\text{VMC}}$ is standard variational Monte-Carlo. The reference is to J. Høgberget's diffusion Monte-Carlo (DMC) calculations \cite{hogberget_quantum_2013}.} 
+	\caption{This table presents the energies of $N$ electrons trapped in a two-dimensional oscillator well with frequency $\omega$. $E_{\text{RBM}}$ is plain restricted Boltzmann machine (RBM) with Slater determinant, $E_{\text{RBM+PJ}}$ is RBM with Padé-Jastrow factor (PJ), and $E_{\text{VMC}}$ is standard variational Monte-Carlo. The exact energies are calculated analytically by M.Taut, see \cite{taut_two_1994}. The reference is to J. Høgberget's diffusion Monte-Carlo (DMC) calculations \cite{hogberget_quantum_2013}.} 
 	\begin{tabularx}{\textwidth}{l:l|XXXXXX} \hline\hline
 		\label{tab:quantumdotswinteraction2D}
 		$N$ & $\omega$ & $E_{\text{RBM+PJ}}$ & $E_{\text{RBM}}$ & $E_{\text{...}}$ & $E_{\text{VMC}}$ & $E_{\text{ref}} $ & $E_{\text{exact}}$ \\ \hline \\
 		2 & 0.1 & 0.4427(2) & 0.4745(3) & - & 0.44206(3) & 0.44079(1) & - \\ 
+		& 1/6 & - & - & - & 0.66713(2) & - & 2/6 \\
 		& 0.28 & 1.0225(1) & 1.0962(5) & - & 1.02233(2) & 1.02164(1) & - \\
 		& 0.5 & 1.6599(1) & 1.7264(5) & - & 1.66020(2) & 1.65977(1)  & - \\
 		& 1.0 & 3.00002(2) & 3.0824(6) & - & 3.00030(1) & 3.00000(1) & 3  \\ \hdashline \\
@@ -108,9 +109,9 @@ The one-body densities
 		\label{tab:quantumdotswinteraction3D}
 		$N$ & $\omega$ & $E_{\text{RBM+PJ}}$ & $E_{\text{RBM}}$ & $E_{\text{...}}$ & $E_{\text{VMC}}$ & $E_{\text{ref}} $ & $E_{\text{exact}}$ \\ \hline \\
 		2 & 0.1 & 0.50073(7) & 0.5262(2) & - & 0.52099(1) & 0.499997(3) & 0.5 \\
-		& 0.28 & 1.20201(5) & 1.2399(4) & - & 1.20212(2) & 1.201725(2) & - \\
-		& 0.5 & 2.00009(4) & 2.0399(6) & - & 2.00010(2) & 2.000000(2) & 2.0 \\
-		& 1.0 & 3.73032(4) & 3.7661(9) & - & 3.73017(2) & 3.730123(3) & - \\ \hdashline \\
+		& 0.28 & 1.20201(5) & 1.2360(4) & - & 1.20212(2) & 1.201725(2) & - \\
+		& 0.5 & 2.00009(4) & 2.0316(6) & - & 2.00010(2) & 2.000000(2) & 2.0 \\
+		& 1.0 & 3.73032(4) & 3.7569(8) & - & 3.73017(2) & 3.730123(3) & - \\ \hdashline \\
 		
 		8 & 0.1 & - & 6.667(9) & - & 5.8504(1) & 5.7028(1) & -\\ 
 		& 0.28 & - & 13.10(1) & - & 12.3102(1) & 12.1927(1) & -\\

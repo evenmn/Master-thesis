@@ -189,6 +189,60 @@
     \field{urlyear}{2019}
   \endentry
 
+  \entry{taut_two_1994}{article}{}
+    \name{author}{1}{}{%
+      {{hash=TM}{%
+         family={Taut},
+         familyi={T\bibinitperiod},
+         given={M.},
+         giveni={M\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {en}%
+    }
+    \strng{namehash}{TM1}
+    \strng{fullhash}{TM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{shorttitle}
+    \field{sortinit}{1}
+    \field{sortinithash}{1}
+    \field{abstract}{%
+    Particular analytical solutions of the two-dimensional Schrodinger equation
+  are described for two electrons (interacting with Coulomb potentials) in a
+  homogeneous magnetic field B and an external oscillator potential with
+  frequency omega 0. These exact solutions occur at an infinite and countable
+  set of values of the quantity omega = square root ( omega 02+ 1/4 (B/c)2).
+  Additionally, approximate closed-form solutions for the limits of small omega
+  (perturbation theory in the electron-electron interaction) and large omega
+  (harmonic approximation) are discussed and compared with the exact
+  solutions.%
+    }
+    \verb{doi}
+    \verb 10.1088/0305-4470/27/3/040
+    \endverb
+    \field{issn}{0305-4470}
+    \field{number}{3}
+    \field{pages}{1045\bibrangedash 1055}
+    \field{shorttitle}{Two electrons in a homogeneous magnetic field}
+    \field{title}{Two electrons in a homogeneous magnetic field: particular
+  analytical solutions}
+    \verb{url}
+    \verb https://doi.org/10.1088%2F0305-4470%2F27%2F3%2F040
+    \endverb
+    \field{volume}{27}
+    \verb{file}
+    \verb IOP Full Text PDF:/home/evenmn/Zotero/storage/6HFE5MS8/Taut - 1994 -
+    \verb Two electrons in a homogeneous magnetic field par.pdf:application/pdf
+    \endverb
+    \field{journaltitle}{Journal of Physics A: Mathematical and General}
+    \field{month}{02}
+    \field{year}{1994}
+    \field{urlday}{09}
+    \field{urlmonth}{04}
+    \field{urlyear}{2019}
+  \endentry
+
   \entry{szabo_modern_1996}{book}{}
     \name{author}{2}{}{%
       {{hash=SA}{%
