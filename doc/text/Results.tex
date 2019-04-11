@@ -60,11 +60,11 @@ The one-body densities
 
 \begin{figure} [h]%
 	\centering
-	\subfloat[2D, $\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/onebody_VMC_NQS_P2_D2_w0p5.png}}}
-	\subfloat[2D, $\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/onebody_VMC_NQS_P2_D2_w1p0.png} }}\\
+	\subfloat[2D, $\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int0/onebody/2D/2P/onebody_VMC_NQS_P2_D2_w0p5.png}}}
+	\subfloat[2D, $\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int0/onebody/2D/2P/onebody_VMC_NQS_P2_D2_w1p0.png} }}\\
 	
-	\subfloat[3D, $\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/onebody_VMC_NQS_P2_D3_w0p5.png} }}
-	\subfloat[3D, $\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/onebody_VMC_NQS_P2_D3_w1p0.png} }}
+	\subfloat[3D, $\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int0/onebody/3D/2P/onebody_VMC_NQS_P2_D3_w0p5.png} }}
+	\subfloat[3D, $\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int0/onebody/3D/2P/onebody_VMC_NQS_P2_D3_w1p0.png} }}
 	\caption{One-body densities of two non-interacting electrons in two dimensions figure (a) and (b) and three dimensions}%
 	\label{fig:OB_nointeraction}
 \end{figure}
@@ -75,16 +75,16 @@ The one-body densities
 	\begin{tabularx}{\textwidth}{l:l|XXXXXX} \hline\hline
 		\label{tab:quantumdotswinteraction2D}
 		$N$ & $\omega$ & $E_{\text{RBM+PJ}}$ & $E_{\text{RBM}}$ & $E_{\text{...}}$ & $E_{\text{VMC}}$ & $E_{\text{ref}} $ & $E_{\text{exact}}$ \\ \hline \\
-		2 & 0.1 & 0.4427(2) & 0.4745(3) & - & 0.44206(3) & 0.44079(1) & - \\ 
-		& 1/6 & - & - & - & 0.66713(2) & - & 2/6 \\
-		& 0.28 & 1.0225(1) & 1.0962(5) & - & 1.02233(2) & 1.02164(1) & - \\
-		& 0.5 & 1.6599(1) & 1.7264(5) & - & 1.66020(2) & 1.65977(1)  & - \\
-		& 1.0 & 3.00002(2) & 3.0824(6) & - & 3.00030(1) & 3.00000(1) & 3  \\ \hdashline \\
-		
-		6 & 0.1 & 3.69343(7) & 3.737(3) & - & 3.5678(1) & 3.55385(5) & - \\ 
-		& 0.28 & 7.65591(9) & 7.963(8) & - & 7.6198(1) & 7.60019(6) & - \\
-		& 0.5 & 11.8228(1) & 12.265(1) & - & 11.8106(1) & 11.78484(6) & - \\
-		& 1.0 & 20.2084(2) & 20.826(3) & - & 20.1954(3) & 20.15932(8) & - \\ \hdashline \\
+		2 & 0.1 & 0.4427(2) & 0.4734(1) & - & 0.44128(1) & 0.44079(1) & - \\ 
+		& 1/6 & - & 0.7160(1) & - & 0.66710(1) & - & 2/3 \\
+		& 0.28 & 1.0225(1) & 1.0894(2) & - & 1.02192(1) & 1.02164(1) & - \\
+		& 0.5 & 1.6599(1) & 1.7231(2) & - & 1.65972(1) & 1.65977(1)  & - \\
+		& 1.0 & 3.00002(2) & 3.0822(2) & - & 2.99999(1) & 3.00000(1) & 3  \\ \hdashline \\
+
+		6 & 0.1 & 3.69343(7) & 3.737(3) & - & 3.5698(1) & 3.55385(5) & - \\ 
+		& 0.28 & 7.65591(9) & 7.963(8) & - & 7.6226(1) & 7.60019(6) & - \\
+		& 0.5 & 11.8228(1) & 12.265(1) & - & 11.8121(2) & 11.78484(6) & - \\
+		& 1.0 & 20.2084(2) & 20.826(3) & - & 20.1905(2) & 20.15932(8) & - \\ \hdashline \\
 		
 		12 & 0.1 & - & - & - & - & 12.26984(8) & -\\ 
 		& 0.28 & - & - & - & - & 25.63577(9) & -\\
@@ -92,9 +92,9 @@ The one-body densities
 		& 1.0 & - & - & - & - & 65.7001(1) & - \\ \hdashline \\
 		
 		20 & 0.1 & - & - & - & - & 29.9779(1) & - \\ 
-		& 0.28 & - & - & - & - & 61.9268(1) & - \\
-		& 0.5 & - & - & - & - & 93.8752(1) & - \\
-		& 1.0 & - & - & - & - & 155.8822(1) & - \\ \hdashline \\
+		& 0.28 & - & 66.578(8) & - & - & 61.9268(1) & - \\
+		& 0.5 & - & 97.166(5) & - & - & 93.8752(1) & - \\
+		& 1.0 & - & 160.448(5) & - & - & 155.8822(1) & - \\ \hdashline \\
 		
 		30 & 0.1 & - & - & - & - & 60.4205(2) & -\\ 
 		& 0.28 & - & - & - & - & 123.9683(2) & - \\
@@ -139,10 +139,10 @@ The one-body densities
 \subsubsection{Two dimensions}
 \begin{figure} [H]%
 	\centering
-	\subfloat[2 particles, RBM]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/onebody_NQS_P2_D2_allfreq.png}}}
-	\subfloat[2 particles, VMC]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/onebody_VMC_P2_D2_allfreq.png} }}\\
+	\subfloat[2 particles, RBM]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int1/onebody/2D/2P/onebody_NQS_P2_D2_allfreq.png}}}
+	\subfloat[2 particles, VMC]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int1/onebody/2D/2P/onebody_VMC_P2_D2_allfreq.png} }}\\
 	
-	\subfloat[2 particles RBM \& VMC]{{\includegraphics[width=16cm]{/home/evenmn/VMC/doc/html/onebody_VMC_NQS_P2_D2_allfreq.png} }}
+	\subfloat[2 particles RBM \& VMC]{{\includegraphics[width=16cm]{/home/evenmn/VMC/doc/html/int1/onebody/2D/2P/onebody_VMC_NQS_P2_D2_allfreq.png} }}
 	%\subfloat[20 particles]{{\includegraphics[width=6cm]{Images/example.png} }}
 	\caption{One-body densities of two non-interacting electrons in two dimensions for various oscillator frequencies.}%
 	\label{fig:OB_interaction_2P_2D}
@@ -150,10 +150,10 @@ The one-body densities
 
 \begin{figure} [H]%
 	\centering
-	\subfloat[6 particles, RBM]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/onebody_NQS_P6_D2_allfreq.png}}}
-	\subfloat[6 particles, VMC]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/onebody_VMC_P6_D2_allfreq.png} }}\\
+	\subfloat[6 particles, RBM]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int1/onebody/2D/6P/onebody_NQS_P6_D2_allfreq.png}}}
+	\subfloat[6 particles, VMC]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int1/onebody/2D/6P/onebody_VMC_P6_D2_allfreq.png} }}\\
 	
-	\subfloat[6 particles RBM \& VMC]{{\includegraphics[width=16cm]{/home/evenmn/VMC/doc/html/onebody_VMC_NQS_P6_D2_allfreq.png} }}
+	\subfloat[6 particles RBM \& VMC]{{\includegraphics[width=16cm]{/home/evenmn/VMC/doc/html/int1/onebody/2D/6P/onebody_VMC_NQS_P6_D2_allfreq.png} }}
 	%\subfloat[20 particles]{{\includegraphics[width=6cm]{Images/example.png} }}
 	\caption{One-body densities of two non-interacting electrons in two dimensions figure (a) and (b) and three dimensions}%
 	\label{fig:OB_interaction_6P_2D}
@@ -162,10 +162,10 @@ The one-body densities
 \subsubsection{Three dimensions}
 \begin{figure} [H]%
 	\centering
-	\subfloat[2 particles, RBM]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/onebody_NQS_P2_D3_allfreq.png}}}
-	\subfloat[2 particles, VMC]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/onebody_VMC_P2_D3_allfreq.png} }}\\
+	\subfloat[2 particles, RBM]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int1/onebody/3D/2P/onebody_NQS_P2_D3_allfreq.png}}}
+	\subfloat[2 particles, VMC]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int1/onebody/3D/2P/onebody_VMC_P2_D3_allfreq.png} }}\\
 	
-	\subfloat[2 particles RBM \& VMC]{{\includegraphics[width=16cm]{/home/evenmn/VMC/doc/html/onebody_VMC_NQS_P2_D3_allfreq.png} }}
+	\subfloat[2 particles RBM \& VMC]{{\includegraphics[width=16cm]{/home/evenmn/VMC/doc/html/int1/onebody/3D/2P/onebody_VMC_NQS_P2_D3_allfreq.png} }}
 	%\subfloat[20 particles]{{\includegraphics[width=6cm]{Images/example.png} }}
 	\caption{One-body densities of two non-interacting electrons in two dimensions figure (a) and (b) and three dimensions}%
 	\label{fig:OB_interaction_2P_3D}
@@ -173,10 +173,10 @@ The one-body densities
 
 \begin{figure} [H]%
 	\centering
-	\subfloat[8 particles, RBM]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/onebody_NQS_P8_D3_allfreq.png}}}
-	\subfloat[8 particles, VMC]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/onebody_VMC_P8_D3_allfreq.png} }}\\
+	\subfloat[8 particles, RBM]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int1/onebody/3D/8P/onebody_NQS_P8_D3_allfreq.png}}}
+	\subfloat[8 particles, VMC]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int1/onebody/3D/8P/onebody_VMC_P8_D3_allfreq.png} }}\\
 	
-	\subfloat[8 particles RBM \& VMC]{{\includegraphics[width=16cm]{/home/evenmn/VMC/doc/html/onebody_VMC_NQS_P8_D3_allfreq.png} }}
+	\subfloat[8 particles RBM \& VMC]{{\includegraphics[width=16cm]{/home/evenmn/VMC/doc/html/int1/onebody/3D/8P/onebody_VMC_NQS_P8_D3_allfreq.png} }}
 	%\subfloat[20 particles]{{\includegraphics[width=6cm]{Images/example.png} }}
 	\caption{One-body densities of two non-interacting electrons in two dimensions figure (a) and (b) and three dimensions}%
 	\label{fig:OB_interaction_8P_3D}
