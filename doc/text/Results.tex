@@ -2,14 +2,16 @@
 \epigraph{Great quote.}{Author}
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.4]{Images/example.png}
-	\caption{}
+	\includegraphics[scale=0.8]{Images/art.png}
+	\caption{One-body density plots for 12 particles in a harmonic oscillator well. The four graphs correspond to four different oscillator strengths, where the weakest oscillator gives the broadest density distribution. It's quite artistic, isn't it?}
 \end{figure}
-Now over to the heart of this thesis: the results...
+The results are really the heart of this thesis and where most the effort is put... 
+
+We will first highlight some selected results with no repulsive interaction for validation purposes, and then move on to the more realistic case where we look at a larger number of particles for various oscillator strengths and various wave functions structures in two and three dimensions.  
 
 \newpage
 \section{No repulsive interaction}
-We start with the non-interacting case in order to prove the flexibility of the implemented code. 
+We start with the non-interacting case in order to validate the implemented code. In this case we both know the exact energies and the exact one-body densities for an array of systems, and can therefore test the flexibility of the code. 
 
 \subsection{Ground state energy}
 \subsubsection{Quantum dots}
@@ -60,16 +62,24 @@ The one-body densities
 
 \begin{figure} [h]%
 	\centering
-	\subfloat[2D, $\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int0/onebody/2D/2P/onebody_VMC_NQS_P2_D2_w0p5.png}}}
-	\subfloat[2D, $\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int0/onebody/2D/2P/onebody_VMC_NQS_P2_D2_w1p0.png} }}\\
+	\subfloat[2D, $\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int0/onebody/2D/2P/onebody_VMC_NQS_P2_D2_w0p5.png}}}
+	\subfloat[2D, $\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int0/onebody/2D/2P/onebody_VMC_NQS_P2_D2_w1p0.png} }}\\
 	
-	\subfloat[3D, $\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int0/onebody/3D/2P/onebody_VMC_NQS_P2_D3_w0p5.png} }}
-	\subfloat[3D, $\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int0/onebody/3D/2P/onebody_VMC_NQS_P2_D3_w1p0.png} }}
+	\subfloat[3D, $\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int0/onebody/3D/2P/onebody_VMC_NQS_P2_D3_w0p5.png} }}
+	\subfloat[3D, $\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int0/onebody/3D/2P/onebody_VMC_NQS_P2_D3_w1p0.png} }}
 	\caption{One-body densities of two non-interacting electrons in two dimensions figure (a) and (b) and three dimensions}%
 	\label{fig:OB_nointeraction}
 \end{figure}
 
 \section{With repulsive interaction}
+Now over to the interesting part. We no longer have analytical results, apart from a few semi-analytical energies and wave-functions obtained by M. Taut for the two- and three-dimensional harmonic oscillator. More precisely, he found the energy to be $E=3$ for the frequency $\omega=1$ and $E=2/3$ for the frequency $\omega=1/6$ for the two-dimensional case, and $E=2$ for the frequency $\omega=1/2$ and $E=1/2$ for the frequency $\omega=1/10$ for the three-dimensional case. \cite{taut_two_1993}\cite{taut_two_1994}
+
+For other references, we need to rely on what researchers have found before us. Since diffusion Monte-Carlo (DMC) is known to give very accurate results, we will mainly compare our results to J. Høgberget's DMC calculations. \cite{hogberget_quantum_2013}
+
+\subsection{Ground state energy}
+
+\subsubsection{Two dimensions}
+
 \begin{table} [H]
 	\caption{This table presents the energies of $N$ electrons trapped in a two-dimensional oscillator well with frequency $\omega$. $E_{\text{RBM}}$ is plain restricted Boltzmann machine (RBM) with Slater determinant, $E_{\text{RBM+PJ}}$ is RBM with Padé-Jastrow factor (PJ), and $E_{\text{VMC}}$ is standard variational Monte-Carlo. The exact energies are calculated analytically by M.Taut, see \cite{taut_two_1994}. The reference is to J. Høgberget's diffusion Monte-Carlo (DMC) calculations \cite{hogberget_quantum_2013}.} 
 	\begin{tabularx}{\textwidth}{l:l|XXXXXX} \hline\hline
@@ -96,13 +106,32 @@ The one-body densities
 		& 0.5 & 95.078(3) & 97.166(5) & - & 94.269(3) & 93.8752(1) & - \\
 		& 1.0 & 157.152(5) & 160.448(5) & - & 157.789(5) & 155.8822(1) & - \\ \hdashline \\
 		
-		30 & 0.1 & - & - & - & - & 60.4205(2) & -\\ 
-		& 0.28 & - & - & - & - & 123.9683(2) & - \\
-		& 0.5 & - & - & - & - & 187.0426(2) & -\\
-		& 1.0 & - & - & - & - & 308.5627(2) & -\\ \hline\hline
+		30 & 0.1 & - & - & - & 61.300(3) & 60.4205(2) & -\\ 
+		& 0.28 & - & 136.48(2) & - & 124.456(2) & 123.9683(2) & - \\
+		& 0.5 & - & 197.41(6) & - & 187.894(3) & 187.0426(2) & -\\
+		& 1.0 & - & 318.05(1) & - & - & 308.5627(2) & -\\
+		\hdashline \\
+		
+		42 & 0.1 & - & - & - & - & 107.6389(2) & -\\ 
+		& 0.28 & - & - & - & - & 219.8426(2) & - \\
+		& 0.5 & - & - & - & - & 330.6306(2) & -\\
+		& 1.0 & - & - & - & - & 542.9428(8) & -\\
+		\hdashline \\
+		
+		56 & 0.1 & - & - & - & - & 175.9553(7) & -\\ 
+		& 0.28 & - & - & - & - & 358.145(2) & - \\
+		& 0.5 & - & - & - & - & 537.353(2) & -\\
+		& 1.0 & - & - & - & - & 879.3986(6) & -\\
+		\hdashline \\
+		
+		72 & 0.1 & - & - & - & - & - & -\\ 
+		& 0.28 & - & - & - & - & - & - \\
+		& 0.5 & - & - & - & - & - & -\\
+		& 1.0 & - & - & - & - & - & -\\ \hline\hline
 	\end{tabularx}
 \end{table}
 
+\subsubsection{Three dimensions}
 \begin{table} [H]
 	\caption{This table presents the energies of $N$ electrons trapped in a three-dimensional oscillator well with frequency $\omega$. $E_{\text{RBM}}$ is plain restricted Boltzmann machine (RBM) with Slater determinant, $E_{\text{RBM+PJ}}$ is RBM with Padé-Jastrow factor (PJ), and $E_{\text{VMC}}$ is standard variational Monte-Carlo. The exact energies are calculated analytically by M.Taut, see \cite{taut_two_1993}. The reference is to J. Høgberget's diffusion Monte-Carlo (DMC) calculations \cite{hogberget_quantum_2013}. } 
 	\begin{tabularx}{\textwidth}{l:l|XXXXXX} \hline\hline
@@ -140,10 +169,10 @@ The one-body densities
 \iffalse
 \begin{figure} [H]%
 	\centering
-	\subfloat[2 particles, RBM]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int1/onebody/2D/2P/onebody_RBM_2D_2P_SGD.png}}}
-	\subfloat[2 particles, VMC]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int1/onebody/2D/2P/onebody_VMC_2D_2P_SGD.png} }}\\
+	\subfloat[2 particles, RBM]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/plots/int1/onebody/2D/2P/onebody_RBM_2D_2P_SGD.png}}}
+	\subfloat[2 particles, VMC]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/plots/int1/onebody/2D/2P/onebody_VMC_2D_2P_SGD.png} }}\\
 	
-	\subfloat[2 particles RBM \& VMC]{{\includegraphics[width=16cm]{/home/evenmn/VMC/doc/html/int1/onebody/2D/2P/onebody_VMC_RBM_2D_2P_SGD.png} }}
+	\subfloat[2 particles RBM \& VMC]{{\includegraphics[width=16cm]{/home/evenmn/VMC/doc/plots/int1/onebody/2D/2P/onebody_VMC_RBM_2D_2P_SGD.png} }}
 	%\subfloat[20 particles]{{\includegraphics[width=6cm]{Images/example.png} }}
 	\caption{One-body densities of two non-interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC) and plain restricted Boltzmann machine (RBM). Stochastic gradient descent was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$}%
 	\label{fig:OB_interaction_2P_2D2}
@@ -152,11 +181,11 @@ The one-body densities
 
 \begin{figure} [H]%
 	\centering
-	\subfloat[$\omega=0.1$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int1/onebody/2D/2P/0.100000w/2D_2P_0p100000w_MC2pow28.png}}}
-	\subfloat[$\omega=0.28$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int1/onebody/2D/2P/0.280000w/2D_2P_0p280000w_MC2pow28.png}}}\\
+	\subfloat[$\omega=0.1$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/2P/0.100000w/2D_2P_0p100000w_MC2pow28.png}}}
+	\subfloat[$\omega=0.28$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/2P/0.280000w/2D_2P_0p280000w_MC2pow28.png}}}\\
 	
-	\subfloat[$\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int1/onebody/2D/2P/0.500000w/2D_2P_0p500000w_MC2pow28.png}}}
-	\subfloat[$\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int1/onebody/2D/2P/1.000000w/2D_2P_1p000000w_MC2pow28.png}}}
+	\subfloat[$\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/2P/0.500000w/2D_2P_0p500000w_MC2pow28.png}}}
+	\subfloat[$\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/2P/1.000000w/2D_2P_1p000000w_MC2pow28.png}}}
 	\caption{One-body densities of two non-interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). Stochastic gradient descent was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
 	\label{fig:OB_interaction_2P_2D}
 \end{figure}
@@ -164,10 +193,10 @@ The one-body densities
 \iffalse
 \begin{figure} [H]%
 	\centering
-	\subfloat[6 particles, RBM]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int1/onebody/2D/6P/onebody_RBM_2D_6P_SGD.png}}}
-	\subfloat[6 particles, VMC]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int1/onebody/2D/6P/onebody_VMC_2D_6P_SGD.png} }}\\
+	\subfloat[6 particles, RBM]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/plots/int1/onebody/2D/6P/onebody_RBM_2D_6P_SGD.png}}}
+	\subfloat[6 particles, VMC]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/plots/int1/onebody/2D/6P/onebody_VMC_2D_6P_SGD.png} }}\\
 	
-	\subfloat[6 particles RBM \& VMC]{{\includegraphics[width=16cm]{/home/evenmn/VMC/doc/html/int1/onebody/2D/6P/onebody_VMC_RBM_2D_6P_SGD.png} }}
+	\subfloat[6 particles RBM \& VMC]{{\includegraphics[width=16cm]{/home/evenmn/VMC/doc/plots/int1/onebody/2D/6P/onebody_VMC_RBM_2D_6P_SGD.png} }}
 	%\subfloat[20 particles]{{\includegraphics[width=6cm]{Images/example.png} }}
 	\caption{One-body densities of six non-interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC) and plain restricted Boltzmann machine (RBM). Stochastic gradient descent was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$}%
 	\label{fig:OB_interaction_6P_2D2}
@@ -176,11 +205,11 @@ The one-body densities
 
 \begin{figure} [H]%
 	\centering
-	\subfloat[$\omega=0.1$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int1/onebody/2D/6P/0.100000w/2D_6P_0p100000w_MC2pow28.png}}}
-	\subfloat[$\omega=0.28$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int1/onebody/2D/6P/0.280000w/2D_6P_0p280000w_MC2pow28.png}}}\\
+	\subfloat[$\omega=0.1$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/6P/0.100000w/2D_6P_0p100000w_MC2pow28.png}}}
+	\subfloat[$\omega=0.28$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/6P/0.280000w/2D_6P_0p280000w_MC2pow28.png}}}\\
 	
-	\subfloat[$\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int1/onebody/2D/6P/0.500000w/2D_6P_0p500000w_MC2pow28.png}}}
-	\subfloat[$\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int1/onebody/2D/6P/1.000000w/2D_6P_1p000000w_MC2pow28.png}}}
+	\subfloat[$\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/6P/0.500000w/2D_6P_0p500000w_MC2pow28.png}}}
+	\subfloat[$\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/6P/1.000000w/2D_6P_1p000000w_MC2pow28.png}}}
 	\caption{One-body densities of six non-interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). Stochastic gradient descent was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
 	\label{fig:OB_interaction_6P_2D}
 \end{figure}
@@ -188,10 +217,10 @@ The one-body densities
 \iffalse
 \begin{figure} [H]%
 	\centering
-	\subfloat[12 particles, RBM]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int1/onebody/2D/12P/onebody_RBM_2D_12P_SGD.png}}}
-	\subfloat[12 particles, VMC]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int1/onebody/2D/12P/onebody_VMC_2D_12P_SGD.png} }}\\
+	\subfloat[12 particles, RBM]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/plots/int1/onebody/2D/12P/onebody_RBM_2D_12P_SGD.png}}}
+	\subfloat[12 particles, VMC]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/plots/int1/onebody/2D/12P/onebody_VMC_2D_12P_SGD.png} }}\\
 	
-	\subfloat[12 particles RBM \& VMC]{{\includegraphics[width=16cm]{/home/evenmn/VMC/doc/html/int1/onebody/2D/12P/onebody_VMC_RBM_2D_12P_SGD.png} }}
+	\subfloat[12 particles RBM \& VMC]{{\includegraphics[width=16cm]{/home/evenmn/VMC/doc/plots/int1/onebody/2D/12P/onebody_VMC_RBM_2D_12P_SGD.png} }}
 	%\subfloat[20 particles]{{\includegraphics[width=6cm]{Images/example.png} }}
 	\caption{One-body densities of 12 non-interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC) and plain restricted Boltzmann machine (RBM). Stochastic gradient descent was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$}%
 	\label{fig:OB_interaction_12P_2D2}
@@ -200,44 +229,68 @@ The one-body densities
 
 \begin{figure} [H]%
 	\centering
-	\subfloat[$\omega=0.1$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int1/onebody/2D/12P/0.100000w/2D_12P_0p100000w_MC2pow28.png}}}
-	\subfloat[$\omega=0.28$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int1/onebody/2D/12P/0.280000w/2D_12P_0p280000w_MC2pow28.png}}}\\
+	\subfloat[$\omega=0.1$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/12P/0.100000w/2D_12P_0p100000w_MC2pow28.png}}}
+	\subfloat[$\omega=0.28$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/12P/0.280000w/2D_12P_0p280000w_MC2pow28.png}}}\\
 	
-	\subfloat[$\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int1/onebody/2D/12P/0.500000w/2D_12P_0p500000w_MC2pow28.png}}}
-	\subfloat[$\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int1/onebody/2D/12P/1.000000w/2D_12P_1p000000w_MC2pow28.png}}}
+	\subfloat[$\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/12P/0.500000w/2D_12P_0p500000w_MC2pow28.png}}}
+	\subfloat[$\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/12P/1.000000w/2D_12P_1p000000w_MC2pow28.png}}}
 	\caption{One-body densities of 12 non-interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). Stochastic gradient descent was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
 	\label{fig:OB_interaction_12P_2D}
 \end{figure}
 
 \begin{figure} [H]%
 	\centering
-	\subfloat[$\omega=0.1$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int1/onebody/2D/20P/0.100000w/2D_20P_0p100000w_MC2pow28.png}}}
-	\subfloat[$\omega=0.28$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int1/onebody/2D/20P/0.280000w/2D_20P_0p280000w_MC2pow28.png}}}\\
+	\subfloat[$\omega=0.1$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/20P/0.100000w/2D_20P_0p100000w_MC2pow28.png}}}
+	\subfloat[$\omega=0.28$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/20P/0.280000w/2D_20P_0p280000w_MC2pow28.png}}}\\
 	
-	\subfloat[$\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int1/onebody/2D/20P/0.500000w/2D_20P_0p500000w_MC2pow28.png}}}
-	\subfloat[$\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int1/onebody/2D/20P/1.000000w/2D_20P_1p000000w_MC2pow28.png}}}
+	\subfloat[$\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/20P/0.500000w/2D_20P_0p500000w_MC2pow28.png}}}
+	\subfloat[$\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/20P/1.000000w/2D_20P_1p000000w_MC2pow28.png}}}
 	\caption{One-body densities of 20 non-interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). Stochastic gradient descent was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
 	\label{fig:OB_interaction_20P_2D}
 \end{figure}
 
-\subsubsection{Three dimensions}
 \begin{figure} [H]%
 	\centering
-	\subfloat[2 particles, RBM]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int1/onebody/3D/2P/onebody_NQS_P2_D3_allfreq.png}}}
-	\subfloat[2 particles, VMC]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int1/onebody/3D/2P/onebody_VMC_P2_D3_allfreq.png} }}\\
+	\subfloat[$\omega=0.1$]{{\includegraphics[width=8cm]{Images/example.png}}}
+	\subfloat[$\omega=0.28$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/30P/0.280000w/2D_30P_0p280000w_MC2pow28.png}}}\\
 	
-	\subfloat[2 particles RBM \& VMC]{{\includegraphics[width=16cm]{/home/evenmn/VMC/doc/html/int1/onebody/3D/2P/onebody_VMC_NQS_P2_D3_allfreq.png} }}
+	\subfloat[$\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/30P/0.500000w/2D_30P_0p500000w_MC2pow28.png}}}
+	\subfloat[$\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/30P/1.000000w/2D_30P_1p000000w_MC2pow28.png}}}
+	\caption{One-body densities of 30 non-interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). Stochastic gradient descent was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
+	\label{fig:OB_interaction_30P_2D}
+\end{figure}
+
+\subsubsection{Three dimensions}
+\iffalse
+\begin{figure} [H]%
+	\centering
+	\subfloat[2 particles, RBM]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/3D/2P/onebody_NQS_P2_D3_allfreq.png}}}
+	\subfloat[2 particles, VMC]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/3D/2P/onebody_VMC_P2_D3_allfreq.png} }}\\
+	
+	\subfloat[2 particles RBM \& VMC]{{\includegraphics[width=16cm]{/home/evenmn/VMC/plots/int1/onebody/3D/2P/onebody_VMC_NQS_P2_D3_allfreq.png} }}
 	%\subfloat[20 particles]{{\includegraphics[width=6cm]{Images/example.png} }}
 	\caption{One-body densities of two non-interacting electrons in three dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC) and plain restricted Boltzmann machine (RBM). Stochastic gradient descent was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$}%
+	\label{fig:OB_interaction_2P_3D2}
+\end{figure}
+\fi
+
+\begin{figure} [H]%
+	\centering
+	\subfloat[$\omega=0.1$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/3D/2P/0.100000w/3D_2P_0p100000w_MC2pow28.png}}}
+	\subfloat[$\omega=0.28$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/3D/2P/0.280000w/3D_2P_0p280000w_MC2pow28.png}}}\\
+	
+	\subfloat[$\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/3D/2P/0.500000w/3D_2P_0p500000w_MC2pow28.png}}}
+	\subfloat[$\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/3D/2P/1.000000w/3D_2P_1p000000w_MC2pow28.png}}}
+	\caption{One-body densities of two non-interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). Stochastic gradient descent was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
 	\label{fig:OB_interaction_2P_3D}
 \end{figure}
 
 \begin{figure} [H]%
 	\centering
-	\subfloat[8 particles, RBM]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int1/onebody/3D/8P/onebody_NQS_P8_D3_allfreq.png}}}
-	\subfloat[8 particles, VMC]{{\includegraphics[width=8cm]{/home/evenmn/VMC/doc/html/int1/onebody/3D/8P/onebody_VMC_P8_D3_allfreq.png} }}\\
+	\subfloat[8 particles, RBM]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/3D/8P/onebody_NQS_P8_D3_allfreq.png}}}
+	\subfloat[8 particles, VMC]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/3D/8P/onebody_VMC_P8_D3_allfreq.png} }}\\
 	
-	\subfloat[8 particles RBM \& VMC]{{\includegraphics[width=16cm]{/home/evenmn/VMC/doc/html/int1/onebody/3D/8P/onebody_VMC_NQS_P8_D3_allfreq.png} }}
+	\subfloat[8 particles RBM \& VMC]{{\includegraphics[width=16cm]{/home/evenmn/VMC/plots/int1/onebody/3D/8P/onebody_VMC_NQS_P8_D3_allfreq.png} }}
 	%\subfloat[20 particles]{{\includegraphics[width=6cm]{Images/example.png} }}
 	\caption{One-body densities of eight non-interacting electrons in three dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC) and plain restricted Boltzmann machine (RBM). Stochastic gradient descent was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$}%
 	\label{fig:OB_interaction_8P_3D}

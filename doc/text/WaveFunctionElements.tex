@@ -1,7 +1,7 @@
 \chapter{Derivation of Wave Function Elements} \label{chp:WFE}
 In chapter \eqref{chp:quantum} we presented the basic principles behind a many-body trial wave function, including the Slater determinant and the well-known Padé-Jastrow factor. Further, in chapter \eqref{chp:systems}, the common basis functions of the harmonic oscillator and atomic systems were given, and in the previous chapter, \eqref{chp:machinelearning}, we explained how to create wave functions using machine learning. This means that all wave function elements used in this thesis already are given, and in this chapter they are all collected, together with their derivatives and various optimizations. The calculations below are based on two main assumptions:
 \begin{itemize}
-	\item For each step, we move one particle in one dimension
+	\item For each step, we move one particle in one direction.
 	\item A variational parameter occurs in only one of the wave function elements.
 \end{itemize}
 The first assumptions is necessary when we calculate the ratio between the new and the old wave function used in Metropolis sampling, and we need the last to simplify the update of parameters. We start with splitting up the kinetic energy calculations and parameter update to see which derivatives we need.
@@ -12,7 +12,7 @@ The local energy, defined in equation \eqref{eq:local energy}, is
 E_L &=\frac{1}{\Psi_T}\hatH\Psi_T\\
 &=\sum_{k=1}^M\Big[-\frac{1}{2\Psi_T}\nabla_k^2\Psi_T + U_k + V_k\Big].
 \end{align}
-The first term, which is the kinetic energy term, is the only wave function-dependent one. It will in this appendix be evaluated for various wave function elements. From the definition of differentiation of a logarithm, we have that
+The first term, which is the kinetic energy term, is the only wave function-dependent one. It will in this chapter be evaluated for various wave function elements. From the definition of differentiation of a logarithm, we have that
 \begin{equation}
 \frac{1}{\Psi_T}\nabla_k\Psi_T=\nabla_k\ln\Psi_T,
 \end{equation}
@@ -28,60 +28,60 @@ The kinetic energy related to this trial wave function is then computed by
 \begin{equation}
 \frac{1}{\Psi_T}\nabla_k^2\Psi_T=\sum_{i=1}^p\nabla_k^2\ln\phi_i + \Big(\sum_{i=1}^p\nabla_k\ln\phi_i\Big)^2,
 \end{equation}
-which can be computed given all local derivatives $\nabla_k^2\ln\phi_i$ and $\nabla_k\ln\phi_i$. For each wave function element given below, those local derivatives will be evaluated. In addition, we need to know the derivative of the local energy with respect to the variational parameters in order to update the parameters correctly. 
+which can be found when all local derivatives $\nabla_k^2\ln\phi_i$ and $\nabla_k\ln\phi_i$ are given. For each wave function element given below, those local derivatives will be evaluated. In addition, we need to know the derivative of the local energy with respect to the variational parameters in order to update the parameters correctly. 
 
 \section{Parameter Update}
-In gradient based optimization methods, as we use, one needs to know the gradient of the local energy with respect to all variational parameters $\alpha_i$,
+In gradient based optimization methods, as we use, one needs to know the gradient of the local energy with respect to all variational parameters $\alpha_i$, 
 \begin{equation}
-\partial_{\alpha_i} E_L\equiv\frac{\partial E_L(\alpha_i)}{\partial \alpha_i}.
+\partial_{\alpha_i} \langle E_L\rangle\equiv\frac{\partial \langle E_L(\alpha_i)\rangle}{\partial \alpha_i}.
 \end{equation}
-If we assume that each parameter, $\alpha$, only exists in a wave function element,
+Since we are dealing with an expectation value, this gradient can be found from
 \begin{equation}
-\Psi_T(\alpha)=\phi_1(\alpha)\prod_{i=2}^{p}\phi_i
+\partial_{\alpha_i} \langle E_L\rangle=2\Big(\langle E_L\partial_{\alpha_i}\ln\Psi_T\rangle - \langle E_L\rangle\langle\partial_{\alpha_i}\ln\Psi_T\rangle\Big)
 \end{equation}
-the derivative of the entire local energy is reduced to the derivative of the kinetic energy term given the wave function element,
-\begin{align}
-\partial_{\alpha} E_L &=-\frac{1}{2}\partial_{\alpha}\bigg(\nabla_k^2\ln\phi_1(\alpha)+\sum_{i=2}^p\nabla_k^2\ln\phi_i + \Big(\nabla_k\ln\phi_1(\alpha)+\sum_{i=2}^p\nabla_k\ln\phi_i\Big)^2\bigg)\\
-&=-\frac{1}{2}\partial_{\alpha}\nabla_k^2\ln\phi_1(\alpha)-\Big(\sum_{i=1}^p\nabla_k\ln\phi_i\Big)\cdot\partial_{\alpha}\nabla_k\ln\phi_1(\alpha).
-\end{align}
-The sum is already evaluated in the kinetic energy calculations, which means that to calculate the gradients, it is sufficient to calculate $\partial_{\alpha}\nabla_k\ln\phi_1(\alpha)$ and $\partial_{\alpha}\nabla_k^2\ln\phi_1(\alpha)$ for all wave function elements with respect to their variational parameters.
+which means that we need to calculate the expectation values $\langle E_L\partial_{\alpha_i}\ln\Psi_T\rangle$ and $\langle\partial_{\alpha_i}\ln\Psi_T\rangle$ in addition to the local energy, which is done by Monte-Carlo integration. 
+
+\section{Optimizations}
+How much a wave function element can be optimized heavily depends on the specific form of the element. For instance, sometimes the previous and present $\nabla_k\ln\phi_i$ are closely linked, and only differ from each other with a few calculations, while for some elements they are not related at all. Those subjective optimization will therefore be described when presenting each wave function element. 
+
+However, there are still optimizations that apply to all elements and give great speed-up. An example is to calculate the ratio between the previous and present wave functions,
+\begin{equation*}
+\frac{\Psi_{\text{new}}}{\Psi_{\text{old}}}
+\end{equation*}
+instead of the wave function itself. Firstly, this is usually cheaper to calculate than the wave function because we are living in the logarithmic space. Secondly, the ratio is actually what we use in the sampling, so it is a natural thing to calculate. 
 
 \section{Derivatives}
 \subsection{Simple Gaussian}
-A natural starting point is the Gaussian function, since it appears in all harmonic oscillator calculations and is quite simple to evaluate both in Cartesian and spherical coordinates. We are interested in the former. For $M$ free dimensions, the function is given by
+A natural starting point is the Gaussian function, since it appears in traditional variational Monte-Carlo computations of the harmonic oscillator. It is also quite simple to evaluate both in Cartesian and spherical coordinates. We are interested in the former. For $M$ free dimensions, the function is given by
 \begin{equation*}
-\Psi( \bs{x}; \alpha)=\exp\Big[-\frac{1}{2}\omega\alpha\sum_{i=1}^Mx_i^2\Big]
+\Psi( \bs{x}; \alpha)=\exp\Big(-\frac{1}{2}\omega\alpha\sum_{i=1}^Mx_i^2\Big)
 \end{equation*}
-where the derivative with respect to coordinate $x_k$ is
+where the gradient with respect to coordinate $x_k$ is
 \begin{equation*}
 \nabla_k\ln\Psi(\alpha)=-\omega\alpha x_k
 \end{equation*}
-and the sum over all second derivatives is
+and the corresponding Laplacian is
 \begin{equation*}
 \nabla_k^2\ln\Psi(\alpha)=-\omega\alpha.
 \end{equation*}
-The gradients for those derivatives are
-\begin{equation*}
-\partial_{\alpha} \nabla_k\ln\Psi(\alpha)=-\omega x_k
-\end{equation*}
-and
-\begin{equation*}
-\partial_{\alpha} \nabla_k^2\ln\Psi(\alpha)=-\omega
-\end{equation*}
-respectively. The only thing that can be optimized regarding this element, is the ratio between the new and the old probability. All expressions are collected below
+Finally, for the parameter update, we have that
+\begin{equation}
+\partial_{\alpha}\ln\Psi = -\frac{1}{2}\omega\sum_{i=1}^Mx_i^2.
+\end{equation}
+The most natural thing to 
+The only thing that can be optimized regarding this element, is the ratio between the new and the old probability. All expressions are collected below
 \begin{empheq}[box={\mybluebox[5pt]}]{align}
 \frac{\Psi_{\text{new}}^2}{\Psi_{\text{old}}^2}&=\exp\Big(\alpha\omega(x_{i,\text{old}}^2-x_{i,\text{new}}^2)\Big)\notag\\
 \nabla_k\ln\Psi&=-\omega\alpha x_k\notag\\
 \nabla_k^2\ln\Psi&=-\omega\alpha\\
-\partial_{\alpha} \nabla_k\ln\Psi&=-\omega x_k\notag\\
-\partial_{\alpha} \nabla_k^2\ln\Psi&=-\omega,\notag
+\partial_{\alpha}\ln\Psi &= -\frac{1}{2}\omega\sum_{i=1}^Mx_i^2,\notag
 \end{empheq}
-where $i$ is the changed coordinate.
+where $i$ is the changed coordinate. Since the final expressions are all neat, there are no further optimizations available. 
 
 \subsection{Padé-Jastrow Factor}
 The Padé-Jastrow factor is introduced in order to take care of the correlations. It is specified in equation \eqref{eq:PadeJastrow}, 
 \begin{equation*}
-J(\bs{r}; \beta, \gamma) = \exp\bigg(\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\frac{\beta_{ij}r_{ij}}{1+\gamma r_{ij}}\bigg),
+J(\bs{r}; \beta, \gamma) = \exp\bigg(\sum_{i=1}^N\sum_{j=1}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij}}\bigg),
 \end{equation*}
 where $N$ is the number of particles. One challenge is that we operate in cartesian coordinates, while the expressed Jastrow factor obviously is easier to handle in spherical coordinates. Since we need to differentiate this with respect to all free dimensions, we need to be careful not confuse the particle indices and coordinate indices. Let us define $i$ as the coordinate index and $i'$ as the index on the corresponding particle. We then get the first and second derivatives
 \begin{equation*}

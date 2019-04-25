@@ -27,20 +27,20 @@ which needs to be satisfied. The new positions in coordinate space are given as 
 \end{equation}
 
 \subsection{Variational Monte Carlo} \label{subsec:vmc}
-The Variational Monte Carlo (hereafter, VMC) method is today widely used when it comes to the study of ground state properties of quantum mechanical systems. It is a Monte Carlo method which makes use of Metropolis sampling, and has been used in studies of fermionic systems since the 1970's. \cite{deb_variational_2014} If we go back to the variational principle in equation \eqref{eq:variationalprinciple}, we see that by choosing a wave function which satisfies the criteria, we will get an energy larger or equal to the ground state energy. \bigskip
+The variational Monte-Carlo (hereafter, VMC) method is today widely used when it comes to the study of ground state properties of quantum mechanical systems. It is a Markov chain Monte-Carlo method which makes use of Metropolis sampling, and has been used in studies of fermionic systems since the 1970's. \cite{deb_variational_2014} If we go back to the variational principle in equation \eqref{eq:variationalprinciple}, we see that by choosing a wave function which satisfies the criteria, we will get an energy larger or equal to the ground state energy. \bigskip
 
 There are two main problems we need to solve
 \begin{enumerate}
 	\item We seldomly know the correct wave function
 	\item The integral we need to find the energy is hard or impossible to solve
 \end{enumerate}
-Let us take the last problem first. The solution is to approximate the integral with a sum,
+Let us first determine the last problem, which often is considered as the root of all evil. Solving this integral by integration cannot be done, but we can approximate it with a sum,
 \begin{align}
 E &\leq \frac{\int\Psi_T(\bs{r})^*\hat{H}\Psi_T(\bs{r}) d\bs{r}}{\int\Psi_T(\bs{r})^*\Psi_T(\bs{r}) d\bs{r}} \notag\\
 & = \int P(\bs{r}) E_L(\bs{r}) d\bs{r} \notag\\
-& \approx \frac{1}{N}\sum_{i=1}^NE_L(\bs{r}_i) \label{eq:energysum}
+& \approx \frac{1}{M}\sum_{i=1}^ME_L(\bs{r}_i) \label{eq:energysum}
 \end{align}
-where the local energy is defined as
+which is a common trick in statistical physics. The local energy is defined as
 \begin{equation}
 E_L(\bs{r})\equiv\frac{1}{\Psi_T(\bs{r})}\hat{H}\Psi_T(\bs{r})
 \label{eq:local energy}
@@ -49,18 +49,21 @@ and the $\bs{r}_i$ is withdrawn from the probability distribution $P(\bs{r})$, w
 \begin{equation}
 P(\bs{r})=\frac{|\Psi_T(\bs{r})|^2}{\int|\Psi_T(\bs{r})|^2d\bs{r}}.
 \end{equation}
-The energy found from equation \eqref{eq:energysum} is an expectation value, and we therefore know that the true energy lies within the standard error. When increasing the number of Monte-Carlo cycles, the standard error decreases and we get a more accurate energy. In the limit $N$ goes to infinity, the variance should approach zero,
+The energy found from equation \eqref{eq:energysum} is an expectation value, and we therefore know that the true energy lies within the standard error. When increasing the number of energies drawn from the distribution, $M$, henceforth denoted as Monte-Carlo cycles, the standard error decreases and we get a more accurate energy. In the limit when $M$ goes to infinity, the variance should approach zero,
 \begin{equation}
-\langle E\rangle=\lim_{N\to\infty} \frac{1}{N}\sum_{i=1}^NE_L(\bs{r}_i).
+\langle E\rangle=\lim_{M\to\infty} \frac{1}{M}\sum_{i=1}^ME_L(\bs{r}_i).
 \end{equation}
 For more statistical details, see \cite{deb_variational_2014}. 
 
-Given a wave function we are now able to estimate the corresponding energy, but how do we find a good wave function? In VMC, we define a wave function with variational parameters, which are adjusted in order to minimize the energy for every iteration. For every iteration, we run $N$ Monte-Carlo cycles where we withdraw a new position $\bs{r}_i$. Whether or not the proposed move should be accepted is determined by the Metropolis algorithm.
+So far, so good, but how about the first problem stated above? How do we find the correct wave function? In VMC, we define a wave function with variational parameters, which are adjusted in order to minimize the energy for every iteration. Of course, we need a decent initial guess, which is usually based on our physical intuition. We will later examine how much physical intuition we need to get an acceptable result. 
+
+For every iteration, we run $M$ Monte-Carlo cycles where we withdraw a new position $\bs{r}_i$. Whether or not the proposed move should be accepted is determined by the Metropolis algorithm.
 
 \subsubsection{The Metropolis Algorithm}
-The genius of the metropolis algorithm, is that the acceptance of a move is not based on the probabilities themselves, but the ratio between the new and the old probability\\
-. In that way, we avoid calculating the sum over all probabilities, which often is expensive or even impossible to calculate. 
+Metropolis sampling is a method of accepting or rejecting moves in Markov chain, are is today widely used. The genius of the metropolis algorithm, is that the acceptance of a move is not based on the probabilities themselves, but the ratio between the new and the old probability. In that way, we avoid calculating the sum over all probabilities, which often is expensive or even impossible to calculate. 
 
-In its simplest form, the move is proposed randomly, and it is accepted if the ratio is larger than a random number between 0 and 1. However, with this approach a lot of moves will be rejected, which wastes CPU time. A better method is \textbf{importance sampling}, which makes a educated guess of the best way to move based on diffusion processes, and move the particle in that direction. 
+In its simplest form, the move is proposed randomly, and it is accepted if the ratio is larger than a random number between 0 and 1. We will call this approach \textbf{brute-force Metropolis sampling}. However, with this approach a lot of moves will be rejected, which results in waste CPU time. A better method is \textbf{importance sampling}, which makes an educated guess of the best way to move based on diffusion processes, and move the particle in that direction. 
 
 A time-dependent probability density needs to satisfy the Fokker-Planck equation 
+
+WRITE ABOUT FOKKER-PLANCK AND LANGEVIN

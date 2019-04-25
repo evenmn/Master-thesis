@@ -52,38 +52,8 @@ and finally the Lasso cost function is given by
 \subsection{Logistic regression}
 Despite its name, logistic regression is not a fitting tool, but rather a classification tool. Traditionally, the perceptron model was used for 'hard classification', which sets the outputs directly to binary values. However, often we are interested in the probability of a given category, which means that we need a continuous \textit{activation function}. Logistic regression can, like linear regression, be considered as a function where coefficients are adjusted with the intention to minimize the error. Here, the coefficients are called \textit{weights}. The process goes like this: The inputs are multiplied by several weights, and by adjusting those weights the model can classify every \textit{linear classification problem}. A drawing of the perceptron is found in figure (\ref{fig:single_perceptron}).
 
-\begin{figure} [H]
-	\centering
-	\begin{tikzpicture}
-	\node[functions] (center) {};
-	\node[below of=center,font=\scriptsize,text width=4em] {Activation function};
-	\draw[thick] (0.5em,0.5em) -- (0,0.5em) -- (0,-0.5em) -- (-0.5em,-0.5em);
-	\draw (0em,0.75em) -- (0em,-0.75em);
-	\draw (0.75em,0em) -- (-0.75em,0em);
-	\node[right of=center] (right) {};
-	\path[draw,->] (center) -- (right);
-	\node[functions,left=3em of center] (left) {$\sum$};
-	\path[draw,->] (left) -- (center);
-	\node[weights,left=3em of left] (2) {$w_2$} -- (2) node[input,left of=2] (l2) {$x_2$};
-	\path[draw,->] (l2) -- (2);
-	\path[draw,->] (2) -- (left);
-	\node[below of=2] (dots) {$\vdots$} -- (dots) node[left of=dots] (ldots) {$\vdots$};
-	\node[weights,below of=dots] (n) {$w_n$} -- (n) node[input,left of=n] (ln) {$x_n$};
-	\path[draw,->] (ln) -- (n);
-	\path[draw,->] (n) -- (left);
-	\node[weights,above of=2] (1) {$w_1$} -- (1) node[input,left of=1] (l1) {$x_1$};
-	\path[draw,->] (l1) -- (1);
-	\path[draw,->] (1) -- (left);
-	\node[weights,above of=1] (0) {$b$} -- (0) node[input,left of=0] (l0) {$B$};
-	\node[right of=0,font=\scriptsize] {BIAS};
-	\path[draw,->] (l0) -- (0);
-	\path[draw,->] (0) -- (left);
-	\node[below of=ln,font=\scriptsize] {inputs};
-	\node[below of=n,font=\scriptsize] {weights};
-	\end{tikzpicture}
-	\caption{Logistic regression model with $n$ inputs.}
-	\label{fig:single_perceptron}
-\end{figure}
+\input{tikz/singlelayer_perceptron.tex}
+
 In logistic regression, we usually have one binary output node for each class, but for two categories one output node is sufficient, which can be fired or not fired. 
 
 Initially, one needs to train the perceptron such that it knows which outputs are correct, and for that one needs to know the outputs that correspond to the inputs. Every time the network is trained, the weights are adjusted such that the error is minimized.
@@ -191,91 +161,7 @@ If you have understood logistic regression, understanding a neural network shoul
 
 In figure \eqref{fig:neural_network}, a two-layer neural network (one hidden layer) is illustrated. It has some similarities with the logistic regression model in figure \eqref{fig:single_perceptron}, but a hidden layer and multiple outputs are added. In addition, the output is no longer probabilities and can take any number, which means that we do not need to use the logistic function on the outputs anymore.
 
-\begin{figure} [H]
-	\centering
-	\begin{tikzpicture}
-	
-	% Define outputs
-	\node[] (center) {};
-	\node[input, above=0.3em of center] (o1) {$o_1$};
-	\node[input, below=0.3em of center] (o2) {$o_2$};
-	
-	% Draw lines from output nodes
-	\node[right of=o1] (righto1) {};
-	\node[right of=o2] (righto2) {};
-	\path[draw,->] (o1) -- (righto1);
-	\path[draw,->] (o2) -- (righto2);
-	
-	% Hidden nodes
-	\node[input,left=5em of center] (h3) {$h_3$};
-	\node[input,above of=h3] (h2) {$h_2$};
-	\node[input,above of=h2] (h1) {$h_1$};
-	\node[input,below of=h3] (h4) {$h_4$};
-	\node[input,below of=h4] (h5) {$h_5$};
-	\node[input,above of=h1] (b2) {$b_2$};
-	
-	% Draw lines from hidden nodes
-	\path[draw,->] (h1) -- (o1);
-	\path[draw,->] (h2) -- (o1);
-	\path[draw,->] (h3) -- (o1);
-	\path[draw,->] (h4) -- (o1);
-	\path[draw,->] (h5) -- (o1);
-	\path[draw,->] (b2) -- (o1);
-	
-	\path[draw,->] (h1) -- (o2);
-	\path[draw,->] (h2) -- (o2);
-	\path[draw,->] (h3) -- (o2);
-	\path[draw,->] (h4) -- (o2);
-	\path[draw,->] (h5) -- (o2);
-	\path[draw,->] (b2) -- (o2);
-	
-	% Define place left of left
-	\node[input,left=5em of h3] (x2) {$x_2$};
-	\node[input,above of=x2] (x1) {$x_1$};
-	\node[input,below of=x2] (x3) {$x_3$};
-	\node[input,above of=x1] (b1) {$b_1$};
-	
-	% Draw lines from input nodes
-	\path[draw,->] (x1) -- (h1);
-	\path[draw,->] (x1) -- (h2);
-	\path[draw,->] (x1) -- (h3);
-	\path[draw,->] (x1) -- (h4);
-	\path[draw,->] (x1) -- (h5);
-	
-	\path[draw,->] (x2) -- (h1);
-	\path[draw,->] (x2) -- (h2);
-	\path[draw,->] (x2) -- (h3);
-	\path[draw,->] (x2) -- (h4);
-	\path[draw,->] (x2) -- (h5);
-	
-	\path[draw,->] (x3) -- (h1);
-	\path[draw,->] (x3) -- (h2);
-	\path[draw,->] (x3) -- (h3);
-	\path[draw,->] (x3) -- (h4);
-	\path[draw,->] (x3) -- (h5);
-	
-	\path[draw,->] (b1) -- (h1);
-	\path[draw,->] (b1) -- (h2);
-	\path[draw,->] (b1) -- (h3);
-	\path[draw,->] (b1) -- (h4);
-	\path[draw,->] (b1) -- (h5);
-	
-	% Draw lines towards input nodes
-	\node[left of=x1] (leftx1) {};
-	\node[left of=x2] (leftx2) {};
-	\node[left of=x3] (leftx3) {};
-	\path[draw,->] (leftx1) -- (x1);
-	\path[draw,->] (leftx2) -- (x2);
-	\path[draw,->] (leftx3) -- (x3);
-	
-	% Add some text
-	\node[below=5.1em of x2,font=\scriptsize] {input};
-	\node[below=5em of h3,font=\scriptsize] {hidden};
-	\node[below=5.8em of center,font=\scriptsize] {output};
-	\end{tikzpicture}
-	\caption{Neural network with 3 input nodes, 5 hidden nodes and 2 output nodes, in addition to the bias nodes.}
-	\label{fig:neural_network}
-\end{figure}
+\input{tikz/multilayer_perceptron.tex}
 
 Without a hidden layer, we have seen that the update of weights is quite straight forward. For a neural network consisting of multiple layers, the question is: how do we update the weights when we do not know the values of the hidden nodes? And how do we know which layer causing the error? This will be explained in section \ref{sec:backward}, where one of the most popular techniques for that is discussed. Before that we will generalize the forward phase presented in logistic regression.
 
@@ -374,9 +260,9 @@ P=\exp(-E/kT)
 \end{equation}
 which is the Boltzmann distribution, hence the name Boltzmann machine. $k$ is known as Boltzmann's constant and $T$ is the system temperature, but henceforth they both will be avoided by scaling $E'=E/kT$. 
 
-In the most general form, all nodes are connected to all other nodes, that is an unrestricted Boltzmann machine, see figure .. for illustration. 
+In the most general form, all nodes are connected to all other nodes, that is an unrestricted Boltzmann machine, see figure \eqref{fig:boltzmann_machine} for illustration. 
 
-INSERT FIGURE
+\input{tikz/boltzmann_machine.tex}
 
 In the same manner as in a Feed-forward Neural Network, we can directly multiply each node $s_i$ with its respective inner weights $w_{ij}$ and then with the opposite node $s_j$, which defines the system energy together with the bias contributions. This gives the energy
 \begin{equation}
@@ -385,8 +271,8 @@ E=- \sum_{i=1}^Ns_ib_i-\sum_{i=1}^N\sum_{j=i}^N s_iw_{ij}s_j
 \end{equation}
 for a system of $N$ nodes, which is the so-called binary-binary network and the most basic architecture. During training, the weights are adjusted in order to maximize the probability...
 
-\subsection{Restricted Boltzmann Machines}
-When there is an unrestricted guy, a restricted guy must exist as well. What we term restricted means in this case, is that we ignore intra-layer connections and keep only the inter-layer ones. In the same manner as in equation \eqref{eq:unrestrictedboltzmannmachine}, we can look at the linear case, where each node is multiplied with the corresponding weight. We decide to split the bias nodes into one part connected to the \textit{visible} layer, $a_i$, and one part connected to the \textit{hidden} layer, $b_i$. The system energy then reads
+\subsection{Restricted Boltzmann machines}
+When there is an unrestricted guy, a restricted guy must exist as well. What the term restricted means in this case, is that we ignore intra-layer connections and keep only the inter-layer ones. In the same manner as in equation \eqref{eq:unrestrictedboltzmannmachine}, we can look at the linear case, where each node is multiplied with the corresponding weight. We decide to split the bias nodes into one part connected to the \textit{visible} layer, $a_i$, and one part connected to the \textit{hidden} layer, $b_i$. The system energy then reads
 \begin{equation}
 E=- \sum_{i=1}^Mx_ia_i- \sum_{j=1}^Nh_jb_j-\sum_{i=1}^N\sum_{j=i}^N s_iw_{ij}s_j 
 \label{eq:binarybinary}
@@ -397,3 +283,10 @@ E=- \sum_{i=1}^Mx_ia_i- \sum_{j=1}^Nh_jb_j-\sum_{i=1}^N\sum_{j=i}^N s_iw_{ij}s_j
 \label{eq:NQSWF}
 \end{equation}
 Need to compare it to standard VMC with Padé-Jastrow factor. 
+
+\input{tikz/restricted_boltzmann_machine.tex}
+
+\subsection{Partly restricted Boltzmann machine}
+One can also imagine a partly restricted architecture, where we have inter-layer connections between the visible nodes, but not the hidden nodes. This is what we have decided to call a partly restricted Boltzmann machine. 
+
+\input{tikz/partly_restricted_boltzmann_machine.tex}
