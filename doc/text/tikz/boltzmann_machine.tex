@@ -1,0 +1,52 @@
+\begin{figure} [H]
+	\centering
+	\begin{tikzpicture}
+	
+	% Define visible units
+	\node[input] (s2) {$s_2$};
+	\node[input] at (1,+3/2) (s1) {$s_1$};
+	\node[input] at (1,-3/2) (s3) {$s_3$};
+	
+	% Define hidden units
+	\node[input] at (3,+3/2) (s6) {$s_6$};
+	\node[input] at (4,0) (s5) {$s_5$};
+	\node[input] at (3,-3/2) (s4) {$s_4$};
+	
+	% Define biases
+	\node[input] at (2,7/2) (b) {$1$};
+	
+	% Define paths
+	\path[draw,-] (s1) -- (s2);
+	\path[draw,-] (s2) -- (s3);
+	\path[draw,-] (s3) -- (s4);
+	\path[draw,-] (s4) -- (s5);
+	\path[draw,-] (s5) -- (s6);
+	\path[draw,-] (s6) -- (s1)  node[midway,above] {$w_{16}$};
+	
+	\path[draw,-] (s1) -- (s4);
+	\path[draw,-] (s2) -- (s5);
+	\path[draw,-] (s3) -- (s6);
+	
+	\path[draw,-] (s1) -- (s5);
+	\path[draw,-] (s6) -- (s4);
+	\path[draw,-] (s5) -- (s3);
+	\path[draw,-] (s4) -- (s2);
+	\path[draw,-] (s3) -- (s1);
+	\path[draw,-] (s2) -- (s6);
+	
+	\draw[blue,-] (b) to [out=315,in=90] (s6);
+	\draw[blue,-] (b) to [out=225,in=90] (s1);
+	\draw[blue,-] (b) to [out=337.5,in=90] (s5);
+	\draw[blue,-] (b) to [out=202.5,in=90] (s2);
+	\draw[blue,-] (b) to [out=0,in=0] (s4);
+	\draw[blue,-] (b) to [out=180,in=180] (s3) node[] at (-1,0) {$b_3$};
+	
+	
+	% Add some text
+	%\node[below=1em of x3,font=\scriptsize] {visible};
+	%\node[below=1em of h3,font=\scriptsize] {hidden};
+	%\node[below=5.8em of center,font=\scriptsize] {output};
+	\end{tikzpicture}
+	\caption{Unrestricted Boltzmann machine. Black lines are connections between all the nodes, where for instance the line between $s_1$ and $s_6$ is related to the weight $w_{16}$. The blue lines are related to the bias weights, and, for instance, the line going from the bias node to $s_3$ is related to $b_3$.}
+	\label{fig:boltzmann_machine}
+\end{figure}

@@ -6,134 +6,185 @@
 	\caption{Caption}
 \end{figure}
 
-For many projects, planning is half the job, and so is true for a good VMC implementation. In fact, the program was restructured three times before we landed on this final version. It is based on Morten Ledum's VMC framework found at \cite{ledum_simple_2016}, which was meant as an example implementation in the course \textit{FYS4411 - Computational Physics II: Quantum Mechanical Systems}. As our development environment, we use \textbf{QT creator}, which offers an elegant platform for writing, compiling and profiling \cite{noauthor_qt_2019}. In addition, one can easily construct a \textit{graphical user interface} (GUI) based on \textbf{QT Widgets}. For all matrix and array operations, the \textbf{Eigen} library was used. All source code can be found at \cite{nordhagen_general_2019}. \bigskip
+For many projects, planning is half the job, and so is true for a good VMC implementation. In fact, the program was restructured three times before we landed on this final version. It is based on Morten Ledum's VMC framework found at \cite{ledum_simple_2016}, which was meant as an example implementation in the course \textit{FYS4411 - Computational Physics II: Quantum Mechanical Systems}. 
 
-We had three main areas of focus when developing the code. It should be
+\iffalse As our development environment, we use \textbf{QT creator}, which offers an elegant platform for writing, compiling and profiling \cite{noauthor_qt_2019}. In addition, one can easily construct a \textit{graphical user interface} (GUI) based on \textbf{QT Widgets}. \fi 
+
+For all matrix and array operations, the \textbf{Eigen} library was used. All source code can be found at \cite{nordhagen_general_2019}. \bigskip
+
+The code was developed with three main goals. It should be
 \begin{itemize}
 	\itemsep-0.3em
-	\item efficient
-	\item flexible
-	\item legible.
+	\item readable,
+	\item fast,
+	\item flexible.
 \end{itemize}
 
-The efficiency is mostly based on recursive computations, such that we do not need to calculate everything over again when it is enough to calculate the fraction between the old the new number. This is highly relevant when it comes to the Slater determinant, but we also do this for other wave function elements. See chapter \eqref{chp:optimization} for more details. 
+How we work to achieve the goals will be illustrated by code mainly picked from the \texttt{WaveFunction} class, which is the heart of the code. 
 
-For profiling, we used \textbf{callgrind} with \textbf{kcachegrind} visualization, which are great tools when we want to find out which functions that steal CPU time. 
+\section{Readability}
+To maximize the readability, we developed a highly object oriented code based on the theory in chapter \eqref{chp:scientificprogramming}. For instance, each wave function element was treated as an object, with the properties \texttt{updateArrays}, \texttt{setArrays}, \texttt{resetArrays}, \texttt{initializeArrays}, \texttt{updateParameters}, \texttt{evaluateRatio}, \texttt{computeGradient}, \texttt{computeLaplacian} and \newline\texttt{computeParameterGradient}. To ensure that all wave function elements have all the necessary properties, the super class \texttt{WaveFunctions} is equipped with the corresponding virtual functions
+\lstset{basicstyle=\scriptsize}
+\begin{lstlisting}[language=c++,caption={\texttt{wavefunction.h}}]
+#pragma once
+#include <Eigen/Dense>
+#include <iostream>
 
-Unlike many other VMC codes, our code was developed flexible with respect to the wave functions. This means that one can combine various wave function elements, where each element is implemented separately. For instance, the Gaussian function, the Slater determinant and the Padé-Jastrow factor were implemented separately, but they all can easily be combined. The way one does this in practice, is to append multiple wave function elements to the vector \texttt{WaveFunctionElements} in main. If one for instance want to combine the Gaussian with the Padé-Jastrow factor and the Slater determinant, this can be done by
+class WaveFunction {
+public:
+    WaveFunction(class System *system);
+    virtual void   updateArrays    (Eigen::VectorXd positions, int pRand)  = 0;
+    virtual void   setArrays       () = 0;
+    virtual void   resetArrays     () = 0;
+    virtual void   initializeArrays(Eigen::VectorXd positions) = 0;
+    virtual void   updateParameters(Eigen::MatrixXd parameters, int elementNumber) = 0;
+    
+    virtual double evaluateRatio   ()      = 0;
+    virtual double computeGradient (int k) = 0;
+    virtual double computeLaplacian()      = 0;
+    
+    virtual Eigen::VectorXd computeParameterGradient() = 0;
+
+    virtual ~WaveFunction() = 0;
+
+protected:
+    int     m_numberOfParticles                 = 0;
+    int     m_numberOfDimensions                = 0;
+    int     m_numberOfFreeDimensions            = 0;
+    int     m_maxNumberOfParametersPerElement   = 0;
+    class System* m_system = nullptr;
+};
+\end{lstlisting}
+which serves a template for all the sub classes (wave function elements). As you might notice, we use the \textbf{lowerCamelCase} naming convention for function and variable names, which means that each word begins with a capital letter except the initial word. For classes, we use the \textbf{UpperCamelCase} to distinguish from function names. This is known to be easy to read, and apart from for example the popular \textbf{snake\_case}, we do not need delimiters between the words, which saves some space. After the naming convention is decided, we are still responsible for giving reasonable names, which is not always an easy task, as Phil Karlton points out. When one sees the name, one should know exactly what the variable/function/class is or does. More about naming conventions can be read at \cite{noauthor_naming_2019}. 
+
+\section{Efficiency}
+The efficiency is mostly based on recursive computations, such that we do not need to calculate everything over again when it is enough to calculate the fraction between the old the new number. This is highly relevant when it comes to the Slater determinant, but we also do this for other wave function elements. 
+
+First of all, we need to initialize all position dependent arrays. Some of these are initialized once, and then updated for the rest of the run based on their earlier value. \texttt{initializeArrays} does all the magic here.
+
+Every wave function element is equipped with a function, \texttt{updateArrays}, where all relevant arrays are updated immediately after a particle is moved. In this way we ensure that nothing is calculated twice inside any element. Those functions are by far the most expensive to calculate, but it is also easier to streamline a really expensive function than several quite expensive ones. 
+
+Inside \texttt{updateArrays}, we first need to update the old variables, typically named like \texttt{m\_positionsOld} or so. This is generally done by calling the function \texttt{setArrays}, which ensures that all the old variables are correct. We need to store the old variables in case a move is rejected and we need to go back to the old positions. Thereafter, we can update all the variables. The most basic example is the Gaussian function, where we basically only need to update the position and the probability ratio.
 
 \lstset{basicstyle=\scriptsize}
-\begin{lstlisting}[language=c++,caption={\texttt{main.cpp}}]
+\begin{lstlisting}[language=c++,caption={from \texttt{gaussian.cpp}}]
+void Gaussian::updateArrays(Eigen::VectorXd positions, int changedCoord) {
+    setArrays();
+    m_positions             = positions;
+    updateProbabilityRatio(changedCoord);
+}
+
+void Gaussian::setArrays() {
+    m_positionsOld          = m_positions;
+    m_probabilityRatioOld   = m_probabilityRatio;
+}
+
+void Gaussian::updateProbabilityRatio(int changedCoord) {
+    m_probabilityRatio = exp(m_omega * m_alpha * (m_positionsOld(changedCoord) * \
+    m_positionsOld(changedCoord)- m_positions(changedCoord)*m_positions(changedCoord)));
+}
+\end{lstlisting}
+
+Similarly to the function \texttt{setArrays}, there is also a function \texttt{resetArrays}, which is called then a move is rejected. It works the exact opposite way, looking like
+
+\lstset{basicstyle=\scriptsize}
+\begin{lstlisting}[language=c++,caption={from \texttt{gaussian.cpp}}]
+void Gaussian::resetArrays() {
+    m_positions             = m_positionsOld;
+    m_probabilityRatio      = m_probabilityRatioOld;
+}
+\end{lstlisting}
+
+There are also a few arrays that are used inside multiple wave function elements, such as the distance matrix and the radial distance vector. They might also be used in the Hamiltonian. To ensure that they are not calculated more than necessary, we define them globally together with a respective Boolean which tells us whether or not the array is updated at the present cycle. 
+
+\lstset{basicstyle=\scriptsize}
+\begin{lstlisting}[language=c++,caption={from \texttt{system.cpp}}]
+NEED TO ADD EXACT IMPLEMENTATION
+\end{lstlisting}
+
+For profiling, we used \textbf{callgrind} with \textbf{kcachegrind} visualization, which are great tools when we want to find out which functions that steal CPU time.
+
+\section{Flexibility}
+Unlike many other VMC codes, our code was developed flexible with respect to the wave functions. This means that one can combine various wave function elements, where each element is implemented separately. For instance, the Gaussian function, the Slater determinant and the Padé-Jastrow factor were implemented separately, but they all can easily be combined. The way one does this in practice, is to append multiple wave function elements to the vector \texttt{WaveFunctionElements} in main. One can combine the Gaussian with the Padé-Jastrow factor and the Slater determinant in the following way
+
+\lstset{basicstyle=\scriptsize}
+\begin{lstlisting}[language=c++,caption={from \texttt{main.cpp}}]
 System* system = new System();
 std::vector<class WaveFunction*> WaveFunctionElements;
 WaveFunctionElements.push_back(new class Gaussian(system));
 WaveFunctionElements.push_back(new class PadeJastrow(system));
 WaveFunctionElements.push_back(new class SlaterDeterminant(system));
-system->setWaveFunction(WaveFunctionElements);
+system->setWaveFunctionElements(WaveFunctionElements);
 \end{lstlisting}
 
-The big advantage of this implementation technique is that we do not need to hard code every possible combination of wave function elements, which reduces the number of code lines significantly. This also eases the operation of adding new elements, since we only need to calculate the derivatives of the particular element (do not need to worry about cross terms). Exactly how this is done can be read in Appendix \ref{chp:appendixe}. The con is that the program will be slightly slower, since even the cross terms that cancel are calculated.
+The big advantage of this implementation technique is that we do not need to hard code every possible combination of wave function elements, which reduces the number of code lines significantly. This also eases the operation of adding new elements, since we only need to calculate the derivatives of the particular element (do not need to worry about cross terms). Exactly how this is done can be read in chaper \ref{chp:WFE}. The con is that the program will be slightly slower, since even canceling cross terms are calculated.
 
-To maximize the legibility, we developed a highly object oriented code based on the theory in chapter \eqref{chp:scientificprogramming}. For instance, each wave function element was treated as an object, with the properties \texttt{evaluateRatio}, \texttt{computeFirstDerivative}, \texttt{computeSecondDerivative}, \texttt{computeFirstEnergyDerivative} and \texttt{computeSecondEnergyDerivative} among others. To ensure that all wave function elements have all the necessary properties, the super class \texttt{WaveFunctions} is equipped with the corresponding virtual functions
+\subsection{Energy calculation}
+The way we calculate the total kinetic energy then is based on the theory presented in chapter \ref{chp:WFE}, where we explain that
+\begin{equation}
+T=-\frac{1}{2}\frac{1}{\Psi_T}\nabla_k^2\Psi_T=-\frac{1}{2}\bigg[\sum_{i=1}^p\nabla_k^2\ln\phi_i + \Big(\sum_{i=1}^p\nabla_k\ln\phi_i\Big)^2\bigg].
+\end{equation}
+The corresponding implementation thus reads
 \lstset{basicstyle=\scriptsize}
-\begin{lstlisting}[language=c++,caption={Simplification of \texttt{wavefunction.h}}]
-#pragma once
-#include <Eigen/Dense>
-
-class WaveFunction {
-public:
-	WaveFunction(class System *system);
-	virtual double evaluateRatio() = 0;
-	virtual double computeFirstDerivative(int k) = 0;
-	virtual double computeSecondDerivative() = 0;
-	virtual Eigen::VectorXd computeFirstEnergyDerivative(int k) = 0;
-	virtual Eigen::VectorXd computeSecondEnergyDerivative() = 0;
-	virtual ~WaveFunction() = 0;
-
-protected:
-	class System* m_system = nullptr;
-};
+\begin{lstlisting}[language=c++,caption={from \texttt{system.cpp}}]
+double System::getKineticEnergy() {
+    double kineticEnergy = 0;
+    for(auto& i : m_waveFunctionElements) {
+        kineticEnergy += i->computeLaplacian();
+    }
+    for(int k = 0; k < m_numberOfFreeDimensions; k++) {
+        double nablaLnPsi = 0;
+        for(auto& i : m_waveFunctionElements) {
+            nablaLnPsi += i->computeGradient(k);
+        }
+        kineticEnergy += nablaLnPsi * nablaLnPsi;
+    }
+    return - 0.5 * kineticEnergy;
+}
 \end{lstlisting}
-which serves a template for all the sub classes (wave function elements). As you might notice, we use the \textbf{lowerCamelCase} naming convention for function and variable names, which means that all words in start with a capital letter except the initial word. For classes, we use the \textbf{UpperCamelCase} to distinguish from function names. This is known to be easy to read, and apart from for example the popular \textbf{snake\_case}, we do not need delimiters between the words, which saves some space. After the naming convention is decided, we are still responsible of giving reasonable names, which is not always an easy task as Phil Karlton points out. When one sees the name, one should know exactly what the variable/function/class is or does. More about naming convention can be read at \cite{noauthor_naming_2019}.
+
+\subsection{Probability ratio calculation}
+In the same chapter we state the obvious fact that 
+\begin{equation*}
+	\frac{\Psi_T^{\text{new}}}{\Psi_T^{\text{old}}}=\prod_{i=1}^p\frac{\phi_i^{\text{new}}}{\phi_i^{\text{old}}},
+\end{equation*}
+which can easily be implemented as
+\lstset{basicstyle=\scriptsize}
+\begin{lstlisting}[language=c++,caption={from \texttt{system.cpp}}]
+double System::evaluateWaveFunctionRatio() {
+    double ratio = 1;
+    for(auto& i : m_waveFunctionElements) {
+        ratio *= i->evaluateRatio();
+    }
+    return ratio;
+}
+\end{lstlisting}
+
+\subsection{Parameters}
+Another consequence of this flexible implementation is that we need to treat all parameters in the same way to make everything general. To do this, we create a global matrix of dimensions $n \cross m$ where $n$ is the number of wave function elements and $m$ is the maximum number of parameters in a wave function element. Thus each element has its own row in the matrix, and one can easily track down a specific parameter. 
+
+For the parameter update, each element needs to provide an array of length $m$ containing its respective parameter gradients. This array is calculated in the function \newline \texttt{computeParameterGradient} for each element, and they are all collected in the function \texttt{getAllInstantGradients}:
+
+\lstset{basicstyle=\scriptsize}
+\begin{lstlisting}[language=c++,caption={from \texttt{system.cpp}}]
+Eigen::MatrixXd System::getAllInstantGradients() {
+    Eigen::MatrixXd gradients = Eigen::MatrixXd::Zero(m_numberOfWaveFunctionElements, \
+    m_maxNumberOfParametersPerElement);
+    for(int i = 0; i < m_numberOfWaveFunctionElements; i++) {
+        gradients.row(i) = m_waveFunctionElements[i]->computeParameterGradient();
+    }
+    return gradients;
+}
+\end{lstlisting}
+We need to stress that those are the instant gradients calculated every time a particle is moved. Exactly how the parameters are updated depends on an average of these, described in chapter \ref{chp:WFE}. 
+
+Immediately after the parameters are updated, the new parameters need to be sent into the wave function elements. This is done through the functions \texttt{updateParameters}, which update all the parameters and weights in the elements. In addition, the function has the responsibility to order the elements such that none gets the same number. 
+
 
 \section{Structure} \label{subsec:structure}
 How the classes are communicating is no easy task to explain, most classes are calling other classes, there is no tidy way to visualize the actual code flow. However, a simplified structure chart can still be informative, and in figure \eqref{fig:structurechart} the most important calls between the different classes are pointed out. We decided to leave out \texttt{main.cpp} since all it does is to set the different classes. 
-\begin{figure} [h]
-	\centering
-	\label{fig:structurechart}
-	\begin{tikzpicture}[
-	>={Latex[width=2mm,length=2mm]},
-	base/.style = {rectangle, rounded corners, draw=black,
-		minimum width=4cm, minimum height=2cm, text
-		centered, font=\sffamily},
-	blueBox/.style = {base, fill=blue!30, drop shadow},
-	redBox/.style = {base, fill=red!30, drop shadow},
-	whiteBox/.style = {base, fill=white, drop shadow},
-	scale=0.8, 
-	node distance=1.5cm, 
-	every node/.style={fill=white, font=\sffamily},
-	align=center]
-	
-	% Add boxes
-	\node (WF) [redBox] {
-		\texttt{WaveFunctions}
-	};
-	\node (System) [whiteBox, above of=WF, yshift=+2cm] {
-		\texttt{System}
-	};
-	\node (Optimization) [blueBox, right of=System, xshift=+4cm] {
-		\texttt{Optimization}
-	};
-	\node (Sampler) [blueBox, right of=WF, xshift=+4cm] {
-		\texttt{Sampler}
-	};
-	\node (Basis) [blueBox, left of=System, xshift=-4cm] {
-		\texttt{Basis}
-	};
-	\node (Metropolis) [blueBox, left of=WF, xshift=-4cm] {
-		\texttt{Metropolis}
-	};
-	\node (RNG) [blueBox, below of=WF, yshift=-2cm] {
-		\texttt{RNG}
-	};
-	\node (InitialWeights) [blueBox, right of=RNG, xshift=+4cm] {
-		\texttt{InitialWeights}
-	};
-	\node (InitialState) [blueBox, left of=RNG, xshift=-4cm] {
-		\texttt{InitialState}
-	};
-	\draw[->] (RNG) 		 -- node[above] {1} ++(InitialWeights);
-	\draw[->] (InitialWeights) 			 -- node[above] {2} ++(WF);
-	\draw[->] (RNG) 		 -- node[above] {3} ++(InitialState);
-	\draw[->] (RNG) 		 -- node[above] {4} ++(Metropolis);
-	\draw[->] (WF) 			 -- node[above] {5} ++(Metropolis);
-	\draw[->] (Metropolis) 	 -- node[below] {6} ++(WF);
-	\draw[->] (Metropolis) 	 -- node[above right] {7} ++(System);
-	\draw[->] (Basis) 		 -- node[above left] {8} ++(WF);
-	\draw[->] (Sampler) 	 -- node[above left] {9} ++(System);
-	\draw[->] (WF) 			 -- node[above] {10} ++(Sampler);
-	\draw[->] (Optimization) -- node[right] {11} ++(Sampler);
-	\draw[->] (Optimization) -- node[above] {12} ++(System);
-	\draw[->] (WF) 			 -- node[above right] {13} ++(Optimization);
-	
-	\node[anchor=west] at (-9,-7) {1 - Set random initial weights};
-	\node[anchor=west] at (-9,-8){2 - Set weights in wave functions};
-	\node[anchor=west] at (-9,-9) {3 - Set random initial positions};
-	\node[anchor=west] at (-9,-10) {4 - Propose random move};
-	\node[anchor=west] at (-9,-11) {5 - Evaluate wave functions};
-	\node[anchor=west] at (-9,-12) {6 - Update positions};
-	\node[anchor=west] at (-9,-13) {7 - Accept or reject step};
-	
-	\node[anchor=west] at (1,-7) {8 - Get basis used in Slater determinant};
-	\node[anchor=west] at (1,-8) {9 - Sample};
-	\node[anchor=west] at (1,-9) {10 - Compute local energy};
-	\node[anchor=west] at (1,-10) {11 - Calculate instant gradients};
-	\node[anchor=west] at (1,-11) {12 - Calculate energy derivatives};
-	\node[anchor=west] at (1,-12) {13 - Calculate average gradients};
-	
-	\end{tikzpicture}
-	\caption{Structure chart of the implemented code, presenting super classes as tiles. The most important intra-class calls are represented with lines pointing from the sender class towards the receiver class.}
-\end{figure}
+
+\input{tikz/program_structure.tex}
 
 This is the main aim of the flow, but the actual flow does also depend on system. For instance, when using importance sampling, we will have an additional call between \texttt{WaveFunctions} and \texttt{Metropolis} due to calculations of the quantum force. 
 

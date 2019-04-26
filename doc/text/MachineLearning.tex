@@ -264,9 +264,9 @@ In the most general form, all nodes are connected to all other nodes, that is an
 
 \input{tikz/boltzmann_machine.tex}
 
-In the same manner as in a Feed-forward Neural Network, we can directly multiply each node $s_i$ with its respective inner weights $w_{ij}$ and then with the opposite node $s_j$, which defines the system energy together with the bias contributions. This gives the energy
+In the same manner as for a feed-forward neural network, we can directly multiply each node $s_i$ with all its respective inner weights $w_{ij}$ and then with the other nodes $s_j$. To obtain the total system energy, we also need to include the bias weights, i.e, multiply $s_i$ with $b_i$. This gives the energy
 \begin{equation}
-E=- \sum_{i=1}^Ns_ib_i-\sum_{i=1}^N\sum_{j=i}^N s_iw_{ij}s_j 
+E(\bs{s})=- \sum_{i=1}^Ns_ib_i-\sum_{i=1}^N\sum_{j=i}^N s_iw_{ij}s_j 
 \label{eq:unrestrictedboltzmannmachine}
 \end{equation}
 for a system of $N$ nodes, which is the so-called binary-binary network and the most basic architecture. During training, the weights are adjusted in order to maximize the probability...
@@ -274,19 +274,38 @@ for a system of $N$ nodes, which is the so-called binary-binary network and the 
 \subsection{Restricted Boltzmann machines}
 When there is an unrestricted guy, a restricted guy must exist as well. What the term restricted means in this case, is that we ignore intra-layer connections and keep only the inter-layer ones. In the same manner as in equation \eqref{eq:unrestrictedboltzmannmachine}, we can look at the linear case, where each node is multiplied with the corresponding weight. We decide to split the bias nodes into one part connected to the \textit{visible} layer, $a_i$, and one part connected to the \textit{hidden} layer, $b_i$. The system energy then reads
 \begin{equation}
-E=- \sum_{i=1}^Mx_ia_i- \sum_{j=1}^Nh_jb_j-\sum_{i=1}^N\sum_{j=i}^N s_iw_{ij}s_j 
+E(\bs{x},\bs{h})=- \sum_{i=1}^Fx_ia_i- \sum_{j=1}^Hh_jb_j-\sum_{i=1}^F\sum_{j=i}^H x_iw_{ij}h_j 
 \label{eq:binarybinary}
 \end{equation}
+which is the simplest type of units. $F$ is the number of visible nodes and $H$ is number of hidden nodes. The neural network is illustrated in figure \eqref{fig:restricted_boltzmann_machine}
+
+\input{tikz/restricted_boltzmann_machine.tex}
+
+We can also take more complicated types of units into account than the binary-binary. A natural next step is the Gaussian-binary units, which has a Gaussian mapping between the visible node bias and the visible nodes. The simplest such structure gives the following system energy:
 
 \begin{equation}
-\Psi(\bs{x};\bs{a},\bs{b},\bs{W})=\exp(-\sum_{i=1}^M\frac{(x_i-a_i)^2}{2\sigma^2})\prod_{j=1}^N\bigg(1+\exp\Big(b_j+\sum_{i=1}^N\frac{W_{ij}x_i}{\sigma^2}\Big)\bigg)
+E(\bs{x},\bs{h})= \sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2} - \sum_{j=1}^Hh_jb_j-\sum_{i=1}^F\sum_{j=i}^H \frac{x_iw_{ij}h_j}{\sigma_i^2} 
+\label{eq:gaussianbinary}
+\end{equation}
+where $\sigma_i$ is the width of the Gaussian distribution, which can be set to an arbitrary number. 
+
+\begin{equation}
+\Psi(\bs{x};\bs{a},\bs{b},\bs{W})=\exp(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2})\prod_{j=1}^H\bigg(1+\exp\Big(b_j+\sum_{i=1}^F\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg)
 \label{eq:NQSWF}
 \end{equation}
 Need to compare it to standard VMC with Padé-Jastrow factor. 
-
-\input{tikz/restricted_boltzmann_machine.tex}
 
 \subsection{Partly restricted Boltzmann machine}
 One can also imagine a partly restricted architecture, where we have inter-layer connections between the visible nodes, but not the hidden nodes. This is what we have decided to call a partly restricted Boltzmann machine. 
 
 \input{tikz/partly_restricted_boltzmann_machine.tex}
+
+\begin{equation}
+E(\bs{x},\bs{h})= \sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2} - \sum_{i=1}^F\sum_{j=1}^Fx_ic_{ij}x_j- \sum_{j=1}^Hh_jb_j-\sum_{i=1}^F\sum_{j=i}^H \frac{x_iw_{ij}h_j}{\sigma_i^2} 
+\label{eq:partlygaussianbinary}
+\end{equation}
+
+\begin{equation}
+\Psi(\bs{x};\bs{a},\bs{b},\bs{W})=\exp(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2}+\sum_{i=1}^F\sum_{j=1}^Fx_ic_{ij}x_j)\prod_{j=1}^H\bigg(1+\exp\Big(b_j+\sum_{i=1}^F\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg)
+\label{eq:PNQSWF}
+\end{equation}
