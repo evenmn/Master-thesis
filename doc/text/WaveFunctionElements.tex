@@ -42,13 +42,13 @@ Since we are dealing with an expectation value, this gradient can be found from
 which means that we need to calculate the expectation values $\langle E_L\partial_{\alpha_i}\ln\Psi_T\rangle$ and $\langle\partial_{\alpha_i}\ln\Psi_T\rangle$ in addition to the local energy, which is done by Monte-Carlo integration. 
 
 \section{Optimizations}
-How much a wave function element can be optimized heavily depends on the specific form of the element. For instance, sometimes the previous and present $\nabla_k\ln\phi_i$ are closely linked, and only differ from each other with a few calculations, while for some elements they are not related at all. Those subjective optimization will therefore be described when presenting each wave function element. 
+How much a wave function element can be optimized heavily depends on the specific form of the element. For instance, sometimes the previous and present $\nabla_k\ln\phi_i$ are closely related, and only differ with a few calculations, while for some other elements they are not related at all. Those subjective optimizations will therefore be described when presenting each wave function element. 
 
-However, there are still optimizations that apply to all elements and give great speed-up. An example is to calculate the ratio between the previous and present wave functions,
+However, there are still optimizations that apply to all elements and give great speed-up. An example is to calculate the ratio between the previous and present wave functions
+for all wave function elements instead of the wave function itself. Firstly, this is usually cheaper to calculate than the wave function because we are living in the logarithmic space. Secondly, the ratio is actually what we use in the sampling, so it is a natural thing to calculate. The total wave function ratio is just the product of all the wave function element ratios
 \begin{equation*}
-\frac{\Psi_{\text{new}}}{\Psi_{\text{old}}}
+	\frac{\Psi_T^{\text{new}}}{\Psi_T^{\text{old}}}=\prod_{i=1}^p\frac{\phi_i^{\text{new}}}{\phi_i^{\text{old}}}.
 \end{equation*}
-instead of the wave function itself. Firstly, this is usually cheaper to calculate than the wave function because we are living in the logarithmic space. Secondly, the ratio is actually what we use in the sampling, so it is a natural thing to calculate. 
 
 \section{Derivatives}
 \subsection{Simple Gaussian}
@@ -81,25 +81,25 @@ where $i$ is the changed coordinate. Since the final expressions are all neat, t
 \subsection{Padé-Jastrow Factor}
 The Padé-Jastrow factor is introduced in order to take care of the correlations. It is specified in equation \eqref{eq:PadeJastrow}, 
 \begin{equation*}
-J(\bs{r}; \beta, \gamma) = \exp\bigg(\sum_{i=1}^N\sum_{j=1}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij}}\bigg),
+J(\bs{r}; \beta, \gamma) = \exp\bigg(\sum_{i=1}^P\sum_{j=1}^P\frac{a_{ij}r_{ij}}{1+\beta r_{ij}}\bigg),
 \end{equation*}
 where $N$ is the number of particles. One challenge is that we operate in cartesian coordinates, while the expressed Jastrow factor obviously is easier to handle in spherical coordinates. Since we need to differentiate this with respect to all free dimensions, we need to be careful not confuse the particle indices and coordinate indices. Let us define $i$ as the coordinate index and $i'$ as the index on the corresponding particle. We then get the first and second derivatives
 \begin{equation*}
-\nabla_k\ln J=\sum_{j'\neq k'=1}^N\frac{\beta_{k'j'}}{(1+\gamma r_{k'j'})^2}\frac{x_k-x_j}{r_{k'j'}}
+\nabla_k\ln J=\sum_{j'\neq k'=1}^P\frac{\beta_{k'j'}}{(1+\gamma r_{k'j'})^2}\frac{x_k-x_j}{r_{k'j'}}
 \end{equation*}
 and
 \begin{equation*}
-\nabla_k^2\ln J=\sum_{j'\neq k'=1}^N\frac{\beta_{k'j'}}{(1+\gamma r_{k'j'})^2}\bigg[1-\Big(1+2\frac{\gamma r_{k'j'}}{1+\gamma r_{k'j'}}\Big)\frac{(x_k-x_j)^2}{r_{k'j'}^2}\bigg]\frac{1}{r_{k'j'}}
+\nabla_k^2\ln J=\sum_{j'\neq k'=1}^P\frac{\beta_{k'j'}}{(1+\gamma r_{k'j'})^2}\bigg[1-\Big(1+2\frac{\gamma r_{k'j'}}{1+\gamma r_{k'j'}}\Big)\frac{(x_k-x_j)^2}{r_{k'j'}^2}\bigg]\frac{1}{r_{k'j'}}
 \end{equation*}
 respectively, where $j$ yields the same dimension as $k$.
 
 The derivative of those again with respect to $\gamma$ are
 \begin{equation*}
-\partial_{\gamma}\nabla_k\ln J = -2 \sum_{j'\neq k'=1}^N\frac{\beta_{k'j'}}{(1+\gamma r_{k'j'})^3}(x_k-x_j)
+\partial_{\gamma}\nabla_k\ln J = -2 \sum_{j'\neq k'=1}^P\frac{\beta_{k'j'}}{(1+\gamma r_{k'j'})^3}(x_k-x_j)
 \end{equation*}
 and
 \begin{equation*}
-\partial_{\gamma}\nabla_k^2\ln J = -2 \sum_{j'\neq k'=1}^N\frac{\beta_{k'j'}}{(1+\gamma r_{k'j'})^3}\bigg[1-4\frac{\gamma r_{k'j'}}{1+\gamma r_{k'j'}}\frac{(x_k-x_j)^2}{r_{k'j'}^2}\bigg]
+\partial_{\gamma}\nabla_k^2\ln J = -2 \sum_{j'\neq k'=1}^P\frac{\beta_{k'j'}}{(1+\gamma r_{k'j'})^3}\bigg[1-4\frac{\gamma r_{k'j'}}{1+\gamma r_{k'j'}}\frac{(x_k-x_j)^2}{r_{k'j'}^2}\bigg]
 \end{equation*}
 By defining 
 \begin{equation*}
