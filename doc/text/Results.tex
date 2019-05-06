@@ -84,50 +84,47 @@ For other references, we need to rely on what researchers have found before us. 
 	\caption{This table presents the energies of $N$ electrons trapped in a two-dimensional oscillator well with frequency $\omega$. $E_{\text{RBM}}$ is plain restricted Boltzmann machine (RBM) with Slater determinant, $E_{\text{RBM+PJ}}$ is RBM with Padé-Jastrow factor (PJ), and $E_{\text{VMC}}$ is standard variational Monte-Carlo. The exact energies are calculated analytically by M.Taut, see \cite{taut_two_1994}. The reference is to J. Høgberget's diffusion Monte-Carlo (DMC) calculations \cite{hogberget_quantum_2013}.} 
 	\begin{tabularx}{\textwidth}{l:l|XXXXXX} \hline\hline
 		\label{tab:quantumdotswinteraction2D}
-		$N$ & $\omega$ & $E_{\text{RBM+PJ}}$ & $E_{\text{RBM}}$ & $E_{\text{...}}$ & $E_{\text{VMC}}$ & $E_{\text{ref}} $ & $E_{\text{exact}}$ \\ \hline \\
-		2 & 0.1 & 0.44130(5) & 0.4734(1) & - & 0.44128(1) & 0.44079(1) & - \\ 
-		& 1/6 & 0.66715(6) & 0.7160(1) & - & 0.66710(1) & - & 2/3 \\
-		& 0.28 & 1.02185(1) & 1.0894(2) & - & 1.02192(1) & 1.02164(1) & - \\
-		& 0.5 & 1.65957(1) & 1.7231(2) & - & 1.65972(1) & 1.65977(1)  & - \\
-		& 1.0 & 3.00002(2) & 3.0822(2) & - & 2.99999(1) & 3.00000(1) & 3  \\ \hdashline \\
+		$N$ & $\omega$ & $E_{\text{RBM+PJ}}$ & $E_{\text{RBM}}$ & $E_{\text{...}}$ & $E_{\text{...}}$ & $E_{\text{VMC}}$ & $E_{\text{ref}} $ \\ \hline \\
+		2 & 0.1 & 0.44130(5) & 0.4734(1) & - & - & 0.44128(1) & 0.44079(1)\\ 
+		& 1/6 & 0.66715(6) & 0.7160(1) & - & - & 0.66710(1) & - \\
+		& 0.28 & 1.02185(1) & 1.0894(2) & - & - & 1.02192(1) & 1.02164(1) \\
+		& 0.5 & 1.65957(1) & 1.7231(2) & - & - & 1.65972(1) & 1.65977(1)  \\
+		& 1.0 & 3.00002(2) & 3.0822(2) & - & - & 2.99999(1) & 3.00000(1) \\ \hdashline \\
 
-		6 & 0.1 & 3.5868(6) & 3.719(1) & - & 3.5698(1) & 3.55385(5) & - \\ 
-		& 0.28 & 7.6260(2) & 7.963(8) & - & 7.6219(1) & 7.60019(6) & - \\
-		& 0.5 & 11.8174(2) & 12.265(1) & - & 11.8115(2) & 11.78484(6) & - \\
-		& 1.0 & 20.1893(2) & 20.826(3) & - & 20.1905(2) & 20.15932(8) & - \\ \hdashline \\
+		6 & 0.1 & 3.5868(6) & 3.719(1) & - & - & 3.5698(1) & 3.55385(5) \\ 
+		& 0.28 & 7.6260(2) & 7.963(8) & - & - & 7.6219(1) & 7.60019(6) \\
+		& 0.5 & 11.8174(2) & 12.265(1) & - & - & 11.8115(2) & 11.78484(6) \\
+		& 1.0 & 20.1893(2) & 20.826(3) & - & - & 20.1905(2) & 20.15932(8) \\ \hdashline \\
 		
-		12 & 0.1 & 15.470(3) & 15.02(6) & - & 12.5550(9) & 12.26984(8) & -\\ 
-		& 0.28 & 26.014(1) & 26.743(2) & - & 25.7891(6) & 25.63577(9) & -\\
-		& 0.5 & 39.527(2) & 40.774(3) & - & 39.3225(7) & 39.1596(1) & - \\
-		& 1.0 & 66.047(3) & 67.953(3) & - & 65.7987(5) & 65.7001(1) & - \\ \hdashline \\
+		12 & 0.1 & 15.470(3) & 15.02(6) & - & - & 12.5550(9) & 12.26984(8) \\ 
+		& 0.28 & 26.014(1) & 26.743(2) & - & - & 25.7891(6) & 25.63577(9) \\
+		& 0.5 & 39.527(2) & 40.774(3) & - & - & 39.3225(7) & 39.1596(1) \\
+		& 1.0 & 66.047(3) & 67.953(3) & - & - & 65.7987(5) & 65.7001(1) \\ \hdashline \\
 		
-		20 & 0.1 & 30.978(1) & 47.4(1) & - & 30.605(2) & 29.9779(1) & - \\ 
-		& 0.28 & - & 66.578(8) & - & 62.620(2) & 61.9268(1) & - \\
-		& 0.5 & 95.078(3) & 97.166(5) & - & 94.269(3) & 93.8752(1) & - \\
-		& 1.0 & 157.152(5) & 160.448(5) & - & 157.789(5) & 155.8822(1) & - \\ \hdashline \\
+		20 & 0.1 & 30.213(1) & 47.4(1) & - & - & 30.605(2) & 29.9779(1) \\ 
+		& 0.28 & 62.268(3) & 66.578(8) & - & - & 62.620(2) & 61.9268(1) \\
+		& 0.5 & 94.235(5) & 97.166(5) & - & - & 94.269(3) & 93.8752(1) \\
+		& 1.0 & 156.205(1) & 160.448(5) & - & - & 157.789(5) & 155.8822(1) \\ \hdashline \\
 		
-		30 & 0.1 & - & - & - & 61.300(3) & 60.4205(2) & -\\ 
-		& 0.28 & - & 136.48(2) & - & 124.456(2) & 123.9683(2) & - \\
-		& 0.5 & - & 197.41(6) & - & 187.894(3) & 187.0426(2) & -\\
-		& 1.0 & - & 318.05(1) & - & - & 308.5627(2) & -\\
-		\hdashline \\
+		30 & 0.1 & - & - & - & - & 61.300(3) & 60.4205(2) \\ 
+		& 0.28 & - & 136.48(2) & - & - & 124.456(2) & 123.9683(2) \\
+		& 0.5 & - & 197.41(6) & - & - & 187.894(3) & 187.0426(2) \\
+		& 1.0 & - & 318.05(1) & - & - & - & 308.5627(2) \\ \hdashline \\
 		
-		42 & 0.1 & - & - & - & - & 107.6389(2) & -\\ 
-		& 0.28 & - & - & - & - & 219.8426(2) & - \\
-		& 0.5 & - & - & - & - & 330.6306(2) & -\\
-		& 1.0 & - & - & - & - & 542.9428(8) & -\\
-		\hdashline \\
+		42 & 0.1 & - & - & - & - & - & 107.6389(2) \\ 
+		& 0.28 & - & - & - & - & - & 219.8426(2) \\
+		& 0.5 & - & - & - & - & - & 330.6306(2) \\
+		& 1.0 & - & - & - & - & - & 542.9428(8) \\ \hdashline \\
 		
-		56 & 0.1 & - & - & - & - & 175.9553(7) & -\\ 
-		& 0.28 & - & - & - & - & 358.145(2) & - \\
-		& 0.5 & - & - & - & - & 537.353(2) & -\\
-		& 1.0 & - & - & - & - & 879.3986(6) & -\\
-		\hdashline \\
+		56 & 0.1 & - & - & - & - & - & 175.9553(7) \\ 
+		& 0.28 & - & - & - & - & - & 358.145(2) \\
+		& 0.5 & - & - & - & - & - & 537.353(2) \\
+		& 1.0 & - & - & - & - & - & 879.3986(6) \\ \hdashline \\
 		
-		72 & 0.1 & - & - & - & - & - & -\\ 
+		72 & 0.1 & - & - & - & - & - & - \\ 
 		& 0.28 & - & - & - & - & - & - \\
-		& 0.5 & - & - & - & - & - & -\\
-		& 1.0 & - & - & - & - & - & -\\ \hline\hline
+		& 0.5 & - & - & - & - & - & - \\
+		& 1.0 & - & - & - & - & - & - \\ \hline\hline
 	\end{tabularx}
 \end{table}
 
@@ -186,7 +183,7 @@ For other references, we need to rely on what researchers have found before us. 
 	
 	\subfloat[$\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/2P/0.500000w/2D_2P_0p500000w_MC2pow28.png}}}
 	\subfloat[$\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/2P/1.000000w/2D_2P_1p000000w_MC2pow28.png}}}
-	\caption{One-body densities of two non-interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). Stochastic gradient descent was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
+	\caption{One-body densities of two interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). Stochastic gradient descent was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
 	\label{fig:OB_interaction_2P_2D}
 \end{figure}
 
@@ -198,7 +195,7 @@ For other references, we need to rely on what researchers have found before us. 
 	
 	\subfloat[6 particles RBM \& VMC]{{\includegraphics[width=16cm]{/home/evenmn/VMC/doc/plots/int1/onebody/2D/6P/onebody_VMC_RBM_2D_6P_SGD.png} }}
 	%\subfloat[20 particles]{{\includegraphics[width=6cm]{Images/example.png} }}
-	\caption{One-body densities of six non-interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC) and plain restricted Boltzmann machine (RBM). Stochastic gradient descent was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$}%
+	\caption{One-body densities of six interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC) and plain restricted Boltzmann machine (RBM). Stochastic gradient descent was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$}%
 	\label{fig:OB_interaction_6P_2D2}
 \end{figure}
 \fi
@@ -210,7 +207,7 @@ For other references, we need to rely on what researchers have found before us. 
 	
 	\subfloat[$\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/6P/0.500000w/2D_6P_0p500000w_MC2pow28.png}}}
 	\subfloat[$\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/6P/1.000000w/2D_6P_1p000000w_MC2pow28.png}}}
-	\caption{One-body densities of six non-interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). Stochastic gradient descent was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
+	\caption{One-body densities of six interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). Stochastic gradient descent was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
 	\label{fig:OB_interaction_6P_2D}
 \end{figure}
 
@@ -222,7 +219,7 @@ For other references, we need to rely on what researchers have found before us. 
 	
 	\subfloat[12 particles RBM \& VMC]{{\includegraphics[width=16cm]{/home/evenmn/VMC/doc/plots/int1/onebody/2D/12P/onebody_VMC_RBM_2D_12P_SGD.png} }}
 	%\subfloat[20 particles]{{\includegraphics[width=6cm]{Images/example.png} }}
-	\caption{One-body densities of 12 non-interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC) and plain restricted Boltzmann machine (RBM). Stochastic gradient descent was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$}%
+	\caption{One-body densities of 12 interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC) and plain restricted Boltzmann machine (RBM). Stochastic gradient descent was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$}%
 	\label{fig:OB_interaction_12P_2D2}
 \end{figure}
 \fi
@@ -234,7 +231,7 @@ For other references, we need to rely on what researchers have found before us. 
 	
 	\subfloat[$\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/12P/0.500000w/2D_12P_0p500000w_MC2pow28.png}}}
 	\subfloat[$\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/12P/1.000000w/2D_12P_1p000000w_MC2pow28.png}}}
-	\caption{One-body densities of 12 non-interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). Stochastic gradient descent was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
+	\caption{One-body densities of 12 interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). Stochastic gradient descent was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
 	\label{fig:OB_interaction_12P_2D}
 \end{figure}
 
@@ -245,7 +242,7 @@ For other references, we need to rely on what researchers have found before us. 
 	
 	\subfloat[$\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/20P/0.500000w/2D_20P_0p500000w_MC2pow28.png}}}
 	\subfloat[$\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/20P/1.000000w/2D_20P_1p000000w_MC2pow28.png}}}
-	\caption{One-body densities of 20 non-interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). Stochastic gradient descent was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
+	\caption{One-body densities of 20 interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). Stochastic gradient descent was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
 	\label{fig:OB_interaction_20P_2D}
 \end{figure}
 
@@ -256,7 +253,7 @@ For other references, we need to rely on what researchers have found before us. 
 	
 	\subfloat[$\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/30P/0.500000w/2D_30P_0p500000w_MC2pow28.png}}}
 	\subfloat[$\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/30P/1.000000w/2D_30P_1p000000w_MC2pow28.png}}}
-	\caption{One-body densities of 30 non-interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). Stochastic gradient descent was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
+	\caption{One-body densities of 30 interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). Stochastic gradient descent was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
 	\label{fig:OB_interaction_30P_2D}
 \end{figure}
 
@@ -269,7 +266,7 @@ For other references, we need to rely on what researchers have found before us. 
 	
 	\subfloat[2 particles RBM \& VMC]{{\includegraphics[width=16cm]{/home/evenmn/VMC/plots/int1/onebody/3D/2P/onebody_VMC_NQS_P2_D3_allfreq.png} }}
 	%\subfloat[20 particles]{{\includegraphics[width=6cm]{Images/example.png} }}
-	\caption{One-body densities of two non-interacting electrons in three dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC) and plain restricted Boltzmann machine (RBM). Stochastic gradient descent was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$}%
+	\caption{One-body densities of two interacting electrons in three dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC) and plain restricted Boltzmann machine (RBM). Stochastic gradient descent was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$}%
 	\label{fig:OB_interaction_2P_3D2}
 \end{figure}
 \fi
@@ -281,7 +278,7 @@ For other references, we need to rely on what researchers have found before us. 
 	
 	\subfloat[$\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/3D/2P/0.500000w/3D_2P_0p500000w_MC2pow28.png}}}
 	\subfloat[$\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/3D/2P/1.000000w/3D_2P_1p000000w_MC2pow28.png}}}
-	\caption{One-body densities of two non-interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). Stochastic gradient descent was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
+	\caption{One-body densities of two interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). Stochastic gradient descent was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
 	\label{fig:OB_interaction_2P_3D}
 \end{figure}
 
@@ -305,6 +302,17 @@ For other references, we need to rely on what researchers have found before us. 
 	
 	\subfloat[$\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/3D/8P/0.500000w/3D_8P_0p500000w_MC2pow28.png}}}
 	\subfloat[$\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/3D/8P/1.000000w/3D_8P_1p000000w_MC2pow28.png}}}
-	\caption{One-body densities of two non-interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). Stochastic gradient descent was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
+	\caption{One-body densities for eight interacting electrons in three dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC) and plain restricted Boltzmann machine (RBM). Stochastic gradient descent was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$}%
 	\label{fig:OB_interaction_8P_3D}
+\end{figure}
+
+\begin{figure} [H]%
+	\centering
+	\subfloat[$\omega=0.1$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/3D/8P/0.100000w/3D_8P_0p100000w_MC2pow28.png}}}
+	\subfloat[$\omega=0.28$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/3D/8P/0.280000w/3D_8P_0p280000w_MC2pow28.png}}}\\
+	
+	\subfloat[$\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/3D/8P/0.500000w/3D_8P_0p500000w_MC2pow28.png}}}
+	\subfloat[$\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/3D/8P/1.000000w/3D_8P_1p000000w_MC2pow28.png}}}
+	\caption{One-body densities of eight interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). Stochastic gradient descent was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
+	\label{fig:OB_interaction_12P_3D}
 \end{figure}

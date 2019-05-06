@@ -219,6 +219,25 @@ for dimensions $d\in[2,3]$ where $e$ is the elementary charge. We will later use
 
 This Jastrow factor is known to give accurate results for fermions and bosons because it gives the correct cusp condition, and it is the one we gonna use in the standard variational Monte-Carlo simulations.
 
+\section{Electron density}
+In quantum many-body computations, the electron density is frequently calculated, and there are several reasons for this. Firstly, the electron density can be found experimentally, such that the calculations can be benchmarked. Secondly, the electron density is very informative, since information about all particles can be gathered in one plot.
+
+The $N$-body electron density can be found by integrating over all particles but $N$, 
+\begin{equation}
+\label{eq:electron_density}
+\rho_i(\bs{r})=\int_{-\infty}^{\infty}d\bs{r}_1\hdots d\bs{r}_{i-1}d\bs{r}_{i+N}\hdots d\bs{r}_P |\Psi(\bs{r}_1,\hdots \bs{r}_P)|^2.
+\end{equation}
+where $P>N$.
+
+\subsection{One-body density}
+The one-body density is the most applied electron density since it can even be found for two particles. In that case, the one-body density gives the probability of finding one particle at a relative distance $r$ to the other. For more particles, the one-body density gives the probability of finding the mass center of the remaining particles at a relative distance $r$ from one of the particles.
+
+Numerically, the one-body density is found by dividing the space into bins of equal sizes at different radii and counting the number of particles in each bin throughout the sampling. 
+
+\input{tikz/onebody_bins.tex}
+
+\subsection{Two-body density}
+
 
 
 

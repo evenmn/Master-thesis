@@ -1,0 +1,11 @@
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[scale=0.50, thick, dot/.style={shape=circle,inner sep=+0pt, minimum size=+2pt, fill, label={#1}}]
+       \coordinate[dot=ri] (ri) at (1,4);
+       \coordinate[dot=rj] (rj) at (1,7);
+
+       \foreach \cnt[count=\Cnt] in {.5, 1, 1.5, 2}
+         \node[draw, color=red!\Cnt 0!blue, label={[inner sep=+1pt, red!\Cnt 0!blue]below:$ r_{\Cnt} = \Cnt\cdot r_1$}] at (ri) [circle through=($(ri)!\cnt!(rj)$)] {};
+	\end{tikzpicture}
+	\caption{One can find the onebody density by dividing the volume around a particle with coordinates $\vec{r}_i$ into bins and then count the number of particles, here illustrated in two dimensions.}
+\end{figure}

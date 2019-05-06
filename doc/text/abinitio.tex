@@ -6,10 +6,58 @@
 	\caption{Caption}
 \end{figure}
 
-The term \textit{ab initio} means from first principles, implying that only physical constants are put into the methods. The Monte-Carlo methods are not considered \textit{ab initio} as nonphysical hyper parameters are required. Some example methods are Hartree-Fock methods and post-Hartree-Fock methods like Configuration Interaction and Coupled Cluster, which will be discussed in the following. 
+Post Hartree-Fock methods are usually \textit{ab initio} methods where Hartree-Fock can be used as input. The term \textit{ab initio} means from first principles, implying that only physical constants are put into the methods. The Monte-Carlo methods are not considered \textit{ab initio} as nonphysical hyper parameters are required. The methods we will discuss here are the \textbf{configuration interaction} method and the \textbf{coupled cluster} method. \newpage
 
-\section{Configuration Interaction} \label{subsec:ci}
-The completeness relation
+\section{Configuration Interaction} \label{sec:ci}
+The configuration interaction method is in many ways the the most intuitive method, and some will argue that it is the natural starting point. 
+
+Often, we know the true wavefunctions $\ket{\Phi_i}$ in the external potential, but are off when interaction is added
+\begin{equation}
+\hat{H}_0\ket{\Phi_i}=\varepsilon_i\ket{\Phi_i},\qquad (\hat{H}_0+\hat{H}_I)\ket{\Phi_i}\neq\varepsilon_i\ket{\Phi_i}.
+\end{equation}
+However, the Slater determinants form a ket basis, meaning we can write out eigenstates of $\hat{H}_I$ as a linear combination of the determinants
+\begin{equation}
+	%\begin{vmatrix}
+	\mqty{
+	\ket{\Psi_0}&=&C_0^{(0)}\ket{\Phi_0}&+&C_1^{(0)}\ket{\Phi_1}&+&\hdots&+&C_{N-1}^{(0)}\ket{\Phi_{N-1}}\\
+	\ket{\Psi_1}&=&C_0^{(1)}\ket{\Phi_0}&+&C_1^{(1)}\ket{\Phi_1}&+&\hdots&+&C_{N-1}^{(1)}\ket{\Phi_{N-1}}\\
+	\ket{\Psi_2}&=&C_0^{(2)}\ket{\Phi_0}&+&C_1^{(2)}\ket{\Phi_1}&+&\hdots&+&C_{N-1}^{(2)}\ket{\Phi_{N-1}}\\
+	\vdots&&\vdots&&\vdots&&&&\vdots\\
+	\ket{\Psi_{N-1}}&=&C_0^{(N-1)}\ket{\Phi_0}&+&C_1^{(N-1)}\ket{\Phi_1}&+&\hdots&+&C_N^{(N-1)}\ket{\Phi_{N-1}}
+	}
+	%\end{vmatrix}
+\end{equation}
+such that 
+\begin{equation}
+\hat{H}\ket{\Psi_p}=\varepsilon_p\ket{\Psi_p}.
+\end{equation}
+The Hamiltonian can be rewritten as a double sum over all states using the so-called \textit{completeness relation}, 
+\begin{equation}
+\hat{H}=\sum_{ij}\ket{\Phi_i}\mel{\Phi_i}{\hat{H}}{\Phi_j}\bra{\Phi_j}
+\end{equation}
+such that the Schr\"odinger equation can be rewritten as
+\begin{equation}
+\begin{pmatrix}
+\mel{\Phi_0}{\hat{H}}{\Phi_0} & \mel{\Phi_0}{\hat{H}}{\Phi_1} & \hdots & \mel{\Phi_0}{\hat{H}}{\Phi_{N-1}}\\
+\mel{\Phi_1}{\hat{H}}{\Phi_0} & \mel{\Phi_1}{\hat{H}}{\Phi_1} & \hdots & \mel{\Phi_1}{\hat{H}}{\Phi_{N-1}}\\
+\vdots & \vdots & \ddots & \vdots\\
+\mel{\Phi_{N-1}}{\hat{H}}{\Phi_0} & \mel{\Phi_{N-1}}{\hat{H}}{\Phi_1} & \hdots & \mel{\Phi_{N-1}}{\hat{H}}{\Phi_{N-1}}\\
+\end{pmatrix}
+\begin{pmatrix}
+c_0^{(p)}\\ c_1^{(p)} \\ \vdots\\ c_{N-1}^{(p)}
+\end{pmatrix}
+=\varepsilon_p
+\begin{pmatrix}
+c_0^{(p)}\\ c_1^{(p)} \\ \vdots\\ c_{N-1}^{(p)}
+\end{pmatrix}
+\label{eq:CIS_matrix}
+\end{equation}
+
+Until now, we have not made any assumptions, such that the equation above will give exact results when all single particle functions are included. The problem is that the matrix scales so badly, the number of Slater determinant that we need to include goes as 
+\begin{equation}
+N_{\text{FCI}}=\binom{N_{\text{single orbitals}}}{N_{\text{electrons}}}
+\end{equation}
+which is exploding. This is quite annoying since we in principle know how to solve the problems exact.
 
 \section{Coupled Cluster} \label{subsec:cc}
 The coupled cluster method is the \textit{de facto} standard wave function-based method for electronic structure calculations. \cite{paldus_beginnings_2005} The method approximates the wave function with an exponential expansion, 
@@ -38,11 +86,11 @@ which is the coupled cluster energy equation. On the other hand, we can multiply
 \end{equation}
 which are the coupled cluster amplitude equations. The similarity transformed Hamiltonian can be rewritten using the Baker-Campbell-Hausdorff expansion
 \begin{align}
-\label{eq:BCH}
-\bar{H} = \hat{H} &+ [\hat{H},\hat{T}]\notag \\
-&+ \frac{1}{2}[[\hat{H},\hat{T}],\hat{T}]\notag \\
-&+ \frac{1}{6}[[[\hat{H},\hat{T}],\hat{T}],\hat{T}] \\
-&+ \frac{1}{24}[[[[\hat{H},\hat{T}],\hat{T}],\hat{T}],\hat{T}] \notag \\
-&+ \cdots \notag
+	\label{eq:BCH}
+	\bar{H} = \hat{H} &+ [\hat{H},\hat{T}]\notag \\
+	&+ \frac{1}{2}[[\hat{H},\hat{T}],\hat{T}]\notag \\
+	&+ \frac{1}{6}[[[\hat{H},\hat{T}],\hat{T}],\hat{T}] \\
+	&+ \frac{1}{24}[[[[\hat{H},\hat{T}],\hat{T}],\hat{T}],\hat{T}] \notag \\
+	&+ \cdots \notag
 \end{align}
 and we are in principle set to solve the amplitude equations with respect to the amplitudes $t_{ijk\hdots}^{abc\hdots}$ and then find the energy. The expansion is able to reproduce the true wave function exactly using a satisfying number of terms and an infinite basis. This is, of course, not possible, but even by limiting us to the first few coupled cluster operators, the results are often good compared to other methods. \cite{daniel_crawford_introduction_2007}
