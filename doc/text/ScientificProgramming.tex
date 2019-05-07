@@ -74,3 +74,19 @@ Sometimes we do not want to send the object itself, but either its address, such
 
 \subsection{Virtual Functions}
 Often one wants to define a template of objects... where the super class defines which functions its objects should have. In C++, this can be achieved by virtual functions, functions with arguments specified but task undefined. Those functions are overwritten by the corresponding functions in the object (hence virtual), 
+
+\subsection{Data types}
+To not lose precision, it is important to choose the correct data type. As a thumb rule, a large integer should be declared as a \texttt{long int} (or just a \texttt{long}), and an extremely large float should be declared as a \texttt{long double}. However, normally it is sufficient to declare integers as \texttt{int}s and floats as \texttt{double}s. 
+
+Some variables should always be non-negative, such as counters and variables that gives the number of something. In those situations, the prefix \texttt{unsigned} is useful because it does two things: 1. ensures that a negative number is never assigned to the variable, 2. increases the range in positive direction. In for-loops, the control variable will usually be declared as \texttt{unsigned int}.
+
+When using a library some variable types are already set, for instance the length of a standard vector is always given as an \texttt{unsigned long}. In those cases, it is most appropriate to continue using that type. 
+
+When we tell the pros, we should also tell the cons. With \texttt{unsigned} types there is always a risk for underflow, which means that the number explode if it ...
+
+As an additional note, we often want to ensure that a variable is not changed inside a function. To prevent this, the arguments can be passed with the feature \texttt{const}, which raises an error if the respective variable is tried changed. 
+
+\subsubsection{Data types in Eigen}
+The open source template library for linear algebra, Eigen, will be used throughout the coding, and it comes with arrays of various properties. The most relevant ones are \texttt{VectorXi}, which has dynamic length and \texttt{int} data type and \texttt{VectorXd}, which has dynamic length and \texttt{double} data type. The Matrix class has equivalent objects. 
+
+In cases where we have \textit{a priori} knowledge of the array size, we can replace the \texttt{X} with the actual size. A fixed $3\times 3$ matrix of type \texttt{double} can for example be declared as \texttt{Matrix3d}. According to the Eigen documentation, using fixed size is \textit{"...hugely beneficial to performance"}. \url{https://eigen.tuxfamily.org/dox/group__TutorialMatrixClass.html}.
