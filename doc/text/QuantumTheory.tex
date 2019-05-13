@@ -230,15 +230,14 @@ The $N$-body electron density can be found by integrating over all particles but
 where $P>N$.
 
 \subsection{One-body density}
-The one-body density is the most applied electron density since it can even be found for two particles. In that case, the one-body density gives the probability of finding one particle at a relative distance $r$ to the other. For more particles, the one-body density gives the probability of finding the mass center of the remaining particles at a relative distance $r$ from one of the particles.
+The one-body density is the most applied electron density, and is sometimes refered to as the electron density. For the two particle case, the one-body density gives the probability of finding one particle at a relative distance $r$ to the other. For more particles, the one-body density gives the probability of finding the mass center of the remaining particles at a relative distance $r$ from one of the particles.
 
 Numerically, the one-body density is found by dividing the space into bins of equal sizes at different radii and counting the number of particles in each bin throughout the sampling. 
 
 \input{tikz/onebody_bins.tex}
 
 \subsection{Two-body density}
-
-
+For the one-body density, we integrate over all the particles but one, which corresponds to counting number of particles in each bin. For the two-body density, the integrate over all particles but a \textit{particle pair}, which means that we numerically need to find the position of each particle pair. 
 
 
 

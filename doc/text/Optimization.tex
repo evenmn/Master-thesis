@@ -41,13 +41,42 @@ and a run through all batches is called an \textit{epoch}.
 The reader might ask herself why this helps us, will we not just get a bad gradient approximation? The answer is that the stochasticity adds some coincidence to the system, which makes it less likely to be stuck in local minima. Additionally, it might speed-up the training session. 
 
 \subsection{ADAM}
-ADAM is a method that is stochastic and uses momentum, as mentioned above. 
+ADAM is a first-order stochastic optimization method which is widely used in machine learning. It was discovered by D.P. Kingma and J. Ba, and published in a 2014 paper. The article has already more than 20000 citations! \cite{kingma_adam:_2014} So what makes this method so great? 
+
+The main reason why it is so popular might be that it is straight-forward to implement, in the same time as it is efficient and capable of handle a large number of parameters. Additionally, the method has built-in momentum which makes it less likely to be stuck in a local minimum, more about that later.
+
+The algorithm goes as following
+
+\begin{algorithm}[H]
+\SetAlgoLined
+\KwData{this text}
+\KwResult{how to write algorithm with \LaTeX2e }
+initialization\;
+\While{not at end of this document}{
+	read current\;
+	\eIf{understand}{
+		go to next section\;
+		current section becomes this one\;
+	}{
+		go back to the beginning of current section\;
+	}
+}
+\caption{The ADAM algorithm}
+\end{algorithm}
 
 \subsection{Adding momentum}
+We have already mentioned momentum, but what is it and why do we use it?
 
-\section{Optimization of Trial Wave Function}
-\subsection{Energy Minimization}
-\subsection{Variance Minimization}
+If we go back to an introductory mechanics course, you might remember that momentum is a quantity that maintains the motion of a body. Imagine a ball that rolls down a steep hill, but then there is a local minimum that it needs to escape to keep rolling. Because of its momentum, it will probably be able to escape. 
+
+Exactly the same idea lies behind the momentum used in optimization algorithms; the momentum will try to maintain the motion towards the global minimum, which makes the system less likely to be stuck in a local minimum. Se figure .. for illustration. 
+
+Momentum can be added to most optimization algorithms, also gradient descent and stochastic gradient descent. The way we do it is to ...
+\begin{equation}
+\bs{v} = \gamma\bs{v} + \eta\nabla E
+\end{equation}
+
+
 
 \section{Random number generators} \label{sec:RNG}
 Mersenne Twister needs to be mentioned here
