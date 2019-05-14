@@ -1,21 +1,53 @@
-\chapter{Machine Learning Wave Function}
-We have seen that the probability of having a set of positions $\boldsymbol{X}$ with a set of hidden nodes $\boldsymbol{h}$ is given by
+\chapter{General Gaussian-binary RBM wave function}
+\section{Derive the wave function}
+We have seen that the probability of having a set of positions $\bs{x}$ with a set of hidden nodes $\bs{h}$ is given by
 \begin{equation}
-F(\boldsymbol{X},\boldsymbol{H})=\frac{1}{Z}e^{-\beta E(\boldsymbol{X},\boldsymbol{H})}
+F(\bs{x},\bs{h})=\frac{1}{Z}\exp(-\beta E(\bs{x},\bs{h}))
 \end{equation}
-where we set $\beta=1/kT=1$, $Z$ is the partition function and $E(\boldsymbol{X},\boldsymbol{h})$ is the system energy
+where we set $\beta=1/kT=1$, $Z$ is the partition function and $E(\bs{x},\bs{h})$ is the system energy
 \begin{equation}
-E(\boldsymbol{X},\boldsymbol{H})=\sum_{i=1}^{M}\frac{(X_i-a_i)^2}{2\sigma_i^2}-\sum_{j=1}^Nb_jH_j-\sum_{i,j=1}^{M,N}\frac{X_iW_{ij}H_j}{\sigma_i^2}
+E(\bs{x},\bs{h})=\sum_{i=1}^{F}\frac{(x_i-a_i)^2}{2\sigma_i^2}-\sum_{j=1}^Hb_jh_j-\sum_{i,j=1}^{F,H}\frac{x_iw_{ij}h_j}{\sigma_i^2}
 \end{equation}
 such that
 \begin{equation}
-F_{\text{RBM}}(\boldsymbol{X},\boldsymbol{h})=e^{\sum_{i=1}^M \frac{(X_i - a_i)^2}{2\sigma^2}} e^{\sum_{j=1}^N\Big(b_jh_j+\sum_{i=1}^M\frac{X_iW_{ij}}{\sigma^2}\Big)}.
+F_{\text{RBM}}(\boldsymbol{x},\boldsymbol{h})=\exp(\sum_{i=1}^F \frac{(x_i - a_i)^2}{2\sigma^2}) \exp(\sum_{j=1}^H\Big(b_jh_j+\sum_{i=1}^F\frac{x_iw_{ij}}{\sigma^2}\Big)).
 \end{equation}
-We skip the partition function because it will not affect the results (it is just a normalization constant). The probability of a set of positions only is therefore the sum over all sets of $\boldsymbol{h}$, $\{\boldsymbol{h}\}$:
+We omit the partition function because it will not affect the results (it is just a normalization constant). The probability of a set of positions only is therefore the sum over all sets of $\boldsymbol{h}$, $\{\boldsymbol{h}\}$:
 \begin{align}
-F_{\text{RBM}}(\boldsymbol{X})&=\sum_{\{\boldsymbol{h}\}}e^{\sum_{i=1}^M \frac{(X_i - a_i)^2}{2\sigma^2}} \prod_{j=1}^Ne^{b_jh_j+\sum_{i=1}^M\frac{X_iW_{ij}h_j}{\sigma^2}}\notag\\
-&=\sum_{h_1}\sum_{h_2}\hdots\sum_{h_N}e^{\sum_{i=1}^M \frac{(X_i - a_i)^2}{2\sigma^2}}\cross\notag\\
-&\phantom{=}e^{b_1h_1+\sum_{i=1}^M\frac{X_iW_{i1}h_1}{\sigma^2}}e^{b_2h_2+\sum_{i=1}^M\frac{X_iW_{i2}h_2}{\sigma^2}}\hdots e^{b_Nh_N+\sum_{i=1}^M\frac{X_iW_{iN}h_N}{\sigma^2}}\notag\\
-&=e^{\sum_{i=1}^M \frac{(X_i - a_i)^2}{2\sigma^2}}\prod_{j=1}^N\sum_{h_j=0}^1e^{b_jh_j+\sum_{i=1}^M \frac{X_i W_{ij}h_j}{\sigma^2}}\notag\\
-&=e^{\sum_{i=1}^M \frac{(X_i - a_i)^2}{2\sigma^2}} \prod_j^N (1+ e^{b_j + \frac{\boldsymbol{X}^T\boldsymbol{W}_{*j}}{\sigma^2}})
+F_{\text{RBM}}(\boldsymbol{x})&=\sum_{\{\boldsymbol{h}\}}\exp\Big(\sum_{i=1}^F \frac{(x_i - a_i)^2}{2\sigma^2}\Big) \prod_{j=1}^H\exp\Big(b_jh_j+\sum_{i=1}^F\frac{x_iw_{ij}h_j}{\sigma^2}\Big)\notag\\
+&=\sum_{h_1}\sum_{h_2}\hdots\sum_{h_N}\exp\Big(\sum_{i=1}^F \frac{(x_i - a_i)^2}{2\sigma^2}\Big)\exp\Big(b_1h_1+\sum_{i=1}^F\frac{x_iw_{i1}h_1}{\sigma^2}\Big)\cross\notag\\
+&\phantom{=}\exp\Big(b_2h_2+\sum_{i=1}^F\frac{x_iw_{i2}h_2}{\sigma^2}\Big)\hdots \exp\Big(b_Hh_H+\sum_{i=1}^F\frac{x_iw_{iH}h_H}{\sigma^2}\Big)\notag\\
+&=\exp\Big(\sum_{i=1}^F \frac{(x_i - a_i)^2}{2\sigma^2}\Big)\prod_{j=1}^H\sum_{h_j=0}^1\exp\Big(b_jh_j+\sum_{i=1}^F \frac{x_i w_{ij}h_j}{\sigma^2}\Big)\notag\\
+&=\exp\Big(\sum_{i=1}^F \frac{(x_i - a_i)^2}{2\sigma^2}\Big) \prod_{j=1}^H \bigg[1+ \exp\Big(b_j + \frac{\boldsymbol{x}^T\boldsymbol{w}_{*j}}{\sigma^2}\Big)\bigg]
 \end{align}
+
+\section{Find derivatives}
+A general Gaussian-binary restricted Boltzmann machine has the form
+\begin{equation}
+\Psi(\bs{x};\bs{a},\bs{b},\bs{w})=\exp(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2})\prod_{j=1}^H\Big[1+\exp(f_j(\bs{x};\bs{b},\bs{w}))\Big]
+\end{equation}
+where $f_j(\bs{x};\bs{b},\bs{w})$ is an arbitrary function of $\bs{x}$, $\bs{b}$ and $\bs{w}$. The Gaussian part is straight-forward to differentiate, so we will keep our attention on the product, which can be treated as a Jastrow factor,
+\begin{equation}
+J(\bs{x};\bs{b},\bs{w})=\prod_{j=1}^H\Big[1+\exp(f_j(\bs{x};\bs{b},\bs{w}))\Big].
+\end{equation}
+Henceforth, we will omit the variable $\bs{x}$, $\bs{b}$ and $\bs{w}$. Introducing 
+\begin{equation}
+p_j\equiv \frac{1}{1+\exp(+f_j)}\quad\wedge\quad n_j\equiv \frac{1}{1+\exp(-f_j)}
+\end{equation}
+we find the gradient and Laplacian of $\ln\Psi$ to be
+\begin{equation}
+\nabla_k\ln J=\sum_{j=1}^Hn_j\nabla_k(f_j)
+\end{equation}
+and
+\begin{equation}
+\nabla_k^2\ln J=\sum_{j=1}^Hn_j\big[\nabla_k^2(f_j)+p_j\big(\nabla_k(f_j)\big)^2\big]
+\end{equation}
+respectively. The parameter update can be found by
+\begin{equation}
+\frac{\partial}{\partial \alpha_i}\ln J=\sum_{j=1}^Hn_j\frac{\partial}{\partial\alpha_i}(f_j).
+\end{equation}
+and the ratio between wave functions can be found by
+\begin{equation}
+\frac{J^{\text{new}}}{J^{\text{old}}}=\prod_{j=1}^H\frac{p_j^{\text{old}}}{p_j^{\text{new}}}.
+\end{equation}
+As a conclusion, what we actually need to calculate to find respective expressions for each wave function is $\nabla_k(f_j)$, $\nabla_k^2(f_j)$ and $\partial_{\alpha_i}(f_j)$. This does also apply for deep restricted Boltzmann machines with Gaussian-binary units. 
