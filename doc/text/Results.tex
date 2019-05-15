@@ -11,6 +11,23 @@ The results are really the heart of this thesis and where most the effort is put
 We will first highlight some selected results with no repulsive interaction for validation purposes, and then move on to the more realistic case where we look at a larger number of particles for various oscillator strengths and various wave functions structures in two and three dimensions.  
 
 \newpage
+\section{Computational cost}
+One of the major problems of quantum many-body simulations is the computational cost, which explodes as the system size increases. In figure \eqref{fig:cpu_time} the CPU-time is plotted as a function of full orbitals. 
+\begin{figure}[H]
+	\centering
+	\label{fig:cpu_time}
+	\subfloat[2D]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/cpu_time_2D.png}}}
+	\subfloat[3D]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/cpu_time_2D.png}}}
+	\caption{CPU-time as a function of full orbitals for two and three dimensions. The solid line is RBM, while the dashed line is VMC.}
+\end{figure}
+
+A quantum many-body simulation is an actual experiment, since the applied theory agrees perfectly with the experiments. In that manner, one can use computer experiments to predict things that is not investigated in real life. Similarly to experiments in a lab, computer experiments are also dependent on external factors, especially when it comes to the CPU-time, and therefore it is important to do such measurements multiple times to find an accurate average time. The CPU-times above are the average from at least four independent runs for each number of orbitals. All the runs were performed on the Abel computational cluster, which is equipped with Supermicro X9DRT compute nodes with dual Intel E5-2670 CPUs running at 2.6 GHz. Different hardware might cause different CPU-times, but the CPU-time ratios (the exponential factor) should be the same. 
+
+For the simulations above, the VMC 2D increases as a power of 3.52
+
+\section{Convergence}
+kfkf
+
 \section{No repulsive interaction}
 We start with the non-interacting case in order to validate the implemented code. In this case we both know the exact energies and the exact one-body densities for an array of systems, and can therefore test the flexibility of the code. 
 
@@ -75,7 +92,7 @@ The one-body densities
 \section{With repulsive interaction}
 Now over to the interesting part: the more realistic case with interaction. We no longer have analytical results, apart from a few semi-analytical energies and wave-functions obtained by M. Taut for the two- and three-dimensional harmonic oscillator. More precisely, he found the energy to be $E=3$ for the frequency $\omega=1$ and $E=2/3$ for the frequency $\omega=1/6$ for the two-dimensional case, and $E=2$ for the frequency $\omega=1/2$ and $E=1/2$ for the frequency $\omega=1/10$ for the three-dimensional case. \cite{taut_two_1993}\cite{taut_two_1994}
 
-For other references, we need to rely on what researchers have found before us. Since diffusion Monte-Carlo (DMC) is known to give very accurate results, we will mainly compare our results to J. Høgberget's DMC calculations. \cite{hogberget_quantum_2013}
+For other references, we need to rely on what researchers have found before us. Since diffusion Monte-Carlo (DMC) is known to give very accurate results, we will mainly compare our results to J. Høgberget's DMC calculations. \cite{hogberget_quantum_2013} We also run some simulations that we do not have any references for, 
 
 To achieve good results, we applied an adaptive step number, which means that the number of steps per iteration was increased for the last iterations. Firstly, this makes the resulting energies more accurate due to better statistics. Secondly, we get less noisy electron density plots by using this technique. All results below were produced using $2^{20}=1.048.576$ number of steps per iteration for the initial iterations. Then the number of steps was increased to $2^{24}=16.777.216$ when we had 11 iterations left, and for the final iteration we used $2^{28}=268.435.456$ steps. The ADAM optimizer was used.
 
@@ -90,7 +107,7 @@ To achieve good results, we applied an adaptive step number, which means that th
 		$N$ & $\omega$ & $E_{\text{RBM+PJ}}$ & $E_{\text{RBM}}$ & $E_{\text{DRBM}}$ & $E_{\text{VMC+HF}}$ & $E_{\text{VMC}}$ & $E_{\text{ref}} $ \\ \hline \\
 		2 & 0.1 & 0.44130(5) & 0.4731(1) & - & - & 0.44128(1) & 0.44079(1)\\ 
 		& 1/6 & 0.66715(6) & 0.7133(1) & - & - & 0.66710(1) & $0.6666\bar{6}^{1}$ \\
-		& 0.28 & 1.02185(1) & 1.0705(2) & - & - & 1.02192(1) & 1.02164(1) \\
+		& 0.28 & 1.02185(1) & 1.0705(2) & - & - & 1.02190(1) & 1.02164(1) \\
 		& 0.5 & 1.65957(1) & 1.7231(2) & - & - & 1.65972(1) & 1.65977(1)  \\
 		& 1.0 & 3.00002(2) & 3.0822(2) & - & - & 2.99999(1) & $3.00000^{1}$ \\ \hdashline \\
 
@@ -116,21 +133,20 @@ To achieve good results, we applied an adaptive step number, which means that th
 		
 		42 & 0.1 & - & - & - & - & 107.928(2) & 107.6389(2) \\ 
 		& 0.28 & - & - & - & - & 220.224(2) & 219.8426(2) \\
-		& 0.5 & - & - & - & - & - & 330.6306(2) \\
+		& 0.5 & - & - & - & - & 331.276(3) & 330.6306(2) \\
 		& 1.0 & - & - & - & - & 543.738(7) & 542.9428(8) \\ \hdashline \\
 		
-		56 & 0.1 & - & - & - & - & 201.04(2) & 175.9553(7) \\ 
-		& 0.28 & - & - & - & - & 372.28(1) & 358.145(2) \\
-		& 0.5 & - & - & - & - & 542.49(1) & 537.353(2) \\
-		& 1.0 & - & - & - & - & 880.283(8) & 879.3986(6) \\ \hdashline \\
+		56 & 0.1 & - & - & - & - & 176.774(3) & 175.9553(7) \\ 
+		& 0.28 & - & - & - & - & 359.63(1) & 358.145(2) \\
+		& 0.5 & - & - & - & - & 538.686(9) & 537.353(2) \\
+		& 1.0 & - & - & - & - & 880.352(5) & 879.3986(6) \\ \hdashline \\
 		
-		72 & 0.1 & - & - & - & - & (313.902(1)) & - \\ 
-		& 0.28 & - & - & - & - & (590.98(2)) & - \\
-		& 0.5 & - & - & - & - & (846.07(2)) & - \\
-		& 1.0 & - & - & - & - & (1342.560(9)) & - \\ \hline\hline
+		72 & 0.1 & - & - & - & - & 276.83(1) & - \\ 
+		& 0.28 & - & - & - & - & 551.00(2) & - \\
+		& 0.5 & - & - & - & - & 822.82(1) & - \\
+		& 1.0 & - & - & - & - & 1340.520(7) & - \\ \hline\hline
 	\end{tabularx}
 \end{table}
-		
 
 \subsubsection{Three dimensions}
 \begin{table} [H]
@@ -346,9 +362,30 @@ To achieve good results, we applied an adaptive step number, which means that th
 
 \begin{figure} [H]%
 	\centering
+	\subfloat[RBM+PJ, $\omega=0.1$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/6P/0.100000w/VMC_2D_6P_0p100000w_MC2pow28.png}}}
+	\subfloat[RBM, $\omega=0.1$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/6P/0.100000w/VMC_2D_6P_0p100000w_MC2pow28.png}}}
+	\subfloat[VMC, $\omega=0.1$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/6P/0.100000w/VMC_2D_6P_0p100000w_MC2pow28.png}}}\\
+	
+	\subfloat[RBM+PJ, $\omega=0.28$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/6P/0.280000w/VMC_2D_6P_0p280000w_MC2pow28.png}}}
+	\subfloat[RBM, $\omega=0.28$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/6P/0.280000w/VMC_2D_6P_0p280000w_MC2pow28.png}}}
+	\subfloat[VMC, $\omega=0.28$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/6P/0.280000w/VMC_2D_6P_0p280000w_MC2pow28.png}}}\\
+	
+	\subfloat[RBM+PJ, $\omega=0.5$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/6P/0.500000w/VMC_2D_6P_0p500000w_MC2pow28.png}}}
+	\subfloat[RBM, $\omega=0.5$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/6P/0.500000w/VMC_2D_6P_0p500000w_MC2pow28.png}}}
+	\subfloat[VMC, $\omega=0.5$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/6P/0.500000w/VMC_2D_6P_0p500000w_MC2pow28.png}}}\\
+	
+	\subfloat[RBM+PJ, $\omega=1.0$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/6P/1.000000w/RBM_2D_6P_1p000000w_MC2pow28.png}}}
+	\subfloat[RBM, $\omega=1.0$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/6P/1.000000w/RBM_2D_6P_1p000000w_MC2pow28.png}}}
+	\subfloat[VMC, $\omega=1.0$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/6P/1.000000w/VMC_2D_6P_1p000000w_MC2pow28.png}}}
+	\caption{Two-body densities for six interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
+	\label{fig:TB_interaction_6P_2D}
+\end{figure}
+
+\begin{figure} [H]%
+	\centering
 	\subfloat[RBM+PJ, $\omega=0.1$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/12P/0.100000w/RBMPJ_2D_12P_0p100000w_MC2pow28.png}}}
 	\subfloat[RBM, $\omega=0.1$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/12P/0.100000w/RBMPJ_2D_12P_0p100000w_MC2pow28.png}}}
-	\subfloat[VMC, $\omega=0.1$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/12P/0.100000w/RBMPJ_2D_12P_0p100000w_MC2pow28.png}}}\\
+	\subfloat[VMC, $\omega=0.1$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/12P/0.100000w/VMC_2D_12P_0p100000w_MC2pow28.png}}}\\
 	
 	\subfloat[RBM+PJ, $\omega=0.28$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/12P/0.280000w/RBMPJ_2D_12P_0p280000w_MC2pow28.png}}}
 	\subfloat[RBM, $\omega=0.28$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/12P/0.280000w/RBMPJ_2D_12P_0p280000w_MC2pow28.png}}}
@@ -360,7 +397,113 @@ To achieve good results, we applied an adaptive step number, which means that th
 	
 	\subfloat[RBM+PJ, $\omega=1.0$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/12P/1.000000w/RBMPJ_2D_12P_1p000000w_MC2pow28.png}}}
 	\subfloat[RBM, $\omega=1.0$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/12P/1.000000w/RBM_2D_12P_1p000000w_MC2pow28.png}}}
-	\subfloat[VMC, $\omega=1.0$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/12P/1.000000w/RBMPJ_2D_12P_1p000000w_MC2pow28.png}}}
+	\subfloat[VMC, $\omega=1.0$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/12P/1.000000w/VMC_2D_12P_1p000000w_MC2pow28.png}}}
 	\caption{Two-body densities of 12 interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
 	\label{fig:TB_interaction_12P_2D}
+\end{figure}
+
+\begin{figure} [H]%
+	\centering
+	\subfloat[RBM+PJ, $\omega=0.1$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.100000w/VMC_2D_20P_0p100000w_MC2pow28.png}}}
+	\subfloat[RBM, $\omega=0.1$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.100000w/VMC_2D_20P_0p100000w_MC2pow28.png}}}
+	\subfloat[VMC, $\omega=0.1$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.100000w/VMC_2D_20P_0p100000w_MC2pow28.png}}}\\
+	
+	\subfloat[RBM+PJ, $\omega=0.28$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.280000w/VMC_2D_20P_0p280000w_MC2pow28.png}}}
+	\subfloat[RBM, $\omega=0.28$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.280000w/VMC_2D_20P_0p280000w_MC2pow28.png}}}
+	\subfloat[VMC, $\omega=0.28$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.280000w/VMC_2D_20P_0p280000w_MC2pow28.png}}}\\
+	
+	\subfloat[RBM+PJ, $\omega=0.5$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.500000w/VMC_2D_20P_0p500000w_MC2pow28.png}}}
+	\subfloat[RBM, $\omega=0.5$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.500000w/VMC_2D_20P_0p500000w_MC2pow28.png}}}
+	\subfloat[VMC, $\omega=0.5$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.500000w/VMC_2D_20P_0p500000w_MC2pow28.png}}}\\
+	
+	\subfloat[RBM+PJ, $\omega=1.0$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/1.000000w/VMC_2D_20P_1p000000w_MC2pow28.png}}}
+	\subfloat[RBM, $\omega=1.0$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/1.000000w/VMC_2D_20P_1p000000w_MC2pow28.png}}}
+	\subfloat[VMC, $\omega=1.0$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/1.000000w/VMC_2D_20P_1p000000w_MC2pow28.png}}}
+	\caption{Two-body densities for 20 interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
+	\label{fig:TB_interaction_20P_2D}
+\end{figure}
+
+\begin{figure} [H]%
+	\centering
+	\subfloat[RBM+PJ, $\omega=0.1$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/30P/0.100000w/VMC_2D_30P_0p100000w_MC2pow28.png}}}
+	\subfloat[RBM, $\omega=0.1$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/30P/0.100000w/VMC_2D_30P_0p100000w_MC2pow28.png}}}
+	\subfloat[VMC, $\omega=0.1$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/30P/0.100000w/VMC_2D_30P_0p100000w_MC2pow28.png}}}\\
+	
+	\subfloat[RBM+PJ, $\omega=0.28$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/30P/0.280000w/VMC_2D_30P_0p280000w_MC2pow28.png}}}
+	\subfloat[RBM, $\omega=0.28$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/30P/0.280000w/VMC_2D_30P_0p280000w_MC2pow28.png}}}
+	\subfloat[VMC, $\omega=0.28$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/30P/0.280000w/VMC_2D_30P_0p280000w_MC2pow28.png}}}\\
+	
+	\subfloat[RBM+PJ, $\omega=0.5$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/30P/0.500000w/VMC_2D_30P_0p500000w_MC2pow28.png}}}
+	\subfloat[RBM, $\omega=0.5$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/30P/0.500000w/RBM_2D_30P_0p500000w_MC2pow28.png}}}
+	\subfloat[VMC, $\omega=0.5$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/30P/0.500000w/VMC_2D_30P_0p500000w_MC2pow28.png}}}\\
+	
+	\subfloat[RBM+PJ, $\omega=1.0$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/30P/1.000000w/VMC_2D_30P_1p000000w_MC2pow28.png}}}
+	\subfloat[RBM, $\omega=1.0$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/30P/1.000000w/RBM_2D_30P_1p000000w_MC2pow28.png}}}
+	\subfloat[VMC, $\omega=1.0$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/30P/1.000000w/VMC_2D_30P_1p000000w_MC2pow28.png}}}
+	\caption{Two-body densities for 30 interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
+	\label{fig:TB_interaction_30P_2D}
+\end{figure}
+
+\begin{figure} [H]%
+	\centering
+	\subfloat[RBM+PJ, $\omega=0.1$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/0.100000w/VMC_2D_42P_0p100000w_MC2pow28.png}}}
+	\subfloat[RBM, $\omega=0.1$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/0.100000w/VMC_2D_42P_0p100000w_MC2pow28.png}}}
+	\subfloat[VMC, $\omega=0.1$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/0.100000w/VMC_2D_42P_0p100000w_MC2pow28.png}}}\\
+	
+	\subfloat[RBM+PJ, $\omega=0.28$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/0.280000w/VMC_2D_42P_0p280000w_MC2pow28.png}}}
+	\subfloat[RBM, $\omega=0.28$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/0.280000w/VMC_2D_42P_0p280000w_MC2pow28.png}}}
+	\subfloat[VMC, $\omega=0.28$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/0.280000w/VMC_2D_42P_0p280000w_MC2pow28.png}}}\\
+	
+	\subfloat[RBM+PJ, $\omega=0.5$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/0.500000w/VMC_2D_42P_0p500000w_MC2pow28.png}}}
+	\subfloat[RBM, $\omega=0.5$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/0.500000w/VMC_2D_42P_0p500000w_MC2pow28.png}}}
+	\subfloat[VMC, $\omega=0.5$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/0.500000w/VMC_2D_42P_0p500000w_MC2pow28.png}}}\\
+	
+	\subfloat[RBM+PJ, $\omega=1.0$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/1.000000w/VMC_2D_42P_1p000000w_MC2pow28.png}}}
+	\subfloat[RBM, $\omega=1.0$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/1.000000w/VMC_2D_42P_1p000000w_MC2pow28.png}}}
+	\subfloat[VMC, $\omega=1.0$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/1.000000w/VMC_2D_42P_1p000000w_MC2pow28.png}}}
+	\caption{Two-body densities for 42 interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
+	\label{fig:TB_interaction_42P_2D}
+\end{figure}
+
+\begin{figure} [H]%
+	\centering
+	\subfloat[RBM+PJ, $\omega=0.1$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/56P/0.100000w/VMC_2D_56P_0p100000w_MC2pow28.png}}}
+	\subfloat[RBM, $\omega=0.1$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/56P/0.100000w/VMC_2D_56P_0p100000w_MC2pow28.png}}}
+	\subfloat[VMC, $\omega=0.1$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/56P/0.100000w/VMC_2D_56P_0p100000w_MC2pow28.png}}}\\
+	
+	\subfloat[RBM+PJ, $\omega=0.28$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/56P/0.280000w/VMC_2D_56P_0p280000w_MC2pow28.png}}}
+	\subfloat[RBM, $\omega=0.28$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/56P/0.280000w/VMC_2D_56P_0p280000w_MC2pow28.png}}}
+	\subfloat[VMC, $\omega=0.28$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/56P/0.280000w/VMC_2D_56P_0p280000w_MC2pow28.png}}}\\
+	
+	\subfloat[RBM+PJ, $\omega=0.5$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/56P/0.500000w/VMC_2D_56P_0p500000w_MC2pow28.png}}}
+	\subfloat[RBM, $\omega=0.5$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/56P/0.500000w/VMC_2D_56P_0p500000w_MC2pow28.png}}}
+	\subfloat[VMC, $\omega=0.5$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/56P/0.500000w/VMC_2D_56P_0p500000w_MC2pow28.png}}}\\
+	
+	\subfloat[RBM+PJ, $\omega=1.0$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/56P/1.000000w/VMC_2D_56P_1p000000w_MC2pow28.png}}}
+	\subfloat[RBM, $\omega=1.0$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/56P/1.000000w/VMC_2D_56P_1p000000w_MC2pow28.png}}}
+	\subfloat[VMC, $\omega=1.0$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/56P/1.000000w/VMC_2D_56P_1p000000w_MC2pow28.png}}}
+	
+	\caption{Two-body densities for 56 interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
+	\label{fig:TB_interaction_56P_2D}
+\end{figure}
+
+\begin{figure} [H]%
+	\centering
+	\subfloat[RBM+PJ, $\omega=0.1$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/72P/0.100000w/VMC_2D_72P_0p100000w_MC2pow28.png}}}
+	\subfloat[RBM, $\omega=0.1$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/72P/0.100000w/VMC_2D_72P_0p100000w_MC2pow28.png}}}
+	\subfloat[VMC, $\omega=0.1$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/72P/0.100000w/VMC_2D_72P_0p100000w_MC2pow28.png}}}\\
+	
+	\subfloat[RBM+PJ, $\omega=0.28$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/72P/0.280000w/VMC_2D_72P_0p280000w_MC2pow28.png}}}
+	\subfloat[RBM, $\omega=0.28$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/72P/0.280000w/VMC_2D_72P_0p280000w_MC2pow28.png}}}
+	\subfloat[VMC, $\omega=0.28$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/72P/0.280000w/VMC_2D_72P_0p280000w_MC2pow28.png}}}\\
+	
+	\subfloat[RBM+PJ, $\omega=0.5$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/72P/0.500000w/VMC_2D_72P_0p500000w_MC2pow28.png}}}
+	\subfloat[RBM, $\omega=0.5$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/72P/0.500000w/VMC_2D_72P_0p500000w_MC2pow28.png}}}
+	\subfloat[VMC, $\omega=0.5$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/72P/0.500000w/VMC_2D_72P_0p500000w_MC2pow28.png}}}\\
+	
+	\subfloat[RBM+PJ, $\omega=1.0$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/72P/1.000000w/VMC_2D_72P_1p000000w_MC2pow28.png}}}
+	\subfloat[RBM, $\omega=1.0$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/72P/1.000000w/VMC_2D_72P_1p000000w_MC2pow28.png}}}
+	\subfloat[VMC, $\omega=1.0$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/72P/1.000000w/VMC_2D_72P_1p000000w_MC2pow28.png}}}
+	\caption{Two-body densities for 72 interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
+	\label{fig:TB_interaction_72P_2D}
 \end{figure}
