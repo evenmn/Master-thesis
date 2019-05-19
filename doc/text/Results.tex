@@ -5,7 +5,7 @@
 	\includegraphics[scale=0.8]{Images/art.png}
 	\caption{One-body density plots for 12 particles in a harmonic oscillator well. The four graphs correspond to four different oscillator strengths, where the weakest oscillator gives the broadest density distribution. It's quite artistic, isn't it?}
 \end{figure}
-After all, this is a Master's degree in physics and the physical results is what is interesting. 
+After all, this is a physics thesis and the physical results is what is interesting. 
 The results are really the heart of this thesis and where most the effort is put... 
 
 We will first highlight some selected results with no repulsive interaction for validation purposes, and then move on to the more realistic case where we look at a larger number of particles for various oscillator strengths and various wave functions structures in two and three dimensions.  
@@ -17,17 +17,47 @@ One of the major problems of quantum many-body simulations is the computational 
 	\centering
 	\label{fig:cpu_time}
 	\subfloat[2D]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/cpu_time_2D.png}}}
-	\subfloat[3D]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/cpu_time_2D.png}}}
+	\subfloat[3D]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/cpu_time_3D.png}}}
 	\caption{CPU-time as a function of full orbitals for two and three dimensions. The solid line is RBM, while the dashed line is VMC.}
 \end{figure}
 
 A quantum many-body simulation is an actual experiment, since the applied theory agrees perfectly with the experiments. In that manner, one can use computer experiments to predict things that is not investigated in real life. Similarly to experiments in a lab, computer experiments are also dependent on external factors, especially when it comes to the CPU-time, and therefore it is important to do such measurements multiple times to find an accurate average time. The CPU-times above are the average from at least four independent runs for each number of orbitals. All the runs were performed on the Abel computational cluster, which is equipped with Supermicro X9DRT compute nodes with dual Intel E5-2670 CPUs running at 2.6 GHz. Different hardware might cause different CPU-times, but the CPU-time ratios (the exponential factor) should be the same. 
 
-For the simulations above, the VMC 2D increases as a power of 3.52
+To find the increasing power, we try to fit a function on the form 
+\begin{equation}
+f(x)=ax^b
+\end{equation}
+to the curve, where $x$ is the number of orbitals while $a$ and $b$ are parameters to find. From the limited number of points, we have found the parameters and presented them in table \eqref{tab:cputimefit}.
 
-\section{Convergence}
-kfkf
+\begin{table} [H]
+	\caption{}
+	\begin{tabularx}{\textwidth}{X|XX:XX} \hline\hline
+		\label{tab:cputimefit}
+		& \multicolumn{2}{c}{2D} &
+		\multicolumn{2}{c}{3D} \\ \hline
+		& $a$ & $b$ & $a$ & $b$ \\ \hline
+		RBM & - & - & - & - \\ 
+		RBM+HF & - & - & - & - \\
+		RBM+PJ & - & - & - & - \\
+		VMC & 0.23 & 3.52 & 0.23 & 4.76 \\ \hline\hline
+	\end{tabularx}
+\end{table}
 
+\newpage
+\section{Energy convergence}
+Another interesting comparison is the convergence of the different methods...
+
+\begin{figure}[H]
+	\centering
+	\label{fig:convergence}
+	\subfloat[2D, 2P, $\omega=1$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/energy/2D/2P/1.000000w/MC2pow20.png}}}
+	\subfloat[3D, 2P, $\omega=1/2$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/energy/3D/2P/0.500000w/MC2pow20.png}}}
+	\caption{ }
+\end{figure}
+
+
+
+\newpage
 \section{No repulsive interaction}
 We start with the non-interacting case in order to validate the implemented code. In this case we both know the exact energies and the exact one-body densities for an array of systems, and can therefore test the flexibility of the code. 
 
@@ -80,36 +110,29 @@ The one-body densities
 
 \begin{figure} [h]%
 	\centering
-	\subfloat[2D, $\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int0/onebody/2D/2P/onebody_VMC_NQS_P2_D2_w0p5.png}}}
-	\subfloat[2D, $\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int0/onebody/2D/2P/onebody_VMC_NQS_P2_D2_w1p0.png} }}\\
+	\subfloat[2D, $\omega=0.5$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int0/onebody/2D/2P/onebody_VMC_NQS_P2_D2_w0p5.png}}}
+	\subfloat[2D, $\omega=1.0$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int0/onebody/2D/2P/onebody_VMC_NQS_P2_D2_w1p0.png} }}\\
 	
-	\subfloat[3D, $\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int0/onebody/3D/2P/onebody_VMC_NQS_P2_D3_w0p5.png} }}
-	\subfloat[3D, $\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int0/onebody/3D/2P/onebody_VMC_NQS_P2_D3_w1p0.png} }}
+	\subfloat[3D, $\omega=0.5$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int0/onebody/3D/2P/onebody_VMC_NQS_P2_D3_w0p5.png} }}
+	\subfloat[3D, $\omega=1.0$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int0/onebody/3D/2P/onebody_VMC_NQS_P2_D3_w1p0.png} }}
 	\caption{One-body densities of two non-interacting electrons in two dimensions figure (a) and (b) and three dimensions}%
 	\label{fig:OB_nointeraction}
 \end{figure}
 
-\section{With repulsive interaction}
-Now over to the interesting part: the more realistic case with interaction. We no longer have analytical results, apart from a few semi-analytical energies and wave-functions obtained by M. Taut for the two- and three-dimensional harmonic oscillator. More precisely, he found the energy to be $E=3$ for the frequency $\omega=1$ and $E=2/3$ for the frequency $\omega=1/6$ for the two-dimensional case, and $E=2$ for the frequency $\omega=1/2$ and $E=1/2$ for the frequency $\omega=1/10$ for the three-dimensional case. \cite{taut_two_1993}\cite{taut_two_1994}
-
-For other references, we need to rely on what researchers have found before us. Since diffusion Monte-Carlo (DMC) is known to give very accurate results, we will mainly compare our results to J. Høgberget's DMC calculations. \cite{hogberget_quantum_2013} We also run some simulations that we do not have any references for, 
-
-To achieve good results, we applied an adaptive step number, which means that the number of steps per iteration was increased for the last iterations. Firstly, this makes the resulting energies more accurate due to better statistics. Secondly, we get less noisy electron density plots by using this technique. All results below were produced using $2^{20}=1.048.576$ number of steps per iteration for the initial iterations. Then the number of steps was increased to $2^{24}=16.777.216$ when we had 11 iterations left, and for the final iteration we used $2^{28}=268.435.456$ steps. The ADAM optimizer was used.
-
 \begin{landscape}
+\section{With repulsive interaction}
 \subsection{Ground state energy}
 \subsubsection{Two dimensions}
-
 \begin{table} [H]
 	\caption{This table presents the energies of $N$ electrons trapped in a two-dimensional oscillator well with frequency $\omega$. $E_{\text{RBM}}$ is plain restricted Boltzmann machine (RBM) with Slater determinant, $E_{\text{RBM+PJ}}$ is RBM with Padé-Jastrow factor (PJ), and $E_{\text{VMC}}$ is standard variational Monte-Carlo. The exact energies are calculated analytically by M.Taut, see \cite{taut_two_1994}. The reference is to J. Høgberget's diffusion Monte-Carlo (DMC) calculations \cite{hogberget_quantum_2013}.} 
-	\begin{tabularx}{\hsize}{l:l|XXXXXXXX} \hline\hline
+	\begin{tabularx}{\hsize}{l:l|RRRRRRRR} \hline\hline
 		\label{tab:quantumdotswinteraction2D1}
 		$N$ & $\omega$ & $E_{\text{RBM+PJ}}$ & $E_{\text{RBM}}$ & $E_{\text{RBM+HF}}$ & $E_{\text{DRBM}}$ & $E_{\text{HF}}$ & $E_{\text{VMC+HF}}$ & $E_{\text{VMC}}$ & $E_{\text{ref}}$ \\ \hline \\
 		2 & 0.1 & 0.44130(5) & 0.4731(1) & - & - & - & - & 0.44128(1) & 0.44079(1) \\ 
-		& 1/6 & 0.66715(6) & 0.7133(1) & - & - & - & - & 0.66710(1) & $0.6666\bar{6}^{1}$ \\
+		& 1/6 & 0.66715(6) & 0.7133(1) & - & - & - & - & 0.66710(1) & $0.\bar{6}^{1}$ \\
 		& 0.28 & 1.02185(1) & 1.0705(2) & - & - & - & - & 1.02190(1) & 1.02164(1) \\
 		& 0.5 & 1.65957(1) & 1.7231(2) & - & - & - & - & 1.65972(1) & 1.65977(1)  \\
-		& 1.0 & 3.00002(2) & 3.0822(2) & - & - & - & - & 2.99999(1) & $3.00000^{1}$ \\ \hdashline \\
+		& 1.0 & 3.00002(2) & 3.0822(2) & - & - & - & - & 2.99999(1) & $3.0^{1}$ \\ \hdashline \\
 
 		6 & 0.1 & 3.5868(6) & 3.719(1) & - & - & - & - & 3.5698(1) & 3.55385(5) \\ 
 		& 0.28 & 7.6260(2) & 7.963(8) & - & - & - & - & 7.6219(1) & 7.60019(6) \\
@@ -161,36 +184,42 @@ To achieve good results, we applied an adaptive step number, which means that th
 \subsubsection{Three dimensions}
 \begin{table} [H]
 	\caption{This table presents the energies of $N$ electrons trapped in a three-dimensional oscillator well with frequency $\omega$. $E_{\text{RBM}}$ is plain restricted Boltzmann machine (RBM) with Slater determinant, $E_{\text{RBM+PJ}}$ is RBM with Padé-Jastrow factor (PJ), and $E_{\text{VMC}}$ is standard variational Monte-Carlo. The exact energies are calculated analytically by M.Taut, see \cite{taut_two_1993}. The reference is to J. Høgberget's diffusion Monte-Carlo (DMC) calculations \cite{hogberget_quantum_2013}. } 
-	\begin{tabularx}{\hsize}{l:l|XXXXXXXX} \hline\hline
+	\begin{tabularx}{\hsize}{l:l|RRRRRRRR} \hline\hline
 		\label{tab:quantumdotswinteraction3D}
-		$N$ & $\omega$ & $E_{\text{RBM+PJ}}$ & $E_{\text{RBM}}$ & $E_{\text{RBM+HF}}$ & $E_{\text{DBM}}$ & $E_{\text{HF}}$ & $E_{\text{VMC}}$ & $E_{\text{ref}} $ & $E_{\text{exact}}$ \\ \hline \\
-		2 & 0.1 & 0.50073(7) & 0.5253(1) & - & - & - & - & 0.50008(4) & $0.500000^{1}$ \\
-		& 0.28 & 1.20201(5) & 1.2284(1) & - & - & - & - & 1.20174(6) & 1.201725(2) \\
-		& 0.5 & 2.00009(4) & 2.0270(1) & - & - & - & - & 2.00000(5) & $2.000000^{1}$ \\
-		& 1.0 & 3.73032(4) & 3.7571(1) & - & - & - & - & 3.73003(1) & 3.730123(3) \\ \hdashline \\
+		$N$ & $\omega$ & $E_{\text{RBM}}$ & $E_{\text{RBM+HF}}$ & $E_{\text{RBM+PJ}}$ & $E_{\text{DRBM}}$ & $E_{\text{PRBM}}$ & $E_{\text{VMC}}$ & $E_{\text{HF}} $ & $E_{\text{ref}}$ \\ \hline \\
+		2 & 0.1 & 0.5253(1) & - & 0.50073(7) & - & - & 0.50008(4) & - & $0.5^{1}$ \\
+		& 0.28 & 1.2284(1) & - & 1.20201(5) & - & - & 1.20174(6) & - & 1.201725(2) \\
+		& 0.5 & 2.0270(1) & - & 2.00009(4) & - & - & 2.00000(5) & - & $2.0^{1}$ \\
+		& 1.0 & 3.7571(1) & - & 3.73032(4) & - & - & 3.73002(5) & - & 3.730123(3) \\ \hdashline \\
 		
-		8 & 0.1 & 5.8448(7) & 6.549(7) & - & - & - & - & 5.8731(9) & 5.7028(1) \\ 
-		& 0.28 & 12.2084(2) & 13.098(2) & - & - & - & - & 12.2104(2) & 12.1927(1) \\
-		& 0.5 & 18.9831(2) & 19.621(2) & - & - & - & - & 18.9776(2) & 18.9611(1) \\
-		& 1.0 & 32.6883(2) & 33.513(1) & - & - & - & - & 32.6846(2) & 32.6680(1) \\ \hdashline \\
+		8 & 0.1 & 6.549(7) & - & 5.8448(7) & - & - & 5.7127(1) & - & 5.7028(1) \\ 
+		& 0.28 & 13.098(2) & - & 12.2084(2) & - & - & 12.2051(1) & - & 12.1927(1) \\
+		& 0.5 & 19.621(2) & - & 18.9831(2) & - & - & 18.9759(1) & - & 18.9611(1) \\
+		& 1.0 & 33.513(1) & - & 32.6883(2) & - & - & 32.6823(2) & - & 32.6680(1) \\ \hdashline \\
 		
-		20 & 0.1 & - & - & - & - & - & - & 27.72(2) & 27.2717(2) \\ 
-		& 0.28 & - & - & - & - & - & - & 56.534(3) & 56.3868(2) \\
-		& 0.5 & - & - & - & - & - & - & 85.771(4) & 85.6555(2) \\
-		& 1.0 & - & - & - & - & - & - & 142.946(6) & 142.8875(2) \\ \hdashline \\
+		20 & 0.1 & - & - & - & - & - & 27.3144(5) & - & 27.2717(2) \\ 
+		& 0.28 & - & - & - & - & - & 56.4297(5) & - & 56.3868(2) \\
+		& 0.5 & - & - & - & - & - & 85.7161(5) & - & 85.6555(2) \\
+		& 1.0 & - & - & - & - & - & 142.9560(7) & - & 142.8875(2) \\ \hdashline \\
 		
-		40 & 0.1 & - & - & - & - & - & - & - & - \\ 
-		& 0.28 & - & - & - & - & - & - & - & - \\
-		& 0.5 & - & - & - & - & - & - & - & - \\
-		& 1.0 & - & - & - & - & - & - & - & - \\ \hdashline \\
+		40 & 0.1 & - & - & - & - & - & 88.182(1) & - & - \\ 
+		& 0.28 & - & - & - & - & - & 179.567(1) & - & - \\
+		& 0.5 & - & - & - & - & - & 269.746(1) & - & - \\
+		& 1.0 & - & - & - & - & - & 442.602(2) & - & - \\ \hdashline \\
 		
-		70 & 0.1 & - & - & - & - & - & - & 227.082(6) & - \\ 
-		& 0.28 & - & - & - & - & - & - & 456.941(2) & - \\
-		& 0.5 & - & - & - & - & - & - & 682.277(5) & - \\
-		& 1.0 & - & - & - & - & - & - & 1108.950(4) & - \\ \hline\hline
+		70 & 0.1 & - & - & - & - & - & 227.082(6) & - & - \\ 
+		& 0.28 & - & - & - & - & - & 456.941(2) & - & - \\
+		& 0.5 & - & - & - & - & - & 682.277(5) & - & - \\
+		& 1.0 & - & - & - & - & - & 1108.950(4) & - & - \\ \hline\hline
 	\end{tabularx}
 \end{table}
 \end{landscape}
+
+Now over to the interesting part: the more realistic case with interaction. We no longer have analytical results, apart from a few semi-analytical energies and wave-functions obtained by M. Taut for the two- and three-dimensional harmonic oscillator. More precisely, he found the energy to be $E=3$ for the frequency $\omega=1$ and $E=2/3$ for the frequency $\omega=1/6$ for the two-dimensional case, and $E=2$ for the frequency $\omega=1/2$ and $E=1/2$ for the frequency $\omega=1/10$ for the three-dimensional case. \cite{taut_two_1993}\cite{taut_two_1994}
+
+For other references, we need to rely on what researchers have found before us. Since diffusion Monte-Carlo (DMC) is known to give very accurate results, we will mainly compare our results to J. Høgberget's DMC calculations. \cite{hogberget_quantum_2013} We also run some simulations that we do not have any references for, 
+
+To achieve good results, we applied an adaptive step number, which means that the number of steps per iteration was increased for the last iterations. Firstly, this makes the resulting energies more accurate due to better statistics. Secondly, we get less noisy electron density plots by using this technique. All results below were produced using $2^{20}=1.048.576$ number of steps per iteration for the initial iterations. Then the number of steps was increased to $2^{24}=16.777.216$ when we had 11 iterations left, and for the final iteration we used $2^{28}=268.435.456$ steps. The ADAM optimizer was used.
 
 \subsection{One-body densities}
 \subsubsection{Two dimensions}
@@ -519,4 +548,31 @@ To achieve good results, we applied an adaptive step number, which means that th
 	\subfloat[VMC, $\omega=1.0$]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/twobody/2D/72P/1.000000w/VMC_2D_72P_1p000000w_MC2pow28.png}}}
 	\caption{Two-body densities for 72 interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
 	\label{fig:TB_interaction_72P_2D}
+\end{figure}
+
+\subsubsection{Three dimensions}
+\begin{figure} [H]%
+	\centering
+	\subfloat[2P, RBM]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/3D/2P/0.100000w/VMC_ADAM_MC2pow28.png}}}
+	\subfloat[2P, RBM+PJ]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/3D/2P/0.100000w/VMC_ADAM_MC2pow28.png}}}
+	\subfloat[2P, VMC]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/3D/2P/0.100000w/VMC_ADAM_MC2pow28.png}}}\\
+	
+	\subfloat[8P, RBM]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/3D/8P/0.100000w/VMC_ADAM_MC2pow28.png}}}
+	\subfloat[8P, RBM+PJ]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/3D/8P/0.100000w/VMC_ADAM_MC2pow28.png}}}
+	\subfloat[8P, VMC]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/3D/8P/0.100000w/VMC_ADAM_MC2pow28.png}}}\\
+	
+	\subfloat[20P, RBM]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/3D/20P/0.100000w/VMC_ADAM_MC2pow28.png}}}
+	\subfloat[20P, RBM+PJ]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/3D/20P/0.100000w/VMC_ADAM_MC2pow28.png}}}
+	\subfloat[20P, VMC]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/3D/20P/0.100000w/VMC_ADAM_MC2pow28.png}}}\\
+	
+	\subfloat[40P, RBM]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/3D/40P/0.100000w/VMC_ADAM_MC2pow28.png}}}
+	\subfloat[40P, RBM+PJ]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/3D/40P/0.100000w/VMC_ADAM_MC2pow28.png}}}
+	\subfloat[40P, VMC]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/3D/40P/0.100000w/VMC_ADAM_MC2pow28.png}}}\\
+	
+	\subfloat[70P, RBM]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/3D/70P/0.100000w/VMC_ADAM_MC2pow28.png}}}
+	\subfloat[70P, RBM+PJ]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/3D/70P/0.100000w/VMC_ADAM_MC2pow28.png}}}
+	\subfloat[70P, VMC]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/3D/70P/0.100000w/VMC_ADAM_MC2pow28.png}}}
+	
+	\caption{Two-body densities for 72 interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
+	\label{fig:TB_interaction_3D}
 \end{figure}

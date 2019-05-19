@@ -12,6 +12,7 @@
 \usepackage{pdflscape}	% landscape page
 \usepackage{afterpage}	% avoid undesired blank page
 \usepackage{color}
+\usepackage{array} 		% For column alignment
 \usepackage{xcolor}
 \usepackage{listings}
 \usepackage{hyperref}
@@ -31,6 +32,11 @@
 \usepackage{varwidth}	% Rotate text in table
 \usepackage{arydshln}   % Dashed lines in table
 \usepackage{epigraph}	% Quote at beg. of chapter
+
+% Define new column alignment types
+\newcolumntype{L}{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{2.45cm}}
+\newcolumntype{R}{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{2.45cm}}
+\newcolumntype{C}{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}X}
 
 % Change margins on each page
 \usepackage[right=2cm, 
