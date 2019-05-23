@@ -1,10 +1,10 @@
 \chapter{Derivation of Wave Function Elements} \label{chp:WFE}
-In chapter \eqref{chp:quantum} we presented the basic principles behind a many-body trial wave function, including the Slater determinant and the well-known Padé-Jastrow factor. Further, in chapter \eqref{chp:systems}, the common basis functions of the harmonic oscillator and atomic systems were given, and in the previous chapter, \eqref{chp:machinelearning}, we explained how to create wave functions using machine learning. This means that all wave function elements used in this thesis already are given, and in this chapter they are all collected, together with their derivatives and various optimizations. The calculations below are based on two main assumptions:
-\begin{itemize}
-	\item For each step, we move one particle in one direction.
-	\item A variational parameter occurs in only one of the wave function elements.
-\end{itemize}
-The first assumptions is necessary when we calculate the ratio between the new and the old wave function used in Metropolis sampling, and we need the last to simplify the update of parameters. We start with splitting up the kinetic energy calculations and parameter update to see which derivatives we need.
+In chapter \eqref{chp:quantum} we presented the basic principles behind a many-body trial wave function, including the Slater determinant and the well-known Padé-Jastrow factor. Further in chapter \eqref{chp:systems}, the common basis functions of the quantum dot and atomic systems were given, and in the previous chapter, \eqref{chp:machinelearning}, we explained how to create wave functions using Boltzmann machines. This means that all wave function elements used in this thesis already are presented, and in this chapter they are all collected, together with their derivatives and various optimizations. The calculations below are based on two main assumptions:
+\begin{enumerate}
+	\item For each time step, we change one position coordinate only, i.e, move a particle along one of the principal axis.
+	\item A variational parameter $\alpha_i$ appears in only one of the wave function elements.
+\end{enumerate}
+The first assumption is useful when updating position dependent arrays. Typically, we only need to update a coordinate of an array or a row of a matrix when this assumption is raised, which is hugely beneficial with respect to the computational time. The last assumption is makes all wave function elements independent, which obviously makes life easier. We will now show how the local energy can be split up and calculated independently for the different elements, and then we will take a look at how the parameters are updated.
 
 \section{Kinetic Energy Calculations}
 The local energy, defined in equation \eqref{eq:local energy}, is
@@ -28,10 +28,10 @@ The kinetic energy related to this trial wave function is then computed by
 \begin{equation}
 \frac{1}{\Psi_T}\nabla_k^2\Psi_T=\sum_{i=1}^p\nabla_k^2\ln\phi_i + \Big(\sum_{i=1}^p\nabla_k\ln\phi_i\Big)^2,
 \end{equation}
-which can be found when all local derivatives $\nabla_k^2\ln\phi_i$ and $\nabla_k\ln\phi_i$ are given. For each wave function element given below, those local derivatives will be evaluated. In addition, we need to know the derivative of the local energy with respect to the variational parameters in order to update the parameters correctly. 
+which can be found when all local derivatives $\nabla_k^2\ln\phi_i$ and $\nabla_k\ln\phi_i$ are given. For each wave function element given below, those local derivatives will be evaluated. In addition, we need to know the derivative of local energy with respect to the variational parameters in order to update the parameters correctly. 
 
 \section{Parameter Update}
-In gradient based optimization methods, as we use, one needs to know the gradient of the local energy with respect to all variational parameters $\alpha_i$, 
+In gradient based optimization methods, as we use, one needs to know the gradient of the expectation value of local energy with respect to all variational parameters $\alpha_i$, 
 \begin{equation}
 \partial_{\alpha_i} \langle E_L\rangle\equiv\frac{\partial \langle E_L(\alpha_i)\rangle}{\partial \alpha_i}.
 \end{equation}
@@ -39,24 +39,34 @@ Since we are dealing with an expectation value, this gradient can be found from
 \begin{equation}
 \partial_{\alpha_i} \langle E_L\rangle=2\Big(\langle E_L\partial_{\alpha_i}\ln\Psi_T\rangle - \langle E_L\rangle\langle\partial_{\alpha_i}\ln\Psi_T\rangle\Big)
 \end{equation}
-which means that we need to calculate the expectation values $\langle E_L\partial_{\alpha_i}\ln\Psi_T\rangle$ and $\langle\partial_{\alpha_i}\ln\Psi_T\rangle$ in addition to the local energy, which is done by Monte-Carlo integration. 
+which means that we need to calculate the expectation values $\langle E_L\partial_{\alpha_i}\ln\Psi_T\rangle$ and $\langle\partial_{\alpha_i}\ln\Psi_T\rangle$ in addition to the local energy. Those expectation values are found from the integrals
+\begin{equation}
+\langle E_L\partial_{\alpha_i}\ln\Psi_T\rangle = \int_{i=0}^Ndh
+\end{equation}
+and
+\begin{equation}
+\langle\partial_{\alpha_i}\ln\Psi_T\rangle = \int_{i=0}^Ndh
+\end{equation}
+respectively. In the same manner as the local energy itself, they are solved using Monte-Carlo integration.
 
 \section{Optimizations}
 How much a wave function element can be optimized heavily depends on the specific form of the element. For instance, sometimes the previous and present $\nabla_k\ln\phi_i$ are closely related, and only differ with a few calculations, while for some other elements they are not related at all. Those subjective optimizations will therefore be described when presenting each wave function element. 
 
-However, there are still optimizations that apply to all elements and give great speed-up. An example is to calculate the ratio between the previous and present wave functions
-for all wave function elements instead of the wave function itself. Firstly, this is usually cheaper to calculate than the wave function because we are living in the logarithmic space. Secondly, the ratio is actually what we use in the sampling, so it is a natural thing to calculate. The total wave function ratio is just the product of all the wave function element ratios
+However, there are still optimizations that apply to all elements and give great speed-up. An example is when calculating the ratio between the previous and present wave functions
+for all wave function elements instead of the wave function itself. Firstly, this is usually cheaper to calculate than the wave function itself because we are working in the logarithm space. Secondly, the ratio is actually what we use in the sampling, so it is a natural thing to calculate. The total wave function ratio is just the product of all the wave function element ratios
 \begin{equation*}
-	\frac{\Psi_T^{\text{new}}}{\Psi_T^{\text{old}}}=\prod_{i=1}^p\frac{\phi_i^{\text{new}}}{\phi_i^{\text{old}}}.
+	\frac{\Psi_T^{\text{new}}}{\Psi_T^{\text{old}}}=\prod_{i=1}^p\frac{\phi_i^{\text{new}}}{\phi_i^{\text{old}}}
 \end{equation*}
 
 \section{Derivatives}
 \subsection{Simple Gaussian}
-A natural starting point is the Gaussian function, since it appears in traditional variational Monte-Carlo computations of the harmonic oscillator. It is also quite simple to evaluate both in Cartesian and spherical coordinates. We are interested in the former. For $M$ free dimensions, the function is given by
+A natural starting point is the Gaussian function, since it appears in standard variational Monte-Carlo computations of quantum dot systems. For $P$ number of particles and $F$ free dimensions, the function is given by
 \begin{equation*}
-\Psi( \bs{x}; \alpha)=\exp\Big(-\frac{1}{2}\omega\alpha\sum_{i=1}^Mx_i^2\Big)
+\Psi( \bs{x}; \alpha)=\exp\Big(-\frac{1}{2}\omega\alpha\sum_{i=1}^Pr_i^2\Big)=\exp\Big(-\frac{1}{2}\omega\alpha\sum_{i=1}^Fx_i^2\Big)
 \end{equation*}
-where the gradient with respect to coordinate $x_k$ is
+similarly to the function presented in section \eqref{sec:quantumdot}. $\omega$ is the oscillator strength and $\alpha$ is a variational parameter, which for non-interacting atoms is 1. Due to the presence of $r_i^2$, the function can easily be treated both in Cartesian and spherical coordinates, but in this thesis we will focus on the former. 
+
+The gradient with respect to coordinate $x_k$ is
 \begin{equation*}
 \nabla_k\ln\Psi(\alpha)=-\omega\alpha x_k
 \end{equation*}
@@ -64,26 +74,26 @@ and the corresponding Laplacian is
 \begin{equation*}
 \nabla_k^2\ln\Psi(\alpha)=-\omega\alpha.
 \end{equation*}
-Finally, for the parameter update, we have that
+Finally, for the parameter update we have that
 \begin{equation}
 \partial_{\alpha}\ln\Psi = -\frac{1}{2}\omega\sum_{i=1}^Mx_i^2.
 \end{equation}
-The most natural thing to 
-The only thing that can be optimized regarding this element, is the ratio between the new and the old probability. All expressions are collected below
+
+Since this wave function element is quite simple, there is no special optimization available that will cause a noticeable performance improvement. One can calculate $\omega\alpha$ once to save a few floating point operations, and of course calculate the probability ratio. Collecting all expressions, we end up with
 \begin{empheq}[box={\mybluebox[5pt]}]{align}
-\frac{\Psi_{\text{new}}^2}{\Psi_{\text{old}}^2}&=\exp\Big(\alpha\omega(x_{i,\text{old}}^2-x_{i,\text{new}}^2)\Big)\notag\\
+\frac{\Psi_{\text{new}}^2}{\Psi_{\text{old}}^2}&=\exp\Big(\omega\alpha(x_{i,\text{old}}^2-x_{i,\text{new}}^2)\Big)\notag\\
 \nabla_k\ln\Psi&=-\omega\alpha x_k\notag\\
 \nabla_k^2\ln\Psi&=-\omega\alpha\\
 \partial_{\alpha}\ln\Psi &= -\frac{1}{2}\omega\sum_{i=1}^Mx_i^2,\notag
 \end{empheq}
-where $i$ is the changed coordinate. Since the final expressions are all neat, there are no further optimizations available. 
+where $i$ is the changed coordinate. 
 
 \subsection{Padé-Jastrow Factor}
 The Padé-Jastrow factor is introduced in order to take care of the correlations. It is specified in equation \eqref{eq:PadeJastrow}, 
 \begin{equation*}
-J(\bs{r}; \beta, \gamma) = \exp\bigg(\sum_{i=1}^P\sum_{j=1}^P\frac{a_{ij}r_{ij}}{1+\beta r_{ij}}\bigg),
+J(\bs{r}; \beta) = \exp\bigg(\sum_{i=1}^P\sum_{j>i}^P\frac{a_{ij}r_{ij}}{1+\beta r_{ij}}\bigg),
 \end{equation*}
-where $N$ is the number of particles. One challenge is that we operate in cartesian coordinates, while the expressed Jastrow factor obviously is easier to handle in spherical coordinates. Since we need to differentiate this with respect to all free dimensions, we need to be careful not confuse the particle indices and coordinate indices. Let us define $i$ as the coordinate index and $i'$ as the index on the corresponding particle. We then get the first and second derivatives
+where $P$ is the number of particles, $r_{ij}$ is the relative distance between particle $i$ and $j$ and $\beta$ is a variational parameter. One challenge is that we operate in Cartesian coordinates, while the expressed Jastrow factor obviously is easier to handle in spherical coordinates. Since we need to differentiate this with respect to all free dimensions, we need to be careful not confuse the particle indices and coordinate indices. Let us define $i$ as the coordinate index and $i'$ as the index on the corresponding particle. With that notation, the gradient and Laplacian read
 \begin{equation*}
 \nabla_k\ln J=\sum_{j'\neq k'=1}^P\frac{\beta_{k'j'}}{(1+\gamma r_{k'j'})^2}\frac{x_k-x_j}{r_{k'j'}}
 \end{equation*}
@@ -91,8 +101,9 @@ and
 \begin{equation*}
 \nabla_k^2\ln J=\sum_{j'\neq k'=1}^P\frac{\beta_{k'j'}}{(1+\gamma r_{k'j'})^2}\bigg[1-\Big(1+2\frac{\gamma r_{k'j'}}{1+\gamma r_{k'j'}}\Big)\frac{(x_k-x_j)^2}{r_{k'j'}^2}\bigg]\frac{1}{r_{k'j'}}
 \end{equation*}
-respectively, where $j$ yields the same dimension as $k$.
+respectively, where $j$ is a coordinate index for the same direction as $k$ ($k=ndi$ with $d$ as the number of dimensions and $n$ as an integer).
 
+\iffalse
 The derivative of those again with respect to $\gamma$ are
 \begin{equation*}
 \partial_{\gamma}\nabla_k\ln J = -2 \sum_{j'\neq k'=1}^P\frac{\beta_{k'j'}}{(1+\gamma r_{k'j'})^3}(x_k-x_j)
@@ -101,6 +112,7 @@ and
 \begin{equation*}
 \partial_{\gamma}\nabla_k^2\ln J = -2 \sum_{j'\neq k'=1}^P\frac{\beta_{k'j'}}{(1+\gamma r_{k'j'})^3}\bigg[1-4\frac{\gamma r_{k'j'}}{1+\gamma r_{k'j'}}\frac{(x_k-x_j)^2}{r_{k'j'}^2}\bigg]
 \end{equation*}
+\fi
 By defining 
 \begin{equation*}
 f_{ij}=\frac{1}{1+\gamma r_{ij}}\quad g_{ij}=\frac{x_i-x_j}{r_{i'j'}}\quad h_{ij}=\frac{r_{ij}}{1+\gamma r_{ij}}
@@ -127,12 +139,12 @@ We can now utilize the logarithmic scale,
 \begin{equation*}
 \ln\Psi=\ln|\hat{D}_{\uparrow}(\bs{x}_{\uparrow})|+\ln|\hat{D}_{\downarrow}(\bs{x}_{\downarrow})|
 \end{equation*}
-such that we only need to care one of the determinants when differentiating, dependent on whether the coordinate we differentiate with respect to is among the spin-up or the spin-down coordinates:
+such that we only need to care about one of the determinants when differentiating, dependent on whether the coordinate we differentiate with respect to is among the spin-up or the spin-down coordinates:
 \begin{equation*}
 \nabla_k\ln\Psi=
 \begin{cases} 
-\nabla_k\ln|\hat{D}_{\uparrow}(\bs{x}_{\uparrow})| & \text{if} \quad k<M/2\\
-\nabla_k\ln|\hat{D}_{\downarrow}(\bs{x}_{\downarrow})| & \text{if} \quad k\geq M/2.
+\nabla_k\ln|\hat{D}_{\uparrow}(\bs{x}_{\uparrow})| & \text{if} \quad k<F/2\\
+\nabla_k\ln|\hat{D}_{\downarrow}(\bs{x}_{\downarrow})| & \text{if} \quad k\geq F/2.
 \end{cases}
 \end{equation*}
 Before we go further, we will therefore introduce a more general notation which cover both cases:
@@ -157,23 +169,37 @@ The first derivative of a determinant is given by Jacobi's formula, which reads
 \end{equation}
 and the second derivative is then 
 \begin{equation*}
-\frac{\nabla_i^2|\hat{A}|}{|\hat{A}|}=\bigg[\Big(\tr\big(\hat{A}^{-1}\nabla_i\hat{A}\big)\Big)^2+\tr\big(\hat{A}^{-1}\nabla_i^2\hat{A}\big) - \tr\big(\hat{A}^{-1}\nabla_i\hat{A}\hat{A}^{-1}\nabla_i\hat{A}\big)\bigg]
+\frac{\nabla_i^2|\hat{A}|}{|\hat{A}|}=\Big(\tr\big(\hat{A}^{-1}\nabla_i\hat{A}\big)\Big)^2+\tr\big(\hat{A}^{-1}\nabla_i^2\hat{A}\big) - \tr\big(\hat{A}^{-1}\nabla_i\hat{A}\hat{A}^{-1}\nabla_i\hat{A}\big)
 \end{equation*}
-where $\tr\big(\hat{B}\big)$ is the trace of matrix $\hat{B}$, i.e, the sum of all diagonal elements. 
-
-We continue writing the trace as a sum, such that
+where $\tr\big(\hat{B}\big)$ is the trace of matrix $\hat{B}$, i.e, the sum of all diagonal elements. $\nabla_i\hat{A}$ means that we differentiate the matrix component-wise with respect to coordinate $i$. The traces can then be written as sums,
 \begin{equation*}
-\tr(\hat{A}^{-1}\nabla_i\hat{A})=\sum_{j=1}^NA_{ji}^{-1}\nabla_iA_{ij}
+\tr(\hat{A}^{-1}\nabla_i\hat{A})=\sum_{j}A_{ji}^{-1}\nabla_iA_{ij}.
 \end{equation*}
 and
 \begin{equation*}
-\tr(\hat{A}^{-1}\nabla_i^2\hat{A})=\sum_{j=1}^NA_{ji}^{-1}\nabla_i^2A_{ij}.
+	\tr(\hat{A}^{-1}\nabla_i^2\hat{A})=\sum_{j}A_{ji}^{-1}\nabla_i^2A_{ij}.
 \end{equation*}
 
-In the end, we will take advantage of the fact that we only move one particle at a time. This means one of the who determinants cancel when calculating the probability ratio used in Metropolis sampling. Since we do not have any variational parameters in the Slater determinant, we end up with three expressions for each determinant:
+Using all the general matrix operations presented above, we end up with
+\begin{equation*}
+\nabla_k\ln|\hat{D}|=\sum_{j}D_{jk}^{-1}\nabla_kD_{kj}
+\end{equation*}
+and
+\begin{equation*}
+\nabla_k^2\ln|\hat{D}|=\sum_jD_{jk}^{-1}\nabla_k^2D_{kj}-\Big(\sum_jD_{jk}^{-1}\nabla_kD_{kj}\Big)^2
+\end{equation*}
+
+\subsubsection{Efficient calculation of Slater determinants}
+As you might already have noticed, we need to calculate the inverse of the matrices every time a particle is moved. This is a pretty heavy task for the computer, where the standard way, LU decomposition, requires $\sim$ N$^3$ floating point operations where $N$ is the size of an N$\times$N matrix. \cite{trahan_computational_2006}. 
+
+The good thing is that, by exploiting that only one row in the Slater matrix is updated for each step, we can update the inverse iteratively. 
+
+---------
+
+In the end, we will take advantage of the fact that we only move one particle at a time. This means that one of the two determinants cancel when calculating the probability ratio used in Metropolis sampling. Since we do not have any variational parameters in the Slater determinant, we end up with three expressions for each determinant:
 
 \begin{empheq}[box={\mybluebox[5pt]}]{align}
-&\quad\text{if}\quad k<M/2:\notag\\
+&\quad\text{if}\quad k<F/2:\notag\\
 \frac{|\Psi_{\text{new}}|^2}{|\Psi_{\text{old}}|^2}&=
 |\hat{D}_{\uparrow}(\bs{x}_{\uparrow}^{\text{new}})|^2/|\hat{D}_{\uparrow}(\bs{x}_{\uparrow}^{\text{old}})|^2\notag\\
 \nabla_k\ln|\hat{D}_{\uparrow}|&=\sum_{j=1}^{M/2}\nabla_kd_{jk}d_{kj}^{-1}\\
@@ -181,17 +207,12 @@ In the end, we will take advantage of the fact that we only move one particle at
 \end{empheq}
 
 \begin{empheq}[box={\mybluebox[5pt]}]{align}
-&\quad\text{if}\quad k\geq M/2:\notag\\
+&\quad\text{if}\quad k\geq F/2:\notag\\
 \frac{|\Psi_{\text{new}}|^2}{|\Psi_{\text{old}}|^2}&=
 |\hat{D}_{\downarrow}(\bs{x}_{\downarrow}^{\text{new}})|^2/|\hat{D}_{\downarrow}(\bs{x}_{\downarrow}^{\text{old}})|^2\notag\\
 \nabla_k\ln|\hat{D}_{\downarrow}|&=\sum_{j=M/2}^{M}\nabla_kd_{jk}d_{kj}^{-1}\\
 \nabla_k^2\ln|\hat{D}_{\downarrow}|&=\sum_{j=M/2}^{M}\nabla_k^2d_{jk}d_{kj}^{-1}-\Big(\sum_{j=M/2}^{M}\nabla_kd_{ik}d_{ki}^{-1}\Big)^2\notag
 \end{empheq}
-
-\subsubsection{Efficient calculation of Slater determinants}
-As you might already have noticed, we need to calculate the inverse of the matrices every time a particle is moved. This is a pretty heavy task for the computer, where the standard way, LU decomposition, gives $\sim N^3$ floating point operations (FLOPS). \cite{trahan_computational_2006}. 
-
-The good thing is that, by exploiting that only one row in the Slater matrix is updated for each step, we can update the inverse iteratively. 
 
 \subsection{NQS-Gaussian}
 Now over to the real deal; the machine learning inspired wave function elements. The total NQS wave function, presented in equation \eqref{eq:NQSWF}, was decided split up in case we wanted to run them separately. The first part will henceforth be denoted as the NQS-Gaussian,
