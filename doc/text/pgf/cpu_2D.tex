@@ -1,0 +1,49 @@
+% This file was created by matplotlib2tikz v0.7.4.
+\begin{tikzpicture}
+
+\definecolor{color0}{rgb}{0.12156862745098,0.466666666666667,0.705882352941177}
+\definecolor{color1}{rgb}{1,0.498039215686275,0.0549019607843137}
+
+\begin{axis}[
+legend cell align={left},
+legend style={at={(0.03,0.97)}, anchor=north west, draw=white!80.0!black},
+tick align=outside,
+tick pos=left,
+x grid style={white!69.01960784313725!black},
+xlabel={Number of orbitals},
+xmajorgrids,
+xmin=0.65, xmax=8.35,
+xtick style={color=black},
+y grid style={white!69.01960784313725!black},
+ylabel={CPU-time [s]},
+ymajorgrids,
+ymin=-12.690605, ymax=370.969705,
+ytick style={color=black}
+]
+\addplot [semithick, color0]
+table {%
+1 5.141258
+2 9.239086
+3 15.17534
+4 29.92524
+5 60.01942
+6 105.355
+7 165
+8 240
+};
+\addlegendentry{RBM}
+\addplot [semithick, color1, dashed]
+table {%
+1 4.7485
+2 8.551862
+3 16.69836
+4 34.40414
+5 68.92126
+6 125.4514
+7 214.0844
+8 353.5306
+};
+\addlegendentry{VMC}
+\end{axis}
+
+\end{tikzpicture}
