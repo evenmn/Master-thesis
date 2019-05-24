@@ -42,7 +42,7 @@ to the curve, where $x$ is the number of orbitals while $a$ and $b$ are paramete
 
 \begin{table} [H]
 	\caption{Constants $a$ and $b$ for restricted Boltzmann machine (RBM), restricted Boltzmann machine with Hartree-Fock basis (RBM+HF), restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo sampling (VMC).}
-	\begin{tabularx}{\textwidth}{X|XX:XX} \hline\hline
+	\begin{tabularx}{\textwidth}{X|CC:CC} \hline\hline
 		\label{tab:cputimefit}
 		& \multicolumn{2}{c}{2D} &
 		\multicolumn{2}{c}{3D} \\ \hline
@@ -138,6 +138,29 @@ The one-body densities
 	\label{fig:OB_nointeraction}
 \end{figure}
 
+\begin{figure} [H]
+	\centering
+	\input{pgf/ob_2D_0p5w.tex}
+	\caption{gkkg}
+\end{figure}
+\begin{figure} [H]
+	\centering
+	\input{pgf/ob_2D_1p0w.tex}
+	\caption{gkkg}
+\end{figure}
+\iffalse
+\begin{figure} [H]
+	\centering
+	\input{pgf/ob_3D_0p5w.tex}
+	\caption{gkkg}
+\end{figure}
+\begin{figure} [H]
+	\centering
+	\input{pgf/ob_3D_0p5w.tex}
+	\caption{gkkg}
+\end{figure}
+\fi
+
 \begin{landscape}
 \section{With repulsive interaction}
 \subsection{Ground state energy}
@@ -155,8 +178,8 @@ The one-body densities
 
 		6 & 0.1 & 3.5868(6) & 3.7475(2) & - & - & - & 3.5698(1) & 3.85238 & 3.55385(5) \\ 
 		& 0.28 & 7.6260(2) & 7.924(1) & - & - & - & 7.6219(1) & 8.01957 & 7.60019(6) \\
-		& 0.5 & 11.8174(2) & 12.242(1) & - & 12.237(1) & - & 11.8108(2) & 12.2713 & 11.78484(6) \\
-		& 1.0 & 20.1893(2) & 20.731(1) & - & 20.697(1) & - & 20.1905(2) & 20.7192 & 20.15932(8) \\ \hdashline \\
+		& 0.5 & 11.8174(2) & 12.242(1) & - & 11.995(3) & - & 11.8108(2) & 12.2713 & 11.78484(6) \\
+		& 1.0 & 20.1893(2) & 20.731(1) & - & 20.483(1) & - & 20.1905(2) & 20.7192 & 20.15932(8) \\ \hdashline \\
 		
 		12 & 0.1 & 12.3517(5) & 12.705(2) & - & - & - & 12.3201(3) & - & 12.26984(8) \\ 
 		& 0.28 & 25.7645(1) & 26.389(2) & - & - & - & 25.7038(4) & 26.5500 & 25.63577(9) \\
@@ -178,15 +201,15 @@ The one-body densities
 		& 0.5 & - & 191.495(7) & - & - & - & 187.325(3) & - & 187.0426(2) \\
 		& 1.0 & - & 315.364(8) & - & - & - & 308.957(2) & - & 308.5627(2) \\ \hdashline \\
 		
-		42 & 0.1 & - & 109.95(1) & - & - & - & 107.928(2) & - & 107.6389(2) \\ 
-		& 0.28 & - & 225.7(7) & - & - & - & 220.224(2) & - & 219.8426(2) \\
+		42 & 0.1 & - & 109.892(6) & - & - & - & 107.928(2) & - & 107.6389(2) \\ 
+		& 0.28 & - & 224.462(8) & - & - & - & 220.224(2) & - & 219.8426(2) \\
 		& 0.5 & - & 337.523(8) & - & - & - & 331.276(3) & - & 330.6306(2) \\
-		& 1.0 & - & 553.4020(2) & - & - & - & 543.738(7) & - & 542.9428(8) \\ \hdashline \\
+		& 1.0 & - & 553.40(1) & - & - & - & 543.738(7) & - & 542.9428(8) \\ \hdashline \\
 		
 		56 & 0.1 & - & - & - & - & - & 176.774(3) & - & 175.9553(7) \\ 
 		& 0.28 & - & - & - & - & - & 359.63(1) & - & 358.145(2) \\
 		& 0.5 & - & 547.46(1) & - & - & - & 538.686(9) & - & 537.353(2) \\
-		& 1.0 & - & - & - & - & - & 880.352(5) & - & 879.3986(6) \\ \hdashline \\
+		& 1.0 & - & 894.12(2) & - & - & - & 880.352(5) & - & 879.3986(6) \\ \hdashline \\
 		
 		72 & 0.1 & - & - & - & - & - & 276.83(1) & - & - \\ 
 		& 0.28 & - & - & - & - & - & 551.00(2) & - & - \\
