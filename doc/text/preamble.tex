@@ -14,6 +14,7 @@
 \usepackage{color}
 \usepackage{array} 		% For column alignment
 \usepackage{xcolor}
+\usepackage{pgfplots}	% Plotting directly in latex
 \usepackage{listings}
 \usepackage{hyperref}
 \usepackage{amsmath}
@@ -70,7 +71,7 @@
 
 %tikz
 \setcounter{secnumdepth}{4}
-\usetikzlibrary{through, shapes, calc, shapes, arrows, positioning, arrows.meta, shadows, er}
+\usetikzlibrary{through, shapes, calc, shapes, arrows, positioning, arrows.meta, shadows, er, spy, external} 
 \tikzstyle{neuron}=[draw,circle,minimum size=20pt,inner sep=0pt, fill=white]
 \tikzstyle{stateTransition}=[thick]
 \tikzstyle{learned}=[text=red]
@@ -79,6 +80,8 @@
 \tikzset{input/.style={basic,circle}}
 \tikzset{weights/.style={basic,rectangle}}
 \tikzset{functions/.style={basic,circle,fill=blue!10}}
+
+%\tikzexternalize[prefix=figures/]
 
 %empheq blue box
 \definecolor{myblue}{rgb}{.8, .8, 1}

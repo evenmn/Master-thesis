@@ -2,7 +2,8 @@
 \epigraph{We must be clear that when it comes to atoms, language can be used only as in poetry.}{Niels Bohr, \cite{heisenberg_physics_1971}}
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.9]{Images/harmonicOscillator.png}
+	%\includegraphics[scale=0.9]{Images/harmonicOscillator.png}
+	\input{pgf/ho_figure.tex}
 	\caption{The quantum harmonic oscillator, with the Hermite functions represented up to 4th order. As in classical mechanics, the harmonic oscillator can describe various quantum systems, such as lattice vibration (phonons) and quantum fields.}
 	\label{fig:harmonicoscillator}
 \end{figure}
@@ -30,7 +31,7 @@ The exact solutions of the non-interacting Hamiltonian are the Hermite functions
 \begin{equation}
 \phi_n(x)=H_n(\sqrt{\omega}x)\exp(-\omega x^2/2)
 \end{equation}
-which can be used as the basis. $H_n(x)$ is the Hermite polynomial of $n$'th degree, and the first four Hermite functions are illustrated in figure \eqref{fig:harmonicoscillator}. The energy of a particle at energy level $n$ in a $D$ dimensional harmonic oscillator is given by
+which is a natural basis choice also for systems with interaction. $H_n(x)$ is the Hermite polynomial of $n$'th degree, and the first four Hermite functions are illustrated in figure \eqref{fig:harmonicoscillator}. The energy of a particle at energy level $n$ in a $D$ dimensional harmonic oscillator is given by
 \begin{equation}
 E_n=\omega\Big(n+\frac{D}{2}\Big).
 \label{eq:HOenergies}
@@ -41,10 +42,37 @@ We will study closed-shell systems only, since the Slater determinant in that ca
 N=s\binom{n+D}{D}
 \label{eq:HOclosedshell}
 \end{equation}
-where $s$ is the number of spin configurations (2), $n$ is the principal quantum number and $d$ is the number of dimensions. This is a direct consequence of the Pauli principle, where we in the ground state can have two particles with radial wave functions $\Phi_{n_x=0,n_y=0}$, in the next energy level we have have 4 particles with radial wave functions $\Phi_{n_x=1,n_y=0}$ and $\psi_{n_x=0,n_y=1}$ with degeneracy 2 and so on. 
+where $s$ is the number of spin configurations (2), $n$ is the principal quantum number and $D$ is the number of dimensions. This is a direct consequence of the Pauli principle, where we in the ground state can have two particles with radial wave functions $\Phi_{n_x=0,n_y=0}$, in the next energy level we can have 4 particles with radial wave functions $\Phi_{n_x=1,n_y=0}$ and $\psi_{n_x=0,n_y=1}$ with degeneracy 2 and so on. 
 
 \input{tikz/schematic_2D.tex}
 \input{tikz/schematic_3D.tex}
+
+\section{Quantum Double Dot}
+Another historically important quantum system is the double dot system, which, similarly to the quantum single dot, can be solved analytically. Unlike the single-well potential, the double-well potential is not unique, there exist multiple widely used double-well potentials, but they all usually are on the form
+\begin{equation}
+u_i=\frac{1}{2}\omega^2\bigg[|x_i|^n-\Big(\frac{b}{2}\Big)^n\bigg]^2
+\label{eq:doublewell}
+\end{equation}
+in one direction with $b$ as the distance between the wells and $n$ as an arbitrary integer. \cite{jelic_double_2012} Setting $n=1$ gives two parabolic wells with a sharp local maximum at $x=0$, while $n=2$ gives a smoother but steeper well. In figure \eqref{fig:doublewell} the potential is plotted for $n=1,2$ and $3$.
+
+\begin{figure}
+	\centering
+	\input{pgf/doublewell.tex}
+	\caption{Double-well potentials}
+	\label{fig:doublewell}
+\end{figure}
+
+For reference and benchmark reasons, we will focus on the case with $n=1$, which can be written out as
+\begin{equation}
+u_i=\frac{1}{2}\omega^2\bigg[x_i^2+\frac{1}{4}b^2-b|x_i|\bigg],
+\label{eq:doublewell2}
+\end{equation}
+still in one dimension. For more than one dimension, we assume that the potentials are lined up in $x$-direction, which gives us the expression for all dimensions
+\begin{equation}
+u_i^{\text{DD}}=\frac{1}{2}\omega^2\bigg[r_i^2+\frac{1}{4}b^2-b|x_i|\bigg]=u_i^{\text{SD}}+\frac{1}{2}\omega^2\bigg[\frac{1}{4}b^2-b|x_i|\bigg]
+\label{eq:doublewell3}
+\end{equation}
+where SD means single dot and DD means double dot.
 
 \section{Atomic systems} \label{subsubsec:atomic}
 We will also investigate real atoms, where we freeze out the nucleonic degrees of freedom known as the Born-Oppenheimer approximation. The electrons will in fact affect the nucleus, but due to the mass difference this effect will be negligible.
@@ -117,12 +145,4 @@ V_L=\frac{l(l+1)}{2r^2}
 as well. If we do so, we see that the thumb rule defined above not always holds. Sometimes a low $l$ in a higher $n$ causes lower energy than a high $l$ in a lower $n$. 
 
 "Colloquially, we call such solutions and derived properties as electronic structure."
-
-\section{Molecular systems}
-For molecular systems the same principles applies as for an atom, but we now have multiple contributions to the external potential. 
-
-\section{Bose-Einstein Condensation}
-Already in 1925, A. Einstein predicted that all bosons occupy the same quantum state for temperatures close to the absolute zero. [NEED REFERENCE, Bose–Einstein Condensation in Dilute Gases] It would take 70 years for someone to come up with an experiment to prove the prediction, when M.H. Andersen et.al. managed reach those extreme temperatures using laser cooling. [NEED REFERENCE, Observation of bose-einstein condensation in a dilute atomic vapor.]
-
-The bosons do not interact with the Coulomb interaction as we have seen above: The actual interaction is unknown, but we can model it with a hard-sphere potential...
 

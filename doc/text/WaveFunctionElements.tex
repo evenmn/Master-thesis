@@ -128,12 +128,12 @@ the equations can be written as
 with marked indices ($i'$) as the particle related ones and the unmarked ($i$) as the coordinate related ones. $i'$ is the moved particle. 
 
 \subsection{Slater Determinant}
-As described in section \eqref{subsec:slater}, the Slater determinant can be split up in a spin-up part and a spin-down part,
+The Slater determinant is added to introduce anti-symmetry into the wave function, and as discussed in section \eqref{subsec:slater}, it can be split up in a spin-up part and a spin-down part,
 \begin{equation*}
 \Psi(\bs{x})=
-|\hat{D}_{\uparrow}(\bs{x}_{\uparrow})|\cdot |\hat{D}_{\downarrow}(\bs{x}_{\downarrow})|
+|\hat{D}_{\uparrow}(\bs{x}_{\uparrow})|\cdot |\hat{D}_{\downarrow}(\bs{x}_{\downarrow})|.
 \end{equation*}
-where $x_{\uparrow}$ are the coordinates of particles with spin up (defined as the first half of the coordinates) and $x_{\downarrow}$ are the coordinates of particles with spin down (defined as the last half of the coordinates). 
+$x_{\uparrow}$ are the coordinates of particles with spin up (defined as the first half of the coordinates) and $x_{\downarrow}$ are the coordinates of particles with spin down (defined as the last half of the coordinates). 
 
 We can now utilize the logarithmic scale, 
 \begin{equation*}
@@ -147,7 +147,7 @@ such that we only need to care about one of the determinants when differentiatin
 \nabla_k\ln|\hat{D}_{\downarrow}(\bs{x}_{\downarrow})| & \text{if} \quad k\geq F/2.
 \end{cases}
 \end{equation*}
-Before we go further, we will therefore introduce a more general notation which cover both cases:
+Before we go further, we will introduce a more general notation which cover both cases:
 \begin{equation*}
 \hat{D}\equiv \hat{D}_{\sigma}(\bs{x}_{\sigma})
 \end{equation*}
@@ -177,22 +177,37 @@ where $\tr\big(\hat{B}\big)$ is the trace of matrix $\hat{B}$, i.e, the sum of a
 \end{equation*}
 and
 \begin{equation*}
-	\tr(\hat{A}^{-1}\nabla_i^2\hat{A})=\sum_{j}A_{ji}^{-1}\nabla_i^2A_{ij}.
+	\tr(\hat{A}^{-1}\nabla_i^2\hat{A})=\sum_{j}a_{ji}^{-1}\nabla_i^2a_{ij}.
 \end{equation*}
 
 Using all the general matrix operations presented above, we end up with
 \begin{equation*}
-\nabla_k\ln|\hat{D}|=\sum_{j}D_{jk}^{-1}\nabla_kD_{kj}
+\nabla_k\ln|\hat{D}|=\sum_{j}d_{jk}^{-1}\nabla_kd_{kj}
 \end{equation*}
 and
 \begin{equation*}
-\nabla_k^2\ln|\hat{D}|=\sum_jD_{jk}^{-1}\nabla_k^2D_{kj}-\Big(\sum_jD_{jk}^{-1}\nabla_kD_{kj}\Big)^2
+\nabla_k^2\ln|\hat{D}|=\sum_jd_{jk}^{-1}\nabla_k^2d_{kj}-\Big(\sum_jd_{jk}^{-1}\nabla_kd_{kj}\Big)^2
 \end{equation*}
 
 \subsubsection{Efficient calculation of Slater determinants}
-As you might already have noticed, we need to calculate the inverse of the matrices every time a particle is moved. This is a pretty heavy task for the computer, where the standard way, LU decomposition, requires $\sim$ N$^3$ floating point operations where $N$ is the size of an N$\times$N matrix. \cite{trahan_computational_2006}. 
+As you might already have noticed, we need to calculate the inverse of the matrices every time a particle is moved. This is a pretty heavy task for the computer, where the standard way, LU decomposition, requires $\sim$ N$^3$ floating point operations for an N$\times$N matrix. \cite{trahan_computational_2006}. 
 
 The good thing is that, by exploiting that only one row in the Slater matrix is updated for each step, we can update the inverse iteratively. 
+
+Before we start finding an algorithm for this, we will introduce the reader to some common linear algebra concepts. First of all, the inverse of a matrix is given by the \textit{comatrix} transposed over its determinant
+\begin{equation}
+\hat{A}^{-1}=\frac{\hat{C}^T}{|\hat{A}|}
+\end{equation}
+where the comatrix is defined by the inner determinants of the matrix. \cite{weisstein_matrix_nodate} As a consequence, the determinant can be written as 
+\begin{equation}
+|\hat{A}|=\sum_{i,j}a_{ij}c_{ij}.
+\end{equation}
+As always, we are interested in the ratio between the wave functions, and since only a row is updated every time we move a particle, the ratio between the determinants can be expressed as
+\begin{equation}
+R\equiv \frac{|\hat{D}^{\text{new}}|}{|\hat{D}^{\text{old}}|}=\frac{\sum_{j}d_{ij}^{\text{new}}c_{ij}^{\text{new}}}{\sum_{j}d_{ij}^{\text{old}}c_{ij}^{\text{old}}}
+\end{equation}
+where the particle associated with the $i$'th row is moved. The $i$'th row of the comatrix is independent of the $i$'th row of the matrix itself, such that $c_{ij}^{\text{new}}=c_{ij}^{\text{old}}$. 
+
 
 ---------
 
