@@ -201,9 +201,19 @@ To go further, we need to define a basis set, $\phi_n(\bs{r})$ which should be c
 Often, one will see that the basis is optimized by the Hartree-Fock method. Using this basis in a single Slater determinant, we obtain the Hartree-Fock energy which sometimes is quite accurate. To get an even better energy estimate, we need to add more Slater determinants, which is the task of the post Hartree-Fock methods. More about this in chapter (\ref{chp:methods}-\ref{chp:posthartreefock}).
 
 \subsection{Jastrow factor} \label{subsubsec:jastrow}
-From electrostatics we know that identical, charged particles will repel each other. This means that the probability of finding two particles close to each other should be low, which needs to be baked into the wave function. One way to do this is to simply multiply the wave function with the distance between the particles; the smaller distance the lower probability. Nevertheless, this does not fulfill the normalizability requirement of the trial wave function, but the same idea lies behind the Padé-Jastrow factor, which reads
+From electrostatics we know that identical, charged particles will repel each other. This means that the probability of finding two particles close to each other should be low, which needs to be baked into the wave function. One way to do this is to simply multiply the wave function with the distance between the particles; the smaller distance the lower probability. 
+
+\subsubsection{Simple Jastrow}
 \begin{equation}
-J(\bs{r}; \beta, \gamma) = \exp\bigg(\sum_{i=1}^P\sum_{j>i}^P\frac{a_{ij}r_{ij}}{1+\beta r_{ij}}\bigg).
+J(\bs{r}; a) = \exp\left(\sum_{i=1}^P\sum_{j>i}^P{a_{ij}r_{ij}}\right).
+\label{eq:SimpleJastrow}
+\end{equation}
+Does not fulfill the cusp condition
+
+\subsubsection{Padé-Jastrow}
+Nevertheless, this does not fulfill the normalizability requirement of the trial wave function, but the same idea lies behind the Padé-Jastrow factor, which reads
+\begin{equation}
+J(\bs{r};\beta) = \exp\bigg(\sum_{i=1}^P\sum_{j>i}^P\frac{a_{ij}r_{ij}}{1+\beta r_{ij}}\bigg).
 \label{eq:PadeJastrow}
 \end{equation}
 where $r_{ij}$ again is the relative distance between particle $i$ and $j$, $\beta$ is a variational parameter, while $a_{ij}$ depends on the spin of the interacting objects in the following way:

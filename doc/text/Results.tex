@@ -11,12 +11,12 @@ For validation purposes, we will present a few selected results on the case with
 
 \newpage
 \section{Computational cost}
-One of the major problems of quantum many-body simulations is the computational cost, which explodes as the system size increases. In figure \eqref{fig:cpu_time} the CPU-time is plotted as a function of full orbitals. 
+One of the major problems of quantum many-body simulations is the computational cost, which explodes as the system size increases. In figure \eqref{fig:cpu_time} the CPU-time is plotted as a function of number of particles. 
 \begin{figure}[H]
 	\centering
 	\input{pgf/cpu.tex}
 	\label{fig:cpu_time}
-	\caption{CPU-time as a function of full orbitals for two and three dimensions. The solid line is RBM, while the dashed line is VMC.}
+	\caption{CPU-time as a function of number of particles for two and three dimensions. The solid line is restricted Boltzmann machine (RBM), while the dashed line is a standard variational Monte-Carlo wave function (VMC).}
 \end{figure}
 
 \iffalse
@@ -33,23 +33,22 @@ One of the major problems of quantum many-body simulations is the computational 
 
 As the applied theory used in quantum many-body simulations agrees perfectly with laboratory experiments, they can be considered as actual experiments. In that manner, one can use computer experiments to verify other experiments and even predict new thing. Similarly to experiments in a laboratory, computer experiments are also dependent on external factors, especially when it comes to the CPU-time, and therefore it is important to do such measurements multiple times to find an accurate average time. The CPU-times above are the average from at least four independent runs for each number of orbitals. All the runs were performed on the Abel computational cluster, which is equipped with Supermicro X9DRT compute nodes with dual Intel E5-2670 CPUs running at 2.6 GHz. Different hardware might give different CPU-times, but the CPU-time ratios (the exponential factor) should be the same. 
 
-To estimate how fast the cost increases as we add more orbitals, we do regression with a function on the form $f(x)=ax^b$ where $x$ is the number of orbitals while $a$ and $b$ are parameters to find. From the limited number of points, we have found the parameters and presented them in table \eqref{tab:cputimefit}.
+To estimate how fast the cost increases as we add more particles, we do regression with a function on the form $f(x)=ax^b$ where $x$ is the number of particles while $a$ and $b$ are parameters to find. From the limited number of points, we have found the parameters and presented them in table \eqref{tab:cputimefit}.
 
 \begin{table} [H]
-	\caption{Constants $a$ and $b$ for restricted Boltzmann machine (RBM), restricted Boltzmann machine with Hartree-Fock basis (RBM+HF), restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo sampling (VMC).}
+	\caption{Constants $a$ and $b$ for restricted Boltzmann machine (RBM), restricted Boltzmann machine with a simple Jastrow factor (RBM+SJ), restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo sampling (VMC).}
 	\begin{tabularx}{\textwidth}{X|CC:CC} \hline\hline
 		\label{tab:cputimefit}
 		& \multicolumn{2}{c}{2D} &
 		\multicolumn{2}{c}{3D} \\ \hline
 		& $a$ & $b$ & $a$ & $b$ \\ \hline \\
-		RBM & 0.18 & 3.58 & - & - \\ 
-		RBM+HF & - & - & - & - \\
+		RBM & 0.0840 & 1.92 & 0.0302 & 2.268 \\ 
+		RBM+SJ & - & - & - & - \\
 		RBM+PJ & - & - & - & - \\
-		VMC & 0.23 & 3.52 & 0.23 & 4.76 \\ \hline\hline
+		VMC & 0.111 & 1.88 & 0.148 & 1.91 \\ \hline\hline
 	\end{tabularx}
 \end{table}
 
-\newpage
 \section{Energy convergence}
 Another important thing is the convergence. We want our calculations to converge fast and to be stable, and that is what the optimization tools are responsible for. In figure \eqref{fig:convergenceoptimization} we compare standard gradient descent to stochastic gradient descent and ADAM for two interacting electrons in a two- and three dimensional well. 
 
@@ -78,7 +77,6 @@ We observe that the gradient descent methods in the cases above have a smoother 
 
 Even though the gradient descent methods seem to be the best choice based on those graphs, we experience that the energy occasionally explode when they are applied on more heavy systems, and therefore we will rely in the ADAM optimizer henceforth. 
 
-\newpage
 \section{No repulsive interaction}
 We start with the non-interacting case in order to validate the implemented code. In this case we both know the exact energies and the exact one-body densities for an array of systems, and can therefore testify the flexibility of the code. 
 
@@ -110,21 +108,6 @@ The single quantum dot has analytical ground-state energies given by equation \e
 	\end{tabularx}
 \end{table}
 We observe that the restricted Boltzmann machine wave function is able to reproduce the exact energy for most of the cases, but when the number of particles get large, the statistical error gets significant.
-
-\subsubsection{Atoms}
-In the next we will study atoms when the Coulomb interaction is ignored. For those cases, we know the exact answers, given by the Bohr formula presented in equation \eqref{eq:bohrformula}.
-\begin{table} [H]
-	\caption{The table shows the computed energies of non-interacting atoms with the analytical solution to the right. $E_{\text{RBM}}$ is a single Slater determinant with a plain Boltzmann machine baked in, while $E_{\text{VMC}}$ is standard variational Monte-Carlo.}
-	\begin{tabularx}{\textwidth}{X|X|X:X:X} \hline\hline
-		\label{tab:nointeractionatoms}
-		Atom & $N$ & $E_{\text{RBM}}$ & $E_{\text{VMC}}$ & $E_{\text{exact}}$ \\ \hline
-		H & 1 & - & -0.5 & -0.5 \\ 
-		He & 2 & - & -4.0 & -4 \\
-		Be & 4 & - & - & -20 \\
-		Ne & 10 & - & - & -200 \\ \hline\hline
-	\end{tabularx}
-\end{table}
-
 
 \subsection{One-body density}
 We will also focus on the one-body densities throughout the results, and comparing the obtained densities to the analytical ones is a good indicator on whether the implementation is correct or not. The analytical one-body densities are found from the definition of one-body density in equation \eqref{eq:electron_density}.
@@ -173,75 +156,75 @@ We observe that both the standard variational Monte-Carlo wave function and the 
 	\caption{This table represents the energies of $N$ electrons trapped in a two-dimensional quantum dot with frequency $\omega$. The different columns are restricted Boltzmann machine ($E_{\text{RBM}}$), restricted Boltzmann machine with Padé-Jastrow factor ($E_{\text{RBM+PJ}}$), restricted Boltzmann machine with Hartree-Fock basis ($E_{\text{RBM+HF}}$), partly restricted Boltzmann machine ($E_{\text{PRBM}}$), deep restricted Boltzmann machine ($E_{\text{DRBM}}$), standard variational Monte-Carlo ($E_{\text{VMC}}$) and the Hartree-Fock limit ($E_{\text{HF}}$). The reference is to J. Høgberget's diffusion Monte-Carlo (DMC) calculations apart from a few semi-analytical energies found by M.Taut marked with $^{1}$. \cite{taut_two_1994}\cite{hogberget_quantum_2013}}
 	\begin{tabularx}{\hsize}{l:l|RRRRRRRR} \hline\hline
 		\label{tab:quantumdotswinteraction2D1}
-		$N$ & $\omega$ & $E_{\text{RBM+PJ}}$ & $E_{\text{RBM}}$ & $E_{\text{RBM+HF}}$ & $E_{\text{PRBM}}$ & $E_{\text{DRBM}}$ & $E_{\text{VMC}}$ & $E_{\text{HF}}$ & $E_{\text{ref}}$ \\ \hline \\
-		2 & 0.1 & 0.44130(5) & 0.4728(1) & - & 0.4959(2) & - & 0.44128(1) & 0.525635 & 0.44079(1) \\ 
-		& 1/6 & 0.66715(6) & 0.7036(1) & - & 0.7326(2) & - & 0.66710(1) & 0.768675 & $0.\bar{6}^{1}$ \\
-		& 0.28 & 1.02185(1) & 1.0705(2) & - & 1.0987(2) & - & 1.02190(1) & 1.14171 & 1.02164(1) \\
-		& 0.5 & 1.65957(1) & 1.7231(2) & - & 1.7182(3) & - & 1.65972(1) & 1.79974 & 1.65977(1)  \\
-		& 1.0 & 3.00002(2) & 3.0822(2) & - & 3.0908(4) & - & 2.99999(1) & 3.16190 & $3.0^{1}$ \\ \hdashline \\
+		$N$ & $\omega$ & $E_{\text{RBM}}$ & $E_{\text{RBM+SJ}}$ & $E_{\text{RBM+PJ}}$ & $E_{\text{PRBM}}$ & $E_{\text{HF}}$ & $E_{\text{VMC+HF}}$ & $E_{\text{VMC}}$ & $E_{\text{ref}}$ \\ \hline \\
+		2 & 0.1 & 0.4728(1) & - & 0.44130(5) & 0.4959(2) & 0.525635 & - & 0.44128(1) & 0.44079(1) \\ 
+		& 1/6 & 0.7036(1) & - & 0.66715(6) & 0.7326(2) & 0.768675 & - & 0.66710(1) & $0.\bar{6}^{1}$ \\
+		& 0.28 & 1.0705(2) & - & 1.02185(1) & 1.0987(2) & 1.14171 & - & 1.02190(1) & 1.02164(1) \\
+		& 0.5 & 1.7231(2) & - & 1.65957(1) & 1.7182(3) & 1.79974 & - & 1.65972(1) & 1.65977(1)  \\
+		& 1.0 & 3.0822(2) & 3.0255(1) & 3.00002(2) & 3.0908(4) & 3.16190 & - & 2.99999(1) & $3.0^{1}$ \\ \hdashline \\
 
-		6 & 0.1 & 3.57832(2) & 3.7475(2) & - & - & - & 3.5698(1) & 3.85238 & 3.55385(5) \\ 
-		& 0.28 & 7.6245(2) & 7.924(1) & - & - & - & 7.6219(1) & 8.01957 & 7.60019(6) \\
-		& 0.5 & 11.8113(2) & 12.242(1) & - & 11.995(3) & - & 11.8108(2) & 12.2713 & 11.78484(6) \\
-		& 1.0 & 20.1853(2) & 20.731(1) & - & 20.483(1) & - & 20.1905(2) & 20.7192 & 20.15932(8) \\ \hdashline \\
+		6 & 0.1 & 3.7475(2) & - & 3.57832(2) & - & 3.85238 & - & 3.5698(1) & 3.55385(5) \\ 
+		& 0.28 & 7.924(1) & - & 7.6245(2) & - & 8.01957 & - & 7.6219(1) & 7.60019(6) \\
+		& 0.5 & 12.242(1) & - & 11.8113(2) & 11.995(3) & 12.2713 & - & 11.8108(2) & 11.78484(6) \\
+		& 1.0 & 20.731(1) & - & 20.1853(2) & 20.483(1) & 20.7192 & - & 20.1905(2) & 20.15932(8) \\ \hdashline \\
 		
-		12 & 0.1 & 12.3517(5) & 12.705(2) & - & - & - & 12.3201(3) & 12.9247 & 12.26984(8) \\ 
-		& 0.28 & 25.7645(1) & 26.389(2) & - & - & - & 25.7038(4) & 26.5500 & 25.63577(9) \\
-		& 0.5 & 39.4549(8) & 40.440(3) & - & - & - & 39.2660(4) & 40.2161 & 39.1596(1) \\
-		& 1.0 & 66.047(3) & 67.632(3) & - & - & - & 65.7946(8) & 66.9113 & 65.7001(1) \\ \hdashline
+		12 & 0.1 & 12.705(2) & - & 12.3517(5) & - & 12.9247 & - & 12.3201(3) & 12.26984(8) \\ 
+		& 0.28 & 26.389(2) & - & 25.7645(1) & - & 26.5500 & - & 25.7038(4) & 25.63577(9) \\
+		& 0.5 & 40.440(3) & - & 39.4549(8) & - & 40.2161 & - & 39.2660(4) & 39.1596(1) \\
+		& 1.0 & 67.632(3) & - & 66.047(3) & - & 66.9113 & - & 65.7946(8) & 65.7001(1) \\ \hdashline
 	\end{tabularx}
 \end{table}
 
 \begin{table} [H]
 	\begin{tabularx}{\hsize}{l:l|RRRRRRRR} \\
 		\label{tab:quantumdotswinteraction2D2}
-		20 & 0.1 & 30.213(1) & 30.824(2) & - & - & - & 30.0730(6) & 31.1902 & 29.9779(1) \\ 
-		& 0.28 & 62.268(3) & 63.746(4) & - & - & - & 62.0598(7) & 63.5390 & 61.9268(1) \\
-		& 0.5 & 94.235(5) & 97.166(5) & - & - & - & 94.0391(9) & 95.7328 & 93.8752(1) \\
-		& 1.0 & 156.205(1) & 159.640(5) & - & - & - & 156.106(2) & 158.004 & 155.8822(1) \\ \hdashline \\
+		20 & 0.1 & 30.824(2) & - & 30.1553(9) & - & 31.1902 & - & 30.0730(6) & 29.9779(1) \\ 
+		& 0.28 & 63.746(4) & - & 62.148(1) & - & 63.5390 & - & 62.0598(7) & 61.9268(1) \\
+		& 0.5 & 97.166(5) & - & 94.104(1) & - & 95.7328 & - & 94.0391(9) & 93.8752(1) \\
+		& 1.0 & 159.640(5) & - & 156.205(1) & - & 158.004 & - & 156.106(2) & 155.8822(1) \\ \hdashline \\
 		
-		30 & 0.1 & - & 61.829(5) & - & - & - & 60.585(1) & - & 60.4205(2) \\ 
-		& 0.28 & - & 126.958(6) & - & - & - & 124.195(2) & - & 123.9683(2) \\
-		& 0.5 & - & 191.495(7) & - & - & - & 187.325(3) & - & 187.0426(2) \\
-		& 1.0 & - & 315.364(8) & - & - & - & 308.957(2) & - & 308.5627(2) \\ \hdashline \\
+		30 & 0.1 & 61.829(5) & - & - & - & - & - & 60.585(1) & 60.4205(2) \\ 
+		& 0.28 & 126.958(6) & - & - & - & - & - & 124.195(2) & 123.9683(2) \\
+		& 0.5 & 191.495(7) & - & - & - & - & - & 187.325(3) & 187.0426(2) \\
+		& 1.0 & 315.364(8) & - & - & - & - & - & 308.957(2) & 308.5627(2) \\ \hdashline \\
 		
-		42 & 0.1 & - & 109.892(6) & - & - & - & 107.928(2) & - & 107.6389(2) \\ 
-		& 0.28 & - & 224.462(8) & - & - & - & 220.224(2) & - & 219.8426(2) \\
-		& 0.5 & - & 337.523(8) & - & - & - & 331.276(3) & - & 330.6306(2) \\
-		& 1.0 & - & 553.40(1) & - & - & - & 543.738(7) & - & 542.9428(8) \\ \hdashline \\
+		42 & 0.1 & 109.892(6) & - & - & - & - & - &  107.928(2) & 107.6389(2) \\ 
+		& 0.28 & 224.462(8) & - & - & - & - & - & 220.224(2) & 219.8426(2) \\
+		& 0.5 & 337.523(8) & - & - & - & - & - & 331.276(3) & 330.6306(2) \\
+		& 1.0 & 553.40(1) & - & - & - & - & - & 543.738(7) & 542.9428(8) \\ \hdashline \\
 		
-		56 & 0.1 & - & - & - & - & - & 176.774(3) & - & 175.9553(7) \\ 
-		& 0.28 & - & 364.85(1) & - & - & - & 359.63(1) & - & 358.145(2) \\
-		& 0.5 & - & 547.46(1) & - & - & - & 538.686(9) & - & 537.353(2) \\
-		& 1.0 & - & 894.12(2) & - & - & - & 880.352(5) & - & 879.3986(6) \\ \hdashline \\
+		56 & 0.1 & - & - & - & - & - & - & 176.774(3) & 175.9553(7) \\ 
+		& 0.28 & 364.85(1) & - & - & - & - & - & 359.63(1) & 358.145(2) \\
+		& 0.5 & 547.46(1) & - & - & - & - & - & 538.686(9) & 537.353(2) \\
+		& 1.0 & 894.12(2) & - & - & - & - & - & 880.352(5) & 879.3986(6) \\ \hdashline \\
 		
-		72 & 0.1 & - & - & - & - & - & 276.83(1) & - & - \\ 
-		& 0.28 & - & - & - & - & - & 551.00(2) & - & - \\
-		& 0.5 & - & 843.05(2) & - & - & - & 822.82(1) & - & - \\
-		& 1.0 & - & - & - & - & - & 1340.520(7) & - & - \\ \hline\hline
+		72 & 0.1 & - & - & - & - & - & - & 276.83(1) & - \\ 
+		& 0.28 & - & - & - & - & - & - & 551.00(2) & - \\
+		& 0.5 & 843.05(2) & - & - & - & - & - & 822.82(1) & - \\
+		& 1.0 & - & - & - & - & - & - & 1340.520(7) & - \\ \hline\hline
 	\end{tabularx}
 \end{table}
 
 \subsubsection{Three dimensions}
 \begin{table} [H]
-	\caption{This table represents the energies of $N$ electrons trapped in a three-dimensional quantum dot with frequency $\omega$. The different columns are restricted Boltzmann machine ($E_{\text{RBM}}$), restricted Boltzmann machine with Padé-Jastrow factor ($E_{\text{RBM+PJ}}$), restricted Boltzmann machine with Hartree-Fock basis ($E_{\text{RBM+HF}}$), partly restricted Boltzmann machine ($E_{\text{PRBM}}$), deep restricted Boltzmann machine ($E_{\text{DRBM}}$), standard variational Monte-Carlo ($E_{\text{VMC}}$) and the Hartree-Fock limit ($E_{\text{HF}}$). The reference is to J. Høgberget's diffusion Monte-Carlo (DMC) calculations apart from a few semi-analytical energies found by M.Taut marked with $^{1}$ \cite{taut_two_1993}\cite{hogberget_quantum_2013}} 
+	\caption{This table represents the energies of $N$ electrons trapped in a three-dimensional quantum dot with frequency $\omega$. The different columns are restricted Boltzmann machine ($E_{\text{RBM}}$), restricted Boltzmann machine with a simple Jastrow-factor ($E_{\text{RBM+SJ}}$), restricted Boltzmann machine with Padé-Jastrow-factor ($E_{\text{RBM+PJ}}$), partly restricted Boltzmann machine ($E_{\text{PRBM}}$), the Hartree-Fock limit ($E_{\text{HF}}$), standard variational Monte-Carlo with Hartree-Fock basis ($E_{\text{VMC+HF}}$) and standard variational Monte-Carlo ($E_{\text{VMC}}$). Hartree-Fock limit results and VMC+HF were produced by A.Mariadason. NEED REFERENCE All the reference results are taken from J. Høgberget's diffusion Monte-Carlo (DMC) calculations apart from a few semi-analytical energies found by M.Taut marked with $^{1}$ \cite{taut_two_1993}\cite{hogberget_quantum_2013}} 
 	\begin{tabularx}{\hsize}{l:l|RRRRRRRR} \hline\hline
 		\label{tab:quantumdotswinteraction3D1}
-		$N$ & $\omega$ & $E_{\text{RBM}}$ & $E_{\text{RBM+HF}}$ & $E_{\text{RBM+PJ}}$ & $E_{\text{PRBM}}$ & $E_{\text{DRBM}}$ & $E_{\text{VMC}}$ & $E_{\text{HF}} $ & $E_{\text{ref}}$ \\ \hline \\
-		2 & 0.1 & 0.5178(1) & - & 0.50073(7) & - & - & 0.50008(4) & 0.529065 & $0.5^{1}$ \\
-		& 0.28 & 1.2259(1) & - & 1.20201(5) & - & - & 1.20174(6) & 1.23722 & 1.201725(2) \\
-		& 0.5 & 2.0269(1) & - & 2.00009(4) & - & - & 2.00000(5) & 2.03851 & $2.0^{1}$ \\
-		& 1.0 & 3.7571(1) & - & 3.73032(4) & - & - & 3.73002(5) & 3.77157 & 3.730123(3) \\ \hdashline \\
+		$N$ & $\omega$ & $E_{\text{RBM}}$ & $E_{\text{RBM+SJ}}$ & $E_{\text{RBM+PJ}}$ & $E_{\text{PRBM}}$ & $E_{\text{HF}}$ & $E_{\text{VMC+HF}}$ & $E_{\text{VMC}} $ & $E_{\text{ref}}$ \\ \hline \\
+		2 & 0.1 & 0.5178(1) & - & 0.50073(7) & - & 0.529065 & - & 0.50008(4) & $0.5^{1}$ \\
+		& 0.28 & 1.2259(1) & - & 1.20201(5) & - & 1.23722 & - & 1.20174(6) & 1.201725(2) \\
+		& 0.5 & 2.0269(1) & - & 2.00009(4) & - & 2.03851 & - & 2.00000(5) & $2.0^{1}$ \\
+		& 1.0 & 3.7571(1) & - & 3.73032(4) & - & 3.77157 & - & 3.73002(5) & 3.730123(3) \\ \hdashline \\
 		
-		8 & 0.1 & 6.549(7) & - & 5.8448(7) & - & - & 5.7127(1) & 5.86255 & 5.7028(1) \\ 
-		& 0.28 & 13.098(2) & - & 12.2084(2) & - & - & 12.2051(1) & 12.3987 & 12.1927(1) \\
-		& 0.5 & 19.487(2) & - & 18.9831(2) & - & - & 18.9759(1) & 19.1916 & 18.9611(1) \\
-		& 1.0 & 33.302(1) & - & 32.6883(2) & - & - & 32.6823(2) & 32.9246 & 32.6680(1) \\ \hdashline \\
+		8 & 0.1 & 6.549(7) & - & 5.8448(7) & - & 5.86255 & - & 5.7127(1) & 5.7028(1) \\ 
+		& 0.28 & 13.098(2) & - & 12.2084(2) & - & 12.3987 & - & 12.2051(1) & 12.1927(1) \\
+		& 0.5 & 19.487(2) & - & 18.9831(2) & - & 19.1916 & - & 18.9759(1) & 18.9611(1) \\
+		& 1.0 & 33.302(1) & - & 32.6883(2) & - & 32.9246 & - & 32.6823(2) & 32.6680(1) \\ \hdashline \\
 		
-		20 & 0.1 & 27.813(2) & - & - & - & - & 27.3144(5) & - & 27.2717(2) \\ 
-		& 0.28 & 57.700(4) & - & - & - & - & 56.4297(5) & - & 56.3868(2) \\
-		& 0.5 & 87.840(4) & - & - & - & - & 85.7161(5) & - & 85.6555(2) \\
-		& 1.0 & 146.292(4) & - & - & - & - & 142.9560(7) & - & 142.8875(2) \\ \hdashline 
+		20 & 0.1 & 27.813(2) & - & - & - & - & - & 27.3144(5) & 27.2717(2) \\ 
+		& 0.28 & 57.700(4) & - & - & - & - & - & 56.4297(5) & 56.3868(2) \\
+		& 0.5 & 87.840(4) & - & - & - & - & - & 85.7161(5) & 85.6555(2) \\
+		& 1.0 & 146.292(4) & - & - & - & - & - & 142.9560(7) & 142.8875(2) \\ \hdashline 
 	\end{tabularx}
 \end{table}
 
@@ -250,15 +233,15 @@ We observe that both the standard variational Monte-Carlo wave function and the 
 		\label{tab:quantumdotswinteraction3D2}
 		\\
 		
-		40 & 0.1 & - & - & - & - & - & 88.182(1) & - & - \\ 
-		& 0.28 & 182.714(6) & - & - & - & - & 179.567(1) & - & - \\
-		& 0.5 & 275.262(7) & - & - & - & - & 269.746(1) & - & - \\
-		& 1.0 & 452.732(8) & - & - & - & - & 442.602(2) & - & - \\ \hdashline \\
+		40 & 0.1 & - & - & - & - & - & - & 88.182(1) & - \\ 
+		& 0.28 & 182.714(6) & - & - & - & - & - & 179.567(1) & - \\
+		& 0.5 & 275.262(7) & - & - & - & - & - & 269.746(1) & - \\
+		& 1.0 & 452.732(8) & - & - & - & - & - & 442.602(2) & - \\ \hdashline \\
 		
-		70 & 0.1 & - & - & - & - & - & 227.082(6) & - & - \\ 
-		& 0.28 & - & - & - & - & - & 456.941(2) & - & - \\
-		& 0.5 & 693.52(2) & - & - & - & - & 682.277(5) & - & - \\
-		& 1.0 & 1129.40(2) & - & - & - & - & 1108.950(4) & - & - \\ \hline\hline
+		70 & 0.1 & - & - & - & - & - & - & 227.082(6) & - \\ 
+		& 0.28 & - & - & - & - & - & - & 456.941(2) & - \\
+		& 0.5 & 693.52(2) & - & - & - & - & - & 682.277(5) & - \\
+		& 1.0 & 1129.40(2) & - & - & - & - & - & 1108.950(4) & - \\ \hline\hline
 	\end{tabularx}
 \end{table}
 \end{landscape}

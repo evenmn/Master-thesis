@@ -47,8 +47,8 @@ where $s$ is the number of spin configurations (2), $n$ is the principal quantum
 \input{tikz/schematic_2D.tex}
 \input{tikz/schematic_3D.tex}
 
-\section{Quantum Double Dot}
-Another historically important quantum system is the double dot system, which, similarly to the quantum single dot, can be solved analytically. Unlike the single-well potential, the double-well potential is not unique, there exist multiple widely used double-well potentials, but they all usually are on the form
+\section{Quantum Double Dots}
+Another historically important quantum system is the double dot system, which similarly to the quantum single dot can be solved analytically. Unlike the single-well potential, the double-well potential is not unique, there exist multiple widely used double-well potentials, but they all usually are on the form
 \begin{equation}
 u_i=\frac{1}{2}\omega^2\bigg[|x_i|^n-\Big(\frac{b}{2}\Big)^n\bigg]^2
 \label{eq:doublewell}
@@ -72,9 +72,15 @@ still in one dimension. For more than one dimension, we assume that the potentia
 u_i^{\text{DD}}=\frac{1}{2}\omega^2\bigg[r_i^2+\frac{1}{4}b^2-b|x_i|\bigg]=u_i^{\text{SD}}+\frac{1}{2}\omega^2\bigg[\frac{1}{4}b^2-b|x_i|\bigg]
 \label{eq:doublewell3}
 \end{equation}
-where SD means single dot and DD means double dot.
+where SD means single dot and DD means double dot. We observe that the double-well potential can be written as the single-well potential plus a $x_i$-dependent term. 
 
-\section{Atomic systems} \label{subsubsec:atomic}
+The next step is to find a basis for the double-well system, and based on the observation above, a single-well expansion is a natural choice. 
+
+\begin{equation}
+\ket{\phi_n^{\text{DD}}(x)}=\sum_{lambda=1}^{L}C_{\lambda n}\ket{\phi_{\lambda}^{\text{SD}}(x)}
+\end{equation}
+
+\section{Atomic systems} \label{sec:atomic}
 We will also investigate real atoms, where we freeze out the nucleonic degrees of freedom known as the Born-Oppenheimer approximation. The electrons will in fact affect the nucleus, but due to the mass difference this effect will be negligible.
 
 We again have Coulomb interaction between the electrons and the nucleus, and since we assume the latter to be at rest at the origin, the external potential affecting particle $i$ is

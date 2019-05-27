@@ -256,9 +256,13 @@ Bayesian statistics
 \subsection{Boltzmann Machines}
 Boltzmann Machines are based on the more primitive Hopfield network, where a system of nodes is set up which defines the system energy. Inspired by statistical mechanics, the probability of finding the system in a state of energy $E$ is given by
 \begin{equation}
-P=\exp(-E/kT)
+P=\exp(-E/k_BT)
 \end{equation}
-which is the Boltzmann distribution, hence the name Boltzmann machine. $k$ is known as Boltzmann's constant and $T$ is the system temperature, but henceforth they both will be avoided by scaling $E'=E/kT$. 
+which is the Boltzmann distribution, hence the name Boltzmann machine. $k_B$ is known as Boltzmann's constant and $T$ is the system temperature, but henceforth they both will be avoided by scaling $E'=E/k_BT$. 
+
+\subsubsection{Marginal distributions}
+
+\subsubsection{Conditional distributions}
 
 In the most general form, all nodes are connected to all other nodes, that is an unrestricted Boltzmann machine, see figure \eqref{fig:boltzmann_machine} for illustration. 
 
@@ -309,3 +313,6 @@ E(\bs{x},\bs{h})= \sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2} - \sum_{i=1}^F\sum
 \Psi(\bs{x};\bs{a},\bs{b},\bs{W})=\exp(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2}+\sum_{i=1}^F\sum_{j=1}^Fx_ic_{ij}x_j)\prod_{j=1}^H\bigg(1+\exp\Big(b_j+\sum_{i=1}^F\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg)
 \label{eq:PNQSWF}
 \end{equation}
+
+\subsection{Deep restricted Boltzmann machines}
+...
