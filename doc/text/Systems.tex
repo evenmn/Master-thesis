@@ -12,53 +12,53 @@ When defining a system, we also need to specify the basis set to be used. The si
 
 \newpage
 \section{Quantum dots} \label{sec:quantumdots}
-Quantum dots are very small particles, and contain fermions or bosons hold together by an external potential. Since these particles have discrete electronic states like an atom, they are often called artificial atoms. 
+Quantum dots are very small particles, and consist of fermions or bosons hold together by an external potential. Since these particles have discrete electronic states like an atom, they are often called artificial atoms. 
 
-In this thesis we will, among other systems, study electrons trapped in harmonic oscillators, where the external potential affecting particle $i$ is given by
+In this thesis we will study circular quantum dots with electrons affected by a harmonic oscillator potential. For an electron $i$, the potential reads
 \begin{equation}
 u_i=\frac{1}{2}m\omega^2r_i^2.
 \end{equation}
-where $m$ is the mass of particle $i$, $\omega$ is the oscillator frequency and $r_i$ is the relative distance from particle $i$ to the center of the trap. 
+where $m$ is the mass of particle $i$, $\omega$ is the oscillator frequency and $r_i$ is the relative distance from particle $i$ to the center of the dot. 
 
 Using natural units as described in Appendix B, we can write the Hamiltonian as
 \begin{equation}
 \label{eq:HOHamiltonian}
 \hat{\mathcal{H}} = \sum_{i=1}^{P} \Big(-\frac{1}{2} \nabla_i^2 + \frac{1}{2} \omega^2r_i ^2\Big) + \sum_{i<j} \frac{1}{r_{ij}} 
 \end{equation}
-where the energy is scaled with respect to atomic units and lengths are scaled with respect to the Bohr radius.
+where the energy is scaled with respect to Hartree units and lengths are scaled with respect to the Bohr radius.
 
 The exact solutions of the non-interacting Hamiltonian are the Hermite functions, 
 \begin{equation}
 \phi_n(x)=H_n(\sqrt{\omega}x)\exp(-\omega x^2/2)
 \end{equation}
-which is a natural basis choice also for systems with interaction. $H_n(x)$ is the Hermite polynomial of $n$'th degree, and the first four Hermite functions are illustrated in figure \eqref{fig:harmonicoscillator}. The energy of a particle at energy level $n$ in a $D$ dimensional harmonic oscillator is given by
+which is a natural basis choice also for systems with interaction. $H_n(x)$ is the Hermite polynomial of $n$'th degree, and the first four Hermite functions are illustrated in figure \eqref{fig:harmonicoscillator}. The energy of a particle with principal quantum number $n$ in a $D$ dimensional harmonic oscillator is given by
 \begin{equation}
 E_n=\omega\Big(n+\frac{D}{2}\Big).
 \label{eq:HOenergies}
 \end{equation}
 
-We will study closed-shell systems only, since the Slater determinant in that case is unambiguous. For open shells, the total Slater determinant is a linear combination of all the possible Slater determinants. The number of particles of closed-shell systems are called magic numbers, which in two dimensions are $N=2,6,12,\hdots$. In general, the magic numbers are given by
+We will study closed-shell systems only, since the Slater determinant in that case is unambiguous. For open shells, the total Slater determinant is a linear combination of all the possible Slater determinants, and one can for instance use . The number of particles of closed-shell systems are called magic numbers, which in two dimensions are $N=2,6,12,\hdots$. In general, the magic numbers are given by
 \begin{equation}
 N=s\binom{n+D}{D}
 \label{eq:HOclosedshell}
 \end{equation}
-where $s$ is the number of spin configurations (2), $n$ is the principal quantum number and $D$ is the number of dimensions. This is a direct consequence of the Pauli principle, where we in the ground state can have two particles with radial wave functions $\Phi_{n_x=0,n_y=0}$, in the next energy level we can have 4 particles with radial wave functions $\Phi_{n_x=1,n_y=0}$ and $\psi_{n_x=0,n_y=1}$ with degeneracy 2 and so on. 
+where $s$ is the number of spin configurations (2), $n$ is the principal quantum number and $D$ is the number of dimensions. This is a direct consequence of the Pauli principle, where we in the ground state can have two particles with radial wave functions $\Phi_{n_x=0,n_y=0}$, in the next energy level we can have 4 particles with radial wave functions $\Phi_{n_x=1,n_y=0}$ and $\Phi_{n_x=0,n_y=1}$ with degeneracy 2 and so on. 
 
 \input{tikz/schematic_2D.tex}
-\input{tikz/schematic_3D.tex}
+%\input{tikz/schematic_3D.tex}
 
-\section{Quantum Double Dots}
-Another historically important quantum system is the double dot system, which similarly to the quantum single dot can be solved analytically. Unlike the single-well potential, the double-well potential is not unique, there exist multiple widely used double-well potentials, but they all usually are on the form
+\section{Quantum double dots}
+Another historically important quantum system is the double dot system, which similarly to the quantum single dot can be solved analytically. Unlike the harmonic oscillator potential, the double-well potential is not unique, there exist multiple widely used symmetrical double-well potentials, but they are all usually on the form
 \begin{equation}
 u_i=\frac{1}{2}\omega^2\bigg[|x_i|^n-\Big(\frac{b}{2}\Big)^n\bigg]^2
 \label{eq:doublewell}
 \end{equation}
-in one direction with $b$ as the distance between the wells and $n$ as an arbitrary integer. \cite{jelic_double_2012} Setting $n=1$ gives two parabolic wells with a sharp local maximum at $x=0$, while $n=2$ gives a smoother but steeper well. In figure \eqref{fig:doublewell} the potential is plotted for $n=1,2$ and $3$.
+in one dimention with $b$ as the distance between the wells and $n$ as an arbitrary integer. \cite{jelic_double_2012} Setting $n=1$ gives two parabolic wells with a sharp local maximum at $x=0$, while $n=2$ gives a smoother but steeper well. In figure \eqref{fig:doublewell} the potential is plotted for $n=1,2$ and $3$.
 
 \begin{figure}
 	\centering
 	\input{pgf/doublewell.tex}
-	\caption{Double-well potentials}
+	\caption{Double-well potentials.}
 	\label{fig:doublewell}
 \end{figure}
 
@@ -67,18 +67,39 @@ For reference and benchmark reasons, we will focus on the case with $n=1$, which
 u_i=\frac{1}{2}\omega^2\bigg[x_i^2+\frac{1}{4}b^2-b|x_i|\bigg],
 \label{eq:doublewell2}
 \end{equation}
-still in one dimension. For more than one dimension, we assume that the potentials are lined up in $x$-direction, which gives us the expression for all dimensions
+still in one dimension. For more than one dimension, we assume that the double dot expands in the $x$-direction, which gives us the expression for all dimensions
 \begin{equation}
-u_i^{\text{DD}}=\frac{1}{2}\omega^2\bigg[r_i^2+\frac{1}{4}b^2-b|x_i|\bigg]=u_i^{\text{SD}}+\frac{1}{2}\omega^2\bigg[\frac{1}{4}b^2-b|x_i|\bigg]
+u_i^{\text{DW}}=\frac{1}{2}\omega^2\bigg[r_i^2+\frac{1}{4}b^2-b|x_i|\bigg]=u_i^{\text{HO}}+\frac{1}{2}\omega^2\bigg[\frac{1}{4}b^2-b|x_i|\bigg]
 \label{eq:doublewell3}
 \end{equation}
-where SD means single dot and DD means double dot. We observe that the double-well potential can be written as the single-well potential plus a $x_i$-dependent term. 
-
-The next step is to find a basis for the double-well system, and based on the observation above, a single-well expansion is a natural choice. 
-
+where HO means harmonic oscillator potential and DW means double well potential. What we actually observe, is that the potential separates in a single-dot part and a double-dot part, which makes the double-dot Hamiltonian similar to the single-dot Hamiltonian,
 \begin{equation}
-\ket{\phi_n^{\text{DD}}(x)}=\sum_{lambda=1}^{L}C_{\lambda n}\ket{\phi_{\lambda}^{\text{SD}}(x)}
+\label{eq:DWHamiltonian}
+\hat{\mathcal{H}} = \sum_{i=1}^{P} \bigg(-\frac{1}{2} \nabla_i^2 + \frac{1}{2} \omega^2r_i ^2 + \frac{1}{2} \omega^2\Big(\frac{1}{4}b^2-b|x_i|\Big)\bigg) + \sum_{i<j} \frac{1}{r_{ij}}.
 \end{equation}
+
+What is remaining is to find an appropriate basis set, and based on the observations above, a Hermite function expansion sounds reasonable. It will take the form
+\begin{equation}
+\ket{\phi_n^{\text{DW}}(x)}=\sum_{\lambda=1}^{L}C_{n\lambda}\ket{\phi_{\lambda}^{\text{HO}}(x)},
+\end{equation}
+where $L\in[1,\infty\rangle$ is the number of basis functions used and $C_{n\lambda}$ is the coefficient associated with the double-dot function $n$ and the single-dot function $\lambda$, which is what we want to find. Inserting this into the double-dot Schrödinger equation and multiplying with $\bra{\phi_{\nu}^{\text{HO}}(x)}$ on the left-hand-side (LHS) gives
+\begin{equation}
+\label{eq:doublewellsums}
+\sum_{\lambda=1}^LC_{n\lambda}\mel{\phi_{\nu}^{\text{HO}}(x)}{\hat{\mathcal{H}}_{\text{DW}}}{\phi_{\lambda}^{\text{HO}}(x)}=\epsilon_n\sum_{\lambda=1}^LC_{n\lambda}\braket{\phi_{\nu}^{\text{HO}}(x)}{\phi_{\lambda}^{\text{HO}}(x)}
+\end{equation}
+where the right-hand-side (RHS) sum collapses because the overlap is just the Kronecker delta, $\braket{\phi_{\nu}^{\text{HO}}(x)}{\phi_{\lambda}^{\text{HO}}(x)}=\delta_{\nu\lambda}$. By defining 
+\begin{equation}
+\hat{h}_{\nu\lambda}\equiv\mel{\phi_{\nu}^{\text{HO}}(x)}{\hat{\mathcal{H}}_{\text{DW}}}{\phi_{\lambda}^{\text{HO}}(x)}
+\end{equation}
+we can set up equation \eqref{eq:doublewellsums} as an eigenvalue problem on the form
+\begin{equation}
+\hat{h}\hat{C}=\epsilon\hat{C}
+\end{equation}
+where our targets, $\hat{C}$, are just the eigenvectors of the $\hat{h}$-matrix. Now recall that the double-dot Hamiltonian is just an extension of the single-dot Hamiltonian, such that we can rewrite
+\begin{equation}
+\hat{h}_{\nu\lambda}=\mel{\phi_{\nu}^{\text{HO}}(x)}{\hat{\mathcal{H}}_{\text{HO}}}{\phi_{\lambda}^{\text{HO}}(x)}+\mel{\phi_{\nu}^{\text{HO}}(x)}{\hat{\mathcal{H}}_{\text{+}}}{\phi_{\lambda}^{\text{HO}}(x)}
+\end{equation}
+with $\hat{\mathcal{H}}_{\text{+}}=(1/2)\omega\sum_{i=1}^P\Big((1/4)b^2-b|x_i|\Big)$ as the extension. The former integrals are just the harmonic oscillator energies, presented in \eqref{eq:HOenergies}, while the latter integrals are trivial to calculate.
 
 \section{Atomic systems} \label{sec:atomic}
 We will also investigate real atoms, where we freeze out the nucleonic degrees of freedom known as the Born-Oppenheimer approximation. The electrons will in fact affect the nucleus, but due to the mass difference this effect will be negligible.
