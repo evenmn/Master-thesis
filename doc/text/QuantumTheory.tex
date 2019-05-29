@@ -245,7 +245,7 @@ where $P>N$.
 \subsection{One-body density}
 The one-body density is the most applied electron density, and is sometimes simply referred to as the electron density. For the two particle case, the one-body density gives the probability of finding one particle at a relative distance $r$ to the other. For more particles, the one-body density gives the probability of finding the mass center of the remaining particles at a relative distance $r$ from one of the particles.
 
-Numerically, the one-body density is found by dividing the space into bins of equal sizes at different radii and counting the number of particles in each bin throughout the sampling. In practice, one often divide the space into bins where the radii are uniformly distributed, i.e, $r_i=i\cdot r_1$, see figure \eqref{fig:onebody}. In that case, one needs to divide each bin by its own volume afterwards in order to make all bins the same size. In two dimensions, the area of bin $i$ is
+Numerically, the one-body density is found by dividing the space into bins of equal sizes at different radii and counting the number of particles in each bin throughout the sampling. In practice, one often divide the space into bins where the radii are uniformly distributed, i.e, $r_i=i\cdot r_0$, see figure \eqref{fig:onebody}. In that case, one needs to divide each bin by its own volume afterwards in order to make all bins the same size. In two dimensions, the area of bin $i$ is
 \begin{equation}
 A_i=(2i+1)\pi d^2
 \end{equation}
@@ -253,12 +253,20 @@ and in three dimensions the volume of bin $i$ is
 \begin{equation}
 V_i=4(i(i+1)+1/3)\pi d^3.
 \end{equation}
+where $d$ is the radial width of a bin. 
 
 \begin{figure}
 	\centering
 	\label{fig:onebody}
 	\input{tikz/onebody_bins.tex}
-	\caption{One can find the onebody density by dividing the volume around a particle with coordinates $\vec{r}_i$ into bins and then count the number of particles, here illustrated in two dimensions.}
+	\caption{(color online) One-body}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\label{fig:twobody}
+	\input{tikz/twobody_bins.tex}
+	\caption{(color online) Two-body}
 \end{figure}
 
 \subsection{Two-body density}
