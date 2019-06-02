@@ -17,15 +17,15 @@ In this section we will present the fundamentals of the quantum theory, that wil
 Before we get started, we make a few assumptions in order to simplify our problem. They most important ones are specified below with an explanation why they are valid.
 
 \begin{itemize}
-	\item \textbf{Point-like particles:} First, all particles involved will be assumed to be point-like, i.e, that they lack spatial extension. This includes the nucleus in atomic systems, but it still makes sense since the distance from the nucleus to the electrons is known to be much larger then the nucleus extent.
+	\item \textbf{Point-like particles:} First, all particles involved will be assumed to be point-like, i.e, that they lack spatial extension. For electrons this makes sense, since they, as far as we know, do not extent. The assumption also includes the nucleus in atomic systems, but it still makes sense since the distance from the nucleus to the electrons is known to be much larger than the nucleus extent.
 	
-	\item \textbf{Non-relativistic spacetime:}  Second, we operate in the non-relativistic spacetime, which is valid as long as we do not approach the speed of light and we do not involve strong forces. Applying classical physics, we can find that the speed of the electron in a hydrogen atom is about 1\% of the speed of light, and even though the electrons get higher speed in heavier atoms, we do not need to worry about it. The forces acting are the weak Coulomb forces.
+	\item \textbf{Non-relativistic spacetime:}  Second, we operate in the non-relativistic spacetime, which is an extremely good approximation as long as we do not approach the speed of light and we do not involve strong forces. Applying classical physics, we can find that the speed of the electron in a hydrogen atom is about 1\% of the speed of light, and even though the electrons get higher speed in heavier atoms, we do not need to worry about it as we will stick to the lighter atoms. The forces acting are the weak Coulomb forces.
 	
 	\item For specific systems we might make new assumptions and approximations. For instance, for atomic systems we will assume that the nucleus is at rest. Those approximations will be discussed consecutively. 
 \end{itemize}
 
 \subsection{The Schrödinger Equation} \label{subsec:schrodinger}
-The Schrödinger equation is a natural starting point, which gives the energy eigen states of a system defined by a Hamiltonian $\hat{\mathcal{H}}$ and its eigen functions, $\Psi$, which are the wave functions. The time-independent Schrödinger equation reads
+The Schrödinger equation is a natural starting point, which gives the energy eigen states of a system defined by a Hamiltonian $\hat{\mathcal{H}}$ and its eigen functions, $\Psi_n(\bs{r})$, which are the wave functions. $\bs{r}$ are the position coordinates of all the system's particles and $n$ is a particular set of quantum numbers. The time-independent Schrödinger equation reads
 \begin{equation}
 \label{eq:Energy}
  \hat{\mathcal{H}}\psin=\epsilon_n\psin
@@ -36,26 +36,26 @@ where the Hamiltonian is the total energy operator. By analogy with the classica
 \end{equation}
 with $\hat{\mathcal{T}}$ and $\hat{\mathcal{V}}$ as the kinetic and potential energy operators respectively. 
 
-The kinetic energy yields $T=p^2/2m$, such that the kinetic energy operator can be represented as 
+Again from classical mechanics, the kinetic energy for a moving particle of mass $m$ yields $T=p^2/2m$ where $p$ is the linear momentum, such that the kinetic energy operator can be represented as 
 \begin{equation}
 \hat{\mathcal{T}}=\frac{\hat{\mathcal{P}}^2}{2m}
 \end{equation}
-according to Ehrenfest's theorem. Further, the momentum operator is $\hat{\mathcal{P}}=-i\hbar\nabla$.
+according to Ehrenfest's theorem. Further, the linear momentum operator is $\hat{\mathcal{P}}=-i\hbar\hat{\nabla}$ with $\hat{\nabla}$ as the partial derivative. 
 
 The potential energy can be split into an external part and an interaction part, where the latter is given by the Coulomb interaction. For two identical particles of charge $q$, the repulsive interaction gives the energy
 \begin{equation}
-V_I=k\frac{q^2}{r_{12}}
+V_I=k_e\frac{q^2}{r_{12}}
 \end{equation}
-where $r_{12}$ is the distance between the particles. The total Hamiltonian of a system of $P$ identical particles takes the form
+where $r_{12}$ is the distance between the particles and $k_e$ is Coulomb's constant. The total Hamiltonian of a system of $N$ identical particles takes the form
 \begin{equation}
-\hat{\mathcal{H}}=-\sum_i^P\frac{\hbar^2}{2m}\nabla_i^2+\sum_i^{}u_i + \sum_i^P\sum_{j>i}^Pk\frac{q^2}{r_{ij}}
+\hat{\mathcal{H}}=-\sum_i^N\frac{\hbar^2}{2m}\nabla_i^2+\sum_i^{N}u_i + \sum_i^N\sum_{j>i}^Nk\frac{q^2}{r_{ij}}
 \label{eq:ElectronicHamiltonian}
 \end{equation}
 which is the farthest we can go without specifying the external potential $u_i$. $r_{ij}$ is the relative distance between particle $i$ and $j$, defined by $r_{ij}\equiv|\bs{r}_i-\bs{r}_j|$.
 
 Setting up equation \eqref{eq:Energy} with respect to the energies, we obtain an integral,
 \begin{equation}
-\epsilon_n=\frac{\int d\bs{r}\psinc\hatH\psin}{\int d\bs{r}\psinc\psin},
+\epsilon_n=\frac{\int d\bs{r}\psinc\hat{\mathcal{H}}\psin}{\int d\bs{r}\psinc\psin},
 \label{eq:energyintegral}
 \end{equation}
 which not necessarily is trivial to solve. If we take the wave function squared we get the probability distribution,
@@ -64,7 +64,7 @@ P(\bs{r})=\psinc\psin=|\psin|^2
 \end{equation}
 so the nominator is simply the integral over all probabilities. If the wave function is normalized correctly, this should always give 1. Assuming that is the case, the expectation value can be expressed more elegantly by using Dirac notation,
 \begin{equation}
-E[\Psi]=\mel{\Psi}{\hatH}{\Psi},
+E[\Psi]=\mel{\Psi}{\hat{\mathcal{H}}}{\Psi},
 \end{equation}
 where the first part, $\bra{\Psi}$ is called a bra and the last part, $\ket{\Psi}$ is called a ket. At first this might look artificial and less informative, but it simplifies the notation significantly. More information about the notation is found in Appendix A. 
 
@@ -97,8 +97,28 @@ The quantum theory is built on a few fundamental postulates, which will always b
 \item The time evolution of the wave function is given by the time-dependent Schrodinger equation. 
 \end{enumerate}
 
-\subsection{Quantum numbers}
-Write about $n$, $\mathcal{l}$, $s$ etc...
+\section{Quantum Numbers}
+Up to this point, we have just assumed that we are simply given a wave function without worrying about how to set it up. But if we really want to specify a wave function based on the dynamics of a system, we need to know something about quantum numbers.
+
+Quantum numbers are numbers which specify the state of a quantum particle, and they are integer or half-integer. This discretization is the underlying reason why the observable in quantum mechanics are quantized. 
+
+The \textbf{principal} quantum number, $n$, is always the first specified quantum number, since it represents the electronic shell of a particle. It can takes non-zero integer values, 
+\begin{equation}
+n\in[0,\infty\rangle
+\end{equation}
+where the particle's energy usually increases as the $n$ is increased. 
+
+\subsection{Angular Momentum and Spin}
+If we again go back to the classical mechanics, the angular momentum $\bs{L}_r=\bs{R}\cross\bs{p}$ around an axis at distance $|\bs{R}|$ from the mass center and the angular momentum $\bs{L}_c=I\bs{\omega}$ around its own mass center is a conserved quantity,
+\begin{equation}
+\bs{L}_{net} = \bs{L}_r+\bs{L}_c,
+\end{equation}
+Since the net angular momentum $\bs{L}_{new}$ is just a sum over the angular momentum of all points in a continua around the rotational axis given by the definition of $\bs{L}_r$, both of them are actually the same thing.
+
+In quantum mechanics we have again an analogy, where we define a \textbf{spin} 
+
+\subsection{Hund's rules}
+Hund's rules define the filling order of electron structure shells...
 
 \section{The Trial Wave Function} \label{subsec:wavefunction}
 By the first postulate of quantum mechanics, the wave function contains all the information specifying the state of the system. This means that all observable in classical mechanics can also be measured from the wave function, which makes finding the wave function our main goal.
@@ -271,6 +291,11 @@ where $d$ is the radial width of a bin.
 
 \subsection{Two-body density}
 For the one-body density, we integrate over all the particles but one, which corresponds to counting number of particles in each bin. For the two-body density, we integrate over all particles but a \textit{particle pair}, which means that we numerically need to find the position of each particle pair. 
+
+\subsection{Wigner Crystals}
+As the one-body density decreases, the particles move slower. At low one-body density, the potential energy dominates the kinetic energy and a phenomenon named Wigner crystallization might occur.  
+
+Wigner crystallization occurs when the 
 
 
 

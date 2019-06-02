@@ -1,6 +1,6 @@
 \chapter{Scaling}
 
-\section{Harmonic Oscillator - Natural units}
+\section{Quantum dots - Natural units}
 The Hamiltonian is in one dimension given by
 \begin{equation}
 \hat{\mathcal{H}}=-\frac{\hbar^2}{2m}\frac{\partial^2}{\partial x^2}+\frac{1}{2}m\omega^2x^2
@@ -10,11 +10,11 @@ which has corresponding wave functions
 \begin{equation}
 \psi_n(x)=\frac{1}{\sqrt{2^nn!}}\cdot\bigg(\frac{m\omega}{\pi\hbar}\bigg)^{1/4}\exp\Big(-\frac{m\omega}{2\hbar}x^2\Big)H_n\Big(\sqrt{\frac{m\omega}{\hbar}}x\Big).
 \end{equation}
-We want to get rid of $\hbar$ and $m$ in equation \eqref{eq:HamiltonianHO}, and we start with scaling $H'\equiv H/\hbar$, such that the Hamiltonian reduces to
+We want to get rid of $\hbar$ and $m$ in equation \eqref{eq:HamiltonianHO}, and we initially scale  $\hat{\mathcal{H}}'\equiv \hat{\mathcal{H}}/\hbar$, such that the Hamiltonian reduces to
 \begin{equation}
-\hat{\mathcal{H}}'=-\frac{\hbar}{2m}\frac{\partial^2}{\partial x^2}+\frac{1}{2}\frac{m\omega^2}{\hbar}x^2
+\hat{\mathcal{H}}'=-\frac{\hbar}{2m}\frac{\partial^2}{\partial x^2}+\frac{1}{2}\frac{m\omega^2}{\hbar}x^2.
 \end{equation}
-One can now observe that the fraction $\hbar/m$ comes in both terms, which we can take out by scaling the length $x'\equiv x\cdot\sqrt{m/\hbar}$. The final Hamiltonian is
+One can now observe that the fraction $\hbar/m$ comes in both terms, which can be taken out by introducing a characteristic length $x'\equiv x\cdot\sqrt{m/\hbar}$. The final Hamiltonian is
 \begin{equation}
 \hat{\mathcal{H}}=\frac{1}{2}\frac{\partial^2}{\partial x^2}+\frac{1}{2}\omega^2x^2
 \end{equation}
