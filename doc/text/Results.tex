@@ -36,15 +36,15 @@ In other words, this is not only a pure quantum mechanical problem, but also a o
 
 As the applied theory used in quantum many-body simulations agrees perfectly with laboratory experiments, they can be considered as actual experiments. In that manner, one can use computer experiments to verify other experiments and even predict new things. Similarly to experiments in a laboratory, computer experiments are also dependent on external factors, especially when it comes to the CPU-time, and therefore it is important to do such measurements multiple times to find an accurate average time. The CPU-times above are the average from at least four independent runs for each number of particles. All the runs were performed on the Abel computational cluster, which is equipped with Supermicro X9DRT compute nodes with dual Intel E5-2670 CPUs running at 2.6 GHz. Different hardware might give different CPU-times, but the CPU-time ratios (the exponential factor) should be the same. 
 
-To estimate how fast the cost increases as we add more particles, we do linear regression with a function on the form $f(x)=ax^b$ where $x$ is the number of particles while $a$ and $b$ are the unknown parameters to be found. From the limited number of points, we have found the parameters and presented them in table \eqref{tab:cputimefit}.
+To estimate how fast the cost increases as we add more particles, we do linear regression with a function on the form $f(x)=\alpha x^{\beta}$ where $x$ is the number of particles while $\alpha$ and $\beta$ are the unknown parameters to be found. From the limited number of points, we have found the parameters and presented them in table \eqref{tab:cputimefit}.
 
 \begin{table} [H]
-	\caption{Optimal constants $a$ and $b$ for restricted Boltzmann machine (RBM), restricted Boltzmann machine with a simple Jastrow factor (RBM+SJ), restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo sampling (VMC).}
+	\caption{Optimal constants $\alpha$ and $\beta$ for restricted Boltzmann machine (RBM), restricted Boltzmann machine with a simple Jastrow factor (RBM+SJ), restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo sampling (VMC).}
 	\begin{tabularx}{\textwidth}{X|CC:CC} \hline\hline
 		\label{tab:cputimefit}
 		& \multicolumn{2}{c}{2D} &
 		\multicolumn{2}{c}{3D} \\ \hline
-		& $a$ & $b$ & $a$ & $b$ \\ \hline \\
+		& $\alpha$ & $\beta$ & $\alpha$ & $\beta$ \\ \hline \\
 		RBM & 0.0840 & 1.92 & 0.0302 & 2.268 \\ 
 		RBM+SJ & - & - & - & - \\
 		RBM+PJ & - & - & - & - \\
@@ -52,7 +52,7 @@ To estimate how fast the cost increases as we add more particles, we do linear r
 	\end{tabularx}
 \end{table}
 
-Although the RBM was found to be cheaper than VMC, we can see that the estimated exponential factor $a$ is actually slightly larger. The prefactor $b$ is significantly lower though.
+Although the RBM was found to be cheaper than VMC, we can see that the estimated exponential factor $\alpha$ is actually slightly larger. The prefactor $\beta$ is significantly lower though.
 
 \section{Energy convergence}
 We want our calculations to converge fast and to be stable, and that is what the optimization tools are responsible for. In figure \eqref{fig:convergenceoptimization} we compare standard gradient descent to stochastic gradient descent and ADAM for two interacting electrons in a two- and three dimensional well. 
@@ -74,11 +74,13 @@ We observe that the gradient descent methods in the cases above have a smoother 
 \end{figure}
 \fi
 
+\iffalse
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.3]{Images/example.png}
 	\caption{Will add convergence plots here}
 \end{figure}
+\fi
 
 Even though the gradient descent methods seem to be the best choice based on those graphs, we experience that the energy occasionally explode when they are applied on more heavy systems, and therefore we will rely in the ADAM optimizer henceforth. 
 
@@ -161,7 +163,7 @@ First we will look at the ground-state energy of closed shell quantum dots, and 
 
 \subsection{Quantum dots}
 \subsubsection{Closed shell energy}
-Utilizing the symmetry of quantum dots of two electrons, M.Taut was able to obtain semi-analytical energies for some specific frequencies $\omega$. More precisely, he found the energy to be $E=3$ for the frequency $\omega=1$ and $E=2/3$ for the frequency $\omega=1/6$ for the two-dimensional case, and $E=2$ for the frequency $\omega=1/2$ and $E=1/2$ for the frequency $\omega=1/10$ for the three-dimensional case. \cite{taut_two_1993}\cite{taut_two_1994}
+By utilizing the symmetry of quantum dots of two electrons, M.Taut was able to obtain semi-analytical energies for some specific frequencies $\omega$. More precisely, he found the energy to be $E=3$ for the frequency $\omega=1$ and $E=2/3$ for the frequency $\omega=1/6$ for the two-dimensional case, and $E=2$ for the frequency $\omega=1/2$ and $E=1/2$ for the frequency $\omega=1/10$ for the three-dimensional case. \cite{taut_two_1993}\cite{taut_two_1994}
 
 For other references, we need to rely on what researchers have found before us. Since diffusion Monte-Carlo (DMC) is known to give very accurate results, we will mainly compare our results to J. Høgberget's DMC computations, which exist for closed shell quantum dots of a maximum of 56 electrons in two dimensions and a maximum of 20 particles in three dimensions. \cite{hogberget_quantum_2013}. Comparing the energy to the Hartree-Fock limit is also interesting, mainly because of the Boltzmann machines. We use A.Mariadason's computations for this for quantum dots of a maximum of 20 electrons in two dimensions, and a maximum of 8 particles in three dimensions. \cite{mariadason_quantum_2018} We run some simulations that we could not find any reference for, which means that we cannot ensure that they are correct or not. 
 
@@ -172,7 +174,7 @@ We observe that the method where less physical intuition is used, RBM, is the on
 \afterpage{
 \begin{landscape}
 \begin{table}
-	\caption{The ground state energy of two-dimensional circular quantum dots of frequency $\omega$ obtained by various methods. The column on the left-hand-side represents restricted Boltzmann machine (RBM), followed by restricted Boltzmann machine with simple Jastrow factor (RBM+SJ), restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ), partly restricted Boltzmann machine (PRBM), the Hartree-Fock limit (HF), standard variational Monte-Carlo with Hartree-Fock basis (VMC+HF), standard variational Monte-Carlo with Hermite basis (VMC) and diffusion Monte-Carlo (DMC). Hartree-Fock results are taken from Ref.\cite{mariadason_quantum_2018}, DMC results are taken from \cite{hogberget_quantum_2013} and semi-analytical results are taken from \cite{taut_two_1994}. $N$ is the number of electrons in the dot, and $L=S=0$. The energy is given in units of $\hbar$.}
+	\caption{The ground state energy of two-dimensional circular quantum dots of frequency $\omega$ obtained by various methods. The column on the left-hand-side represents restricted Boltzmann machine (RBM), followed by restricted Boltzmann machine with simple Jastrow factor (RBM+SJ), restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ), partly restricted Boltzmann machine (PRBM), the Hartree-Fock limit (HF), standard variational Monte-Carlo with Hartree-Fock basis (VMC+HF), standard variational Monte-Carlo with Hermite basis (VMC) and diffusion Monte-Carlo (DMC). Hartree-Fock results are taken from Ref.\cite{mariadason_quantum_2018}, DMC results are taken from \cite{hogberget_quantum_2013} and semi-analytical results are taken from \cite{taut_two_1994}. $N$ is the number of electrons in the dot, and $L=S=0$. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
 	\begin{tabularx}{\hsize}{l:l|R{2.45cm}R{2.45cm}R{2.45cm}R{2.45cm}R{2.45cm}R{2.45cm}R{2.45cm}R{2.45cm}} \hline\hline
 		\label{tab:quantumdotswinteraction2D1}
 		\makecell{\\ $N$ \\ \phantom{=}} & $\omega$ & \multicolumn{1}{c}{RBM} & \multicolumn{1}{c}{RBM+SJ} & \multicolumn{1}{c}{RBM+PJ} & \multicolumn{1}{c}{PRBM} & \multicolumn{1}{c}{\makecell{HF \\ (Ref.\cite{mariadason_quantum_2018})}} & \multicolumn{1}{c}{\makecell{VMC+HF \\ (Ref.\cite{mariadason_quantum_2018})}} & \multicolumn{1}{c}{VMC} & \multicolumn{1}{c}{\makecell{DMC \\ (Ref.\cite{hogberget_quantum_2013})}} \\ \hline \\
@@ -225,7 +227,7 @@ We observe that the method where less physical intuition is used, RBM, is the on
 \end{table}
 
 \begin{table}
-	\caption{The ground state energy of three-dimensional circular quantum dots of frequency $\omega$ obtained by various methods. The column on the left-hand-side represents restricted Boltzmann machine (RBM), followed by restricted Boltzmann machine with simple Jastrow factor (RBM+SJ), restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ), partly restricted Boltzmann machine (PRBM), the Hartree-Fock limit (HF), standard variational Monte-Carlo with Hartree-Fock basis (VMC+HF), standard variational Monte-Carlo with Hermite basis (VMC) and diffusion Monte-Carlo (DMC). Hartree-Fock results are taken from Ref.\cite{mariadason_quantum_2018}, DMC results are taken from \cite{hogberget_quantum_2013} and semi-analytical results are taken from \cite{taut_two_1993}. $N$ is the number of electrons in the dot, and $L=S=0$. The energy is given in units of $\hbar$.} 
+	\caption{The ground state energy of three-dimensional circular quantum dots of frequency $\omega$ obtained by various methods. The column on the left-hand-side represents restricted Boltzmann machine (RBM), followed by restricted Boltzmann machine with simple Jastrow factor (RBM+SJ), restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ), partly restricted Boltzmann machine (PRBM), the Hartree-Fock limit (HF), standard variational Monte-Carlo with Hartree-Fock basis (VMC+HF), standard variational Monte-Carlo with Hermite basis (VMC) and diffusion Monte-Carlo (DMC). Hartree-Fock results are taken from Ref.\cite{mariadason_quantum_2018}, DMC results are taken from \cite{hogberget_quantum_2013} and semi-analytical results are taken from \cite{taut_two_1993}. $N$ is the number of electrons in the dot, and $L=S=0$. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.} 
 	\begin{tabularx}{\hsize}{l:l|R{2.45cm}R{2.45cm}R{2.45cm}R{2.45cm}R{2.45cm}R{2.45cm}R{2.45cm}R{2.45cm}} \hline\hline
 		\label{tab:quantumdotswinteraction3D1}
 		\makecell{\\ $N$ \\ \phantom{=}} & $\omega$ & \multicolumn{1}{c}{RBM} & \multicolumn{1}{c}{RBM+SJ} & \multicolumn{1}{c}{RBM+PJ} & \multicolumn{1}{c}{PRBM} & \multicolumn{1}{c}{\makecell{HF \\ (Ref.\cite{mariadason_quantum_2018})}} & \multicolumn{1}{c}{\makecell{VMC+HF \\ (Ref.\cite{mariadason_quantum_2018})}} & \multicolumn{1}{c}{VMC} & \multicolumn{1}{c}{\makecell{DMC \\ (Ref.\cite{hogberget_quantum_2013})}} \\ \hline \\
@@ -268,19 +270,22 @@ We observe that the method where less physical intuition is used, RBM, is the on
 \subsubsection{Open shell energy}
 For open shell quantum dots, analytical results are absent, but there exist several experimental results. We will mainly benchmark our computations against Ref.\cite{pederiva_diffusion_1999} and Ref.\cite{ghosal_incipient_2007}, who have performed DMC- and HF computations for various spin configurations. 
 
-The results are listed in table \eqref{tab:sneq0}, where we use a restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo (VMC). For comparison, the Hartree-Fock limit (Ref.\cite{pederiva_diffusion_1999}) and diffusion Monte-Carlo results (Ref.\cite{pederiva_diffusion_1999},\cite{ghosal_incipient_2007}) are presented. We look at number of electrons, $N$, which are \textit{not} among the magic numbers in \eqref{eq:HOclosedshell}, and choose the ($L$,$S$) configurations which are possible ground state candidates.
+The results are listed in table \eqref{tab:sneq0}, where we use a restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo (VMC). For comparison, the Hartree-Fock limit from Ref.\cite{pederiva_diffusion_1999} (HF) and diffusion Monte-Carlo results from Refs.\cite{pederiva_diffusion_1999},\cite{ghosal_incipient_2007} (DMC) are presented. We look at the number of electrons, $N$, which are \textit{not} among the magic numbers in \eqref{eq:HOclosedshell}, and choose the ($L$,$S$) configurations which are possible ground state candidates.
 
 We find both the RBM+PJ and VMC to reproduce the reference energy in all the cases. As all sublevels get singly occupied before one gets doubly occupied, the results are consistent with Hund's (first) rule.  
 
 
-\begin{table}
-	\caption{This table presents the ground state energy of $N$ interacting particles for a given spin configuration ($L$,$S$). The results were obtained by a restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ), standard variational Monte-Carlo (VMC), restricted Hartree-Fock (HF) and diffusion Monte-Carlo (DMC). Energies denoted with $a$ are taken from Ref.43, while the $b$ energies are taken from Ref.44. All energies are given in units of $\hbar$.}
+\begin{table} [!htbp]
+	\caption{The ground state energy of two-dimensional circular quantum dots of frequency $\omega$ for a given spin configuration ($L$,$S$). The results were obtained by a restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo (VMC). For reference, the Hartree-Fock limit results from Ref.\cite{pederiva_diffusion_1999} (HF) and diffusion Monte-Carlo results from Refs.\cite{pederiva_diffusion_1999},\cite{ghosal_incipient_2007} (DMC) are listed. All energies are given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
 	\label{tab:sneq0}
 	\begin{tabularx}{\textwidth}{rrXrrXR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}} \hline\hline
-		\makecell{\\ $N$ \\ \phantom{=}} & \makecell{$\omega$} & \phantom{R} & $L$ & $S$ & \phantom{R} & \multicolumn{1}{c}{RBM+PJ} & \multicolumn{1}{c}{VMC} & \multicolumn{1}{c}{\makecell{HF\\ (Ref.\cite{pederiva_diffusion_1999})}} & \multicolumn{1}{c}{\makecell{DMC\\ (Ref.\cite{ghosal_incipient_2007})}} \\ \hline \\
-		4 & 0.28 && 0 & 1 && 3.7475(2) & 3.7711(5) & 3.9033 & 3.7135(3)\\ \\
-		9 & 0.28 && 0 & 3/2 && 15.886(4) & 15.812(4) & 16.1544 & 15.4784(7)\\
-		&3.0 && 0 & 3/2 && 97.164(4) & 96.936(7) & - & 97.0095(3)\\ \hline\hline
+		\makecell{\\ $N$ \\ \phantom{=}} & \makecell{$\omega$} & \phantom{R} & $L$ & $S$ & \phantom{R} & \multicolumn{1}{c}{RBM+PJ} & \multicolumn{1}{c}{VMC} & \multicolumn{1}{c}{\makecell{HF\\ (Ref.\cite{pederiva_diffusion_1999})}} & \multicolumn{1}{c}{\makecell{DMC\\ (Ref.\cite{pederiva_diffusion_1999})$^a$\\ (Ref.\cite{ghosal_incipient_2007})$^b$}} \\ \hline \\
+		4 & 0.28 && 0 & 1 && 3.7475(2) & 3.7711(5) & 3.9033 & 3.7135(3)$^a$\\ \\
+		8 & 0.28 && 0 & 1 && 12.828(3) & 12.849(1) & 13.1887 & 12.6903(7)$^a$ \\
+		& 0.25 && 0 & 1 && 11.807(1) & 11.852(1) & - & 11.6697(1)$^b$ \\ \\
+		9 & 0.28 && 0 & 3/2 && 15.886(4) & 15.812(4) & 16.1544 & 15.4784(7)$^a$\\
+		&3.0 && 0 & 3/2 && 97.164(4) & 96.936(7) & - & 97.0095(3)$^b$\\ \\
+		11 & 0.28 && 0 & 1/2 && 22.285(2) & 22.252(1) & 22.8733 & 22.0750(4)$^a$ \\ \hline\hline
 	\end{tabularx}
 \end{table}
 
@@ -288,16 +293,16 @@ We find both the RBM+PJ and VMC to reproduce the reference energy in all the cas
 Another quantity of particular interest is the one-body density. We have produced one-body density plots using a restricted Boltzmann machine (RBM), a restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo (VMC) for various frequencies up to 72 electrons in two dimensions and 70 electrons in three dimensions. The plots can be found in figures (\ref{fig:OB_interaction_2P_2D}-\ref{fig:OB_interaction_56P_2D}) (two dimensions) and (\ref{fig:OB_interaction_2P_3D}-\ref{fig:OB_interaction_20P_3D}) (three dimensions).
 
 
-\begin{figure} [H]%
+\begin{figure} [!htpb]%
 	\centering
 	\subfloat[2P, $\omega=0.1$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/2P/0.100000w/ADAM_MC2pow28.png}}}
-	\subfloat[6P, $\omega=0.1$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/2P/0.100000w/2D_2P_0p100000w_MC2pow28.png}}}\\
+	\subfloat[6P, $\omega=0.1$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/6P/0.100000w/ADAM_MC2pow28.png}}}\\
 	
 	\subfloat[2P, $\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/2P/0.500000w/ADAM_MC2pow28.png}}}
-	\subfloat[6P, $\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/6P/0.500000w/2D_6P_0p500000w_MC2pow28.png}}}\\
+	\subfloat[6P, $\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/6P/0.500000w/ADAM_MC2pow28.png}}}\\
 	
 	\subfloat[2P, $\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/2P/1.000000w/ADAM_MC2pow28.png}}}
-	\subfloat[6P, $\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/6P/1.000000w/2D_6P_1p000000w_MC2pow28.png}}}
+	\subfloat[6P, $\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/6P/1.000000w/ADAM_MC2pow28.png}}}
 	
 	\caption{One-body densities of two and six interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). Stochastic gradient descent was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
 	\label{fig:OB_interaction_2P_2D}
@@ -305,13 +310,13 @@ Another quantity of particular interest is the one-body density. We have produce
 \begin{figure} [H]%
 	\centering
 	\subfloat[12P, $\omega=0.1$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/12P/0.100000w/ADAM_MC2pow28.png}}}
-	\subfloat[20P, $\omega=0.1$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/20P/0.100000w/2D_20P_0p100000w_MC2pow28.png}}}\\
+	\subfloat[20P, $\omega=0.1$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/20P/0.100000w/ADAM_MC2pow28.png}}}\\
 	
-	\subfloat[12P, $\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/12P/0.500000w/2D_12P_0p500000w_MC2pow28.png}}}
-	\subfloat[20P, $\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/20P/0.500000w/2D_20P_0p500000w_MC2pow28.png}}}\\
+	\subfloat[12P, $\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/12P/0.500000w/ADAM_MC2pow28.png}}}
+	\subfloat[20P, $\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/20P/0.500000w/ADAM_MC2pow28.png}}}\\
 	
-	\subfloat[12P, $\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/12P/1.000000w/2D_12P_1p000000w_MC2pow28.png}}}
-	\subfloat[20P, $\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/20P/1.000000w/2D_20P_1p000000w_MC2pow28.png}}}
+	\subfloat[12P, $\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/12P/1.000000w/ADAM_MC2pow28.png}}}
+	\subfloat[20P, $\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/20P/1.000000w/ADAM_MC2pow28.png}}}
 	
 	\caption{One-body densities of 12 and 20 interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). Stochastic gradient descent was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
 	\label{fig:OB_interaction_12P_2D}
@@ -380,20 +385,20 @@ Another quantity of particular interest is the one-body density. We have produce
 	\subsubsection{Two-body density}
 	\begin{figure} [H]%
 		\centering
-		\subfloat[RBM, 2P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/2P/0.500000w/RBM_ADAM_MC2pow28.png}}}
-		\subfloat[RBM+SJ, 2P]{{\includegraphics[width=4cm]{Images/example.png}}}
-		\subfloat[RBM+PJ, 2P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/2P/0.500000w/RBMPJ_ADAM_MC2pow28.png}}}
-		\subfloat[VMC, 2P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/2P/0.500000w/VMC_ADAM_MC2pow28.png}}}\\
+		\subfloat[RBM, 2P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/2P/1.000000w/RBM_ADAM_MC2pow28.png}}}
+		\subfloat[RBM+SJ, 2P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/2P/1.000000w/RBMSJ_ADAM_MC2pow28.png}}}
+		\subfloat[RBM+PJ, 2P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/2P/1.000000w/RBMPJ_ADAM_MC2pow28.png}}}
+		\subfloat[VMC, 2P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/2P/1.000000w/VMC_ADAM_MC2pow28.png}}}\\
 		
-		\subfloat[RBM, 6P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/6P/0.500000w/RBM_ADAM_MC2pow28.png}}}
-		\subfloat[RBM+SJ, 6P]{{\includegraphics[width=4cm]{Images/example.png}}}
-		\subfloat[RBM+PJ, 6P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/6P/0.500000w/RBMPJ_ADAM_MC2pow28.png}}}
-		\subfloat[VMC, 6P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/6P/0.500000w/VMC_ADAM_MC2pow28.png}}}\\
+		\subfloat[RBM, 6P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/6P/1.000000w/RBM_ADAM_MC2pow28.png}}}
+		\subfloat[RBM+SJ, 6P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/6P/1.000000w/RBMSJ_ADAM_MC2pow28.png}}}
+		\subfloat[RBM+PJ, 6P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/6P/1.000000w/RBMPJ_ADAM_MC2pow28.png}}}
+		\subfloat[VMC, 6P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/6P/1.000000w/VMC_ADAM_MC2pow28.png}}}\\
 		
-		\subfloat[RBM, 12P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/12P/0.500000w/RBM_ADAM_MC2pow28.png}}}
-		\subfloat[RBM+SJ, 12P]{{\includegraphics[width=4cm]{Images/example.png}}}
-		\subfloat[RBM+PJ, 12P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/12P/0.500000w/RBMPJ_ADAM_MC2pow28.png}}}
-		\subfloat[VMC, 12P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/12P/0.500000w/VMC_ADAM_MC2pow28.png}}}\\
+		\subfloat[RBM, 12P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/12P/1.000000w/RBM_ADAM_MC2pow28.png}}}
+		\subfloat[RBM+SJ, 12P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/12P/1.000000w/RBMSJ_ADAM_MC2pow28.png}}}
+		\subfloat[RBM+PJ, 12P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/12P/1.000000w/RBMPJ_ADAM_MC2pow28.png}}}
+		\subfloat[VMC, 12P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/12P/1.000000w/VMC_ADAM_MC2pow28.png}}}\\
 		
 		%\caption{Two-body densities for interacting electrons in two dimensions for $\omega=0.5$ produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
 		\label{fig:TB_interaction_2D_1}
@@ -401,20 +406,20 @@ Another quantity of particular interest is the one-body density. We have produce
 	
 	\begin{figure} [H]%
 		\centering
-		\subfloat[RBM, 20P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.500000w/RBM_ADAM_MC2pow28.png}}}
-		\subfloat[RBM+SJ, 20P]{{\includegraphics[width=4cm]{Images/example.png}}}
-		\subfloat[RBM+PJ, 20P]{{\includegraphics[width=4cm]{Images/example.png}}}
-		\subfloat[VMC, 20P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.500000w/VMC_ADAM_MC2pow28.png}}}
+		\subfloat[RBM, 20P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/1.000000w/RBM_ADAM_MC2pow28.png}}}
+		\subfloat[RBM+SJ, 20P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/1.000000w/RBMSJ_ADAM_MC2pow28.png}}}
+		\subfloat[RBM+PJ, 20P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/1.000000w/RBMPJ_ADAM_MC2pow28.png}}}
+		\subfloat[VMC, 20P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/1.000000w/VMC_ADAM_MC2pow28.png}}}
 		
-		\subfloat[RBM, 30P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/30P/0.500000w/RBM_ADAM_MC2pow28.png}}}
-		\subfloat[RBM+SJ, 30P]{{\includegraphics[width=4cm]{Images/example.png}}}
-		\subfloat[RBM+PJ, 30P]{{\includegraphics[width=4cm]{Images/example.png}}}
-		\subfloat[VMC, 30P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/30P/0.500000w/VMC_ADAM_MC2pow28.png}}}\\
+		\subfloat[RBM, 30P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/30P/1.000000w/RBM_ADAM_MC2pow28.png}}}
+		\subfloat[RBM+SJ, 30P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/30P/1.000000w/RBMSJ_ADAM_MC2pow28.png}}}
+		\subfloat[RBM+PJ, 30P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/30P/1.000000w/RBMPJ_ADAM_MC2pow28.png}}}
+		\subfloat[VMC, 30P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/30P/1.000000w/VMC_ADAM_MC2pow28.png}}}\\
 		
-		\subfloat[RBM, 42P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/0.500000w/RBM_ADAM_MC2pow28.png}}}
-		\subfloat[RBM+SJ, 42P]{{\includegraphics[width=4cm]{Images/example.png}}}
-		\subfloat[RBM+PJ, 42P]{{\includegraphics[width=4cm]{Images/example.png}}}
-		\subfloat[VMC, 42P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/0.500000w/VMC_ADAM_MC2pow28.png}}}\\
+		\subfloat[RBM, 42P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/1.000000w/RBM_ADAM_MC2pow28.png}}}
+		\subfloat[RBM+SJ, 42P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/1.000000w/RBMSJ_ADAM_MC2pow28.png}}}
+		\subfloat[RBM+PJ, 42P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/1.000000w/RBMPJ_ADAM_MC2pow28.png}}}
+		\subfloat[VMC, 42P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/1.000000w/VMC_ADAM_MC2pow28.png}}}\\
 		
 		\caption{Two-body densities for interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
 		\label{fig:TB_interaction_2D_2}
@@ -422,15 +427,15 @@ Another quantity of particular interest is the one-body density. We have produce
 
 	\begin{figure} [H]%
 		\centering
-		\subfloat[RBM, 56P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/56P/0.500000w/RBM_ADAM_MC2pow28.png}}}
-		\subfloat[RBM+SJ, 56P]{{\includegraphics[width=4cm]{Images/example.png}}}
+		\subfloat[RBM, 56P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/56P/1.000000w/RBM_ADAM_MC2pow28.png}}}
+		\subfloat[RBM+SJ, 56P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/56P/1.000000w/RBMSJ_ADAM_MC2pow28.png}}}
 		\subfloat[RBM+PJ, 56P]{{\includegraphics[width=4cm]{Images/example.png}}}
-		\subfloat[VMC, 56P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/56P/0.500000w/VMC_ADAM_MC2pow28.png}}}\\
+		\subfloat[VMC, 56P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/56P/1.000000w/VMC_ADAM_MC2pow28.png}}}\\
 		
 		\subfloat[RBM, 72P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/72P/0.500000w/RBM_ADAM_MC2pow28.png}}}
 		\subfloat[RBM+SJ, 72P]{{\includegraphics[width=4cm]{Images/example.png}}}
 		\subfloat[RBM+PJ, 72P]{{\includegraphics[width=4cm]{Images/example.png}}}
-		\subfloat[VMC, 72P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/72P/0.500000w/VMC_ADAM_MC2pow28.png}}}
+		\subfloat[VMC, 72P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/72P/1.000000w/VMC_ADAM_MC2pow28.png}}}
 		
 		\caption{Two-body densities for interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
 		\label{fig:TB_interaction_2D_3}
@@ -473,3 +478,19 @@ Another quantity of particular interest is the one-body density. We have produce
 \end{landscape}
 
 \subsection{Double Quantum Dots}
+We also look at double quantum dots...
+\begin{table}
+	\caption{ }
+	\label{tab:doubleQD}
+	\begin{tabularx}{\textwidth}{rrXR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}} \hline\hline
+		\makecell{\\ $N$ \\ \phantom{=}} & $\omega$ & \phantom{R} & \multicolumn{1}{c}{VMC} & \multicolumn{1}{c}{RBM+PJ} & \multicolumn{1}{c}{\makecell{VMC+HF\\ (Ref.\cite{mariadason_quantum_2018})}} & \multicolumn{1}{c}{\makecell{DMC\\ (Ref.\cite{hogberget_quantum_2013})}} \\ \hline \\
+		2 & 1.0 && 2.62 & 2.46 & 2.36618(4) & 2.3496(1) \\ \hline \\
+		4 & 1.0 && - & - & 7.90232(4) & - \\ \hline \\
+		6 & 1.0 && - \\ \hline \\
+		8 & 1.0 && - \\ \hline \hline
+	\end{tabularx}
+\end{table}
+
+\subsection{Low frequency}
+Wigner crystals
+
