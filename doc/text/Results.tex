@@ -11,28 +11,16 @@ For validation purposes, we will present a few selected results on the case with
 
 \newpage
 \section{Computational cost}
-One of the major problems of simulating quantum many-body systems is the computational cost, which explodes as the system size increases. In figure \eqref{fig:cpu_time} the CPU-time is plotted as a function of number of particles. We observe that the restricted Boltzmann machine (RBM) generally is cheaper to calculate compared to standard variational Monte-Carlo (VMC), which is a bit surprising. In the VMC trial wave function, we have only two variational parameters, while we in the RBM have $D\cdot P \cdot (1+H)+H$ with $P$ as number of particles, $D$ as the number of dimensions and $H$ as the number of hidden nodes. Throughout this thesis, we always set $H=P$, which gives 10,584 parameters for 72 particles in two dimensions and 14,980 parameters for 70 particles in three dimensions. 
+One of the major problems of simulating quantum many-body systems is the computational cost, which explodes as the system size increases. In figure \eqref{fig:cpu_time} the CPU-time is plotted as a function of number of particles. We observe that the restricted Boltzmann machine (RBM) generally is cheaper to calculate compared to standard variational Monte-Carlo (VMC), which is a bit surprising. In the VMC trial wave function, we have only two variational parameters, while we in the RBM have $D\cdot N \cdot (1+H)+H$ with $N$ as number of particles, $D$ as the number of dimensions and $H$ as the number of hidden nodes. Throughout this thesis, we always set $H=N$, which gives 10,584 parameters for 72 particles in two dimensions and 14,980 parameters for 70 particles in three dimensions. 
 
-In other words, this is not only a pure quantum mechanical problem, but also a optimization problem. The reason why the RBM still appears to have a cheaper cost, is probably that we do not need to calculate the distance matrix over and over again. 
+In other words, this evolve to be an optimization problem. The reason why the RBM still appears to have a cheaper cost, is probably that we do not need to calculate the distance matrix over and over again. For RBM+SJ and RBM+PJ, the cost is significantly higher due to the distance matrix.
 
 \begin{figure} %[h]
 	\centering
 	\input{pgf/cpu.tex}
 	\label{fig:cpu_time}
-	\caption{CPU-time as a function of number of particles for two and three dimensions. The solid line is restricted Boltzmann machine (RBM), while the dashed line is a standard variational Monte-Carlo wave function (VMC).}
+	\caption{CPU-time per iteration as a function of number of particles for two and three dimensions. The solid line is standard variational Monte-Carlo (VMC), while the dashed lines are restricted Boltzmann machines without Jastrow factor (RBM), with simple Jastrow factor (RBM+SJ) and with Padé-Jastrow factor (RBM+PJ)}
 \end{figure}
-
-\iffalse
-\begin{figure}[H]
-	\centering
-	\label{fig:cpu_time2}
-	\subfloat[2D]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/cpu_time_2D.png}}}
-	\subfloat[3D]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/cpu_time_3D.png}}}
-	\caption{CPU-time as a function of full orbitals for two and three dimensions. The solid line is RBM, while the dashed line is VMC.}
-\end{figure}
-
-\input{pgf/cpu_2D.tex}
-\fi
 
 As the applied theory used in quantum many-body simulations agrees perfectly with laboratory experiments, they can be considered as actual experiments. In that manner, one can use computer experiments to verify other experiments and even predict new things. Similarly to experiments in a laboratory, computer experiments are also dependent on external factors, especially when it comes to the CPU-time, and therefore it is important to do such measurements multiple times to find an accurate average time. The CPU-times above are the average from at least four independent runs for each number of particles. All the runs were performed on the Abel computational cluster, which is equipped with Supermicro X9DRT compute nodes with dual Intel E5-2670 CPUs running at 2.6 GHz. Different hardware might give different CPU-times, but the CPU-time ratios (the exponential factor) should be the same. 
 
@@ -116,43 +104,20 @@ The single quantum dot has analytical ground-state energies given by equation \e
 We observe that the restricted Boltzmann machine wave function is able to reproduce the exact energy for most of the cases, but when the number of particles get large, the statistical error gets significant.
 
 \subsection{One-body density}
-We will also focus on the one-body densities throughout the results, and comparing the obtained densities to the analytical ones is a good indicator on whether the implementation is correct or not. The analytical one-body densities are found from the definition of one-body density in equation \eqref{eq:electron_density}.
+We will also focus on the one-body densities throughout the results, and comparing the obtained densities to the analytical ones is a good indicator on whether the implementation is correct or not. In figure \eqref{fig:OB_nointeraction} the one-body densities are plotted for quantum dots of two non-interacting electrons. The analytical one-body densities are found from the definition of one-body density in equation \eqref{eq:electron_density}.
 
 \begin{figure} [h]%
 	\centering
-	\subfloat[2D, $\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int0/onebody/2D/2P/onebody_VMC_NQS_P2_D2_w0p5.png}}}
-	\subfloat[2D, $\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int0/onebody/2D/2P/onebody_VMC_NQS_P2_D2_w1p0.png} }}\\
+	\subfloat[2D, $\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int0/onebody/2D/2P/GD_MC2pow28_w0p5.png}}}
+	\subfloat[2D, $\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int0/onebody/2D/2P/GD_MC2pow28_w1p0.png} }}\\
 	
-	\subfloat[3D, $\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int0/onebody/3D/2P/onebody_VMC_NQS_P2_D3_w0p5.png} }}
-	\subfloat[3D, $\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int0/onebody/3D/2P/onebody_VMC_NQS_P2_D3_w1p0.png} }}
-	\caption{One-body densities of two non-interacting electrons in two dimensions figure (a) and (b) and three dimensions}%
-	\label{fig:OB_nointeraction1}
+	\subfloat[3D, $\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int0/onebody/3D/2P/GD_MC2pow28_w1p0.png} }}
+	\subfloat[3D, $\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int0/onebody/3D/2P/GD_MC2pow28_w0p5.png} }}
+	\caption{One-body densities of two non-interacting electrons in two- and three dimensions for $\omega=0.5$ and $\omega=1.0$.}%
+	\label{fig:OB_nointeraction}
 \end{figure}
 
-We observe that both the standard variational Monte-Carlo wave function and the restricted Boltzmann machine reproduce the analytical one-body density. The distribution gets narrower when the frequency is increased. 
-
-\iffalse
-\begin{figure} [H]
-	\centering
-	\input{pgf/ob_non_int.tex}
-	\caption{gkkg}
-\end{figure}
-\begin{figure} [H]
-	\centering
-	\input{pgf/ob_2D_1p0w.tex}
-	\caption{gkkg}
-\end{figure}
-\begin{figure} [H]
-	\centering
-	\input{pgf/ob_3D_0p5w.tex}
-	\caption{gkkg}
-\end{figure}
-\begin{figure} [H]
-	\centering
-	\input{pgf/ob_3D_0p5w.tex}
-	\caption{gkkg}
-\end{figure}
-\fi
+We observe that both the standard variational Monte-Carlo wave function (VMC) and the restricted Boltzmann machine (RBM) reproduce the analytical one-body density. The distribution gets narrower when the frequency is increased, and we also observe that the distributions are identical for two- and three dimensions with the same frequency.
 
 \section{With repulsive interaction}
 We now move on to the interesting case with repulsive interaction, where we no longer have analytical results, apart from a few semi-analytical energies and wave functions  for the two- and three-dimensional single quantum dots.
@@ -413,12 +378,14 @@ Another quantity of particular interest is the one-body density. We have produce
 		
 		\subfloat[RBM, 30P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/30P/1.000000w/RBM_ADAM_MC2pow28.png}}}
 		\subfloat[RBM+SJ, 30P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/30P/1.000000w/RBMSJ_ADAM_MC2pow28.png}}}
-		\subfloat[RBM+PJ, 30P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/30P/1.000000w/RBMPJ_ADAM_MC2pow28.png}}}
+		%\subfloat[RBM+PJ, 30P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/30P/1.000000w/RBMPJ_ADAM_MC2pow28.png}}}
+		\subfloat[RBM+PJ, 30P]{{\includegraphics[width=4cm]{Images/example.png}}}
 		\subfloat[VMC, 30P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/30P/1.000000w/VMC_ADAM_MC2pow28.png}}}\\
 		
 		\subfloat[RBM, 42P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/1.000000w/RBM_ADAM_MC2pow28.png}}}
 		\subfloat[RBM+SJ, 42P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/1.000000w/RBMSJ_ADAM_MC2pow28.png}}}
-		\subfloat[RBM+PJ, 42P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/1.000000w/RBMPJ_ADAM_MC2pow28.png}}}
+		\subfloat[RBM+PJ, 42P]{{\includegraphics[width=4cm]{Images/example.png}}}
+		%\subfloat[RBM+PJ, 42P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/1.000000w/RBMPJ_ADAM_MC2pow28.png}}}
 		\subfloat[VMC, 42P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/1.000000w/VMC_ADAM_MC2pow28.png}}}\\
 		
 		\caption{Two-body densities for interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
@@ -480,14 +447,14 @@ Another quantity of particular interest is the one-body density. We have produce
 \subsection{Double Quantum Dots}
 We also look at double quantum dots...
 \begin{table}
-	\caption{ }
+	\caption{Double quantum dots. F is number of functions used in the expansion.}
 	\label{tab:doubleQD}
-	\begin{tabularx}{\textwidth}{rrXR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}} \hline\hline
-		\makecell{\\ $N$ \\ \phantom{=}} & $\omega$ & \phantom{R} & \multicolumn{1}{c}{VMC} & \multicolumn{1}{c}{RBM+PJ} & \multicolumn{1}{c}{\makecell{VMC+HF\\ (Ref.\cite{mariadason_quantum_2018})}} & \multicolumn{1}{c}{\makecell{DMC\\ (Ref.\cite{hogberget_quantum_2013})}} \\ \hline \\
-		2 & 1.0 && 2.62 & 2.46 & 2.36618(4) & 2.3496(1) \\ \hline \\
-		4 & 1.0 && - & - & 7.90232(4) & - \\ \hline \\
-		6 & 1.0 && - \\ \hline \\
-		8 & 1.0 && - \\ \hline \hline
+	\begin{tabularx}{\textwidth}{rrXR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}} \hline\hline
+		\makecell{\\ $N$ \\ \phantom{=}} & $\omega$ & \phantom{R} & \multicolumn{1}{c}{VMC (F=1)} & \multicolumn{1}{c}{RBM+PJ} & \multicolumn{1}{c}{\makecell{VMC (F$>$1)\\ (Ref.\cite{mariadason_quantum_2018})}} & \multicolumn{1}{c}{\makecell{VMC+HF\\ (Ref.\cite{mariadason_quantum_2018})}} & \multicolumn{1}{c}{\makecell{DMC\\ (Ref.\cite{hogberget_quantum_2013})}} \\ \hline \\
+		2 & 1.0 && 2.6331(5) & 2.38342(3) & 2.42238(4) & 2.36618(4) & 2.3496(1) \\ \hline \\
+		4 & 1.0 && - & - & 7.95247(4) & 7.90232(4) & - \\ \hline \\
+		6 & 1.0 && - & - & 16.61419(4) & 16.55609(4) \\ \hline \\
+		8 & 1.0 && - & - & \\ \hline \hline
 	\end{tabularx}
 \end{table}
 
