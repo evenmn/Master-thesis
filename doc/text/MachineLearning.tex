@@ -12,40 +12,78 @@ Parameter estimation is a large part of science, because we are often not able t
 
 The use of the term \textit{machine learning} has exploded over the past years, and sometimes it sounds like it is a totally new field. However, the truth is that many of the methods we use are relatively old, where for instance \textit{linear regression} was known early in the 19th century. \cite{legendre_nouvelles_1805}\cite{gauss_theoria_1809} Those methods have just recently been taken under the machine learning umbrella, which is one of the reasons why the term is mentioned so often. As the professor Anne Solberg at the University of Oslo pointed out during one of her lectures, problems where we want to minimize a cost function based on a set of parameters are today categorized as machine learning.
 
-Another reason why machine learning has achieved .. over a few years, is that many of the algorithm have been dramatically improved. One of the most important contributions to this came in 2012, when the convolutional neural network (CNN) AlexNet won the \textbf{ImageNet Large Scale Visual Recognition Challenge} with the huge margin of 10.8\%. CITE ALEX Other important milestones are the improvement of ... and the recurrent neural networks (RNNs) for speech recognition, in particular of type long short-term memory (LSTM). 
+Another reason why machine learning has achieved .. the last few years, is that many of the algorithm have been dramatically improved. One of the most important contributions to this came in 2012, when the convolutional neural network (CNN) AlexNet won the \textbf{ImageNet Large Scale Visual Recognition Challenge} with the huge margin of 10.8\%. CITE ALEX Other important milestones are the improvement of reinforcement learning in order to solve problems, especially related to playing games and the recurrent neural networks (RNNs) for speech recognition, in particular the long short-term memory (LSTM) network. 
 
-We usually distinguish between \textit{supervised} and \textit{unsupervised} learning, based on whether the model is trained on 
+Unlike traditional algorithms, machine learning algorithms are not told what to do directly, but they use optimization tools to reproduce targets in the best way. As a consequence, we often do not know exactly what the algorithm does and why it behaves as is does, and because of this behavior, the processing is often called artificial intelligence. In our search for a technique to solve quantum mechanical problems where less physical intuition is needed, machine learning appears as a natural tool.
+
+We usually distinguish between \textit{supervised} and \textit{unsupervised} learning, based on whether the model is trained on prior known targets or not. Even though the latter will be the most central part in our studies, the background theory of both techniques will be discussed carefully in this chapter. 
 
 \section{Supervised Learning}
-In supervised learning methods, the input data has known targets such that we can fit a model to give the correct outputs. Linear regression is perhaps the most intuitive example on this, where we want to find the line that fits some data points in the best possible way. This corresponds to a neural network without any hidden layer, but when we add more layers the model is no longer linear and it all gets more complex. For simple classification tasks, logistic regression can be used. 
+In supervised learning methods, we know the corresponding targets to the input data sets, which we use to train the model. This could for instance be linear regression, logistic regression or feed-forward neural networks.
+
+Linear regression is perhaps the most intuitive example on this, where we want to find the line that fits some data points in the best possible way. In two dimensions, the $x$-coordinates are the inputs to the model and the $y$-coordinates are the targets. For instance, if we want to fit a second order polynomial,
+\begin{equation}
+f(x)=ax^2+bx+c,
+\end{equation}
+to a set of $n$ points $\{(x_1,y_1),(x_2,y_2),\hdots(x_n,y_n)\}$, one can set up a set of equations 
+\begin{equation}
+%\begin{vmatrix}
+\mqty{
+	\hat{y}_1&=&ax_1^2&+&bx_1&+&c\\
+	\hat{y}_2&=&ax_2^2&+&bx_2&+&c\\
+	\vdots&&\vdots&&\vdots&&\vdots\\
+	\hat{y}_n&=&ax_n^2&+&bx_n&+&c
+}
+%\end{vmatrix}
+\label{eq:lineareqs}
+\end{equation}
+where $\hat{y}_i$ is the $y$-value of the line at $x=x_i$. Our goal is to minimize the distance between $\hat{y}_i$ and $y_i$ by adjusting the parameters $a$, $b$ and $c$, which is usually done using the mean square error (MSE) as a measurement of the error. The cost function then reads
+\begin{equation}
+\mathcal{L}(a,b,c)=\sum_{i=1}^{n}\Big(y_i-(ax_i^2+bx_i+c)\Big)^2
+\end{equation}
+which can either be minimized by a matrix-vector product or an iterative minimization algorithm. Both these methods will be covered in the more general linear regression section below.
 
 \subsection{Linear regression}
 In linear regression, the dependent variable $y_i$ is a linear combination of the parameters, and for a dependent variable this can be written as
 \begin{equation}
-y_i=\sum_jX_{ij}\beta_j
+\hat{y}_i=\sum_jX_{ij}\beta_j
+\label{eq:targets}
 \end{equation}
-where $\beta_j$'s are the unknown parameters to be found. In principle, $X_{ij}$ can be an arbitrary function of the arguments $x_i$, but often one wants a polynomial model which corresponds to $X_{ij} = x_i^j$.
+where $\beta_j$'s are the unknown parameters to be found. In principle, $X_{ij}$ can be an arbitrary function of the arguments $x_i$, but in the polynomial case it can be simplified by setting $X_{ij} = x_i^j$. We will proceed dealing with $X_{ij}$ for general purposes.
 
-The three most commonly used linear regression methods are Ordinary Least Square (OLS) regression, Ridge regression and Lasso regression, where the former has the cost function
+The three most commonly used linear regression methods are \textit{ordinary least square} (OLS) regression, Ridge regression and Lasso regression, where the former has the cost function
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-	c(\vec{\beta})=\sum_{i=1}^{n}\Big(y_i-\beta_0-\sum_{j=1}^pX_{ij}\beta_j\Big)^2\qquad\qquad\qquad\text{OLS},
+	\mathcal{L}(\bs{\beta})=\sum_{i=1}^{n}\Big(y_i-\beta_0-\sum_{j=1}^pX_{ij}\beta_j\Big)^2,\qquad\qquad\qquad\text{OLS}
 \end{empheq}
 which is minimized when
 \begin{equation}
-\vec{\beta}=(\hat{X}^T\hat{X})^{-1}\hat{X}^T\vec{y}.
+\bs{\beta}=(\hat{X}^T\hat{X})^{-1}\hat{X}^T\bs{y}.
 \end{equation}
-Similarly, the Ridge cost function is
+
+Quite often when we deal with large data sets, the design matrix contains singular values which give us problems with calculating $(\hat{X}^T\hat{X})^{-1}$. A way to avoid this is to introduce a penalty $\lambda$ to ensure that all the diagonal values are non-zero, which can be accomplished by adding a small value to all diagonal elements. This is the idea behind Ridge regression, which has the cost function
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-	c(\vec{\beta})=\sum_{i=1}^{n}\Big(y_i-\beta_0-\sum_{j=1}^pX_{ij}\beta_j\Big)^2+\lambda\sum_{j=1}^p\beta_j^2\qquad\text{Ridge}
+	\mathcal{L}(\bs{\beta})=\sum_{i=1}^{n}\Big(y_i-\beta_0-\sum_{j=1}^pX_{ij}\beta_j\Big)^2+\lambda\sum_{j=1}^p\beta_j^2\qquad\text{Ridge}
 \end{empheq}
-where $\lambda$ is called the penalty. This is minimized when
+and is minimized when
 \begin{equation}
-\vec{\beta}=(\hat{X}^T\hat{X}+\lambda I)^{-1}\hat{X}^T\vec{y},
+\bs{\beta}=(\hat{X}^T\hat{X}+\lambda I)^{-1}\hat{X}^T\bs{y}.
 \end{equation}
-and finally the Lasso cost function is given by
+Finally, we have Lasso regression with a cost function given by
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-	c(\vec{\beta})=\sum_{i=1}^{n}\Big(y_i-\beta_0-\sum_{j=1}^pX_{ij}\beta_j\Big)^2+\lambda\sum_{j=1}^p\beta_j\qquad\text{Lasso}.
+	\mathcal{L}(\bs{\beta})=\sum_{i=1}^{n}\Big(y_i-\beta_0-\sum_{j=1}^pX_{ij}\beta_j\Big)^2+\lambda\sum_{j=1}^p\beta_j\qquad\text{Lasso}
 \end{empheq}
+and without any expression for the optimized parameters. In order to optimize this cost function, we therefore need to use an iterative optimization algorithm. Such methods will later be used in the variational Monte-Carlo sampling, and some methods are therefore detailed in chapter \eqref{chp:optimization}. 
+
+To illustrate how the iterative optimization works, we will go back to equation \eqref{eq:targets} and use OLS for simplicity reasons. Imagine that we have three points $\{(x_1,y_1),(x_2,y_2),(x_3,y_3)\}$ that we want to fit with a curve of two variables $\beta_1,\beta_2$. The simplest way to solve this interatively is to use \textbf{gradient descent} optimization, which goes as
+\begin{equation}
+\beta_k^+=\beta_k-\eta \frac{\partial\mathcal{L}(\bs{\beta})}{\partial\beta_k}
+\end{equation}
+with $\eta$ specifying how much the parameters should be changed for each iteration, known as the learning rate. 
+The output $\hat{y}_i$ can be expressed by
+\begin{equation}
+\hat{y}_i=X_{i1}\beta_1+X_{i2}\beta_2
+\end{equation}
+and the network can be illustrated with $\beta_j$ as the input nodes, $\hat{y}_i$ as the output nodes and $X_{ij}$ as lines between all nodes, as in figure ... 
 
 \subsection{Logistic regression}
 Despite its name, logistic regression is not a fitting tool, but rather a classification tool. Traditionally, the perceptron model was used for 'hard classification', which sets the outputs directly to binary values. However, often we are interested in the probability of a given category, which means that we need a continuous \textit{activation function}. Logistic regression can, like linear regression, be considered as a function where coefficients are adjusted with the intention to minimize the error. Here, the coefficients are called \textit{weights}. The process goes like this: The inputs are multiplied by several weights, and by adjusting those weights the model can classify every \textit{linear classification problem}. A drawing of the perceptron is found in figure (\ref{fig:single_perceptron}).
@@ -246,17 +284,38 @@ Now over to the problem we want to solve using neural networks.
 
 
 \section{Unsupervised Learning}
-How can we train using unsupervised learning?
+In unsupervised learning, a neural network is given the inputs only, and does not know what any target is. The task is then to find structures in the data, comparing data sets to each other and categorize the data sets with respect to their similarities and differences. 
+
+Before we proceed to the unsupervised algorithms, we will dive into the statistics behind. After that, we will look at Boltzmann machines. 
 
 \subsection{Statistical foundation}
-Bayesian statistics
+FIRST explain why we need this probability... In unsupervised learning, it is all about probabilities.. We will stick to the continuous space, the discrete equivalent is just replacing the integrals with sums. 
+
+The joint probability of measure both $x$ and $y$ is given by
+\begin{equation}
+p(x,y)=p(x|y)p(y)=p(y|x)p(x)
+\label{eq:jointprob}
+\end{equation}
+where $p(x|y)$ and $p(y|x)$ are the conditional probabilities, and $p(x)$ and $p(y)$ are the marginal probabilities. By reordering equation \eqref{eq:jointprob}, we obtain Bayes' theorem
+\begin{equation}
+p(x|y)=\frac{p(y|x)p(x)}{p(y)}
+\end{equation}
+where $p(x)$ is the \textit{prior} probability, $p(y|x)$ is the \textit{likelyhood} and $p(x|y)$ is the \textit{posterior} probability. $p(y)$ can be sometimes found by an integral over the joint probability,
+\begin{equation}
+p(y)=\int dx p(x,y) = \int dx p(y|x)p(x),
+\end{equation}
+but often solving this integral is intractable. Different techniques require different approaches to this problem, and for our case we will use Markov chain Monte-Carlo methods to bypass it. More about that in section \eqref{chp:methods}. 
+
+Next challenge is that we do not have the posterior
+
+Kullback-Leibler divergence gives a measure of how much information is lost when one goes from one probability distribution to another. 
 
 \subsection{Boltzmann Machines}
 Boltzmann Machines are based on the more primitive Hopfield network, where a system of nodes is set up which defines the system energy. Inspired by statistical mechanics, the probability of finding the system in a state of energy $E$ is given by
 \begin{equation}
-P=\exp(-E/k_BT)
+p(\bs{x},\bs{h};\bs{\theta})=\frac{1}{Z(\bs{\theta})}\exp(-E(\bs{x},\bs{h};\bs{\theta})/k_BT)
 \end{equation}
-which is the Boltzmann distribution, hence the name Boltzmann machine. $k_B$ is known as Boltzmann's constant and $T$ is the system temperature, but henceforth they both will be avoided by scaling $E'=E/k_BT$. 
+which is the Boltzmann distribution, hence the name Boltzmann machine. $k_B$ is known as Boltzmann's constant and $T$ is the system temperature, but henceforth they both will be omitted by scaling $E'(\bs{x},\bs{h};\bs{\theta})=E(\bs{x},\bs{h};\bs{\theta})/k_BT$. $Z(\bs{\theta})$ is known as the partition function, which is the sum over all possible probabilities.
 
 \subsubsection{Marginal distributions}
 
