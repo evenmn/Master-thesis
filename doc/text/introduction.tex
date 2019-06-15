@@ -1,12 +1,25 @@
 \chapter{Introduction}
-Properties and behavior of quantum many-body systems are determined by the laws of quantum physics which have been known since the 1930s. The time-dependent Schrödinger equation describes the bounding energy of atoms and molecules, as well as the interaction between particles in a gas. In addition, it has been used to determine the energy of artificial structures like quantum dots, nanowires and ultracold condensates. [Electronic Structure Quantum Monte Carlo Michal Bajdich, Lubos Mitas] 
+The properties and behavior of quantum many-body systems are determined by the laws of quantum physics which have been known since the 1930s. The time-dependent Schrödinger equation describes the bounding energy of atoms and molecules, as well as the interaction between particles in a gas. In addition, it has been used to determine the energy of artificial structures like quantum dots, nanowires and ultracold condensates. [Electronic Structure Quantum Monte Carlo Michal Bajdich, Lubos Mitas] 
 
-Even though we know the laws of quantum mechanics, many challenges are encountered when calculating real-world problems. First, interesting systems often involve large number of particles, which causes expensive calculations. Second, we do not have a good model for the three-body interaction, which is vital when it comes to strong correlations. Paul Dirac recognized those problems already in 1929, 
+Even though we know the laws of quantum mechanics, many challenges are encountered when calculating real-world problems. First, interesting systems often involve large number of particles, which causes expensive calculations. Second, the correct wave functions are seldomly known for a complex system, which is vital for measuring the observable correctly. Paul Dirac recognized those problems already in 1929: \bigskip
+
 
 ''\textit{The general theory of quantum mechanics is now almost complete... ...The underlying physical laws necessary for the mathematical theory of a large part of physics and the whole of chemistry are thus completely known, and the difficulty is only that the exact application of these laws leads to equations much too complicated to be soluble.}''\\ 
+-Paul Dirac, \textit{Quantum Mechanics of Many-Electron Systems}, 1929 \bigskip
 
--Paul Dirac, Quantum Mechanics of Many-Electron Systems, 1929 \bigskip
+The purpose of this work is to look at machine learning as an approach to solving those problems, with focus on the former. The idea is to let a so-called restricted Boltzmann machine (RBM) define a flexible trial wave function, and then use a sampling tool to fit the function.
 
+Lately, some effort has been put into this field, known as quantum machine learning. G.Carleo and M.Troyer demonstrated the link between RBMs and quantum Monte-Carlo (QMC) and named the states \textit{neural-network quantum states} (NQS). They used the technique to study the Ising model and the Heisenberg model. \cite{carleo_solving_2017} V.Flugsrud went further and investigated circular quantum dots with the same method. We will extend the work she did to larger quantum dots and double quantum dots.
+
+\subsection*{Why Quantum Dots matter}
+Quantum dots are often called artificial atoms because of their common features to real atoms, and their popularity is increasing due to their applications in nano...
+
+\subsection*{Why Quantum Monte-Carlo?}
+History of QMC before and after the invention of electronic computers. Enrico Fermi 1930s similarities between imaginary time Schrödinger equation and stochastic processes in statistical mechanics. Metropolis VMC early 1950s. Kalos Greens's function Monte Carlo late 1950s. Ceperly and Alder 1980 homogeneous electron gas. 
+
+QMC appears to be method which has the best cost-to-performance ratio.
+
+\subsection{Why Computer Experiments?}
 "At the same time, advent of computer technology has
 offered us a new window of opportunity for studies of quantum (and many other) problems. It
 spawned a “third way” of doing science which is based on simulations, in contrast to analytical
@@ -14,19 +27,15 @@ approaches and experiments. In a broad sense, by simulations we mean computation
 reality based on fundamental physical laws. Such models have value when they enable to make
 predictions or to provide new information which is otherwise impossible or too costly to obtain
 otherwise. In this respect, QMC methods represent an illustration and an example of what is the
-potential of such methodologies." [Electronic Structure Quantum Monte Carlo Michal Bajdich, Lubos Mitas] 
-
-History of QMC before and after the invention of electronic computers. Enrico Fermi 1930s similarities between imaginary time Schrödinger equation and stochastic processes in statistical mechanics. Metropolis VMC early 1950s. Kalos Greens's function Monte Carlo late 1950s. Ceperly and Alder 1980 homogeneous electron gas.  
+potential of such methodologies." [Electronic Structure Quantum Monte Carlo Michal Bajdich, Lubos Mitas]  
 
 Multi scale calculations are... A field of interest is how a systems behave when the interaction gets weaker. One way to model this, is to have a harmonic oscillator with a decreasing system frequency. 
-
-With machine learning, a function can be fitted to everything as long as we can define a cost function to minimize. The purpose of this thesis is to construct optimal wave functions for different systems by using machine learning.
 
  - Low frequency (weakly interacting electrons) field of interest
  - Multi scale calculations
  - Cartesian
  - Introduce the wavefunction
- - Mention the uncertainity principle and also quantum entanglement to catch the readers interest
+ - Mention the uncertainty principle and also quantum entanglement to catch the readers interest
  
  
 \section{Many-Body problem} \label{subsec:manybodyproblem}
@@ -37,3 +46,8 @@ Branch of artificial intelligence
 
 \section{Goals and milestones} \label{subsec:goals}
 - Investigate a new method to solve the Many-Body problem
+
+\section{Ethics}
+Stress when you are using others work
+
+Thing should be reproduce-able

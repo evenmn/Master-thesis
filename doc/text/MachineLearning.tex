@@ -310,16 +310,16 @@ Next challenge is that we do not have the posterior
 
 Kullback-Leibler divergence gives a measure of how much information is lost when one goes from one probability distribution to another. 
 
+\subsubsection{Marginal distributions}
+
+\subsubsection{Conditional distributions}
+
 \subsection{Boltzmann Machines}
 Boltzmann Machines are based on the more primitive Hopfield network, where a system of nodes is set up which defines the system energy. Inspired by statistical mechanics, the probability of finding the system in a state of energy $E$ is given by
 \begin{equation}
 p(\bs{x},\bs{h};\bs{\theta})=\frac{1}{Z(\bs{\theta})}\exp(-E(\bs{x},\bs{h};\bs{\theta})/k_BT)
 \end{equation}
 which is the Boltzmann distribution, hence the name Boltzmann machine. $k_B$ is known as Boltzmann's constant and $T$ is the system temperature, but henceforth they both will be omitted by scaling $E'(\bs{x},\bs{h};\bs{\theta})=E(\bs{x},\bs{h};\bs{\theta})/k_BT$. $Z(\bs{\theta})$ is known as the partition function, which is the sum over all possible probabilities.
-
-\subsubsection{Marginal distributions}
-
-\subsubsection{Conditional distributions}
 
 In the most general form, all nodes are connected to all other nodes, that is an unrestricted Boltzmann machine, see figure \eqref{fig:boltzmann_machine} for illustration. 
 
@@ -372,4 +372,10 @@ E(\bs{x},\bs{h})= \sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2} - \sum_{i=1}^F\sum
 \end{equation}
 
 \subsection{Deep Boltzmann machines}
-...
+We can also construct deep Boltzmann machines, where we just stack simple Boltzmann machines. 
+\begin{figure} [H]
+	\centering
+	\input{tikz/deep_boltzmann_machine.tex}
+	\caption{Deep restricted Boltzmann machine. Black lines the inter-layer connections, where for instance the line between $x_1$ and $h_1$ is related to the weight $w_{11}$. The blue lines are related to the input bias weights, and, for instance, the line going from the bias node to $x_3$ is related to $a_3$. Similarly, the green lines are related to the hidden nodes bias weights, and, for insance, the line going from the bias node to $h_3$ is related to $b_3$.}
+	\label{fig:restricted_boltzmann_machine}
+\end{figure}
