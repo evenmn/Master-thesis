@@ -310,18 +310,19 @@ Next challenge is that we do not have the posterior
 
 Kullback-Leibler divergence gives a measure of how much information is lost when one goes from one probability distribution to another. 
 
-\subsubsection{Marginal distributions}
+\subsubsection{Marginal Distributions}
 
-\subsubsection{Conditional distributions}
+\subsubsection{Conditional Distributions}
 
 \subsection{Boltzmann Machines}
-Boltzmann Machines are based on the more primitive Hopfield network, where a system of nodes is set up which defines the system energy. Inspired by statistical mechanics, the probability of finding the system in a state of energy $E$ is given by
+Boltzmann Machines are based on the more primitive Hopfield network, where a system of nodes is set up which defines the system energy. Inspired by statistical mechanics, the probability of finding the system in a state of energy $E$ is given by the Boltzmann distribution,
 \begin{equation}
-p(\bs{x},\bs{h};\bs{\theta})=\frac{1}{Z(\bs{\theta})}\exp(-E(\bs{x},\bs{h};\bs{\theta})/k_BT)
+p(\bs{s})=\frac{1}{Z}\exp(-E(\bs{s})/k_BT),
+\label{eq:boltzmanndist}
 \end{equation}
-which is the Boltzmann distribution, hence the name Boltzmann machine. $k_B$ is known as Boltzmann's constant and $T$ is the system temperature, but henceforth they both will be omitted by scaling $E'(\bs{x},\bs{h};\bs{\theta})=E(\bs{x},\bs{h};\bs{\theta})/k_BT$. $Z(\bs{\theta})$ is known as the partition function, which is the sum over all possible probabilities.
+hence the name Boltzmann machines.  $\bs{s}$ includes all the nodes, $k_B$ is known as Boltzmann's constant and $T$ is the system temperature, but henceforth they both will be omitted by scaling $E'(\bs{s})=E(\bs{s})/k_BT$. $Z$ is known as the partition function, which is the sum over all possible probabilities.
 
-In the most general form, all nodes are connected to all other nodes, that is an unrestricted Boltzmann machine, see figure \eqref{fig:boltzmann_machine} for illustration. 
+In the most general form, all nodes are connected to all other nodes, that is an unrestricted Boltzmann machine, see figure \eqref{fig:boltzmann_machine} for an illustration. 
 
 \input{tikz/boltzmann_machine.tex}
 
@@ -332,50 +333,79 @@ E(\bs{s})=- \sum_{i=1}^Ns_ib_i-\sum_{i=1}^N\sum_{j=i}^N s_iw_{ij}s_j
 \end{equation}
 for a system of $N$ nodes, which is the so-called binary-binary network and the most basic architecture. During training, the weights are adjusted in order to maximize the probability...
 
-\subsection{Restricted Boltzmann machines}
-When there is an unrestricted guy, a restricted guy must exist as well. What the term restricted means in this case, is that we ignore intra-layer connections and keep only the inter-layer ones. In the same manner as in equation \eqref{eq:unrestrictedboltzmannmachine}, we can look at the linear case, where each node is multiplied with the corresponding weight. We decide to split the bias nodes into one part connected to the \textit{visible} layer, $a_i$, and one part connected to the \textit{hidden} layer, $b_i$. The system energy then reads
+\subsection{Restricted Boltzmann Machines}
+When there is an unrestricted guy, a restricted guy must exist as well. What the term restricted means in this case, is that we ignore all the connections between nodes in the same layer, and keep only the inter-layer ones. In the same manner as in equation \eqref{eq:unrestrictedboltzmannmachine}, we can look at the linear case, where each node is multiplied with the corresponding weight, but now we need to distinguish between a visible node $x_i$ and a hidden node $h_j$. For the same reason, all the bias weights need to divided into a group connected to the visible nodes, $a_i$ and a group connected to the hidden nodes, $b_j$. The system energy then reads
 \begin{equation}
 E(\bs{x},\bs{h})=- \sum_{i=1}^Fx_ia_i- \sum_{j=1}^Hh_jb_j-\sum_{i=1}^F\sum_{j=i}^H x_iw_{ij}h_j 
 \label{eq:binarybinary}
 \end{equation}
-which is the simplest type of units. $F$ is the number of visible nodes and $H$ is number of hidden nodes. The neural network is illustrated in figure \eqref{fig:restricted_boltzmann_machine}
+which is called binary-binary units or Bernoulli-Bernoulli units. $F$ is the number of visible nodes and $H$ is number of hidden nodes. In figure \eqref{fig:restricted_boltzmann_machine}, a restricted Boltzmann machine with three visible nodes and three hidden nodes is illustrated.
 
-\input{tikz/restricted_boltzmann_machine.tex}
+\begin{figure} [H]
+	\centering
+	\input{tikz/restricted_boltzmann_machine.tex}
+	\caption{Restricted Boltzmann machine. Black lines are the inter-layer connections, where for instance the line between $x_1$ and $h_1$ is related to the weight $w_{11}$. The blue lines are related to the input bias weights, and, for instance, the line going from the bias node to $x_3$ is called $a_3$. Similarly, the green lines are connections between the hidden nodes and the bias, and, for instance, the line going from the bias node to $h_3$ is called $b_3$.}
+	\label{fig:restricted_boltzmann_machine}
+\end{figure}
 
-We can also take more complicated types of units into account than the binary-binary. A natural next step is the Gaussian-binary units, which has a Gaussian mapping between the visible node bias and the visible nodes. The simplest such structure gives the following system energy:
+Until now we have discussed the linear models only, but as for feed-forward neural networks, we need non-linear models to solve non-linear problems. A natural next step is the Gaussian-binary units, which has a Gaussian mapping between the visible node bias and the visible nodes. The simplest such structure gives the following system energy:
 
 \begin{equation}
 E(\bs{x},\bs{h})= \sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2} - \sum_{j=1}^Hh_jb_j-\sum_{i=1}^F\sum_{j=i}^H \frac{x_iw_{ij}h_j}{\sigma_i^2} 
 \label{eq:gaussianbinary}
 \end{equation}
-where $\sigma_i$ is the width of the Gaussian distribution, which can be set to an arbitrary number. 
-
+where $\sigma_i$ is the width of the Gaussian distribution, which can be set to an arbitrary number. Inserting the energy expression into equation \eqref{eq:boltzmanndist}, we obtain the general expression 
 \begin{equation}
-\Psi(\bs{x};\bs{a},\bs{b},\bs{W})=\exp(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2})\prod_{j=1}^H\bigg(1+\exp\Big(b_j+\sum_{i=1}^F\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg)
-\label{eq:NQSWF}
+p(\bs{x},\bs{h})=\exp\Big(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2}\Big)\prod_{j=1}^H\exp\Big(h_jb_j+\sum_{i=1}^F\frac{h_jw_{ij}x_i}{\sigma^2}\Big).
+\label{eq:NQSWF1}
 \end{equation}
-Need to compare it to standard VMC with Padé-Jastrow factor. 
-
-\subsection{Partly restricted Boltzmann machine}
-One can also imagine a partly restricted architecture, where we have inter-layer connections between the visible nodes, but not the hidden nodes. This is what we have decided to call a partly restricted Boltzmann machine. 
-
-\input{tikz/partly_restricted_boltzmann_machine.tex}
+which is the Gaussian-binary joint probability distribution. Generative sampling algorithms, as Gibbs' sampling, use this distribution directly, while other sampling tools, as Metropolis sampling, need the marginal distribution. Since the hidden nodes are binary, we just need to sum the joint probability distribution over $h=0$ and $h=1$ to find the marginal distributions. We obtain the expression
 
 \begin{equation}
-E(\bs{x},\bs{h})= \sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2} - \sum_{i=1}^F\sum_{j=1}^Fx_ic_{ij}x_j- \sum_{j=1}^Hh_jb_j-\sum_{i=1}^F\sum_{j=i}^H \frac{x_iw_{ij}h_j}{\sigma_i^2} 
+p(\bs{x})=\exp\Big(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2}\Big)\prod_{j=1}^H\bigg(1+\exp\Big(b_j+\sum_{i=1}^F\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg).
+\label{eq:NQSWF2}
+\end{equation}
+More about the different sampling tools can be found in chapter \ref{chp:systems}.
+
+\subsection{Partly Restricted Boltzmann Machines}
+One can also imagine a partly restricted architecture, where we have connections inwards the visible nodes, but not the hidden nodes. This is what we have decided to call a partly restricted Boltzmann machine. A such neural network with three visible nodes and three hidden nodes is illustrated in figure \eqref{fig:partly_restricted_boltzmann_machine}.
+
+\begin{figure} [H]
+	\centering
+	\input{tikz/partly_restricted_boltzmann_machine.tex}
+	\caption{Partly restricted Boltzmann machine. Black lines are inter-layer connections, where for instance the line between $x_1$ and $h_1$ is related to the weight $w_{11}$. The blue lines are related to the input bias weights, and, for instance, the line going from the bias node to $x_3$ is related to $a_3$. Similarly, the green lines are related to the hidden nodes bias weights, and, for instance, the line going from the bias node to $h_3$ is related to $b_3$. Finally, the red lines are the intra-layer connections related to the intra-layer weights. The weight between node $x_1$ and $x_2$ is called $c_{12}$. }
+	\label{fig:partly_restricted_boltzmann_machine}
+\end{figure}
+
+Compared to a standard restricted Boltzmann machine, we get an extra term in the energy expression where the visible nodes are connected. It is easy to find that the expression should be
+
+\begin{equation}
+E(\bs{x},\bs{h})= \sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2} - \sum_{i=1}^F\sum_{j>i}^Fx_ic_{ij}x_j- \sum_{j=1}^Hh_jb_j-\sum_{i=1}^F\sum_{j=i}^H \frac{x_iw_{ij}h_j}{\sigma_i^2} 
 \label{eq:partlygaussianbinary}
 \end{equation}
+with $c_{ij}$ as the weights between the visible nodes. For the later calculations, we are interested in the marginal distribution only, which reads
 
 \begin{equation}
-\Psi(\bs{x};\bs{a},\bs{b},\bs{W})=\exp(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2}+\sum_{i=1}^F\sum_{j=1}^Fx_ic_{ij}x_j)\prod_{j=1}^H\bigg(1+\exp\Big(b_j+\sum_{i=1}^F\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg)
+p(\bs{x})=\exp\Big(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2}+\sum_{i=1}^F\sum_{j>i}^Fx_ic_{ij}x_j\Big)\prod_{j=1}^H\bigg(1+\exp\Big(b_j+\sum_{i=1}^F\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg).
 \label{eq:PNQSWF}
 \end{equation}
 
-\subsection{Deep Boltzmann machines}
-We can also construct deep Boltzmann machines, where we just stack simple Boltzmann machines. 
+\subsection{Deep Boltzmann Machines}
+We can also construct deep Boltzmann machines, where we just stack single-layer Boltzmann machines. There are many ways to construct those networks, where the number of layers, unit types, number of nodes and the degree of restriction can be chosen as the constructor wants. The number of combinations is endless, but in order to make use of the dept, all the layer should have different configurations. Otherwise, the deep network can be reduced to a shallower network. In figure \eqref{fig:deep_restricted_boltzmann_machine} a restricted Boltzmann machine of two hidden layers is illustrated. We have chosen three hidden nodes in each layer, and three visible nodes. It should be trivial to imagine how the network can be expanded to more layers. 
 \begin{figure} [H]
 	\centering
 	\input{tikz/deep_boltzmann_machine.tex}
-	\caption{Deep restricted Boltzmann machine. Black lines the inter-layer connections, where for instance the line between $x_1$ and $h_1$ is related to the weight $w_{11}$. The blue lines are related to the input bias weights, and, for instance, the line going from the bias node to $x_3$ is related to $a_3$. Similarly, the green lines are related to the hidden nodes bias weights, and, for insance, the line going from the bias node to $h_3$ is related to $b_3$.}
-	\label{fig:restricted_boltzmann_machine}
+	\caption{Deep restricted Boltzmann machine. Black lines the inter-layer connections, where for instance the line between $x_1$ and $h_1$ is related to the weight $w_{11}$. The blue lines are related to the input bias weights, and, for instance, the line going from the bias node to $x_3$ is related to $a_3$. Similarly, the green lines are related to the hidden nodes bias weights, and, for instance, the line going from the bias node to $h_3$ is related to $b_3$.}
+	\label{fig:deep_restricted_boltzmann_machine}
 \end{figure}
+
+As the main focus so far has been restricted Boltzmann machines, also the deep networks will be assumed to be restricted, although both partly restricted and unrestricted can be constructed. The system energy of a deep restricted Boltzmann machine of $L$ layers can be expressed as
+\begin{equation}
+E(\bs{x},\bs{h})= \sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2} - \sum_{l=1}^L\sum_{j=1}^Hh_j^lb_j^l-\sum_{l=1}^L\sum_{i=1}^F\sum_{j=i}^H \frac{x_iw_{ij}^lh_j^l}{\sigma_i^2}
+\label{eq:deepgaussianbinary}
+\end{equation}
+which gives the marginal probability distribution
+\begin{equation}
+p(\bs{x})=\exp\Big(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2}\Big)\prod_{l=1}^L\prod_{j=1}^H\bigg(1+\exp\Big(b_j^l+\sum_{i=1}^F\frac{w_{ij}^lx_i}{\sigma^2}\Big)\bigg).
+\label{eq:DNQSWF}
+\end{equation}

@@ -1,48 +1,43 @@
-\begin{figure} [H]
-	\centering
-	\begin{tikzpicture}
-	
-	% Define visible units
-	\node[input] (x2) {$x_2$};
-	\node[input] at (1,+3/2) (x1) {$x_1$};
-	\node[input] at (1,-3/2) (x3) {$x_3$};
-	
-	% Define hidden units
-	\node[input] at (3,+3/2) (h1) {$h_1$};
-	\node[input] at (4,0) (h2) {$h_2$};
-	\node[input] at (3,-3/2) (h3) {$h_3$};
-	
-	% Define biases
-	\node[input] at (0,7/2) (a) {$1$};
-	\node[input] at (4,7/2) (b) {$1$};
-	
-	% Define paths
-	\path[draw,-] (x1) -- (h1) node[midway,above] {$w_{11}$};
-	\path[draw,-] (x1) -- (h2);
-	\path[draw,-] (x1) -- (h3);
-	
-	\path[draw,-] (x2) -- (h1);
-	\path[draw,-] (x2) -- (h2);
-	\path[draw,-] (x2) -- (h3);
-	
-	\path[draw,-] (x3) -- (h1);
-	\path[draw,-] (x3) -- (h2);
-	\path[draw,-] (x3) -- (h3);
-	
-	\draw[green,-] (b) to [out=270,in=90] (h1);
-	\draw[green,-] (b) to [out=315,in=45] (h2);
-	\draw[green,-] (b) to [out=0,in=0] (h3) node[] at (6,1) {$b_3$};
-	
-	\draw[blue,-] (a) to [out=270,in=90] (x1);
-	\draw[blue,-] (a) to [out=225,in=135] (x2);
-	\draw[blue,-] (a) to [out=180,in=180] (x3) node[] at (-2,1) {$a_3$};
-	
-	
-	% Add some text
-	\node[below=1em of x3,font=\scriptsize] {visible};
-	\node[below=1em of h3,font=\scriptsize] {hidden};
-	%\node[below=5.8em of center,font=\scriptsize] {output};
-	\end{tikzpicture}
-	\caption{Restricted Boltzmann machine. Black lines the inter-layer connections, where for instance the line between $x_1$ and $h_1$ is related to the weight $w_{11}$. The blue lines are related to the input bias weights, and, for instance, the line going from the bias node to $x_3$ is related to $a_3$. Similarly, the green lines are related to the hidden nodes bias weights, and, for insance, the line going from the bias node to $h_3$ is related to $b_3$.}
-	\label{fig:restricted_boltzmann_machine}
-\end{figure}
+\begin{tikzpicture}
+
+% Define visible units
+\node[input] (x2) {$x_2$};
+\node[input] at (1,+3/2) (x1) {$x_1$};
+\node[input] at (1,-3/2) (x3) {$x_3$};
+
+% Define hidden units
+\node[input] at (3,+3/2) (h1) {$h_1$};
+\node[input] at (4,0) (h2) {$h_2$};
+\node[input] at (3,-3/2) (h3) {$h_3$};
+
+% Define biases
+\node[input] at (0,7/2) (a) {$1$};
+\node[input] at (4,7/2) (b) {$1$};
+
+% Define paths
+\path[draw,-] (x1) -- (h1) node[midway,above] {$w_{11}$};
+\path[draw,-] (x1) -- (h2);
+\path[draw,-] (x1) -- (h3);
+
+\path[draw,-] (x2) -- (h1);
+\path[draw,-] (x2) -- (h2);
+\path[draw,-] (x2) -- (h3);
+
+\path[draw,-] (x3) -- (h1);
+\path[draw,-] (x3) -- (h2);
+\path[draw,-] (x3) -- (h3);
+
+\draw[green,-] (b) to [out=270,in=90] (h1);
+\draw[green,-] (b) to [out=315,in=45] (h2);
+\draw[green,-] (b) to [out=0,in=0] (h3) node[] at (6,1) {$b_3$};
+
+\draw[blue,-] (a) to [out=270,in=90] (x1);
+\draw[blue,-] (a) to [out=225,in=135] (x2);
+\draw[blue,-] (a) to [out=180,in=180] (x3) node[] at (-2,1) {$a_3$};
+
+
+% Add some text
+\node[below=1em of x3] {visible};
+\node[below=1em of h3] {hidden};
+%\node[below=5.8em of center,font=\scriptsize] {output};
+\end{tikzpicture}
