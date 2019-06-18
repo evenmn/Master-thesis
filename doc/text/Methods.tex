@@ -80,6 +80,7 @@ P(\bs{r}\rightarrow\bs{r}')=T(\bs{r}\rightarrow\bs{r}')A(\bs{r}\rightarrow\bs{r}
 In order to satisfy the detailed balance, we need to choose $A(\bs{r}\rightarrow\bs{r}')$ such that
 \begin{equation}
 A(\bs{r}\rightarrow\bs{r}')=\text{min }\left[1,\frac{T(\bs{r}'\rightarrow\bs{r})\mathcal{P}(\bs{r}')}{T(\bs{r}\rightarrow\bs{r}')\mathcal{P}(\bs{r})}\right],
+\label{eq:acceptance}
 \end{equation}
 since $A$ cannot be larger than 1. If the acceptance is higher than a random number between 0 and 1, the move is accepted.
 
@@ -96,7 +97,7 @@ A(\bs{r}\rightarrow\bs{r}')=\text{min }\left[1,\frac{\mathcal{P}(\bs{r}')}{\math
 However, with this approach a lot of moves will be rejected, which results in a significant waste of computing power. A better method is \textbf{importance sampling}.
 
 \subsubsection{Importance Sampling}
-Importance sampling is a more intelligent sampling method than the brute-force sampling, since the new position is based on an educated guess. To understand how it works, we need to take a quick look at diffusion processes. We start from the one-dimensional Fokker-Planck equation,
+Importance sampling is a more intelligent sampling method than the brute-force sampling, since the new position is based on an educated guess. To understand how it works, we need to take a quick look at diffusion processes. We start from the Fokker-Planck equation,
 \begin{equation}
 \frac{\partial P(\bs{r},t)}{\partial t}=D\nabla\left(\nabla-\bs{F}\right)P(\bs{r},t)
 \end{equation}
@@ -123,7 +124,17 @@ In the next, we assume that the drift force has the form $\bs{F(\bs{r})}=g(\bs{r
 \end{equation}
 which is satisfied when $g(\bs{r})=1/P(\bs{r})$. We then get the drift force 
 \begin{equation}
-\bs{F}=2\frac{\nabla\Psi_T}{\Psi_T}.
+\bs{F}(\bs{r})=2\frac{\nabla\Psi_T(\bs{r})}{\Psi_T(\bs{r})}.
+\end{equation}
+which is also known as the \textit{quantum force}.
+
+The remaining part is how to decide if a proposed move should be accepted or not. For this, we need to find the sampling distributions $T(\bs{r}\rightarrow\bs{r}')$ from equation \eqref{eq:acceptance}, which are just the solutions of the Fokker-Planck equation. The solutions read
+\begin{equation}
+G...
+\end{equation}
+which is called Green's function. The acceptance probability for importance sampling can finally be written as
+\begin{equation}
+A(\bs{r}\rightarrow\bs{r}')=\text{min }\left[1,\frac{G(\bs{r},\bs{r}')\mathcal{P}(\bs{r}')}{G(\bs{r}',\bs{r})\mathcal{P}(\bs{r})}\right].
 \end{equation}
 
 \subsection{Gibbs' sampling}
