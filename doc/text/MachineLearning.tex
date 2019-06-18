@@ -10,7 +10,7 @@
 Parameter estimation is a large part of science, because we are often not able to measure things directly. For instance, when Millikan in ... performed his famous electron charge experiment or when we estimate Sun's mass.
 \fi 
 
-The use of the term \textit{machine learning} has exploded over the past years, and sometimes it sounds like it is a totally new field. However, the truth is that many of the methods we use are relatively old, where for instance \textit{linear regression} was known early in the 19th century. \cite{legendre_nouvelles_1805}\cite{gauss_theoria_1809} Those methods have just recently been taken under the machine learning umbrella, which is one of the reasons why the term is mentioned so often. As the professor Anne Solberg at the University of Oslo pointed out during one of her lectures, problems where we want to minimize a cost function based on a set of parameters are today categorized as machine learning.
+The use of the term \textit{machine learning} has exploded over the past years, and sometimes it sounds like it is a totally new field. However, the truth is that many of the methods we use are relatively old, where for instance \textit{linear regression} was known early in the 19th century. \cite{legendre_nouvelles_1805}\cite{gauss_theoria_1809} Those methods have just recently been taken under the machine learning umbrella, which is one of the reasons why the term is mentioned so often. As the professor Anne Solberg at the University of Oslo pointed out during one of her lectures, problems where we want to minimize a lost function based on a set of parameters are today categorized as machine learning.
 
 Another reason why machine learning has achieved .. the last few years, is that many of the algorithm have been dramatically improved. One of the most important contributions to this came in 2012, when the convolutional neural network (CNN) AlexNet won the \textbf{ImageNet Large Scale Visual Recognition Challenge} with the huge margin of 10.8\%. CITE ALEX Other important milestones are the improvement of reinforcement learning in order to solve problems, especially related to playing games and the recurrent neural networks (RNNs) for speech recognition, in particular the long short-term memory (LSTM) network. 
 
@@ -37,7 +37,7 @@ to a set of $n$ points $\{(x_1,y_1),(x_2,y_2),\hdots(x_n,y_n)\}$, one can set up
 %\end{vmatrix}
 \label{eq:lineareqs}
 \end{equation}
-where $\hat{y}_i$ is the $y$-value of the line at $x=x_i$. Our goal is to minimize the distance between $\hat{y}_i$ and $y_i$ by adjusting the parameters $a$, $b$ and $c$, which is usually done using the mean square error (MSE) as a measurement of the error. The cost function then reads
+where $\hat{y}_i$ is the $y$-value of the line at $x=x_i$. Our goal is to minimize the distance between $\hat{y}_i$ and $y_i$ by adjusting the parameters $a$, $b$ and $c$, which is usually done using the mean square error (MSE) as a measurement of the error. The loss function (also called the cost function) then reads
 \begin{equation}
 \mathcal{L}(a,b,c)=\sum_{i=1}^{n}\Big(y_i-(ax_i^2+bx_i+c)\Big)^2
 \end{equation}
@@ -51,7 +51,7 @@ In linear regression, the dependent variable $y_i$ is a linear combination of th
 \end{equation}
 where $\beta_j$'s are the unknown parameters to be found. In principle, $X_{ij}$ can be an arbitrary function of the arguments $x_i$, but in the polynomial case it can be simplified by setting $X_{ij} = x_i^j$. We will proceed dealing with $X_{ij}$ for general purposes.
 
-The three most commonly used linear regression methods are \textit{ordinary least square} (OLS) regression, Ridge regression and Lasso regression, where the former has the cost function
+The three most commonly used linear regression methods are \textit{ordinary least square} (OLS) regression, Ridge regression and Lasso regression, where the former has the lost function
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 	\mathcal{L}(\bs{\beta})=\sum_{i=1}^{n}\Big(y_i-\beta_0-\sum_{j=1}^pX_{ij}\beta_j\Big)^2,\qquad\qquad\qquad\text{OLS}
 \end{empheq}
@@ -60,7 +60,7 @@ which is minimized when
 \bs{\beta}=(\hat{X}^T\hat{X})^{-1}\hat{X}^T\bs{y}.
 \end{equation}
 
-Quite often when we deal with large data sets, the design matrix contains singular values which give us problems with calculating $(\hat{X}^T\hat{X})^{-1}$. A way to avoid this is to introduce a penalty $\lambda$ to ensure that all the diagonal values are non-zero, which can be accomplished by adding a small value to all diagonal elements. This is the idea behind Ridge regression, which has the cost function
+Quite often when we deal with large data sets, the design matrix contains singular values which give us problems with calculating $(\hat{X}^T\hat{X})^{-1}$. A way to avoid this is to introduce a penalty $\lambda$ to ensure that all the diagonal values are non-zero, which can be accomplished by adding a small value to all diagonal elements. This is the idea behind Ridge regression, which has the lost function
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 	\mathcal{L}(\bs{\beta})=\sum_{i=1}^{n}\Big(y_i-\beta_0-\sum_{j=1}^pX_{ij}\beta_j\Big)^2+\lambda\sum_{j=1}^p\beta_j^2\qquad\text{Ridge}
 \end{empheq}
@@ -68,11 +68,11 @@ and is minimized when
 \begin{equation}
 \bs{\beta}=(\hat{X}^T\hat{X}+\lambda I)^{-1}\hat{X}^T\bs{y}.
 \end{equation}
-Finally, we have Lasso regression with a cost function given by
+Finally, we have Lasso regression with a lost function given by
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 	\mathcal{L}(\bs{\beta})=\sum_{i=1}^{n}\Big(y_i-\beta_0-\sum_{j=1}^pX_{ij}\beta_j\Big)^2+\lambda\sum_{j=1}^p\beta_j\qquad\text{Lasso}
 \end{empheq}
-and without any expression for the optimized parameters. In order to optimize this cost function, we therefore need to use an iterative optimization algorithm. Such methods will later be used in the variational Monte-Carlo sampling, and some methods are therefore detailed in chapter \eqref{chp:optimization}. 
+and without any expression for the optimized parameters. In order to optimize this lost function, we therefore need to use an iterative optimization algorithm. Such methods will later be used in the variational Monte-Carlo sampling, and some methods are therefore detailed in chapter \eqref{chp:optimization}. 
 
 To illustrate how the iterative optimization works, we will go back to equation \eqref{eq:targets} and use OLS for simplicity reasons. Imagine that we have three points $\{(x_1,y_1),(x_2,y_2),(x_3,y_3)\}$ that we want to fit with a curve of two variables $\beta_1,\beta_2$. The simplest way to solve this interatively is to use \textbf{gradient descent} optimization, which goes as
 \begin{equation}
@@ -120,8 +120,8 @@ The bias value $B$ does not really matter since the network will adjust the bias
 \subsubsection{Learning rate}
 In principle, the weights could be updated without adding any learning rate ($\eta=1$), but this can in practice be problematic. It is easy to imagine that the outputs can be fluctuating around the targets without decreasing the error, which is not ideal, and a learning rate can be added to avoid this. The downside is that with a low learning rate the network needs more training to obtain the correct results (and it takes more time), so we need to find a balance. 
 
-\subsubsection{Cost function}\label{sec:cost_function}
-The cost function is what defines the error, and in logistic regression the cross-entropy function is a naturally choice. [3] It reads
+\subsubsection{lost function}\label{sec:lost_function}
+The lost function is what defines the error, and in logistic regression the cross-entropy function is a naturally choice. [3] It reads
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 	c(\boldsymbol{W}) = -\sum_{i=1}^n\Big[y_i\log f(\boldsymbol{x}_i^T\boldsymbol{W})+(1-y_i)\log[1-f(\boldsymbol{x}_i^T\boldsymbol{W})]\Big]
 	\label{eq:cross_entropy}
@@ -137,9 +137,9 @@ Working in the log space, we can define a log likelyhood function
 	\log\Big[p(y|x)\Big]&=\log\Big[\hat{y}^y\cdot(1-\hat{y})^{1-y}\Big]\\
 	&=y\log\hat{y}+(1-y)\log(1-\hat{y})
 \end{align}
-which gives the log of the probability of obtaining $y$ given $x$. We want this quantity to increase then the cost function is decreased, so we define our cost function as the negative log likelyhood function. [7]
+which gives the log of the probability of obtaining $y$ given $x$. We want this quantity to increase then the lost function is decreased, so we define our lost function as the negative log likelyhood function. [7]
 
-Additionally, including a regularization parameter $\lambda$ inspired by Ridge regression is often convenient, such that the cost function is
+Additionally, including a regularization parameter $\lambda$ inspired by Ridge regression is often convenient, such that the lost function is
 \begin{equation}
 c(\bs{W})^+=c(\bs{W})+\lambda||\bs{W}||_2^2.
 \end{equation}
@@ -165,11 +165,11 @@ Now all the tools for finding the outputs are in place, and we can calculate the
 	\bs{w}^+= \bs{w} - \eta\cdot\frac{\partial c(\boldsymbol{w})}{\partial \bs{w}},
 	\label{eq:w_update}
 \end{empheq}
-where $\eta$ is the learning rate and $c(\bs{w})$ is the cost function. We use the chain rule to simplify the derivative
+where $\eta$ is the learning rate and $c(\bs{w})$ is the lost function. We use the chain rule to simplify the derivative
 \begin{equation}
 \frac{\partial c(\bs{w})}{\partial \bs{w}} =\frac{\partial c(\bs{w})}{\partial out} \cdot\frac{\partial out}{\partial net} \cdot\frac{\partial net}{\partial \bs{w}}
 \end{equation}
-where the first is the derivative of the cost function with respect to the output. For the cross-entropy function, this is
+where the first is the derivative of the lost function with respect to the output. For the cross-entropy function, this is
 \begin{equation}
 \frac{\partial c(\bs{w})}{\partial out}=-\frac{y}{out}+\frac{1-y}{1-out}.
 \end{equation}
