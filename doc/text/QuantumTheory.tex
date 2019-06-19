@@ -12,9 +12,9 @@ Immense efforts were placed on completing the theory, and contributions from an 
 
 \newpage
 \section{Introductory Quantum Physics} \label{subsec:elementary}
-In this section we will present the fundamentals of the quantum theory, that will make up the framework of this project. The theory is based on David Griffith's incredible textbook, \textit{Introduction to Quantum Mechanics}, where the reader is relegated for in-depth information.
+In this section we will present the fundamentals of the quantum theory, that will make up the framework of this project. The theory is based on David Griffith's incredible textbook, \textit{Introduction to Quantum Mechanics}, where the reader is relegated for further information.
 
-Before we get started, we make a few assumptions in order to simplify our problem. They most important ones are specified below with an explanation why they are valid.
+Before we get started, we make a few assumptions in order to simplify our problem. The most important ones are specified below with an explanation why they are valid.
 
 \begin{itemize}
 	\item \textbf{Point-like particles:} First, all particles involved will be assumed to be point-like, i.e, they lack spatial extension. For electrons this makes sense, since they, as far as we know, do not extent. The assumption also includes the nucleus in atomic systems, but it still makes sense since the distance from the nucleus to the electrons is known to be much larger than the nucleus extent.
@@ -25,7 +25,7 @@ Before we get started, we make a few assumptions in order to simplify our proble
 \end{itemize}
 
 \subsection{The Schrödinger Equation} \label{subsec:schrodinger}
-The Schrödinger equation is a natural starting point, which gives the energy eigen states of a system defined by a Hamiltonian $\hat{\mathcal{H}}$ and its eigen functions, $\Psi_n(\bs{r})$, which are the wave functions. $\bs{r}$ are the position coordinates of all the system's particles and $n$ is a particular set of quantum numbers. The time-independent Schrödinger equation reads
+In this work we will focus on solving the time-independent non-relativistic Schrödinger equation, which gives the energy eigenstates of a system defined by a Hamiltonian $\hat{\mathcal{H}}$ and its eigenfunctions, $\Psi_n(\bs{r})$, which are the wave functions. $\bs{r}$ are the position coordinates of all the system's particles and $n$ is a particular set of quantum numbers. The equation reads
 \begin{equation}
 \label{eq:Energy}
  \hat{\mathcal{H}}\psin=\epsilon_n\psin
@@ -40,7 +40,7 @@ Again from classical mechanics, the kinetic energy for a moving particle of mass
 \begin{equation}
 \hat{\mathcal{T}}=\frac{\hat{\mathcal{P}}^2}{2m}
 \end{equation}
-according to Ehrenfest's theorem. Further, the linear momentum operator is $\hat{\mathcal{P}}=-i\hbar\hat{\nabla}$ with $\hat{\nabla}$ as the partial derivative. 
+according to Ehrenfest's theorem. Further, the linear momentum operator is $\hat{\mathcal{P}}=-i\hbar\hat{\nabla}$ with $\hat{\nabla}$ as the differential operator and $\hbar$ as the reduced Planck's constant.
 
 The potential energy can be split into an external part and an interaction part, where the latter is given by the Coulomb interaction. For two identical particles of charge $q$, the repulsive interaction gives the energy
 \begin{equation}
@@ -68,7 +68,6 @@ E[\Psi]=\mel{\Psi}{\hat{\mathcal{H}}}{\Psi},
 \end{equation}
 where the first part, $\bra{\Psi}$ is called a bra and the last part, $\ket{\Psi}$ is called a ket. At first this might look artificial and less informative, but it simplifies the notation significantly. More information about the notation is found in Appendix A. 
 
-In many cases we do not know the exact wave function, and need to rely on a trial wave function guess. Henceforth, we will use $\Psi$ as the exact total wave function, $\psi$ as the exact single particle function (SPF), $\Psi_T$ as the total trial wave function and $\phi$ as the trial SPF. 
 \cite{griffiths_introduction_2005}
 
 \subsection{The Variational Principle}
@@ -81,21 +80,26 @@ In the equations above, the presented wave functions are assumed to be the exact
 Variational Monte-Carlo is a method based on (and named after) the variational principle, where we vary the trial wave function in order to obtain the lowest energy. It will be detailed in chaper \eqref{chp:methods}.
 
 \subsection{Postulates of Quantum Mechanics}
-The quantum theory is built on a few fundamental postulates, which will always be true. Before we go further, we will take a quick look at some of them.
+The quantum theory is built on six fundamental postulates, and without mentioning them our work would be incomplete. The postulates write:
 
 \begin{enumerate}
-\item Associated with any particle moving in a conservative field of force is a wave function which determines everything that can be known about the system.
+\item \textit{"The state of a quantum mechanical system is completely specified by the wave function $\Psi(\bs{r},t)$."}
 
-\item With every physical observable q there is associated an operator Q, which when operating upon the wave function associated with a definite value of that observable will yield that value times the wave function.
+\item \textit{"To every observable in classical mechanics, there corresponds a linear, Hermitian operator in quantum mechanics."}
 
-\item Any operator Q associated with a physically measurable property q will be Hermitian.
+\item \textit{"In any measurement of the observable associated with an operator $\hat{\mathcal{A}}$, the only values that will ever be observed are the eigenvalues $a$ which satisfy $\hat{\mathcal{A}}\Psi=a\Psi$."}
 
-\item The set of eigen functions of operator Q will form a complete set of linearly independent functions.
+\item \textit{"The expectation value of the observable corresponding to operator $\hat{\mathcal{A}}$ is given by
+$$\langle A\rangle=\frac{\int d\tau\Psi^*\hat{\mathcal{A}}\Psi}{\int d\tau\Psi^*\Psi}.\textit{"}$$}
 
-\item For a system described by a given wave function, the expectation value of any property q can be found by performing the expectation value integral with respect to that wave function.
+\item \textit{"The wave function evolves in time according to the time-dependent Schrödinger equation,
+$$\hat{\mathcal{H}}\Psi(\bs{r},t)=i\hbar\frac{\partial\Psi}{\partial t}.\textit{"}$$}
 
-\item The time evolution of the wave function is given by the time-dependent Schrodinger equation. 
+\item \textit{"The total wavefunction must be antisymmetric with respect to the interchange of all coordinates of one fermion with those of another. Electronic spin must be included in this set of coordinates."} 
 \end{enumerate}
+The postulates are taken from \url{http://vergil.chemistry.gatech.edu/notes/intro_estruc/node4.html}.
+
+The reader may recognize that some of the postulates were mentioned already in the first sections, which was necessary to give a proper introduction. Since we will be looking at stationary systems only, the time-independent Schrödinger equation and then postulate no.5 will not be used, but apart from that they all will play a significant role. 
 
 \section{Quantum Numbers}
 Up to this point, we have just assumed that we are simply given a wave function without worrying about how to set it up. But if we really want to specify a wave function based on the dynamics of a system, we need to know something about quantum numbers.
@@ -126,11 +130,11 @@ By the first postulate of quantum mechanics, the wave function contains all the 
 The trial wave function needs to meet some requirements in order to be used in the variational principle, and we thus need to make an educated guess on the wave function where the requirements are fulfilled. The requirements are the following:
 
 \begin{enumerate}
-	\item \textbf{Normalizability:} The wave function needs to be normalizable to make physical sense. The total probability should always be 1, and a wave function that cannot be normalized will not have a finite total probability. The consequence is that the wave function needs to converge to zero when the positions get large. 
+	\item \textbf{Normalizability:} The wave function needs to be normalizable in order to be physical. The total probability should always be 1, and a wave function that cannot be normalized will not have a finite total probability. The consequence is that the wave function needs to converge to zero when the positions get large. 
 	
 	\item \textbf{Cusp condition:} The cusp condition (also called the Kato theorem) states that the wave function should have a cusp where the potential explodes. An example on this is when charged particles come close to each other. 
 	
-	\item \textbf{Symmetry and anti-symmetry:} The wave function needs to be either symmetric or anti-symmetric under exchange of two coordinates, dependent on whether the particles are fermions or bosons. More about this in the next section.
+	\item \textbf{Symmetry and anti-symmetry:} The wave function needs to be either symmetric or anti-symmetric under exchange of two coordinates, dependent on whether the particles are fermions or bosons. This is the statement of the sixth postulate, which will be further explained in the next section.
 \end{enumerate}
 
 \subsection{Bosons and fermions} \label{subsubsec:symmetry}
@@ -138,14 +142,14 @@ Assume that we have a permutation operator $\hat{P}$ which exchanges two coordin
 \begin{equation}
 \hat{P}(i\rightarrow j)\Psi_n(\bs{x}_1,\hdots,\bs{x}_i,\hdots,\bs{x}_j,\hdots,\bs{x}_M)=p\Psi_n(\bs{x}_1,\hdots,\bs{x}_j,\hdots,\bs{x}_i,\hdots,\bs{x}_M),
 \end{equation}
-where $p$ is just a factor which comes from the transformation. If we again apply the $\hat{P}$ operator, we should switch the same coordinates back, and we expect to end up with the initial wave function. For that reason, $p=\pm1$. \footnote{Actually, in two-dimensional systems we have a third possibility which gives an \textit{anyon}. The theory on this was developed by J.M. Leinaas and J. Myrheim during the 1970's. \cite{leinaas_one_1977}}
+where $p$ is just a factor which comes from the transformation. If we again apply the $\hat{P}$ operator, we should switch the same coordinates back, and we expect to end up with the initial wave function. For that reason, $p$ must be either +1 or -1. \footnote{Actually, in two-dimensional systems we have a third possibility which gives an \textit{anyon}. The theory on this was developed by J.M. Leinaas and J. Myrheim during the 1970's. \cite{leinaas_one_1977}}
 
 The particles that have an antisymmetric (AS) wavefunction under exchange of two coordinates are called fermions, named after Enrico Fermi, and have half integer spin. On the other hand, the particles that have a symmetric (S) wavefunction under exchange of two coordinates are called bosons, named after Satyendra Nath Bose, and have integer spin. 
 
-It turns out that because of their antisymmetric wavefunction, two identical fermions cannot be found at the same position at the same time, known as the Pauli principle. This causes some difficulties when dealing with multiple fermions, because we always need to ensure that the total wavefunction becomes zero if two identical particles happen to be at the same position. To do this, we introduce a Slater determinant as described below. In this particular project, we are going to focus on electrons and therefore fermions. However, much of the theory applies for bosons as well.
+It turns out that because of their anti-symmetric wave function, two identical fermions cannot be found at the same position at the same time, known as the Pauli principle. This causes some difficulties when dealing with multiple fermions, since they always spread to multiple states. The probability of finding two identical particles at the same position at the same time should therefore be zero, so technically we need to set the wave function to zero if it happens. To deal with this, we introduce a so-called Slater determinant, which automatically sets the wave function to zero if the Pauli principle is unsatisfied.
 
 \subsection{Slater determinant} \label{subsec:slater}
-For a system of more particles we can define a total wavefunction, which is a composition of all the single particle wavefunctions (SPF) and contains all the information about the system. For fermions we need to compile the SPFs such that the Pauli principle is fulfilled at all times. One way to do this is by setting up the SPFs in a determinant, known as a Slater determinant.
+For a system of more particles we can define a total wave function, which is a composition of all the single particle wave functions (SPF) and contains all the information about the system as the first postulate requires. For fermions, we need to combine the SPFs such that the Pauli principle is fulfilled at all times, which can be accomplished by a determinant. 
 
 Consider a system of two identical fermions with SPFs $\phi_1$ and $\phi_2$ at positions $\boldsymbol{r}_1$ and $\boldsymbol{r}_2$ respectively. The way we define the wavefunction of the system is then
 \begin{equation}
@@ -156,15 +160,15 @@ Consider a system of two identical fermions with SPFs $\phi_1$ and $\phi_2$ at p
 \end{vmatrix}
 =\phi_1(\boldsymbol{r}_1)\phi_2(\boldsymbol{r}_2)-\phi_2(\boldsymbol{r}_1)\phi_1(\boldsymbol{r}_2),
 \end{equation}
-which is set to zero if the particles are at the same position. The determinant yields the same no matter how big the system is.
+which is set to zero if the particles are at the same position. The determinant yields the same no matter the size of the system.
 
-The Slater determinant is just an ansatz since it does not come from any analytical calculations, and we therefore need to denote it as the trial wave function. Additionally, the Slater determinant above contains the radial part only, because the single particle functions are the radial part by convention. For a general Slater determinant, the spin part needs to be included as well, giving 
+The Slater determinant is just a wave function ansatz to satisfy the Pauli principle, and we therefore need to denote it as the trial wave function. Additionally, the Slater determinant above contains the radial part only, because the single particle functions are the radial part by convention. For a general Slater determinant of $N$ particles, the spin part needs to be included as well, giving 
 \begin{equation}
-\Psi(\boldsymbol{r}_1,\boldsymbol{r}_2,\hdots,\boldsymbol{r}_N)=
+\Psi_T(\bs{r})=
 \begin{vmatrix}
 \psi_1(\boldsymbol{r}_1) & \psi_2(\boldsymbol{r}_1) & \hdots & \psi_N(\boldsymbol{r}_1)\\
 \psi_1(\boldsymbol{r}_2) & \psi_2(\boldsymbol{r}_2) & \hdots & \psi_N(\boldsymbol{r}_2)\\
-\vdots & \vdots & \ddots & \vdots & \vdots\\
+\vdots & \vdots & \ddots & \vdots \\
 \psi_1(\boldsymbol{r}_N) & \psi_2(\boldsymbol{r}_N) & \hdots & \psi_N(\boldsymbol{r}_N)
 \end{vmatrix}
 \end{equation}
@@ -172,51 +176,46 @@ where the $\psi$'s are the true single particle wave functions, which are the te
 \begin{equation}
 \psi=\phi\otimes\xi
 \end{equation}
-with $\xi$ as the spin part. How the spin can be factorized out for electronic systems will be shown below. 
+with $\xi$ as the spin part. In the next section, we will proceed further and show how the spin part can be factorized out of a general Slater determinant.
 
-Similar to the Slater determinant, a Slater permanent might be included for bosonic systems. The permanent of a matrix is similar to the determinant, but all negative signs are replaced by positive signs. 
+For bosonic systems, one can correspondingly construct a Slater permanent. The permanent of a matrix is similar to the determinant, but all negative signs are replaced by positive signs. 
 
-\subsection{Simplification of Slater determinant for electronic systems} \label{subsubsec:electronsystem}
-For our purpose we will study fermions of spin $\sigma=\pm 1/2$ only, i.e., electrons and protons. In this particular case, the SPFs can be arranged in spin-up and spin-down parts, such that the Slater determinant can be simplied to 
+\subsection{Splitting up the Slater Determinant} \label{subsec:electronsystem}
+A determinant is relative computational expensive, and as the number of particles increases, it will certainly give us some problems. Fortunately, the Slater determinant can be split up when the particles have different spin, which is often hugely beneficial. Not only does the dimensions of the determinant reduce, but we also get rid of the spin part.
+
+In this work, we will study fermions of spin $\sigma=\pm 1/2$ only, and we will therefore do the splitting for this specific case. However, this case is very important since both electrons and protons among others are spin-1/2 particles. The particles with $\sigma=+1/2=\uparrow$ will be denoted as the spin-up particles, and the particles with $\sigma=-1/2=\downarrow$ will be denoted as the spin-down particles. For simplicity, we will assume that the first coordinates $\bs{r}_1,\hdots\bs{r}_{N_{\uparrow}}$ are the coordinates of the spin-up particles and the coordinates $\bs{r}_{N_{\uparrow}+1},\hdots\bs{r}_N$ are associated with the spin-down particles. $N_{\uparrow}$ is the number of spin-up particles and $N_{\downarrow}$ is the number of spin-down particles. The Slater determinant can then be written as
 \begin{equation*}
-\Psi(\boldsymbol{r}_1,\boldsymbol{r}_2,\hdots,\boldsymbol{r}_N)=
+\Psi(\boldsymbol{r})=
 \begin{vmatrix}
-\phi_1(\boldsymbol{r}_1)\xi_{\uparrow} & \phi_1(\boldsymbol{r}_1)\xi_{\downarrow} & \hdots & \phi_{N/2}(\boldsymbol{r}_1)\xi_{\uparrow} & \phi_{N/2}(\boldsymbol{r}_1)\xi_{\downarrow}\\
-\phi_1(\boldsymbol{r}_2)\xi_{\uparrow} & \phi_1(\boldsymbol{r}_2)\xi_{\downarrow} & \hdots & \phi_{N/2}(\boldsymbol{r}_2)\xi_{\uparrow} & \phi_{N/2}(\boldsymbol{r}_2)\xi_{\downarrow}\\
-\vdots & \vdots & \ddots & \vdots & \vdots\\
-\phi_1(\boldsymbol{r}_{N-1})\xi_{\uparrow} & \phi_1(\boldsymbol{r}_{N-1})\xi_{\downarrow} & \hdots & \phi_{N/2}(\boldsymbol{r}_{N-1})\xi_{\uparrow} & \phi_{N/2}(\boldsymbol{r}_{N-1})\xi_{\downarrow}\\
-\phi_1(\boldsymbol{r}_N)\xi_{\uparrow} & \phi_1(\boldsymbol{r}_N)\xi_{\downarrow} & \hdots & \phi_{N/2}(\boldsymbol{r}_N)\xi_{\uparrow} & \phi_{N/2}(\boldsymbol{r}_N)\xi_{\downarrow}
+\phi_1(\boldsymbol{r}_1)\xi_{\uparrow}(\uparrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_1)\xi_{\uparrow}(\uparrow) & \phi_{N_{\uparrow}+1}(\boldsymbol{r}_1)\xi_{\downarrow}(\uparrow) & \hdots & \phi_{N}(\boldsymbol{r}_1)\xi_{\downarrow}(\uparrow)\\
+\vdots & & \vdots & \vdots & & \vdots \\
+\phi_1(\boldsymbol{r}_{N_{\uparrow}})\xi_{\uparrow}(\uparrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_{N_{\uparrow}})\xi_{\uparrow}(\uparrow) & \phi_{N_{\uparrow}+1}(\boldsymbol{r}_{N_{\uparrow}})\xi_{\downarrow}(\uparrow) & \hdots & \phi_{N}(\boldsymbol{r}_{N_{\uparrow}})\xi_{\downarrow}(\uparrow)\\
+\phi_1(\boldsymbol{r}_{N_{\uparrow}+1})\xi_{\uparrow}(\downarrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_{N_{\uparrow}+1})\xi_{\uparrow}(\downarrow) & \phi_{N_{\uparrow}+1}(\boldsymbol{r}_{N_{\uparrow}+1})\xi_{\downarrow}(\downarrow) & \hdots & \phi_{N}(\boldsymbol{r}_{N_{\uparrow}+1})\xi_{\downarrow}(\downarrow)\\
+\vdots & & \vdots & \vdots & & \vdots \\
+\phi_1(\boldsymbol{r}_N)\xi_{\uparrow}(\downarrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_N)\xi_{\uparrow}(\downarrow) & \phi_{N_{\uparrow}+1}(\boldsymbol{r}_N)\xi_{\downarrow}(\downarrow) & \hdots & \phi_{N}(\boldsymbol{r}_N)\xi_{\downarrow}(\downarrow)\\
 \end{vmatrix}.
 \end{equation*}
-Here we assume that two particles of opposite spin are found at the same position, which makes the number of fermions with spin up equal to the number of fermions with spin down. This is obviously not a assumption that always will hold, but it eases the calculations. 
+where the spin...
 
-Now recall that all particles with odd position indices ($\bs{r}_1$, $\bs{r}_3$, $\hdots$) have spin up, such that $\phi_j(\bs{r}_i)\xi_{\downarrow}=0$ where $j=1,\hdots,N/2$ and $i$ spans over all the odd positions indices. The same applies for particles with even position indices and spin down, and we get 
 \begin{equation*}
-\Psi(\boldsymbol{r}_1,\boldsymbol{r}_2,\hdots,\boldsymbol{r}_N)=
+\Psi(\boldsymbol{r})=
 \begin{vmatrix}
-\phi_1(\boldsymbol{r}_1)\xi_{\uparrow} & 0 & \hdots & \phi_{N/2}(\boldsymbol{r}_1)\xi_{\uparrow} & 0\\
-0 & \phi_1(\boldsymbol{r}_2)\xi_{\downarrow} & \hdots & 0 & \phi_{N/2}(\boldsymbol{r}_2)\xi_{\downarrow}\\
-\vdots & \vdots & \ddots & \vdots & \vdots\\
-\phi_1(\boldsymbol{r}_{N-1})\xi_{\uparrow} & 0 & \hdots & \phi_{N/2}(\boldsymbol{r}_{N-1})\xi_{\uparrow} & 0\\
-0 & \phi_1(\boldsymbol{r}_N)\xi_{\downarrow} & \hdots & 0 & \phi_{N/2}(\boldsymbol{r}_N)\xi_{\downarrow}
-\end{vmatrix},
-\end{equation*}
-which by row operations can be found to be row equivalent with
-\begin{equation*}
-\Psi(\boldsymbol{r}_1,\boldsymbol{r}_2,\hdots,\boldsymbol{r}_N)=
-\begin{vmatrix}
-\phi_1(\boldsymbol{r}_1)\xi_{\uparrow} & \phi_2(\boldsymbol{r}_1)\xi_{\uparrow} & \hdots & 0 & 0\\
-\phi_1(\boldsymbol{r}_3)\xi_{\uparrow} & \phi_2(\boldsymbol{r}_3)\xi_{\uparrow} & \hdots & 0 & 0\\
-\vdots & \vdots & \ddots & \vdots & \vdots\\
-0 & 0 & \hdots & \phi_{N/2-1}(\boldsymbol{r}_{N-2})\xi_{\downarrow} & \phi_{N/2}(\boldsymbol{r}_{N-2})\xi_{\downarrow}\\
-0 & 0 & \hdots & \phi_{N/2-1}(\boldsymbol{r}_N)\xi_{\downarrow} & \phi_{N/2}(\boldsymbol{r}_N)\xi_{\downarrow}
+\phi_1(\boldsymbol{r}_1)\xi_{\uparrow}(\uparrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_1)\xi_{\uparrow}(\uparrow) & 0 & \hdots & 0\\
+\vdots & & \vdots & \vdots & & \vdots \\
+\phi_1(\boldsymbol{r}_{N_{\uparrow}})\xi_{\uparrow}(\uparrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_{N_{\uparrow}})\xi_{\uparrow}(\uparrow) & 0 & \hdots & 0\\
+0 & \hdots & 0 & \phi_{N_{\uparrow}+1}(\boldsymbol{r}_{N_{\uparrow}+1})\xi_{\downarrow}(\downarrow) & \hdots & \phi_{N}(\boldsymbol{r}_{N_{\uparrow}+1})\xi_{\downarrow}(\downarrow)\\
+\vdots & & \vdots & \vdots & & \vdots \\
+0 & \hdots & 0 & \phi_{N_{\uparrow}+1}(\boldsymbol{r}_N)\xi_{\downarrow}(\downarrow) & \hdots & \phi_{N}(\boldsymbol{r}_N)\xi_{\downarrow}(\downarrow)\\
 \end{vmatrix}.
 \end{equation*}
+
 This means that we can split the Slater determinant in a spin up part and a spin down part,
 \begin{equation}
-\Psi(\boldsymbol{r}_1,\boldsymbol{r}_2,\hdots,\boldsymbol{r}_N)=|\hat{D}_{\uparrow}|\cdot |\hat{D}_{\downarrow}|
+\Psi(\boldsymbol{r})=|\hat{D}_{\uparrow}|\cdot |\hat{D}_{\downarrow}|
 \end{equation}
-which saves us from a lot of computations. For a detailed explanation of the splitting, appendix I of Daniel Nissenbaum's dissertation is an excellent read. \cite{nissenbaum_stochastic_2008} Szabo \& Ostlund in \cite{szabo_modern_1996} is also a good explanation. 
+which saves us from a lot of computations. One can easily see that the spin-part now can be factorized out from each of the determinants.
+
+This section was heavily inspired by D.Nissenbaum's dissertation, see appendix I in \cite{nissenbaum_stochastic_2008}.
 
 \subsection{Basis set} \label{subsec:basisset}
 To go further, we need to define a basis set, $\phi_n(\bs{r})$ which should be chosen carefully based on the system. For a few systems, we know the exact basis of the non-interacting case, and it is thus a natural basis to use in the Slater determinant. For other systems, the choice of basis might depend on the situation, where we typically need to weigh computational time against accuracy. Concrete examples on both cases will be presented in chapter \eqref{chp:systems}.

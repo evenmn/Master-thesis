@@ -13,26 +13,10 @@ Configuration interaction, Hartree-Fock, Coupled-Cluster, quantum Monte-Carlo me
 For our work, we will focus on variational Monte-Carlo 
 We will focus on the Hartree-Fock and variational Monte Carlo methods and give a detailed explanation of those methods. Additionally, the well-known methods configuration interaction and coupled cluster will be described briefly for some kind of completeness. 
 
-Monte Carlo methods in quantum mechanics are a bunch of methods that are built on diffusion processes, and includes Variational Monte Carlo (VMC), Diffusion Monte Carlo (DMC) and others. The common denominator is that we move particles in order to find the optimal configuration, usually where the energy is minimized. The particles can be moved isotropic, i.e., uniformly in all directions, or they can be affected by a drift force which makes the process anisotropic. 
-
-\section{Isotropic processes}
-In isotropic processes, we have random walks where the particles move randomly in space which falls under the category Markov chains. If we assume constant timestep, the step index can be considered the time, thus we have a time-dependent probability density $P(x,t)$. This probability density needs to satisfy the isotropic diffusion equation,
-\begin{equation}
-\frac{\partial P(\bs{x},t)}{\partial t}=D\frac{\partial^2}{\partial \bs{x}^2}P(\bs{x},t).
-\end{equation}
-
-\section{Anisotropic processes}
-For anisotropic processes, we have a drift and the moves are no longer considered random but falls still under the category Markov chains. Because of the drift, we need to rewrite the diffusion equation and we end up with the Fokker-Planck equation,
-\begin{equation}
-\frac{\partial P(\bs{x},t)}{\partial t}=D\frac{\partial}{\partial \bs{x}}\left(\frac{\partial}{\partial \bs{x}}-F\right)P(\bs{x},t)
-\end{equation}
-which needs to be satisfied. The new positions in coordinate space are given as solution of the Langevin equation 
-\begin{equation}
-\frac{\partial \bs{x}(t)}{\partial t}=D\bs{F}(\bs{x}(t))+\eta
-\end{equation}
+Monte Carlo methods in quantum mechanics are a bunch of methods that are built on diffusion processes, and includes Variational Monte Carlo (VMC), Diffusion Monte Carlo (DMC) and others. The common denominator is that we move particles in order to find the optimal configuration, usually where the energy is minimized. 
 
 \section{Variational Monte-Carlo} \label{subsec:vmc}
-The variational Monte-Carlo (hereafter, VMC) method is today widely used when it comes to the study of ground state properties of quantum mechanical systems. It is a Markov chain Monte-Carlo method which makes use of Metropolis sampling, and has been used in studies of fermionic systems since the 1970's. \cite{deb_variational_2014} If we go back to the variational principle in equation \eqref{eq:variationalprinciple}, we see that by choosing a wave function which satisfies the criteria, we will get an energy larger or equal to the ground state energy. \bigskip
+The variational Monte-Carlo (hereafter VMC) method is today widely used when it comes to the study of ground state properties of quantum mechanical systems. It is a Markov chain Monte-Carlo method which makes use of Metropolis sampling, and has been used in studies of fermionic systems since the 1970's. \cite{deb_variational_2014} If we go back to the variational principle in equation \eqref{eq:variationalprinciple}, we see that by choosing a wave function which satisfies the criteria, we will get an energy larger or equal to the ground state energy. \bigskip
 
 There are two main problems we need to solve
 \begin{enumerate}
@@ -42,7 +26,7 @@ There are two main problems we need to solve
 Let us first determine the last problem, which often is considered as the root of all evil. Solving this integral analytically is impossible, but we can approximate it with a sum,
 \begin{align}
 E &\leq \frac{\int\Psi_T(\bs{r})^*\hat{\mathcal{H}}\Psi_T(\bs{r}) d\bs{r}}{\int\Psi_T(\bs{r})^*\Psi_T(\bs{r}) d\bs{r}} \notag\\
-& = \int \mathcal{P}(\bs{r}) E_L(\bs{r}) d\bs{r} \notag\\
+& = \int P(\bs{r}) E_L(\bs{r}) d\bs{r} \notag\\
 & \approx \frac{1}{M}\sum_{i=1}^ME_L(\bs{r}_i) \label{eq:energysum}
 \end{align}
 which is a common trick in statistical physics. The local energy is defined as
@@ -52,7 +36,8 @@ E_L(\bs{r})\equiv\frac{1}{\Psi_T(\bs{r})}\hat{\mathcal{H}}\Psi_T(\bs{r})
 \end{equation}
 and the $\bs{r}_i$ is withdrawn from the probability distribution $P(\bs{r})$, which is given by
 \begin{equation}
-\mathcal{P}(\bs{r})=\frac{|\Psi_T(\bs{r})|^2}{\int|\Psi_T(\bs{r})|^2d\bs{r}}.
+P(\bs{r})=\frac{|\Psi_T(\bs{r})|^2}{\int|\Psi_T(\bs{r})|^2d\bs{r}}.
+\label{eq:probvmc}
 \end{equation}
 When increasing the number of energies drawn from the distribution, $M$, henceforth denoted as Monte-Carlo cycles, the standard error decreases and we get a more accurate energy. The error goes as $\mathcal{O}(1/\sqrt{M})$, and in the limit when $M$ goes to infinity, the error goes to zero,
 \begin{equation}
@@ -66,32 +51,32 @@ For every iteration, we run $M$ Monte-Carlo cycles where we withdraw a new posit
 
 \section{Sampling algorithms}
 \subsection{The Metropolis Algorithm}
-Metropolis sampling is a method of accepting or rejecting moves in Markov chain, are is today widely used. The genius of the metropolis algorithm, is that the acceptance of a move is not based on the probabilities themselves, but the ratio between the new and the old probability. In that way, we avoid calculating the sum over all probabilities, which often is expensive or even impossible to calculate. 
+Metropolis sampling is a method of accepting or rejecting moves in Markov chains, and is today often the preferred sampling algorithm in quantum Monte-Carlo. The genius of this algorithm, is that the acceptance of a move is not based on the probabilities themselves, but the ratio between the new and the old probabilities. In that way, we avoid calculating the sum over all probabilities, which often is expensive or even impossible to calculate. 
 
-If we denote $\bs{r}$ as the current state, and $\bs{r}'$ as the proposed state, we have a transition rule $P(\bs{r}\rightarrow\bs{r}')$ for going from $\bs{r}$ to $\bs{r}'$ and a transition rule $P(\bs{r}'\rightarrow\bs{r})$ for going the other way around. If we then assume that the rules satisfy \textit{ergodicity} and \textit{detailed balance}, we have the following relationship:
+If we denote $\bs{r}$ as the current state, and $\bs{r}'$ as the proposed state, we have a transition rule $\mathcal{P}(\bs{r}\rightarrow\bs{r}')$ for going from $\bs{r}$ to $\bs{r}'$ and a transition rule $\mathcal{P}(\bs{r}'\rightarrow\bs{r})$ for going the other way around. If we then assume that the rules satisfy \textit{ergodicity} and \textit{detailed balance}, we have the following relationship:
 \begin{equation}
-P(\bs{r}\rightarrow\bs{r}')\mathcal{P}(\bs{r})=P(\bs{r}'\rightarrow\bs{r})\mathcal{P}(\bs{r}').
+\mathcal{P}(\bs{r}\rightarrow\bs{r}')P(\bs{r})=\mathcal{P}(\bs{r}'\rightarrow\bs{r})P(\bs{r}').
 \end{equation}
 
 The next step is to rewrite the transition rules in terms of a sampling distribution $T(\bs{r}\rightarrow\bs{r}')$ and an acceptance probability $A(\bs{r}\rightarrow\bs{r}')$,
 \begin{equation}
-P(\bs{r}\rightarrow\bs{r}')=T(\bs{r}\rightarrow\bs{r}')A(\bs{r}\rightarrow\bs{r}').
+\mathcal{P}(\bs{r}\rightarrow\bs{r}')=T(\bs{r}\rightarrow\bs{r}')A(\bs{r}\rightarrow\bs{r}').
 \end{equation}
 In order to satisfy the detailed balance, we need to choose $A(\bs{r}\rightarrow\bs{r}')$ such that
 \begin{equation}
-A(\bs{r}\rightarrow\bs{r}')=\text{min }\left[1,\frac{T(\bs{r}'\rightarrow\bs{r})\mathcal{P}(\bs{r}')}{T(\bs{r}\rightarrow\bs{r}')\mathcal{P}(\bs{r})}\right],
+A(\bs{r}\rightarrow\bs{r}')=\text{min }\left[1,\frac{T(\bs{r}'\rightarrow\bs{r})P(\bs{r}')}{T(\bs{r}\rightarrow\bs{r}')P(\bs{r})}\right],
 \label{eq:acceptance}
 \end{equation}
 since $A$ cannot be larger than 1. If the acceptance is higher than a random number between 0 and 1, the move is accepted.
 
 \subsubsection{Brute-Force Sampling}
-In its simplest form, \textbf{brute-force}, the move is proposed randomly both in magnitude and direction. Mathematically, we can write this as
+In its simplest form, the move is proposed randomly both in magnitude and direction. Mathematically, we can write this as
 \begin{equation}
 \bs{r}'=\bs{r}+sd\bs{r}
 \end{equation}
-where $s$ is a random number which determines the distance to move and $d\bs{r}$ is a random direction that typically tells which particle to move. We obtain the naive acceptance probability when setting $T(\bs{r}\rightarrow\bs{r}')=T(\bs{r}'\rightarrow\bs{r})$, such that the it simplifies to
+where $s$ is a random number which determines the distance to move and $d\bs{r}$ is a random direction (typically which particle to move). We obtain the naive acceptance probability when setting $T(\bs{r}\rightarrow\bs{r}')=T(\bs{r}'\rightarrow\bs{r})$, such that the it simplifies to
 \begin{equation}
-A(\bs{r}\rightarrow\bs{r}')=\text{min }\left[1,\frac{\mathcal{P}(\bs{r}')}{\mathcal{P}(\bs{r})}\right].
+A(\bs{r}\rightarrow\bs{r}')=\text{min }\left[1,\frac{P(\bs{r}')}{P(\bs{r})}\right].
 \end{equation}
 
 However, with this approach a lot of moves will be rejected, which results in a significant waste of computing power. A better method is \textbf{importance sampling}.
@@ -124,18 +109,48 @@ In the next, we assume that the drift force has the form $\bs{F(\bs{r})}=g(\bs{r
 \end{equation}
 which is satisfied when $g(\bs{r})=1/P(\bs{r})$. We then get the drift force 
 \begin{equation}
-\bs{F}(\bs{r})=2\frac{\nabla\Psi_T(\bs{r})}{\Psi_T(\bs{r})}.
+\bs{F}(\bs{r})=\frac{\nabla P(\bs{r})}{P(\bs{r})}=2\frac{\nabla\Psi_T(\bs{r})}{\Psi_T(\bs{r})},
 \end{equation}
 which is also known as the \textit{quantum force}.
 
 The remaining part is how to decide if a proposed move should be accepted or not. For this, we need to find the sampling distributions $T(\bs{r}\rightarrow\bs{r}')$ from equation \eqref{eq:acceptance}, which are just the solutions of the Fokker-Planck equation. The solutions read
 \begin{equation}
-G...
+G(\bs{r},\bs{r}',\Delta t)\propto\exp\Big(-\big(\bs{r}-\bs{r}'-D\Delta t\bs{F}(\bs{r})\big)^2/4D\Delta t\Big)
 \end{equation}
-which is called Green's function. The acceptance probability for importance sampling can finally be written as
+which is called Green's functions. The acceptance probability for importance sampling can finally be written as
 \begin{equation}
-A(\bs{r}\rightarrow\bs{r}')=\text{min }\left[1,\frac{G(\bs{r},\bs{r}')\mathcal{P}(\bs{r}')}{G(\bs{r}',\bs{r})\mathcal{P}(\bs{r})}\right].
+A(\bs{r}\rightarrow\bs{r}')=\text{min }\left[1,\frac{G(\bs{r},\bs{r}',\Delta t)P(\bs{r}')}{G(\bs{r}',\bs{r}, \Delta t)P(\bs{r})}\right],
 \end{equation}
+where the probability is still given by equation \eqref{eq:probvmc}. As a summary, we set up the actual algorithm, known as Metropolis-Hasting's algorithm, see algorithm \eqref{al:hasting}.
+
+\begin{algorithm}
+	\SetAlgoLined
+	\KwData{Initialize particle positions $\bs{r}$ and parameters $\theta$ randomly.}
+	\KwResult{The optimized trial wave function.}
+	$\bs{r}'=\mathcal{N}(0,1)$\;
+	$\theta=\mathcal{N}(0,1)$\;
+	$P(\bs{r}';\theta)=|\Psi_T(\bs{r}';\theta)|^2$\;
+	$G$\;
+	\While{not converged}{
+		$\bs{r}=\bs{r}'$\;
+		$P(\bs{r};\theta)=P(\bs{r}';\theta)$\;
+		$G(\bs{r},\bs{r}',\Delta t;\theta)=G(\bs{r}',\bs{r},\Delta t;\theta)$\;
+		\;
+		$\bs{r}'=\bs{r}+D\bs{F}(\bs{r;\theta})\Delta t + \bs{\xi}\sqrt{\Delta t}$\;
+		$p=P(\bs{r}';\theta)/P(\bs{r};\theta)$\;
+		$g=G(\bs{r}',\bs{r},\Delta t;\theta)/G(\bs{r},\bs{r}',\Delta t;\theta)$\;
+		$w=gp$\;
+		$r=\mathcal{U}(0,1)$\;
+		\eIf{$w<r$}{
+			$\bs{r}'=\bs{r}$\;
+		}{
+			keep going\;
+		}
+	}
+	\caption{The Metropolis-Hastings algorithm}
+	\label{al:hasting}
+\end{algorithm}
 
 \subsection{Gibbs' sampling}
-Gibbs' sampling is a popular algorithm when it comes to 
+In the machine learning community, Gibbs' sampling is widely used when it comes to training Boltzmann machines. Unlike Metropolis sampling, Gibbs' sampling does not rely on the marginal probabilities, but it actually uses the conditional probabilities to update both the visible and hidden nodes. 
+

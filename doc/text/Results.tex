@@ -117,7 +117,7 @@ We will also focus on the one-body densities throughout the results, and compari
 	\label{fig:OB_nointeraction}
 \end{figure}
 
-We observe that both the standard variational Monte-Carlo wave function (VMC) and the restricted Boltzmann machine (RBM) reproduce the analytical one-body density. The distribution gets narrower when the frequency is increased, and we also observe that the distributions are identical for two- and three dimensions with the same frequency.
+We observe that both the standard variational Monte-Carlo wave function (VMC) and the restricted Boltzmann machine (RBM) reproduce the analytical one-body density. The distribution gets narrower as the frequency is increased, and we also observe that the distributions are identical for two- and three dimensions with the same frequency.
 
 \section{With repulsive interaction}
 We now move on to the interesting case with repulsive interaction, where we no longer have analytical results, apart from a few semi-analytical energies and wave functions  for the two- and three-dimensional single quantum dots.
@@ -127,12 +127,12 @@ To achieve good results, we apply an adaptive step number, which means that the 
 First we will look at the ground-state energy of closed shell quantum dots, and thereafter we move on to open shells. We will also have a look at double quantum dots, which we investigate with closed shells only.
 
 \subsection{Quantum dots}
-\subsubsection{Closed shell energy}
+\subsubsection{Ground-state energy, $S=0$}
 By utilizing the symmetry of quantum dots of two electrons, M.Taut was able to obtain semi-analytical energies for some specific frequencies $\omega$. More precisely, he found the energy to be $E=3$ for the frequency $\omega=1$ and $E=2/3$ for the frequency $\omega=1/6$ for the two-dimensional case, and $E=2$ for the frequency $\omega=1/2$ and $E=1/2$ for the frequency $\omega=1/10$ for the three-dimensional case. \cite{taut_two_1993}\cite{taut_two_1994}
 
-For other references, we need to rely on what researchers have found before us. Since diffusion Monte-Carlo (DMC) is known to give very accurate results, we will mainly compare our results to J. Høgberget's DMC computations, which exist for closed shell quantum dots of a maximum of 56 electrons in two dimensions and a maximum of 20 particles in three dimensions. \cite{hogberget_quantum_2013}. Comparing the energy to the Hartree-Fock limit is also interesting, mainly because of the Boltzmann machines. We use A.Mariadason's computations for this for quantum dots of a maximum of 20 electrons in two dimensions, and a maximum of 8 particles in three dimensions. \cite{mariadason_quantum_2018} We run some simulations that we could not find any reference for, which means that we cannot ensure that they are correct or not. 
+For other references, we need to rely on what researchers have found before us. Since diffusion Monte-Carlo (DMC) is known to give very accurate results, we will mainly compare our results to J. Høgberget's DMC computations, which exist for closed shell quantum dots of a maximum of 56 electrons in two dimensions and a maximum of 20 particles in three dimensions. \cite{hogberget_quantum_2013}. Comparing the energy to the Hartree-Fock limit is also interesting, mainly because of the Boltzmann machines. We use A.Mariadason's computations for this for quantum dots of a maximum of 20 electrons in two dimensions, and a maximum of 8 particles in three dimensions. \cite{mariadason_quantum_2018}
 
-Ground state energy computations of two- and three dimensional closed-shell quantum dots are found in tables \eqref{tab:quantumdotswinteraction2D1} and \eqref{tab:quantumdotswinteraction3D1} respectively. They are performed by a restricted Boltzmann machine (RBM), restricted Boltzmann machine with a simple Jastrow factor (RBM+SJ), restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ), partly restricted Boltzmann machine (PRBM) and standard variational Monte-Carlo (VMC). In addition, the Hartree-Fock limit (HF) and diffusion Monte-Carlo (DMC) are present for reference purposes. 
+Ground state energy computations of two- and three dimensional quantum dots are found in tables \eqref{tab:quantumdotswinteraction2D1} and \eqref{tab:quantumdotswinteraction3D1} respectively. They are performed by a restricted Boltzmann machine (RBM), restricted Boltzmann machine with a simple Jastrow factor (RBM+SJ), restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ), partly restricted Boltzmann machine (PRBM) and standard variational Monte-Carlo (VMC). In addition, the Hartree-Fock limit (HF) and diffusion Monte-Carlo (DMC) are present for reference purposes. 
 
 We observe that the method where less physical intuition is used, RBM, is the one that gives the highest energies. However, compared to HF, the energy is mostly lower. When we add more intuition in form of a simple Jastrow factor, the energy drops significantly. RBM+PJ and VMC are on the same level, with VMC pinched in front.
 
@@ -149,7 +149,7 @@ We observe that the method where less physical intuition is used, RBM, is the on
 		& 0.5 & 1.7231(2) & 1.67787(8) & 1.65957(1) & 1.7182(3) & 1.79974 & - & 1.65972(1) & 1.65977(1)  \\
 		& 1.0 & 3.0822(2) & 3.0255(1) & 3.00002(2) & 3.0566(3) & 3.16190 & - & 2.99999(1) & $3.0^{1}$ \\ \hdashline \\
 
-		6 & 0.1 & 3.7475(2) & 3.6584(4) & 3.57832(2) & - & 3.85238 & - & 3.5698(1) & 3.55385(5) \\ 
+		6 & 0.1 & 3.697(1) & 3.6584(4) & 3.57832(2) & - & 3.85238 & - & 3.5698(1) & 3.55385(5) \\ 
 		& 0.28 & 7.924(1) & 7.7503(4) & 7.6245(2) & - & 8.01957 & - & 7.6219(1) & 7.60019(6) \\
 		& 0.5 & 12.242(1) & 11.9659(5) & 11.8113(2) & 11.995(3) & 12.2713 & - & 11.8108(2) & 11.78484(6) \\
 		& 1.0 & 20.731(1) & 20.4061(7) & 20.1853(2) & 20.483(1) & 20.7192 & - & 20.1905(2) & 20.15932(8) \\ \hdashline \\
@@ -232,13 +232,16 @@ We observe that the method where less physical intuition is used, RBM, is the on
 \end{landscape}
 }
 
-\subsubsection{Open shell energy}
-For open shell quantum dots, analytical results are absent, but there exist several experimental results. We will mainly benchmark our computations against Ref.\cite{pederiva_diffusion_1999} and Ref.\cite{ghosal_incipient_2007}, who have performed DMC- and HF computations for various spin configurations. 
+\subsubsection{Ground-state energy, $S\neq0$}
+When the number of particles in the quantum dot is among the magic numbers presented in equation \eqref{eq:HOclosedshell}, the ground state is guaranteed to be found at $L=S=0$. However, if we want to look at dots of other sizes, this is often not true, and we will therefore look at some cases with $S\neq 0$. We will still stick to $L=0$ and closed shell systems.
 
-The results are listed in table \eqref{tab:sneq0}, where we use a restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo (VMC). For comparison, the Hartree-Fock limit from Ref.\cite{pederiva_diffusion_1999} (HF) and diffusion Monte-Carlo results from Refs.\cite{pederiva_diffusion_1999},\cite{ghosal_incipient_2007} (DMC) are presented. We look at the number of electrons, $N$, which are \textit{not} among the magic numbers in \eqref{eq:HOclosedshell}, and choose the ($L$,$S$) configurations which are possible ground state candidates.
+Imagine a dot of four particles with $S=1$ (three have spin up and the last has spin down). The ground state is obviously found when a spin up and a spin down particle is in the lowest energy state, and the remaining particles are in the first excited energy state. Since the lowest states and the first excited states with spin up are filled up, this is a closed shell system.
 
-We find both the RBM+PJ and VMC to reproduce the reference energy in all the cases. As all sublevels get singly occupied before one gets doubly occupied, the results are consistent with Hund's (first) rule.  
+Again, our results will be benchmarked to DMC, with references Ref.\cite{pederiva_diffusion_1999} and Ref.\cite{ghosal_incipient_2007}. The former reference also presents Hartree-Fock results which we also will use. 
 
+The results are listed in table \eqref{tab:sneq0}, where we use a restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo (VMC). 
+
+We find both the RBM+PJ and VMC to reproduce the reference energy in all the cases. 
 
 \begin{table} [!htbp]
 	\caption{The ground state energy of two-dimensional circular quantum dots of frequency $\omega$ for a given spin configuration ($L$,$S$). The results were obtained by a restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo (VMC). For reference, the Hartree-Fock limit results from Ref.\cite{pederiva_diffusion_1999} (HF) and diffusion Monte-Carlo results from Refs.\cite{pederiva_diffusion_1999},\cite{ghosal_incipient_2007} (DMC) are listed. All energies are given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
