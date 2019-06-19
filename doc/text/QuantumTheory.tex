@@ -79,6 +79,29 @@ In the equations above, the presented wave functions are assumed to be the exact
 
 Variational Monte-Carlo is a method based on (and named after) the variational principle, where we vary the trial wave function in order to obtain the lowest energy. It will be detailed in chaper \eqref{chp:methods}.
 
+\subsection{Quantum Numbers}
+Up to this point, we have just assumed that we are simply given a wave function without worrying about how to set it up. But if we really want to specify a wave function based on the dynamics of a system, we need to know something about quantum numbers.
+
+Quantum numbers are numbers which specify the state of a quantum particle, and they are integer or half-integer. This discretization is the underlying reason why the observable in quantum mechanics are quantized. 
+
+The \textbf{principal} quantum number, $n$, is always the first specified quantum number, since it represents the electronic shell of a particle. It can takes non-zero integer values, 
+\begin{equation}
+n\in[0,\infty\rangle
+\end{equation}
+where the particle's energy usually increases as the $n$ is increased. 
+
+\subsubsection{Angular Momentum and Spin}
+If we again go back to the classical mechanics, the angular momentum $\bs{L}_r=\bs{R}\cross\bs{p}$ around an axis at distance $|\bs{R}|$ from the mass center and the angular momentum $\bs{L}_c=I\bs{\omega}$ around its own mass center is a conserved quantity,
+\begin{equation}
+\bs{L}_{net} = \bs{L}_r+\bs{L}_c,
+\end{equation}
+Since the net angular momentum $\bs{L}_{new}$ is just a sum over the angular momentum of all points in a continua around the rotational axis given by the definition of $\bs{L}_r$, both of them are actually the same thing.
+
+In quantum mechanics we have again an analogy, where we define a \textbf{spin} 
+
+\subsubsection{Hund's rules}
+Hund's rules define the filling order of electron structure shells with respect to the ground state energy. 
+
 \subsection{Postulates of Quantum Mechanics}
 The quantum theory is built on six fundamental postulates, and without mentioning them our work would be incomplete. The postulates write:
 
@@ -100,29 +123,6 @@ $$\hat{\mathcal{H}}\Psi(\bs{r},t)=i\hbar\frac{\partial\Psi}{\partial t}.\textit{
 The postulates are taken from \url{http://vergil.chemistry.gatech.edu/notes/intro_estruc/node4.html}.
 
 The reader may recognize that some of the postulates were mentioned already in the first sections, which was necessary to give a proper introduction. Since we will be looking at stationary systems only, the time-independent Schrödinger equation and then postulate no.5 will not be used, but apart from that they all will play a significant role. 
-
-\section{Quantum Numbers}
-Up to this point, we have just assumed that we are simply given a wave function without worrying about how to set it up. But if we really want to specify a wave function based on the dynamics of a system, we need to know something about quantum numbers.
-
-Quantum numbers are numbers which specify the state of a quantum particle, and they are integer or half-integer. This discretization is the underlying reason why the observable in quantum mechanics are quantized. 
-
-The \textbf{principal} quantum number, $n$, is always the first specified quantum number, since it represents the electronic shell of a particle. It can takes non-zero integer values, 
-\begin{equation}
-n\in[0,\infty\rangle
-\end{equation}
-where the particle's energy usually increases as the $n$ is increased. 
-
-\subsection{Angular Momentum and Spin}
-If we again go back to the classical mechanics, the angular momentum $\bs{L}_r=\bs{R}\cross\bs{p}$ around an axis at distance $|\bs{R}|$ from the mass center and the angular momentum $\bs{L}_c=I\bs{\omega}$ around its own mass center is a conserved quantity,
-\begin{equation}
-\bs{L}_{net} = \bs{L}_r+\bs{L}_c,
-\end{equation}
-Since the net angular momentum $\bs{L}_{new}$ is just a sum over the angular momentum of all points in a continua around the rotational axis given by the definition of $\bs{L}_r$, both of them are actually the same thing.
-
-In quantum mechanics we have again an analogy, where we define a \textbf{spin} 
-
-\subsection{Hund's rules}
-Hund's rules define the filling order of electron structure shells with respect to the ground state energy. 
 
 \section{The Trial Wave Function} \label{subsec:wavefunction}
 By the first postulate of quantum mechanics, the wave function contains all the information specifying the state of the system. This means that all observable in classical mechanics can also be measured from the wave function, which makes finding the wave function our main goal.
@@ -213,12 +213,12 @@ This means that we can split the Slater determinant in a spin up part and a spin
 \begin{equation}
 \Psi(\boldsymbol{r})=|\hat{D}_{\uparrow}|\cdot |\hat{D}_{\downarrow}|
 \end{equation}
-which saves us from a lot of computations. One can easily see that the spin-part now can be factorized out from each of the determinants.
+which saves us from a lot of computations. One can easily see that the spin-part now can be factorized out from each of the determinants. It is also worth to notice that the size of the spin-up determinant is determined by the number of spin-up particles, and it is similar for the spin-down determinant. This means that the we can change the total spin $S$ by adjusting the sizes of the determinants.
 
 This section was heavily inspired by D.Nissenbaum's dissertation, see appendix I in \cite{nissenbaum_stochastic_2008}.
 
 \subsection{Basis set} \label{subsec:basisset}
-To go further, we need to define a basis set, $\phi_n(\bs{r})$ which should be chosen carefully based on the system. For a few systems, we know the exact basis of the non-interacting case, and it is thus a natural basis to use in the Slater determinant. For other systems, the choice of basis might depend on the situation, where we typically need to weigh computational time against accuracy. Concrete examples on both cases will be presented in chapter \eqref{chp:systems}.
+To go further, we need to define a basis set, $\{\phi_1(\bs{r}),\phi_2(\bs{r}),\hdots\phi_N(\bs{r})\}$ which should be chosen carefully based on the system. For a few systems, we know the exact basis of the non-interacting case, and it is thus a natural basis to use in the Slater determinant. For other systems, the choice of basis might depend on the situation, where we typically need to weigh computational time against accuracy. Concrete examples on both cases will be presented in chapter \eqref{chp:systems}.
 
 Often, one will see that the basis is optimized by the Hartree-Fock method. Using this basis in a single Slater determinant, we obtain the Hartree-Fock energy which sometimes is quite accurate. To get an even better energy estimate, we need to add more Slater determinants, which is the task of the post Hartree-Fock methods. More about this in chapter (\ref{chp:methods}-\ref{chp:posthartreefock}).
 
