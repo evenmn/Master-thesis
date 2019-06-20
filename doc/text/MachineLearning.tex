@@ -12,7 +12,7 @@ Parameter estimation is a large part of science, because we are often not able t
 
 The use of the term \textit{machine learning} has exploded over the past years, and sometimes it sounds like it is a totally new field. However, the truth is that many of the methods we use are relatively old, where for instance \textit{linear regression} was known early in the 19th century. \cite{legendre_nouvelles_1805}\cite{gauss_theoria_1809} Those methods have just recently been taken under the machine learning umbrella, which is one of the reasons why the term is mentioned so often. As the professor Anne Solberg at the University of Oslo pointed out during one of her lectures, problems where we want to minimize a loss function based on a set of parameters are today categorized as machine learning.
 
-Another reason why machine learning has achieved .. the last few years, is that many of the algorithm have been dramatically improved. One of the most important contributions to this came in 2012, when the convolutional neural network (CNN) AlexNet won the \textbf{ImageNet Large Scale Visual Recognition Challenge} with the huge margin of 10.8\%. CITE ALEX Other important milestones are the improvement of reinforcement learning in order to solve problems, especially related to playing games and the recurrent neural networks (RNNs) for speech recognition, in particular the long short-term memory (LSTM) network. 
+Another reason why machine learning has achieved .. the last few years, is that many of the algorithm have been dramatically improved. One of the most important contributions to this came in 2012, when the convolutional neural network (CNN) AlexNet won the \textbf{ImageNet Large Scale Visual Recognition Challenge} with the huge margin of 10.8\%. \cite{krizhevsky_imagenet_2012} Other important milestones are the improvement of reinforcement learning in order to solve complex problems related to playing games and the recurrent neural networks (RNNs) for speech recognition, in particular the long short-term memory (LSTM) network. 
 
 Unlike traditional algorithms, machine learning algorithms are not told what to do directly, but they use optimization tools to reproduce targets in the best way. As a consequence, we often do not know exactly what the algorithm does and why it behaves as is does, and because of this behavior, the processing is often called artificial intelligence. In our search for a technique to solve quantum mechanical problems where less physical intuition is needed, machine learning appears as a natural tool.
 
@@ -284,27 +284,30 @@ Now over to the problem we want to solve using neural networks.
 
 
 \section{Unsupervised Learning}
-In unsupervised learning, a neural network is given the inputs only, and does not know what any target is. The task is then to find structures in the data, comparing data sets to each other and categorize the data sets with respect to their similarities and differences. 
+In unsupervised learning, a neural network is given the inputs only, and does not know what the output should look like. The task is then to find structures in the data, comparing data sets to each other and categorize the data sets with respect to their similarities and differences. 
 
-Before we proceed to the unsupervised algorithms, we will dive into the statistics behind. After that, we will look at Boltzmann machines. 
+We have previously seen how the parameters can be adjusted using the backward propagation algorithm, but it does not work when we do not have prior known targets. Instead, we need to rely on a set of probabilities, and we therefore need to look carefully at the statistical foundation before we move on to the unsupervised algorithms.
 
 \subsection{Statistical foundation}
-FIRST explain why we need this probability... In unsupervised learning, it is all about probabilities.. We will stick to the continuous space, the discrete equivalent is just replacing the integrals with sums. 
+In this section, we will explain the general relation between the joint probability distribution of two variables $x$ and $y$, the marginal distributions and the conditional distributions. The expressions can either be set up with respect to the continuous space or the discrete space, and we will do the latter since we in practice will deal with discrete data sets. 
 
 The joint probability of measure both $x$ and $y$ is given by
 \begin{equation}
 p(x,y)=p(x|y)p(y)=p(y|x)p(x)
 \label{eq:jointprob}
 \end{equation}
-where $p(x|y)$ and $p(y|x)$ are the conditional probabilities, and $p(x)$ and $p(y)$ are the marginal probabilities. By reordering equation \eqref{eq:jointprob}, we obtain Bayes' theorem
+where $p(x|y)$ and $p(y|x)$ are the conditional distributions of $x$ and $y$ respectively. $p(x)$ and $p(y)$ are called the marginal probabilities for $x$ and $y$, and by reordering equation \eqref{eq:jointprob}, we obtain Bayes' theorem
 \begin{equation}
 p(x|y)=\frac{p(y|x)p(x)}{p(y)}
 \end{equation}
-where $p(x)$ is the \textit{prior} probability, $p(y|x)$ is the \textit{likelyhood} and $p(x|y)$ is the \textit{posterior} probability. $p(y)$ can be sometimes found by an integral over the joint probability,
+where $p(x)$ is the \textit{prior} probability, $p(y|x)$ is the \textit{likelyhood} function and $p(x|y)$ is the \textit{posterior} probability. $p(y)$ can sometimes be found by a sum over the joint probability,
 \begin{equation}
-p(y)=\int dx p(x,y) = \int dx p(y|x)p(x),
+p(y)=\sum_i p(x_i,y) = \sum_i p(y|x_i)p(x_i),
 \end{equation}
-but often solving this integral is intractable. Different techniques require different approaches to this problem, and for our case we will use Markov chain Monte-Carlo methods to bypass it. More about that in section \eqref{chp:methods}. 
+but often this summation is intractable. Different techniques require different approaches to this problem, and for our case we will use Markov chain Monte-Carlo methods to bypass it. More about that in section \eqref{chp:methods}. 
+
+For supervised learning, the 
+The parameters will always be updated such that the probability is maximized. For instance, 
 
 Next challenge is that we do not have the posterior
 
@@ -317,7 +320,7 @@ Kullback-Leibler divergence gives a measure of how much information is loss when
 \subsection{Boltzmann Machines}
 Boltzmann Machines are based on the more primitive Hopfield network, where a system of nodes is set up which defines the system energy. Inspired by statistical mechanics, the probability of finding the system in a state of energy $E$ is given by the Boltzmann distribution,
 \begin{equation}
-p(\bs{s})=\frac{1}{Z}\exp(-E(\bs{s})/k_BT),
+P(\bs{s})=\frac{1}{Z}\exp(-E(\bs{s})/k_BT),
 \label{eq:boltzmanndist}
 \end{equation}
 hence the name Boltzmann machines.  $\bs{s}$ includes all the nodes, $k_B$ is known as Boltzmann's constant and $T$ is the system temperature, but henceforth they both will be omitted by scaling $E'(\bs{s})=E(\bs{s})/k_BT$. $Z$ is known as the partition function, which is the sum over all possible probabilities.
@@ -356,15 +359,17 @@ E(\bs{x},\bs{h})= \sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2} - \sum_{j=1}^Hh_jb
 \end{equation}
 where $\sigma_i$ is the width of the Gaussian distribution, which can be set to an arbitrary number. Inserting the energy expression into equation \eqref{eq:boltzmanndist}, we obtain the general expression 
 \begin{equation}
-p(\bs{x},\bs{h})=\exp\Big(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2}\Big)\prod_{j=1}^H\exp\Big(h_jb_j+\sum_{i=1}^F\frac{h_jw_{ij}x_i}{\sigma^2}\Big).
+P(\bs{x},\bs{h})=\exp\Big(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2}\Big)\prod_{j=1}^H\exp\Big(h_jb_j+\sum_{i=1}^F\frac{h_jw_{ij}x_i}{\sigma^2}\Big).
 \label{eq:NQSWF1}
 \end{equation}
 which is the Gaussian-binary joint probability distribution. Generative sampling algorithms, as Gibbs' sampling, use this distribution directly, while other sampling tools, as Metropolis sampling, need the marginal distribution. Since the hidden nodes are binary, we just need to sum the joint probability distribution over $h=0$ and $h=1$ to find the marginal distributions. We obtain the expression
-
 \begin{equation}
-p(\bs{x})=\exp\Big(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2}\Big)\prod_{j=1}^H\bigg(1+\exp\Big(b_j+\sum_{i=1}^F\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg).
+P(\bs{x})=\exp\Big(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2}\Big)\prod_{j=1}^H\bigg(1+\exp\Big(b_j+\sum_{i=1}^F\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg).
 \label{eq:NQSWF2}
 \end{equation}
+
+Similarly, the marginal distribution of the hidden nodes 
+
 More about the different sampling tools can be found in chapter \ref{chp:systems}.
 
 \subsection{Partly Restricted Boltzmann Machines}

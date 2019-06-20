@@ -49,39 +49,38 @@ So far, so good, but how about the first problem stated above? How do we find th
 
 For every iteration, we run $M$ Monte-Carlo cycles where we withdraw a new position $\bs{r}_i$. Whether or not the proposed move should be accepted is determined by the Metropolis algorithm.
 
-\section{Sampling algorithms}
-\subsection{The Metropolis Algorithm}
+\section{The Metropolis Algorithm}
 Metropolis sampling is a method of accepting or rejecting moves in Markov chains, and is today often the preferred sampling algorithm in quantum Monte-Carlo. The genius of this algorithm, is that the acceptance of a move is not based on the probabilities themselves, but the ratio between the new and the old probabilities. In that way, we avoid calculating the sum over all probabilities, which often is expensive or even impossible to calculate. 
 
-If we denote $\bs{r}$ as the current state, and $\bs{r}'$ as the proposed state, we have a transition rule $\mathcal{P}(\bs{r}\rightarrow\bs{r}')$ for going from $\bs{r}$ to $\bs{r}'$ and a transition rule $\mathcal{P}(\bs{r}'\rightarrow\bs{r})$ for going the other way around. If we then assume that the rules satisfy \textit{ergodicity} and \textit{detailed balance}, we have the following relationship:
+If we denote $\bs{r}$ as the current state, and $\bs{r}'$ as the proposed state, we have a transition rule $P(\bs{r}'|\bs{r})$ for going from $\bs{r}$ to $\bs{r}'$ and a transition rule $P(\bs{r}|\bs{r}')$ for going the other way around. If we then assume that the rules satisfy \textit{ergodicity} and \textit{detailed balance}, we have the following relationship:
 \begin{equation}
-\mathcal{P}(\bs{r}\rightarrow\bs{r}')P(\bs{r})=\mathcal{P}(\bs{r}'\rightarrow\bs{r})P(\bs{r}').
+P(\bs{r}'|\bs{r})P(\bs{r})=P(\bs{r}|\bs{r}')P(\bs{r}').
 \end{equation}
 
-The next step is to rewrite the transition rules in terms of a sampling distribution $T(\bs{r}\rightarrow\bs{r}')$ and an acceptance probability $A(\bs{r}\rightarrow\bs{r}')$,
+The next step is to rewrite the transition rules in terms of a proposal distribution $T(\bs{r}'|\bs{r})$ and an acceptance probability $A(\bs{r}',\bs{r})$,
 \begin{equation}
-\mathcal{P}(\bs{r}\rightarrow\bs{r}')=T(\bs{r}\rightarrow\bs{r}')A(\bs{r}\rightarrow\bs{r}').
+P(\bs{r}'|\bs{r})=T(\bs{r}'|\bs{r})A(\bs{r}',\bs{r}).
 \end{equation}
 In order to satisfy the detailed balance, we need to choose $A(\bs{r}\rightarrow\bs{r}')$ such that
 \begin{equation}
-A(\bs{r}\rightarrow\bs{r}')=\text{min }\left[1,\frac{T(\bs{r}'\rightarrow\bs{r})P(\bs{r}')}{T(\bs{r}\rightarrow\bs{r}')P(\bs{r})}\right],
+A(\bs{r}',\bs{r})=\text{min }\left[1,\frac{T(\bs{r}|\bs{r}')P(\bs{r}')}{T(\bs{r}'|\bs{r})P(\bs{r})}\right],
 \label{eq:acceptance}
 \end{equation}
 since $A$ cannot be larger than 1. If the acceptance is higher than a random number between 0 and 1, the move is accepted.
 
-\subsubsection{Brute-Force Sampling}
+\subsection{Brute-Force Sampling}
 In its simplest form, the move is proposed randomly both in magnitude and direction. Mathematically, we can write this as
 \begin{equation}
 \bs{r}'=\bs{r}+sd\bs{r}
 \end{equation}
-where $s$ is a random number which determines the distance to move and $d\bs{r}$ is a random direction (typically which particle to move). We obtain the naive acceptance probability when setting $T(\bs{r}\rightarrow\bs{r}')=T(\bs{r}'\rightarrow\bs{r})$, such that the it simplifies to
+where $s$ is a random number which determines the distance to move and $d\bs{r}$ is a random direction (typically which particle to move). We obtain the naive acceptance probability when requiring $T(\bs{r}'|\bs{r})=T(\bs{r}|\bs{r}')$, such that the it simplifies to
 \begin{equation}
-A(\bs{r}\rightarrow\bs{r}')=\text{min }\left[1,\frac{P(\bs{r}')}{P(\bs{r})}\right].
+A(\bs{r}',\bs{r})=\text{min }\left[1,\frac{P(\bs{r}')}{P(\bs{r})}\right].
 \end{equation}
 
 However, with this approach a lot of moves will be rejected, which results in a significant waste of computing power. A better method is \textbf{importance sampling}.
 
-\subsubsection{Importance Sampling}
+\subsection{Importance Sampling}
 Importance sampling is a more intelligent sampling method than the brute-force sampling, since the new position is based on an educated guess. To understand how it works, we need to take a quick look at diffusion processes. We start from the Fokker-Planck equation,
 \begin{equation}
 \frac{\partial P(\bs{r},t)}{\partial t}=D\nabla\left(\nabla-\bs{F}\right)P(\bs{r},t)
@@ -113,15 +112,15 @@ which is satisfied when $g(\bs{r})=1/P(\bs{r})$. We then get the drift force
 \end{equation}
 which is also known as the \textit{quantum force}.
 
-The remaining part is how to decide if a proposed move should be accepted or not. For this, we need to find the sampling distributions $T(\bs{r}\rightarrow\bs{r}')$ from equation \eqref{eq:acceptance}, which are just the solutions of the Fokker-Planck equation. The solutions read
+The remaining part is how to decide if a proposed move should be accepted or not. For this, we need to find the sampling distributions $T(\bs{r}'|\bs{r})$ from equation \eqref{eq:acceptance}, which are just the solutions of the Fokker-Planck equation. The solutions read
 \begin{equation}
 G(\bs{r},\bs{r}',\Delta t)\propto\exp\Big(-\big(\bs{r}-\bs{r}'-D\Delta t\bs{F}(\bs{r})\big)^2/4D\Delta t\Big)
 \end{equation}
-which is called Green's functions. The acceptance probability for importance sampling can finally be written as
+which is called Green's functions. They correspond to the normal distribution $\mathcal{N}(\bs{r}|\bs{r}'+D\Delta t \bs{F}(\bs{r}),2D\Delta t)$. The acceptance probability for importance sampling can finally be written as
 \begin{equation}
-A(\bs{r}\rightarrow\bs{r}')=\text{min }\left[1,\frac{G(\bs{r},\bs{r}',\Delta t)P(\bs{r}')}{G(\bs{r}',\bs{r}, \Delta t)P(\bs{r})}\right],
+A(\bs{r}'|\bs{r})=\text{min }\left[1,\frac{G(\bs{r},\bs{r}',\Delta t)P(\bs{r}')}{G(\bs{r}',\bs{r}, \Delta t)P(\bs{r})}\right],
 \end{equation}
-where the probability is still given by equation \eqref{eq:probvmc}. As a summary, we set up the actual algorithm, known as Metropolis-Hasting's algorithm, see algorithm \eqref{al:hasting}.
+where the marginal probabilities are still given by equation \eqref{eq:probvmc}. As a summary, we set up the actual algorithm, known as Metropolis-Hasting's algorithm, see algorithm \eqref{al:hasting}.
 
 \begin{algorithm}
 	\SetAlgoLined
@@ -151,6 +150,10 @@ where the probability is still given by equation \eqref{eq:probvmc}. As a summar
 	\label{al:hasting}
 \end{algorithm}
 
-\subsection{Gibbs' sampling}
-In the machine learning community, Gibbs' sampling is widely used when it comes to training Boltzmann machines. Unlike Metropolis sampling, Gibbs' sampling does not rely on the marginal probabilities, but it actually uses the conditional probabilities to update both the visible and hidden nodes. 
+\subsection{Gibbs Sampling}
+In the machine learning community, Gibbs sampling is widely used when it comes to training Boltzmann machines. It is an instance of the Metropolis-Hastings algorithm, but since the units are updated to maximize the probabilities, all the moves are accepted. The algorithm will be discussed for the restricted Boltzmann case only.
+
+Given an initial set of coordinates $\bs{r}$ and $\bs{h}$, one can use the conditional probability $P(\bs{r}|\bs{h})$ to find a new set of 
+
+\section{Diffusion Monte-Carlo}
 
