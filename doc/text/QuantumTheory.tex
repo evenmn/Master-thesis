@@ -25,7 +25,7 @@ Before we get started, we make a few assumptions in order to simplify our proble
 \end{itemize}
 
 \subsection{The Schrödinger Equation} \label{subsec:schrodinger}
-In this work we will focus on solving the time-independent non-relativistic Schrödinger equation, which gives the energy eigenstates of a system defined by a Hamiltonian $\hat{\mathcal{H}}$ and its eigenfunctions, $\Psi_n(\bs{r})$, which are the wave functions. $\bs{r}$ are the position coordinates of all the system's particles and $n$ is a particular set of quantum numbers. The equation reads
+In this work we will focus on solving the time-independent non-relativistic Schrödinger equation, which gives the energy eigenvalues of a system defined by a Hamiltonian $\hat{\mathcal{H}}$ and its eigenfunctions, $\Psi_n(\bs{r})$, which are the wave functions. $\bs{r}$ are the position coordinates of all the system's particles and $n$ characterizes the state. The equation reads
 \begin{equation}
 \label{eq:Energy}
  \hat{\mathcal{H}}\psin=\epsilon_n\psin
@@ -80,15 +80,11 @@ In the equations above, the presented wave functions are assumed to be the exact
 Variational Monte-Carlo is a method based on (and named after) the variational principle, where we vary the trial wave function in order to obtain the lowest energy. It will be detailed in chaper \eqref{chp:methods}.
 
 \subsection{Quantum Numbers}
-Up to this point, we have just assumed that we are simply given a wave function without worrying about how to set it up. But if we really want to specify a wave function based on the dynamics of a system, we need to know something about quantum numbers.
+Up to this point, we have used $n$ to indicate which state we are dealing with, but we have not explained what it actually means. 
 
-Quantum numbers are numbers which specify the state of a quantum particle, and they are integer or half-integer. This discretization is the underlying reason why the observable in quantum mechanics are quantized. 
+Unlike in classical physics, all the observable in quantum mechanics are discrete or \textit{quantized}, hence the quantum name. The consequence is that $n$ cannot take any number, but it needs to be a positive integer. In other words...
 
-The \textbf{principal} quantum number, $n$, is always the first specified quantum number, since it represents the electronic shell of a particle. It can takes non-zero integer values, 
-\begin{equation}
-n\in[0,\infty\rangle
-\end{equation}
-where the particle's energy usually increases as the $n$ is increased. 
+The quantum number $n\in[0,\infty\rangle$ is named the \textbf{principal} quantum number, and specifies the electronic shell of the state. As $n$ increases, the energy will increase, which makes it the most important quantum number for energy measurements. The other quantum numbers are associated with angular momentum and spin, more about that in the next section.
 
 \subsubsection{Angular Momentum and Spin}
 If we again go back to the classical mechanics, the angular momentum $\bs{L}_r=\bs{R}\cross\bs{p}$ around an axis at distance $|\bs{R}|$ from the mass center and the angular momentum $\bs{L}_c=I\bs{\omega}$ around its own mass center is a conserved quantity,
@@ -97,7 +93,13 @@ If we again go back to the classical mechanics, the angular momentum $\bs{L}_r=\
 \end{equation}
 Since the net angular momentum $\bs{L}_{new}$ is just a sum over the angular momentum of all points in a continua around the rotational axis given by the definition of $\bs{L}_r$, both of them are actually the same thing.
 
-In quantum mechanics we have again an analogy, where we define a \textbf{spin} 
+In quantum mechanics we have again an analogy, where we define a \textbf{spin} $s$ which describes a particles rotation around its own mass center and a \textbf{angular momentum} $l$ which describes a particles rotation around an external rotational axis. Like in classical physics, the total spin $S$ and the total angular momentum $L$ is a conserved quantity,
+\begin{equation}
+J=L+S,
+\end{equation}
+but the transition from $L$ to $S$ is rare compared to the transition from $L_c$ to $L_r$. Spin-coupling. Azimuthal. Quantized.
+
+We will summary all the quantum numbers through a table. 
 
 \subsubsection{Hund's rules}
 Hund's rules define the filling order of electron structure shells with respect to the ground state energy. 
