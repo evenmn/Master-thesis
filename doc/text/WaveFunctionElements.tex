@@ -9,26 +9,26 @@ The first assumption is useful when updating position dependent arrays. Typicall
 \section{Kinetic Energy Calculations}
 The local energy, defined in equation \eqref{eq:local energy}, is
 \begin{align}
-E_L &=\frac{1}{\Psi_T}\hatH\Psi_T\\
-&=\sum_{k=1}^M\Big[-\frac{1}{2\Psi_T}\nabla_k^2\Psi_T + U_k + V_k\Big].
+E_L &=\frac{1}{\Psi_T(\bs{r})}\hat{\mathcal{H}}\Psi_T(\bs{r})\\
+&=\sum_{k=1}^M\Big[-\frac{1}{2}\Big(\frac{1}{\Psi_T(\bs{r})}\nabla_k^2\Psi_T(\bs{r})\Big) + \mathcal{V}\Big].
 \end{align}
 The first term, which is the kinetic energy term, is the only wave function-dependent one. It will in this chapter be evaluated for various wave function elements. From the definition of differentiation of a logarithm, we have that
 \begin{equation}
-\frac{1}{\Psi_T}\nabla_k\Psi_T=\nabla_k\ln\Psi_T,
+\frac{1}{\Psi_T(\bs{r})}\nabla_k\Psi_T(\bs{r})=\nabla_k\ln\Psi_T(\bs{r}),
 \end{equation}
 which provides the following useful relation 
 \begin{equation}
-\frac{1}{\Psi_T}\nabla_k^2\Psi_T=\nabla_k^2\ln\Psi_T + (\nabla_k\ln\Psi_T)^2.
+\frac{1}{\Psi_T(\bs{r})}\nabla_k^2\Psi_T(\bs{r})=\nabla_k^2\ln\Psi_T(\bs{r}) + (\nabla_k\ln\Psi_T(\bs{r}))^2.
 \end{equation}
 Consider a trial wave function, $\Psi_T$, consisting of a product of $p$ wave function elements, $\{\phi_1, \phi_2\hdots\phi_p\}$,
 \begin{equation}
-\Psi_T = \prod_{i=1}^p\phi_i.
+\Psi_T(\bs{r}) = \prod_{i=1}^p\phi_i(\bs{r}).
 \end{equation}
 The kinetic energy related to this trial wave function is then computed by
 \begin{equation}
-\frac{1}{\Psi_T}\nabla_k^2\Psi_T=\sum_{i=1}^p\nabla_k^2\ln\phi_i + \Big(\sum_{i=1}^p\nabla_k\ln\phi_i\Big)^2,
+\frac{1}{\Psi_T(\bs{r})}\nabla_k^2\Psi_T(\bs{r})=\sum_{i=1}^p\nabla_k^2\ln\phi_i(\bs{r}) + \Big(\sum_{i=1}^p\nabla_k\ln\phi_i(\bs{r})\Big)^2,
 \end{equation}
-which can be found when all local derivatives $\nabla_k^2\ln\phi_i$ and $\nabla_k\ln\phi_i$ are given. For each wave function element given below, those local derivatives will be evaluated. In addition, we need to know the derivative of local energy with respect to the variational parameters in order to update the parameters correctly. 
+which can be found when all local derivatives $\nabla_k^2\ln\phi_i(\bs{r})$ and $\nabla_k\ln\phi_i(\bs{r})$ are given. For each wave function element given below, those local derivatives will be evaluated. In addition, we need to know the derivative of local energy with respect to the variational parameters in order to update the parameters correctly. 
 
 \section{Parameter Update}
 In gradient based optimization methods, as we use, one needs to know the gradient of the expectation value of local energy with respect to all variational parameters $\alpha_i$, 
@@ -41,13 +41,13 @@ Since we are dealing with an expectation value, this gradient can be found from
 \end{equation}
 which means that we need to calculate the expectation values $\langle E_L\partial_{\alpha_i}\ln\Psi_T\rangle$ and $\langle\partial_{\alpha_i}\ln\Psi_T\rangle$ in addition to the local energy. Those expectation values are found from the integrals
 \begin{equation}
-\langle E_L\partial_{\alpha_i}\ln\Psi_T\rangle = \int_{i=0}^Ndh
+\langle\partial_{\alpha_i}\ln\Psi_T\rangle = \int_{-\infty}^{\infty}d\bs{r}P(\bs{r})\partial_{\alpha_i}\ln\Psi_T(\bs{r})
 \end{equation}
 and
 \begin{equation}
-\langle\partial_{\alpha_i}\ln\Psi_T\rangle = \int_{i=0}^Ndh
+\langle E_L\partial_{\alpha_i}\ln\Psi_T\rangle = \int_{-\infty}^{\infty}d\bs{r}P(\bs{r})E_L(\bs{r})\partial_{\alpha_i}\ln\Psi_T(\bs{r}),
 \end{equation}
-respectively. In the same manner as the local energy itself, they are solved using Monte-Carlo integration.
+which can also be found by Monte-Carlo integration.
 
 \section{Optimizations}
 How much a wave function element can be optimized heavily depends on the specific form of the element. For instance, sometimes the previous and present $\nabla_k\ln\phi_i$ are closely related, and only differ with a few calculations, while for some other elements they are not related at all. Those subjective optimizations will therefore be described when presenting each wave function element. 

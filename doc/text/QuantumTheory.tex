@@ -62,7 +62,7 @@ which not necessarily is trivial to solve. If we take the wave function squared 
 \begin{equation}
 P(\bs{r})=\psinc\psin=|\psin|^2
 \end{equation}
-so the nominator is simply the integral over all probabilities. If the wave function is normalized correctly, this should always give 1. Assuming that is the case, the expectation value can be expressed more elegantly by using Dirac notation,
+so the nominator is basically the integral over all probabilities. If the wave function is normalized correctly, this should always give 1. Assuming that is the case, the expectation value can be expressed more elegantly by using Dirac notation,
 \begin{equation}
 E[\Psi]=\mel{\Psi}{\hat{\mathcal{H}}}{\Psi},
 \end{equation}
@@ -71,7 +71,7 @@ where the first part, $\bra{\Psi}$ is called a bra and the last part, $\ket{\Psi
 \cite{griffiths_introduction_2005}
 
 \subsection{The Variational Principle}
-In the equations above, the presented wave functions are assumed to be the exact eigen functions of the Hamiltonian. But often we do not know the exact wave functions, and we need to guess what the wave functions might be. In those cases we make use of the variational principle, which states that only the exact ground state wave function is able to give the ground state energy. All other wave functions that fulfill the required properties (see section \ref{subsec:wavefunction}) give higher energies, and mathematically we can express the statement
+In the equations above, the presented wave functions are assumed to be the exact eigenfunctions of the Hamiltonian. But often we do not know the exact wave functions, and we need to guess what the wave functions might be. In those cases we make use of the Rayleigh-Ritz variational principle or just the variational principle, which states that only the exact ground state wave function is able to give the ground state energy. All other wave functions that fulfill the required properties (see section \ref{subsec:wavefunction}) give higher energies, and mathematically we can express the statement
 \begin{equation}
 \epsilon_0\leq\mel{\Psi_T}{\hat{\mathcal{H}}}{\Psi_T}.
 \label{eq:variationalprinciple}

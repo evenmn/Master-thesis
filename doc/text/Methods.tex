@@ -25,7 +25,7 @@ There are two main problems we need to solve
 \end{enumerate}
 Let us first determine the last problem, which often is considered as the root of all evil. Solving this integral analytically is impossible, but we can approximate it with a sum,
 \begin{align}
-E &\leq \frac{\int\Psi_T(\bs{r})^*\hat{\mathcal{H}}\Psi_T(\bs{r}) d\bs{r}}{\int\Psi_T(\bs{r})^*\Psi_T(\bs{r}) d\bs{r}} \notag\\
+E &\leq \frac{\int d\bs{r}\Psi_T(\bs{r})^*\hat{\mathcal{H}}\Psi_T(\bs{r})}{\int d\bs{r}\Psi_T(\bs{r})^*\Psi_T(\bs{r})} \notag\\
 & = \int P(\bs{r}) E_L(\bs{r}) d\bs{r} \notag\\
 & \approx \frac{1}{M}\sum_{i=1}^ME_L(\bs{r}_i) \label{eq:energysum}
 \end{align}
@@ -36,7 +36,7 @@ E_L(\bs{r})\equiv\frac{1}{\Psi_T(\bs{r})}\hat{\mathcal{H}}\Psi_T(\bs{r})
 \end{equation}
 and the $\bs{r}_i$ is withdrawn from the probability distribution $P(\bs{r})$, which is given by
 \begin{equation}
-P(\bs{r})=\frac{|\Psi_T(\bs{r})|^2}{\int|\Psi_T(\bs{r})|^2d\bs{r}}.
+P(\bs{r})=\frac{|\Psi_T(\bs{r})|^2}{\int d\bs{r}|\Psi_T(\bs{r})|^2}.
 \label{eq:probvmc}
 \end{equation}
 When increasing the number of energies drawn from the distribution, $M$, henceforth denoted as Monte-Carlo cycles, the standard error decreases and we get a more accurate energy. The error goes as $\mathcal{O}(1/\sqrt{M})$, and in the limit when $M$ goes to infinity, the error goes to zero,
@@ -85,7 +85,7 @@ Importance sampling is a more intelligent sampling method than the brute-force s
 \begin{equation}
 \frac{\partial P(\bs{r},t)}{\partial t}=D\nabla\left(\nabla-\bs{F}\right)P(\bs{r},t)
 \end{equation}
-which describes how a probability distribution $P(\bs{r},t)$ evolves in appearance of a drift force $\bs{F}$. In the case $\bs{F}=0$, the equation reduces to the diffusion equation with $D$ as the diffusion constant. This constant can be found from the so-called Einstein relation, which simplifies to $D=1/2$ in atomic units. 
+which describes how a probability distribution $P(\bs{r},t)$ evolves in appearance of a drift force $\bs{F}$. In the case $\bs{F}=0$, the equation reduces to the diffusion equation with $D$ as the diffusion constant. This simplifies to $D=1/2$ in atomic units. 
 
 The Langevin equation states that a diffusion particle tends to move parallel to the drift force in the coordinate space, but because of a random variable $\bs{\eta}$ this is not always true. The equation reads
 \begin{equation}
@@ -94,7 +94,7 @@ The Langevin equation states that a diffusion particle tends to move parallel to
 \end{equation}
 Given a position $\bs{r}$, the new position $\bs{r}'$ can be be found by applying forward-Euler on equation \eqref{eq:langevin},
 \begin{equation}
-\bs{r}'=\bs{r}+D\bs{F}(\bs{r})\Delta t + \bs{\xi}\sqrt{\Delta t}
+%\bs{r}'=\bs{r}+D\bs{F}(\bs{r})\Delta t + \bs{\xi}\sqrt{\Delta t}
 \end{equation}
 where $\Delta t$ is a fictive time step and $\bs{\xi}$ is a Gaussian random variable. The next thing we want to find, is an expression for the drift force $\bs{F}$ which makes the system converge to a stationary state. 
 
@@ -156,4 +156,4 @@ In the machine learning community, Gibbs sampling is widely used when it comes t
 Given an initial set of coordinates $\bs{r}$ and $\bs{h}$, one can use the conditional probability $P(\bs{r}|\bs{h})$ to find a new set of 
 
 \section{Diffusion Monte-Carlo}
-
+Diffusion Monte-Carlo is based on the time-imaginary Schrödinger equation. 
