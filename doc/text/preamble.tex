@@ -1,4 +1,4 @@
-\documentclass[norsk,a4paper,12pt]{book}
+\documentclass[twosided, english]{book}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 \usepackage{csquotes}	% Supports babel
@@ -34,6 +34,7 @@
 \usepackage{varwidth}	% Rotate text in table
 \usepackage{arydshln}   % Dashed lines in table
 \usepackage{epigraph}	% Quote at beg. of chapter
+%\usepackage{times}
 
 % Change margins on each page
 \usepackage[right=2cm, 
@@ -46,7 +47,8 @@
 %biblatex
 %\usepackage{biblatex}
 \usepackage[backend=bibtex,
-			sorting=ynt
+			sorting=ynt,
+			style=numeric-comp
 ]{biblatex}
 \addbibresource{refs.bib}
 

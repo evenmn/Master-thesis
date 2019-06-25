@@ -109,12 +109,12 @@ Unlike many other VMC codes, our code was developed flexible with respect to the
 
 \lstset{basicstyle=\scriptsize}
 \begin{lstlisting}[language=c++,caption={from \texttt{main.cpp}}]
-System* system = new System();
+System* quantumDot = new System();
 std::vector<class WaveFunction*> WaveFunctionElements;
-WaveFunctionElements.push_back(new class Gaussian(system));
-WaveFunctionElements.push_back(new class PadeJastrow(system));
-WaveFunctionElements.push_back(new class SlaterDeterminant(system));
-system->setWaveFunctionElements(WaveFunctionElements);
+WaveFunctionElements.push_back(new Gaussian(quantumDot));
+WaveFunctionElements.push_back(new PadeJastrow(quantumDot));
+WaveFunctionElements.push_back(new SlaterDeterminant(quantumDot));
+quantumDot->setWaveFunctionElements(WaveFunctionElements);
 \end{lstlisting}
 
 The big advantage of this implementation technique is that we do not need to hard code every possible combination of wave function elements, which reduces the number of code lines significantly. This also eases the operation of adding new elements, since we only need to calculate the derivatives of the particular element (do not need to worry about cross terms). Exactly how this is done can be read in chaper \ref{chp:WFE}. The con is that the program will be slightly slower, since even canceling cross terms are calculated.
