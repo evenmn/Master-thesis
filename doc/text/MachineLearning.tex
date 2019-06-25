@@ -10,13 +10,11 @@
 Parameter estimation is a large part of science, because we are often not able to measure things directly. For instance, when Millikan in ... performed his famous electron charge experiment or when we estimate Sun's mass.
 \fi 
 
-The use of the term \textit{machine learning} has exploded over the past years, and sometimes it sounds like it is a totally new field. However, the truth is that many of the methods we use are relatively old, where for instance \textit{linear regression} was known early in the 19th century. \cite{legendre_nouvelles_1805}\cite{gauss_theoria_1809} Those methods have just recently been taken under the machine learning umbrella, which is one of the reasons why the term is mentioned so often. As the professor Anne Solberg at the University of Oslo pointed out during one of her lectures, problems where we want to minimize a loss function based on a set of parameters are today categorized as machine learning.
+The use of the term \textit{machine learning} has exploded over the past years, and sometimes it sounds like it is a totally new field. However, the truth is that many of the methods are relatively old, where for instance \textit{linear regression} was known early in the 19th century. \cite{legendre_nouvelles_1805, gauss_theoria_1809} Those methods have just recently been taken under the machine learning umbrella, which is one of the reasons why the term is used more frequently than before. As the professor A.Solberg at the University of Oslo pointed out during one of her lectures, machine learning covers all methods where the goal is to minimize a loss function based on a set of parameters. This has made machine learning an extremely rich field. Unlike traditional algorithms, machine learning algorithms are not told what to do directly, but they use optimization tools to reproduce targets in the best way. As a consequence, we often do not know exactly what the algorithm does and why it behaves as is does, and because of this behavior, the processing is often called artificial intelligence. In our search for a technique to solve quantum mechanical problems where less physical intuition is needed, machine learning appears as a natural tool.
 
-Another reason why machine learning has achieved .. the last few years, is that many of the algorithm have been dramatically improved. One of the most important contributions to this came in 2012, when the convolutional neural network (CNN) AlexNet won the \textbf{ImageNet Large Scale Visual Recognition Challenge} with the huge margin of 10.8\%. \cite{krizhevsky_imagenet_2012} Other important milestones are the improvement of reinforcement learning in order to solve complex problems related to playing games and the recurrent neural networks (RNNs) for speech recognition, in particular the long short-term memory (LSTM) network. 
+The increasing popularity should also without any doubt be attributed to the dramatically improvement of a majority of the machine learning algorithms. Perhaps the most important contribution to this came in 2012, when the deep convolution neural network (CNN) \textbf{AlexNet} managed to classify 1.2 millions images into 1000 classes with a remarkable top-5 test error rate of 15.3\%. \cite{krizhevsky_imagenet_2012} Today, the CNNs have been further improved, and they are even able to beat humans in recognizing images! (The history began from AlexNet) Also voice recognition algorithms have lately been revolutionized, thanks to recurrent neural networks (RNNs), and especially long short-term memory (LSTM) networks. Their ability to recognize sequential (time-dependent) data made the technology good enough for an entry to millions of peoples everyday-life through services such as \textbf{Google Translate} (Google’s Neural Machine Translation System: Bridging the Gap between Human and Machine Translation), \textbf{Siri by Apple} (https://bgr.com/2016/06/13/ios-10-siri-third-party-apps/) and \textbf{Amazon Alexa} (https://www.allthingsdistributed.com/2016/11/amazon-ai-and-alexa-for-all-aws-apps.html). It is also interesting to see how machine learning has made computers eminent tacticians using recurrent neural networks. The \textbf{Google DeepMind} developed program \textbf{AlphaGo} demonstrated this by beating the 9-dan professional L. Sedol in the board game Go (https://www.alphagomovie.com/), before a improved version, \textbf{AlphaZero}, beat the at that time highest rated chess computer, \textbf{StockFish} (https://www.chess.com/news/view/google-s-alphazero-destroys-stockfish-in-100-game-match). Both these scenarios were unbelievable just a decade ago.
 
-Unlike traditional algorithms, machine learning algorithms are not told what to do directly, but they use optimization tools to reproduce targets in the best way. As a consequence, we often do not know exactly what the algorithm does and why it behaves as is does, and because of this behavior, the processing is often called artificial intelligence. In our search for a technique to solve quantum mechanical problems where less physical intuition is needed, machine learning appears as a natural tool.
-
-We usually distinguish between \textit{supervised} and \textit{unsupervised} learning, based on whether the model is trained on prior known targets or not. Even though the latter will be the most central part in our studies, the background theory of both techniques will be discussed carefully in this chapter. 
+Even though all these branches are both exciting and promising, they will not be discussed further in this work, since they will simply not work for our purposes. The reason is that they initially require a data set with known outputs in order to be trained, they obey so-called \textit{supervised} learning. Instead, we rely on \textit{unsupervised} learning, which has the task of finding patterns in the data and is therefore not in need for known outputs. However, we will discuss some simpler supervised learning algorithms as an introduction and a motivation for the unsupervised learning section. 
 
 \section{Supervised Learning}
 In supervised learning methods, we know the corresponding targets to the input data sets, which we use to train the model. This could for instance be linear regression, logistic regression or feed-forward neural networks.
@@ -43,7 +41,7 @@ where $\hat{y}_i$ is the $y$-value of the line at $x=x_i$. Our goal is to minimi
 \end{equation}
 which can either be minimized by a matrix-vector product or an iterative minimization algorithm. Both these methods will be covered in the more general linear regression section below.
 
-\subsection{Linear regression}
+\subsection{Linear Regression}
 In linear regression, the dependent variable $y_i$ is a linear combination of the parameters, and for a dependent variable this can be written as
 \begin{equation}
 \hat{y}_i=\sum_jX_{ij}\beta_j
@@ -58,6 +56,7 @@ The three most commonly used linear regression methods are \textit{ordinary leas
 which is minimized when
 \begin{equation}
 \bs{\beta}=(\hat{X}^T\hat{X})^{-1}\hat{X}^T\bs{y}.
+\label{eq:ols}
 \end{equation}
 
 Quite often when we deal with large data sets, the design matrix contains singular values which give us problems with calculating $(\hat{X}^T\hat{X})^{-1}$. A way to avoid this is to introduce a penalty $\lambda$ to ensure that all the diagonal values are non-zero, which can be accomplished by adding a small value to all diagonal elements. This is the idea behind Ridge regression, which has the loss function
@@ -74,18 +73,28 @@ Finally, we have Lasso regression with a loss function given by
 \end{empheq}
 and without any expression for the optimized parameters. In order to optimize this loss function, we therefore need to use an iterative optimization algorithm. Such methods will later be used in the variational Monte-Carlo sampling, and some methods are therefore detailed in chapter \eqref{chp:optimization}. 
 
-To illustrate how the iterative optimization works, we will go back to equation \eqref{eq:targets} and use OLS for simplicity reasons. Imagine that we have three points $\{(x_1,y_1),(x_2,y_2),(x_3,y_3)\}$ that we want to fit with a curve of two variables $\beta_1,\beta_2$. The simplest way to solve this interatively is to use \textbf{gradient descent} optimization, which goes as
+To illustrate how the iterative optimization works, we will go back to equation \eqref{eq:targets} and use OLS for simplicity reasons. Imagine that we have four points $\{(x_1,y_1),(x_2,y_2),(x_3,y_3),(x_4,y_4)\}$ that we want to fit to a curve of three parameters $\beta_1,\beta_2,\beta_3$. The simplest way to solve this interatively is to use \textbf{gradient descent} optimization, which goes as
 \begin{equation}
 \beta_k^+=\beta_k-\eta \frac{\partial\mathcal{L}(\bs{\beta})}{\partial\beta_k}
 \end{equation}
 with $\eta$ specifying how much the parameters should be changed for each iteration, known as the learning rate. 
 The output $\hat{y}_i$ can be expressed by
 \begin{equation}
-\hat{y}_i=X_{i1}\beta_1+X_{i2}\beta_2
+\hat{y}_i=X_{i1}\beta_1+X_{i2}\beta_2+X_{i3}\beta_3
 \end{equation}
-and the network can be illustrated with $\beta_j$ as the input nodes, $\hat{y}_i$ as the output nodes and $X_{ij}$ as lines between all nodes, as in figure ... 
+and the network can be illustrated with $\beta_j$ as the input nodes, $\hat{y}_i$ as the output nodes and $X_{ij}$ as lines in between all nodes, as in figure ... 
 
-\subsection{Logistic regression}
+ADD FIGURE
+
+To go further, we will restrict  ourselves to a second order polynomial, setting $X_{i1}=1$, $X_{i1}=x_i$ and $X_{i1}=x_i^2$. The parameter update then yields
+\begin{equation}
+\beta_k^+=\beta_k+2\eta\sum_{i=1}^3(y_i-\beta_1-\beta_2x_i-\beta_3x_i^2)x_i^{k-1},
+\end{equation}
+which can be run iteratively until the parameters have converged. 
+
+We will again stress that we go through this iterative method for illustration purposes only, it would be more efficient to apply equation \eqref{eq:ols}. However, the thinking above is similar to the approach we do when training a neural network. An important difference is that we here search for an estimate of the left-hand-side (LHS) \textit{nodes} $b_j$, while in a traditional feed-forward neural network (FNN) we want to find the \textit{weights}, the parameters that connect the nodes together (here $X_{ij}$). The principle with multiplying the LHS nodes by the weights to obtain the right-hand-side (RHS) nodes is though the same, and we can use the same minimization tools. An example that is even more related to neural networks is \textit{logistic regression}, which will be discussed in the next section. 
+
+\subsection{Logistic Regression}
 Despite its name, logistic regression is not a fitting tool, but rather a classification tool. Traditionally, the perceptron model was used for 'hard classification', which sets the outputs directly to binary values. However, often we are interested in the probability of a given category, which means that we need a continuous \textit{activation function}. Logistic regression can, like linear regression, be considered as a function where coefficients are adjusted with the intention to minimize the error. Here, the coefficients are called \textit{weights}. The process goes like this: The inputs are multiplied by several weights, and by adjusting those weights the model can classify every \textit{linear classification problem}. A drawing of the perceptron is found in figure (\ref{fig:single_perceptron}).
 
 \input{tikz/singlelayer_perceptron.tex}
