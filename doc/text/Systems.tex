@@ -103,7 +103,7 @@ where our targets, $\hat{C}$, are just the eigenvectors of the $\hat{h}$-matrix.
 \end{equation}
 with $\hat{\mathcal{H}}_{\text{+}}=(1/2)\omega\sum_{i=1}^P\Big((1/4)b^2-b|x_i|\Big)$ as the extension. The former integrals are just the harmonic oscillator energies, presented in \eqref{eq:HOenergies}, while the latter integrals are trivial to calculate.
 
-\section{Atomic systems} \label{sec:atomic}
+\section{Atoms} \label{sec:atomic}
 We will also investigate real atoms, where we freeze out the nucleonic degrees of freedom known as the Born-Oppenheimer approximation. The electrons will in fact affect the nucleus, but due to the mass difference this effect will be negligible.
 
 We again have Coulomb interaction between the electrons and the nucleus, and since we assume the latter to be at rest at the origin, the external potential affecting particle $i$ is
@@ -113,7 +113,7 @@ u_i=- \frac{1}{2} k\frac{Ze^2}{r_i},
 where $Z$ is the atomic number (number of protons inside the nucleus). The total Hamiltonian is given in (Hartree) atomic units, 
 \begin{equation}
 \label{eq:AtomicHamiltonian}
-\hat{\mathcal{H}} = \sum_{i=1}^{P} \Big(-\frac{1}{2} \nabla_i^2 - \frac{Z}{r_i}+\frac{l(l+1)}{2r_i^2}\Big) + \sum_{i<j} \frac{1}{r_{ij}},
+\hat{\mathcal{H}} = \sum_{i=1}^{N} \Big(-\frac{1}{2} \nabla_i^2 - \frac{Z}{r_i}+\frac{l(l+1)}{2r_i^2}\Big) + \sum_{i<j} \frac{1}{r_{ij}},
 \end{equation}
 which also is discussed in Appendix B. For the non-interacting case, the energies are given by the Bohr formula
 \begin{equation}
@@ -157,7 +157,7 @@ Again we will study closed shells only, but for atoms we will introduce subshell
 		$p$ & 1 & 6 & principal\\
 		$d$ & 2 & 10 & diffuse \\
 		$f$ & 3 & 14 & fundamental \\
-		$g$ & 4 & 18 & alphabetic \\ \hline\hline
+		$g$ & 4 & 18 & \textit{alphabetic hereafter} \\ \hline\hline
 	\end{tabularx}
 \end{table}
 
@@ -167,11 +167,13 @@ Similar as for the principal quantum number $n$, we can use the tumble rule the 
 
 If we continue with the same rules, we see that the next closed-shell atom has a fully occupied $p$-subshell as well, which is Neon with 10 electrons. This is a noble gas, and we can write the electron configuration as [Be] $2p^6$. All noble gases have endings $Xs^2 Xp^6$, which is the reason why they always have 8 valence electrons.
 
-We can now compare this to the periodical system, and observe that the two first rows agrees with the theory presented above: The first row has two elements and the second has eight. However, the third one also has eight elements, which does not fit our theory. The reason is that the angular momentum contribution is not taken into account, i.e., we need to include the Hamiltonian term
+We can now compare this to the periodical system, and observe that the first two rows agree with the theory presented above: The first row has two elements and the second has eight. However, the third one also has eight elements, which does not fit our theory. It must be something we have overlooked. 
+
+The reason is that the angular momentum contribution is not taken into account, i.e., we need to include the Hamiltonian term
 \begin{equation}
 V_L=\frac{l(l+1)}{2r^2}
 \end{equation}
-as well. If we do so, we see that the thumb rule defined above not always holds. Sometimes a low $l$ in a higher $n$ causes lower energy than a high $l$ in a lower $n$. 
+as well. If we do so, we see that the rule of thumb defined above not always holds. Sometimes a low $l$ in a higher $n$ causes lower energy than a high $l$ in a lower $n$. 
 
 "Colloquially, we call such solutions and derived properties as electronic structure."
 

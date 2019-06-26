@@ -73,16 +73,18 @@ We observe that the gradient descent methods in the cases above have a smoother 
 Even though the gradient descent methods seem to be the best choice based on those graphs, we experience that the energy occasionally explode when they are applied on more heavy systems, and therefore we will rely in the ADAM optimizer henceforth. 
 
 \section{No Repulsive Interaction}
-We start with the non-interacting case in order to validate the implemented code. In this case we both know the exact energies and the exact one-body densities for an array of systems, and can therefore testify the flexibility of the code. We will focus on quantum dot systems.
+We start with the non-interacting case in order to validate the implemented code. In this case we both know the exact energies and the exact one-body densities for an array of systems, and can therefore testify the flexibility of the code.
 
-\subsection{Ground-state energy}
+\subsection{Quantum dots}
+We will focus on quantum dot systems.
+
+\subsubsection{Ground-state energy}
 The single quantum dot has analytical ground-state energies given by equation \eqref{eq:HOenergies} and number of closed-shell particles given by equation \eqref{eq:HOclosedshell}. The first 5 closed-shell energies for $\omega=0.5$ and $\omega=1.0$ are presented in table \eqref{tab:quantumdotswointeraction}.
 
 \begin{table} [H]
-	\caption{Energy of $N$ non-interacting electrons trapped in a harmonic oscillator of frequency $\omega=0.5$ and $\omega=1.0$. RBM is a single Slater determinant with a plain Boltzmann machine baked in, while VMC is a standard variational Monte-Carlo Slater determinant.}
+	\caption{Energy of circular quantum dots of frequency $\omega=0.5$ and $\omega=1.0$ consisting of $N$ non-interacting particles. RBM is a single Slater determinant with a plain Boltzmann machine baked in, while VMC is a standard variational Monte-Carlo Slater determinant.}
 	\label{tab:quantumdotswointeraction}
 	\begin{tabularx}{\textwidth}{r|r|R{2cm}R{2cm}R{2cm}|R{2cm}R{2cm}R{2cm}} \hline\hline
-		\label{tab:nn}
 		&& \multicolumn{3}{c}{$\omega=0.5$}&\multicolumn{3}{c}{$\omega=1.0$}\\ \hline
 		\makecell{\\ \phantom{=}}& $N$ & \multicolumn{1}{c}{RBM} & \multicolumn{1}{c}{VMC} & \multicolumn{1}{c}{Exact} & \multicolumn{1}{c}{RBM} & \multicolumn{1}{c}{VMC} & \multicolumn{1}{c}{Exact} \\ \hline \\
 		
@@ -103,7 +105,7 @@ The single quantum dot has analytical ground-state energies given by equation \e
 \end{table}
 We observe that the restricted Boltzmann machine wave function is able to reproduce the exact energy for most of the cases, but when the number of particles get large, the statistical error gets significant.
 
-\subsection{One-body density}
+\subsubsection{One-body density}
 We will also focus on the one-body densities throughout the results, and comparing the obtained densities to the analytical ones is a good indicator on whether the implementation is correct or not. In figure \eqref{fig:OB_nointeraction} the one-body densities are plotted for quantum dots of two non-interacting electrons. The analytical one-body densities are found from the definition of one-body density in equation \eqref{eq:electron_density}.
 
 \begin{figure} [h]%
@@ -118,6 +120,23 @@ We will also focus on the one-body densities throughout the results, and compari
 \end{figure}
 
 We observe that both the standard variational Monte-Carlo wave function (VMC) and the restricted Boltzmann machine (RBM) reproduce the analytical one-body density. The distribution gets narrower as the frequency is increased, and we also observe that the distributions are identical for two- and three dimensions with the same frequency.
+
+\subsection{Atoms}
+Also atoms will be...
+
+\subsubsection{Ground-State Energy}
+\begin{table} [H]
+	\caption{Energy of atoms of $N$ non-interacting electrons. RBM is a single Slater determinant with a plain Boltzmann machine baked in, while VMC is a standard variational Monte-Carlo Slater determinant.}
+	\label{tab:atomswointeraction}
+	\begin{tabularx}{\textwidth}{lrrR{3.5cm}R{3.5cm}R{3.5cm}} \hline\hline
+		Atom & $N$ & \makecell{\\ \phantom{=}} & RBM & VMC & Exact \\ \hline \\
+		
+		H & 1 && - & -0.5 & -0.5 \\
+		He & 2 && - & -4.0 & -4 \\
+		Be & 4 && - & -20.0 & -20 \\
+		Ne & 10 && - & - & -200\\ \hline\hline
+	\end{tabularx}
+\end{table}
 
 \section{With repulsive interaction}
 We now move on to the interesting case with repulsive interaction, where we no longer have analytical results, apart from a few semi-analytical energies and wave functions  for the two- and three-dimensional single quantum dots.
@@ -261,7 +280,7 @@ We find both the RBM+PJ and VMC to reproduce the reference energy in all the cas
 Another quantity of particular interest is the one-body density. We have produced one-body density plots using a restricted Boltzmann machine (RBM), a restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo (VMC) for various frequencies up to 72 electrons in two dimensions and 70 electrons in three dimensions. The plots can be found in figures (\ref{fig:OB_interaction_2P_2D}-\ref{fig:OB_interaction_56P_2D}) (two dimensions) and (\ref{fig:OB_interaction_2P_3D}-\ref{fig:OB_interaction_20P_3D}) (three dimensions).
 
 
-\begin{figure} [!htpb]%
+\begin{figure} [H]
 	\centering
 	\subfloat[2P, $\omega=0.1$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/2P/0.100000w/ADAM_MC2pow28.png}}}
 	\subfloat[6P, $\omega=0.1$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/2D/6P/0.100000w/ADAM_MC2pow28.png}}}\\
@@ -449,15 +468,23 @@ Another quantity of particular interest is the one-body density. We have produce
 \fi
 \end{landscape}
 
+\subsubsection{Low Frequency}
+Wigner crystals
+
+\subsubsection{In a Medium}
+Using screened Coulomb interaction 
+
 \subsection{Double Quantum Dots}
-We also look at double quantum dots...
+Double quantum dots are systems that are very interesting when it comes to testing the Boltzmann machines. Even though we know the wave functions for the non-interacting case, they are expansions that are computational expensive to work with.
+
+For the interacting case, we will use Alocias Mariadason's VMC calculations with and without a Hartree-Fock basis as a reference. In addition, Jørgen Høgberget provides a DMC energy for the case with two particles and $\omega=1.0$. All the results are given in table \eqref{tab:doubleQD}.
 \begin{table}
 	\caption{Double quantum dots. F is the number of functions used in the expansion.}
 	\label{tab:doubleQD}
 	\begin{tabularx}{\textwidth}{rrXR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}} \hline\hline
 		\makecell{\\ $N$ \\ \phantom{=}} & $\omega$ & \phantom{R} & \multicolumn{1}{c}{VMC (F=1)} & \multicolumn{1}{c}{RBM+PJ} & \multicolumn{1}{c}{\makecell{VMC (F$>$1)\\ (Ref.\cite{mariadason_quantum_2018})}} & \multicolumn{1}{c}{\makecell{VMC+HF\\ (Ref.\cite{mariadason_quantum_2018})}} & \multicolumn{1}{c}{\makecell{DMC\\ (Ref.\cite{hogberget_quantum_2013})}} \\ \hline \\
 		2 & 0.1 && 0.41982(4) & 0.41939(3)\\
-		& 0.28 && 0.9365(1) & 0.926176(4) \\
+		& 0.28 && 0.9365(1) & 0.92618(4) \\
 		& 0.5 && 1.4847(2) & 1.44004(4) \\
 		& 1.0 && 2.6331(5) & 2.38342(3) & 2.42238(4) & 2.36618(4) & 2.3496(1) \\ \hline \\
 		
@@ -477,7 +504,25 @@ We also look at double quantum dots...
 		& 1.0 && - & - & \\ \hline \hline
 	\end{tabularx}
 \end{table}
+What we observe, is that the Boltzmann machine with a Padé-Jastrow factor outperforms a Hermite expansion of 10 functions, which is surprising. The reason might be that the Boltzmann machine consists of a sum over all hidden nodes, which makes it behave similar to an expansion. However, the Boltzmann machine was then again beat by the Hermite expansion with a Hartree-Fock basis. 
 
-\subsection{Low frequency}
-Wigner crystals
+\subsection{Atoms}
+The next set of systems we will address are the real Atoms, which have been investigated by physicists since the childhood of quantum mechanics, and for that reason we have an array of computational and experimental references to use. 
+
+We will still stick to closed shells, and as discussed in section \ref{sec:atomic}, this includes Helium, Beryllium, Neon etc...
+
+\begin{table} [H]
+	\caption{Energy of atoms of $N$ interacting electrons. RBM is a single Slater determinant with a plain Boltzmann machine baked in, while VMC is a standard variational Monte-Carlo Slater determinant.}
+	\label{tab:atomswinteraction}
+	\begin{tabularx}{\textwidth}{lrrR{2.35cm}R{2.35cm}R{2.35cm}R{2.35cm}R{2.35cm}} \hline\hline
+		Atom & $N$ & \makecell{\\ \phantom{=}} & \multicolumn{1}{c}{RBM+PJ} & \multicolumn{1}{c}{VMC} & \multicolumn{1}{c}{FCI} & 
+		\multicolumn{1}{c}{CCD} &
+		\multicolumn{1}{c}{Ref.}\\ \hline \\
+		
+		He & 2 && - & - & - & - & -2.90 \\
+		Be & 4 && - & - & - & - & -14.66 \\
+		Ne & 10 && - & - & - & - & -128. \\ \hline\hline
+	\end{tabularx}
+\end{table}
+
 
