@@ -41,21 +41,32 @@ Multi scale calculations are... A field of interest is how a systems behave when
  - Introduce the wave function
  - Mention the uncertainty principle and also quantum entanglement to catch the readers interest
  
-\section{Many-Body problem} \label{subsec:manybodyproblem}
+\section{Many-Body Problem} \label{subsec:manybodyproblem}
 Not possible to solve analytically
 
-\section{Machine learning} \label{subsec:machinelearning}
+\section{Machine Learning} \label{subsec:machinelearning}
 Branch of artificial intelligence
 
-\section{Goals and milestones} \label{subsec:goals}
+\section{Goals and Milestones} \label{subsec:goals}
 - Investigate a new method to solve the Many-Body problem
 
-\section{Ethics of Coding}
-Stress when you are using others work
+\section{Code}
+There exist multiple commercial code for solving the quantum many-body problem, and they are often optimized. In general it is wise to use already existing code and not try reinvent the wheel, but in our case we will investigate a new approach, which forces us to write the code from scratch.
 
-Thing should be reproduce-able
+Our variational Monte-Carlo (VMC) solver is written in object-orientated C++ inspired by Morten Ledum's example implementation, but our code is based on Cartesian coordinates. The goal is not to compete with the commercial software when it comes to performance, but we will still make some significant effort to make it efficient. 
 
-All the code is freely available at \url{https://github.com/evenmn}, 
+Additionally, the author has developed Hartree-Fock code and coupled cluster doubles (CCD) code written in Python, in cooperation with Stian Bilek. Also a full configuration interaction (FCI) code was developed. Alocias Mariadasons Hartree-Fock code was used to generate Hartree-Fock coefficients used in VMC code, because it lives in Cartesian coordinates and so does the VMC code. All code is open-source, and is freely available on \url{https://github.com/evenmn} under MIT license. 
+
+\section{The Role of Ethics in Science}
+In science the ethics should always be prioritized. 
+
+Whenever one uses others work, no matter how much, the authors should be credited. 
+
+All the research that one does should always be detailed in a such way that it the experiments and results can be reproduced. 
+
+Computer science is no exception, all the points above are highly relevant.  
+
+Writing good code is a time consuming activity, and therefore author should be credited whenever some of their work is used by others. 
 
 \section{Structure of Thesis}
 Fundamental theory, including many-body quantum physics and machine learning, is given in chapter 2-3. Methods for solving many-body systems follow thereafter in chapter 5-7, discussing quantum Monte-Carlo, the Hartree-Fock method and so-called post-Hartree-Fock methods. In chapter 8 and 9 we prepare for the implementation by deriving wave function elements and introduce minimization algorithms, and the final chapters 10-13 the implementation is justified, the results are given and discussed, and a brief conclusion is given.
