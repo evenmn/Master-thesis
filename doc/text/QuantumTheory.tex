@@ -11,7 +11,7 @@ Around 1900, some physicists thought that there were nothing new to be discovere
 Immense efforts were placed on completing the theory, and contributions from an array of scientists over a period of 20 years were necessary to get it finished. In 1929, Paul Dirac stated something similar to what Lord Kelvin said 30 years earlier, but apparently with greater accuracy. 
 
 \newpage
-\section{Introductory Quantum Physics} \label{subsec:elementary}
+\section{Brief Introduction} \label{subsec:elementary}
 In this section we will present the fundamentals of the quantum theory, that will make up the framework of this project. The theory is based on David Griffith's incredible textbook, \textit{Introduction to Quantum Mechanics}, where the reader is relegated for further information.
 
 Before we get started, we make a few assumptions in order to simplify our problem. The most important ones are specified below with an explanation why they are valid.
@@ -82,14 +82,32 @@ Variational Monte-Carlo is a method based on (and named after) the variational p
 \subsection{Quantum Numbers}
 Up to this point, we have used $n$ to indicate which state we are dealing with, but we have not explained what it actually means. 
 
-Unlike in classical physics, all the observable in quantum mechanics are discrete or \textit{quantized}, hence the quantum name. The consequence is that $n$ cannot take any number, but it needs to be a positive integer. In other words...
+\subsubsection*{Principal}
+Unlike in classical physics, all the observable in quantum mechanics are discrete or \textit{quantized}, hence the name. As a consequence, $n$ cannot take any number, but it needs to be a positive integer which makes the energies discrete.
 
-The quantum number $n\in[0,\infty\rangle$ is named the \textbf{principal} quantum number, and specifies the electronic shell of the state. As $n$ increases, the energy will increase, which makes it the most important quantum number for energy measurements. The other quantum numbers are associated with angular momentum and spin, more about that in the next section.
+The quantum number $n$ is named the \textbf{principal} quantum number, and describes the electron shell. As $n$ increases, the electron excites to a higher shell such that also the energy increases. In general, $E_0<E_1<\hdots E_N$, which makes it the first quantum number. The electron shells can again be split up in subshells, requiring more quantum numbers.
 
-\subsubsection{Angular Momentum and Spin}
+\subsubsection*{Angular}
+An electron shell can possibly have more than one subshell, described by the \textbf{angular} quantum number $l$. $l$ can takes the values $0,1,\hdots n-1$, such that the number of subshells in a shell is simply $n$. In atoms, the angular quantum number describes the shape of the shell, where $l=0$ gives a spherical shape, $l=1$ gives a polar shape while $l=2$ gives a cloverleaf shape. 
+
+\subsubsection*{Magnetic}
+We also have a \textbf{magnetic} quantum number $m_l$, which has the range $-l,-l+1,\hdots,l-1,l$. If $l$ describes the shape of a shell, $m_l$ describes its orientation in space. This quantum number was first observed under presence of a magnetic field, hence the name.
+
+\subsubsection*{Spin}
+The \textbf{spin} quantum number $s$ gives the spin of a particle, which can just be seen as a particle's property. Particles are often divided in two groups dependent on the spin because of their different behavior: \textbf{bosons} have integer spin, while \textbf{fermions} have half-integer spin. Electrons and protons have spin $s=1/2$, which makes them fermions.
+
+\subsubsection*{Spin Projection}
+The last number we will discuss is the \textbf{spin projection} quantum number $m_s$. It has the range $-s,-s+1,\hdots,s-1,s$, and is therefore related to the spin quantum number in the same way as $m_l$ is related to the angular quantum number. Electrons can for that reason take the values $m_s=+1/2$ or $m_s=-1/2$, such that there is two "different" electrons. The consequences will be discussed in the next section.
+
+\iffalse
+\subsubsection*{Angular Momentum and Spin}
+Relation between the angular and spin quantum number
+
+(One last analogy with the classical mechanics)
+
 If we again go back to the classical mechanics, the angular momentum $\bs{L}_r=\bs{R}\cross\bs{p}$ around an axis at distance $|\bs{R}|$ from the mass center and the angular momentum $\bs{L}_c=I\bs{\omega}$ around its own mass center is a conserved quantity,
 \begin{equation}
-\bs{L}_{net} = \bs{L}_r+\bs{L}_c,
+\bs{L}_{net} = \bs{L}_r+\bs{L}_c.
 \end{equation}
 Since the net angular momentum $\bs{L}_{new}$ is just a sum over the angular momentum of all points in a continua around the rotational axis given by the definition of $\bs{L}_r$, both of them are actually the same thing.
 
@@ -97,12 +115,13 @@ In quantum mechanics we have again an analogy, where we define a \textbf{spin} $
 \begin{equation}
 J=L+S,
 \end{equation}
-but the transition from $L$ to $S$ is rare compared to the transition from $L_c$ to $L_r$. Spin-coupling. Azimuthal. Quantized.
+but the transition from $L$ to $S$ is rare compared to the transition from $L_c$ to $L_r$. Spin-orbit coupling. Azimuthal. Quantized.
 
 We will summary all the quantum numbers through a table. 
 
-\subsubsection{Hund's rules}
+\subsubsection*{Hund's Rules}
 Hund's rules define the filling order of electron structure shells with respect to the ground state energy. 
+\fi
 
 \subsection{Postulates of Quantum Mechanics}
 The quantum theory is built on six fundamental postulates, and without mentioning them our work would be incomplete. The postulates write:
@@ -150,7 +169,7 @@ The particles that have an antisymmetric (AS) wavefunction under exchange of two
 
 It turns out that because of their anti-symmetric wave function, two identical fermions cannot be found at the same position at the same time, known as the Pauli principle. This causes some difficulties when dealing with multiple fermions, since they always spread to multiple states. The probability of finding two identical particles at the same position at the same time should therefore be zero, so technically we need to set the wave function to zero if it happens. To deal with this, we introduce a so-called Slater determinant, which automatically sets the wave function to zero if the Pauli principle is unsatisfied.
 
-\subsection{Slater determinant} \label{subsec:slater}
+\subsection{Slater Determinant} \label{subsec:slater}
 For a system of more particles we can define a total wave function, which is a composition of all the single particle wave functions (SPF) and contains all the information about the system as the first postulate requires. For fermions, we need to combine the SPFs such that the Pauli principle is fulfilled at all times, which can be accomplished by a determinant. 
 
 Consider a system of two identical fermions with SPFs $\phi_1$ and $\phi_2$ at positions $\boldsymbol{r}_1$ and $\boldsymbol{r}_2$ respectively. The way we define the wavefunction of the system is then
@@ -219,12 +238,12 @@ It is also worth to notice that the size of the spin-up determinant is determine
 
 This section was heavily inspired by D.Nissenbaum's dissertation, see appendix I in \cite{nissenbaum_stochastic_2008}.
 
-\subsection{Basis set} \label{subsec:basisset}
+\subsection{Basis Set} \label{subsec:basisset}
 To go further, we need to define a basis set, $\{\phi_1(\bs{r}),\phi_2(\bs{r}),\hdots\phi_N(\bs{r})\}$ which should be chosen carefully based on the system. For a few systems, we know the exact basis of the non-interacting case, and it is thus a natural basis to use in the Slater determinant. For other systems, the choice of basis might depend on the situation, where we typically need to weigh computational time against accuracy. Concrete examples on both cases will be presented in chapter \eqref{chp:systems}.
 
 Often, one will see that the basis is optimized by the Hartree-Fock method. Using this basis in a single Slater determinant, we obtain the Hartree-Fock energy which sometimes is quite accurate. To get an even better energy estimate, we need to add more Slater determinants, which is the task of the post Hartree-Fock methods. More about this in chapter (\ref{chp:methods}-\ref{chp:posthartreefock}).
 
-\subsection{Jastrow factors} \label{subsubsec:jastrow}
+\subsection{Jastrow Factors} \label{subsubsec:jastrow}
 From electrostatics we know that identical, charged particles will repel each other. This means that the probability of finding two particles close to each other should be low, which needs to be baked into the wave function. One way to do this is to simply multiply the wave function with the distance between the particles; the smaller distance the lower probability. However, since we are going to work in the logarithmic space, dealing with exponential function will be much easier. This is the main idea behind the simple Jastrow factor.
 
 \subsubsection{Simple Jastrow}
@@ -256,7 +275,7 @@ for dimensions $D\in[2,3]$ where $e$ is the elementary charge. We will later use
 
 This Jastrow factor is known to give accurate results for fermions and bosons because it gives the correct cusp condition, and it is the one we gonna use in the standard variational Monte-Carlo simulations.
 
-\section{Electron density}
+\section{Electron Density}
 In quantum many-body computations, the electron density is frequently calculated, and there are several reasons for that. Firstly, the electron density can be found experimentally, such that the calculations can be benchmarked. Secondly, the electron density is very informative, since information about all particles can be gathered in one plot.
 
 The $P$-body electron density can be found by integrating over all particles but $P$, 
@@ -266,10 +285,10 @@ The $P$-body electron density can be found by integrating over all particles but
 \end{equation}
 where $P<N$.
 
-\subsection{One-body density}
+\subsection{One-body Density}
 The one-body density is the most applied electron density, and is sometimes simply referred to as the electron density. For the two particle case, the one-body density gives the probability of finding one particle at a relative distance $r$ to the other. For more particles, the one-body density gives the probability of finding the mass center of the remaining particles at a relative distance $r$ from one of the particles.
 
-Numerically, the one-body density is found by dividing the space into bins of equal sizes at different radii and counting the number of particles in each bin throughout the sampling. In practice, one often divide the space into bins where the radii are uniformly distributed, i.e, $r_i=i\cdot r_0$, see figure \eqref{fig:onebody}. In that case, one needs to divide each bin by its own volume afterwards in order to make all bins the same size. In two dimensions, the area of bin $i$ is
+The one-body density integral can be solved by Monte-Carlo integration. We then divide the space into bins of equal sizes at different radii and count the number of particles in each bin throughout the sampling. In practice, one often divide the space into bins where the radii are uniformly distributed, i.e, $r_i=i\cdot r_0$, see figure \eqref{fig:onebody}. In that case, one needs to divide the number of particles in each bin by its volume afterwards in order to get a correct distribution. In two dimensions, the area of bin $i$ is
 \begin{equation}
 A_i=(2i+1)\pi d^2
 \end{equation}
@@ -283,23 +302,25 @@ where $d$ is the radial width of a bin.
 	\centering
 	\label{fig:onebody}
 	\input{tikz/onebody_bins.tex}
-	\caption{(color online) One-body}
+	\caption{This figure is meant to illustrate how the one-body density is calculated using Monte-Carlo integration. One divides the space into $n$ bins (here 5), and count the number of particles in each bin throughout the sampling. Afterwards, the bins need to be normalized.}
 \end{figure}
 
 \begin{figure}
 	\centering
 	\label{fig:twobody}
 	\input{tikz/twobody_bins.tex}
-	\caption{(color online) Two-body}
+	\caption{This figure is meant to illustrate how the two-body density is calculated using Monte-Carlo integration. One divides the space into $n$ bins (here 5), and store the position of a pair of particles in a matrix throughout the sampling. Afterwards, the bins need to be normalized.}
 \end{figure}
 
-\subsection{Two-body density}
-For the one-body density, we integrate over all the particles but one, which corresponds to counting number of particles in each bin. For the two-body density, we integrate over all particles but a \textit{particle pair}, which means that we numerically need to find the position of each particle pair. 
+\subsection{Two-body Density}
+The two-body density describes...
+
+For the one-body density, we integrate over all the particles but one, which corresponds to counting number of particles in each bin when doing Monte-Carlo integration. For the two-body density, we integrate over all particles but a \textit{particle pair}, which means that we need to find the position of each particle pair in order to solve the integral by Monte-Carlo integration. See figure \eqref{fig:twobody} for an illustration of this Monte-Carlo integration.
 
 \subsection{Wigner Crystals}
-As the one-body density decreases, the particles move slower. At low one-body density, the potential energy dominates the kinetic energy and a phenomenon named Wigner crystallization might occur.  
+A Wigner crystal is a solid phase where electrons form triangular lattices to minimize the potential energy. The phenomenon occurs only when the potential energy dominates the kinetic energy, since the electrons then are "at rest". 
 
-Wigner crystallization occurs when the 
+To minimize the potential energy, the distances between all electron neighbors should be the same. For that reason, the electron density should only have discrete radial values, and the phenomenon should be observable in one-body density plots.
 
 
 

@@ -73,37 +73,37 @@ We observe that the gradient descent methods in the cases above have a smoother 
 Even though the gradient descent methods seem to be the best choice based on those graphs, we experience that the energy occasionally explode when they are applied on more heavy systems, and therefore we will rely in the ADAM optimizer henceforth. 
 
 \section{No Repulsive Interaction}
-We start with the non-interacting case in order to validate the implemented code. In this case we both know the exact energies and the exact one-body densities for an array of systems, and can therefore testify the flexibility of the code.
+We start with the non-interacting case in order to validate the implemented code. In this case we both know the exact energies and the exact one-body densities for an array of systems, and can therefore validate the code.
 
 \subsection{Quantum dots}
-We will focus on quantum dot systems.
+We will start with quantum dots, 
 
 \subsubsection{Ground-state energy}
 The single quantum dot has analytical ground-state energies given by equation \eqref{eq:HOenergies} and number of closed-shell particles given by equation \eqref{eq:HOclosedshell}. The first 5 closed-shell energies for $\omega=0.5$ and $\omega=1.0$ are presented in table \eqref{tab:quantumdotswointeraction}.
 
-\begin{table} [H]
-	\caption{Energy of circular quantum dots of frequency $\omega=0.5$ and $\omega=1.0$ consisting of $N$ non-interacting particles. RBM is a single Slater determinant with a plain Boltzmann machine baked in, while VMC is a standard variational Monte-Carlo Slater determinant.}
+\begin{table}
+	\caption{Energy of circular quantum dots of frequency $\omega=0.5$ and $\omega=1.0$ consisting of $N$ non-interacting particles. RBM is a single Slater determinant with a plain Boltzmann machine baked in, while VMC is a standard variational Monte-Carlo Slater determinant. Exact values are obtained by $E=\omega(n+1/2)$, and all values are given in units of $\hbar$.}
 	\label{tab:quantumdotswointeraction}
 	\begin{tabularx}{\textwidth}{r|r|R{2cm}R{2cm}R{2cm}|R{2cm}R{2cm}R{2cm}} \hline\hline
 		&& \multicolumn{3}{c}{$\omega=0.5$}&\multicolumn{3}{c}{$\omega=1.0$}\\ \hline
 		\makecell{\\ \phantom{=}}& $N$ & \multicolumn{1}{c}{RBM} & \multicolumn{1}{c}{VMC} & \multicolumn{1}{c}{Exact} & \multicolumn{1}{c}{RBM} & \multicolumn{1}{c}{VMC} & \multicolumn{1}{c}{Exact} \\ \hline \\
 		
 		\parbox[t]{2mm}{\multirow{5}{*}{\rotatebox[origin=c]{90}{2D}}}
-		&2 & 1.00045(5) & 1.0 & 1 & 2.00098(5) & 2.0 & 2\\
-		&6 & 5.009(2) & 5.0 & 5 & 10.010(1) & 10.0 & 10 \\
-		&12 & - & 14.0 & 14 & - & 28.0 & 28\\
-		&20 & - & 30.0 & 30 & - & 60.0 & 60\\
-		&30 & - & 55.0 & 55 & - & 110.0 & 110\\ \hline \\
+		&2 & 1.0 & 1.0 & 1 & 2.0 & 2.0 & 2\\
+		&6 & 5.0 & 5.0 & 5 & 10.0 & 10.0 & 10 \\
+		&12 & 14.0 & 14.0 & 14 & 28.0 & 28.0 & 28\\
+		&20 & 30.0 & 30.0 & 30 & 60.0 & 60.0 & 60\\
+		&30 & 55.0 & 55.0 & 55 & 110.0 & 110.0 & 110\\ \hline \\
 		
 		\parbox[t]{2mm}{\multirow{5}{*}{\rotatebox[origin=c]{90}{3D}}}
-		&2 & 1.5050(3) & 1.5 & 1.5 & 3.0063(2) & 3.0 & 3 \\
-		&8 & - & 9.0 & 9 & - & 18.0 & 18 \\
-		&20 & - & 30.0 & 30 & - & 60.0 & 60 \\
-		&40 & - & 75.0 & 75 & - & 150.0 & 150 \\
-		&70 & - & 157.5 & 157.5 & - & 315.0 & 315 \\ \hline\hline
+		&2 & 1.5 & 1.5 & 1.5 & 3.0 & 3.0 & 3 \\
+		&8 & 9.0 & 9.0 & 9 & 18.0 & 18.0 & 18 \\
+		&20 & 30.0 & 30.0 & 30 & 60.0 & 60.0 & 60 \\
+		&40 & 75.0 & 75.0 & 75 & 150.0 & 150.0 & 150 \\
+		&70 & 157.5 & 157.5 & 157.5 & 315.0 & 315.0 & 315 \\ \hline\hline
 	\end{tabularx}
 \end{table}
-We observe that the restricted Boltzmann machine wave function is able to reproduce the exact energy for most of the cases, but when the number of particles get large, the statistical error gets significant.
+We observe that both the standard VMC, with $\alpha=1$, and standard RBM, with all parameters set to zero, are able to reproduce the analytical expression. 
 
 \subsubsection{One-body density}
 We will also focus on the one-body densities throughout the results, and comparing the obtained densities to the analytical ones is a good indicator on whether the implementation is correct or not. In figure \eqref{fig:OB_nointeraction} the one-body densities are plotted for quantum dots of two non-interacting electrons. The analytical one-body densities are found from the definition of one-body density in equation \eqref{eq:electron_density}.
@@ -139,7 +139,7 @@ Also atoms will be...
 \end{table}
 
 \section{With repulsive interaction}
-We now move on to the interesting case with repulsive interaction, where we no longer have analytical results, apart from a few semi-analytical energies and wave functions  for the two- and three-dimensional single quantum dots.
+We now move on to the more interesting case with repulsive interaction, where we no longer have analytical results, apart from a few semi-analytical energies and wave functions  for the two- and three-dimensional single quantum dots.
 
 To achieve good results, we apply an adaptive step number, which means that the number of steps per iteration is increased for the last iterations. Firstly, this makes the final energy more accurate due to better statistics. Secondly, we get less noisy electron density plots by using this technique. All results below are produced using $2^{20}=1,048,576$ number of steps per iteration for the initial iterations. Then the number of steps is increased to $2^{24}=16,777,216$ when we have 11 iterations left, and for the very last iteration we use $2^{28}=268,435,456$ steps.
 
@@ -343,8 +343,8 @@ Another quantity of particular interest is the one-body density. We have produce
 	\subfloat[2P, $\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/3D/2P/1.000000w/3D_2P_1p000000w_MC2pow28.png}}}
 	\subfloat[8P, $\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/3D/8P/1.000000w/3D_8P_1p000000w_MC2pow28.png}}}
 	
-	\caption{One-body densities of two and eight interacting electrons in three dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). Stochastic gradient descent was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
-	\label{fig:OB_interaction_2P_3D}
+	%\caption{One-body densities of two and eight interacting electrons in three dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). Stochastic gradient descent was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
+	%\label{fig:OB_interaction_2P_3D}
 \end{figure}
 \begin{figure} [H]%
 	\centering
@@ -381,7 +381,7 @@ Another quantity of particular interest is the one-body density. We have produce
 		\subfloat[VMC, 12P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/12P/1.000000w/VMC_ADAM_MC2pow28.png}}}\\
 		
 		%\caption{Two-body densities for interacting electrons in two dimensions for $\omega=0.5$ produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
-		\label{fig:TB_interaction_2D_1}
+		%\label{fig:TB_interaction_2D_1}
 	\end{figure}
 	
 	\begin{figure} [H]%
@@ -402,7 +402,7 @@ Another quantity of particular interest is the one-body density. We have produce
 		\subfloat[RBM+PJ, 42P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/1.000000w/RBMPJ_ADAM_MC2pow28.png}}}
 		\subfloat[VMC, 42P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/1.000000w/VMC_ADAM_MC2pow28.png}}}\\
 		
-		\caption{Two-body densities for interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
+		\caption{Two-body densities for two-dimensional circular quantum dots of oscillator frequency $\omega=1.0$ produced with plain restricted Boltzmann machine (RBM), restricted Boltzmann machine with simple Jastrow factor (RBM+SJ), restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo (VMC). ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
 		\label{fig:TB_interaction_2D_2}
 	\end{figure}
 	\iffalse
@@ -464,7 +464,7 @@ Another quantity of particular interest is the one-body density. We have produce
 \subsubsection{Low Frequency}
 Wigner crystals
 
-\subsubsection{In a Medium}
+\subsubsection{In-Medium}
 Using screened Coulomb interaction 
 
 \subsection{Double Quantum Dots}
@@ -505,16 +505,20 @@ The next set of systems we will address are the real Atoms, which have been inve
 We will still stick to closed shells, and as discussed in section \ref{sec:atomic}, this includes Helium, Beryllium, Neon etc...
 
 \begin{table} [H]
-	\caption{Energy of atoms of $N$ interacting electrons. RBM is a single Slater determinant with a plain Boltzmann machine baked in, while VMC is a standard variational Monte-Carlo Slater determinant.}
+	\caption{Energy of neutral atoms of atomic number $Z$. RBM is a single Slater determinant with a plain Boltzmann machine baked in, VMC is a standard variational Monte-Carlo Slater determinant, FCI is full configuration interaction and CCD means coupled cluster doubles. $a$ is reference to \cite{bergeson_measurement_1998}, $b$ is to \cite{kramida_compilation_1997} and $c$ is to \cite{hogberget_quantum_2013}. The energy is in units of $\hbar$.}
 	\label{tab:atomswinteraction}
 	\begin{tabularx}{\textwidth}{lrrR{2.35cm}R{2.35cm}R{2.35cm}R{2.35cm}R{2.35cm}} \hline\hline
-		Atom & $N$ & \makecell{\\ \phantom{=}} & \multicolumn{1}{c}{RBM+PJ} & \multicolumn{1}{c}{VMC} & \multicolumn{1}{c}{FCI} & 
+		Atom & $Z$ & \makecell{\\ \phantom{=}} & \multicolumn{1}{c}{RBM+PJ} & \multicolumn{1}{c}{VMC} & \multicolumn{1}{c}{FCI} & 
 		\multicolumn{1}{c}{CCD} &
-		\multicolumn{1}{c}{Ref.}\\ \hline \\
+		\multicolumn{1}{c}{Expt.}\\ \hline \\
 		
-		He & 2 && - & - & - & - & -2.90 \\
-		Be & 4 && - & - & - & - & -14.66 \\
-		Ne & 10 && - & - & - & - & -128. \\ \hline\hline
+		He & 2 && - & - & - & - & $-2.903694^a$ \\
+		Be & 4 && - & - & - & - & $-14.6674^b$ \\
+		Ne & 10 && - & - & - & - & $-128.9383^c$ \\
+		Mg & 12 && - & - & - & - & $-200.054^c$ \\
+		Ar & 18 && - & - & - & - & $-527.544^c$ \\
+		Kr & 36 && - & - & - & - & $-2752.054976^c$ \\
+		Xe & 54 && - & - & - & - & - \\ \hline\hline
 	\end{tabularx}
 \end{table}
 
