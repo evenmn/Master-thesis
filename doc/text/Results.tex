@@ -48,7 +48,7 @@ We want our calculations to converge fast and to be stable, and that is what the
 \begin{figure} [H]
 	\centering
 	\input{pgf/convergenceopt.tex}
-	\caption{Energy convergence for two electrons in a two dimensional (a) and three dimensional (b) quantum dot. We use standard variational Monte-Carlo wave function, the learning rate was set to $\eta=0.5$ and the number of Metropolis steps used for each iteration was $M=2^{24}$.}
+	\caption{Energy convergence for circular quantum dots of two particles in two dimensions (left) and three dimensions (right). We use a standard variational Monte-Carlo wave function, the learning rate was set to $\eta=0.5$ and the number of Metropolis steps used for each iteration was $M=2^{24}=16,777,216$.}
 \end{figure}
 
 We observe that the gradient descent methods in the cases above have a smoother convergence compared ADAM. However, this could be the case for the standard variational Monte-Carlo wave function only, so we better also look how well they do for other structures. 
@@ -215,7 +215,7 @@ We observe that the method where less physical intuition is used, RBM, is the on
 	\begin{tabularx}{\hsize}{l:l|R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}} \hline\hline
 		\label{tab:quantumdotswinteraction3D1}
 		\makecell{\\ $N$ \\ \phantom{=}} & $\omega$ & \multicolumn{1}{c}{RBM} & \multicolumn{1}{c}{RBM+SJ} & \multicolumn{1}{c}{RBM+PJ} & \multicolumn{1}{c}{PRBM} & \multicolumn{1}{c}{\makecell{HF \\ (Ref.\cite{mariadason_quantum_2018})}} & \multicolumn{1}{c}{\makecell{VMC+HF \\ (Ref.\cite{mariadason_quantum_2018})}} & \multicolumn{1}{c}{VMC} & \multicolumn{1}{c}{\makecell{DMC \\ (Ref.\cite{hogberget_quantum_2013})}} \\ \hline \\
-		2 & 0.1 & 0.5178(1) & 0.50225(3) & 0.50073(7) & - & 0.529065 & - & 0.50008(4) & $0.5^{1}$ \\
+		2 & 0.1 & 0.5178(1) & 0.50225(3) & 0.50009(6) & - & 0.529065 & - & 0.50008(4) & $0.5^{1}$ \\
 		& 0.28 & 1.2259(1) & 1.20471(4) & 1.20201(5) & - & 1.23722 & - & 1.20174(6) & 1.201725(2) \\
 		& 0.5 & 2.0269(1) & 2.00374(4) & 2.00009(4) & - & 2.03851 & - & 2.00000(5) & $2.0^{1}$ \\
 		& 1.0 & 3.7571(1) & 3.73559(4) & 3.73032(4) & - & 3.77157 & - & 3.73002(5) & 3.730123(3) \\ \hdashline \\
@@ -517,8 +517,8 @@ We will still stick to closed shells, and as discussed in section \ref{sec:atomi
 		Ne & 10 && - & - & - & - & $-128.9383^c$ \\
 		Mg & 12 && - & - & - & - & $-200.054^c$ \\
 		Ar & 18 && - & - & - & - & $-527.544^c$ \\
-		Kr & 36 && - & - & - & - & $-2752.054976^c$ \\
-		Xe & 54 && - & - & - & - & - \\ \hline\hline
+		Zn & 30 && - & - & - & - & - \\
+		Kr & 36 && - & - & - & - & $-2752.054976^c$ \\ \hline\hline
 	\end{tabularx}
 \end{table}
 
