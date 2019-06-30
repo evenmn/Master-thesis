@@ -44,7 +44,7 @@ according to Ehrenfest's theorem. Further, the linear momentum operator is $\hat
 
 The potential energy can be split into an external part and an interaction part, where the latter is given by the Coulomb interaction. For two identical particles of charge $q$, the repulsive interaction gives the energy
 \begin{equation}
-V_I=k_e\frac{q^2}{r_{12}}
+\langle \mathcal{\hat{V}_{\text{int}}} \rangle=k_e\frac{q^2}{r_{12}}
 \end{equation}
 where $r_{12}$ is the distance between the particles and $k_e$ is Coulomb's constant. The total Hamiltonian of a system of $N$ identical particles takes the form
 \begin{equation}
@@ -69,6 +69,11 @@ E[\Psi]=\mel{\Psi}{\hat{\mathcal{H}}}{\Psi},
 where the first part, $\bra{\Psi}$ is called a bra and the last part, $\ket{\Psi}$ is called a ket. At first this might look artificial and less informative, but it simplifies the notation significantly. More information about the notation is found in Appendix A. 
 
 \cite{griffiths_introduction_2005}
+
+\subsection{The Virial Theorem} \label{sec:virial}
+\begin{equation}
+2\langle \mathcal{\hat{T}} \rangle = 2\langle \mathcal{\hat{V}_{\text{ext}}} \rangle - \langle \mathcal{\hat{V}_{\text{int}}} \rangle
+\end{equation}
 
 \subsection{The Variational Principle}
 In the equations above, the presented wave functions are assumed to be the exact eigenfunctions of the Hamiltonian. But often we do not know the exact wave functions, and we need to guess what the wave functions might be. In those cases we make use of the Rayleigh-Ritz variational principle or just the variational principle, which states that only the exact ground state wave function is able to give the ground state energy. All other wave functions that fulfill the required properties (see section \ref{subsec:wavefunction}) give higher energies, and mathematically we can express the statement
@@ -320,7 +325,7 @@ For the one-body density, we integrate over all the particles but one, which cor
 \subsection{Wigner Crystals} \label{sec:wigner}
 A Wigner crystal is a solid phase where electrons form triangular lattices to minimize the potential energy. The phenomenon occurs only when the potential energy dominates the kinetic energy, since the electrons then are "at rest". 
 
-To minimize the potential energy, the distances between all electron neighbors should be the same. For that reason, the electron density should only have discrete radial values, and the phenomenon should be observable in one-body density plots.
+To minimize the potential energy, the distances between the electrons should be maximized. To achieve this, the electrons form the triangular lattice shape, not so unlike Norwegians on the metro. For that reason, the electron density should only have discrete radial values, and the phenomenon should be observable in one-body density plots.
 
 
 

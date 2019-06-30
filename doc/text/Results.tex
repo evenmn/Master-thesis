@@ -444,25 +444,27 @@ We observe that the density gets a wave shape with more peaks as the number of p
 We will now look into some special cases for the quantum dots, including low frequency, large dots (many electrons) and quantum dots in a medium. 
 
 \subsubsection{Low Frequency Dots}
-When we lower the frequency, the potential energy dominates the kinetic energy. An evidence of that can be seen in table \eqref{tab:lowfrequencyQD}, where we present the expectation value of the total energy ($\langle \hat{\mathcal{H}}\rangle$) together with the expectation value of the kinetic energy ($\langle \hat{\mathcal{T}}\rangle$) and the expectation value of the potential energy ($\langle \hat{\mathcal{V}}\rangle$).
-
-As discussed in section \ref{sec:wigner}, at low kinetic energy the interaction is dominating, and in order to minimize this the electrons tend to orientate such that they maximize the distance to each other. They then form a lattice, known as Wigner crystals, and as we also claimed that this might be observed in the electron density plots. The one-body density of ...
-
-Virial theorem
+When we lower the frequency, the potential energy dominates the kinetic energy. An evidence of that can be seen in table \eqref{tab:lowfrequencyQD}, where we present the expectation value of the total energy ($\langle \hat{\mathcal{H}}\rangle$) together with the expectation value of the kinetic energy ($\langle \hat{\mathcal{T}}\rangle$) and the expectation value of the potential energies ($\langle \mathcal{\hat{V}_{\text{ext}}} \rangle$,$\langle \mathcal{\hat{V}_{\text{int}}} \rangle$). From this, we can also see that the virial theorem, discussed in section \ref{sec:virial}, is satisfied.
 
 \begin{table}
 	\caption{Total energy ($\langle \hat{\mathcal{H}}\rangle$), kinetic energy ($\langle \hat{\mathcal{T}}\rangle$) and potential energy ($\langle \hat{\mathcal{V}}\rangle$) of circular quantum dots at low frequency ($\omega=0.01$). All energies are given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
 	\label{tab:lowfrequencyQD}
-	\begin{tabularx}{\textwidth}{R{3cm}rR{2.3cm}R{2.3cm}R{2.3cm}} \hline\hline
-		&\makecell{\\ $N$ \\ \phantom{=}} & \multicolumn{1}{c}{$\langle \hat{\mathcal{H}}\rangle$} & \multicolumn{1}{c}{$\langle \hat{\mathcal{T}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{\mathcal{V}} \rangle$} \\ \hline \\
-		&2 & - & - & - \\
-		&6 & - & - & - \\
-		&12 & - & - & - \\
-		&20 & - & - & - \\
-		&30 & - & - & - \\
-		&42 & - & - & - \\ \hline \hline
+	\begin{tabularx}{\textwidth}{R{2cm}rR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}} \hline\hline
+		&\makecell{\\ $N$ \\ \phantom{=}} & \multicolumn{1}{c}{$\langle \hat{\mathcal{H}}\rangle$} & \multicolumn{1}{c}{$\langle \mathcal{\hat{T}} \rangle$} & \multicolumn{1}{c}{$\langle \mathcal{\hat{V}_{\text{ext}}} \rangle$} & \multicolumn{1}{c}{$\langle \mathcal{\hat{V}_{\text{int}}} \rangle$} \\ \hline \\
+		&2 & 0.0741604(3) & 0.00937577(7) & 0.0277899(2) & 0.0369947(1) \\
+		&6 & 0.69714(2) & 0.0272312(4) & 0.23910(1) & 0.43081(1) \\
+		&12 & 2.4972(2) & 0.048721(2) & 0.8968(1) & 1.55170(9)\\
+		&20 & 6.407(6) & 0.048011(1) & 2.182(3) & 4.177(3) \\ \hline \hline
 	\end{tabularx}
-\end{table}
+\end{table} 
+
+As discussed in section \ref{sec:wigner}, at low kinetic energy the interaction is dominating, and in order to minimize this the electrons tend to orientate such that they maximize the distance to each other. They then form a lattice, known as Wigner crystals, and as we also claimed, this might be observed in the electron density plots. The one-body density of ...
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.7]{/home/evenmn/VMC/plots/int1/onebody/2D/2P/0.010000w/ADAM_MC2pow28.png}
+	\caption{One-body density of two-dimensional circular quantum dot containing two electrons. $\omega=0.01$.}
+\end{figure}
 
 \subsubsection{Large Dots}
 In order to test the code, we also decided to run for systems with $N\geq 56$. This has no scientific significance, other than testing how far a VMC code can go. We look at weakly interacting particles, so we will not get any relativistic effects even when adding many particles.
