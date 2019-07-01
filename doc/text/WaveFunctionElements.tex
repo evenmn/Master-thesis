@@ -4,7 +4,14 @@ In chapter \eqref{chp:quantum} we presented the basic principles behind a many-b
 	\item For each time step, we change one position coordinate only, i.e, move a particle along one of the principal axis.
 	\item A variational parameter $\alpha_i$ appears in only one of the wave function elements.
 \end{enumerate}
-The first assumption is useful when updating position dependent arrays. Typically, we only need to update a coordinate of an array or a row of a matrix when this assumption is raised, which is hugely beneficial with respect to the computational time. The last assumption is makes all wave function elements independent, which obviously makes life easier. We will now show how the local energy can be split up and calculated independently for the different elements, and then we will take a look at how the parameters are updated.
+The first assumption is useful when updating position dependent arrays. Typically, we only need to update a coordinate of an array or a row of a matrix when this assumption is raised, which is hugely beneficial with respect to the computational time. The last assumption is makes all wave function elements independent, which obviously makes life easier. 
+
+The trial wave function $\Psi_T$ is a product of all the $p$ wave function elements $\{\phi_1, \phi_2\hdots\phi_p\}$,
+\begin{equation}
+\Psi_T(\bs{r}) = \prod_{i=1}^p\phi_i(\bs{r}),
+\label{eq:elementproduct}
+\end{equation}
+and we will now show how this can be used to split up the local energy and the parameter update in element-wise calculations.
 
 \section{Kinetic Energy Calculations}
 The local energy, defined in equation \eqref{eq:local energy}, is
@@ -20,11 +27,7 @@ which provides the following useful relation
 \begin{equation}
 \frac{1}{\Psi_T(\bs{r})}\nabla_k^2\Psi_T(\bs{r})=\nabla_k^2\ln\Psi_T(\bs{r}) + (\nabla_k\ln\Psi_T(\bs{r}))^2.
 \end{equation}
-Consider a trial wave function, $\Psi_T$, consisting of a product of $p$ wave function elements, $\{\phi_1, \phi_2\hdots\phi_p\}$,
-\begin{equation}
-\Psi_T(\bs{r}) = \prod_{i=1}^p\phi_i(\bs{r}).
-\end{equation}
-The kinetic energy related to this trial wave function is then computed by
+Using the fact that the trial wave function is a product of all the elements, the kinetic energy is calculated by
 \begin{equation}
 \frac{1}{\Psi_T(\bs{r})}\nabla_k^2\Psi_T(\bs{r})=\sum_{i=1}^p\nabla_k^2\ln\phi_i(\bs{r}) + \Big(\sum_{i=1}^p\nabla_k\ln\phi_i(\bs{r})\Big)^2,
 \end{equation}
@@ -33,21 +36,33 @@ which can be found when all local derivatives $\nabla_k^2\ln\phi_i(\bs{r})$ and 
 \section{Parameter Update}
 In gradient based optimization methods, as we use, one needs to know the gradient of the expectation value of local energy with respect to all variational parameters $\alpha_i$, 
 \begin{equation}
-\partial_{\alpha_i} \langle E_L\rangle\equiv\frac{\partial \langle E_L(\alpha_i)\rangle}{\partial \alpha_i}.
+\partial_{\alpha_j} \langle E_L\rangle\equiv\frac{\partial \langle E_L(\alpha_j)\rangle}{\partial \alpha_j}.
 \end{equation}
-Since we are dealing with an expectation value, this gradient can be found from
+This gradient is given by
 \begin{equation}
-\partial_{\alpha_i} \langle E_L\rangle=2\Big(\langle E_L\partial_{\alpha_i}\ln\Psi_T\rangle - \langle E_L\rangle\langle\partial_{\alpha_i}\ln\Psi_T\rangle\Big)
+\partial_{\alpha_j} \langle E_L\rangle=2\Big(\langle E_L\partial_{\alpha_j}\ln\Psi_T\rangle - \langle E_L\rangle\langle\partial_{\alpha_j}\ln\Psi_T\rangle\Big)
 \end{equation}
-which means that we need to calculate the expectation values $\langle E_L\partial_{\alpha_i}\ln\Psi_T\rangle$ and $\langle\partial_{\alpha_i}\ln\Psi_T\rangle$ in addition to the local energy. Those expectation values are found from the integrals
+which means that we need to calculate the expectation values $\langle E_L\partial_{\alpha_j}\ln\Psi_T\rangle$ and $\langle\partial_{\alpha_j}\ln\Psi_T\rangle$ in addition to the local energy. Those expectation values are found from the integrals
 \begin{equation}
-\langle\partial_{\alpha_i}\ln\Psi_T\rangle = \int_{-\infty}^{\infty}d\bs{r}P(\bs{r})\partial_{\alpha_i}\ln\Psi_T(\bs{r})
+\langle\partial_{\alpha_j}\ln\Psi_T\rangle = \int_{-\infty}^{\infty}d\bs{r}P(\bs{r})\partial_{\alpha_j}\ln\Psi_T(\bs{r})
 \end{equation}
 and
 \begin{equation}
 \langle E_L\partial_{\alpha_i}\ln\Psi_T\rangle = \int_{-\infty}^{\infty}d\bs{r}P(\bs{r})E_L(\bs{r})\partial_{\alpha_i}\ln\Psi_T(\bs{r}),
 \end{equation}
-which can also be found by Monte-Carlo integration.
+which can also be found by Monte-Carlo integration in the same way as the local energy:
+\begin{equation}
+\langle\partial_{\alpha_i}\ln\Psi_T\rangle\approx \frac{1}{M}\sum_{i=1}^M\partial_{\alpha_j}\ln\Psi_T(\bs{r}_i)
+\end{equation}
+and
+\begin{equation}
+\langle E_L\partial_{\alpha_i}\ln\Psi_T\rangle\approx \frac{1}{M}\sum_{i=1}^ME_L(\bs{r}_i)\partial_{\alpha_j}\ln\Psi_T(\bs{r}_i).
+\end{equation}
+
+By again applying equation \eqref{eq:elementproduct}, we have that
+\begin{equation}
+\partial_{\alpha_j}\ln\Psi_T(\bs{r})=\sum_{i=1}^p\partial_{\alpha_j}\ln\phi_i(\bs{r}).
+\end{equation}
 
 \section{Optimizations}
 How much a wave function element can be optimized heavily depends on the specific form of the element. For instance, sometimes the previous and present $\nabla_k\ln\phi_i$ are closely related, and only differ with a few calculations, while for some other elements they are not related at all. Those subjective optimizations will therefore be described when presenting each wave function element. 

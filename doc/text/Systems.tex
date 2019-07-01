@@ -139,14 +139,18 @@ Y_l^m(\theta,\phi)\propto P_l^m(\cos\theta)e^{im\phi}
 where $P_l^m(x)$ are the \textit{associated Legendre polynomials}. The complex part in the spherical harmonics causes some difficulties, and we will therefore instead use the solid harmonics
 \begin{equation}
 \label{eq:V_ext}
-S_l^m(r,\theta,\phi)\propto r^lP_l^{|m|}(\cos\theta)
+S_l^m(\theta,\phi)\propto P_l^{|m|}(\cos\theta)
 \begin{cases} 
 \cos(m\phi) & \text{if} \quad m\geq0 \\
-\sin(|m|\phi) & \text{if} \quad m<0.
+\sin(|m|\phi) & \text{if} \quad m<0,
 \end{cases}
 \end{equation}
+such that
+\begin{equation}
+\psi_{nlm}(r,\theta,\phi)=R_{nl}(r)S_l^m(\theta,\phi).
+\end{equation}
 
-Again we will study closed shells only, but for atoms we will introduce subshells as well, which are dependent on the azimuthal quantum number $l$ in addition to the principal quantum number $n$. In general, we have that $l\in [0,n-1]$ such that we only have one subshell for $n=1$. Traditionally, the first few subshells are denoted with $s, p, d$ and $f$, and the meaning can be found in table \eqref{tab:subshells}, together with number of electrons in each subshell.
+Again we will study closed shells only, but for atoms we will introduce subshells as well, which are dependent on the angular quantum number $l$ in addition to the principal quantum number $n$. In general, we have that $l\in [0,n-1]$ such that we only have one subshell for $n=1$. Traditionally, the first few subshells are denoted with $s, p, d$ and $f$, and the meaning can be found in table \eqref{tab:subshells}, together with number of electrons in each subshell.
 
 \begin{table} [H]
 	\caption{Table of the first subshells  \vspace{2mm}}

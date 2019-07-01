@@ -138,7 +138,7 @@ Also atoms will be studied as well...
 		He & 2 && - & -4.0 & -4 \\
 		Be & 4 && - & -20.0 & -20 \\
 		Ne & 10 && - & -200.0 & -200\\
-		Mg & 12 && - & - & -236 \\ \hline\hline
+		Mg & 12 && - & - & -320 \\ \hline\hline
 	\end{tabularx}
 \end{table}
 
@@ -150,7 +150,7 @@ To achieve good results, we apply an adaptive step number, which means that the 
 
 First we will look at the ground-state energy of closed shell quantum dots, and thereafter we move on to open shells. We will also have a look at double quantum dots, which we investigate with closed shells only.
 
-\subsection{Ground-state energy, $S=0$}
+\subsection{Ground-state energy}
 By utilizing the symmetry of quantum dots of two electrons, M.Taut was able to obtain semi-analytical energies for some specific frequencies $\omega$. More precisely, he found the energy to be $E=3$ for the frequency $\omega=1$ and $E=2/3$ for the frequency $\omega=1/6$ for the two-dimensional case, and $E=2$ for the frequency $\omega=1/2$ and $E=1/2$ for the frequency $\omega=1/10$ for the three-dimensional case. \cite{taut_two_1993}\cite{taut_two_1994}
 
 For other references, we need to rely on what researchers have found before us. Since diffusion Monte-Carlo (DMC) is known to give very accurate results, we will mainly compare our results to J. Høgberget's DMC computations, which exist for closed shell quantum dots of a maximum of 56 electrons in two dimensions and a maximum of 20 particles in three dimensions. \cite{hogberget_quantum_2013}. Comparing the energy to the Hartree-Fock limit is also interesting, mainly because of the Boltzmann machines. We use A.Mariadason's computations for this for quantum dots of a maximum of 20 electrons in two dimensions, and a maximum of 8 particles in three dimensions. \cite{mariadason_quantum_2018}
@@ -238,31 +238,6 @@ We observe that the method where less physical intuition is used, RBM, is the on
 \end{landscape}
 }
 
-\subsection{Ground-state energy, $S\neq0$}
-When the number of particles in the quantum dot is among the magic numbers presented in equation \eqref{eq:HOclosedshell}, the ground state is guaranteed to be found at $L=S=0$. However, if we want to look at dots of other sizes, this is often not true, and we will therefore look at some cases with $S\neq 0$. We will still stick to $L=0$ and closed shell systems.
-
-Imagine a dot of four particles with $S=1$ (three have spin up and the last has spin down). The ground state is obviously found when a spin up and a spin down particle is in the lowest energy state, and the remaining particles are in the first excited energy state. Since the lowest states and the first excited states with spin up are filled up, this is a closed shell system.
-
-Again, our results will be benchmarked to DMC, with references Ref.\cite{pederiva_diffusion_2000} and Ref.\cite{ghosal_incipient_2007}. The former reference also presents Hartree-Fock results which we also will use. 
-
-The results are listed in table \eqref{tab:sneq0}, where we use a restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo (VMC). 
-
-We find both the RBM+PJ and VMC to reproduce the reference energy in all the cases. 
-
-\begin{table} [H]
-	\caption{The ground state energy of two-dimensional circular quantum dots of frequency $\omega$ for a given spin configuration ($L$,$S$). The results were obtained by a restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo (VMC). For reference, the Hartree-Fock limit results from Ref.\cite{pederiva_diffusion_2000} (HF) and diffusion Monte-Carlo results from Refs.\cite{pederiva_diffusion_2000},\cite{ghosal_incipient_2007} (DMC) are listed. All energies are given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
-	\label{tab:sneq0}
-	\begin{tabularx}{\textwidth}{rrXrrXR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}} \hline\hline
-		\makecell{\\ $N$ \\ \phantom{=}} & \makecell{$\omega$} & \phantom{R} & $L$ & $S$ & \phantom{R} & \multicolumn{1}{c}{RBM+PJ} & \multicolumn{1}{c}{VMC} & \multicolumn{1}{c}{\makecell{HF\\ (Ref.\cite{pederiva_diffusion_2000})}} & \multicolumn{1}{c}{\makecell{DMC\\ (Ref.\cite{pederiva_diffusion_2000})$^a$\\ (Ref.\cite{ghosal_incipient_2007})$^b$}} \\ \hline \\
-		4 & 0.28 && 0 & 1 && 3.7475(2) & 3.7711(5) & 3.9033 & 3.7135(3)$^a$\\ \\
-		8 & 0.28 && 0 & 1 && 12.828(3) & 12.849(1) & 13.1887 & 12.6903(7)$^a$ \\
-		& 0.25 && 0 & 1 && 11.807(1) & 11.852(1) & - & 11.6697(1)$^b$ \\ \\
-		9 & 0.28 && 0 & 3/2 && 15.886(4) & 15.812(4) & 16.1544 & 15.4784(7)$^a$\\
-		&3.0 && 0 & 3/2 && 97.164(4) & 96.936(7) & - & 97.0095(3)$^b$\\ \\
-		11 & 0.28 && 0 & 1/2 && 22.285(2) & 22.252(1) & 22.8733 & 22.0750(4)$^a$ \\ \hline\hline
-	\end{tabularx}
-\end{table}
-
 \subsection{One-body density}
 Another quantity of particular interest is the one-body density. We have produced one-body density plots using a restricted Boltzmann machine (RBM), a restricted Boltzmann machine with simple Jastrow factor (RBM+SJ), a restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo (VMC) for frequencies $\omega=[1.0,0.5,0.1]$ and up to 42 electrons in two dimensions and 40 electrons in three dimensions. The plots for two- and three-dimensional dots can be found in figures (\ref{fig:OB_interaction_2D_1w}-\ref{fig:OB_interaction_2D_01w}) and \ref{fig:OB_interaction_3D} respectively.
 
@@ -340,8 +315,10 @@ We observe that the density gets a wave shape with more peaks as the number of p
 	\label{fig:OB_interaction_3D}
 \end{figure}
 
+\subsection{Two-body density}
+The last ting we will investigate, is the two-body density. See figure \eqref{fig:TB_interaction_2D}.
+
 \begin{landscape}
-	\subsection{Two-body density}
 	\begin{figure} [H]%
 		\centering
 		\subfloat[RBM, 2P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/2P/1.000000w/RBM_ADAM_MC2pow28.png}}}
@@ -382,66 +359,12 @@ We observe that the density gets a wave shape with more peaks as the number of p
 		\subfloat[VMC, 42P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/1.000000w/VMC_ADAM_MC2pow28.png}}}\\
 		
 		\caption{Two-body densities for two-dimensional circular quantum dots of oscillator frequency $\omega=1.0$ produced with plain restricted Boltzmann machine (RBM), restricted Boltzmann machine with simple Jastrow factor (RBM+SJ), restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo (VMC). ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
-		\label{fig:TB_interaction_2D_2}
+		\label{fig:TB_interaction_2D}
 	\end{figure}
-	\iffalse
-	\begin{figure} [H]%
-		\centering
-		\subfloat[RBM, 56P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/56P/1.000000w/RBM_ADAM_MC2pow28.png}}}
-		\subfloat[RBM+SJ, 56P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/56P/1.000000w/RBMSJ_ADAM_MC2pow28.png}}}
-		\subfloat[RBM+PJ, 56P]{{\includegraphics[width=4cm]{Images/example.png}}}
-		\subfloat[VMC, 56P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/56P/1.000000w/VMC_ADAM_MC2pow28.png}}}\\
-		
-		\subfloat[RBM, 72P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/72P/0.500000w/RBM_ADAM_MC2pow28.png}}}
-		\subfloat[RBM+SJ, 72P]{{\includegraphics[width=4cm]{Images/example.png}}}
-		\subfloat[RBM+PJ, 72P]{{\includegraphics[width=4cm]{Images/example.png}}}
-		\subfloat[VMC, 72P]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/2D/72P/1.000000w/VMC_ADAM_MC2pow28.png}}}
-		
-		\caption{Two-body densities for interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
-		\label{fig:TB_interaction_2D_3}
-	\end{figure}
-	\fi
-	\iffalse
-	\begin{figure} [H]%
-		\centering
-		\subfloat[2P, RBM]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/3D/2P/0.500000w/RBM_ADAM_MC2pow28.png}}}
-		\subfloat[2P, RBM+SJ]{{\includegraphics[width=4cm]{Images/example.png}}}
-		\subfloat[2P, RBM+PJ]{{\includegraphics[width=4cm]{Images/example.png}}}
-		\subfloat[2P, VMC]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/3D/2P/0.500000w/VMC_ADAM_MC2pow28.png}}}\\
-		
-		\subfloat[8P, RBM]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/3D/8P/0.500000w/RBM_ADAM_MC2pow28.png}}}
-		\subfloat[8P, RBM+SJ]{{\includegraphics[width=4cm]{Images/example.png}}}
-		\subfloat[8P, RBM+PJ]{{\includegraphics[width=4cm]{Images/example.png}}}
-		\subfloat[8P, VMC]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/3D/8P/0.500000w/VMC_ADAM_MC2pow28.png}}}\\
-		
-		\subfloat[20P, RBM]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/3D/20P/0.500000w/RBM_ADAM_MC2pow28.png}}}
-		\subfloat[20P, RBM+SJ]{{\includegraphics[width=4cm]{Images/example.png}}}
-		\subfloat[20P, RBM+PJ]{{\includegraphics[width=4cm]{Images/example.png}}}
-		\subfloat[20P, VMC]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/3D/20P/0.500000w/VMC_ADAM_MC2pow28.png}}}\\
-		
-		\caption{Two-body densities for 72 interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
-		\label{fig:TB_interaction_3D_1}
-	\end{figure}
-	\begin{figure} [H]%
-		\centering
-		\subfloat[40P, RBM]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/3D/40P/0.500000w/RBM_ADAM_MC2pow28.png}}}
-		\subfloat[40P, RBM+SJ]{{\includegraphics[width=4cm]{Images/example.png}}}
-		\subfloat[40P, RBM+PJ]{{\includegraphics[width=4cm]{Images/example.png}}}
-		\subfloat[40P, VMC]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/3D/40P/0.500000w/VMC_ADAM_MC2pow28.png}}}\\
-		
-		\subfloat[70P, RBM]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/3D/70P/0.500000w/RBM_ADAM_MC2pow28.png}}}
-		\subfloat[70P, RBM+SJ]{{\includegraphics[width=4cm]{Images/example.png}}}
-		\subfloat[70P, RBM+PJ]{{\includegraphics[width=4cm]{Images/example.png}}}
-		\subfloat[70P, VMC]{{\includegraphics[width=5cm]{/home/evenmn/VMC/plots/int1/twobody/3D/70P/0.500000w/VMC_ADAM_MC2pow28.png}}}
-		
-		\caption{Two-body densities for 72 interacting electrons in two dimensions for various oscillator frequencies produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM) and restricted Boltzmann machine with Padé-Jastrow factor (RBMPJ). ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268.435.456$.}%
-		\label{fig:TB_interaction_3D_2}
-	\end{figure}
-\fi
 \end{landscape}
 
 \subsection{Special Cases}
-We will now look into some special cases for the quantum dots, including low frequency, large dots (many electrons) and quantum dots in a medium. 
+We will now look at some special cases for the quantum dots, including low frequency, large dots (many electrons) and quantum dots in a medium. 
 
 \subsubsection{Low Frequency Dots}
 When we lower the frequency, the potential energy dominates the kinetic energy. An evidence of that can be seen in table \eqref{tab:lowfrequencyQD}, where we present the expectation value of the total energy ($\langle \hat{\mathcal{H}}\rangle$) together with the expectation value of the kinetic energy ($\langle \hat{\mathcal{T}}\rangle$) and the expectation value of the potential energies ($\langle \mathcal{\hat{V}_{\text{ext}}} \rangle$,$\langle \mathcal{\hat{V}_{\text{int}}} \rangle$). From this, we can also see that the virial theorem, discussed in section \ref{sec:virial}, is satisfied.
@@ -466,6 +389,36 @@ As discussed in section \ref{sec:wigner}, at low kinetic energy the interaction 
 	\caption{One-body density of two-dimensional circular quantum dot containing two electrons. $\omega=0.01$.}
 \end{figure}
 
+\subsubsection{$S\neq0$}
+When the number of particles in the quantum dot is among the magic numbers presented in equation \eqref{eq:HOclosedshell}, the ground state is guaranteed to be found at $L=S=0$. However, if we want to look at dots of other sizes, this is often not true, and we will therefore look at some cases with $S\neq 0$. We will still stick to $L=0$ and closed shell systems.
+
+Imagine a dot of four particles with $S=1$ (three have spin up and the last has spin down). The ground state is obviously found when a spin up and a spin down particle is in the lowest energy state, and the remaining particles are in the first excited energy state. Since the lowest states and the first excited states with spin up are filled up, this is a closed shell system.
+
+Again, our results will be benchmarked to DMC, with references Ref.\cite{pederiva_diffusion_2000} and Ref.\cite{ghosal_incipient_2007}. The former reference also presents Hartree-Fock results which we also will use. 
+
+The results are listed in table \eqref{tab:sneq0}, where we use a restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo (VMC). 
+
+We find both the RBM+PJ and VMC to reproduce the reference energy in all the cases. 
+
+\begin{table} [H]
+	\caption{The ground state energy of two-dimensional circular quantum dots of frequency $\omega$ for a given spin configuration ($L$,$S$). The results were obtained by a restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo (VMC). For reference, the Hartree-Fock limit results from Ref.\cite{pederiva_diffusion_2000} (HF) and diffusion Monte-Carlo results from Refs.\cite{pederiva_diffusion_2000},\cite{ghosal_incipient_2007} (DMC) are listed. All energies are given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
+	\label{tab:sneq0}
+	\begin{tabularx}{\textwidth}{rrXrrXR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}} \hline\hline
+		\makecell{\\ $N$ \\ \phantom{=}} & \makecell{$\omega$} & \phantom{R} & $L$ & $S$ & \phantom{R} & \multicolumn{1}{c}{RBM+PJ} & \multicolumn{1}{c}{VMC} & \multicolumn{1}{c}{\makecell{HF\\ (Ref.\cite{pederiva_diffusion_2000})}} & \multicolumn{1}{c}{\makecell{DMC\\ (Ref.\cite{pederiva_diffusion_2000})$^a$\\ (Ref.\cite{ghosal_incipient_2007})$^b$}} \\ \hline \\
+		4 & 0.28 && 0 & 1 && 3.7475(2) & 3.7711(5) & 3.9033 & 3.7135(3)$^a$\\ \\
+		8 & 0.28 && 0 & 1 && 12.828(3) & 12.849(1) & 13.1887 & 12.6903(7)$^a$ \\
+		& 0.25 && 0 & 1 && 11.807(1) & 11.852(1) & - & 11.6697(1)$^b$ \\ \\
+		9 & 0.28 && 0 & 3/2 && 15.886(4) & 15.812(4) & 16.1544 & 15.4784(7)$^a$\\
+		&3.0 && 0 & 3/2 && 97.164(4) & 96.936(7) & - & 97.0095(3)$^b$\\ \\
+		11 & 0.28 && 0 & 1/2 && 22.285(2) & 22.252(1) & 22.8733 & 22.0750(4)$^a$ \\ \hline\hline
+	\end{tabularx}
+\end{table}
+
+\subsubsection{In-Medium Dots}
+Using screened Coulomb interaction, we have also looked at in-medium quantum dots. 
+
+The virial theorem is no longer satisfied. 
+
 \subsubsection{Large Dots}
 In order to test the code, we also decided to run for systems with $N\geq 56$. This has no scientific significance, other than testing how far a VMC code can go. We look at weakly interacting particles, so we will not get any relativistic effects even when adding many particles.
 
@@ -480,11 +433,6 @@ In order to test the code, we also decided to run for systems with $N\geq 56$. T
 		\hline \hline
 	\end{tabularx}
 \end{table}
-
-\subsubsection{In-Medium Dots}
-Using screened Coulomb interaction, we have also looked at in-medium quantum dots. 
-
-The virial theorem is no longer satisfied. 
 
 \newpage
 \section{Double Quantum Dots}
@@ -535,7 +483,7 @@ We will still stick to closed shells, and as discussed in section \ref{sec:atomi
 		\multicolumn{1}{c}{CCD} &
 		\multicolumn{1}{c}{Expt.}\\ \hline \\
 		
-		He & 2 && - & - & - & - & $-2.903694^a$ \\
+		He & 2 && - & -2.84762(9) & - & - & $-2.903694^a$ \\
 		Be & 4 && - & - & - & - & $-14.6674^b$ \\
 		Ne & 10 && - & - & - & - & $-128.9383^c$ \\
 		Mg & 12 && - & - & - & - & $-200.054^c$ \\
