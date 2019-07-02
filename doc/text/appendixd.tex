@@ -24,30 +24,30 @@ F_{\text{RBM}}(\boldsymbol{x})&=\sum_{\{\boldsymbol{h}\}}\exp\Big(\sum_{i=1}^F \
 \section{Find derivatives} \label{sec:derivatives}
 A general Gaussian-binary restricted Boltzmann machine has the form
 \begin{equation}
-\Psi(\bs{x};\bs{a},\bs{b},\bs{w})=\exp(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2})\prod_{j=1}^H\Big[1+\exp(f_j(\bs{x};\bs{b},\bs{w}))\Big]
+\psi(\bs{x};\bs{a},\bs{\theta})=\exp(-\sum_{i=1}^{ND}\frac{(x_i-a_i)^2}{2\sigma^2})\prod_{j=1}^H\Big[1+\exp(f_j(\bs{x};\bs{\theta}))\Big]
 \end{equation}
-where $f_j(\bs{x};\bs{b},\bs{w})$ is an arbitrary function of $\bs{x}$, $\bs{b}$ and $\bs{w}$. The Gaussian part is straight-forward to differentiate, so we will keep our attention on the product, which can be treated as a Jastrow factor,
+where $f_j(\bs{x};\bs{\theta})$ is an arbitrary function of the coordinates $\bs{x}$ and the weights $\bs{\theta}$. The Gaussian part is straight-forward to differentiate, so we will keep our attention on the product,
 \begin{equation}
-J(\bs{x};\bs{b},\bs{w})=\prod_{j=1}^H\Big[1+\exp(f_j(\bs{x};\bs{b},\bs{w}))\Big].
+\psi_{\text{p}}(\bs{x};\bs{\theta})=\prod_{j=1}^H\Big[1+\exp(f_j(\bs{x};\bs{\theta}))\Big].
 \end{equation}
-Henceforth, we will omit the variable $\bs{x}$, $\bs{b}$ and $\bs{w}$. Introducing 
+Henceforth, we will omit the variable $\bs{x}$ and $\bs{\theta}$. By introducing the functions
 \begin{equation}
-p_j\equiv \frac{1}{1+\exp(+f_j)}\quad\wedge\quad n_j\equiv \frac{1}{1+\exp(-f_j)}
+p_j\equiv \frac{1}{1+\exp(+f_j)}\quad\wedge\quad n_j\equiv \frac{1}{1+\exp(-f_j)},
 \end{equation}
-we find the gradient and Laplacian of $\ln\Psi$ to be
+where the last one is the sigmoid function, we find the gradient and Laplacian of $\ln\psi_{\text{prod}}$ to be
 \begin{equation}
-\nabla_k\ln J=\sum_{j=1}^Hn_j\nabla_k(f_j)
+\nabla_k\ln\psi_{\text{p}}=\sum_{j=1}^Hn_j\nabla_k(f_j)
 \end{equation}
 and
 \begin{equation}
-\nabla_k^2\ln J=\sum_{j=1}^Hn_j\big[\nabla_k^2(f_j)+p_j\big(\nabla_k(f_j)\big)^2\big]
+\nabla_k^2\ln\psi_{\text{p}}=\sum_{j=1}^Hn_j\big[\nabla_k^2(f_j)+p_j\big(\nabla_k(f_j)\big)^2\big]
 \end{equation}
-respectively. The parameter update can be found by
+respectively. The parameter $\theta_i$ can be updated according to the following rule
 \begin{equation}
-\frac{\partial}{\partial \alpha_i}\ln J=\sum_{j=1}^Hn_j\frac{\partial}{\partial\alpha_i}(f_j).
+\frac{\partial}{\partial \theta_i}\ln \psi_{\text{p}}=\sum_{j=1}^Hn_j\frac{\partial}{\partial\theta_i}(f_j).
 \end{equation}
 and the ratio between wave functions can be found by
 \begin{equation}
-\frac{J^{\text{new}}}{J^{\text{old}}}=\prod_{j=1}^H\frac{p_j^{\text{old}}}{p_j^{\text{new}}}.
+\frac{\psi_{\text{p}}^{\text{new}}}{\psi_{\text{p}}^{\text{old}}}=\prod_{j=1}^H\frac{p_j^{\text{old}}}{p_j^{\text{new}}}.
 \end{equation}
-As a conclusion, what we actually need to calculate to find respective expressions for each wave function is $\nabla_k(f_j)$, $\nabla_k^2(f_j)$ and $\partial_{\alpha_i}(f_j)$. This does also apply for deep restricted Boltzmann machines with Gaussian-binary units. 
+As a conclusion, what we actually need to calculate to find respective expressions for each wave function is $\nabla_k(f_j)$, $\nabla_k^2(f_j)$ and $\partial_{\alpha_i}(f_j)$.This applies for a general Gaussian-binary restricted Boltzmann machine, also for a deep Boltzmann machine if all the units are Gaussian-binary.
