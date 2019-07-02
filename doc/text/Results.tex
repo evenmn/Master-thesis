@@ -388,6 +388,20 @@ As discussed in section \ref{sec:wigner}, at low kinetic energy the interaction 
 	\caption{One-body density of two-dimensional circular quantum dot containing two electrons. $\omega=0.01$.}
 \end{figure}
 
+\subsection{In-medium dots}
+Often when it comes to real-world use of quantum dots, they are not in vacuum, but instead in some kind of medium. In those cases, the medium affects the Coulomb interaction such that the electrostatic potential gets finite. To obtain this, replace the standard Coulomb interaction by screened Coulomb interaction which reads
+\begin{equation}
+\label{eq:screened}
+\langle\mathcal{\hat{V}_{\text{int}}}\rangle=
+\begin{cases} 
+\sum_{i>j}(1/r_{ij})\exp(r_{ij}/\mu_r) & \text{if } r_{ij}>\lambda_D\\
+\sum_{i>j}(1/r_{ij}) & \text{otherwise},
+\end{cases}
+\end{equation}
+with $r_{ij}$ still being the distance between two particles $i$ and $j$, $\lambda_D$ is the Debye screening length and $\mu_r$ determines how fast the field should reduce. Both those constants are dependent on the medium.
+
+Since the interaction is reduced, we expect that the virial theorem is no longer satisfied. 
+
 \subsection{$S\neq0$}
 When the number of particles in the quantum dot is among the magic numbers presented in equation \eqref{eq:HOclosedshell}, the ground state is guaranteed to be found at $L=S=0$. However, if we want to look at dots of other sizes, this is often not true, and we will therefore look at some cases with $S\neq 0$. We will still stick to $L=0$ and closed shell systems.
 
@@ -412,20 +426,6 @@ We find both the RBM+PJ and VMC to reproduce the reference energy in all the cas
 		11 & 0.28 && 0 & 1/2 && 22.285(2) & 22.252(1) & 22.8733 & 22.0750(4)$^a$ \\ \hline\hline
 	\end{tabularx}
 \end{table}
-
-\subsection{In-medium dots}
-Often when it comes to real-world use of quantum dots, they are not in vacuum, but instead in some kind of medium. In those cases, the medium affects the Coulomb interaction such that the electrostatic potential gets finite. To obtain this, replace the standard Coulomb interaction by screened Coulomb interaction which reads
-\begin{equation}
-\label{eq:screened}
-\langle\mathcal{\hat{V}_{\text{int}}}\rangle=
-\begin{cases} 
-\sum_{i>j}(1/r_{ij})\exp(r_{ij}/\mu_r) & \text{if } r_{ij}>\lambda_D\\
-\sum_{i>j}(1/r_{ij}) & \text{otherwise},
-\end{cases}
-\end{equation}
-with $r_{ij}$ still being the distance between two particles $i$ and $j$, $\lambda_D$ is the Debye screening length and $\mu_r$ determines how fast the field should reduce. Both those constants are dependent on the medium.
-
-Since the interaction is reduced, we expect that the virial theorem is no longer satisfied. 
 
 \subsection{Large dots}
 In order to test the code, we also decided to run for systems with $N\geq 56$. This has no scientific significance, other than testing how far a VMC code can go. We look at weakly interacting particles, so we will not get any relativistic effects even when adding many particles.
@@ -480,8 +480,8 @@ What we observe, is that the Boltzmann machine with a Padé-Jastrow factor outpe
 \section{Atoms}
 The next set of systems we will address are the real Atoms, which have been investigated by physicists since the childhood of quantum mechanics, and for that reason we have an array of computational and experimental references to use. 
 
-\subsection{Ground State Energy}
-We will still stick to closed shells, and as discussed in section \ref{sec:atomic}, this includes Helium, Beryllium, Neon etc...
+\subsection{Ground state energy}
+We will still stick to closed shells, and as discussed in section \ref{sec:atomic}, this includes the noble gases and a few others. In table \eqref{tab:atomswinteraction}, the ground state energies are presented.
 
 \begin{table}
 	\caption{Energy of neutral atoms of atomic number $Z$. RBM is a single Slater determinant with a plain Boltzmann machine baked in, VMC is a standard variational Monte-Carlo Slater determinant, FCI is full configuration interaction and CCD means coupled cluster doubles. $a$ is reference to \cite{bergeson_measurement_1998}, $b$ is to \cite{kramida_compilation_1997} and $c$ is to \cite{hogberget_quantum_2013}. The energy is in units of $\hbar$.}
@@ -491,8 +491,8 @@ We will still stick to closed shells, and as discussed in section \ref{sec:atomi
 		\multicolumn{1}{c}{CCD} &
 		\multicolumn{1}{c}{Expt.}\\ \hline \\
 		
-		He & 2 && - & -2.84762(9) & - & - & $-2.903694^a$ \\
-		Be & 4 && - & - & - & - & $-14.6674^b$ \\
+		He & 2 && - & -2.84824(9) & -2.838648 & -2.839144 & $-2.903694^a$ \\
+		Be & 4 && - & - & -14.3621 & -14.5129 & $-14.6674^b$ \\
 		Ne & 10 && - & - & - & - & $-128.9383^c$ \\
 		Mg & 12 && - & - & - & - & $-200.054^c$ \\
 		Ar & 18 && - & - & - & - & $-527.544^c$ \\
@@ -501,4 +501,10 @@ We will still stick to closed shells, and as discussed in section \ref{sec:atomi
 	\end{tabularx}
 \end{table}
 
+\subsection{One-body density}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.7]{/home/evenmn/VMC/plots/int1/atoms/He/ADAM_MC2pow28.png}
+	\caption{One-body density of Helium.}
+\end{figure}
 
