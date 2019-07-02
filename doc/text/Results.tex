@@ -165,13 +165,13 @@ We observe that the method where less physical intuition is used, RBM, is the on
 \begin{landscape}
 \begin{table}
 	\caption{The ground state energy of two-dimensional circular quantum dots of frequency $\omega$ obtained by various methods. The column on the left-hand-side represents restricted Boltzmann machine (RBM), followed by restricted Boltzmann machine with simple Jastrow factor (RBM+SJ), restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ), partly restricted Boltzmann machine (PRBM), the Hartree-Fock limit (HF), standard variational Monte-Carlo with Hartree-Fock basis (VMC+HF), standard variational Monte-Carlo with Hermite basis (VMC) and diffusion Monte-Carlo (DMC). Hartree-Fock results are taken from Ref.\cite{mariadason_quantum_2018}, DMC results are taken from \cite{hogberget_quantum_2013} and semi-analytical results are taken from \cite{taut_two_1994}. $N$ is the number of electrons in the dot, and $L=S=0$. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
-	\begin{tabularx}{\hsize}{l:l|R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}} \hline\hline
+	\begin{tabularx}{\hsize}{llR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}} \hline\hline
 		\label{tab:quantumdotswinteraction2D1}
 		\makecell{\\ $N$ \\ \phantom{=}} & $\omega$ & \multicolumn{1}{c}{RBM} & \multicolumn{1}{c}{RBM+SJ} & \multicolumn{1}{c}{RBM+PJ} & \multicolumn{1}{c}{PRBM} & \multicolumn{1}{c}{\makecell{HF \\ (Ref.\cite{mariadason_quantum_2018})}} & \multicolumn{1}{c}{\makecell{VMC+HF \\ (Ref.\cite{mariadason_quantum_2018})}} & \multicolumn{1}{c}{VMC} & \multicolumn{1}{c}{\makecell{DMC \\ (Ref.\cite{hogberget_quantum_2013})}} \\ \hline \\
-		2 & 0.1 & 0.4728(1) & 0.44859(6) & 0.44130(5) & 0.4959(2) & 0.525635 & - & 0.44128(1) & 0.44079(1) \\ 
+		2 & 0.1 & 0.4728(1) & 0.44859(6) & 0.44130(5) & 0.4959(2) & 0.525635 & - & 0.44129(1) & 0.44079(1) \\ 
 		& 1/6 & 0.7036(1) & 0.67684(7) & 0.66715(6) & 0.7326(2) & 0.768675 & - & 0.66710(1) & $0.\bar{6}^{1}$ \\
-		& 0.28 & 1.0705(2) & 1.03485(7) & 1.02185(1) & 1.0987(2) & 1.14171 & - & 1.02190(1) & 1.02164(1) \\
-		& 0.5 & 1.7231(2) & 1.67787(8) & 1.65957(1) & 1.7182(3) & 1.79974 & - & 1.65972(1) & 1.65977(1)  \\
+		& 0.28 & 1.0705(2) & 1.03485(7) & 1.02185(1) & 1.0987(2) & 1.14171 & - & 1.02192(1) & 1.02164(1) \\
+		& 0.5 & 1.7231(2) & 1.67787(8) & 1.65957(1) & 1.7182(3) & 1.79974 & - & 1.65974(1) & 1.65977(1)  \\
 		& 1.0 & 3.0822(2) & 3.0255(1) & 3.00002(2) & 3.0566(3) & 3.16190 & - & 2.99999(1) & $3.0^{1}$ \\ \hdashline \\
 
 		6 & 0.1 & 3.697(1) & 3.6584(4) & 3.57832(2) & - & 3.85238 & - & 3.5698(1) & 3.55385(5) \\ 
@@ -187,7 +187,7 @@ We observe that the method where less physical intuition is used, RBM, is the on
 \end{table}
 
 \begin{table}
-	\begin{tabularx}{\hsize}{l:l|R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}} \\
+	\begin{tabularx}{\hsize}{llR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}} \\
 		\label{tab:quantumdotswinteraction2D2}
 		20 & 0.1 & 30.824(2) & 30.567(3) & 30.1553(9) & - & 31.1902 & - & 30.0730(6) & 29.9779(1) \\ 
 		& 0.28 & 63.746(4) & 62.811(3) & 62.148(1) & - & 63.5390 & - & 62.0598(7) & 61.9268(1) \\
@@ -213,7 +213,7 @@ We observe that the method where less physical intuition is used, RBM, is the on
 
 \begin{table}
 	\caption{The ground state energy of three-dimensional circular quantum dots of frequency $\omega$ obtained by various methods. The column on the left-hand-side represents restricted Boltzmann machine (RBM), followed by restricted Boltzmann machine with simple Jastrow factor (RBM+SJ), restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ), partly restricted Boltzmann machine (PRBM), the Hartree-Fock limit (HF), standard variational Monte-Carlo with Hartree-Fock basis (VMC+HF), standard variational Monte-Carlo with Hermite basis (VMC) and diffusion Monte-Carlo (DMC). Hartree-Fock results are taken from Ref.\cite{mariadason_quantum_2018}, DMC results are taken from \cite{hogberget_quantum_2013} and semi-analytical results are taken from \cite{taut_two_1993}. $N$ is the number of electrons in the dot, and $L=S=0$. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.} 
-	\begin{tabularx}{\hsize}{l:l|R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}} \hline\hline
+	\begin{tabularx}{\hsize}{llR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}} \hline\hline
 		\label{tab:quantumdotswinteraction3D1}
 		\makecell{\\ $N$ \\ \phantom{=}} & $\omega$ & \multicolumn{1}{c}{RBM} & \multicolumn{1}{c}{RBM+SJ} & \multicolumn{1}{c}{RBM+PJ} & \multicolumn{1}{c}{PRBM} & \multicolumn{1}{c}{\makecell{HF \\ (Ref.\cite{mariadason_quantum_2018})}} & \multicolumn{1}{c}{\makecell{VMC+HF \\ (Ref.\cite{mariadason_quantum_2018})}} & \multicolumn{1}{c}{VMC} & \multicolumn{1}{c}{\makecell{DMC \\ (Ref.\cite{hogberget_quantum_2013})}} \\ \hline \\
 		2 & 0.1 & 0.5178(1) & 0.50225(3) & 0.50009(6) & - & 0.529065 & - & 0.50008(4) & $0.5^{1}$ \\
@@ -365,20 +365,42 @@ The last thing we will investigate, is the two-body density. See figure \eqref{f
 	\end{figure}
 \end{landscape}
 
-\subsection{Low Frequency Dots}
-When we lower the frequency, the potential energy dominates the kinetic energy. An evidence of that can be seen in table \eqref{tab:lowfrequencyQD}, where we present the expectation value of the total energy ($\langle \hat{\mathcal{H}}\rangle$) together with the expectation value of the kinetic energy ($\langle \hat{\mathcal{T}}\rangle$) and the expectation value of the potential energies ($\langle \mathcal{\hat{V}_{\text{ext}}} \rangle$,$\langle \mathcal{\hat{V}_{\text{int}}} \rangle$). From this, we can also see that the virial theorem, discussed in section \ref{sec:virial}, is satisfied.
-
+\subsection{Splitting the energy}
+It is also interesting to investigate how the energy is distributed between kinetic energy, external energy and interaction energy. 
 \begin{table}
-	\caption{Total energy ($\langle \hat{\mathcal{H}}\rangle$), kinetic energy ($\langle \hat{\mathcal{T}}\rangle$) and potential energy ($\langle \hat{\mathcal{V}}\rangle$) of circular quantum dots at low frequency ($\omega=0.01$). All energies are given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
-	\label{tab:lowfrequencyQD}
-	\begin{tabularx}{\textwidth}{R{2cm}rR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}} \hline\hline
-		&\makecell{\\ $N$ \\ \phantom{=}} & \multicolumn{1}{c}{$\langle \hat{\mathcal{H}}\rangle$} & \multicolumn{1}{c}{$\langle \mathcal{\hat{T}} \rangle$} & \multicolumn{1}{c}{$\langle \mathcal{\hat{V}_{\text{ext}}} \rangle$} & \multicolumn{1}{c}{$\langle \mathcal{\hat{V}_{\text{int}}} \rangle$} \\ \hline \\
-		&2 & 0.0741604(3) & 0.00937577(7) & 0.0277899(2) & 0.0369947(1) \\
-		&6 & 0.69714(2) & 0.0272312(4) & 0.23910(1) & 0.43081(1) \\
-		&12 & 2.4972(2) & 0.048721(2) & 0.8968(1) & 1.55170(9)\\
-		&20 & 6.407(6) & 0.048011(1) & 2.182(3) & 4.177(3) \\ \hline \hline
+	\caption{Total energy ($\langle \hat{\mathcal{H}}\rangle$), kinetic energy ($\langle \hat{\mathcal{T}}\rangle$) and potential energy ($\langle \hat{\mathcal{V}}\rangle$) of circular quantum dots at a wide range of frequencies $\omega$. A standard variational Monte-Carlo wave function is used. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
+	\label{tab:splitfrequencyQD}
+	\begin{tabularx}{\textwidth}{R{1.5cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}} \hline\hline
+		&\makecell{\\ $N$ \\ \phantom{=}} & $\omega$ && \multicolumn{1}{c}{$\langle \hat{\mathcal{H}}\rangle$} & \multicolumn{1}{c}{$\langle \mathcal{\hat{T}} \rangle$} & \multicolumn{1}{c}{$\langle \mathcal{\hat{V}_{\text{ext}}} \rangle$} & \multicolumn{1}{c}{$\langle \mathcal{\hat{V}_{\text{int}}} \rangle$} \\ \hline \\
+		&2 & 0.01 && 0.074070(8) & 0.00947(3) & 0.02732(5) & 0.03728(4) \\
+		&& 0.1 && 0.44129(1) & 0.09117(9) & 0.1789(1) & 0.17119(9) \\
+		&& 0.28 && 1.02192(1) & 0.2477(1) & 0.4256(2) & 0.3487(1) \\
+		&& 0.5 && 1.65974(1) & 0.4346(2) & 0.7057(2) & 0.5195(2)\\
+		&& 1.0 && \\
+		&& 3.0 && \\ \hdashline \\
+		
+		&6 & 0.01 && 0.69714(2) & 0.0272312(4) & 0.23910(1) & 0.43081(1) \\
+		&& 0.1 && \\
+		&& 0.5 && \\
+		&& 1.0 && \\
+		&& 3.0 && \\ \hdashline \\
+		
+		&12 & 0.01 && 2.4972(2) & 0.048721(2) & 0.8968(1) & 1.55170(9)\\
+		&& 0.1 && \\
+		&& 0.5 && \\
+		&& 1.0 && \\
+		&& 3.0 && \\ \hdashline \\
+		
+		&20 & 0.01 && 6.407(6) & 0.048011(1) & 2.182(3) & 4.177(3) \\
+		&& 0.1 && \\
+		&& 0.5 && \\
+		&& 1.0 && \\
+		&& 3.0 && \\ \hline \hline
 	\end{tabularx}
 \end{table} 
+
+\subsection{Low Frequency Dots}
+When we lower the frequency, the potential energy dominates the kinetic energy. An evidence of that can be seen in table \eqref{tab:lowfrequencyQD}, where we present the expectation value of the total energy ($\langle \hat{\mathcal{H}}\rangle$) together with the expectation value of the kinetic energy ($\langle \hat{\mathcal{T}}\rangle$) and the expectation value of the potential energies ($\langle \mathcal{\hat{V}_{\text{ext}}} \rangle$,$\langle \mathcal{\hat{V}_{\text{int}}} \rangle$). From this, we can also see that the virial theorem, discussed in section \ref{sec:virial}, is satisfied.
 
 As discussed in section \ref{sec:wigner}, at low kinetic energy the interaction is dominating, and in order to minimize this the electrons tend to orientate such that they maximize the distance to each other. They then form a lattice, known as Wigner crystals, and as we also claimed, this might be observed in the electron density plots. The one-body density of ...
 
@@ -387,20 +409,6 @@ As discussed in section \ref{sec:wigner}, at low kinetic energy the interaction 
 	\includegraphics[scale=0.7]{/home/evenmn/VMC/plots/int1/onebody/2D/2P/0.010000w/ADAM_MC2pow28.png}
 	\caption{One-body density of two-dimensional circular quantum dot containing two electrons. $\omega=0.01$.}
 \end{figure}
-
-\subsection{In-medium dots}
-Often when it comes to real-world use of quantum dots, they are not in vacuum, but instead in some kind of medium. In those cases, the medium affects the Coulomb interaction such that the electrostatic potential gets finite. To obtain this, replace the standard Coulomb interaction by screened Coulomb interaction which reads
-\begin{equation}
-\label{eq:screened}
-\langle\mathcal{\hat{V}_{\text{int}}}\rangle=
-\begin{cases} 
-\sum_{i>j}(1/r_{ij})\exp(r_{ij}/\mu_r) & \text{if } r_{ij}>\lambda_D\\
-\sum_{i>j}(1/r_{ij}) & \text{otherwise},
-\end{cases}
-\end{equation}
-with $r_{ij}$ still being the distance between two particles $i$ and $j$, $\lambda_D$ is the Debye screening length and $\mu_r$ determines how fast the field should reduce. Both those constants are dependent on the medium.
-
-Since the interaction is reduced, we expect that the virial theorem is no longer satisfied. 
 
 \subsection{$S\neq0$}
 When the number of particles in the quantum dot is among the magic numbers presented in equation \eqref{eq:HOclosedshell}, the ground state is guaranteed to be found at $L=S=0$. However, if we want to look at dots of other sizes, this is often not true, and we will therefore look at some cases with $S\neq 0$. We will still stick to $L=0$ and closed shell systems.

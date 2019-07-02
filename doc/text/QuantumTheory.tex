@@ -252,12 +252,12 @@ Often, one will see that the basis is optimized by the Hartree-Fock method. Usin
 From electrostatics we know that identical, charged particles will repel each other. This means that the probability of finding two particles close to each other should be low, which needs to be baked into the wave function. One way to do this is to simply multiply the wave function with the distance between the particles; the smaller distance the lower probability. However, since we are going to work in the logarithmic space, dealing with exponential function will be much easier. This is the main idea behind the simple Jastrow factor.
 
 \subsubsection{Simple Jastrow}
-The simple Jastrow factor is just an exponential function with the sum over all particle distances. In addition, each distance $r_{ij}$ is weighted by a parameter $\alpha_{ij}$, and the factor becomes
+The simple Jastrow factor is just an exponential function with the sum over all particle distances. In addition, each distance $r_{ij}$ is weighted by a parameter $\beta_{ij}$, and the factor becomes
 \begin{equation}
-J(\bs{r}; \bs{\alpha}) = \exp\left(\sum_{i=1}^N\sum_{j>i}^N{\alpha_{ij}r_{ij}}\right).
+J(\bs{r}; \bs{\beta}) = \exp\left(\sum_{i=1}^N\sum_{j>i}^N{\beta_{ij}r_{ij}}\right).
 \label{eq:SimpleJastrow}
 \end{equation}
-All the $\alpha_{ij}$ are free variational parameters, which are expected to be symmetric since the distance matrix is symmetric.
+All the $\beta_{ij}$ are free variational parameters, which are expected to be symmetric since the distance matrix is symmetric.
 
 One problem with this Jastrow factor, is that it does not create the cusp around each particle correctly. Basically, the Jastrow factor increases faster than it should when a particle is moved away from another. To solve this, we need to introduce a more complex Jastrow factor, the Padé-Jastrow.
 

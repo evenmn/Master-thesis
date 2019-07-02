@@ -1,5 +1,5 @@
-\chapter{General Gaussian-binary RBM wave function}
-\section{Derive the wave function}
+\chapter{General Gaussian-binary RBM wave function} \label{sec:appendixd}
+\section{Derive the wave function}\label{sec:derive}
 We have seen that the probability of having a set of positions $\bs{x}$ with a set of hidden nodes $\bs{h}$ is given by
 \begin{equation}
 F(\bs{x},\bs{h})=\frac{1}{Z}\exp(-\beta E(\bs{x},\bs{h}))
@@ -21,7 +21,7 @@ F_{\text{RBM}}(\boldsymbol{x})&=\sum_{\{\boldsymbol{h}\}}\exp\Big(\sum_{i=1}^F \
 &=\exp\Big(\sum_{i=1}^F \frac{(x_i - a_i)^2}{2\sigma^2}\Big) \prod_{j=1}^H \bigg[1+ \exp\Big(b_j + \frac{\boldsymbol{x}^T\boldsymbol{w}_{*j}}{\sigma^2}\Big)\bigg]
 \end{align}
 
-\section{Find derivatives}
+\section{Find derivatives} \label{sec:derivatives}
 A general Gaussian-binary restricted Boltzmann machine has the form
 \begin{equation}
 \Psi(\bs{x};\bs{a},\bs{b},\bs{w})=\exp(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2})\prod_{j=1}^H\Big[1+\exp(f_j(\bs{x};\bs{b},\bs{w}))\Big]

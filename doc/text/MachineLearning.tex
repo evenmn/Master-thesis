@@ -12,9 +12,31 @@ Parameter estimation is a large part of science, because we are often not able t
 
 The use of the term \textit{machine learning} has exploded over the past years, and sometimes it sounds like it is a totally new field. However, the truth is that many of the methods are relatively old, where for instance \textit{linear regression} was known early in the 19th century. \cite{legendre_nouvelles_1805, gauss_theoria_1809} Those methods have just recently been taken under the machine learning umbrella, which is one of the reasons why the term is used more frequently than before. As the professor A.Solberg at the University of Oslo pointed out during one of her lectures, machine learning covers all methods where the goal is to minimize a loss function based on a set of parameters. This has made machine learning an extremely rich field. Unlike traditional algorithms, machine learning algorithms are not told what to do directly, but they use optimization tools to reproduce targets in the best way. As a consequence, we often do not know exactly what the algorithm does and why it behaves as is does, and because of this behavior, the processing is often called artificial intelligence. In our search for a technique to solve quantum mechanical problems where less physical intuition is needed, machine learning appears as a natural tool.
 
-The increasing popularity should also without any doubt be attributed to the dramatically improvement of a majority of the machine learning algorithms. Perhaps the most important contribution to this came in 2012, when the deep convolution neural network (CNN) \textbf{AlexNet} managed to classify 1.2 millions images into 1000 classes with a remarkable top-5 test error rate of 15.3\%. \cite{krizhevsky_imagenet_2012} Today, the CNNs have been further improved, and they are even able to beat humans in recognizing images! (The history began from AlexNet) Also voice recognition algorithms have lately been revolutionized, thanks to recurrent neural networks (RNNs), and especially long short-term memory (LSTM) networks. Their ability to recognize sequential (time-dependent) data made the technology good enough for an entry to millions of peoples everyday-life through services such as \textbf{Google Translate} \cite{wu_googles_2016}, \textbf{Siri by Apple} \cite{smith_ios_2016} and \textbf{Amazon Alexa} \cite{noauthor_bringing_nodate}. It is also interesting to see how machine learning has made computers eminent tacticians using recurrent neural networks. The \textbf{Google DeepMind} developed program \textbf{AlphaGo} demonstrated this by beating the 9-dan professional L. Sedol in the board game Go \cite{noauthor_alphago_nodate}, before an improved version, \textbf{AlphaZero}, beat the at that time highest rated chess computer, \textbf{StockFish} \cite{klein_mikeklein_googles_nodate}. Both these scenarios were unbelievable just a decade ago.
+The increasing popularity should also without any doubt be attributed to the dramatically improvement of a majority of the machine learning algorithms. Perhaps the most important contribution to this came in 2012, when the deep convolution neural network (CNN) \textbf{AlexNet} managed to classify 1.2 millions images into 1000 classes with a remarkable top-5 test error rate of 15.3\%. \cite{krizhevsky_imagenet_2012} Today, the CNNs have been further improved, and they are even able to beat humans in recognizing images! (The history began from AlexNet) Also voice recognition algorithms have lately been revolutionized, thanks to recurrent neural networks (RNNs), and especially long short-term memory (LSTM) networks. Their ability to recognize sequential (time-dependent) data made the technology good enough for an entry to millions of peoples everyday-life through services such as \textbf{Google Translate} \cite{wu_googles_2016}, \textbf{Apple Siri} \cite{smith_ios_2016} and \textbf{Amazon Alexa} \cite{noauthor_bringing_nodate}. It is also interesting to see how machine learning has made computers eminent tacticians using recurrent neural networks. The \textbf{Google DeepMind} developed program \textbf{AlphaGo} demonstrated this by beating the 9-dan professional L. Sedol in the board game Go \cite{noauthor_alphago_nodate}, before an improved version, \textbf{AlphaZero}, beat the at that time highest rated chess computer, \textbf{StockFish} \cite{klein_mikeklein_googles_nodate}. Both these scenarios were unbelievable just a decade ago.
 
-Even though all these branches are both exciting and promising, they will not be discussed further in this work, since they will simply not work for our purposes. The reason is that they initially require a data set with known outputs in order to be trained, they obey so-called \textit{supervised} learning. Instead, we rely on \textit{unsupervised} learning, which has the task of finding patterns in the data and is therefore not in need for known outputs. However, we will discuss some simpler supervised learning algorithms as an introduction and a motivation for the unsupervised learning section. 
+Even though all these branches are both exciting and promising, they will not be discussed further in this work, since they will simply not work for our purposes. The reason is that they initially require a data set with known outputs in order to be trained, they obey so-called \textit{supervised} learning. Instead, we rely on \textit{unsupervised} learning, which has the task of finding patterns in the data and is therefore not in need for known outputs. However, we will discuss some simpler supervised learning algorithms as an introduction and a motivation for the unsupervised learning section. But first, let us start with the fundamentals. 
+
+\section{Statistical learning}
+In machine learning, we want to fit a model to a data set. This is usually done by an initial guess on the model, and we thereafter train it to minimize the out-of-sample error. This error is a function of the \textit{variance} and \textit{bias}, where the former is a measure on how much the error fluctuates and the latter represents the the best our model could do if we had an infinite amount of training data. An useful illustration of this is found in figure \eqref{fig:bias_variance}.
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.6]{Images/bias_variance.png}
+	\caption{Taken from \cite{mehta_high-bias_2019}.}
+	\label{fig:bias_variance}
+\end{figure}
+The bias is reduced as a function of the complexity, but the variance tends to get higher as the complexity of the model is increased. For that reason, a very complex model is not guaranteed to provide a small error, but instead we need to find the trade-off between how expressive our model class is and how sensitive the fitted model is to sample fluctuations in the training data. This is known as the bias-variance trade-off, and is illustrated in figure \eqref{fig:bias_variance_tradeoff}.
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.6]{Images/bias_variance_tradeoff.png}
+	\caption{Bias-variance trade-off. Taken from \cite{mehta_high-bias_2019}.}
+	\label{fig:bias_variance_tradeoff}
+\end{figure}
+
+However, as Mehta et.al. notice, this is not necessarily a trade-off; we could both have a high variance and a high bias, and perhaps a more appropriate term would be bias-variance decomposition since the error can be decomposed into a bias part and a variance part. \cite{mehta_high-bias_2019} This decomposition is given by
+\begin{equation}
+E_{out}=bias^2+\sigma^2.
+\end{equation}
+
 
 \section{Supervised Learning}
 In supervised learning methods, we know the corresponding targets to the input data sets, which we use to train the model. This could for instance be linear regression, logistic regression or feed-forward neural networks.
@@ -371,12 +393,12 @@ E(\bs{x},\bs{h})= \sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2} - \sum_{j=1}^Hh_jb
 where $\sigma_i$ is the width of the Gaussian distribution, which can be set to an arbitrary number. Inserting the energy expression into equation \eqref{eq:boltzmanndist}, we obtain the general expression 
 \begin{equation}
 P(\bs{x},\bs{h})=\exp\Big(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2}\Big)\prod_{j=1}^H\exp\Big(h_jb_j+\sum_{i=1}^F\frac{h_jw_{ij}x_i}{\sigma^2}\Big).
-\label{eq:NQSWF1}
+\label{eq:RBMWF1}
 \end{equation}
 which is the Gaussian-binary joint probability distribution. Generative sampling algorithms, as Gibbs' sampling, use this distribution directly, while other sampling tools, as Metropolis sampling, need the marginal distribution. Since the hidden nodes are binary, we just need to sum the joint probability distribution over $h=0$ and $h=1$ to find the marginal distributions. We obtain the expression
 \begin{equation}
 P(\bs{x})=\exp\Big(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2}\Big)\prod_{j=1}^H\bigg(1+\exp\Big(b_j+\sum_{i=1}^F\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg).
-\label{eq:NQSWF2}
+\label{eq:RBMWF2}
 \end{equation}
 
 Similarly, the marginal distribution of the hidden nodes 
@@ -403,7 +425,7 @@ with $c_{ij}$ as the weights between the visible nodes. For the later calculatio
 
 \begin{equation}
 p(\bs{x})=\exp\Big(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2}+\sum_{i=1}^F\sum_{j>i}^Fx_ic_{ij}x_j\Big)\prod_{j=1}^H\bigg(1+\exp\Big(b_j+\sum_{i=1}^F\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg).
-\label{eq:PNQSWF}
+\label{eq:PRBMWF}
 \end{equation}
 
 \subsection{Deep Boltzmann Machines}
@@ -423,5 +445,5 @@ E(\bs{x},\bs{h})= \sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2} - \sum_{l=1}^L\sum
 which gives the marginal probability distribution
 \begin{equation}
 p(\bs{x})=\exp\Big(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2}\Big)\prod_{l=1}^L\prod_{j=1}^H\bigg(1+\exp\Big(b_j^l+\sum_{i=1}^F\frac{w_{ij}^lx_i}{\sigma^2}\Big)\bigg).
-\label{eq:DNQSWF}
+\label{eq:DRBMWF}
 \end{equation}
