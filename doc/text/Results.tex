@@ -148,7 +148,9 @@ We now move on to the more interesting case with repulsive interaction, where we
 
 To achieve good results, we apply an adaptive step number, which means that the number of steps per iteration is increased for the last iterations. Firstly, this makes the final energy more accurate due to better statistics. Secondly, we get less noisy electron density plots by using this technique. All results below are produced using $2^{20}=1,048,576$ number of steps per iteration for the initial iterations. Then the number of steps is increased to $2^{24}=16,777,216$ when we have 11 iterations left, and for the very last iteration we use $2^{28}=268,435,456$ steps.
 
-First we will look at the ground-state energy of closed shell quantum dots, and thereafter we move on to open shells. We will also have a look at double quantum dots, which we investigate with closed shells only.
+Initially we look at standard quantum dots of size up to $N=56$ electrons in 2D and $N=40$ electrons in 3D and frequencies between $\omega=1.0$ and $\omega=0.1$. For those systems, we will compute the ground state energy, the one-body density and the two-body density. 
+
+After that, we move on to some special cases where the dots have low frequency ($\omega=0.01$), the total spin projection $S=\sum_im_s$ is unlike zero, the quantum dots are in a medium or the number of electrons is large. For those systems, we will typically focus on either the ground-state energy or the one-body density dependent on what we want to investigate. For instance, we will focus on the one-body density for low frequency dots because of the search for Wigner crystals. 
 
 \subsection{Ground-state energy}
 By utilizing the symmetry of quantum dots of two electrons, M.Taut was able to obtain semi-analytical energies for some specific frequencies $\omega$. More precisely, he found the energy to be $E=3$ for the frequency $\omega=1$ and $E=2/3$ for the frequency $\omega=1/6$ for the two-dimensional case, and $E=2$ for the frequency $\omega=1/2$ and $E=1/2$ for the frequency $\omega=1/10$ for the three-dimensional case. \cite{taut_two_1993}\cite{taut_two_1994}
@@ -316,7 +318,7 @@ We observe that the density gets a wave shape with more peaks as the number of p
 \end{figure}
 
 \subsection{Two-body density}
-The last ting we will investigate, is the two-body density. See figure \eqref{fig:TB_interaction_2D}.
+The last thing we will investigate, is the two-body density. See figure \eqref{fig:TB_interaction_2D}.
 
 \begin{landscape}
 	\begin{figure} [H]%
@@ -363,10 +365,7 @@ The last ting we will investigate, is the two-body density. See figure \eqref{fi
 	\end{figure}
 \end{landscape}
 
-\subsection{Special Cases}
-We will now look at some special cases for the quantum dots, including low frequency, large dots (many electrons) and quantum dots in a medium. 
-
-\subsubsection{Low Frequency Dots}
+\subsection{Low Frequency Dots}
 When we lower the frequency, the potential energy dominates the kinetic energy. An evidence of that can be seen in table \eqref{tab:lowfrequencyQD}, where we present the expectation value of the total energy ($\langle \hat{\mathcal{H}}\rangle$) together with the expectation value of the kinetic energy ($\langle \hat{\mathcal{T}}\rangle$) and the expectation value of the potential energies ($\langle \mathcal{\hat{V}_{\text{ext}}} \rangle$,$\langle \mathcal{\hat{V}_{\text{int}}} \rangle$). From this, we can also see that the virial theorem, discussed in section \ref{sec:virial}, is satisfied.
 
 \begin{table}
@@ -383,13 +382,13 @@ When we lower the frequency, the potential energy dominates the kinetic energy. 
 
 As discussed in section \ref{sec:wigner}, at low kinetic energy the interaction is dominating, and in order to minimize this the electrons tend to orientate such that they maximize the distance to each other. They then form a lattice, known as Wigner crystals, and as we also claimed, this might be observed in the electron density plots. The one-body density of ...
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.7]{/home/evenmn/VMC/plots/int1/onebody/2D/2P/0.010000w/ADAM_MC2pow28.png}
 	\caption{One-body density of two-dimensional circular quantum dot containing two electrons. $\omega=0.01$.}
 \end{figure}
 
-\subsubsection{$S\neq0$}
+\subsection{$S\neq0$}
 When the number of particles in the quantum dot is among the magic numbers presented in equation \eqref{eq:HOclosedshell}, the ground state is guaranteed to be found at $L=S=0$. However, if we want to look at dots of other sizes, this is often not true, and we will therefore look at some cases with $S\neq 0$. We will still stick to $L=0$ and closed shell systems.
 
 Imagine a dot of four particles with $S=1$ (three have spin up and the last has spin down). The ground state is obviously found when a spin up and a spin down particle is in the lowest energy state, and the remaining particles are in the first excited energy state. Since the lowest states and the first excited states with spin up are filled up, this is a closed shell system.
@@ -400,7 +399,7 @@ The results are listed in table \eqref{tab:sneq0}, where we use a restricted Bol
 
 We find both the RBM+PJ and VMC to reproduce the reference energy in all the cases. 
 
-\begin{table} [H]
+\begin{table}
 	\caption{The ground state energy of two-dimensional circular quantum dots of frequency $\omega$ for a given spin configuration ($L$,$S$). The results were obtained by a restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo (VMC). For reference, the Hartree-Fock limit results from Ref.\cite{pederiva_diffusion_2000} (HF) and diffusion Monte-Carlo results from Refs.\cite{pederiva_diffusion_2000},\cite{ghosal_incipient_2007} (DMC) are listed. All energies are given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
 	\label{tab:sneq0}
 	\begin{tabularx}{\textwidth}{rrXrrXR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}} \hline\hline
@@ -414,12 +413,21 @@ We find both the RBM+PJ and VMC to reproduce the reference energy in all the cas
 	\end{tabularx}
 \end{table}
 
-\subsubsection{In-Medium Dots}
-Using screened Coulomb interaction, we have also looked at in-medium quantum dots. 
+\subsection{In-medium dots}
+Often when it comes to real-world use of quantum dots, they are not in vacuum, but instead in some kind of medium. In those cases, the medium affects the Coulomb interaction such that the electrostatic potential gets finite. To obtain this, replace the standard Coulomb interaction by screened Coulomb interaction which reads
+\begin{equation}
+\label{eq:screened}
+\langle\mathcal{\hat{V}_{\text{int}}}\rangle=
+\begin{cases} 
+\sum_{i>j}(1/r_{ij})\exp(r_{ij}/\mu_r) & \text{if } r_{ij}>\lambda_D\\
+\sum_{i>j}(1/r_{ij}) & \text{otherwise},
+\end{cases}
+\end{equation}
+with $r_{ij}$ still being the distance between two particles $i$ and $j$, $\lambda_D$ is the Debye screening length and $\mu_r$ determines how fast the field should reduce. Both those constants are dependent on the medium.
 
-The virial theorem is no longer satisfied. 
+Since the interaction is reduced, we expect that the virial theorem is no longer satisfied. 
 
-\subsubsection{Large Dots}
+\subsection{Large dots}
 In order to test the code, we also decided to run for systems with $N\geq 56$. This has no scientific significance, other than testing how far a VMC code can go. We look at weakly interacting particles, so we will not get any relativistic effects even when adding many particles.
 
 \begin{table}
