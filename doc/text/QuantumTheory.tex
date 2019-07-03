@@ -35,7 +35,7 @@ In this work we will focus on solving the time-independent non-relativistic Schr
 \label{eq:Energy}
  \hat{\mathcal{H}}\psin=\epsilon_n\psin
 \end{equation}
-where the Hamiltonian is the total energy operator. By analogy with the classical mechanics, this is given by
+where the Hamiltonian is operator of total energy. By analogy with the classical mechanics, this is given by
 \begin{equation}
 \hat{\mathcal{H}}=\hat{\mathcal{T}}+\hat{\mathcal{V}}
 \end{equation}
@@ -67,14 +67,33 @@ which not necessarily is trivial to solve. If we take the wave function squared 
 \begin{equation}
 P(\bs{r})=\psinc\psin=|\psin|^2
 \end{equation}
-so the nominator is basically the integral over all the probabilities. If the wave function is normalized correctly, this should always give 1. Assuming that is the case, the expectation value can be expressed more elegantly by using Dirac notation,
+so the denominator is basically the integral over all the probabilities. If the wave function is normalized correctly, this should always give 1. 
+
+In equation \eqref{eq:energyintegral}, we find the expectation value of the energy using the Hamiltonian, which is the energy operator. However, this relation applies for a general expectation value $\langle \mathcal{\hat{O}}\rangle$ related to an operator $\mathcal{\hat{O}}$,
 \begin{equation}
-E[\Psi]=\mel{\Psi}{\hat{\mathcal{H}}}{\Psi},
+\langle \mathcal{\hat{O}}\rangle=\frac{\int d\bs{r}\psinc\hat{\mathcal{O}}\psin}{\int d\bs{r}\psinc\psin}.
+\label{eq:generalexp}
 \end{equation}
-where the first part, $\bra{\Psi}$ is called a bra and the last part, $\ket{\Psi}$ is called a ket. At first this might look artificial and less informative, but it simplifies the notation significantly. More information about the notation is found in Appendix A. 
+As a consequence, there is always a uncertainty associated with a measurement in quantum physics, which means that we can only tell the probability of measuring something. From this, a variety of mathematical inequalities follows, where Heisenberg's uncertainty principle is the most famous. It states that the more precisely the position of some particle is determined, the less precisely its momentum can be known, and is mathematically presented as
+\begin{equation}
+\sigma_x\sigma_p\geq\frac{\hbar}{2}
+\end{equation}
+where $\sigma_x$ is the standard deviation of the position and $\sigma_p$ is the standard deviation of the momentum. 
+
+Before we end this section, we will introduce the Dirac formalism, which is a elegant and efficient way of describing quantum states. For instance, equation \eqref{eq:generalexp} can, using Dirac formalism, be written as
+\begin{equation}
+\langle \mathcal{\hat{O}}\rangle=\frac{\mel{\Psi}{\mathcal{\hat{O}}}{\Psi}}{\braket{\Psi}{\Psi}}
+\end{equation}
+where $\bra{\Psi}$ is called the \textit{bra} and $\ket{\Psi}$ is called the \textit{ket}. For that reason, the formalism is also called braket formalism. 
+
+Often, the inner product in the denominator is assumed to be 1, such that the expectation value can be simplified to
+\begin{equation}
+\langle \mathcal{\hat{O}}\rangle=\mel{\Psi}{\mathcal{\hat{O}}}{\Psi},
+\end{equation}
+which we will henceforth assume. More information about the Dirac formalism can be found in Appendix A. 
 
 \subsection{The variational principle}
-In the equations above, the presented wave functions are assumed to be the exact eigenfunctions of the Hamiltonian. But often we do not know the exact wave functions, and we need to guess what the wave functions might be. In those cases we make use of the Rayleigh-Ritz variational principle or just the variational principle, which states that only the exact ground state wave function is able to give the ground state energy. All other wave functions that fulfill the required properties (see section \ref{subsec:wavefunction}) give higher energies, and mathematically we can express the statement
+In the equations above, the presented wave functions are assumed to be the exact eigenfunctions of the Hamiltonian. But often we do not know the exact wave functions, and we need to guess what the wave functions might be. In those cases we make use of the Rayleigh-Ritz variational principle or just the variational principle, which states that only the exact ground state wave function is able to give the ground state energy. All other wave functions that fulfill the required properties (see section \ref{sec:wavefunction}) give higher energies, and mathematically we can express the statement as
 \begin{equation}
 \epsilon_0\leq\mel{\Psi_T}{\hat{\mathcal{H}}}{\Psi_T}.
 \label{eq:variationalprinciple}
@@ -103,11 +122,11 @@ The \textbf{spin} quantum number $s$ gives the spin of a particle, which can jus
 The last number we will discuss is the \textbf{spin projection} quantum number $m_s$. It has the range $-s,-s+1,\hdots,s-1,s$, and is therefore related to the spin quantum number in the same way as $m_l$ is related to the angular quantum number. Electrons can for that reason take the values $m_s=+1/2$ or $m_s=-1/2$, such that there are two groups of electrons. The consequences will be discussed in the section \eqref{sec:wavefunction}.
 
 \subsection{The virial theorem} \label{sec:virial}
-The quantum virial theorem was first shown by Vladimir Fock, \cite{fock_bemerkung_1930} and reads
+The virial theorem relates the kinetic energy and potential energy, and makes it possible to find the average kinetic energy even for very complicated systems. The classical statement of the theorem has been known for a long time, and 1930 Vladimir Fock managed to prove the quantum virial theorem. \cite{fock_bemerkung_1930} The theorem can be expressed as
 \begin{equation}
-2\langle \mathcal{\hat{T}} \rangle = \sum_{i=1}^fn_i\langle \mathcal{\hat{V}}_{i} \rangle
+2\langle \mathcal{\hat{T}} \rangle = \sum_{i}n_i\langle \mathcal{\hat{V}}_{i} \rangle
 \end{equation}
-for $f$ sources of potential energy, where each is on the form
+for sources to potential energy on the form
 \begin{equation}
 \mathcal{\hat{V}}_{i}=xr^{n_i}.
 \end{equation}
