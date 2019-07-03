@@ -124,6 +124,7 @@ E_n=-\frac{Z^2}{2n^2}.
 For atomic systems, it is convenient to use spherical coordinates, which allows us to split up the wave function in a radial part and an angular part,
 \begin{equation}
 \psi_{nlm}(r,\theta,\phi)=R_{nl}(r)Y_l^m(\theta,\phi)
+\label{eq:hydrogenlike}
 \end{equation}
 
 The exact radial part for the non-interacting case is called the hydrogen-like orbitals, that is
@@ -147,7 +148,8 @@ S_l^m(\theta,\phi)\propto P_l^{|m|}(\cos\theta)
 \end{equation}
 such that
 \begin{equation}
-\psi_{nlm}(r,\theta,\phi)=R_{nl}(r)S_l^m(\theta,\phi).
+\psi_{nlm}(r,\theta,\phi)\propto R_{nl}(r)S_l^m(\theta,\phi).
+\label{eq:hydrogenlikesolid}
 \end{equation}
 
 Again we will study closed shells only, but for atoms we will introduce subshells as well, which are dependent on the angular quantum number $l$ in addition to the principal quantum number $n$. In general, we have that $l\in [0,n-1]$ such that we only have one subshell for $n=1$. Traditionally, the first few subshells are denoted with $s, p, d$ and $f$, and the meaning can be found in table \eqref{tab:subshells}, together with number of electrons in each subshell.

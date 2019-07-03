@@ -1,30 +1,35 @@
 \chapter{Quantum Many-Body Physics} \label{chp:quantum}
-\epigraph{If you are not completely confused by quantum mechanics, you do not understand it.}{John Wheeler}
+\epigraph{I do not like it, and I am sorry I ever had anything to do with it.}{Erwin Schrödinger,\cite{noauthor_quantum_2005}}
 \begin{figure}[H]
 	\centering
 	\captionsetup[subfigure]{labelformat=empty}
 	\includegraphics[scale=3.0]{Images/art_quantum.jpg}
 	\caption{The first photograph of a Hydrogen atom was captured by an ultra sensitive camera in 2013. One can actually see the probability distribution $|\Psi(\bs{r})|^2$ with the naked eye. Published in Phys. rev. lett. 110, 213001 (2013), \textit{Hydrogen atoms under magnification}. \cite{stodolna_hydrogen_2013}}
 \end{figure}
-Around 1900, some physicists thought that there were nothing new to be discovered in physics and all that remained was more precise measurements, as Lord Kelvin famously pointed out. \cite{weisstein_kelvin_2007} He could not have been more wrong. In the following years, things were observed that could only be described by a quantized theory, led by Albert Einstein's explanation of the photoelectric effect in 1905. 
 
-Immense efforts were placed on completing the theory, and contributions from an array of scientists over a period of 20 years were necessary to get it finished. In 1929, Paul Dirac stated something similar to what Lord Kelvin said 30 years earlier, but apparently with greater accuracy. 
+In the early 20th century, some scientists claimed that there were nothing new to be discovered in physics. They though that the deviation from experimental results were caused by uncertainties in the measurements and that the theory was complete. \cite{weisstein_kelvin_2007} They could not be more wrong.
+
+In 1905, Albert Einstein published a paper which explained the photoelectric effect based on Max Planck's idea of discrete energies. This is considered as the the beginning of the quantum theory.\footnote{The same year, Einstein presented his special theory of relativity, followed by the general theory of relativity in 1915. This theory superseded a 200-year-old theory of mechanics created primarily by Isaac Newton.} The years after this discovery, immense efforts were placed on completing the theory, and contributions from an array of scientists over a period of more than 20 years were necessary to get it complete. 
+
+Key people include Niels Bohr, who developed a model to explain the spectral lines in atoms, Max Born who suggested the now-standard interpretation of the probability density function, Werner Heisenberg who formulated the matrix mechanics of quantum mechanics, Erwin Schrödinger who formulated the wave mechanics of quantum mechanics and Paul Dirac who contributed to complete the theory. We will meet them again in other parts of the thesis.
+
+In 1929, Paul Dirac stated something similar to what some scientists claimed in the early 20th century, but apparently more correctly. \cite{dirac_paul_adrien_maurice_quantum_1929}
 
 \newpage
 \section{Brief Introduction} \label{subsec:elementary}
-In this section we will present the fundamentals of the quantum theory, that will make up the framework of this project. The theory is based on David Griffith's incredible textbook, \textit{Introduction to Quantum Mechanics}, where the reader is relegated for further information.
+In this section we will present the fundamentals of the quantum theory, which will make up the framework of this project. The theory is based on David Griffith's incredible textbook, \textit{Introduction to Quantum Mechanics}, where the reader is relegated for further information.
 
 Before we get started, we make a few assumptions in order to simplify our problem. The most important ones are specified below with an explanation why they are valid.
 
 \begin{itemize}
-	\item \textbf{Point-like particles:} First, all particles involved will be assumed to be point-like, i.e, they lack spatial extension. For electrons this makes sense, since they, as far as we know, do not extent. The assumption also includes the nucleus in atomic systems, but it still makes sense since the distance from the nucleus to the electrons is known to be much larger than the nucleus extent.
+	\item \textbf{Point-like particles:} First, all particles involved will be assumed to be point-like, i.e, they lack spatial extension. For electrons this makes sense, since they, as far as we know, do not extent. The assumption is also applied on the nucleus in atomic systems, but it still makes sense since the distance from the nucleus to the electrons is known to be much larger than the nucleus extent.
 	
-	\item \textbf{Non-relativistic spacetime:}  Second, we operate in the non-relativistic spacetime, which is an extremely good approximation as long as we do not approach the speed of light and we do not involve strong forces. Applying classical physics, we can find that the speed of the electron in a hydrogen atom is about 1\% of the speed of light, and even though the electrons get higher speed in heavier atoms, we do not need to worry about it as we will stick to the lighter atoms. The forces acting are the weak Coulomb forces.
+	\item \textbf{Non-relativistic spacetime:}  Second, we operate in the non-relativistic spacetime, which is an extremely good approximation as long as we do not approach the speed of light and we do not involve strong forces. Applying classical physics, we can find that the speed of the electron in a hydrogen atom is about 1\% of the speed of light, and even though the electrons get higher speed in heavier atoms, we do not need to worry about it as we will stick to the lighter atoms. The forces acting are the weak Coulomb forces. In the quantum dots, this assumption hold even for large systems.
 	
 	\item For specific systems we might make new assumptions and approximations. For instance, for atomic systems we will assume that the nucleus is at rest. Those approximations will be discussed consecutively. 
 \end{itemize}
 
-\subsection{The Schrödinger Equation} \label{subsec:schrodinger}
+\subsection{The Schrödinger equation} \label{subsec:schrodinger}
 In this work we will focus on solving the time-independent non-relativistic Schrödinger equation, which gives the energy eigenvalues of a system defined by a Hamiltonian $\hat{\mathcal{H}}$ and its eigenfunctions, $\Psi_n(\bs{r})$, which are the wave functions. $\bs{r}$ are the position coordinates of all the system's particles and $n$ characterizes the state. The equation reads
 \begin{equation}
 \label{eq:Energy}
@@ -44,11 +49,11 @@ according to Ehrenfest's theorem. Further, the linear momentum operator is $\hat
 
 The potential energy can be split into an external part and an interaction part, where the latter is given by the Coulomb interaction. For two identical particles of charge $q$, the repulsive interaction gives the energy
 \begin{equation}
-\langle \mathcal{\hat{V}_{\text{int}}} \rangle=k_e\frac{q^2}{r_{12}}
+V_{\text{int}} =k_e\frac{q^2}{r_{12}}
 \end{equation}
 where $r_{12}$ is the distance between the particles and $k_e$ is Coulomb's constant. The total Hamiltonian of a system of $N$ identical particles takes the form
 \begin{equation}
-\hat{\mathcal{H}}=-\sum_i^N\frac{\hbar^2}{2m}\nabla_i^2+\sum_i^{N}u_i + \sum_i^N\sum_{j>i}^Nk\frac{q^2}{r_{ij}}
+\hat{\mathcal{H}}=-\sum_i^N\frac{\hbar^2}{2m}\nabla_i^2+\sum_i^{N}u_i + \sum_i^N\sum_{j>i}^Nk_e\frac{q^2}{r_{ij}}
 \label{eq:ElectronicHamiltonian}
 \end{equation}
 which is the farthest we can go without specifying the external potential $u_i$. $r_{ij}$ is the relative distance between particle $i$ and $j$, defined by $r_{ij}\equiv|\bs{r}_i-\bs{r}_j|$.
@@ -58,24 +63,17 @@ Setting up equation \eqref{eq:Energy} with respect to the energies, we obtain an
 \epsilon_n=\frac{\int d\bs{r}\psinc\hat{\mathcal{H}}\psin}{\int d\bs{r}\psinc\psin},
 \label{eq:energyintegral}
 \end{equation}
-which not necessarily is trivial to solve. If we take the wave function squared we get the probability distribution,
+which not necessarily is trivial to solve. If we take the wave function squared we get the probability distribution function,
 \begin{equation}
 P(\bs{r})=\psinc\psin=|\psin|^2
 \end{equation}
-so the nominator is basically the integral over all probabilities. If the wave function is normalized correctly, this should always give 1. Assuming that is the case, the expectation value can be expressed more elegantly by using Dirac notation,
+so the nominator is basically the integral over all the probabilities. If the wave function is normalized correctly, this should always give 1. Assuming that is the case, the expectation value can be expressed more elegantly by using Dirac notation,
 \begin{equation}
 E[\Psi]=\mel{\Psi}{\hat{\mathcal{H}}}{\Psi},
 \end{equation}
 where the first part, $\bra{\Psi}$ is called a bra and the last part, $\ket{\Psi}$ is called a ket. At first this might look artificial and less informative, but it simplifies the notation significantly. More information about the notation is found in Appendix A. 
 
-\cite{griffiths_introduction_2005}
-
-\subsection{The Virial Theorem} \label{sec:virial}
-\begin{equation}
-2\langle \mathcal{\hat{T}} \rangle = 2\langle \mathcal{\hat{V}_{\text{ext}}} \rangle - \langle \mathcal{\hat{V}_{\text{int}}} \rangle
-\end{equation}
-
-\subsection{The Variational Principle}
+\subsection{The variational principle}
 In the equations above, the presented wave functions are assumed to be the exact eigenfunctions of the Hamiltonian. But often we do not know the exact wave functions, and we need to guess what the wave functions might be. In those cases we make use of the Rayleigh-Ritz variational principle or just the variational principle, which states that only the exact ground state wave function is able to give the ground state energy. All other wave functions that fulfill the required properties (see section \ref{subsec:wavefunction}) give higher energies, and mathematically we can express the statement
 \begin{equation}
 \epsilon_0\leq\mel{\Psi_T}{\hat{\mathcal{H}}}{\Psi_T}.
@@ -84,7 +82,7 @@ In the equations above, the presented wave functions are assumed to be the exact
 
 Variational Monte-Carlo is a method based on (and named after) the variational principle, where we vary the trial wave function in order to obtain the lowest energy. It will be detailed in chaper \eqref{chp:methods}.
 
-\subsection{Quantum Numbers}
+\subsection{Quantum numbers}
 Up to this point, we have used $n$ to indicate which state we are dealing with, but we have not explained what it actually means. 
 
 \subsubsection*{Principal}
@@ -101,8 +99,26 @@ We also have a \textbf{magnetic} quantum number $m_l$, which has the range $-l,-
 \subsubsection*{Spin}
 The \textbf{spin} quantum number $s$ gives the spin of a particle, which can just be seen as a particle's property. Particles are often divided in two groups dependent on the spin because of their different behavior: \textbf{bosons} have integer spin, while \textbf{fermions} have half-integer spin. Electrons and protons have spin $s=1/2$, which makes them fermions.
 
-\subsubsection*{Spin Projection}
-The last number we will discuss is the \textbf{spin projection} quantum number $m_s$. It has the range $-s,-s+1,\hdots,s-1,s$, and is therefore related to the spin quantum number in the same way as $m_l$ is related to the angular quantum number. Electrons can for that reason take the values $m_s=+1/2$ or $m_s=-1/2$, such that there is two "different" electrons. The consequences will be discussed in the next section.
+\subsubsection*{Spin projection}
+The last number we will discuss is the \textbf{spin projection} quantum number $m_s$. It has the range $-s,-s+1,\hdots,s-1,s$, and is therefore related to the spin quantum number in the same way as $m_l$ is related to the angular quantum number. Electrons can for that reason take the values $m_s=+1/2$ or $m_s=-1/2$, such that there are two groups of electrons. The consequences will be discussed in the section \eqref{sec:wavefunction}.
+
+\subsection{The virial theorem} \label{sec:virial}
+The quantum virial theorem was first shown by Vladimir Fock, \cite{fock_bemerkung_1930} and reads
+\begin{equation}
+2\langle \mathcal{\hat{T}} \rangle = \sum_{i=1}^fn_i\langle \mathcal{\hat{V}}_{i} \rangle
+\end{equation}
+for $f$ sources of potential energy, where each is on the form
+\begin{equation}
+\mathcal{\hat{V}}_{i}=xr^{n_i}.
+\end{equation}
+
+The expectation value is in principle the time average of the operator. However, if the ergodic hypothesis hold for the system, an ensemble average can also be taken.
+
+\iffalse
+\begin{equation}
+2\langle \mathcal{\hat{T}} \rangle = 2\langle \mathcal{\hat{V}_{\text{ext}}} \rangle - \langle \mathcal{\hat{V}_{\text{int}}} \rangle
+\end{equation}
+\fi
 
 \iffalse
 \subsubsection*{Angular Momentum and Spin}
@@ -150,7 +166,7 @@ The postulates are taken from \cite{sherrill_david_postulates_2003}.
 
 The reader may recognize that some of the postulates were mentioned already in the first sections, which was necessary to give a proper introduction. Since we will be looking at stationary systems only, the time-independent Schrödinger equation and then postulate no.5 will not be used, but apart from that they all will play a significant role. 
 
-\section{The Trial Wave Function} \label{subsec:wavefunction}
+\section{The trial wave function} \label{sec:wavefunction}
 By the first postulate of quantum mechanics, the wave function contains all the information specifying the state of the system. This means that all observable in classical mechanics can also be measured from the wave function, which makes finding the wave function our main goal.
 
 The trial wave function needs to meet some requirements in order to be used in the variational principle, and we thus need to make an educated guess on the wave function where the requirements are fulfilled. The requirements are the following:
@@ -163,7 +179,7 @@ The trial wave function needs to meet some requirements in order to be used in t
 	\item \textbf{Symmetry and anti-symmetry:} The wave function needs to be either symmetric or anti-symmetric under exchange of two coordinates, dependent on whether the particles are fermions or bosons. This is the statement of the sixth postulate, which will be further explained in the next section.
 \end{enumerate}
 
-\subsection{Anti-Symmetry and the Pauli Principle} \label{subsubsec:symmetry}
+\subsection{Anti-symmetry and the Pauli principle} \label{subsubsec:symmetry}
 Assume that we have a permutation operator $\hat{P}$ which exchanges two coordinates in the wave function,
 \begin{equation}
 \hat{P}(i\rightarrow j)\Psi_n(\bs{x}_1,\hdots,\bs{x}_i,\hdots,\bs{x}_j,\hdots,\bs{x}_M)=p\Psi_n(\bs{x}_1,\hdots,\bs{x}_j,\hdots,\bs{x}_i,\hdots,\bs{x}_M),

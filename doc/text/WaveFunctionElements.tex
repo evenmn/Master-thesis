@@ -6,20 +6,29 @@ In chapter \eqref{chp:quantum} we presented the basic principles behind a many-b
 \end{enumerate}
 The first assumption is useful when updating position dependent arrays. Typically, we only need to update a coordinate of an array or a row of a matrix when this assumption is raised, which is hugely beneficial with respect to the computational time. The last assumption is makes all wave function elements independent, which obviously makes life easier. 
 
-The trial wave function $\Psi_T$ is a product of all the $p$ wave function elements $\{\psi_1, \psi_2\hdots\psi_p\}$,
+The trial wave function $\Psi_T$ is a product of all the $p$ wave function elements $\{\psi_1, \psi_2\hdots\psi_p\}$ that are involved in a calculation,
 \begin{equation}
-\Psi_T(\bs{r}) = \prod_{i=1}^p\psi_i(\bs{r}),
+\Psi_T(\bs{r}) = \prod_{i=1}^p\psi_i(\bs{r}).
 \label{eq:elementproduct}
 \end{equation}
-and we will now show how this can be used to split up the local energy and the parameter update in element-wise calculations.
 
-\section{Kinetic Energy Calculations}
+For instance, consider a quantum dot of six interacting electrons. In that case, a Slater determinant needs to be included in order to ensure that the wave function is anti-symmetric, but since the Gaussian function appears in all the single particle function, this can be factorized out. We can therefore split the Slater determinant up in a simple Gaussian element and a determinant consisting of the Hermite polynomials. In addition, a Jastrow factor is required to take care of the correlations, so the trial wave function should consist of a total of three elements for this particular system:
+\begin{equation*}
+\Psi_T(\bs{r})=\psi_{sg}(\bs{r})\psi_{sd}(\bs{r})\psi_{jf}(\bs{r})
+\end{equation*}
+where $sg$ denotes the simple Gaussian, $sd$ denotes the Slater determinant and $jf$ denotes an arbitrary Jastrow factor. 
+
+We will first try to convince the reader that the local energy and the parameter update can be calculated separately for each element, and then move on to find closed-form expressions for the required term in the calculations for all the elements.
+
+\section{Kinetic energy computations}
 The local energy, defined in equation \eqref{eq:local energy}, is
-\begin{align}
+\begin{align*}
 E_L &=\frac{1}{\Psi_T(\bs{r})}\hat{\mathcal{H}}\Psi_T(\bs{r})\\
 &=\sum_{k=1}^M\Big[-\frac{1}{2}\Big(\frac{1}{\Psi_T(\bs{r})}\nabla_k^2\Psi_T(\bs{r})\Big) + \mathcal{V}\Big].
-\end{align}
-The first term, which is the kinetic energy term, is the only wave function-dependent one. It will in this chapter be evaluated for various wave function elements. From the definition of differentiation of a logarithm, we have that
+\end{align*}
+The first term, which is the kinetic energy term, is the only wave function-dependent one, and we will in this section split it up with respect to the elements. The potential energy term, $\mathcal{V}$, is not directly dependent on the wave function and will therefore not be further touched here. 
+
+From the definition of differentiation of a logarithm, we have that
 \begin{equation}
 \frac{1}{\Psi_T(\bs{r})}\nabla_k\Psi_T(\bs{r})=\nabla_k\ln\Psi_T(\bs{r}),
 \end{equation}
@@ -27,169 +36,174 @@ which provides the following useful relation
 \begin{equation}
 \frac{1}{\Psi_T(\bs{r})}\nabla_k^2\Psi_T(\bs{r})=\nabla_k^2\ln\Psi_T(\bs{r}) + (\nabla_k\ln\Psi_T(\bs{r}))^2.
 \end{equation}
-Using the fact that the trial wave function is a product of all the elements, the kinetic energy is calculated by
-\begin{equation}
-\frac{1}{\Psi_T(\bs{r})}\nabla_k^2\Psi_T(\bs{r})=\sum_{i=1}^p\nabla_k^2\ln\psi_i(\bs{r}) + \Big(\sum_{i=1}^p\nabla_k\ln\psi_i(\bs{r})\Big)^2,
-\end{equation}
-which can be found when all local derivatives $\nabla_k^2\ln\psi_i(\bs{r})$ and $\nabla_k\ln\psi_i(\bs{r})$ are given. For each wave function element given below, those local derivatives will be evaluated. In addition, we need to know the derivative of local energy with respect to the variational parameters in order to update the parameters correctly. 
+Using the fact that the trial wave function is a product of all the elements, the term above is calculated by
+\begin{equation*}
+\frac{1}{\Psi_T(\bs{r})}\nabla_k^2\Psi_T(\bs{r})=\sum_{i=1}^p\nabla_k^2\ln\psi_i(\bs{r}) + \Big(\sum_{i=1}^p\nabla_k\ln\psi_i(\bs{r})\Big)^2
+\end{equation*}
+such that the total kinetic energy is given by
+\begin{align*}
+-\frac{1}{2}\frac{1}{\Psi_T(\bs{r})}\nabla^2\Psi_T(\bs{r})&=-\frac{1}{2}\sum_{k=1}^{ND}\frac{1}{\Psi_T(\bs{r})}\nabla_k^2\Psi_T(\bs{r})\notag\\
+&=\sum_{i=1}^p\nabla^2\ln\psi_i(\bs{r}) + \sum_{k=1}^{ND}\Big(\sum_{i=1}^p\nabla_k\ln\psi_i(\bs{r})\Big)^2
+\end{align*}
+which can be found when all local derivatives $\nabla^2\ln\psi_i(\bs{r})$ and $\nabla_k\ln\psi_i(\bs{r})$ are given. For each wave function element given below, those local derivatives will be evaluated. In addition, we need to know the derivative of local energy with respect to the variational parameters in order to update the parameters correctly. 
 
 \section{Parameter update}
-In gradient based optimization methods, as we use, one needs to know the gradient of the expectation value of local energy with respect to all variational parameters $\alpha_i$, 
+In gradient based optimization methods, as we use, one needs to know the gradient of the expectation value of local energy with respect to all variational parameters $\theta_j$, 
 \begin{equation}
-\partial_{\alpha_j} \langle E_L\rangle\equiv\frac{\partial \langle E_L(\alpha_j)\rangle}{\partial \alpha_j}.
+\partial_{\theta_j} \langle E_L\rangle\equiv\frac{\partial \langle E_L(\alpha_j)\rangle}{\partial \theta_j}.
 \end{equation}
 This gradient is given by
 \begin{equation}
-\partial_{\alpha_j} \langle E_L\rangle=2\Big(\langle E_L\partial_{\alpha_j}\ln\Psi_T\rangle - \langle E_L\rangle\langle\partial_{\alpha_j}\ln\Psi_T\rangle\Big)
+\partial_{\theta_j} \langle E_L\rangle=2\Big(\langle E_L\partial_{\theta_j}\ln\Psi_T\rangle - \langle E_L\rangle\langle\partial_{\theta_j}\ln\Psi_T\rangle\Big)
 \end{equation}
-which means that we need to calculate the expectation values $\langle E_L\partial_{\alpha_j}\ln\Psi_T\rangle$ and $\langle\partial_{\alpha_j}\ln\Psi_T\rangle$ in addition to the local energy. Those expectation values are found from the integrals
+which means that we need to calculate the expectation values $\langle E_L\partial_{\theta_j}\ln\Psi_T\rangle$ and $\langle\partial_{\theta_j}\ln\Psi_T\rangle$ in addition to the local energy. Those expectation values are found from the integrals
 \begin{equation}
-\langle\partial_{\alpha_j}\ln\Psi_T\rangle = \int_{-\infty}^{\infty}d\bs{r}P(\bs{r})\partial_{\alpha_j}\ln\Psi_T(\bs{r})
-\end{equation}
-and
-\begin{equation}
-\langle E_L\partial_{\alpha_i}\ln\Psi_T\rangle = \int_{-\infty}^{\infty}d\bs{r}P(\bs{r})E_L(\bs{r})\partial_{\alpha_i}\ln\Psi_T(\bs{r}),
-\end{equation}
-which can also be found by Monte-Carlo integration in the same way as the local energy:
-\begin{equation}
-\langle\partial_{\alpha_i}\ln\Psi_T\rangle\approx \frac{1}{M}\sum_{i=1}^M\partial_{\alpha_j}\ln\Psi_T(\bs{r}_i)
+\langle\partial_{\theta_j}\ln\Psi_T\rangle = \int_{-\infty}^{\infty}d\bs{r}P(\bs{r})\partial_{\theta_j}\ln\Psi_T(\bs{r})
 \end{equation}
 and
 \begin{equation}
-\langle E_L\partial_{\alpha_i}\ln\Psi_T\rangle\approx \frac{1}{M}\sum_{i=1}^ME_L(\bs{r}_i)\partial_{\alpha_j}\ln\Psi_T(\bs{r}_i).
+\langle E_L\partial_{\theta_i}\ln\Psi_T\rangle = \int_{-\infty}^{\infty}d\bs{r}P(\bs{r})E_L(\bs{r})\partial_{\theta_i}\ln\Psi_T(\bs{r}),
+\end{equation}
+which can be found by Monte-Carlo integration in the same way as the local energy:
+\begin{equation}
+\langle\partial_{\theta_i}\ln\Psi_T\rangle\approx \frac{1}{M}\sum_{i=1}^M\partial_{\theta_j}\ln\Psi_T(\bs{r}_i)
+\end{equation}
+and
+\begin{equation}
+\langle E_L\partial_{\theta_i}\ln\Psi_T\rangle\approx \frac{1}{M}\sum_{i=1}^ME_L(\bs{r}_i)\partial_{\theta_j}\ln\Psi_T(\bs{r}_i).
 \end{equation}
 
-By again applying equation \eqref{eq:elementproduct}, we have that
+By applying equation \eqref{eq:elementproduct}, we find that
 \begin{equation}
-\partial_{\alpha_j}\ln\Psi_T(\bs{r})=\sum_{i=1}^p\partial_{\alpha_j}\ln\psi_i(\bs{r}).
+\partial_{\theta_j}\ln\Psi_T(\bs{r})=\sum_{i=1}^p\partial_{\theta_j}\ln\psi_i(\bs{r}),
 \end{equation}
+which means that we need to find closed-form expressions of $\partial_{\theta_j}\ln\psi_i(\bs{r})$ for all wave function elements $\psi_i(\bs{r})$ and all variational parameters $\theta_{j}$.
 
 \section{Optimizations}
-How much a wave function element can be optimized heavily depends on the specific form of the element. For instance, sometimes the previous and present $\nabla_k\ln\phi_i$ are closely related, and only differ with a few calculations, while for some other elements they are not related at all. Those subjective optimizations will therefore be described when presenting each wave function element. 
+How much a wave function element can be optimized heavily depends on the specific form of the element. For instance, sometimes the previous and present $\nabla_k\ln\phi_i$ are closely related, and only differ from each other by a factor, while for some other elements they are not related at all. Those subjective optimizations will therefore be described when presenting each wave function element. 
 
-However, there are still optimizations that apply to all elements and give great speed-up. An example is when calculating the ratio between the previous and present wave functions
-for all wave function elements instead of the wave function itself. Firstly, this is usually cheaper to calculate than the wave function itself because we are working in the logarithm space. Secondly, the ratio is actually what we use in the sampling, so it is a natural thing to calculate. The total wave function ratio is just the product of all the wave function element ratios
+However, there are still optimizations that apply to all elements and give great speed-up. An example is when calculating the ratio between the previous and present wave functions for all wave function elements instead of the wave function itself. Firstly, this is usually cheaper to calculate than the wave function itself because we are working in the logarithm space. Secondly, the ratio is actually what we use in the sampling, so it is a natural thing to calculate. The total wave function ratio is just the product of all the wave function element ratios
 \begin{equation*}
 	\frac{\Psi_T(\bs{r}_{\text{new}})}{\Psi_T(\bs{r}_{\text{old}})}=\prod_{i=1}^p\frac{\psi_i(\bs{r}_{\text{new}})}{\psi_i(\bs{r}_{\text{old}})},
 \end{equation*}
 and below we will calculate this ratio squared since we are going to use that directly in the sampling. 
 
 \section{Derivatives}
+We will in this section go through the derivatives of the various wave function elements that are used in our work, in order to be able to compute the kinetic energy and the parameter update correctly. We will start with the elements used in a standard variational Monte-Carlo calculation, and thereafter move on to the elements inspired by Boltzmann machines. In the end, we will discuss the Hydrogen-like orbitals. 
+
 \subsection{Simple Gaussian}
 A natural starting point is the Gaussian function, since it appears in standard variational Monte-Carlo computations of quantum dot systems. For $N$ number of particles and $NP$ free dimensions, the function is given by
 \begin{equation*}
-\psi_{\text{sg}}( \bs{x}; \alpha)=\exp\Big(-\frac{1}{2}\omega\alpha\sum_{j=1}^Nr_j^2\Big)=\exp\Big(-\frac{1}{2}\omega\alpha\sum_{j=1}^{ND}x_j^2\Big)
+\psi_{sg}(\bs{x}; \alpha)=\exp\Big(-\frac{1}{2}\omega\alpha\sum_{j=1}^Nr_j^2\Big)=\exp\Big(-\frac{1}{2}\omega\alpha\sum_{j=1}^{NP}x_j^2\Big),
 \end{equation*}
 similarly to the function presented in section \eqref{sec:quantumdots}. $\omega$ is the oscillator strength and $\alpha$ is a variational parameter, which for non-interacting atoms is 1. Due to the presence of $r_i^2$, the function can easily be treated both in Cartesian and spherical coordinates, but in this thesis we will focus on the former.
 
-When changing coordinate $i$, the probability ratio can easily be found to be 
+When changing the coordinate $x_i$ from $x_i^{\text{old}}$ to $x_i^{\text{new}}$, the probability ratio can easily be found to be 
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-\frac{|\psi_{\text{sg}}(\bs{x}_{\text{new}})|^2}{|\psi_{\text{sg}}(\bs{x}_{\text{old}})|^2}=\exp\Big(\omega\alpha(x_{i,\text{old}}^2-x_{i,\text{new}}^2)\Big)
+\frac{|\psi_{sg}(\bs{x}_{\text{new}})|^2}{|\psi_{\text{sg}}(\bs{x}_{\text{old}})|^2}=\exp\Big(\omega\alpha\big((x_{i}^{\text{old}})^2-(x_{i}^{\text{new}})^2\big)\Big),
 \end{empheq}
-
-The gradient with respect to coordinate $x_k$ is
+and henceforth the index $i$ will be reserved the changed coordinate.  The gradient of $\ln\psi_{\text{sg}}$ with respect to the coordinate $x_k$ is
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-\nabla_k\ln\psi_{\text{sg}}=-\omega\alpha x_k
+\nabla_k\ln\psi_{sg}=-\omega\alpha x_k,
 \end{empheq}
-and the corresponding Laplacian is
+and similar to $i$, $k$ will be reserved the coordinate we are differentiating with respect to. The corresponding Laplacian is
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-\nabla^2\ln\psi_{\text{sg}}=-ND\omega\alpha.
+\nabla^2\ln\psi_{sg}=-ND\omega\alpha,
 \end{empheq}
-Finally, for the parameter update we have that
+and finally, we will update $\alpha$ according to
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-\partial_{\alpha}\ln\psi_{\text{sg}} = -\frac{1}{2}\omega\sum_{j=1}^Mx_j^2.
+\partial_{\alpha}\ln\psi_{sg} = -\frac{1}{2}\omega\sum_{j=1}^Mx_j^2.
 \end{empheq}
-
-Since this wave function element is quite simple, there is no special optimization available that will cause a noticeable performance improvement.
+Since this wave function element is quite simple, there is no special optimization available that will cause a noticeable speed-up.
 
 \subsection{Simple Jastrow factor}
-The simple Jastrow factor was introduced in equation \eqref{eq:SimpleJastrow}, and relatively easy to deal with. 
+The Jastrow factor is introducted in order to take care of the corrolations. Recall the simple Jastrow factor from \eqref{eq:SimpleJastrow},
 \begin{equation}
-\psi_{\text{sj}}(\bs{r};\bs{\beta})=\exp\Big(\sum_{i=1}^N\sum_{j>i}^N\beta_{ij}r_{ij}\Big)
+\psi_{sj}(\bs{r};\bs{\beta})=\exp\Big(\sum_{i=1}^N\sum_{j>i}^N\beta_{ij}r_{ij}\Big).
 \end{equation}
-The probability ratio is given by
-\begin{empheq}[box={\mybluebox[5pt]}]{equation}
-\frac{|\psi_{\text{sj}}(\bs{r}_{\text{new}})|^2}{|\psi_{\text{sj}}(\bs{r}_{\text{old}})|^2}=\exp\Big(2\sum_{j=1}^N\beta_{ij}(r_{ij}^{\text{new}}-r_{ij}^{\text{old}})\Big)
-\end{empheq}
-The gradient and Laplacian read
-\begin{empheq}[box={\mybluebox[5pt]}]{equation}
-\nabla_k\ln\psi_{\text{sj}}=\sum_{j=1}^N\frac{\beta_{kj}}{r_{kj}}(x_k-x_j)
-\end{empheq}
-and
-\begin{empheq}[box={\mybluebox[5pt]}]{equation}
-\nabla^2\ln\psi_{\text{sj}}=\sum_{k=1}^{ND}\sum_{j=1}^N\frac{\beta_{kj}}{r_{kj}}\Big(1-\frac{(x_k-x_j)^2}{r_{kj}^2}\Big)
-\end{empheq}
-respectively. Finally, the parameter update is given by
-\begin{empheq}[box={\mybluebox[5pt]}]{equation}
-\partial_{\beta_{ml}}\ln\psi_{\text{sj}}=r_{ml}.
-\end{empheq}
+with $N$ as the number of particles, $r_{ij}$ as the distance between particle $i$ and $j$ and $\beta_{ij}$ as variational parameters.
 
-\subsection{Padé-Jastrow Factor}
-The Padé-Jastrow factor is introduced in order to take care of the correlations. It is specified in equation \eqref{eq:PadeJastrow}, 
-\begin{equation*}
-\psi_{\text{pj}}(\bs{r}; \beta) = \exp\bigg(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij}}\bigg),
-\end{equation*}
-where $N$ is the number of particles, $r_{ij}$ is the relative distance between particle $i$ and $j$ and $\beta$ is a variational parameter. One challenge is that we operate in Cartesian coordinates, while the expressed Jastrow factor obviously is easier to handle in spherical coordinates. Since we need to differentiate this with respect to all free dimensions, we need to be careful not confuse the particle indices and coordinate indices. Let us define $i$ as the coordinate index and $i'$ as the index on the corresponding particle. With that notation, the gradient and Laplacian read
-\begin{equation*}
-\nabla_k\ln\psi_{\text{pj}}=\sum_{j'\neq k'=1}^N\frac{\beta_{k'j'}}{(1+\gamma r_{k'j'})^2}\frac{x_k-x_j}{r_{k'j'}}
-\end{equation*}
-and
-\begin{equation*}
-\nabla_k^2\ln\psi_{\text{pj}}=\sum_{j'\neq k'=1}^P\frac{\beta_{k'j'}}{(1+\gamma r_{k'j'})^2}\bigg[1-\Big(1+2\frac{\gamma r_{k'j'}}{1+\gamma r_{k'j'}}\Big)\frac{(x_k-x_j)^2}{r_{k'j'}^2}\bigg]\frac{1}{r_{k'j'}}
-\end{equation*}
-respectively, where $j$ is a coordinate index for the same direction as $k$ ($k=ndi$ with $d$ as the number of dimensions and $n$ as an integer).
+This is relatively easy to work with, but one challenge is that we operate in Cartesian coordinates, while the expressed Jastrow factor obviously is easier to deal with in spherical coordinates. Since we need to differentiate this with respect to all free dimensions, we need to be attentive not confusing the particle indices with the coordinate indices. Let us define $i$ as the coordinate index and $i'$ as the index on the corresponding particle. The relationship between $i$ and $i'$ is \textit{always} $i'=i\setminus D$, where the backslash denotes integer division. The other way around, we have $i=i'+d$ where $d$ is the respective dimension of the coordinate $i$. With that notation, the probability ratio is given by
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
+\frac{|\psi_{sj}(\bs{r}_{\text{new}})|^2}{|\psi_{\text{sj}}(\bs{r}_{\text{old}})|^2}=\exp\Big(2\sum_{j'=1}^N\beta_{i'j'}(r_{i'j'}^{\text{new}}-r_{i'j'}^{\text{old}})\Big)
+\end{empheq}
+The gradient reads
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
+\nabla_k\ln\psi_{sj}=\sum_{j'=1}^N\frac{\beta_{k'j'}}{r_{k'j'}}(x_k-x_j)
+\end{empheq}
+where $j$ is related to the same dimension as $k$. This also applies for the Laplacian,
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
+\nabla^2\ln\psi_{sj}=\sum_{k=1}^{ND}\sum_{j'=1}^N\frac{\beta_{k'j'}}{r_{k'j'}}\Big(1-\frac{(x_k-x_j)^2}{r_{k'j'}^2}\Big).
+\end{empheq}
+Finally, the parameter update is given by
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
+\partial_{\beta_{m'l'}}\ln\psi_{sj}=r_{m'l'}.
+\end{empheq}
+For this element, the most important thing we can do to keep the computational cost as low as possible is to reveal that only a row and a column of the distance matrix is changed as we change a coordinate. Updating the entire distance matrix means updating $N^2$ elements, while updating a row and a column means updating $2N$ elements, which is an essential difference for large systems. 
 
-\iffalse
-The derivative of those again with respect to $\gamma$ are
+\subsection{The Padé-Jastrow factor}
+The Padé-Jastrow factor is a more complicated Jastrow factor, and was specified in equation \eqref{eq:PadeJastrow}, 
 \begin{equation*}
-\partial_{\gamma}\nabla_k\ln\psi_{\text{pj}} = -2 \sum_{j'\neq k'=1}^P\frac{\beta_{k'j'}}{(1+\gamma r_{k'j'})^3}(x_k-x_j)
+\psi_{pj}(\bs{r}; \beta) = \exp\bigg(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij}}\bigg).
 \end{equation*}
-and
+where we want to emphasize that $a_{ij}$ is \textit{not} a variational parameter.
+
+Similarly to the simple Jastrow, we also here need to distinguish between particle indices and coordinate indices because of the radial distances $r_{ij}$. We do the same trick as presented above, and obtain the gradient 
 \begin{equation*}
-\partial_{\gamma}\nabla_k^2\ln\psi_{\text{pj}} = -2 \sum_{j'\neq k'=1}^P\frac{\beta_{k'j'}}{(1+\gamma r_{k'j'})^3}\bigg[1-4\frac{\gamma r_{k'j'}}{1+\gamma r_{k'j'}}\frac{(x_k-x_j)^2}{r_{k'j'}^2}\bigg]
+\nabla_k\ln\psi_{pj}=\sum_{j'\neq k'=1}^N\frac{a_{k'j'}}{(1+\beta r_{k'j'})^2}\frac{x_k-x_j}{r_{k'j'}}
 \end{equation*}
-\fi
-By defining 
+with respect to the coordinate $x_k$. By again differentiating this with respect to $x_k$, we obtain the Laplacian
 \begin{equation*}
-f_{ij}=\frac{1}{1+\gamma r_{ij}}\quad g_{ij}=\frac{x_i-x_j}{r_{i'j'}}\quad h_{ij}=\frac{r_{ij}}{1+\gamma r_{ij}}
+\nabla^2\ln\psi_{pj}=\sum_{k=1}^{ND}\sum_{j'\neq k'=1}^N\frac{a_{k'j'}}{(1+\beta r_{k'j'})^2}\bigg[1-\Big(1+2\frac{\beta r_{k'j'}}{1+\beta r_{k'j'}}\Big)\frac{(x_k-x_j)^2}{r_{k'j'}^2}\bigg]\frac{1}{r_{k'j'}}.
 \end{equation*}
-the equations can be written as
+
+The last expression we need  is the one used to update the variational parameter $\beta$, which is found to be
+\begin{equation*}
+\partial_{\beta}\ln\psi_{pj}=-\sum_{i'=1}^N\sum_{j'>i'}^N\frac{a_{ij}r_{ij}^2}{(1+\beta r_{ij})^2}.
+\end{equation*}
+
+Furthermore, we observe that some factors are found in multiple expressions. To simplify the expressions and as an beginning of the optimization, we introduce
+\begin{equation*}
+f_{ij}=\frac{1}{1+\beta r_{ij}}\quad\quad g_{ij}=\frac{x_i-x_j}{r_{i'j'}}\quad\quad h_{ij}=\frac{r_{ij}}{1+\beta r_{ij}}.
+\end{equation*}
+The final expressions then read
 \begin{empheq}[box={\mybluebox[5pt]}]{align}
-\frac{|\psi_{\text{pj}}(\bs{r}_{\text{new}})|^2}{|\psi_{\text{pj}}(\bs{r}_{\text{old}})|^2}&=\exp\Big(2\sum_{j'=1}^N\beta_{i'j'}(h_{i'j'}^{\text{new}}-h_{i'j'}^{\text{old}})\Big)\notag\\
-\nabla_k\ln\psi_{\text{pj}} &=\sum_{j'\neq k'=1}^N\beta_{k'j'}\cdot f_{k'j'}^2\cdot g_{kj}\notag\\
-\nabla_k^2\ln\psi_{\text{pj}} &= \sum_{j'\neq k'=1}^N\frac{\beta_{k'j'}}{r_{k'j'}}f_{k'j'}^2\Big[1-(1+2\gamma h_{k'j'})g_{kj}^2\Big]\\
-\partial_{\gamma}\nabla_k\ln\psi_{\text{pj}} &=\sum_{j'\neq k'=1}^N\beta_{k'j'}\cdot f_{k'j'}^3(x_k-x_j)\notag\\
-\partial_{\gamma}\nabla_k^2\ln\psi_{\text{pj}} &= \sum_{j'\neq k'=1}^N \beta_{k'j'}\cdot f_{k'j'}^3\Big[1=4\gamma h_{k'j'}\cdot g_{kj}^2\Big]\notag,
+\frac{|\psi_{pj}(\bs{r}_{\text{new}})|^2}{|\psi_{pj}(\bs{r}_{\text{old}})|^2}&=\exp\Big(2\sum_{j'=1}^Na_{i'j'}(h_{i'j'}^{\text{new}}-h_{i'j'}^{\text{old}})\Big)\notag\\
+\nabla_k\ln\psi_{pj} &=\sum_{j'\neq k'=1}^Na_{k'j'}\cdot f_{k'j'}^2\cdot g_{kj}\notag\\
+\nabla_k^2\ln\psi_{pj} &= \sum_{j'\neq k'=1}^N\frac{a_{k'j'}}{r_{k'j'}}f_{k'j'}^2\Big[1-(1+2\beta h_{k'j'})g_{kj}^2\Big]\\
+\partial_{\beta}\ln\psi_{pj}&=-\sum_{l'=1}^N\sum_{j>l}^Na_{l'j'}h_{l'j'}^2\notag
 \end{empheq}
 with marked indices ($i'$) as the particle related ones and the unmarked ($i$) as the coordinate related ones. $i'$ is the moved particle. 
 
-\subsection{Slater Determinant}
-In general, the the Slater determinant contains all the single particle functions. However, in some cases all single particle functions have the same factor, and then this part can be factorized out. Therefore we will treat the Slater determinant as a normal wave function element in this chapter and in the code. 
+In the same way as for the simple Jastrow, only a row and a column in the distance matrix should be updated for each step. Additionally, implementing the matrices $f_{ij}$, $g_{ij}$ and $h_{ij}$ will give a speed up in combination with vector-matrix operations. 
+
+\subsection{Slater determinant}
+In general, the the Slater determinant contains all the single particle functions. However, in some cases all single particle functions have the same factor, and then this part can be factorized out. Therefore we will treat the Slater determinant as an ordinary wave function element in this chapter and in the code. 
 
 As discussed in section \eqref{subsec:slater}, it can be split up in a spin-up part and a spin-down part,
 \begin{equation*}
-\psi_{\text{sd}}(\bs{x})=
+\psi_{sd}(\bs{x})=
 |\hat{D}_{\uparrow}(\bs{x}_{\uparrow})|\cdot |\hat{D}_{\downarrow}(\bs{x}_{\downarrow})|.
 \end{equation*}
-$x_{\uparrow}$ are the coordinates of particles with spin up (defined as the first half of the coordinates) and $x_{\downarrow}$ are the coordinates of particles with spin down (defined as the last half of the coordinates). 
+$x_{\uparrow}$ are the coordinates of particles with spin up (defined as the first $N_{\uparrow}$ coordinates) and $x_{\downarrow}$ are the coordinates of particles with spin down (defined as the last $N_{\downarrow}$ coordinates). 
 
-We can now utilize the logarithmic scale, 
+We can now utilize the logarithmic scale, by using that the logarithm of a product corresponds to summarize the logarithm of each factor,
 \begin{equation*}
-\ln\psi_{\text{sd}}=\ln|\hat{D}_{\uparrow}(\bs{x}_{\uparrow})|+\ln|\hat{D}_{\downarrow}(\bs{x}_{\downarrow})|
+\ln\psi_{sd}=\ln|\hat{D}_{\uparrow}(\bs{x}_{\uparrow})|+\ln|\hat{D}_{\downarrow}(\bs{x}_{\downarrow})|
 \end{equation*}
 such that we only need to care about one of the determinants when differentiating, dependent on whether the coordinate we differentiate with respect to is among the spin-up or the spin-down coordinates:
 \begin{equation*}
-\nabla_k\ln\psi_{\text{sd}}=
+\nabla_k\ln\psi_{sd}=
 \begin{cases} 
 \nabla_k\ln|\hat{D}_{\uparrow}(\bs{x}_{\uparrow})| & \text{if} \quad k<N_{\uparrow}\\
 \nabla_k\ln|\hat{D}_{\downarrow}(\bs{x}_{\downarrow})| & \text{if} \quad k\geq N_{\uparrow}.
 \end{cases}
 \end{equation*}
-Before we go further, we will introduce a more general notation which cover both cases:
+Before we go further, we will introduce a more general notation which cover both the cases:
 \begin{equation*}
-\hat{D}\equiv \hat{D}_{\sigma}(\bs{x}_{\sigma})
+\hat{D}\equiv \hat{D}_{m_s}(\bs{x}_{m_s})
 \end{equation*}
-where $\sigma$ is the spin. When summing, the sum is always over all relevant coordinates. 
+where $m_s$ is the spin projection. When summarizing, the sum is always over all relevant coordinates. 
 
 Furthermore, we have that
 \begin{equation*}
@@ -206,9 +220,10 @@ The first derivative of a determinant is given by Jacobi's formula, which reads
 \frac{\nabla_i|\hat{A}|}{|\hat{A}|}=\tr(\hat{A}^{-1}\nabla_i\hat{A}),
 \end{equation}
 and the second derivative is then 
-\begin{equation*}
-\frac{\nabla_i^2|\hat{A}|}{|\hat{A}|}=\Big(\tr\big(\hat{A}^{-1}\nabla_i\hat{A}\big)\Big)^2+\tr\big(\hat{A}^{-1}\nabla_i^2\hat{A}\big) - \tr\big(\hat{A}^{-1}\nabla_i\hat{A}\hat{A}^{-1}\nabla_i\hat{A}\big)
-\end{equation*}
+\begin{align*}
+\frac{\nabla_i^2|\hat{A}|}{|\hat{A}|}&=\Big(\tr\big(\hat{A}^{-1}\nabla_i\hat{A}\big)\Big)^2+\tr\big(\hat{A}^{-1}\nabla_i^2\hat{A}\big) - \tr\big(\hat{A}^{-1}\nabla_i\hat{A}\hat{A}^{-1}\nabla_i\hat{A}\big)\\
+&=\tr\big(\hat{A}^{-1}\nabla_i^2\hat{A}\big)
+\end{align*}
 where $\tr\big(\hat{B}\big)$ is the trace of matrix $\hat{B}$, i.e, the sum of all diagonal elements. $\nabla_i\hat{A}$ means that we differentiate the matrix component-wise with respect to coordinate $i$. The traces can then be written as sums,
 \begin{equation*}
 \tr(\hat{A}^{-1}\nabla_i\hat{A})=\sum_{j}A_{ji}^{-1}\nabla_iA_{ij}.
@@ -246,22 +261,22 @@ R\equiv \frac{|\hat{D}^{\text{new}}|}{|\hat{D}^{\text{old}}|}=\frac{\sum_{j}d_{i
 \end{equation}
 where the particle associated with the $i$'th row is moved. The $i$'th row of the comatrix is independent of the $i$'th row of the matrix itself, such that $c_{ij}^{\text{new}}=c_{ij}^{\text{old}}$. 
 
-
+HERE I NEED TO EXPLAIN HOW TO FURTHER UPDATE SLATERS
 ---------
 
 In the end, we will take advantage of the fact that we only move one particle at a time. This means that one of the two determinants cancel when calculating the probability ratio used in Metropolis sampling. Since we do not have any variational parameters in the Slater determinant, we end up with three expressions for each determinant:
 
 \begin{empheq}[box={\mybluebox[5pt]}]{align}
-&\quad\text{if}\quad k<F/2:\notag\\
-\frac{|\psi_{\text{sd}}(\bs{x}_{\text{new}})|^2}{|\psi_{\text{sd}}(\bs{x}_{\text{old}})|^2}&=
+&\quad\text{if}\quad k<N_{\uparrow}:\notag\\
+\frac{|\psi_{sd}(\bs{x}_{\text{new}})|^2}{|\psi_{sd}(\bs{x}_{\text{old}})|^2}&=
 |\hat{D}_{\uparrow}(\bs{x}_{\uparrow}^{\text{new}})|^2/|\hat{D}_{\uparrow}(\bs{x}_{\uparrow}^{\text{old}})|^2\notag\\
 \nabla_k\ln|\hat{D}_{\uparrow}|&=\sum_{j=1}^{M/2}\nabla_kd_{jk}d_{kj}^{-1}\\
 \nabla_k^2\ln|\hat{D}_{\uparrow}|&=\sum_{j=1}^{M/2}\nabla_k^2d_{jk}d_{kj}^{-1}-\Big(\sum_{j=1}^{M/2}\nabla_kd_{ik}d_{ki}^{-1}\Big)^2\notag
 \end{empheq}
 
 \begin{empheq}[box={\mybluebox[5pt]}]{align}
-&\quad\text{if}\quad k\geq F/2:\notag\\
-\frac{|\psi_{\text{sd}}(\bs{x}_{\text{new}})|^2}{|\Psi_{\text{sd}}(\bs{x}_{\text{old}})|^2}&=
+&\quad\text{if}\quad k\geq N_{\uparrow}:\notag\\
+\frac{|\psi_{sd}(\bs{x}_{\text{new}})|^2}{|\psi_{sd}(\bs{x}_{\text{old}})|^2}&=
 |\hat{D}_{\downarrow}(\bs{x}_{\downarrow}^{\text{new}})|^2/|\hat{D}_{\downarrow}(\bs{x}_{\downarrow}^{\text{old}})|^2\notag\\
 \nabla_k\ln|\hat{D}_{\downarrow}|&=\sum_{j=M/2}^{M}\nabla_kd_{jk}d_{kj}^{-1}\\
 \nabla_k^2\ln|\hat{D}_{\downarrow}|&=\sum_{j=M/2}^{M}\nabla_k^2d_{jk}d_{kj}^{-1}-\Big(\sum_{j=M/2}^{M}\nabla_kd_{ik}d_{ki}^{-1}\Big)^2\notag
@@ -270,14 +285,14 @@ In the end, we will take advantage of the fact that we only move one particle at
 \subsection{Restricted Boltzmann machine}
 Now over to the real deal; the wave function elements inspired by machine learning. The total restricted Boltzmann machine (RBM) wave function was presented in equation \eqref{eq:RBMWF2},
 \begin{equation}
-\psi_{\text{rbm}}(\bs{x};\bs{a},\bs{b},\bs{w})=\exp\Big(-\sum_{i=1}^{ND}\frac{(x_i-a_i)^2}{2\sigma^2}\Big)\prod_{j=1}^H\bigg(1+\exp\Big(b_j+\sum_{i=1}^{ND}\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg).
+\psi_{rbm}(\bs{x};\bs{a},\bs{b},\bs{w})=\exp\Big(-\sum_{i=1}^{ND}\frac{(x_i-a_i)^2}{2\sigma^2}\Big)\prod_{j=1}^H\bigg(1+\exp\Big(b_j+\sum_{i=1}^{ND}\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg).
 \end{equation}
 and contains a Gaussian part and a product part. In order to minimize the complexity of each wave function element, we decided to split it up in the code and they will therefore be presented separately below. The first part will henceforth be denoted as the RBM-Gaussian, while the last part will be denoted as the RBM-Product. 
 
 \subsubsection{RBM-Gaussian}
 The RBM-Gaussian reads
 \begin{equation}
-\psi_{\text{rg}}(\bs{x};\bs{a})=\exp(-\sum_{i=1}^{ND}\frac{(x_i-a_i)^2}{2\sigma^2})
+\psi_{rg}(\bs{x};\bs{a})=\exp(-\sum_{i=1}^{ND}\frac{(x_i-a_i)^2}{2\sigma^2})
 \end{equation}
 
 
@@ -285,16 +300,16 @@ The derivatives of the RBM-Gaussian are similar to those of the simple Gaussian,
 
 \begin{empheq}[box={\mybluebox[5pt]}]{align}
 \label{eq:NQSGaussian}
-\frac{|\psi_{\text{rg}}(\bs{x}_{\text{new}})|^2}{|\psi_{\text{rg}}(\bs{x}_{\text{old}})|^2}&=\exp\Big((x_i^{\text{old}}+x_i^{\text{new}}-2a_i)(x_i^{\text{old}}-x_i^{\text{new}})\Big)\notag\\
+\frac{|\psi_{rg}(\bs{x}_{\text{new}})|^2}{|\psi_{rg}(\bs{x}_{\text{old}})|^2}&=\exp\Big((x_i^{\text{old}}+x_i^{\text{new}}-2a_i)(x_i^{\text{old}}-x_i^{\text{new}})\Big)\notag\\
 \nabla_k\ln\psi_{\text{rg}} &= -\frac{x_k-a_k}{\sigma^2}\notag\\
 \nabla_k^2\ln\psi_{\text{rg}}&=-\frac{1}{\sigma^2}\\
 \partial_{\alpha}\ln\psi_{\text{rg}} &= \frac{x_k-a_k}{\sigma^2}\notag
 \end{empheq}
 
-\subsubsection{RBM-Product}
+\subsubsection{RBM-product}
 The RBM product is the last part of \eqref{eq:RBMWF2}, and is thus given by
 \begin{equation*}
-\psi_{\text{rp}}(\bs{x};\bs{b},\bs{w})=\prod_{j=1}^H\bigg[1+\exp\Big(b_j+\sum_{i=1}^{ND}\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg].
+\psi_{rp}(\bs{x};\bs{b},\bs{w})=\prod_{j=1}^H\bigg[1+\exp\Big(b_j+\sum_{i=1}^{ND}\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg].
 \end{equation*}
 In appendix D, section \eqref{sec:derivatives}, a general Gaussian-binary RBM product on the form
 \begin{equation*}
@@ -313,11 +328,11 @@ n_j(x)=\frac{1}{1+\exp(-x)}\quad\wedge\quad p_j(x)=n_j(-x)=\frac{1}{1+\exp(x)}
 \end{equation*}
 we can express the required derivatives in the following fashion
 \begin{empheq}[box={\mybluebox[5pt]}]{align}
-\frac{|\psi_{\text{rp}}(\bs{x}_{\text{new}})|^2}{|\psi_{\text{rp}}(\bs{x}_{\text{old}})|^2}&=\prod_{j=1}^H\frac{p_j(\bs{x}_{\text{old}})^2}{p_j(\bs{x}_{\text{new}})^2}\notag\\
-\nabla_k\ln\psi_{\text{rp}} &=\sum_{j=1}^H\frac{w_{kj}}{\sigma^2}n_j\notag\\
-\nabla_k^2\ln\psi_{\text{rp}} &= \sum_{j=1}^H\frac{w_{kj}^2}{\sigma^4}p_jn_j\\
-\partial_{b_l}\ln\psi_{\text{rp}}&=n_l\notag\\
-\partial_{w_{ml}}\ln\psi_{\text{rp}}&=\frac{x_mn_l}{\sigma^2}.\notag
+\frac{|\psi_{rp}(\bs{x}_{\text{new}})|^2}{|\psi_{\text{rp}}(\bs{x}_{\text{old}})|^2}&=\prod_{j=1}^H\frac{p_j(\bs{x}_{\text{old}})^2}{p_j(\bs{x}_{\text{new}})^2}\notag\\
+\nabla_k\ln\psi_{rp} &=\sum_{j=1}^H\frac{w_{kj}}{\sigma^2}n_j\notag\\
+\nabla_k^2\ln\psi_{rp} &= \sum_{j=1}^H\frac{w_{kj}^2}{\sigma^4}p_jn_j\\
+\partial_{b_l}\ln\psi_{rp}&=n_l\notag\\
+\partial_{w_{ml}}\ln\psi_{rp}&=\frac{x_mn_l}{\sigma^2}.\notag
 \end{empheq}
 In this element, there are plenty of optimization possibilities. By revealing that some sums are vector products, we can get a significant speed-up. Instead of presenting the vectorized expressions, we will present how the elements actually are implemented.
 \lstset{basicstyle=\scriptsize}
@@ -338,30 +353,31 @@ There the linear algebra package Eigen is used for the matrix-vector operations,
 \subsection{Partly restricted Boltzmann machine}
 For the partly restricted Boltzmann machine given in equation \eqref{eq:PRBMWF}, we observe that the only difference from a standard Boltzmann machine is the factor 
 \begin{equation}
-\psi_{\text{pr}}=\exp\Big(\sum_{i=1}^{ND}\sum_{j=1}^{ND}x_ic_{ij}x_j\Big)
+\psi_{pr}=\exp\Big(\sum_{i=1}^{ND}\sum_{j=1}^{ND}x_ic_{ij}x_j\Big)
 \end{equation}
 which we can threaten separately. We end up with the expressions
 \begin{empheq}[box={\mybluebox[5pt]}]{align}
-\frac{|\psi_{\text{pr}}(\bs{x}_{\text{new}})|^2}{|\psi_{\text{pr}}(\bs{x}_{\text{old}})|^2}&=\exp\Big(2\sum_{j=1}^{ND}c_{ij}x_j(x_i^{\text{new}}-x_i^{\text{old}})\Big)\notag\\
-\nabla_k\ln\psi_{\text{pr}} &=2\sum_{j=1}^{ND}c_{kj}x_j\notag\\
-\nabla_k^2\ln\psi_{\text{pr}} &= 2c_{kk}\\
-\partial_{c_{ml}}\ln\psi_{\text{pr}}&=x_mx_l\notag
+\frac{|\psi_{pr}(\bs{x}_{\text{new}})|^2}{|\psi_{pr}(\bs{x}_{\text{old}})|^2}&=\exp\Big(2\sum_{j=1}^{ND}c_{ij}x_j(x_i^{\text{new}}-x_i^{\text{old}})\Big)\notag\\
+\nabla_k\ln\psi_{pr} &=2\sum_{j=1}^{ND}c_{kj}x_j\notag\\
+\nabla_k^2\ln\psi_{pr} &= 2c_{kk}\\
+\partial_{c_{ml}}\ln\psi_{pr}&=x_mx_l\notag
 \end{empheq}
 where $x_i$ is the changed coordinated. Also here can we use vectorization to speed-up the computations. 
 
 \subsection{Hydrogen-like orbitals}
+The Hydrogen-like orbitals were presented in \eqref{eq:hydrogenlike}, but as we discussed they cause some problems for atoms of the size of Neon and larger due to complex numbers. Instead, we decided to look at hydrogen-like orbitals with solid harmonics. Even though they do not have problem with complex numbers, they are quite complicated to differentiate, and the closed form will therefore be found by differentiating numerically. However, we will do the exercise for the simplest case, which is sufficient to find the Hydrogen and Helium ground states. This reads
 \begin{equation}
-\psi_{\text{hl}}( \bs{r};\alpha)=\exp\Big(-Z\alpha\sum_{i=j}^Nr_j\Big)
+\psi_{hl}( \bs{r};\alpha)=\exp\Big(-Z\alpha\sum_{j=1}^Nr_j\Big)
 \end{equation}
-where the derivative with respect to coordinate $r_k$ is
+where $r_j$ is the distance from particle $j$ to the center. We then differentiate with respect to coordinate $x_k$, and obtain
 \begin{equation}
-\nabla_k\ln\psi_{\text{hl}}=-Z\alpha\frac{x_k}{r_{k'}}
+\nabla_k\ln\psi_{hl}=-Z\alpha\frac{x_k}{r_{k'}}
 \end{equation}
-and the second derivative is
+The Laplacian is then given by
 \begin{equation}
-\nabla_k^2\ln\psi_{\text{hl}}=-Z\alpha\Big(1-\frac{x_k^2}{r_{k'}^2}\Big)\frac{1}{r_{k'}}
+\nabla_k^2\ln\psi_{hl}=-Z\alpha\Big(1-\frac{x_k^2}{r_{k'}^2}\Big)\frac{1}{r_{k'}}
 \end{equation}
-The gradient for those derivatives is
+and the differentiation with respect to the variational parameter $\alpha$ is
 \begin{equation}
-\partial_{\alpha}\ln\psi_{\text{hl}}=-Z\sum_{j=1}^Nr_j
-\end{equation}.
+\partial_{\alpha}\ln\psi_{\text{hl}}=-Z\sum_{j=1}^Nr_j.
+\end{equation}

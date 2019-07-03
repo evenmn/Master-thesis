@@ -73,7 +73,7 @@ We observe that the gradient descent methods in the cases above have a smoother 
 Even though the gradient descent methods seem to be the best choice based on those graphs, we experience that the energy occasionally explode when they are applied on more heavy systems, and therefore we will rely in the ADAM optimizer henceforth. 
 
 \newpage
-\section{No Repulsive Interaction}
+\section{No repulsive interaction}
 We start with the non-interacting case in order to validate the implemented code. In this case we both know the exact energies and the exact one-body densities for an array of systems, and can therefore validate the code.
 
 \subsection{Quantum dots}
@@ -127,7 +127,7 @@ We observe that both the standard variational Monte-Carlo wave function (VMC) an
 \subsection{Atoms}
 Also atoms will be studied as well...
 
-\subsubsection{Ground-State Energy}
+\subsubsection{Ground-state energy}
 \begin{table} [H]
 	\caption{Energy of atoms of $N$ non-interacting electrons. RBM is a single Slater determinant with a plain Boltzmann machine baked in, while VMC is a standard variational Monte-Carlo Slater determinant.}
 	\label{tab:atomswointeraction}
@@ -168,31 +168,31 @@ We observe that the method where less physical intuition is used, RBM, is the on
 	\begin{tabularx}{\hsize}{llR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}} \hline\hline
 		\label{tab:quantumdotswinteraction2D1}
 		\makecell{\\ $N$ \\ \phantom{=}} & $\omega$ & \multicolumn{1}{c}{RBM} & \multicolumn{1}{c}{RBM+SJ} & \multicolumn{1}{c}{RBM+PJ} & \multicolumn{1}{c}{PRBM} & \multicolumn{1}{c}{\makecell{HF \\ (Ref.\cite{mariadason_quantum_2018})}} & \multicolumn{1}{c}{\makecell{VMC+HF \\ (Ref.\cite{mariadason_quantum_2018})}} & \multicolumn{1}{c}{VMC} & \multicolumn{1}{c}{\makecell{DMC \\ (Ref.\cite{hogberget_quantum_2013})}} \\ \hline \\
-		2 & 0.1 & 0.4728(1) & 0.44859(6) & 0.44130(5) & 0.4959(2) & 0.525635 & - & 0.44129(1) & 0.44079(1) \\ 
+		2 & 0.1 & 0.4728(1) & 0.44859(6) & 0.440975(8) & 0.4959(2) & 0.525635 & - & 0.44129(1) & 0.44079(1) \\ 
 		& 1/6 & 0.7036(1) & 0.67684(7) & 0.66715(6) & 0.7326(2) & 0.768675 & - & 0.66710(1) & $0.\bar{6}^{1}$ \\
-		& 0.28 & 1.0705(2) & 1.03485(7) & 1.02185(1) & 1.0987(2) & 1.14171 & - & 1.02192(1) & 1.02164(1) \\
-		& 0.5 & 1.7231(2) & 1.67787(8) & 1.65957(1) & 1.7182(3) & 1.79974 & - & 1.65974(1) & 1.65977(1)  \\
-		& 1.0 & 3.0822(2) & 3.0255(1) & 3.00002(2) & 3.0566(3) & 3.16190 & - & 2.99999(1) & $3.0^{1}$ \\ \hdashline \\
+		& 0.28 & 1.0707(2) & 1.03485(7) & 1.021668(7) & 1.0987(2) & 1.14171 & - & 1.02192(1) & 1.02164(1) \\
+		& 0.5 & 1.7234(2) & 1.67787(8) & 1.659637(6) & 1.7182(3) & 1.79974 & - & 1.65974(1) & 1.65977(1)  \\
+		& 1.0 & 3.0829(2) & 3.0255(1) & 2.999587(5) & 3.0566(3) & 3.16190 & - & 2.99999(1) & $3.0^{1}$ \\ \hdashline \\
 
 		6 & 0.1 & 3.697(1) & 3.6584(4) & 3.57832(2) & - & 3.85238 & - & 3.5698(1) & 3.55385(5) \\ 
-		& 0.28 & 7.924(1) & 7.7503(4) & 7.6245(2) & - & 8.01957 & - & 7.6219(1) & 7.60019(6) \\
-		& 0.5 & 12.242(1) & 11.9659(5) & 11.8113(2) & 11.995(3) & 12.2713 & - & 11.8104(2) & 11.78484(6) \\
-		& 1.0 & 20.731(1) & 20.4061(7) & 20.1853(2) & 20.483(1) & 20.7192 & - & 20.1918(2) & 20.15932(8) \\ \hdashline \\
+		& 0.28 & 7.9273(9) & 7.7503(4) & 7.6245(2) & - & 8.01957 & - & 7.6219(1) & 7.60019(6) \\
+		& 0.5 & 12.241(1) & 11.9659(5) & 11.8113(2) & 11.995(3) & 12.2713 & - & 11.8104(2) & 11.78484(6) \\
+		& 1.0 & 20.716(1) & 20.4061(7) & 20.1853(2) & 20.483(1) & 20.7192 & - & 20.1918(2) & 20.15932(8) \\ \hdashline \\
 		
-		12 & 0.1 & 12.705(2) & 12.566(2) & 12.3416(4) & - & 12.9247 & - & 12.3201(3) & 12.26984(8) \\ 
-		& 0.28 & 26.389(2) & 26.083(1) & 25.7331(5) & - & 26.5500 & - & 25.7038(4) & 25.63577(9) \\
-		& 0.5 & 40.440(3) & 39.694(1) & 39.2743(6) & - & 40.2161 & - & 39.2660(4) & 39.1596(1) \\
-		& 1.0 & 67.632(3) & 66.378(2) & 65.9550(7) & - & 66.9113 & - & 65.7946(8) & 65.7001(1) \\ \hdashline
+		12 & 0.1 & 12.705(2) & 12.566(2) & 12.3416(4) & - & 12.9247 & - & 12.3196(3) & 12.26984(8) \\ 
+		& 0.28 & 26.389(2) & 26.083(1) & 25.7331(5) & - & 26.5500 & - & 25.7049(4) & 25.63577(9) \\
+		& 0.5 & 40.440(3) & 39.694(1) & 39.2743(6) & - & 40.2161 & - & 39.2421(5) & 39.1596(1) \\
+		& 1.0 & 67.632(3) & 66.378(2) & 65.9550(7) & - & 66.9113 & - & 65.7928(5) & 65.7001(1) \\ \hdashline
 	\end{tabularx}
 \end{table}
 
 \begin{table}
 	\begin{tabularx}{\hsize}{llR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}} \\
 		\label{tab:quantumdotswinteraction2D2}
-		20 & 0.1 & 30.824(2) & 30.567(3) & 30.1553(9) & - & 31.1902 & - & 30.0730(6) & 29.9779(1) \\ 
-		& 0.28 & 63.746(4) & 62.811(3) & 62.148(1) & - & 63.5390 & - & 62.0598(7) & 61.9268(1) \\
-		& 0.5 & 97.166(5) & 94.920(4) & 94.104(1) & - & 95.7328 & - & 94.0391(9) & 93.8752(1) \\
-		& 1.0 & 159.640(5) & 157.209(4) & 156.104(1) & - & 158.004 & - & 156.106(2) & 155.8822(1) \\ \hdashline \\
+		20 & 0.1 & 30.824(2) & 30.567(3) & 30.1553(9) & - & 31.1902 & - & 30.086(1) & 29.9779(1) \\ 
+		& 0.28 & 63.746(4) & 62.811(3) & 62.148(1) & - & 63.5390 & - & 62.0755(7) & 61.9268(1) \\
+		& 0.5 & 97.166(5) & 94.920(4) & 94.104(1) & - & 95.7328 & - & 94.0433(9) & 93.8752(1) \\
+		& 1.0 & 159.640(5) & 157.209(4) & 156.104(1) & - & 158.004 & - & 156.102(1) & 155.8822(1) \\ \hdashline \\
 		
 		30 & 0.1 & 61.829(5) & 61.351(4) & 60.774(2) & - & - & - & 60.585(1) & 60.4205(2) \\ 
 		& 0.28 & 126.958(6) & 126.067(5) & 124.437(2) & - & - & - & 124.195(2) & 123.9683(2) \\
@@ -369,7 +369,7 @@ The last thing we will investigate, is the two-body density. See figure \eqref{f
 It is also interesting to investigate how the energy is distributed between kinetic energy, external energy and interaction energy. 
 \begin{table}
 	\caption{Total energy ($\langle \hat{\mathcal{H}}\rangle$), kinetic energy ($\langle \hat{\mathcal{T}}\rangle$) and potential energy ($\langle \hat{\mathcal{V}}\rangle$) of circular quantum dots at a wide range of frequencies $\omega$. A standard variational Monte-Carlo wave function is used. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
-	\label{tab:splitfrequencyQD}
+	\label{tab:splitfrequencyQDVMC}
 	\begin{tabularx}{\textwidth}{R{1.5cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}} \hline\hline
 		&\makecell{\\ $N$ \\ \phantom{=}} & $\omega$ && \multicolumn{1}{c}{$\langle \hat{\mathcal{H}}\rangle$} & \multicolumn{1}{c}{$\langle \mathcal{\hat{T}} \rangle$} & \multicolumn{1}{c}{$\langle \mathcal{\hat{V}_{\text{ext}}} \rangle$} & \multicolumn{1}{c}{$\langle \mathcal{\hat{V}_{\text{int}}} \rangle$} \\ \hline \\
 		&2 & 0.01 && 0.074070(8) & 0.00947(3) & 0.02732(5) & 0.03728(4) \\
@@ -386,21 +386,93 @@ It is also interesting to investigate how the energy is distributed between kine
 		&& 1.0 && 20.1918(2) & 3.405(1) & 8.046(1) & 8.741(1)\\
 		&& 3.0 && \\ \hdashline \\
 		
-		&12 & 0.01 && 2.4972(2) & 0.048721(2) & 0.8968(1) & 1.55170(9)\\
-		&& 0.1 && \\
-		&& 0.5 && \\
-		&& 1.0 && \\
-		&& 3.0 && \\ \hdashline \\
+		&12 & 0.01 && 2.4972(3) & 0.05506(2) & 0.858(1) & 1.584(1)\\
+		&& 0.1 && 12.3196(3) & 0.6885(6) & 4.393(2) & 7.238(2) \\
+		&& 0.28 && 25.7049(4) & 2.090(1) & 9.355(2) & 14.260(2) \\
+		&& 0.5 && 39.2421(5) & 3.939(2) & 14.564(3) & 20.739(3) \\
+		&& 1.0 && 65.7928(5) & 8.536(3) & 24.874(4) & 32.383(3) \\
+		&& 3.0 && 155.5235(1) & 23(1) & 63(1) & 68.4(2) \\ \hdashline \\
 		
-		&20 & 0.01 && 6.407(6) & 0.048011(1) & 2.182(3) & 4.177(3) \\
-		&& 0.1 && \\
-		&& 0.5 && \\
-		&& 1.0 && \\
-		&& 3.0 && \\ \hline \hline
+		&20 & 0.01 && 6.342(1) & 0.0559(2) & 2.125(6) & 4.161(6) \\
+		&& 0.1 && 30.086(1) & 1.243(1) & 10.587(4) & 18.257(4) \\
+		&& 0.28 && 62.0755(7) & 3.902(2) & 22.228(5) & 35.946(4) \\
+		&& 0.5 && 94.0433(9) & 7.823(3) & 33.938(6) & 52.282(5) \\
+		&& 1.0 && 156.102(1) & 16.86(1) & 58.14(1) & 81.098(6) \\
+		&& 3.0 && 357.1(3) & 6(15) & 194(15) & 156.751(9) \\ \hline \hline
 	\end{tabularx}
 \end{table} 
 
-\subsection{Low Frequency Dots}
+\begin{table}
+	\caption{Total energy ($\langle \hat{\mathcal{H}}\rangle$), kinetic energy ($\langle \hat{\mathcal{T}}\rangle$) and potential energy ($\langle \hat{\mathcal{V}}\rangle$) of circular quantum dots at a wide range of frequencies $\omega$. A standard restricted Boltzmann machine wave function is used. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
+	\label{tab:splitfrequencyQDRBM}
+	\begin{tabularx}{\textwidth}{R{1.5cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}} \hline\hline
+		&\makecell{\\ $N$ \\ \phantom{=}} & $\omega$ && \multicolumn{1}{c}{$\langle \hat{\mathcal{H}}\rangle$} & \multicolumn{1}{c}{$\langle \mathcal{\hat{T}} \rangle$} & \multicolumn{1}{c}{$\langle \mathcal{\hat{V}_{\text{ext}}} \rangle$} & \multicolumn{1}{c}{$\langle \mathcal{\hat{V}_{\text{int}}} \rangle$} \\ \hline \\
+		&2 & 0.01 && - & - & - & - \\
+		&& 0.1 && 0.473(3) & -0.05(3) & 0.35(3) & 0.178(4) \\
+		&& 0.28 && 1.0707(2) & 0.2047(1) & 0.4678(3) & 0.3983(3) \\
+		&& 0.5 && 1.7234(2) & 0.3739(2) & 0.7611(3) & 0.5884(3)\\
+		&& 1.0 && 3.0829(2) & 0.7691(2) & 1.3926(4) & 0.9212(3)\\
+		&& 3.0 && 7.9968(4) & 2.2346(5) & 4.0201(7) & 1.7422(4) \\ \hdashline \\
+		
+		&6 & 0.01 && 1.12(3) & -0.19(2) & 0.96(1) & 0.35(3) \\
+		&& 0.1 && 3.77(1) & -0.11(3) & 2.04(4) & 2.04(4) \\
+		&& 0.28 && 7.9273(9) & 0.8684(6) & 3.009(1) & 4.050(2) \\
+		&& 0.5 && 12.241(1) & 1.611(1) & 4.709(2) & 5.921(2)\\
+		&& 1.0 && 20.716(1) & 3.391(1) & 7.914(3) & 9.411(2)\\
+		&& 3.0 && 49.415(1) & 10.309(3) & 21.456(4) & 17.649(2) \\ \hdashline \\
+		
+		&12 & 0.01 && - & - & - & - \\
+		&& 0.1 && - & - & - & - \\
+		&& 0.28 && - & - & - & - \\
+		&& 0.5 && - & - & - & - \\
+		&& 1.0 && - & - & - & - \\
+		&& 3.0 && - & - & - & - \\ \hdashline \\
+		
+		&20 & 0.01 && - & - & - & - \\
+		&& 0.1 && - & - & - & - \\
+		&& 0.28 && - & - & - & - \\
+		&& 0.5 && - & - & - & - \\
+		&& 1.0 && - & - & - & - \\
+		&& 3.0 && - & - & - & - \\ \hline \hline
+	\end{tabularx}
+\end{table} 
+
+\begin{table}
+	\caption{Total energy ($\langle \hat{\mathcal{H}}\rangle$), kinetic energy ($\langle \hat{\mathcal{T}}\rangle$) and potential energy ($\langle \hat{\mathcal{V}}\rangle$) of circular quantum dots at a wide range of frequencies $\omega$. A restricted Boltzmann machine with Padé-Jastrow wave function is used. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
+	\label{tab:splitfrequencyQDRBMPJ}
+	\begin{tabularx}{\textwidth}{R{1.5cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}} \hline\hline
+		&\makecell{\\ $N$ \\ \phantom{=}} & $\omega$ && \multicolumn{1}{c}{$\langle \hat{\mathcal{H}}\rangle$} & \multicolumn{1}{c}{$\langle \mathcal{\hat{T}} \rangle$} & \multicolumn{1}{c}{$\langle \mathcal{\hat{V}_{\text{ext}}} \rangle$} & \multicolumn{1}{c}{$\langle \mathcal{\hat{V}_{\text{int}}} \rangle$} \\ \hline \\
+		&2 & 0.01 && - & - & - & - \\
+		&& 0.1 && 0.440975(8) & 0.09223(9) & 0.1757(1) & 0.17304(9) \\
+		&& 0.28 && 1.021668(7) & 0.2468(1) & 0.4258(2) & 0.3490(1) \\
+		&& 0.5 && 1.659637(6) & 0.4305(2) & 0.7112(2) & 0.5179(2)\\
+		&& 1.0 && 2.999587(5) & 0.8440(3) & 1.3418(3) & 0.8238(2)\\
+		&& 3.0 && 7.882355(8) & 2.2466(6) & 4.0117(6) & 1.6240(3) \\ \hdashline \\
+		
+		&6 & 0.01 && - & - & - & - \\
+		&& 0.1 && - & - & - & - \\
+		&& 0.28 && - & - & - & - \\
+		&& 0.5 && - & - & - & - \\
+		&& 1.0 && - & - & - & - \\
+		&& 3.0 && - & - & - & - \\ \hdashline \\
+		
+		&12 & 0.01 && - & - & - & - \\
+		&& 0.1 && - & - & - & - \\
+		&& 0.28 && - & - & - & - \\
+		&& 0.5 && - & - & - & - \\
+		&& 1.0 && - & - & - & - \\
+		&& 3.0 && - & - & - & - \\ \hdashline \\
+		
+		&20 & 0.01 && - & - & - & - \\
+		&& 0.1 && - & - & - & - \\
+		&& 0.28 && - & - & - & - \\
+		&& 0.5 && - & - & - & - \\
+		&& 1.0 && - & - & - & - \\
+		&& 3.0 && - & - & - & - \\ \hline \hline
+	\end{tabularx}
+\end{table} 
+
+\subsection{Low frequency dots}
 When we lower the frequency, the potential energy dominates the kinetic energy. An evidence of that can be seen in table \eqref{tab:lowfrequencyQD}, where we present the expectation value of the total energy ($\langle \hat{\mathcal{H}}\rangle$) together with the expectation value of the kinetic energy ($\langle \hat{\mathcal{T}}\rangle$) and the expectation value of the potential energies ($\langle \mathcal{\hat{V}_{\text{ext}}} \rangle$,$\langle \mathcal{\hat{V}_{\text{int}}} \rangle$). From this, we can also see that the virial theorem, discussed in section \ref{sec:virial}, is satisfied.
 
 As discussed in section \ref{sec:wigner}, at low kinetic energy the interaction is dominating, and in order to minimize this the electrons tend to orientate such that they maximize the distance to each other. They then form a lattice, known as Wigner crystals, and as we also claimed, this might be observed in the electron density plots. The one-body density of ...
@@ -452,10 +524,10 @@ In order to test the code, we also decided to run for systems with $N\geq 56$. T
 \end{table}
 
 \newpage
-\section{Double Quantum Dots}
+\section{Double quantum dots}
 Double quantum dots are systems that are very interesting when it comes to testing the Boltzmann machines. Even though we know the wave functions for the non-interacting case, they are expansions that are computational expensive to work with.
 
-\subsection{Ground State Energy}
+\subsection{Ground state energy}
 For the interacting case, we will use Alocias Mariadason's VMC calculations with and without a Hartree-Fock basis as a reference. In addition, Jørgen Høgberget provides a DMC energy for the case with two particles and $\omega=1.0$. All the results are given in table \eqref{tab:doubleQD}.
 \begin{table}
 	\caption{Double quantum dots. F is the number of functions used in the expansion.}
