@@ -8,6 +8,8 @@
 	\label{fig:harmonicoscillator}
 \end{figure}
 
+Every system is associated with a Hamiltonian. When this Hamiltonian is found, the next thing we need to do is to find an appropriate basis.
+
 When defining a system, we also need to specify the basis set to be used. The single particle functions are often known, and they are well-suited as a basis for the total
 
 \newpage
@@ -50,17 +52,17 @@ where $s$ is the number of spin configurations (2), $n$ is the principal quantum
 \section{Quantum double dots}
 Another historically important quantum system is the double dot, which similarly to the single dot can be solved analytically. For the same reason as the single dot often is called an artificial atom, the double dots are called artificial molecules. 
 
-Unlike the single dot, this system has not a potential that is definitely most used. In fact, there are multiple popular potentials, but when it comes to the symmetrical double-well, they are usually on the form 
+The potential of symmetrical quantum dots can in principle have a variety of different shapes, but the most used one-dimensional potentials can be derived from
 \begin{equation}
 u_i=\frac{1}{2}\omega^2\bigg[|x_i|^a-\Big(\frac{b}{2}\Big)^a\bigg]^2
 \label{eq:doublewell}
 \end{equation}
-in one dimension with $b$ as the distance between the wells and $a$ as an arbitrary integer. \cite{jelic_double_2012} Setting $a=1$ gives two parabolic wells with a sharp local maximum at $x=0$, while $a=2$ gives a smoother but steeper well. In figure \eqref{fig:doublewell} the potential is plotted for $a=1,2$ and $3$.
+with $b$ as the distance between the wells and $a$ as an arbitrary integer. \cite{jelic_double_2012} Setting $a=1$ gives two parabolic wells with a sharp local maximum at $x=0$, while $a=2$ gives a smoother but steeper well. In figure \eqref{fig:doublewell} the potential is plotted for $a=1,2$ and $3$.
 
 \begin{figure}
 	\centering
 	\input{pgf/doublewell.tex}
-	\caption{Double-well potentials plotted with $a=1,2$ and 3, and $b=2$.}
+	\caption{Double-well potentials plotted with $a=1,2$ and 3, and $b=2$. For $a=1$ the potential was multiplied with 2 to make it comparable to the others. }
 	\label{fig:doublewell}
 \end{figure}
 
@@ -77,10 +79,10 @@ u_i^{\text{DW}}=\frac{1}{2}\omega^2\bigg[r_i^2+\frac{1}{4}b^2-b|x_i|\bigg]=u_i^{
 where HO means harmonic oscillator potential and DW means double-well potential. What we actually observe, is that the potential separates in a single-dot part and a double-dot part, which makes the double-dot Hamiltonian similar to the single-dot Hamiltonian,
 \begin{equation}
 \label{eq:DWHamiltonian}
-\hat{\mathcal{H}} = \sum_{i=1}^{P} \bigg(-\frac{1}{2} \nabla_i^2 + \frac{1}{2} \omega^2r_i ^2 + \frac{1}{2} \omega^2\Big(\frac{1}{4}b^2-b|x_i|\Big)\bigg) + \sum_{i<j} \frac{1}{r_{ij}}.
+\hat{\mathcal{H}} = \sum_{i=1}^{N} \bigg(-\frac{1}{2} \nabla_i^2 + \frac{1}{2} \omega^2r_i ^2 + \frac{1}{2} \omega^2\Big(\frac{1}{4}b^2-b|x_i|\Big)\bigg) + \sum_{i<j} \frac{1}{r_{ij}}.
 \end{equation}
 
-What is remaining is to find an appropriate basis set, and based on the observations above, a Hermite function expansion sounds reasonable. It will take the form
+What is remaining is to find an appropriate basis set, and based on the observations above, an expansion of Hermite functions sounds reasonable. It will take the form
 \begin{equation}
 \ket{\phi_n^{\text{DW}}(x)}=\sum_{\lambda=1}^{L}C_{n\lambda}\ket{\phi_{\lambda}^{\text{HO}}(x)},
 \end{equation}
@@ -97,11 +99,11 @@ we can set up equation \eqref{eq:doublewellsums} as an eigenvalue problem on the
 \begin{equation}
 \hat{h}\hat{C}=\epsilon\hat{C}
 \end{equation}
-where our targets, $\hat{C}$, are just the eigenvectors of the $\hat{h}$-matrix. Now recall that the double-dot Hamiltonian is just an extension of the single-dot Hamiltonian, such that we can rewrite
+where our targets, $\hat{C}$, are just the eigenvectors of the $\hat{h}$-matrix. Now recall that the double dot Hamiltonian is just an extension of the single dot Hamiltonian, such that we can rewrite
 \begin{equation}
 \hat{h}_{\nu\lambda}=\mel{\phi_{\nu}^{\text{HO}}(x)}{\hat{\mathcal{H}}_{\text{HO}}}{\phi_{\lambda}^{\text{HO}}(x)}+\mel{\phi_{\nu}^{\text{HO}}(x)}{\hat{\mathcal{H}}_{\text{+}}}{\phi_{\lambda}^{\text{HO}}(x)}
 \end{equation}
-with $\hat{\mathcal{H}}_{\text{+}}=(1/2)\omega\sum_{i=1}^P\Big((1/4)b^2-b|x_i|\Big)$ as the extension. The former integrals are just the harmonic oscillator energies, presented in \eqref{eq:HOenergies}, while the latter integrals are trivial to calculate.
+with $\hat{\mathcal{H}}_{\text{+}}=(1/2)\omega\sum_{i=1}^N\Big((1/4)b^2-b|x_i|\Big)$ as the extension. The former integrals are just the harmonic oscillator energies, presented in \eqref{eq:HOenergies}, while the latter integrals are trivial to calculate. However, since we need to calculate a relatively large number of matrix elements, we decided to do it using numerical integration on the computer. 
 
 \section{Atoms} \label{sec:atomic}
 We will also investigate real atoms, where we freeze out the nucleonic degrees of freedom known as the Born-Oppenheimer approximation. The electrons will in fact affect the nucleus, but due to the mass difference this effect will be negligible.
@@ -110,34 +112,35 @@ We again have Coulomb interaction between the electrons and the nucleus, and sin
 \begin{equation}
 u_i=- \frac{1}{2} k\frac{Ze^2}{r_i},
 \end{equation}
-where $Z$ is the atomic number (number of protons inside the nucleus). The total Hamiltonian is given in (Hartree) atomic units, 
+where $Z$ is the atomic number (number of protons in the nucleus). The total Hamiltonian is given in (Hartree) atomic units, 
 \begin{equation}
 \label{eq:AtomicHamiltonian}
-\hat{\mathcal{H}} = \sum_{i=1}^{N} \Big(-\frac{1}{2} \nabla_i^2 - \frac{Z}{r_i}+\frac{l(l+1)}{2r_i^2}\Big) + \sum_{i<j} \frac{1}{r_{ij}},
+\hat{\mathcal{H}} = \sum_{i=1}^{N} \Big(-\frac{1}{2} \nabla_i^2 - \frac{Z}{r_i}\Big) + \sum_{i<j} \frac{1}{r_{ij}},
 \end{equation}
-which also is discussed in Appendix B. For the non-interacting case, the energies are given by the Bohr formula
+which also is discussed in Appendix B. For the non-interacting case, the energy of a particle in shell $n$ is given by the Bohr formula
 \begin{equation}
-E_n=-\frac{Z^2}{2n^2}.
+E_n=-\frac{Z^2}{2n^2},
 \label{eq:bohrformula}
 \end{equation}
+which means that to find the energy of an atom, we need to summarize the energy og all the electrons. 
 
-For atomic systems, it is convenient to use spherical coordinates, which allows us to split up the wave function in a radial part and an angular part,
+Also for this system, we need to specify a basis set to use. For atoms where the electrons do not interact, the wave functions are given by the \textit{Hydrogen-like orbitals}, which in spherical coordinates can be split in a radial part and an angular part,
 \begin{equation}
-\psi_{nlm}(r,\theta,\phi)=R_{nl}(r)Y_l^m(\theta,\phi)
+\psi_{nlm_l}(r,\theta,\phi)=R_{nl}(r)Y_l^{m_l}(\theta,\phi).
 \label{eq:hydrogenlike}
 \end{equation}
+where $n$ again is the principal quantum number, $l$ is the angular quantum number and $m_l$ is the magnetic quantum number. Henceforth $m_l$ will simply be displayed as $m$ to make the expressions neater. Since we are physicists, we use $\theta$ as the polar angle and $\phi$ as the azimuthal angle.
 
-The exact radial part for the non-interacting case is called the hydrogen-like orbitals, that is
+The radial part can be presented as a function of the \textit{associated Laguerre polynomials} or \textit{generalized Laguerre polynomials}, $L_{q}^p(x)$, and reads
 \begin{equation}
-R_{nl}(r)\propto r^le^{-Zr/n}\Big[L_{n-l-1}^{2l+1}\Big(\frac{2r}{n}Z\Big)\Big]
+R_{nl}(r)\propto r^le^{-Zr/n}\Big[L_{n-l-1}^{2l+1}\Big(\frac{2r}{n}Z\Big)\Big].
 \end{equation}
-where $L_{q}^p(x)$ are the \textit{associated Laguerre polynomials} or \textit{generalized Laguerre polynomials}. More about them and how to calculate them recursively can be found in Appendix C. 
 
-The angular part is given by the \textit{spherical harmonics}
+The angular part is given by the \textit{spherical harmonics},
 \begin{equation}
 Y_l^m(\theta,\phi)\propto P_l^m(\cos\theta)e^{im\phi}
 \end{equation}
-where $P_l^m(x)$ are the \textit{associated Legendre polynomials}. The complex part in the spherical harmonics causes some difficulties, and we will therefore instead use the solid harmonics
+where $P_l^m(x)$ are the \textit{associated Legendre polynomials}. The complex part in the spherical harmonics can be avoided by introducing the real solid harmonics instead
 \begin{equation}
 \label{eq:V_ext}
 S_l^m(\theta,\phi)\propto P_l^{|m|}(\cos\theta)
@@ -148,14 +151,17 @@ S_l^m(\theta,\phi)\propto P_l^{|m|}(\cos\theta)
 \end{equation}
 such that
 \begin{equation}
-\psi_{nlm}(r,\theta,\phi)\propto R_{nl}(r)S_l^m(\theta,\phi).
+\psi_{nlm}(r,\theta,\phi)= R_{nl}(r)S_l^m(\theta,\phi).
 \label{eq:hydrogenlikesolid}
 \end{equation}
+The real solid harmonics do not alter any physical quantities that are degenerate in the subspace consisting of opposite magnetic quantum numbers, and for that reason they will give the same energies as the spherical harmonics as long as there is no magnetic field present. \cite{morten_hjorth-jensen_computational_2019}
 
-Again we will study closed shells only, but for atoms we will introduce subshells as well, which are dependent on the angular quantum number $l$ in addition to the principal quantum number $n$. In general, we have that $l\in [0,n-1]$ such that we only have one subshell for $n=1$. Traditionally, the first few subshells are denoted with $s, p, d$ and $f$, and the meaning can be found in table \eqref{tab:subshells}, together with number of electrons in each subshell.
+For atomic systems it is also common to use a Hartree-Fock basis, based on for example Gaussian functions. Even though the Gaussian functions do not have the correct shape, an expansion can be fitted pretty well. \cite{hehre_selfconsistent_1969}
+
+As earlier, we will study closed shells only, but for atoms we will introduce subshells as well, which are dependent on $l$ and $m$ in addition to the principal quantum number $n$. Traditionally, the first few subshells are denoted with $s, p, d$ and $f$, and the meaning can be found in table \eqref{tab:subshells}, together with number of electrons in each subshell.
 
 \begin{table} [H]
-	\caption{Table of the first subshells  \vspace{2mm}}
+	\caption{Degeneracy and naming conversations of the first subshells.  \vspace{2mm}}
 	\begin{tabularx}{\textwidth}{X|X:X:X} \hline\hline
 		\label{tab:subshells}
 		Subshell label & $l$ & Max electrons & Name \\ \hline
@@ -167,19 +173,17 @@ Again we will study closed shells only, but for atoms we will introduce subshell
 	\end{tabularx}
 \end{table}
 
-For Helium, we have two electrons with $n=1$, which means that both have $l=0$ and both electrons are in the $s$-subshell. We can thus write the electron configuration as $1s^2$. 
+For Helium, we have two electrons with $n=1$, which means that both have $l=0$ and both electrons are in the $s$-subshell, or the so-called $s$-wave. We can thus write the electron configuration as $1s^2$. 
 
-Similar as for the principal quantum number $n$, we can use the tumble rule the lower $l$ the lower energy, such that for Beryllium all four electrons are still in the $s$-subshell. Beryllium therefore has electron configuration $1s^2 2s^2$ or [He] $2s^2$. Since both subshells are fully occupied, Beryllium can be included in our closed-shell calculations. 
+Similar as for the principal quantum number $n$, we can use the rule of tumble that the lower $l$ the lower energy, such that for Beryllium all four electrons are still in the $s$-subshell. Beryllium therefore has electron configuration $1s^2 2s^2$ or [He] $2s^2$. Since both subshells are fully occupied, Beryllium can be included in our closed-shell calculations. 
 
 If we continue with the same rules, we see that the next closed-shell atom has a fully occupied $p$-subshell as well, which is Neon with 10 electrons. This is a noble gas, and we can write the electron configuration as [Be] $2p^6$. All noble gases have endings $Xs^2 Xp^6$, which is the reason why they always have 8 valence electrons.
 
-We can now compare this to the periodical system, and observe that the first two rows agree with the theory presented above: The first row has two elements and the second has eight. However, the third one also has eight elements, which does not fit our theory. It must be something we have overlooked. 
+We can now compare this to the periodic table, and observe that the first two rows agree with the theory presented above: The first row has two elements and the second has eight. However, the third one also has eight elements, which does not fit our theory. It must be something we have overlooked. 
 
 The reason is that the angular momentum contribution is not taken into account, i.e., we need to include the Hamiltonian term
 \begin{equation}
 V_L=\frac{l(l+1)}{2r^2}
 \end{equation}
-as well. If we do so, we see that the rule of thumb defined above not always holds. Sometimes a low $l$ in a higher $n$ causes lower energy than a high $l$ in a lower $n$. 
-
-"Colloquially, we call such solutions and derived properties as electronic structure."
+as well. If we do so, we see that the rule of thumb defined above not always holds. Sometimes a low $l$ in a higher $n$ causes lower energy than a high $l$ in a lower $n$.
 

@@ -9,11 +9,11 @@
 
 In the early 20th century, some scientists claimed that there were nothing new to be discovered in physics. They though that the deviation from experimental results were caused by uncertainties in the measurements and that the theory was complete. \cite{weisstein_kelvin_2007} They could not be more wrong.
 
-In 1905, Albert Einstein published a paper which explained the photoelectric effect based on Max Planck's idea of discrete energies. This is considered as the the beginning of the quantum theory.\footnote{The same year, Einstein presented his special theory of relativity, followed by the general theory of relativity in 1915. This theory superseded a 200-year-old theory of mechanics created primarily by Isaac Newton.} The years after this discovery, immense efforts were placed on completing the theory, and contributions from an array of scientists over a period of more than 20 years were necessary to get it complete. 
+Just a few years later in 1905, Albert Einstein published a paper advancing Max Planck's hypothesis that the energy of light is carried in discrete quantized packets to explain the photoelectric effect. This was a vital step in the development of quantum mechanics. \footnote{The same year, Einstein presented his special theory of relativity, followed by the general theory of relativity in 1915. This theory superseded a 200-year-old theory of mechanics created primarily by Isaac Newton.} The years after this discovery, immense efforts were placed on completing the theory, and contributions from an array of scientists over a period of more than 20 years were necessary to complete what today is known as the quantum theory. 
 
-Key people include Niels Bohr, who developed a model to explain the spectral lines in atoms, Max Born who suggested the now-standard interpretation of the probability density function, Werner Heisenberg who formulated the matrix mechanics of quantum mechanics, Erwin Schrödinger who formulated the wave mechanics of quantum mechanics and Paul Dirac who contributed to complete the theory. We will meet them again in other parts of the thesis.
+Key people include Niels Bohr, who developed a model to explain the spectral lines in atoms, Max Born who suggested the now-standard interpretation of the probability density function, Werner Heisenberg who formulated the matrix mechanics of quantum mechanics, Erwin Schrödinger who formulated the wave mechanics of quantum mechanics and Paul Dirac who contributed to complete the theory. We will meet them again and again throughout this thesis.
 
-In 1929, Paul Dirac stated something similar to what some scientists claimed in the early 20th century, but apparently more correctly. \cite{dirac_paul_adrien_maurice_quantum_1929}
+In 1929, Paul Dirac formulated something similar to what the scientists had claimed in the early 20th century, but apparently more correctly. \cite{dirac_paul_adrien_maurice_quantum_1929}
 
 \newpage
 \section{Brief Introduction} \label{subsec:elementary}
@@ -63,18 +63,24 @@ Setting up equation \eqref{eq:Energy} with respect to the energies, we obtain an
 \epsilon_n=\frac{\int d\bs{r}\psinc\hat{\mathcal{H}}\psin}{\int d\bs{r}\psinc\psin},
 \label{eq:energyintegral}
 \end{equation}
-which not necessarily is trivial to solve. If we take the wave function squared we get the probability distribution function,
+which not necessarily is trivial to solve. As suggested by Max Born, we get the probability distribution function if we take the dot product between the complex conjugate wave function and the wave function itself,
 \begin{equation}
-P(\bs{r})=\psinc\psin=|\psin|^2
+P(\bs{r})=\psinc\psin=|\psin|^2,
 \end{equation}
 so the denominator is basically the integral over all the probabilities. If the wave function is normalized correctly, this should always give 1. 
 
-In equation \eqref{eq:energyintegral}, we find the expectation value of the energy using the Hamiltonian, which is the energy operator. However, this relation applies for a general expectation value $\langle \mathcal{\hat{O}}\rangle$ related to an operator $\mathcal{\hat{O}}$,
+\subsection{Statistical interpretation}
+In equation \eqref{eq:energyintegral}, we found the expectation value of the energy using the Hamiltonian, which is the energy operator. However, this relation applies for an arbitrary operator $\mathcal{\hat{O}}$ related to an expectation value $\langle \mathcal{\hat{O}}\rangle$,
 \begin{equation}
-\langle \mathcal{\hat{O}}\rangle=\frac{\int d\bs{r}\psinc\hat{\mathcal{O}}\psin}{\int d\bs{r}\psinc\psin}.
+\langle \mathcal{O}\rangle=\frac{\int d\bs{r}\psinc\hat{\mathcal{O}}\psin}{\int d\bs{r}\psinc\psin}.
 \label{eq:generalexp}
 \end{equation}
-As a consequence, there is always a uncertainty associated with a measurement in quantum physics, which means that we can only tell the probability of measuring something. From this, a variety of mathematical inequalities follows, where Heisenberg's uncertainty principle is the most famous. It states that the more precisely the position of some particle is determined, the less precisely its momentum can be known, and is mathematically presented as
+As a consequence, there is always an uncertainty associated with a measurement in quantum physics, which means that we can only tell the probability of measuring something. The variance of measurements is given by
+\begin{equation}
+\sigma^2=\langle \mathcal{O}^2\rangle-\langle \mathcal{O}\rangle^2
+\end{equation}
+and if we take the square root of this we will get the standard deviation.
+From this, a variety of mathematical inequalities follows, where Heisenberg's uncertainty principle is the most famous. It states that the more precisely the position of some particle is determined, the less precisely its momentum can be known, and is mathematically presented as
 \begin{equation}
 \sigma_x\sigma_p\geq\frac{\hbar}{2}
 \end{equation}
@@ -82,13 +88,13 @@ where $\sigma_x$ is the standard deviation of the position and $\sigma_p$ is the
 
 Before we end this section, we will introduce the Dirac formalism, which is a elegant and efficient way of describing quantum states. For instance, equation \eqref{eq:generalexp} can, using Dirac formalism, be written as
 \begin{equation}
-\langle \mathcal{\hat{O}}\rangle=\frac{\mel{\Psi}{\mathcal{\hat{O}}}{\Psi}}{\braket{\Psi}{\Psi}}
+\langle \mathcal{O}\rangle=\frac{\mel{\Psi}{\mathcal{\hat{O}}}{\Psi}}{\braket{\Psi}{\Psi}}
 \end{equation}
 where $\bra{\Psi}$ is called the \textit{bra} and $\ket{\Psi}$ is called the \textit{ket}. For that reason, the formalism is also called braket formalism. 
 
 Often, the inner product in the denominator is assumed to be 1, such that the expectation value can be simplified to
 \begin{equation}
-\langle \mathcal{\hat{O}}\rangle=\mel{\Psi}{\mathcal{\hat{O}}}{\Psi},
+\langle \mathcal{O}\rangle=\mel{\Psi}{\mathcal{\hat{O}}}{\Psi},
 \end{equation}
 which we will henceforth assume. More information about the Dirac formalism can be found in Appendix A. 
 
@@ -99,21 +105,19 @@ In the equations above, the presented wave functions are assumed to be the exact
 \label{eq:variationalprinciple}
 \end{equation}
 
-Variational Monte-Carlo is a method based on (and named after) the variational principle, where we vary the trial wave function in order to obtain the lowest energy. It will be detailed in chaper \eqref{chp:methods}.
+Variational Monte-Carlo is a quantum many-body method based on (and named after) the variational principle, where we vary the trial wave function in order to obtain the lowest energy. It will be detailed in chaper \eqref{chp:methods}.
 
 \subsection{Quantum numbers}
-Up to this point, we have used $n$ to indicate which state we are dealing with, but we have not explained what it actually means. 
+Unlike in the classical mechanics, all the observable in quantum mechanics are discrete or \textit{quantized}, which means that the $n$ associated with $\varepsilon_n$ above cannot take any number. In fact, $n$ can only take positive integers, and is named the principal quantum number.
 
 \subsubsection*{Principal}
-Unlike in classical physics, all the observable in quantum mechanics are discrete or \textit{quantized}, hence the name. As a consequence, $n$ cannot take any number, but it needs to be a positive integer which makes the energies discrete.
-
-The quantum number $n$ is named the \textbf{principal} quantum number, and describes the electron shell. As $n$ increases, the electron excites to a higher shell such that also the energy increases. In general, $E_0<E_1<\hdots E_N$, which makes it the first quantum number. The electron shells can again be split up in subshells, requiring more quantum numbers.
+The \textbf{principal} quantum number describes the electron shell, and can take the numbers $n\in[1,2,3,\hdots)$. As $n$ increases, the electron excites to a higher shell such that also the energy increases. In general, $\varepsilon_1<\varepsilon_2<\varepsilon_3\hdots$ as long as all other quantum numbers are fixed. The electron shells can again be split up in subshells, requiring more quantum numbers.
 
 \subsubsection*{Angular}
-An electron shell can possibly have more than one subshell, described by the \textbf{angular} quantum number $l$. $l$ can takes the values $0,1,\hdots n-1$, such that the number of subshells in a shell is simply $n$. In atoms, the angular quantum number describes the shape of the shell, where $l=0$ gives a spherical shape, $l=1$ gives a polar shape while $l=2$ gives a cloverleaf shape. 
+An electron shell can possibly have more than one subshell, described by the \textbf{angular} quantum number $l$. $l$ can take the values $0,1,\hdots n-1$, such that the degeneracy of subshells in a shell is simply $n$. In atoms, the angular quantum number describes the shape of the shell, where $l=0$ gives a spherical shape, $l=1$ gives a polar shape while $l=2$ gives a cloverleaf shape. 
 
 \subsubsection*{Magnetic}
-We also have a \textbf{magnetic} quantum number $m_l$, which has the range $-l,-l+1,\hdots,l-1,l$. If $l$ describes the shape of a shell, $m_l$ describes its orientation in space. This quantum number was first observed under presence of a magnetic field, hence the name.
+We also have a \textbf{magnetic} quantum number $m_l$, which has the range $-l,-l+1,\hdots,l-1,l$. If $l$ describes the shape of a shell, $m_l$ specifies its orientation in space. This quantum number was first observed under presence of a magnetic field, hence the name.
 
 \subsubsection*{Spin}
 The \textbf{spin} quantum number $s$ gives the spin of a particle, which can just be seen as a particle's property. Particles are often divided in two groups dependent on the spin because of their different behavior: \textbf{bosons} have integer spin, while \textbf{fermions} have half-integer spin. Electrons and protons have spin $s=1/2$, which makes them fermions.
@@ -122,13 +126,13 @@ The \textbf{spin} quantum number $s$ gives the spin of a particle, which can jus
 The last number we will discuss is the \textbf{spin projection} quantum number $m_s$. It has the range $-s,-s+1,\hdots,s-1,s$, and is therefore related to the spin quantum number in the same way as $m_l$ is related to the angular quantum number. Electrons can for that reason take the values $m_s=+1/2$ or $m_s=-1/2$, such that there are two groups of electrons. The consequences will be discussed in the section \eqref{sec:wavefunction}.
 
 \subsection{The virial theorem} \label{sec:virial}
-The virial theorem relates the kinetic energy and potential energy, and makes it possible to find the average kinetic energy even for very complicated systems. The classical statement of the theorem has been known for a long time, and 1930 Vladimir Fock managed to prove the quantum virial theorem. \cite{fock_bemerkung_1930} The theorem can be expressed as
+The virial theorem relates the kinetic energy to the potential energy, and makes it possible to find the average kinetic energy even for complex systems. The classical statement of the theorem was formulated during the 19th century and named by Rudolf Clausius in 1870, \cite{clausius_xvi._1870} and in 1930 Vladimir Fock managed to prove the quantum virial theorem. \cite{fock_bemerkung_1930} The theorem can be expressed as
 \begin{equation}
-2\langle \mathcal{\hat{T}} \rangle = \sum_{i}n_i\langle \mathcal{\hat{V}}_{i} \rangle
+2\langle \mathcal{T} \rangle = \sum_{i}n_i\langle \mathcal{V}_{i} \rangle
 \end{equation}
-for sources to potential energy on the form
+for sources of potential energy on the form
 \begin{equation}
-\mathcal{\hat{V}}_{i}=xr^{n_i}.
+\mathcal{V}_{i}=ar^{n_i}.
 \end{equation}
 
 The expectation value is in principle the time average of the operator. However, if the ergodic hypothesis hold for the system, an ensemble average can also be taken.
@@ -164,17 +168,17 @@ Hund's rules define the filling order of electron structure shells with respect 
 \fi
 
 \subsection{Postulates of Quantum Mechanics}
-The quantum theory is built on six fundamental postulates, and without mentioning them our work would be incomplete. The postulates write:
+The quantum theory is built on six fundamental postulates, which should always hold. Some of them are already described, but here we present the complete list. Without mentioning them our section on quantum theory would be incomplete. The postulates write:
 
 \begin{enumerate}
 \item \textit{"The state of a quantum mechanical system is completely specified by the wave function $\Psi(\bs{r},t)$."}
 
 \item \textit{"To every observable in classical mechanics, there corresponds a linear, Hermitian operator in quantum mechanics."}
 
-\item \textit{"In any measurement of the observable associated with an operator $\hat{\mathcal{A}}$, the only values that will ever be observed are the eigenvalues $a$ which satisfy $\hat{\mathcal{A}}\Psi=a\Psi$."}
+\item \textit{"In any measurement of the observable associated with an operator $\hat{\mathcal{O}}$, the only values that will ever be observed are the eigenvalues $o$ which satisfy $\hat{\mathcal{O}}\Psi=o\Psi$."}
 
-\item \textit{"The expectation value of the observable corresponding to operator $\hat{\mathcal{A}}$ is given by
-$$\langle A\rangle=\frac{\int d\tau\Psi^*\hat{\mathcal{A}}\Psi}{\int d\tau\Psi^*\Psi}.\textit{"}$$}
+\item \textit{"The expectation value of the observable corresponding to operator $\hat{\mathcal{O}}$ is given by
+$$\langle\mathcal{O}\rangle=\frac{\int d\tau\Psi^*\hat{\mathcal{O}}\Psi}{\int d\tau\Psi^*\Psi}.\textit{"}$$}
 
 \item \textit{"The wave function evolves in time according to the time-dependent Schrödinger equation,
 $$\hat{\mathcal{H}}\Psi(\bs{r},t)=i\hbar\frac{\partial\Psi}{\partial t}.\textit{"}$$}
@@ -183,7 +187,7 @@ $$\hat{\mathcal{H}}\Psi(\bs{r},t)=i\hbar\frac{\partial\Psi}{\partial t}.\textit{
 \end{enumerate}
 The postulates are taken from \cite{sherrill_david_postulates_2003}.
 
-The reader may recognize that some of the postulates were mentioned already in the first sections, which was necessary to give a proper introduction. Since we will be looking at stationary systems only, the time-independent Schrödinger equation and then postulate no.5 will not be used, but apart from that they all will play a significant role. 
+Since we will be looking at stationary systems only, the time-independent Schrödinger equation and then postulate no.5 will not be utilized, but apart from that they all will play a significant role. 
 
 \section{The trial wave function} \label{sec:wavefunction}
 By the first postulate of quantum mechanics, the wave function contains all the information specifying the state of the system. This means that all observable in classical mechanics can also be measured from the wave function, which makes finding the wave function our main goal.
@@ -205,12 +209,14 @@ Assume that we have a permutation operator $\hat{P}$ which exchanges two coordin
 \end{equation}
 where $p$ is just a factor which comes from the transformation. If we again apply the $\hat{P}$ operator, we should switch the same coordinates back, and we expect to end up with the initial wave function. For that reason, $p$ must be either +1 or -1. \footnote{Actually, in two-dimensional systems we have a third possibility which gives an \textit{anyon}. The theory on this was developed by J.M. Leinaas and J. Myrheim during the 1970's. \cite{leinaas_one_1977}}
 
-The particles that have an antisymmetric (AS) wavefunction under exchange of two coordinates are called fermions, named after Enrico Fermi, and have half integer spin. On the other hand, the particles that have a symmetric (S) wavefunction under exchange of two coordinates are called bosons, named after Satyendra Nath Bose, and have integer spin. 
+The particles that have an antisymmetric (AS) wave function under exchange of two coordinates are called fermions, named after Enrico Fermi, and as discussed before they have half-integer spin. On the other hand, the particles that have a symmetric (S) wave function under exchange of two coordinates are called bosons, named after Satyendra Nath Bose, and have integer spin. 
 
-It turns out that because of their anti-symmetric wave function, two identical fermions cannot be found at the same position at the same time, known as the Pauli principle. This causes some difficulties when dealing with multiple fermions, since they always spread to multiple states. The probability of finding two identical particles at the same position at the same time should therefore be zero, so technically we need to set the wave function to zero if it happens. To deal with this, we introduce a so-called Slater determinant, which automatically sets the wave function to zero if the Pauli principle is unsatisfied.
+It turns out that because of their anti-symmetric wave function, two identical fermions cannot be found at the same position at the same time, known as the Pauli principle. 
 
-\subsection{Slater Determinant} \label{subsec:slater}
-For a system of more particles we can define a total wave function, which is a composition of all the single particle wave functions (SPF) and contains all the information about the system as the first postulate requires. For fermions, we need to combine the SPFs such that the Pauli principle is fulfilled at all times, which can be accomplished by a determinant. 
+The probability of finding two identical particles at the same position at the same time should be zero due to the Pauli principle, so technically we need to set the wave function to zero if it happens. To deal with this, we introduce a so-called Slater determinant, which automatically sets the wave function to zero if the principle is not satisfied.
+
+\subsection{Slater determinant} \label{subsec:slater}
+For a system of many particles we can define a total wave function, which is a composition of all the single particle wave functions (SPF) and contains all the information about the system as the first postulate requires. For fermions, we need to combine the SPFs such that the Pauli principle is fulfilled at all times, which can be accomplished by a determinant. 
 
 Consider a system of two identical fermions with SPFs $\phi_1$ and $\phi_2$ at positions $\boldsymbol{r}_1$ and $\boldsymbol{r}_2$ respectively. The way we define the wavefunction of the system is then
 \begin{equation}
@@ -241,8 +247,8 @@ with $\xi$ as the spin part. In the next section, we will proceed further and sh
 
 For bosonic systems, one can correspondingly construct a Slater permanent. The permanent of a matrix is similar to the determinant, but all negative signs are replaced by positive signs. 
 
-\subsection{Splitting up the Slater Determinant} \label{subsec:electronsystem}
-A determinant is relative computational expensive, and as the number of particles increases, it will certainly give us some problems. Fortunately, the Slater determinant can be split up when the particles have different spin, which is often hugely beneficial. Not only does the dimensions of the determinant reduce, but we also get rid of the spin part.
+\subsection{Splitting up the Slater determinant} \label{subsec:electronsystem}
+A determinant is relative computational expensive, and as the number of particles increases, it will certainly give us some problems. Fortunately, the Slater determinant can be split up when the particles have different spin, which is often hugely beneficial. Not only does the dimensions of the determinant reduce, but this makes it also possible to factorize out the spin part.
 
 In this work, we will study fermions of spin $\sigma=\pm 1/2$ only, and we will therefore do the splitting for this specific case. However, this case is very important since both electrons and protons among others are spin-1/2 particles. The particles with $\sigma=+1/2=\uparrow$ will be denoted as the spin-up particles, and the particles with $\sigma=-1/2=\downarrow$ will be denoted as the spin-down particles. For simplicity, we will assume that the first coordinates $\bs{r}_1,\hdots\bs{r}_{N_{\uparrow}}$ are the coordinates of the spin-up particles and the coordinates $\bs{r}_{N_{\uparrow}+1},\hdots\bs{r}_N$ are associated with the spin-down particles. $N_{\uparrow}$ is the number of spin-up particles and $N_{\downarrow}$ is the number of spin-down particles. The Slater determinant can then be written as
 \begin{equation*}
@@ -278,12 +284,12 @@ It is also worth to notice that the size of the spin-up determinant is determine
 
 This section was heavily inspired by D.Nissenbaum's dissertation, see appendix I in \cite{nissenbaum_stochastic_2008}.
 
-\subsection{Basis Set} \label{subsec:basisset}
+\subsection{Basis set} \label{subsec:basisset}
 To go further, we need to define a basis set, $\{\phi_1(\bs{r}),\phi_2(\bs{r}),\hdots\phi_N(\bs{r})\}$ which should be chosen carefully based on the system. For a few systems, we know the exact basis of the non-interacting case, and it is thus a natural basis to use in the Slater determinant. For other systems, the choice of basis might depend on the situation, where we typically need to weigh computational time against accuracy. Concrete examples on both cases will be presented in chapter \eqref{chp:systems}.
 
-Often, one will see that the basis is optimized by the Hartree-Fock method. Using this basis in a single Slater determinant, we obtain the Hartree-Fock energy which sometimes is quite accurate. To get an even better energy estimate, we need to add more Slater determinants, which is the task of the post Hartree-Fock methods. More about this in chapter (\ref{chp:methods}-\ref{chp:posthartreefock}).
+Often, one will see that the basis is optimized by the Hartree-Fock method. Using this basis in a single Slater determinant, we obtain the Hartree-Fock energy which sometimes is quite accurate. To get an even better energy estimate, we need to add more Slater determinants, which is the task of the post Hartree-Fock methods. More about this in chapter (\ref{chp:methods},\ref{chp:othermethods}).
 
-\subsection{Jastrow Factors} \label{subsubsec:jastrow}
+\subsection{Jastrow factors} \label{subsubsec:jastrow}
 From electrostatics we know that identical, charged particles will repel each other. This means that the probability of finding two particles close to each other should be low, which needs to be baked into the wave function. One way to do this is to simply multiply the wave function with the distance between the particles; the smaller distance the lower probability. However, since we are going to work in the logarithmic space, dealing with exponential function will be much easier. This is the main idea behind the simple Jastrow factor.
 
 \subsubsection{Simple Jastrow}
@@ -311,11 +317,11 @@ e^2/(D+1) & \text{if $i,j$ are particles of same spin} \\
 e^2/(D-1) & \text{if $i,j$ are particles of opposite spin},
 \end{cases}
 \end{equation}
-for dimensions $D\in[2,3]$ where $e$ is the elementary charge. We will later use natural and atomic units, and set $e=1$, which for two dimensions gives $a_{ij}=1/3$ (same spin) or $a_{ij}=1$ (opposite spin) and for three dimensions $a_{ij}=1/4$ (same spin) and $a_{ij}=1/2$ (opposite spin).
+for dimensions $D\in[2,3]$ where $e$ is the elementary charge. We will later use natural and atomic units, and set $e=1$, which for two dimensions gives $a_{ij}=1/3$ (same spin) or $a_{ij}=1$ (opposite spin) and for three dimensions $a_{ij}=1/4$ (same spin) and $a_{ij}=1/2$ (opposite spin). \cite{hogberget_quantum_2013,mariadason_quantum_2018}
 
 This Jastrow factor is known to give accurate results for fermions and bosons because it gives the correct cusp condition, and it is the one we gonna use in the standard variational Monte-Carlo simulations.
 
-\section{Electron Density}
+\section{Electron density}
 In quantum many-body computations, the electron density is frequently calculated, and there are several reasons for that. Firstly, the electron density can be found experimentally, such that the calculations can be benchmarked. Secondly, the electron density is very informative, since information about all particles can be gathered in one plot.
 
 The $P$-body electron density can be found by integrating over all particles but $P$, 
@@ -358,9 +364,9 @@ The two-body density describes...
 For the one-body density, we integrate over all the particles but one, which corresponds to counting number of particles in each bin when doing Monte-Carlo integration. For the two-body density, we integrate over all particles but a \textit{particle pair}, which means that we need to find the position of each particle pair in order to solve the integral by Monte-Carlo integration. See figure \eqref{fig:twobody} for an illustration of this Monte-Carlo integration.
 
 \subsection{Wigner Crystals} \label{sec:wigner}
-A Wigner crystal is a solid phase where electrons form triangular lattices to minimize the potential energy. The phenomenon occurs only when the potential energy dominates the kinetic energy, since the electrons then are "at rest". 
+A Wigner crystal is a solid phase where electrons form triangular lattices to minimize the potential energy. The phenomenon occurs only when the potential energy dominates the kinetic energy, since the electrons then are almost "at rest". 
 
-To minimize the potential energy, the distances between the electrons should be maximized. To achieve this, the electrons form the triangular lattice shape, not so unlike Norwegians on the metro. For that reason, the electron density should only have discrete radial values, and the phenomenon should be observable in one-body density plots.
+To minimize the potential energy, the distances between the electrons should be maximized. To achieve this, the electrons form the triangular lattice shape, not so unlike Norwegians on the metro trying to maximize the distance to anyone else. For that reason, the electron density should approach discrete radial values, and the phenomenon should be observable in one-body density plots.
 
 
 

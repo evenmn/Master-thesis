@@ -57,6 +57,173 @@
     \field{year}{1809}
   \endentry
 
+  \entry{clausius_xvi._1870}{article}{}
+    \name{author}{1}{}{%
+      {{hash=CR}{%
+         family={Clausius},
+         familyi={C\bibinitperiod},
+         given={R.},
+         giveni={R\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{CR1}
+    \strng{fullhash}{CR1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{1}
+    \field{sortinithash}{1}
+    \verb{doi}
+    \verb 10.1080/14786447008640370
+    \endverb
+    \field{issn}{1941-5982}
+    \field{number}{265}
+    \field{pages}{122\bibrangedash 127}
+    \field{title}{{XVI}. {On} a mechanical theorem applicable to heat}
+    \verb{url}
+    \verb https://doi.org/10.1080/14786447008640370
+    \endverb
+    \field{volume}{40}
+    \verb{file}
+    \verb Snapshot:/home/evenmn/Zotero/storage/NKJXJYDT/14786447008640370.html:
+    \verb text/html
+    \endverb
+    \field{journaltitle}{The London, Edinburgh, and Dublin Philosophical
+  Magazine and Journal of Science}
+    \field{month}{08}
+    \field{year}{1870}
+    \field{urlday}{04}
+    \field{urlmonth}{07}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{dirac_paul_adrien_maurice_quantum_1929}{article}{}
+    \name{author}{2}{}{%
+      {{hash=D}{%
+         family={{Dirac Paul Adrien Maurice}},
+         familyi={D\bibinitperiod},
+      }}%
+      {{hash=F}{%
+         family={{Fowler Ralph Howard}},
+         familyi={F\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{DF1}
+    \strng{fullhash}{DF1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{1}
+    \field{sortinithash}{1}
+    \field{abstract}{%
+    The general theory of quantum mechanics is now almost complete, the
+  imperfections that still remain being in connection with the exact fitting in
+  of the theory with relativity ideas. These give rise to difficulties only
+  when high-speed particles are involved, and are therefore of no importance in
+  the consideration of atomic and molecular structure and ordinary chemical
+  reactions, in which it is, indeed, usually sufficiently accurate if one
+  neglects relativity variation of mass with velocity and assumes only Coulomb
+  forces between the various electrons and atomic nuclei. The underlying
+  physical laws necessary for the mathematical theory of a large part of
+  physics and the whole of chemistry are thus completely known, and the
+  difficulty is only that the exact application of these laws leads to
+  equations much too complicated to be soluble. It there fore becomes desirable
+  that approximate practical methods of applying quantum mechanics should be
+  developed, which can lead to an explanation of the main features of complex
+  atomic systems without too much computation. Already before the arrival of
+  quantum mechanics there existed a theory of atomic structure, based on
+  Bohr’s ideas of quantised orbits, which was fairly successful in a wide
+  field. To get agreement with experiment it was found necessary to introduce
+  the spin of the electron, giving a doubling in the number of orbits of an
+  electron in an atom. With the help of this spin and Pauli’s exclusion
+  principle, a satisfactory theory of multiplet terms was obtained when one
+  made the additional assumption that the electrons in an atom all set
+  themselves with their spins parallel or antiparallel. If s denoted the
+  magnitude of the resultant spin angular momentum, this s was combined
+  vectorially with the resultant orbital angular momentum l to give a multiplet
+  of multiplicity 2s + 1. The fact that one had to make this additional
+  assumption was, however, a serious disadvantage, as no theoretical reasons to
+  support it could be given. It seemed to show that there were large forces
+  coupling the spin vectors of the electrons in an atom, much larger forces
+  than could be accounted for as due to the interaction of the magnetic moments
+  of the electrons. The position was thus that there was empirical evidence in
+  favour of these large forces, but that their theoretical nature was quite
+  unknown.%
+    }
+    \verb{doi}
+    \verb 10.1098/rspa.1929.0094
+    \endverb
+    \field{number}{792}
+    \field{pages}{714\bibrangedash 733}
+    \field{title}{Quantum mechanics of many-electron systems}
+    \verb{url}
+    \verb https://royalsocietypublishing.org/doi/abs/10.1098/rspa.1929.0094
+    \endverb
+    \field{volume}{123}
+    \verb{file}
+    \verb Full Text PDF:/home/evenmn/Zotero/storage/VAL567PT/Dirac Paul Adrien
+    \verb Maurice and Fowler Ralph Howard - 1929 - Quantum mechanics of many-el
+    \verb ectron systems.pdf:application/pdf;Snapshot:/home/evenmn/Zotero/stora
+    \verb ge/6KZ6586Z/rspa.1929.html:text/html
+    \endverb
+    \field{journaltitle}{Proceedings of the Royal Society of London. Series A,
+  Containing Papers of a Mathematical and Physical Character}
+    \field{month}{04}
+    \field{year}{1929}
+    \field{urlday}{03}
+    \field{urlmonth}{07}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{fock_bemerkung_1930}{article}{}
+    \name{author}{1}{}{%
+      {{hash=FV}{%
+         family={Fock},
+         familyi={F\bibinitperiod},
+         given={V.},
+         giveni={V\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {de}%
+    }
+    \strng{namehash}{FV1}
+    \strng{fullhash}{FV1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{1}
+    \field{sortinithash}{1}
+    \field{abstract}{%
+    Es wird eine einfache Ableitung des quantenmechanischen Virialsatzes aus
+  dem Variationsprinzip gegeben. Es zeigt sich, daß die vom Virialsatz
+  geforderte Beziehung zwischen den Erwartungswerten der kinetischen und der
+  potentiellen Energie auch durch jede Näherungslösung der Wellengleichung
+  erfüllt wird, falls diese nach einem Variationsverfahren berechnet ist,
+  welches die „Streckung des Grundgebietes“ als mögliche Variation
+  gestattet. Zum Schluß wird die Gültigkeit des Virialsatzes für die
+  Diracsche Gleichung bewiesen.%
+    }
+    \verb{doi}
+    \verb 10.1007/BF01339281
+    \endverb
+    \field{issn}{0044-3328}
+    \field{number}{11}
+    \field{pages}{855\bibrangedash 858}
+    \field{title}{Bemerkung zum {Virialsatz}}
+    \verb{url}
+    \verb https://doi.org/10.1007/BF01339281
+    \endverb
+    \field{volume}{63}
+    \verb{file}
+    \verb Springer Full Text PDF:/home/evenmn/Zotero/storage/IHR3ZIQR/Fock - 19
+    \verb 30 - Bemerkung zum Virialsatz.pdf:application/pdf
+    \endverb
+    \field{journaltitle}{Zeitschrift für Physik}
+    \field{month}{11}
+    \field{year}{1930}
+    \field{urlday}{03}
+    \field{urlmonth}{07}
+    \field{urlyear}{2019}
+  \endentry
+
   \entry{dirac_new_1939}{article}{}
     \name{author}{1}{}{%
       {{hash=DPAM}{%
@@ -83,6 +250,59 @@
     \field{journaltitle}{Mathematical Proceedings of the Cambridge
   Philosophical Society}
     \field{year}{1939}
+  \endentry
+
+  \entry{hehre_selfconsistent_1969}{article}{}
+    \name{author}{3}{}{%
+      {{hash=HWJ}{%
+         family={Hehre},
+         familyi={H\bibinitperiod},
+         given={W.\bibnamedelima J.},
+         giveni={W\bibinitperiod\bibinitdelim J\bibinitperiod},
+      }}%
+      {{hash=SRF}{%
+         family={Stewart},
+         familyi={S\bibinitperiod},
+         given={R.\bibnamedelima F.},
+         giveni={R\bibinitperiod\bibinitdelim F\bibinitperiod},
+      }}%
+      {{hash=PJA}{%
+         family={Pople},
+         familyi={P\bibinitperiod},
+         given={J.\bibnamedelima A.},
+         giveni={J\bibinitperiod\bibinitdelim A\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{HWJSRFPJA1}
+    \strng{fullhash}{HWJSRFPJA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{1}
+    \field{sortinithash}{1}
+    \verb{doi}
+    \verb 10.1063/1.1672392
+    \endverb
+    \field{issn}{0021-9606}
+    \field{number}{6}
+    \field{pages}{2657\bibrangedash 2664}
+    \field{title}{Self‐{Consistent} {Molecular}‐{Orbital} {Methods}. {I}.
+  {Use} of {Gaussian} {Expansions} of {Slater}‐{Type} {Atomic} {Orbitals}}
+    \verb{url}
+    \verb https://aip.scitation.org/doi/10.1063/1.1672392
+    \endverb
+    \field{volume}{51}
+    \verb{file}
+    \verb Full Text PDF:/home/evenmn/Zotero/storage/GI4EV9N9/Hehre et al. - 196
+    \verb 9 - Self‐Consistent Molecular‐Orbital Methods. I. Use .pdf:applic
+    \verb ation/pdf;Snapshot:/home/evenmn/Zotero/storage/KPCD872D/1.html:text/h
+    \verb tml
+    \endverb
+    \field{journaltitle}{The Journal of Chemical Physics}
+    \field{month}{09}
+    \field{year}{1969}
+    \field{urlday}{04}
+    \field{urlmonth}{07}
+    \field{urlyear}{2019}
   \endentry
 
   \entry{heisenberg_physics_1971}{book}{}
@@ -186,6 +406,156 @@
     \field{year}{1993}
     \field{urlday}{13}
     \field{urlmonth}{03}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{brunner_sharp-line_1994}{article}{}
+    \name{author}{5}{}{%
+      {{hash=BK}{%
+         family={Brunner},
+         familyi={B\bibinitperiod},
+         given={K.},
+         giveni={K\bibinitperiod},
+      }}%
+      {{hash=AG}{%
+         family={Abstreiter},
+         familyi={A\bibinitperiod},
+         given={G.},
+         giveni={G\bibinitperiod},
+      }}%
+      {{hash=BG}{%
+         family={Böhm},
+         familyi={B\bibinitperiod},
+         given={G.},
+         giveni={G\bibinitperiod},
+      }}%
+      {{hash=TG}{%
+         family={Tränkle},
+         familyi={T\bibinitperiod},
+         given={G.},
+         giveni={G\bibinitperiod},
+      }}%
+      {{hash=WG}{%
+         family={Weimann},
+         familyi={W\bibinitperiod},
+         given={G.},
+         giveni={G\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{BK+1}
+    \strng{fullhash}{BKAGBGTGWG1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{1}
+    \field{sortinithash}{1}
+    \field{abstract}{%
+    Using a micron-sized photoluminescence (PL) probe enables us to study
+  single islandlike interface defects of a thin GaAs/AlGaAs quantum well. The
+  bound exciton ground state locally emits a distinct sharp line. With
+  increasing excitation of this quantum dot level additional transition lines
+  emerge at lower energy. They are attributed to localized biexciton states.
+  The biexciton correlation energy is about 4 meV. A distinct two-photon
+  resonant absorption peak of the biexciton ground state is observed in PL
+  excitation spectroscopy. Its linewidth is only about 30 μeV. The spectra and
+  their polarization properties are discussed on the basis of a discrete level
+  scheme and the Pauli exclusion principle.%
+    }
+    \verb{doi}
+    \verb 10.1103/PhysRevLett.73.1138
+    \endverb
+    \field{number}{8}
+    \field{pages}{1138\bibrangedash 1141}
+    \field{title}{Sharp-{Line} {Photoluminescence} and {Two}-{Photon}
+  {Absorption} of {Zero}-{Dimensional} {Biexcitons} in a {GaAs}/{AlGaAs}
+  {Structure}}
+    \verb{url}
+    \verb https://link.aps.org/doi/10.1103/PhysRevLett.73.1138
+    \endverb
+    \field{volume}{73}
+    \verb{file}
+    \verb APS Snapshot:/home/evenmn/Zotero/storage/8NRQ8CNP/PhysRevLett.73.html
+    \verb :text/html;Full Text PDF:/home/evenmn/Zotero/storage/QI2AY9VH/Brunner
+    \verb  et al. - 1994 - Sharp-Line Photoluminescence and Two-Photon Absorp.p
+    \verb df:application/pdf
+    \endverb
+    \field{journaltitle}{Physical Review Letters}
+    \field{month}{08}
+    \field{year}{1994}
+    \field{urlday}{18}
+    \field{urlmonth}{06}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{marzin_photoluminescence_1994}{article}{}
+    \name{author}{5}{}{%
+      {{hash=MJY}{%
+         family={Marzin},
+         familyi={M\bibinitperiod},
+         given={J.\bibnamedelima Y.},
+         giveni={J\bibinitperiod\bibinitdelim Y\bibinitperiod},
+      }}%
+      {{hash=GJM}{%
+         family={Gérard},
+         familyi={G\bibinitperiod},
+         given={J.\bibnamedelima M.},
+         giveni={J\bibinitperiod\bibinitdelim M\bibinitperiod},
+      }}%
+      {{hash=IA}{%
+         family={Izraël},
+         familyi={I\bibinitperiod},
+         given={A.},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=BD}{%
+         family={Barrier},
+         familyi={B\bibinitperiod},
+         given={D.},
+         giveni={D\bibinitperiod},
+      }}%
+      {{hash=BG}{%
+         family={Bastard},
+         familyi={B\bibinitperiod},
+         given={G.},
+         giveni={G\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{MJY+1}
+    \strng{fullhash}{MJYGJMIABDBG1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{1}
+    \field{sortinithash}{1}
+    \field{abstract}{%
+    We present photoluminescence data on InAs quantum dots grown by molecular
+  beam epitaxy on GaAs. Through the reduction of the number of emitting dots in
+  small mesa structures, we evidence narrow lines in the spectra, each
+  associated with a single InAs dot. Beyond the statistical analysis allowed by
+  this technique, our results indicate short capture and relaxation times into
+  the dots. This approach opens the route towards the detailed optical study of
+  high quality easily fabricated single semiconductor quantum dots.%
+    }
+    \verb{doi}
+    \verb 10.1103/PhysRevLett.73.716
+    \endverb
+    \field{number}{5}
+    \field{pages}{716\bibrangedash 719}
+    \field{title}{Photoluminescence of {Single} {InAs} {Quantum} {Dots}
+  {Obtained} by {Self}-{Organized} {Growth} on {GaAs}}
+    \verb{url}
+    \verb https://link.aps.org/doi/10.1103/PhysRevLett.73.716
+    \endverb
+    \field{volume}{73}
+    \verb{file}
+    \verb APS Snapshot:/home/evenmn/Zotero/storage/2JTBEBV6/PhysRevLett.73.html
+    \verb :text/html;Full Text PDF:/home/evenmn/Zotero/storage/8NABQRZU/Marzin
+    \verb et al. - 1994 - Photoluminescence of Single InAs Quantum Dots Obta.pd
+    \verb f:application/pdf
+    \endverb
+    \field{journaltitle}{Physical Review Letters}
+    \field{month}{08}
+    \field{year}{1994}
+    \field{urlday}{18}
+    \field{urlmonth}{06}
     \field{urlyear}{2019}
   \endentry
 
@@ -305,6 +675,278 @@
     }
     \field{month}{07}
     \field{year}{1996}
+  \endentry
+
+  \entry{kramida_compilation_1997}{article}{}
+    \name{author}{2}{}{%
+      {{hash=KA}{%
+         family={Kramida},
+         familyi={K\bibinitperiod},
+         given={A.},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=MWC}{%
+         family={Martin},
+         familyi={M\bibinitperiod},
+         given={W.\bibnamedelima C.},
+         giveni={W\bibinitperiod\bibinitdelim C\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{KAMWC1}
+    \strng{fullhash}{KAMWC1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{1}
+    \field{sortinithash}{1}
+    \verb{doi}
+    \verb 10.1063/1.555999
+    \endverb
+    \field{issn}{0047-2689}
+    \field{number}{5}
+    \field{pages}{1185\bibrangedash 1194}
+    \field{title}{A {Compilation} of {Energy} {Levels} and {Wavelengths} for
+  the {Spectrum} of {Neutral} {Beryllium} ({Be} {I})}
+    \verb{url}
+    \verb https://aip.scitation.org/doi/10.1063/1.555999
+    \endverb
+    \field{volume}{26}
+    \verb{file}
+    \verb Snapshot:/home/evenmn/Zotero/storage/YY3TDRQW/1.html:text/html
+    \endverb
+    \field{journaltitle}{Journal of Physical and Chemical Reference Data}
+    \field{month}{09}
+    \field{year}{1997}
+    \field{urlday}{27}
+    \field{urlmonth}{06}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{bergeson_measurement_1998}{article}{}
+    \name{author}{13}{}{%
+      {{hash=BS}{%
+         family={Bergeson},
+         familyi={B\bibinitperiod},
+         given={S.},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=BA}{%
+         family={Balakrishnan},
+         familyi={B\bibinitperiod},
+         given={A.},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=BKG}{%
+         family={Baldwin},
+         familyi={B\bibinitperiod},
+         given={K.\bibnamedelima G.},
+         giveni={K\bibinitperiod\bibinitdelim G\bibinitperiod},
+      }}%
+      {{hash=LTB}{%
+         family={Lucatorto},
+         familyi={L\bibinitperiod},
+         given={Thomas\bibnamedelima B.},
+         giveni={T\bibinitperiod\bibinitdelim B\bibinitperiod},
+      }}%
+      {{hash=MJP}{%
+         family={Marangos},
+         familyi={M\bibinitperiod},
+         given={J.\bibnamedelima P.},
+         giveni={J\bibinitperiod\bibinitdelim P\bibinitperiod},
+      }}%
+      {{hash=MTJ}{%
+         family={McIlrath},
+         familyi={M\bibinitperiod},
+         given={T.\bibnamedelima J.},
+         giveni={T\bibinitperiod\bibinitdelim J\bibinitperiod},
+      }}%
+      {{hash=OTR}{%
+         family={O'Brian},
+         familyi={O\bibinitperiod},
+         given={Thomas\bibnamedelima R.},
+         giveni={T\bibinitperiod\bibinitdelim R\bibinitperiod},
+      }}%
+      {{hash=RSL}{%
+         family={Rolston},
+         familyi={R\bibinitperiod},
+         given={S.\bibnamedelima L.},
+         giveni={S\bibinitperiod\bibinitdelim L\bibinitperiod},
+      }}%
+      {{hash=WJ}{%
+         family={Wen},
+         familyi={W\bibinitperiod},
+         given={J.},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=WN}{%
+         family={Westbrook},
+         familyi={W\bibinitperiod},
+         given={N.},
+         giveni={N\bibinitperiod},
+      }}%
+      {{hash=CCH}{%
+         family={Cheng},
+         familyi={C\bibinitperiod},
+         given={C.\bibnamedelima H.},
+         giveni={C\bibinitperiod\bibinitdelim H\bibinitperiod},
+      }}%
+      {{hash=EEE}{%
+         family={Eyler},
+         familyi={E\bibinitperiod},
+         given={E.\bibnamedelima E.},
+         giveni={E\bibinitperiod\bibinitdelim E\bibinitperiod},
+      }}%
+      {{hash=SCJ}{%
+         family={Sansonetti},
+         familyi={S\bibinitperiod},
+         given={Craig\bibnamedelima J.},
+         giveni={C\bibinitperiod\bibinitdelim J\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {en}%
+    }
+    \strng{namehash}{BS+1}
+    \strng{fullhash}{BSBABKGLTBMJPMTJOTRRSLWJWNCCHEEESCJ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{1}
+    \field{sortinithash}{1}
+    \field{abstract}{%
+    We have extended two-photon Doppler-free spectroscopy to the vacuum
+  ultraviolet spectral region to accurately measure the He 1 1 S - 2 1 S
+  transition at 120 nm...%
+    }
+    \field{number}{No. 16}
+    \field{title}{Measurement of the {He} {Ground} {State} {Lamb} {Shift} {Via}
+  the {Two}-{Photon} 11S - 21S transition}
+    \verb{url}
+    \verb https://www.nist.gov/publications/measurement-he-ground-state-lamb-sh
+    \verb ift-two-photon-11s-21s-transition-0
+    \endverb
+    \field{volume}{80}
+    \field{journaltitle}{Physical Review Letters}
+    \field{month}{04}
+    \field{year}{1998}
+    \field{urlday}{27}
+    \field{urlmonth}{06}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{pederiva_diffusion_2000}{article}{}
+    \name{author}{3}{}{%
+      {{hash=PF}{%
+         family={Pederiva},
+         familyi={P\bibinitperiod},
+         given={F.},
+         giveni={F\bibinitperiod},
+      }}%
+      {{hash=UCJ}{%
+         family={Umrigar},
+         familyi={U\bibinitperiod},
+         given={C.\bibnamedelima J.},
+         giveni={C\bibinitperiod\bibinitdelim J\bibinitperiod},
+      }}%
+      {{hash=LE}{%
+         family={Lipparini},
+         familyi={L\bibinitperiod},
+         given={E.},
+         giveni={E\bibinitperiod},
+      }}%
+    }
+    \keyw{Condensed Matter}
+    \strng{namehash}{PFUCJLE1}
+    \strng{fullhash}{PFUCJLE1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{abstract}{%
+    We present ground and excited state energies obtained from Diffusion Monte
+  Carlo (DMC) calculations, using accurate multiconfiguration wave functions,
+  for \$N\$ electrons (\$N{\textbackslash}le13\$) confined to a circular
+  quantum dot. We analyze the electron-electron pair correlation functions and
+  compare the density and correlation energies to the predictions of local spin
+  density approximation theory (LSDA). The DMC estimated change in
+  electrochemical potential as function of the number of electrons in the dot
+  is compared to that from LSDA and Hartree-Fock (HF) calculations.%
+    }
+    \verb{doi}
+    \verb 10.1103/PhysRevB.62.8120
+    \endverb
+    \field{issn}{0163-1829, 1095-3795}
+    \field{note}{arXiv: cond-mat/9912166}
+    \field{number}{12}
+    \field{pages}{8120\bibrangedash 8125}
+    \field{title}{Diffusion {Monte} {Carlo} study of circular quantum dots}
+    \verb{url}
+    \verb http://arxiv.org/abs/cond-mat/9912166
+    \endverb
+    \field{volume}{62}
+    \verb{file}
+    \verb arXiv\:cond-mat/9912166 PDF:/home/evenmn/Zotero/storage/666GEG6J/Pede
+    \verb riva et al. - 2000 - Diffusion Monte Carlo study of circular quantum
+    \verb do.pdf:application/pdf;arXiv.org Snapshot:/home/evenmn/Zotero/storage
+    \verb /G6P4VWMT/9912166.html:text/html
+    \endverb
+    \field{journaltitle}{Physical Review B}
+    \field{annotation}{%
+    Comment: 7 pages, 4 eps figures. To be published in Phys. Rev. B, September
+  15th 2000. See erratum cond-mat/0305710%
+    }
+    \field{month}{09}
+    \field{year}{2000}
+    \field{urlday}{20}
+    \field{urlmonth}{06}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{sherrill_david_postulates_2003}{misc}{}
+    \name{author}{1}{}{%
+      {{hash=S}{%
+         family={{Sherrill, David}},
+         familyi={S\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{S1}
+    \strng{fullhash}{S1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{title}{Postulates of {Quantum} {Mechanics}}
+    \verb{url}
+    \verb http://vergil.chemistry.gatech.edu/notes/intro_estruc/node4.html
+    \endverb
+    \verb{file}
+    \verb Postulates of Quantum Mechanics:/home/evenmn/Zotero/storage/YT8XWHVT/
+    \verb node4.html:text/html
+    \endverb
+    \field{month}{07}
+    \field{year}{2003}
+    \field{urlday}{20}
+    \field{urlmonth}{06}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{noauthor_quantum_2005}{article}{}
+    \list{language}{1}{%
+      {en-US}%
+    }
+    \field{labeltitlesource}{title}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{chapter}{Science}
+    \field{issn}{0362-4331}
+    \field{title}{A {Quantum} {Sampler}}
+    \verb{url}
+    \verb https://www.nytimes.com/2005/12/26/science/a-quantum-sampler.html
+    \endverb
+    \field{journaltitle}{The New York Times}
+    \field{month}{12}
+    \field{year}{2005}
+    \field{urlday}{03}
+    \field{urlmonth}{07}
+    \field{urlyear}{2019}
   \endentry
 
   \entry{griffiths_introduction_2005}{book}{}
@@ -434,6 +1076,91 @@
     \field{year}{2007}
   \endentry
 
+  \entry{ghosal_incipient_2007}{article}{}
+    \name{author}{5}{}{%
+      {{hash=GA}{%
+         family={Ghosal},
+         familyi={G\bibinitperiod},
+         given={Amit},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=GAD}{%
+         family={Güçlü},
+         familyi={G\bibinitperiod},
+         given={A.\bibnamedelima D.},
+         giveni={A\bibinitperiod\bibinitdelim D\bibinitperiod},
+      }}%
+      {{hash=UCJ}{%
+         family={Umrigar},
+         familyi={U\bibinitperiod},
+         given={C.\bibnamedelima J.},
+         giveni={C\bibinitperiod\bibinitdelim J\bibinitperiod},
+      }}%
+      {{hash=UD}{%
+         family={Ullmo},
+         familyi={U\bibinitperiod},
+         given={Denis},
+         giveni={D\bibinitperiod},
+      }}%
+      {{hash=BHU}{%
+         family={Baranger},
+         familyi={B\bibinitperiod},
+         given={Harold\bibnamedelima U.},
+         giveni={H\bibinitperiod\bibinitdelim U\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{GA+1}
+    \strng{fullhash}{GAGADUCJUDBHU1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{abstract}{%
+    We study the development of electron-electron correlations in circular
+  quantum dots as the density is decreased. We consider a wide range of both
+  electron number, N⩽20, and electron gas parameter, rs≲18, using the
+  diffusion quantum Monte Carlo technique. Features associated with correlation
+  appear to develop very differently in quantum dots than in bulk. The main
+  reason is that translational symmetry is necessarily broken in a dot, leading
+  to density modulation and inhomogeneity. Electron-electron interactions act
+  to enhance this modulation ultimately leading to localization. This process
+  appears to be completely smooth and occurs over a wide range of density. Thus
+  there is a broad regime of “incipient” Wigner crystallization in these
+  quantum dots. Our specific conclusions are (i) the density develops sharp
+  rings while the pair density shows both radial and angular inhomogeneity;
+  (ii) the spin of the ground state is consistent with Hund’s (first) rule
+  throughout our entire range of rs for all 4⩽N⩽20; (iii) the addition
+  energy curve first becomes smoother as interactions strengthen—the
+  mesoscopic fluctuations are damped by correlation—and then starts to show
+  features characteristic of the classical addition energy; (iv) localization
+  effects are stronger for a smaller number of electrons; (v) finally, the gap
+  to certain spin excitations becomes small at the strong interaction (large
+  rs) side of our regime.%
+    }
+    \verb{doi}
+    \verb 10.1103/PhysRevB.76.085341
+    \endverb
+    \field{number}{8}
+    \field{pages}{085341}
+    \field{title}{Incipient {Wigner} localization in circular quantum dots}
+    \verb{url}
+    \verb https://link.aps.org/doi/10.1103/PhysRevB.76.085341
+    \endverb
+    \field{volume}{76}
+    \verb{file}
+    \verb APS Snapshot:/home/evenmn/Zotero/storage/ICH5PPDA/PhysRevB.76.html:te
+    \verb xt/html;Full Text PDF:/home/evenmn/Zotero/storage/9KUDWD2H/Ghosal et
+    \verb al. - 2007 - Incipient Wigner localization in circular quantum .pdf:a
+    \verb pplication/pdf
+    \endverb
+    \field{journaltitle}{Physical Review B}
+    \field{month}{08}
+    \field{year}{2007}
+    \field{urlday}{20}
+    \field{urlmonth}{06}
+    \field{urlyear}{2019}
+  \endentry
+
   \entry{weisstein_kelvin_2007}{book}{}
     \name{author}{1}{}{%
       {{hash=WE}{%
@@ -458,22 +1185,280 @@
 
   \entry{nissenbaum_stochastic_2008}{article}{}
     \name{author}{1}{}{%
-      {{hash=ND}{%
+      {{hash=NDA}{%
          family={Nissenbaum},
          familyi={N\bibinitperiod},
-         given={D.A.},
-         giveni={D\bibinitperiod},
+         given={Daniel\bibnamedelima Andres},
+         giveni={D\bibinitperiod\bibinitdelim A\bibinitperiod},
       }}%
     }
-    \strng{namehash}{ND1}
-    \strng{fullhash}{ND1}
+    \strng{namehash}{NDA1}
+    \strng{fullhash}{NDA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{shorttitle}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{abstract}{%
+    The Stochastic Gradient Approximation (SGA) is the natural extension of
+  Quantum Monte Carlo (QMC) methods to the variational optimization of quantum
+  wave function parameters. While many deterministic applications impose
+  stochasticity, the SGA fruitfully takes advantage of the natural
+  stochasticity already present in QMC in order to utilize a small number of
+  QMC samples and approach the minimum more quickly by averaging out the random
+  noise in the samples. The increasing efficiency of the method for systems
+  with larger numbers of particles, and its nearly ideal scaling when running
+  on parallelized processors, is evidence that the SGA is well suited for the
+  study of nanoclusters. In this thesis, I discuss the SGA algorithm in detail.
+  I also describe its application to both quantum dots, and to the Resonating
+  Valence Bond wave function (RVB). The RVB is a sophisticated model of
+  electronic systems that captures electronic correlation effects directly and
+  that improves the nodal structure of quantum wave functions. The RVB is
+  receiving renewed attention in the study of nanoclusters due to the fact that
+  calculations of RVB wave functions have become feasible with recent advances
+  in computer hardware and software.%
+    }
+    \field{shorttitle}{The stochastic gradient approximation}
+    \field{title}{The stochastic gradient approximation: an application to li
+  nanoclusters.}
+    \verb{url}
+    \verb https://repository.library.northeastern.edu/files/neu:1790
+    \endverb
+    \verb{file}
+    \verb Full Text PDF:/home/evenmn/Zotero/storage/XFG5YSXQ/Nissenbaum - 2008
+    \verb - The stochastic gradient approximation an applicat.pdf:application/p
+    \verb df;Snapshot:/home/evenmn/Zotero/storage/22Y4UAB3/neu1790.html:text/ht
+    \verb ml
+    \endverb
+    \field{year}{2008}
+    \field{urlday}{20}
+    \field{urlmonth}{06}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{bajdich_electronic_2010}{article}{}
+    \name{author}{2}{}{%
+      {{hash=BM}{%
+         family={Bajdich},
+         familyi={B\bibinitperiod},
+         given={Michal},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=ML}{%
+         family={Mitas},
+         familyi={M\bibinitperiod},
+         given={Lubos},
+         giveni={L\bibinitperiod},
+      }}%
+    }
+    \keyw{Condensed Matter - Materials Science, Condensed Matter - Other
+  Condensed Matter, Physics - Chemical Physics}
+    \strng{namehash}{BMML1}
+    \strng{fullhash}{BMML1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
     \field{sortinit}{2}
     \field{sortinithash}{2}
-    \field{title}{The stochastic gradient approximation: an application to li
-  nanoclusters}
-    \field{year}{2008}
+    \field{abstract}{%
+    Quantum Monte Carlo (QMC) is an advanced simulation methodology for studies
+  of manybody quantum systems. In this review, we focus on the electronic
+  structure QMC, i.e., methods relevant for systems described by the
+  electron-ion Hamiltonians. Some of the key QMC achievements include direct
+  treatment of electron correlation, accuracy in predicting energy differences
+  and favorable scaling in the system size. Calculations of atoms, molecules,
+  clusters and solids have demonstrated QMC applicability to real systems with
+  hundreds of electrons while providing 90-95\% of the correlation energy and
+  energy differences typically within a few percent of experiments. Advances in
+  accuracy beyond these limits are hampered by the so-called fixed-node
+  approximation which is used to circumvent the notorious fermion sign problem.
+  Many-body nodes of fermion states and their properties have therefore become
+  one of the important topics for further progress in predictive power and
+  efficiency of QMC calculations. Some of our recent results on the wave
+  function nodes and related nodal domain topologies will be briefly reviewed.
+  This includes analysis of few-electron systems and descriptions of exact and
+  approximate nodes using transformations and projections of the
+  highly-dimensional nodal hypersurfaces into the 3D space. Studies of fermion
+  nodes offer new insights into topological properties of eigenstates such as
+  explicit demonstrations that generic fermionic ground states exhibit the
+  minimal number of two nodal domains. Recently proposed trial wave functions
+  based on Pfaffians with pairing orbitals are presented and their nodal
+  properties are tested in calculations of first row atoms and molecules.
+  Finally, backflow "dressed" coordinates are introduced as another possibility
+  for capturing correlation effects and for decreasing the fixed-node bias.%
+    }
+    \verb{doi}
+    \verb 10.2478/v10155.009.0002.3
+    \endverb
+    \field{note}{arXiv: 1008.2369}
+    \field{title}{Electronic structure quantum {Monte} {Carlo}}
+    \verb{url}
+    \verb http://arxiv.org/abs/1008.2369
+    \endverb
+    \verb{file}
+    \verb arXiv\:1008.2369 PDF:/home/evenmn/Zotero/storage/J394WJFJ/Bajdich and
+    \verb  Mitas - 2010 - Electronic structure quantum Monte Carlo.pdf:applicat
+    \verb ion/pdf;arXiv.org Snapshot:/home/evenmn/Zotero/storage/7E5X5F7E/1008.
+    \verb html:text/html
+    \endverb
+    \field{journaltitle}{arXiv:1008.2369 [cond-mat, physics:physics]}
+    \field{annotation}{%
+    Comment: published in: Acta Physica Slovaca 59, No.2, 81-168 (2009) (88
+  pages) (Received 10 May 2009, accepted 14 May 2009), Keywords: Condensed
+  Matter, Computational Methods, Electronic Structure, Quantum Monte Carlo,
+  Correlated Electrons, Fermion Nodes, Pfaffians; PACS:02.70.Ss, 03.65.Ge,
+  05.30.Fk, 31.25.-v, 67.10.Db, 71.10.w, 71.15.-m, 71.20.-b%
+    }
+    \field{month}{08}
+    \field{year}{2010}
+    \field{urlday}{20}
+    \field{urlmonth}{06}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{jelic_double_2012}{article}{}
+    \name{author}{2}{}{%
+      {{hash=JV}{%
+         family={Jelic},
+         familyi={J\bibinitperiod},
+         given={V.},
+         giveni={V\bibinitperiod},
+      }}%
+      {{hash=MF}{%
+         family={Marsiglio},
+         familyi={M\bibinitperiod},
+         given={F.},
+         giveni={F\bibinitperiod},
+      }}%
+    }
+    \keyw{Quantum Physics, Condensed Matter - Mesoscale and Nanoscale Physics,
+  Physics - Physics Education}
+    \strng{namehash}{JVMF1}
+    \strng{fullhash}{JVMF1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{shorttitle}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{abstract}{%
+    The double well potential is arguably one of the most important potentials
+  in quantum mechanics, because the solution contains the notion of a state as
+  a linear superposition of `classical' states, a concept which has become very
+  important in quantum information theory. It is therefore desirable to have
+  solutions to simple double well potentials that are accessible to the
+  undergraduate student. We describe a method for obtaining the numerically
+  exact eigenenergies and eigenstates for such a model, along with the energies
+  obtained through the Wentzel-Kramers-Brillouin (WKB) approximation. The exact
+  solution is accessible with elementary mathematics, though numerical
+  solutions are required. We also find that the WKB approximation is remarkably
+  accurate, not just for the ground state, but for the excited states as well.%
+    }
+    \verb{doi}
+    \verb 10.1088/0143-0807/33/6/1651
+    \endverb
+    \field{issn}{0143-0807, 1361-6404}
+    \field{note}{arXiv: 1209.2521}
+    \field{number}{6}
+    \field{pages}{1651\bibrangedash 1666}
+    \field{shorttitle}{The double well potential in quantum mechanics}
+    \field{title}{The double well potential in quantum mechanics: a simple,
+  numerically exact formulation}
+    \verb{url}
+    \verb http://arxiv.org/abs/1209.2521
+    \endverb
+    \field{volume}{33}
+    \verb{file}
+    \verb arXiv\:1209.2521 PDF:/home/evenmn/Zotero/storage/P5XV24ZS/Jelic and M
+    \verb arsiglio - 2012 - The double well potential in quantum mechanics a .p
+    \verb df:application/pdf;arXiv.org Snapshot:/home/evenmn/Zotero/storage/XEX
+    \verb CXM8G/1209.html:text/html
+    \endverb
+    \field{journaltitle}{European Journal of Physics}
+    \field{annotation}{%
+    Comment: 10 pages, 4 figures; suitable for undergraduate courses in quantum
+  mechanics%
+    }
+    \field{month}{11}
+    \field{year}{2012}
+    \field{urlday}{24}
+    \field{urlmonth}{05}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{krizhevsky_imagenet_2012}{incollection}{}
+    \name{author}{3}{}{%
+      {{hash=KA}{%
+         family={Krizhevsky},
+         familyi={K\bibinitperiod},
+         given={Alex},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=SI}{%
+         family={Sutskever},
+         familyi={S\bibinitperiod},
+         given={Ilya},
+         giveni={I\bibinitperiod},
+      }}%
+      {{hash=HGE}{%
+         family={Hinton},
+         familyi={H\bibinitperiod},
+         given={Geoffrey\bibnamedelima E},
+         giveni={G\bibinitperiod\bibinitdelim E\bibinitperiod},
+      }}%
+    }
+    \name{editor}{4}{}{%
+      {{hash=PF}{%
+         family={Pereira},
+         familyi={P\bibinitperiod},
+         given={F.},
+         giveni={F\bibinitperiod},
+      }}%
+      {{hash=BCJC}{%
+         family={Burges},
+         familyi={B\bibinitperiod},
+         given={C.\bibnamedelima J.\bibnamedelima C.},
+         giveni={C\bibinitperiod\bibinitdelim J\bibinitperiod\bibinitdelim
+  C\bibinitperiod},
+      }}%
+      {{hash=BL}{%
+         family={Bottou},
+         familyi={B\bibinitperiod},
+         given={L.},
+         giveni={L\bibinitperiod},
+      }}%
+      {{hash=WKQ}{%
+         family={Weinberger},
+         familyi={W\bibinitperiod},
+         given={K.\bibnamedelima Q.},
+         giveni={K\bibinitperiod\bibinitdelim Q\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Curran Associates, Inc.}%
+    }
+    \strng{namehash}{KASIHGE1}
+    \strng{fullhash}{KASIHGE1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{booktitle}{Advances in {Neural} {Information} {Processing} {Systems}
+  25}
+    \field{pages}{1097\bibrangedash 1105}
+    \field{title}{{ImageNet} {Classification} with {Deep} {Convolutional}
+  {Neural} {Networks}}
+    \verb{url}
+    \verb http://papers.nips.cc/paper/4824-imagenet-classification-with-deep-co
+    \verb nvolutional-neural-networks.pdf
+    \endverb
+    \verb{file}
+    \verb NIPS Full Text PDF:/home/evenmn/Zotero/storage/I7HBEWFS/Krizhevsky et
+    \verb  al. - 2012 - ImageNet Classification with Deep Convolutional Ne.pdf:
+    \verb application/pdf;NIPS Snapshot:/home/evenmn/Zotero/storage/2GK6CAQP/48
+    \verb 24-imagenet-classification-with-deep-convolutional-neural-networks.ht
+    \verb ml:text/html
+    \endverb
+    \field{year}{2012}
+    \field{urlday}{20}
+    \field{urlmonth}{06}
+    \field{urlyear}{2019}
   \endentry
 
   \entry{hogberget_quantum_2013}{article}{}
@@ -781,6 +1766,158 @@
     \field{urlyear}{2019}
   \endentry
 
+  \entry{kingma_adam:_2014-1}{article}{}
+    \name{author}{2}{}{%
+      {{hash=KDP}{%
+         family={Kingma},
+         familyi={K\bibinitperiod},
+         given={Diederik\bibnamedelima P.},
+         giveni={D\bibinitperiod\bibinitdelim P\bibinitperiod},
+      }}%
+      {{hash=BJ}{%
+         family={Ba},
+         familyi={B\bibinitperiod},
+         given={Jimmy},
+         giveni={J\bibinitperiod},
+      }}%
+    }
+    \keyw{Computer Science - Machine Learning}
+    \strng{namehash}{KDPBJ1}
+    \strng{fullhash}{KDPBJ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{shorttitle}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{abstract}{%
+    We introduce Adam, an algorithm for first-order gradient-based optimization
+  of stochastic objective functions, based on adaptive estimates of lower-order
+  moments. The method is straightforward to implement, is computationally
+  efficient, has little memory requirements, is invariant to diagonal rescaling
+  of the gradients, and is well suited for problems that are large in terms of
+  data and/or parameters. The method is also appropriate for non-stationary
+  objectives and problems with very noisy and/or sparse gradients. The
+  hyper-parameters have intuitive interpretations and typically require little
+  tuning. Some connections to related algorithms, on which Adam was inspired,
+  are discussed. We also analyze the theoretical convergence properties of the
+  algorithm and provide a regret bound on the convergence rate that is
+  comparable to the best known results under the online convex optimization
+  framework. Empirical results demonstrate that Adam works well in practice and
+  compares favorably to other stochastic optimization methods. Finally, we
+  discuss AdaMax, a variant of Adam based on the infinity norm.%
+    }
+    \field{note}{arXiv: 1412.6980}
+    \field{shorttitle}{Adam}
+    \field{title}{Adam: {A} {Method} for {Stochastic} {Optimization}}
+    \verb{url}
+    \verb http://arxiv.org/abs/1412.6980
+    \endverb
+    \verb{file}
+    \verb arXiv\:1412.6980 PDF:/home/evenmn/Zotero/storage/RRYZ24NY/Kingma and
+    \verb Ba - 2014 - Adam A Method for Stochastic Optimization.pdf:application
+    \verb /pdf;arXiv.org Snapshot:/home/evenmn/Zotero/storage/9TQ2WN6K/1412.htm
+    \verb l:text/html
+    \endverb
+    \field{journaltitle}{arXiv:1412.6980 [cs]}
+    \field{annotation}{%
+    Comment: Published as a conference paper at the 3rd International
+  Conference for Learning Representations, San Diego, 2015%
+    }
+    \field{month}{12}
+    \field{year}{2014}
+    \field{urlday}{20}
+    \field{urlmonth}{06}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{manders_8.3:_2015}{article}{}
+    \name{author}{7}{}{%
+      {{hash=MJR}{%
+         family={Manders},
+         familyi={M\bibinitperiod},
+         given={Jesse\bibnamedelima R.},
+         giveni={J\bibinitperiod\bibinitdelim R\bibinitperiod},
+      }}%
+      {{hash=QL}{%
+         family={Qian},
+         familyi={Q\bibinitperiod},
+         given={Lei},
+         giveni={L\bibinitperiod},
+      }}%
+      {{hash=TA}{%
+         family={Titov},
+         familyi={T\bibinitperiod},
+         given={Alexandre},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=HJ}{%
+         family={Hyvonen},
+         familyi={H\bibinitperiod},
+         given={Jake},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=TJ}{%
+         family={Tokarz‐Scott},
+         familyi={T\bibinitperiod},
+         given={Jean},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=XJ}{%
+         family={Xue},
+         familyi={X\bibinitperiod},
+         given={Jiangeng},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=HPH}{%
+         family={Holloway},
+         familyi={H\bibinitperiod},
+         given={Paul\bibnamedelima H.},
+         giveni={P\bibinitperiod\bibinitdelim H\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {en}%
+    }
+    \keyw{displays, full color gamut, NTSC, QDLED, QLED, Quantum dots, Rec.
+  2020, solution processing}
+    \strng{namehash}{MJR+1}
+    \strng{fullhash}{MJRQLTAHJTJXJHPH1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{shorttitle}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{abstract}{%
+    Colloidal quantum dot-based hybrid light-emitting diodes (QDLEDs) have been
+  demonstrated that exhibit quantum efficiencies {\textgreater}10\% for all
+  three fundamental colors ({\textgreater}18\% for green), device lifetimes of
+  {\textgreater}280K hours, extremely well-tuned color fidelity approaching
+  Rec. 2020 specifications, and complete solution processing to fabricate
+  devices. The extremely desirable properties of color tunability/fidelity,
+  long lifetime, and low cost processing from solutions makes QD-LED technology
+  disruptive and will lead to next generation displays.%
+    }
+    \verb{doi}
+    \verb 10.1002/sdtp.10276
+    \endverb
+    \field{issn}{2168-0159}
+    \field{number}{1}
+    \field{pages}{73\bibrangedash 75}
+    \field{shorttitle}{8.3}
+    \field{title}{8.3: {Distinguished} {Paper}: {Next}-{Generation} {Display}
+  {Technology}: {Quantum}-{Dot} {LEDs}}
+    \verb{url}
+    \verb https://onlinelibrary.wiley.com/doi/abs/10.1002/sdtp.10276
+    \endverb
+    \field{volume}{46}
+    \verb{file}
+    \verb Snapshot:/home/evenmn/Zotero/storage/HG3TV3Q7/sdtp.html:text/html
+    \endverb
+    \field{journaltitle}{SID Symposium Digest of Technical Papers}
+    \field{year}{2015}
+    \field{urlday}{18}
+    \field{urlmonth}{06}
+    \field{urlyear}{2019}
+  \endentry
+
   \entry{ledum_simple_2016}{book}{}
     \name{author}{1}{}{%
       {{hash=LM}{%
@@ -801,6 +1938,292 @@
     \verb https://github.com/mortele/variational-monte-carlo-fys4411
     \endverb
     \field{year}{2016}
+  \endentry
+
+  \entry{smith_ios_2016}{misc}{}
+    \name{author}{1}{}{%
+      {{hash=SC}{%
+         family={Smith},
+         familyi={S\bibinitperiod},
+         given={Chris},
+         giveni={C\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {en}%
+    }
+    \strng{namehash}{SC1}
+    \strng{fullhash}{SC1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{shorttitle}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{abstract}{%
+    One of the main iOS 10 features concerns Siri, Apple’s virtual assistant
+  that’s now getting smarter than ever with the help of developers.%
+    }
+    \field{shorttitle}{{iOS} 10}
+    \field{title}{{iOS} 10: {Siri} now works in third-party apps, comes with
+  extra {AI} features}
+    \verb{url}
+    \verb https://bgr.com/2016/06/13/ios-10-siri-third-party-apps/
+    \endverb
+    \verb{file}
+    \verb Snapshot:/home/evenmn/Zotero/storage/JNIAMGGJ/ios-10-siri-third-party
+    \verb -apps.html:text/html
+    \endverb
+    \field{journaltitle}{BGR}
+    \field{month}{06}
+    \field{year}{2016}
+    \field{urlday}{27}
+    \field{urlmonth}{06}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{wu_googles_2016}{article}{}
+    \name{author}{31}{}{%
+      {{hash=WY}{%
+         family={Wu},
+         familyi={W\bibinitperiod},
+         given={Yonghui},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=SM}{%
+         family={Schuster},
+         familyi={S\bibinitperiod},
+         given={Mike},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=CZ}{%
+         family={Chen},
+         familyi={C\bibinitperiod},
+         given={Zhifeng},
+         giveni={Z\bibinitperiod},
+      }}%
+      {{hash=LQV}{%
+         family={Le},
+         familyi={L\bibinitperiod},
+         given={Quoc\bibnamedelima V.},
+         giveni={Q\bibinitperiod\bibinitdelim V\bibinitperiod},
+      }}%
+      {{hash=NM}{%
+         family={Norouzi},
+         familyi={N\bibinitperiod},
+         given={Mohammad},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=MW}{%
+         family={Macherey},
+         familyi={M\bibinitperiod},
+         given={Wolfgang},
+         giveni={W\bibinitperiod},
+      }}%
+      {{hash=KM}{%
+         family={Krikun},
+         familyi={K\bibinitperiod},
+         given={Maxim},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=CY}{%
+         family={Cao},
+         familyi={C\bibinitperiod},
+         given={Yuan},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=GQ}{%
+         family={Gao},
+         familyi={G\bibinitperiod},
+         given={Qin},
+         giveni={Q\bibinitperiod},
+      }}%
+      {{hash=MK}{%
+         family={Macherey},
+         familyi={M\bibinitperiod},
+         given={Klaus},
+         giveni={K\bibinitperiod},
+      }}%
+      {{hash=KJ}{%
+         family={Klingner},
+         familyi={K\bibinitperiod},
+         given={Jeff},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=SA}{%
+         family={Shah},
+         familyi={S\bibinitperiod},
+         given={Apurva},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=JM}{%
+         family={Johnson},
+         familyi={J\bibinitperiod},
+         given={Melvin},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=LX}{%
+         family={Liu},
+         familyi={L\bibinitperiod},
+         given={Xiaobing},
+         giveni={X\bibinitperiod},
+      }}%
+      {{hash=K�}{%
+         family={Kaiser},
+         familyi={K\bibinitperiod},
+         given={Łukasz},
+         giveni={�\bibinitperiod},
+      }}%
+      {{hash=GS}{%
+         family={Gouws},
+         familyi={G\bibinitperiod},
+         given={Stephan},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=KY}{%
+         family={Kato},
+         familyi={K\bibinitperiod},
+         given={Yoshikiyo},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=KT}{%
+         family={Kudo},
+         familyi={K\bibinitperiod},
+         given={Taku},
+         giveni={T\bibinitperiod},
+      }}%
+      {{hash=KH}{%
+         family={Kazawa},
+         familyi={K\bibinitperiod},
+         given={Hideto},
+         giveni={H\bibinitperiod},
+      }}%
+      {{hash=SK}{%
+         family={Stevens},
+         familyi={S\bibinitperiod},
+         given={Keith},
+         giveni={K\bibinitperiod},
+      }}%
+      {{hash=KG}{%
+         family={Kurian},
+         familyi={K\bibinitperiod},
+         given={George},
+         giveni={G\bibinitperiod},
+      }}%
+      {{hash=PN}{%
+         family={Patil},
+         familyi={P\bibinitperiod},
+         given={Nishant},
+         giveni={N\bibinitperiod},
+      }}%
+      {{hash=WW}{%
+         family={Wang},
+         familyi={W\bibinitperiod},
+         given={Wei},
+         giveni={W\bibinitperiod},
+      }}%
+      {{hash=YC}{%
+         family={Young},
+         familyi={Y\bibinitperiod},
+         given={Cliff},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=SJ}{%
+         family={Smith},
+         familyi={S\bibinitperiod},
+         given={Jason},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=RJ}{%
+         family={Riesa},
+         familyi={R\bibinitperiod},
+         given={Jason},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=RA}{%
+         family={Rudnick},
+         familyi={R\bibinitperiod},
+         given={Alex},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=VO}{%
+         family={Vinyals},
+         familyi={V\bibinitperiod},
+         given={Oriol},
+         giveni={O\bibinitperiod},
+      }}%
+      {{hash=CG}{%
+         family={Corrado},
+         familyi={C\bibinitperiod},
+         given={Greg},
+         giveni={G\bibinitperiod},
+      }}%
+      {{hash=HM}{%
+         family={Hughes},
+         familyi={H\bibinitperiod},
+         given={Macduff},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=DJ}{%
+         family={Dean},
+         familyi={D\bibinitperiod},
+         given={Jeffrey},
+         giveni={J\bibinitperiod},
+      }}%
+    }
+    \keyw{Computer Science - Machine Learning, Computer Science - Artificial
+  Intelligence, Computer Science - Computation and Language}
+    \strng{namehash}{WY+1}
+  \strng{fullhash}{WYSMCZLQVNMMWKMCYGQMKKJSAJMLXK�GSKYKTKHSKKGPNWWYCSJRJRAVOCGHMDJ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{shorttitle}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{abstract}{%
+    Neural Machine Translation (NMT) is an end-to-end learning approach for
+  automated translation, with the potential to overcome many of the weaknesses
+  of conventional phrase-based translation systems. Unfortunately, NMT systems
+  are known to be computationally expensive both in training and in translation
+  inference. Also, most NMT systems have difficulty with rare words. These
+  issues have hindered NMT's use in practical deployments and services, where
+  both accuracy and speed are essential. In this work, we present GNMT,
+  Google's Neural Machine Translation system, which attempts to address many of
+  these issues. Our model consists of a deep LSTM network with 8 encoder and 8
+  decoder layers using attention and residual connections. To improve
+  parallelism and therefore decrease training time, our attention mechanism
+  connects the bottom layer of the decoder to the top layer of the encoder. To
+  accelerate the final translation speed, we employ low-precision arithmetic
+  during inference computations. To improve handling of rare words, we divide
+  words into a limited set of common sub-word units ("wordpieces") for both
+  input and output. This method provides a good balance between the flexibility
+  of "character"-delimited models and the efficiency of "word"-delimited
+  models, naturally handles translation of rare words, and ultimately improves
+  the overall accuracy of the system. Our beam search technique employs a
+  length-normalization procedure and uses a coverage penalty, which encourages
+  generation of an output sentence that is most likely to cover all the words
+  in the source sentence. On the WMT'14 English-to-French and English-to-German
+  benchmarks, GNMT achieves competitive results to state-of-the-art. Using a
+  human side-by-side evaluation on a set of isolated simple sentences, it
+  reduces translation errors by an average of 60\% compared to Google's
+  phrase-based production system.%
+    }
+    \field{note}{arXiv: 1609.08144}
+    \field{shorttitle}{Google's {Neural} {Machine} {Translation} {System}}
+    \field{title}{Google's {Neural} {Machine} {Translation} {System}:
+  {Bridging} the {Gap} between {Human} and {Machine} {Translation}}
+    \verb{url}
+    \verb http://arxiv.org/abs/1609.08144
+    \endverb
+    \verb{file}
+    \verb arXiv\:1609.08144 PDF:/home/evenmn/Zotero/storage/4CAZ7NZE/Wu et al.
+    \verb - 2016 - Google's Neural Machine Translation System Bridgi.pdf:applic
+    \verb ation/pdf;arXiv.org Snapshot:/home/evenmn/Zotero/storage/8WDW8K4B/160
+    \verb 9.html:text/html
+    \endverb
+    \field{journaltitle}{arXiv:1609.08144 [cs]}
+    \field{month}{09}
+    \field{year}{2016}
+    \field{urlday}{27}
+    \field{urlmonth}{06}
+    \field{urlyear}{2019}
   \endentry
 
   \entry{carleo_solving_2017}{article}{}
@@ -865,6 +2288,177 @@
     \field{year}{2017}
     \field{urlday}{13}
     \field{urlmonth}{03}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{mariadason_quantum_2018}{article}{}
+    \name{author}{1}{}{%
+      {{hash=MAA}{%
+         family={Mariadason},
+         familyi={M\bibinitperiod},
+         given={Alfred\bibnamedelima Alocias},
+         giveni={A\bibinitperiod\bibinitdelim A\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {eng}%
+    }
+    \strng{namehash}{MAA1}
+    \strng{fullhash}{MAA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{title}{Quantum many-{Body} {Simulations} of {Double} {Dot} {System}}
+    \verb{url}
+    \verb https://www.duo.uio.no/handle/10852/64577
+    \endverb
+    \verb{file}
+    \verb Full Text PDF:/home/evenmn/Zotero/storage/ZX84M4C8/Mariadason - 2018
+    \verb - Quantum many-Body Simulations of Double Dot System.pdf:application/
+    \verb pdf;Snapshot:/home/evenmn/Zotero/storage/KASD85PA/64577.html:text/htm
+    \verb l
+    \endverb
+    \field{year}{2018}
+    \field{urlday}{20}
+    \field{urlmonth}{06}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{mehta_high-bias_2019}{article}{}
+    \name{author}{7}{}{%
+      {{hash=MP}{%
+         family={Mehta},
+         familyi={M\bibinitperiod},
+         given={Pankaj},
+         giveni={P\bibinitperiod},
+      }}%
+      {{hash=BM}{%
+         family={Bukov},
+         familyi={B\bibinitperiod},
+         given={Marin},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=WCH}{%
+         family={Wang},
+         familyi={W\bibinitperiod},
+         given={Ching-Hao},
+         giveni={C\bibinitperiod-H\bibinitperiod},
+      }}%
+      {{hash=DAGR}{%
+         family={Day},
+         familyi={D\bibinitperiod},
+         given={Alexandre G.\bibnamedelima R.},
+         giveni={A\bibinitperiod\bibinitdelim G\bibinitperiod\bibinitdelim
+  R\bibinitperiod},
+      }}%
+      {{hash=RC}{%
+         family={Richardson},
+         familyi={R\bibinitperiod},
+         given={Clint},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=FCK}{%
+         family={Fisher},
+         familyi={F\bibinitperiod},
+         given={Charles\bibnamedelima K.},
+         giveni={C\bibinitperiod\bibinitdelim K\bibinitperiod},
+      }}%
+      {{hash=SDJ}{%
+         family={Schwab},
+         familyi={S\bibinitperiod},
+         given={David\bibnamedelima J.},
+         giveni={D\bibinitperiod\bibinitdelim J\bibinitperiod},
+      }}%
+    }
+    \keyw{Condensed Matter - Statistical Mechanics, Physics - Computational
+  Physics, Computer Science - Machine Learning, Statistics - Machine Learning}
+    \strng{namehash}{MP+1}
+    \strng{fullhash}{MPBMWCHDAGRRCFCKSDJ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{abstract}{%
+    Machine Learning (ML) is one of the most exciting and dynamic areas of
+  modern research and application. The purpose of this review is to provide an
+  introduction to the core concepts and tools of machine learning in a manner
+  easily understood and intuitive to physicists. The review begins by covering
+  fundamental concepts in ML and modern statistics such as the bias-variance
+  tradeoff, overfitting, regularization, generalization, and gradient descent
+  before moving on to more advanced topics in both supervised and unsupervised
+  learning. Topics covered in the review include ensemble models, deep learning
+  and neural networks, clustering and data visualization, energy-based models
+  (including MaxEnt models and Restricted Boltzmann Machines), and variational
+  methods. Throughout, we emphasize the many natural connections between ML and
+  statistical physics. A notable aspect of the review is the use of Python
+  Jupyter notebooks to introduce modern ML/statistical packages to readers
+  using physics-inspired datasets (the Ising Model and Monte-Carlo simulations
+  of supersymmetric decays of proton-proton collisions). We conclude with an
+  extended outlook discussing possible uses of machine learning for furthering
+  our understanding of the physical world as well as open problems in ML where
+  physicists may be able to contribute. (Notebooks are available at
+  https://physics.bu.edu/{\textasciitilde}pankajm/MLnotebooks.html )%
+    }
+    \verb{doi}
+    \verb 10.1016/j.physrep.2019.03.001
+    \endverb
+    \field{issn}{03701573}
+    \field{note}{arXiv: 1803.08823}
+    \field{pages}{1\bibrangedash 124}
+    \field{title}{A high-bias, low-variance introduction to {Machine}
+  {Learning} for physicists}
+    \verb{url}
+    \verb http://arxiv.org/abs/1803.08823
+    \endverb
+    \field{volume}{810}
+    \verb{file}
+    \verb arXiv\:1803.08823 PDF:/home/evenmn/Zotero/storage/678VMNTG/Mehta et a
+    \verb l. - 2019 - A high-bias, low-variance introduction to Machine .pdf:ap
+    \verb plication/pdf;arXiv.org Snapshot:/home/evenmn/Zotero/storage/8PPNMQT2
+    \verb /1803.html:text/html
+    \endverb
+    \field{journaltitle}{Physics Reports}
+    \field{annotation}{%
+    Comment: Notebooks have been updated. 122 pages, 78 figures, 20 Python
+  notebooks%
+    }
+    \field{month}{05}
+    \field{year}{2019}
+    \field{urlday}{20}
+    \field{urlmonth}{06}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{morten_hjorth-jensen_computational_2019}{misc}{}
+    \name{author}{1}{}{%
+      {{hash=M}{%
+         family={{Morten Hjorth-Jensen}},
+         familyi={M\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {English}%
+    }
+    \strng{namehash}{M1}
+    \strng{fullhash}{M1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{title}{Computational {Physics} 2: {Variational} {Monte} {Carlo}
+  methods}
+    \verb{url}
+    \verb http://compphysics.github.io/ComputationalPhysics2/doc/pub/vmc/html/v
+    \verb mc-reveal.html
+    \endverb
+    \verb{file}
+    \verb Computational Physics 2\: Variational Monte Carlo methods:/home/evenm
+    \verb n/Zotero/storage/PIVSF97V/vmc-reveal.html:text/html
+    \endverb
+    \field{year}{2019}
+    \field{urlday}{04}
+    \field{urlmonth}{07}
     \field{urlyear}{2019}
   \endentry
 
@@ -967,6 +2561,110 @@
     \field{urlyear}{2019}
   \endentry
 
+  \entry{noauthor_2019_nodate}{misc}{}
+    \list{language}{1}{%
+      {en-SG}%
+    }
+    \field{labeltitlesource}{title}
+    \field{sortinit}{9}
+    \field{sortinithash}{9}
+    \field{abstract}{%
+    2019 Samsung QLED with advanced TV technologies completes the perfect
+  viewing experience. Learn about 8K, Direct Full Array, AI upscaling, the
+  technology all behind the new Samsung QLED.%
+    }
+    \field{title}{2019 {QLED} {Technology} - {Innovation} behind {TV}
+  {\textbar} {Samsung} {Singapore}}
+    \verb{url}
+    \verb //www.samsung.com/sg/tvs/qled-tv/technology/
+    \endverb
+    \verb{file}
+    \verb Snapshot:/home/evenmn/Zotero/storage/6PKGDG2D/technology.html:text/ht
+    \verb ml
+    \endverb
+    \field{journaltitle}{Samsung sg}
+    \field{urlday}{18}
+    \field{urlmonth}{06}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{noauthor_alphago_nodate}{misc}{}
+    \list{language}{1}{%
+      {en}%
+    }
+    \field{labeltitlesource}{title}
+    \field{sortinit}{9}
+    \field{sortinithash}{9}
+    \field{abstract}{%
+    A Documentary • Spring 2017%
+    }
+    \field{title}{{AlphaGo} {Movie}}
+    \verb{url}
+    \verb https://www.alphagomovie.com/
+    \endverb
+    \verb{file}
+    \verb Snapshot:/home/evenmn/Zotero/storage/64Q2BX3L/www.alphagomovie.com.ht
+    \verb ml:text/html
+    \endverb
+    \field{journaltitle}{AlphaGo Movie}
+    \field{urlday}{27}
+    \field{urlmonth}{06}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{noauthor_bringing_nodate}{misc}{}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{9}
+    \field{sortinithash}{9}
+    \field{title}{Bringing the {Magic} of {Amazon} {AI} and {Alexa} to {Apps}
+  on {AWS}. - {All} {Things} {Distributed}}
+    \verb{url}
+    \verb https://www.allthingsdistributed.com/2016/11/amazon-ai-and-alexa-for-
+    \verb all-aws-apps.html
+    \endverb
+    \verb{file}
+    \verb Bringing the Magic of Amazon AI and Alexa to Apps on AWS. - All Thing
+    \verb s Distributed:/home/evenmn/Zotero/storage/CYHUMAGG/amazon-ai-and-alex
+    \verb a-for-all-aws-apps.html:text/html
+    \endverb
+    \field{urlday}{27}
+    \field{urlmonth}{06}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{flugsrud_vilde_moe_solving_nodate}{article}{}
+    \name{author}{1}{}{%
+      {{hash=F}{%
+         family={{Flugsrud, Vilde Moe}},
+         familyi={F\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{F1}
+    \strng{fullhash}{F1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{9}
+    \field{sortinithash}{9}
+    \field{abstract}{%
+    In this work we have developed from scratch formalism and software for
+  using un- supervised machine learning methods to study interacting
+  many-particle systems. We employ so-called reduced Boltzmann machines to
+  construct trial wave func- tions for systems of bosons and fermions confined
+  to move in various trapping potentials. Our results from machine learning
+  agree excellently with standard variational Monte Carlo calculations, with
+  expectation values like energies and energy variance being of the same
+  quality. This opens up for several exciting explorations, in particular since
+  the construction of trial wave functions used in Monte Carlo calculations is
+  often complicated, both due to specific correlations and/or the fact that the
+  analytical form of the trial wave function is difficult to obtain. Our
+  Boltzmann machine trial wave function can easily be used as start- ing points
+  in Green’s function Monte Carlo calculations. The latter allow for in
+  principle exact solutions of Schrödinger’s equation.%
+    }
+    \field{title}{Solving {Quantum} {Mechanical} {Problems} with {Machine}
+  {Learning}}
+  \endentry
+
   \entry{fowler_bliki:_nodate}{misc}{}
     \name{author}{1}{}{%
       {{hash=FM}{%
@@ -998,6 +2696,89 @@
     \field{journaltitle}{martinfowler.com}
     \field{urlday}{14}
     \field{urlmonth}{03}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{klein_mikeklein_googles_nodate}{misc}{}
+    \name{author}{1}{}{%
+      {{hash=KMM}{%
+         family={Klein\bibnamedelima (MikeKlein)},
+         familyi={K\bibinitperiod\bibinitdelim M\bibinitperiod},
+         given={Mike},
+         giveni={M\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {en-US}%
+    }
+    \strng{namehash}{KMM1}
+    \strng{fullhash}{KMM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{9}
+    \field{sortinithash}{9}
+    \field{abstract}{%
+    Chess changed forever today. And maybe the rest of the world did, too. A
+  little more than a year after AlphaGo sensationally won against the top Go
+  player, the artificial-intelligence program AlphaZero has obliterated the
+  highest-rated chess engine. Stockfish, which for most top players is their
+  go-to...%
+    }
+    \field{title}{Google's {AlphaZero} {Destroys} {Stockfish} {In} 100-{Game}
+  {Match}}
+    \verb{url}
+    \verb https://www.chess.com/news/view/google-s-alphazero-destroys-stockfish
+    \verb -in-100-game-match
+    \endverb
+    \verb{file}
+    \verb Snapshot:/home/evenmn/Zotero/storage/B2JH2T9N/google-s-alphazero-dest
+    \verb roys-stockfish-in-100-game-match.html:text/html
+    \endverb
+    \field{journaltitle}{Chess.com}
+    \field{urlday}{27}
+    \field{urlmonth}{06}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{weisstein_matrix_nodate}{misc}{}
+    \name{author}{1}{}{%
+      {{hash=WEW}{%
+         family={Weisstein},
+         familyi={W\bibinitperiod},
+         given={Eric\bibnamedelima W.},
+         giveni={E\bibinitperiod\bibinitdelim W\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {en}%
+    }
+    \strng{namehash}{WEW1}
+    \strng{fullhash}{WEW1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{9}
+    \field{sortinithash}{9}
+    \field{abstract}{%
+    The inverse of a square matrix A, sometimes called a reciprocal matrix, is
+  a matrix A{\textasciicircum}(-1) such that AA{\textasciicircum}(-1)=I, (1)
+  where I is the identity matrix. Courant and Hilbert (1989, p. 10) use the
+  notation A{\textasciicircum}\_ to denote the inverse matrix. A square matrix
+  A has an inverse iff the determinant {\textbar}A{\textbar}!=0 (Lipschutz
+  1991, p. 45). The so-called invertible matrix theorem is major result in
+  linear algebra which associates the existence of a matrix inverse with a
+  number of other equivalent properties. A...%
+    }
+    \field{title}{Matrix {Inverse}}
+    \verb{url}
+    \verb http://mathworld.wolfram.com/MatrixInverse.html
+    \endverb
+    \verb{file}
+    \verb Snapshot:/home/evenmn/Zotero/storage/B5LFGYER/MatrixInverse.html:text
+    \verb /html
+    \endverb
+    \field{type}{Text}
+    \field{urlday}{24}
+    \field{urlmonth}{05}
     \field{urlyear}{2019}
   \endentry
 \enddatalist
