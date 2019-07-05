@@ -19,7 +19,12 @@ The increasing popularity should also without any doubt be attributed to the dra
 Even though all these branches are both exciting and promising, they will not be discussed further in this work, since they will simply not work for our purposes. The reason is that they initially require a data set with known outputs in order to be trained, they obey so-called \textit{supervised} learning. Instead, we rely on \textit{unsupervised} learning, which has the task of finding patterns in the data and is therefore not in need for known outputs. However, we will discuss some simpler supervised learning algorithms as an introduction and a motivation for the unsupervised learning section. But first, let us start with the fundamentals. 
 
 \section{Supervised learning}
-As hinted above, in machine learning we want to fit a model to a data set in the best possible way. In supervised learning, we have prior knowledge about what kind of results the model should give in some specific cases, which we can use to train our model. After training, the model should be able to reproduce the prior known results, but more important, we also want the model to produce reasonable results for cases where we do not know exactly what the results should be. A basic example is polynomial regression.
+As hinted above, in machine learning we want to fit a model to a data set in the best possible way. In supervised learning, we have prior knowledge about what kind of results the model should give in some specific cases, which we can use to train our model. After training, we want the model to
+\begin{enumerate}
+	\item be able to reproduce the \textit{targets} (the prior known results)
+	\item be able to fit future observations well.
+\end{enumerate}
+In this section we will take a closer look at how to find a model which satisfies both these goals. If the first one is satisfied, the second does not necessarily be satisfied. Let us first look at polynomial regression. 
 
 \subsection{Polynomial regression}
 Polynomial regression is perhaps the most intuitive example on this, where we want to find the line that fits some data points in the best possible way. In two dimensions, the data set consists of some $n$ number of x- and y coordinates,
@@ -107,25 +112,25 @@ when transposing the matrix. Using those expressions, one can show that
 \bs{X}\bs{\beta}=\bs{U}\bs{U}^T\bs{y}.
 \end{equation}
 
-The estimator vector $\bs{\beta}$ can then be written as a function of the pseudoinverse of $\bs{X}$,
+\subsubsection{Ridge regression}
+So, how can we avoid non-singular values in our matrix $\bs{X}^T\bs{X}$? We can remove them by introduce a penalty $\lambda$ to ensure that all the diagonal values are non-zero, which can be accomplished by adding a small value to all diagonal elements. Doing this, all diagonal elements will get a non-zero value and the matrix is guaranteed to be non-singular. Still using the matrix-vector form, this can be written as 
 \begin{equation}
-\bs{\beta}=\bs{X}^+\bs{y}
+\bs{\beta}=(\bs{X}^T\bs{X}+\lambda\bs{I})^{-1}\bs{X}^T\bs{y}
 \end{equation}
-where $\bs{X}^+=\bs{X}^T/\bs{X}^T\bs{X}$. 
+where $\bs{I}$ is the identity matrix. The penalty $\lambda$ is also a \textit{hyper parameter}, which is a parameter that is set before the training begins, in contrast to the estimators which are determined throughout training. This method is called Ridge regression, and has a cost function given by 
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
+	\mathcal{C}(\bs{\beta})=\sum_{i=1}^{n}\Big(y_i-\sum_{j=0}^pX_{ij}\beta_j\Big)^2+\lambda\sum_{j=1}^p|\beta_j|^2\qquad\text{Ridge}
+\end{empheq}
+where we in principle just add the L2-norm of the estimator vector to the OLS cost function. This can easiest be proven going from the cost function to the matrix-vector expression of $\bs{\beta}$.
 
-which give us problems with calculating $(\hat{X}^T\hat{X})^{-1}$. A way to avoid this is to introduce a penalty $\lambda$ to ensure that all the diagonal values are non-zero, which can be accomplished by adding a small value to all diagonal elements. This is the idea behind Ridge regression, which has the loss function
+\subsubsection{LASSO regression}
+Finally, we introduce the \textit{least absolute shrinkage and selection operator} (LASSO) regression, which in the same way as Ridge regression is based on a regularization. Instead of adding the L2-norm of the estimator matrix, we add the the L1-norm $|\beta_j|$, and the cost function expresses
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-	\mathcal{L}(\bs{\beta})=\sum_{i=1}^{n}\Big(y_i-\beta_0-\sum_{j=1}^pX_{ij}\beta_j\Big)^2+\lambda\sum_{j=1}^p\beta_j^2\qquad\text{Ridge}
+	\mathcal{C}(\bs{\beta})=\sum_{i=1}^{n}\Big(y_i-\sum_{j=0}^pX_{ij}\beta_j\Big)^2+\lambda\sum_{j=1}^p\beta_j.\qquad\text{Lasso}
 \end{empheq}
-and is minimized when
-\begin{equation}
-\bs{\beta}=(\hat{X}^T\hat{X}+\lambda I)^{-1}\hat{X}^T\bs{y}.
-\end{equation}
-Finally, we have Lasso regression with a loss function given by
-\begin{empheq}[box={\mybluebox[5pt]}]{equation}
-	\mathcal{L}(\bs{\beta})=\sum_{i=1}^{n}\Big(y_i-\beta_0-\sum_{j=1}^pX_{ij}\beta_j\Big)^2+\lambda\sum_{j=1}^p\beta_j\qquad\text{Lasso}
-\end{empheq}
-and without any expression for the optimized parameters. In order to optimize this loss function, we therefore need to use an iterative optimization algorithm. Such methods will later be used in the variational Monte-Carlo sampling, and some methods are therefore detailed in chapter \eqref{chp:optimization}. 
+For LASSO regression, there is no closed-form expressions for the estimators, which means that we need to use an iterative optimization algorithm in order to obtain the optimal estimators. Such optimization methods are essential in fields   will later be used in the variational Monte-Carlo sampling, and some methods are therefore detailed in chapter \eqref{chp:optimization}. 
+
+However, to illustrate how this procedure goes on, we will introduce the basic gradient descent method. 
 
 To illustrate how the iterative optimization works, we will go back to equation \eqref{eq:targets} and use OLS for simplicity reasons. Imagine that we have four points $\{(x_1,y_1),(x_2,y_2),(x_3,y_3),(x_4,y_4)\}$ that we want to fit to a curve of three parameters $\beta_1,\beta_2,\beta_3$. The simplest way to solve this interatively is to use \textbf{gradient descent} optimization, which goes as
 \begin{equation}
@@ -146,9 +151,11 @@ To go further, we will restrict  ourselves to a second order polynomial, setting
 \end{equation}
 which can be run iteratively until the parameters have converged. 
 
-We will again stress that we go through this iterative method for illustration purposes only, it would be more efficient to apply equation \eqref{eq:ols}. However, the thinking above is similar to the approach we do when training a neural network. An important difference is that we here search for an estimate of the left-hand-side (LHS) \textit{nodes} $b_j$, while in a traditional feed-forward neural network (FNN) we want to find the \textit{weights}, the parameters that connect the nodes together (here $X_{ij}$). The principle with multiplying the LHS nodes by the weights to obtain the right-hand-side (RHS) nodes is though the same, and we can use the same minimization tools. An example that is even more related to neural networks is \textit{logistic regression}, which will be discussed in the next section. 
+We will again stress that we go through this iterative method for illustration purposes only, it would be more efficient to apply equation \eqref{eq:ols}. However, the thinking above is similar to the approach we do when training a neural network. An important difference is that we here search for an estimate of the left-hand-side (LHS) \textit{nodes} $b_j$, while in a traditional feed-forward neural network (FNN) we want to find the \textit{weights}, the parameters that connect the nodes together (here $X_{ij}$). The principle with multiplying the left-hand-side nodes by the weights to obtain the right-hand-side nodes is though the same, and we can use the same minimization tools. An example that is even more related to neural networks is \textit{logistic regression}, which will be discussed in the next section. 
 
-\section{Statistical learning}
+\subsubsection{What characterizes a good model?}
+If we now go back to the introduction to this chapter, we listed two points...
+
 In machine learning, we want to fit a model to a data set. This is usually done by an initial guess on the model, and we thereafter train it to minimize the out-of-sample error. This error is a function of the \textit{variance} and \textit{bias}, where the former is a measure on how much the error fluctuates and the latter represents the the best our model could do if we had an infinite amount of training data. An useful illustration of this is found in figure \eqref{fig:bias_variance}.
 
 \begin{figure}[H]

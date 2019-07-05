@@ -9,12 +9,12 @@
 Optimization is a wide term..
 
 \newpage
-\section{Minimization Algorithms}
-Suppose we have a very simple model trying to fit a straight line to data points. In that case, we could manually vary the coefficients and find a line that fits the points quite good. However, when the model gets more complicated, this can be a time consuming activity. Would it not be good if the program could do this for us?
+\section{Optimization algorithms}
+In chapter \ref{chp:machinelearning}, we discussed the gradient descent optimization algorithm, which is among the most basic methods available. That method is based on the gradient, which is the slope of the cost function, but many methods are also in need of the Hessian matrix, which gives the curvature of the cost function. We will barely scratch the surface of this field, limiting us to the gradient methods. 
 
-In fact, there exist plenty of methods capable of doing this. Some of them rely on the gradients only, and are therefore called gradient methods. Other need both the gradient and the Hessian matrix, and find the minimum based on both the slope and the curvature of the cost function. For our purpose, gradients methods have provided good results over decades, and there is no need for more complicated algorithms. The standard gradient descent method will be discussed firstly, before we move to its stochastic brother. Momentum will be added for both methods. Finally, we examine the ADAM optimizer, which is stochastic by nature and is equipped with momentum by default. 
+To have the method fresh in mind, we will start with reintroducing the gradient descent method before we move on the its stochastic brother. We will then have a look at how momentum can be added, and finally we examine the stochastic and momentum based ADAM optimizer. 
 
-\subsection{Gradient Descent} \label{sec:gd}
+\subsection{Gradient descent} \label{sec:gd}
 Perhaps the simplest and most intuitive method for finding the minimum is the gradient descent method (GD), which reads
 \begin{equation}
 \label{eq:GD}
@@ -28,7 +28,7 @@ where $\varepsilon$ is a tolerance.
 
 In cases where the cost function is not strictly increasing or decreasing, we will have both local and global minima. Often, it is hard to say whether we are stuck in a local or global minimum, and this is where the stochasticity enters the game.
 
-\subsection{Stochastic Gradient Descent}
+\subsection{Stochastic gradient descent}
 For standard gradient descent, we calculate the gradient based on all sampling points, we say that we have one batch. 
 
 Instead of calculating the gradient based on all sampling points, we can divide the data into multiple batches and calculate the gradient based on one batch and hope that it is a good approximation of the true gradient. Updating weight $\alpha_i$ based on batch $j$ thus yields
