@@ -2291,6 +2291,42 @@
     \field{urlyear}{2019}
   \endentry
 
+  \entry{giuseppe_carleo_neural-network_2017}{misc}{}
+    \name{author}{1}{}{%
+      {{hash=G}{%
+         family={{Giuseppe Carleo}},
+         familyi={G\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {en}%
+    }
+    \strng{namehash}{G1}
+    \strng{fullhash}{G1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{abstract}{%
+    Repository for example codes presented at the Machine Learning and
+  Many-Body Physics workshop, Beijing, June 2017%
+    }
+    \field{title}{Neural-{Network} {Quantum} {States}}
+    \verb{url}
+    \verb https://gitlab.com/nqs/ucas_workshop/blob/master/lecture_notes.pdf
+    \endverb
+    \verb{file}
+    \verb Snapshot:/home/evenmn/Zotero/storage/RQSHV2WX/lecture_notes.html:text
+    \verb /html
+    \endverb
+    \field{journaltitle}{GitLab}
+    \field{month}{06}
+    \field{year}{2017}
+    \field{urlday}{05}
+    \field{urlmonth}{07}
+    \field{urlyear}{2019}
+  \endentry
+
   \entry{mariadason_quantum_2018}{article}{}
     \name{author}{1}{}{%
       {{hash=MAA}{%

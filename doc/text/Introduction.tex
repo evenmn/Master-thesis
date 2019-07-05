@@ -1,0 +1,74 @@
+\chapter{Introduction}
+The properties and behavior of quantum many-body systems are determined by the laws of quantum physics which have been known since the 1930s. The time-dependent Schrödinger equation describes the bounding energy of atoms and molecules, as well as the interaction between particles in a gas. In addition, it has been used to determine the energy of artificial structures like quantum dots, nanowires and ultracold condensates. [Electronic Structure Quantum Monte Carlo Michal Bajdich, Lubos Mitas] 
+
+Even though we know the laws of quantum mechanics, many challenges are encountered when calculating real-world problems. First, interesting systems often involve large number of particles, which causes expensive calculations. Second, the correct wave functions are seldomly known for a complex system, which is vital for measuring the observable correctly. Paul Dirac recognized those problems already in 1929: \bigskip
+
+
+''\textit{The general theory of quantum mechanics is now almost complete... ...The underlying physical laws necessary for the mathematical theory of a large part of physics and the whole of chemistry are thus completely known, and the difficulty is only that the exact application of these laws leads to equations much too complicated to be soluble.}''\\ 
+-Paul Dirac, \textit{Quantum Mechanics of Many-Electron Systems}, 1929 \cite{dirac_paul_adrien_maurice_quantum_1929} \bigskip
+
+The purpose of this work is to look at machine learning as an approach to solving those problems, with focus on the former. The idea is to let a so-called restricted Boltzmann machine (RBM) define a flexible trial wave function, and then use a sampling tool to fit the function.
+
+Lately, some effort has been put into this field, known as quantum machine learning. G.Carleo and M.Troyer demonstrated the link between RBMs and quantum Monte-Carlo (QMC) and named the states \textit{neural-network quantum states} (NQS). They used the technique to study the Ising model and the Heisenberg model. \cite{carleo_solving_2017} V.Flugsrud went further and investigated circular quantum dots with the same method.\cite{flugsrud_vilde_moe_solving_nodate} We will extend the work she did to larger quantum dots and double quantum dots.
+
+\subsection*{Why Quantum Dots?}
+VMC typically yields excellent results.
+
+Quantum dots are often called artificial atoms because of their common features to real atoms, and their popularity is increasing due to their applications in semiconductor technology. For instance, quantum dots are expected to be the next big thing in display technology due to their ability of emitting photons of specific wavelength in addition to using 30\% less energy than today's LED displays.\cite{manders_8.3:_2015} Samsung already claim that they use this technology in their displays.\cite{noauthor_2019_nodate}
+
+Another reason why we are interested in simulating quantum dots, is that there exist experiments which we can compare our results to. Due to very strong confinement in the $z$-direction, the experimental dots, made by patterning GaAs/AlGaAs heterostructures, become essentially two-dimensional. \cite{marzin_photoluminescence_1994}\cite{brunner_sharp-line_1994} For that reason, our main focus in this work is two-dimensional dots, but also dots of three dimensions will be investigated. 
+
+\subsection*{Why Quantum Monte-Carlo?}
+History of QMC before and after the invention of electronic computers. Enrico Fermi 1930s similarities between imaginary time Schrödinger equation and stochastic processes in statistical mechanics. Metropolis VMC early 1950s. Kalos Greens's function Monte Carlo late 1950s. Ceperly and Alder 1980 homogeneous electron gas. 
+
+QMC appears to be method which has the best cost-to-performance ratio.
+
+\subsection*{Why Computer Experiments?}
+"At the same time, advent of computer technology has
+offered us a new window of opportunity for studies of quantum (and many other) problems. It
+spawned a “third way” of doing science which is based on simulations, in contrast to analytical
+approaches and experiments. In a broad sense, by simulations we mean computational models of
+reality based on fundamental physical laws. Such models have value when they enable to make
+predictions or to provide new information which is otherwise impossible or too costly to obtain
+otherwise. In this respect, QMC methods represent an illustration and an example of what is the
+potential of such methodologies." [Electronic Structure Quantum Monte Carlo Michal Bajdich, Lubos Mitas]  
+
+Multi scale calculations are... A field of interest is how a systems behave when the interaction gets weaker. One way to model this, is to have a harmonic oscillator with a decreasing system frequency. 
+
+ - Low frequency (weakly interacting electrons) field of interest
+ - Multi scale calculations
+ - Cartesian
+ - Introduce the wave function
+ - Mention the uncertainty principle and also quantum entanglement to catch the readers interest
+ 
+\section{Many-Body Problem} \label{subsec:manybodyproblem}
+Not possible to solve analytically
+
+\section{Machine Learning} \label{subsec:machinelearning}
+Branch of artificial intelligence
+
+\section{Goals and Milestones} \label{subsec:goals}
+- Investigate a new method to solve the Many-Body problem
+
+\section{Code}
+There exist multiple commercial code for solving the quantum many-body problem, and they are often optimized. In general it is wise to use already existing code and not try reinvent the wheel, but in our case we will investigate a new approach, which forces us to write the code from scratch.
+
+Our variational Monte-Carlo (VMC) solver is written in object-orientated C++ inspired by Morten Ledum's example implementation, but our code is based on Cartesian coordinates. The goal is not to compete with the commercial software when it comes to performance, but we will still make some significant effort to make it efficient. 
+
+Additionally, the author has developed Hartree-Fock code and coupled cluster doubles (CCD) code written in Python, in cooperation with Stian Bilek. Also a full configuration interaction (FCI) code was developed. Alocias Mariadasons Hartree-Fock code was used to generate Hartree-Fock coefficients used in VMC code, because it lives in Cartesian coordinates and so does the VMC code. All code is open-source, and is freely available on \url{https://github.com/evenmn} under MIT license. 
+
+\section{The Role of Ethics in Science}
+In science the ethics should always be prioritized. 
+
+Whenever one uses others work, no matter how much, the authors should be credited. 
+
+All the research that one does should always be detailed in a such way that it the experiments and results can be reproduced. (reproducibility) 
+
+Computer science is no exception, all the points above are highly relevant.  
+
+Writing good code is a time consuming activity, and therefore author should be credited whenever some of their work is used by others. 
+
+When it comes to machine learning, there are dozens of serious ethical aspects. (see introduction\_minted.pdf).
+
+\section{Structure of Thesis}
+Fundamental theory, including many-body quantum physics and machine learning, is given in chapter 2-3. Methods for solving many-body systems follow thereafter in chapter 5-7, discussing quantum Monte-Carlo, the Hartree-Fock method and so-called post-Hartree-Fock methods. In chapter 8 and 9 we prepare for the implementation by deriving wave function elements and introduce minimization algorithms, and the final chapters 10-13 the implementation is justified, the results are given and discussed, and a brief conclusion is given.
