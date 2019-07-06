@@ -22,15 +22,15 @@ Even though all these branches are both exciting and promising, they will not be
 As hinted above, in machine learning we want to fit a model to a data set in the best possible way. In supervised learning, we have prior knowledge about what kind of results the model should give in some specific cases, which we can use to train our model. After training, we want the model to
 \begin{enumerate}
 	\item be able to reproduce the \textit{targets} (the prior known results)
-	\item be able to fit future observations well.
+	\item be able to fit future observations.
 \end{enumerate}
-In this section we will take a closer look at how to find a model which satisfies both these goals. If the first one is satisfied, the second does not necessarily be satisfied. Let us first look at polynomial regression. 
+In this section we will take a closer look at how to find a model which satisfies both these goals. If the first one is satisfied, the second is not necessarily satisfied. Let us first look at polynomial regression. 
 
 \subsection{Polynomial regression}
 Polynomial regression is perhaps the most intuitive example on this, where we want to find the line that fits some data points in the best possible way. In two dimensions, the data set consists of some $n$ number of x- and y coordinates,
 \begin{align*}
-\bs{x}=(x_1,x_2,\hdots,x_n)\\
-\bs{y}=(y_1,y_2,\hdots,y_n)
+\bs{x}&=(x_1,x_2,\hdots,x_n)\\
+\bs{y}&=(y_1,y_2,\hdots,y_n)
 \end{align*}
 which we for instance could try to fit to a second order polynomial,
 \begin{equation}
@@ -54,13 +54,57 @@ There are several ways to do this, but they all are based on the \textit{cost fu
 \begin{equation}
 \mathcal{C}(a,b,c)=\sum_{i=0}^{n-1}\Big(y_i-(ax_i^2+bx_i+c)\Big)^2
 \end{equation}
-and which we seek to minimize. Minimizing this function with respect to $a$ gives
+and which we seek to minimize. Before we start minimizing this, we will introduce a more general notation, where the estimators are collected in a column vector 
+\begin{equation*}
+\bs{\beta}=(a,b,c)^T
+\end{equation*}
+and the $x_i^j$'s also are collected in a row vector
+\begin{equation*}
+\bs{X}_i=(x_i^2, x_i, 1).
+\end{equation*}
+Using this, the cost function can be written as
 \begin{align}
-\frac{\partial \mathcal{C}(a,b,c)}{\partial a} &=\frac{\partial}{\partial a}\bigg(\sum_{i=0}^{n-1}\Big(y_i-(ax_i^2+bx_i+c)\Big)^2\bigg)\notag\label{eq:gh}\\
-&=2\sum_{i=0}^{n-1}x_i^2\Big(y_i-(ax_i^2+bx_i+c)\Big)\\
-&=0\notag
+\mathcal{C}(\bs{\beta})&=\sum_{i=0}^{n-1}\Big(y_i-\sum_{j=0}^2X_{ij}\beta_j\Big)^2\notag\\
+&=\sum_{i=0}^{n-1}\Big(y_i-\bs{X}_i\bs{\beta}\Big)^2\label{eq:costols}\\
+&=(\bs{y}-\bs{X}\bs{\beta})^T(\bs{y}-\bs{X}\bs{\beta})\notag
 \end{align}
-and similar expressions are obtained for $b$ and $c$. Those equations could of course be solved with respect to $a$, $b$ and $c$, but...
+where we in the last step have collected all the vectors $\bs{X}_i$ in a matrix. As the minimum of the cost function with respect to a estimator $\beta_j$ is found when the derivative is zero, we need to solve
+\begin{align*}
+\frac{\partial \mathcal{C}(\bs{\beta})}{\partial\beta_j} &=\frac{\partial}{\partial\beta_j}\bigg(\sum_{i=0}^{n-1}\Big(y_i-\sum_{j=0}^2X_{ij}\beta_j\Big)^2\bigg)\notag\label{eq:gh}\\
+&=2\sum_{i=0}^{n-1}X_{ij}\Big(y_i-\sum_{j=0}^2X_{ij}\beta_j\Big)=0.
+\end{align*}
+We can go further and write it on matrix-vector form as
+\begin{equation*}
+\frac{\partial \mathcal{C}(\bs{\beta})}{\partial\bs{\beta}}=2\bs{X}^T(\bs{y}-\bs{X}\bs{\beta})=0
+\end{equation*}
+where differentiating with respect to a vector here means that each component is $\partial\mathcal{C(\bs{\beta})}/\partial\beta_j$. This is satisfied if
+\begin{equation}
+\bs{\beta}=(\bs{X}^T\bs{X})^{-1}\bs{X}^T\bs{y}
+\label{eq:polynomialestimators}
+\end{equation}
+which is the equation we seek to solve to find the best fitting polynomial. Before we proceed to the general case, let us have a quick look at an example.
+
+\subsubsection{Example}
+In this example, we will see how we in practice fit a polynomial to a data set. The data set chosen is the following
+\begin{align*}
+\bs{x}&=(2,4,6,7,11,13,16)\\
+\bs{y}&=(30,50,60,65,55,40,0)
+\end{align*}
+which is plotted in figure (\ref{fig:polynomials} a). We then use equation \eqref{eq:polynomialestimators} to find the best fitting first-, second- and sixth order polynomials, and obtain
+\begin{align*}
+f_{\text{1st}}(x)&=-2.14x+60.87\\
+f_{\text{2nd}}(x)&=-x^2+15.74x + 2.51\\
+f_{\text{6th}}(x)&=-0.001x^6+0.04x^5-0.90x^4+9.04x^3-47.52x^2+129.74x-98.67\\
+\end{align*}
+where both are plotted together with the data points in figure (\ref{fig:polynomials} b). What we observe is that the first order polynomial gives a large error, while the second order polynomial provides a almost perfect fit. The sixth order polynomial reproduces the targets very well, but it might not be able to reproduce new points in a very good way. From this we can interpret that a first order polynomial has a too low complexity, we say that it underfits the data set. The sixth order polynomial probably overfits the data, since its shape is kind of unnatural, while the second order polynomial seems to have a correct complexity. We will discuss how we can choose a model of correct complexity in the section on bias-variance tradeoff, but before that we will write some words on general linear regression.
+\begin{figure}
+	\centering
+	\subfloat[Data set]{{\includegraphics[width=8cm]{Images/datapoints.png}}}
+	\subfloat[Data set with fitted polynomials]{{\includegraphics[width=8cm]{Images/datacurve.png} }}
+	\caption{The figure on the left-hand-side presents a small number of points, where the figure on the right-hand-side illustrates how a first- and second order polynomial can be fitted to the points in the best possible way.}%
+	\label{fig:polynomials}
+\end{figure}
+
 
 \subsection{Linear regression}
 Polynomial regression is an example on a linear regression method, and was meant as motivation before we study linear regression in general. Instead of fitting a polynomials to a set of points, we can fit a general function on the form
@@ -68,21 +112,13 @@ Polynomial regression is an example on a linear regression method, and was meant
 f(x_i)=\sum_{j=0}^pX_{ij}(x_i)\beta_j
 \label{eq:targets}
 \end{equation}
-where we have $p$ estimators $\beta_j$. the matrix $\bs{X}$ is called the \textit{design matrix}, and the case where $X_{ij}(x_i)=x_i^j$ corresponds to polynomial regression, but it can in principle be an arbitrary function of $x_i$.
+where we have $p$ estimators $\beta_j$. The matrix $\bs{X}$ is called the \textit{design matrix}, and the case where $X_{ij}(x_i)=x_i^j$ corresponds to polynomial regression, but it can in principle be an arbitrary function of $x_i$.
 
-By setting $\tilde{y_i}=f(x_i)$ as above, we obtain the general \textit{ordinary least square} (OLS) cost function
+The cost function for \textit{the ordinaryordinary least square regression} (OLS) case is already found in equation \eqref{eq:costols}, and we can recall it as
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 	\mathcal{C}(\bs{\beta})=\sum_{i=1}^{n}\Big(y_i-\sum_{j=0}^pX_{ij}\beta_j\Big)^2,\qquad\qquad\qquad\text{OLS}
 \end{empheq}
 which is minimized when
-\begin{equation}
-\frac{\partial \mathcal{C}(\bs{\beta})}{\partial\beta_j}=2\sum_{i=0}^{n-1}X_{ij}\Big(y_i-\tilde{y}_i\Big)=0
-\end{equation}
-for all the estimators $\beta_j$. This can be written on a matrix-vector form as 
-\begin{equation}
-\bs{X}^T\bs{y}=\bs{X}^T\tilde{\bs{y}}=\bs{X}^T\bs{X}\bs{\beta}
-\end{equation}
-which is satisfied if
 \begin{equation}
 \bs{\beta}=(\bs{X}^T\bs{X})^{-1}\bs{X}^T\bs{y}.
 \label{eq:ols}
@@ -126,7 +162,7 @@ where we in principle just add the L2-norm of the estimator vector to the OLS co
 \subsubsection{LASSO regression}
 Finally, we introduce the \textit{least absolute shrinkage and selection operator} (LASSO) regression, which in the same way as Ridge regression is based on a regularization. Instead of adding the L2-norm of the estimator matrix, we add the the L1-norm $|\beta_j|$, and the cost function expresses
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-	\mathcal{C}(\bs{\beta})=\sum_{i=1}^{n}\Big(y_i-\sum_{j=0}^pX_{ij}\beta_j\Big)^2+\lambda\sum_{j=1}^p\beta_j.\qquad\text{Lasso}
+	\mathcal{C}(\bs{\beta})=\sum_{i=1}^{n}\Big(y_i-\sum_{j=0}^pX_{ij}\beta_j\Big)^2+\lambda\sum_{j=1}^p|\beta_j|.\qquad\text{Lasso}
 \end{empheq}
 For LASSO regression, there is no closed-form expressions for the estimators, which means that we need to use an iterative optimization algorithm in order to obtain the optimal estimators. Such optimization methods are essential in fields   will later be used in the variational Monte-Carlo sampling, and some methods are therefore detailed in chapter \eqref{chp:optimization}. 
 
@@ -153,8 +189,10 @@ which can be run iteratively until the parameters have converged.
 
 We will again stress that we go through this iterative method for illustration purposes only, it would be more efficient to apply equation \eqref{eq:ols}. However, the thinking above is similar to the approach we do when training a neural network. An important difference is that we here search for an estimate of the left-hand-side (LHS) \textit{nodes} $b_j$, while in a traditional feed-forward neural network (FNN) we want to find the \textit{weights}, the parameters that connect the nodes together (here $X_{ij}$). The principle with multiplying the left-hand-side nodes by the weights to obtain the right-hand-side nodes is though the same, and we can use the same minimization tools. An example that is even more related to neural networks is \textit{logistic regression}, which will be discussed in the next section. 
 
-\subsubsection{What characterizes a good model?}
-If we now go back to the introduction to this chapter, we listed two points...
+\subsubsection{Bias-variance decomposition}
+If we now go back to the introduction to this section, we listed two points that we want the model to satisfy in order to be a good model: it should reproduce the targets and give reasonable results for cases where we do not have targets. Will a complex model always perform better than a less complex model? The answer is no, and we will below try to explain why. 
+
+
 
 In machine learning, we want to fit a model to a data set. This is usually done by an initial guess on the model, and we thereafter train it to minimize the out-of-sample error. This error is a function of the \textit{variance} and \textit{bias}, where the former is a measure on how much the error fluctuates and the latter represents the the best our model could do if we had an infinite amount of training data. An useful illustration of this is found in figure \eqref{fig:bias_variance}.
 
