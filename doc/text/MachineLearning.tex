@@ -48,11 +48,11 @@ where the parameters $a$, $b$ and $c$ are our estimators. The polynomial is now 
 \end{equation}
 where $\tilde{y}_i=f(x_i)$ is the $y$-value of the polynomial at $x=x_i$. What we want to do is to determine the estimators $a$, $b$ and $c$ such that the mean squared error (MSE) of all these equations is minimized,
 \begin{equation}
-\min_{a,b,c}\sum_{i=0}^{n-1}(y_i-f(x_i;a.b.c))^2.
+\min_{a,b,c}\frac{1}{n}\sum_{i=0}^{n-1}(y_i-f(x_i;a.b.c))^2.
 \end{equation}
-There are several ways to do this, but they all are based on the \textit{cost function} (also called the loss function), which yields
+There are several ways to do this, but they all are based on the \textit{cost function} (also called the loss function), which can simply be defined as the MSE
 \begin{equation}
-\mathcal{C}(a,b,c)=\sum_{i=0}^{n-1}\Big(y_i-(ax_i^2+bx_i+c)\Big)^2
+\mathcal{C}(a,b,c)=\frac{1}{n}\sum_{i=0}^{n-1}\Big(y_i-(ax_i^2+bx_i+c)\Big)^2
 \end{equation}
 and which we seek to minimize. Before we start minimizing this, we will introduce a more general notation, where the estimators are collected in a column vector 
 \begin{equation*}
@@ -85,36 +85,79 @@ where differentiating with respect to a vector here means that each component is
 which is the equation we seek to solve to find the best fitting polynomial. Before we proceed to the general case, let us have a quick look at an example.
 
 \subsubsection{Example}
-In this example, we will see how we in practice fit a polynomial to a data set. The data set chosen is the following
+In this example, we will see how we in practice fit a polynomial to a data set. Suppose we have a tiny data set consisting of 10 points
 \begin{align*}
-\bs{x}&=(2,4,6,7,11,13,16)\\
-\bs{y}&=(30,50,60,65,55,40,0)
+\bs{x}&=(1,2,4,6,7,9,10,11,13,16)\\
+\bs{y}&=(15,30,50,60,65,63,60,55,40,0)
+\label{eq:datapoints}
 \end{align*}
-which is plotted in figure (\ref{fig:polynomials} a). We then use equation \eqref{eq:polynomialestimators} to find the best fitting first-, second- and sixth order polynomials, and obtain
-\begin{align*}
-f_{\text{1st}}(x)&=-2.14x+60.87\\
-f_{\text{2nd}}(x)&=-x^2+15.74x + 2.51\\
-f_{\text{6th}}(x)&=-0.001x^6+0.04x^5-0.90x^4+9.04x^3-47.52x^2+129.74x-98.67\\
-\end{align*}
-where both are plotted together with the data points in figure (\ref{fig:polynomials} b). What we observe is that the first order polynomial gives a large error, while the second order polynomial provides a almost perfect fit. The sixth order polynomial reproduces the targets very well, but it might not be able to reproduce new points in a very good way. From this we can interpret that a first order polynomial has a too low complexity, we say that it underfits the data set. The sixth order polynomial probably overfits the data, since its shape is kind of unnatural, while the second order polynomial seems to have a correct complexity. We will discuss how we can choose a model of correct complexity in the section on bias-variance tradeoff, but before that we will write some words on general linear regression.
+in a plane, which we want to fit a polynomial of degree $p$ to. The data points can be seen in figure (\ref{fig:polynomials} a). The first thing we need to realize, is that in order to validate our models, we cannot use all points for the training. There is no strict rules on how much of the data set that should be used for training and validation, but at least the training data set should be larger than the validation data set. For this particular problem, we decide to leave out $\{(1,15),(9,63),(10,60)\}$ from the training, which we later will use for validation.
+
+Furthermore, we use equation \eqref{eq:polynomialestimators} to find the best fitting first-, second- and sixth order polynomials, and obtain the functions presented in table \eqref{tab:example} with the respective training and validation errors. The polynomials are also plotted in figure (\ref{fig:polynomials} b) together with the actual data points.
+
 \begin{figure}
 	\centering
 	\subfloat[Data set]{{\includegraphics[width=8cm]{Images/datapoints.png}}}
 	\subfloat[Data set with fitted polynomials]{{\includegraphics[width=8cm]{Images/datacurve.png} }}
-	\caption{The figure on the left-hand-side presents a small number of points, where the figure on the right-hand-side illustrates how a first- and second order polynomial can be fitted to the points in the best possible way.}%
+	\caption{Figure (a) presents the data points given in \eqref{eq:datapoints}, while the figure (b) illustrates how a first-, second- and third order polynomial can be fitted to the training set in the best possible way.}%
 	\label{fig:polynomials}
 \end{figure}
 
+\begin{table}
+	\caption{Best fitting polynomials of 1st, 2nd and 6th order degree to the data set in equation \eqref{eq:datapoints}. $f(x)$ gives the actual form of the polynomial, the training error gives the MSE to the training data set and the prediction error gives the MSE to the validation set.}
+	\label{tab:example}
+	\begin{tabularx}{\textwidth}{llXXX} \hline\hline
+		Order & \makecell{\\ \phantom{=}} & $f(x)$ & Training error & Prediction error \\ \hline \\
+		
+		1st && $-2.14x+60.87$ & 327.22 & 927.87 \\
+		2nd && $-x^2+15.74x + 2.51$ & 0.47 & 2.04 \\
+		6th && $-0.001x^6+0.04x^5-0.90x^4+9.04x^3-47.52x^2+129.74x-98.67$ & 2.54E-11 & 187.53 \\ \hline\hline
+	\end{tabularx}
+\end{table}
+
+What we immediately observe, is that the more complex model (higher degree polynomial) the lower training error. In fact, the polynomial of sixth order reproduces the points perfectly. The first order polynomial is quite bad, while the second order polynomial is intermediate.
+
+However, what really makes sense is the prediction error, and for that we can see that the sixth order polynomial has a terrible performance. When a model can reproduce the training set very well, but is not able to reproduce the training set, we say that it overfits the data set. This means that the model is too complex for the purpose.
+
+On the other hand, we see that the first order polynomial has also a large prediction error, which means that it is not able to reproduce the validation set either. We say that it is underfitted, and we are in need of a more complex model.
+
+Finally, we have the second order polynomial, which is miles ahead its competitors when it comes to prediction error. It turns out that the second order model has an appropriate complexity, which we could have guess in advance.
+
+The natural question now is \textit{"How do we find a correct model complexity?"}. The answer is that one should try various complexities and calculate the prediction error for each model. To find the prediction error precisely, the standard is to use $K$ cross-validation resampling, which tries $K$ choices of validation set to make the most use of our data. More about resampling analysis can be found in section \eqref{sec:resampling}. A deeper understanding of the prediction error will hopefully be gained in the next section, on bias-variance decomposition. 
+
+\subsection{Bias-variance decomposition}
+Up to this point, we have skipped some important terms in the statistics. First, we have the \textit{bias}, which can be seen as the absolute error between the predictions and the targets,
+\begin{equation*}
+\text{bias}=\frac{1}{n}\sum_{i=0}^n(y_i-\tilde{y}_i),
+\end{equation*}
+which describes the best our model could do if we had an infinite amount of training data. We also have the \textit{variance}, which is given by 
+...
+So, should we seek to minimize the bias or the variance? This is a good question without any definitely correct answer. If we minimize the bias, the variance will explode and vice versa, so a better solution would be minimizing non of them. In other words, we need to do a trade-off between the bias and the variance known as the bias-variance trade-off. In figure \eqref{fig:bias_variance} 
+
+\begin{figure}
+	\centering
+	\subfloat[Illustration of bias and variance]{{\includegraphics[width=8cm]{Images/bias_variance.png}}}
+	\subfloat[Bias-variance trade-off]{{\includegraphics[width=8cm]{Images/bias_variance_tradeoff.png} }}
+	\caption{Bias-variance}%
+	\label{fig:bias_variance}
+\end{figure}
+
+The bias is reduced as a function of the complexity, but the variance tends to get higher as the complexity of the model is increased. For that reason, a very complex model is not guaranteed to provide a small error, but instead we need to find the trade-off between how expressive our model class is and how sensitive the fitted model is to sample fluctuations in the training data. This is known as the bias-variance trade-off, and is illustrated in figure \eqref{fig:bias_variance_tradeoff}.
+
+However, as Mehta et.al. notice, this is not necessarily a trade-off; we could both have a high variance and a high bias, and perhaps a more appropriate term would be bias-variance decomposition since the error can be decomposed into a bias part and a variance part. \cite{mehta_high-bias_2019} This decomposition is given by
+\begin{equation}
+E_{out}=bias^2+\sigma^2.
+\end{equation}
 
 \subsection{Linear regression}
-Polynomial regression is an example on a linear regression method, and was meant as motivation before we study linear regression in general. Instead of fitting a polynomials to a set of points, we can fit a general function on the form
+Polynomial regression, as already discussed, is an example on a linear regression method, and was meant as motivation before we study linear regression in general. Instead of fitting a polynomials to a set of points, we can fit a general function on the form
 \begin{equation}
 f(x_i)=\sum_{j=0}^pX_{ij}(x_i)\beta_j
 \label{eq:targets}
 \end{equation}
 where we have $p$ estimators $\beta_j$. The matrix $\bs{X}$ is called the \textit{design matrix}, and the case where $X_{ij}(x_i)=x_i^j$ corresponds to polynomial regression, but it can in principle be an arbitrary function of $x_i$.
 
-The cost function for \textit{the ordinaryordinary least square regression} (OLS) case is already found in equation \eqref{eq:costols}, and we can recall it as
+The cost function for \textit{the ordinary least square regression} (OLS) case is already found in equation \eqref{eq:costols}, and we can recall it as
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 	\mathcal{C}(\bs{\beta})=\sum_{i=1}^{n}\Big(y_i-\sum_{j=0}^pX_{ij}\beta_j\Big)^2,\qquad\qquad\qquad\text{OLS}
 \end{empheq}
@@ -124,7 +167,7 @@ which is minimized when
 \label{eq:ols}
 \end{equation}
 
-To solve this equation, we need to find the inverse of the matrix $\bs{X}^T\bs{X}$, which typically done by \textit{lower-upper} decomposition (LU) or \textit{singular values decomposition} (SVD). Quite often when we deal with large data sets, the matrix above is singular, which means that the determinant of the matrix is zero. In those cases, we cannot find the inverse, and LU decomposition does not work. Fortunately, SVD \textit{always} works, and in cases where the matrix is singular, it turns out to be a good idea.
+To solve this equation, we need to find the inverse of the matrix $\bs{X}^T\bs{X}$, which is typically done by \textit{lower-upper} decomposition (LU) or \textit{singular values decomposition} (SVD). Quite often when we deal with large data sets, the matrix above is singular, which means that the determinant of the matrix is zero. In those cases, we cannot find the inverse, and LU decomposition does not work. Fortunately, SVD \textit{always} works, and in cases where the matrix is singular, it turns out to be a good idea.
 
 \subsubsection{Singular value decomposition}
 Singular value decomposition is a method which decomposes a matrix into a product of three matrices, written as
@@ -157,7 +200,7 @@ where $\bs{I}$ is the identity matrix. The penalty $\lambda$ is also a \textit{h
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 	\mathcal{C}(\bs{\beta})=\sum_{i=1}^{n}\Big(y_i-\sum_{j=0}^pX_{ij}\beta_j\Big)^2+\lambda\sum_{j=1}^p|\beta_j|^2\qquad\text{Ridge}
 \end{empheq}
-where we in principle just add the L2-norm of the estimator vector to the OLS cost function. This can easiest be proven going from the cost function to the matrix-vector expression of $\bs{\beta}$.
+where we in principle just add the L2-norm of the estimator vector to the OLS cost function. This can easiest be proven going from the cost function to the matrix-vector expression of $\bs{\beta}$, as we did for ordinary least squares.
 
 \subsubsection{LASSO regression}
 Finally, we introduce the \textit{least absolute shrinkage and selection operator} (LASSO) regression, which in the same way as Ridge regression is based on a regularization. Instead of adding the L2-norm of the estimator matrix, we add the the L1-norm $|\beta_j|$, and the cost function expresses
@@ -166,58 +209,18 @@ Finally, we introduce the \textit{least absolute shrinkage and selection operato
 \end{empheq}
 For LASSO regression, there is no closed-form expressions for the estimators, which means that we need to use an iterative optimization algorithm in order to obtain the optimal estimators. Such optimization methods are essential in fields   will later be used in the variational Monte-Carlo sampling, and some methods are therefore detailed in chapter \eqref{chp:optimization}. 
 
-However, to illustrate how this procedure goes on, we will introduce the basic gradient descent method. 
-
-To illustrate how the iterative optimization works, we will go back to equation \eqref{eq:targets} and use OLS for simplicity reasons. Imagine that we have four points $\{(x_1,y_1),(x_2,y_2),(x_3,y_3),(x_4,y_4)\}$ that we want to fit to a curve of three parameters $\beta_1,\beta_2,\beta_3$. The simplest way to solve this interatively is to use \textbf{gradient descent} optimization, which goes as
+However, to illustrate how this procedure goes on, we will explain how an arbitrary cost function consisting of estimators $\beta_j$ can be minimized by the simplest optimization algorithm: \textbf{gradient descent},
 \begin{equation}
-\beta_k^+=\beta_k-\eta \frac{\partial\mathcal{L}(\bs{\beta})}{\partial\beta_k}
+\beta_j^+=\beta_j-\eta \frac{\partial\mathcal{C}(\bs{\beta})}{\partial\beta_j},
 \end{equation}
-with $\eta$ specifying how much the parameters should be changed for each iteration, known as the learning rate. 
-The output $\hat{y}_i$ can be expressed by
-\begin{equation}
-\hat{y}_i=X_{i1}\beta_1+X_{i2}\beta_2+X_{i3}\beta_3
-\end{equation}
-and the network can be illustrated with $\beta_j$ as the input nodes, $\hat{y}_i$ as the output nodes and $X_{ij}$ as lines in between all nodes, as in figure ... 
+where $\beta_j^+$ is the updated version of $\beta_j$  Here we again are introduced to a hyperparameter $\eta$, known as the \textit{learning rate}, which controls how much the estimators should be changed for each iteration. This should be set carefully, where a too large $\eta$ will make the cost function diverge and a too small $\eta$ will make the training too slow. Typically, the $\eta$ is 0.01-0.0001.
 
-ADD FIGURE
-
-To go further, we will restrict  ourselves to a second order polynomial, setting $X_{i1}=1$, $X_{i1}=x_i$ and $X_{i1}=x_i^2$. The parameter update then yields
-\begin{equation}
-\beta_k^+=\beta_k+2\eta\sum_{i=1}^3(y_i-\beta_1-\beta_2x_i-\beta_3x_i^2)x_i^{k-1},
-\end{equation}
-which can be run iteratively until the parameters have converged. 
-
-We will again stress that we go through this iterative method for illustration purposes only, it would be more efficient to apply equation \eqref{eq:ols}. However, the thinking above is similar to the approach we do when training a neural network. An important difference is that we here search for an estimate of the left-hand-side (LHS) \textit{nodes} $b_j$, while in a traditional feed-forward neural network (FNN) we want to find the \textit{weights}, the parameters that connect the nodes together (here $X_{ij}$). The principle with multiplying the left-hand-side nodes by the weights to obtain the right-hand-side nodes is though the same, and we can use the same minimization tools. An example that is even more related to neural networks is \textit{logistic regression}, which will be discussed in the next section. 
-
-\subsubsection{Bias-variance decomposition}
-If we now go back to the introduction to this section, we listed two points that we want the model to satisfy in order to be a good model: it should reproduce the targets and give reasonable results for cases where we do not have targets. Will a complex model always perform better than a less complex model? The answer is no, and we will below try to explain why. 
-
-
-
-In machine learning, we want to fit a model to a data set. This is usually done by an initial guess on the model, and we thereafter train it to minimize the out-of-sample error. This error is a function of the \textit{variance} and \textit{bias}, where the former is a measure on how much the error fluctuates and the latter represents the the best our model could do if we had an infinite amount of training data. An useful illustration of this is found in figure \eqref{fig:bias_variance}.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.6]{Images/bias_variance.png}
-	\caption{Taken from \cite{mehta_high-bias_2019}.}
-	\label{fig:bias_variance}
-\end{figure}
-
-The bias is reduced as a function of the complexity, but the variance tends to get higher as the complexity of the model is increased. For that reason, a very complex model is not guaranteed to provide a small error, but instead we need to find the trade-off between how expressive our model class is and how sensitive the fitted model is to sample fluctuations in the training data. This is known as the bias-variance trade-off, and is illustrated in figure \eqref{fig:bias_variance_tradeoff}.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.6]{Images/bias_variance_tradeoff.png}
-	\caption{Bias-variance trade-off. Taken from \cite{mehta_high-bias_2019}.}
-	\label{fig:bias_variance_tradeoff}
-\end{figure}
-\
-However, as Mehta et.al. notice, this is not necessarily a trade-off; we could both have a high variance and a high bias, and perhaps a more appropriate term would be bias-variance decomposition since the error can be decomposed into a bias part and a variance part. \cite{mehta_high-bias_2019} This decomposition is given by
-\begin{equation}
-E_{out}=bias^2+\sigma^2.
-\end{equation}
 
 \subsection{Logistic regression}
+Up to this point, we have discussed regression with continuous output. But what do we do if we want a discrete output, for example in form of classification?
+
+Need to introduce log likelyhood here
+
 In the previous section we presented how to fit a polynomial to a set of points using linear regression. In this chapter we will look at classification problems using logistic regression. Traditionally, the perceptron model was used for \textit{hard classification}, which sets the outputs directly to binary values. However, often we are interested in the probability of a given category, which means that we need a continuous \textit{activation function}. Logistic regression can, like linear regression, be considered as a function where weights are adjusted with the intention to minimize the error. An illustration of a simple perceptron is found in figure (\ref{fig:single_perceptron}).
 
 \input{tikz/singlelayer_perceptron.tex}
