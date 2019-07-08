@@ -83,7 +83,7 @@ where differentiating with respect to a vector here means that each component is
 \label{eq:polynomialestimators}
 \end{equation}
 which is the equation we seek to solve to find the best fitting polynomial. Before we proceed to the general case, let us have a quick look at an example.
-
+git
 \subsubsection{Example}
 In this example, we will see how we in practice fit a polynomial to a data set. Suppose we have a tiny data set consisting of 10 points
 \begin{align*}
@@ -213,18 +213,74 @@ However, to illustrate how this procedure goes on, we will explain how an arbitr
 \begin{equation}
 \beta_j^+=\beta_j-\eta \frac{\partial\mathcal{C}(\bs{\beta})}{\partial\beta_j},
 \end{equation}
-where $\beta_j^+$ is the updated version of $\beta_j$  Here we again are introduced to a hyperparameter $\eta$, known as the \textit{learning rate}, which controls how much the estimators should be changed for each iteration. This should be set carefully, where a too large $\eta$ will make the cost function diverge and a too small $\eta$ will make the training too slow. Typically, the $\eta$ is 0.01-0.0001.
-
+where $\beta_j^+$ is the updated version of $\beta_j$  Here we again are introduced to a hyperparameter $\eta$, known as the \textit{learning rate}, which controls how much the estimators should be changed for each iteration. This should be set carefully, where a too large $\eta$ will make the cost function diverge and a too small $\eta$ will make the training too slow. Typically, the $\eta$ is 0.01-0.0001. For ordinary least squares, the parameter update cna be written as
+\begin{equation}
+\bs{\beta}=\bs{\beta}^+-\eta\bs{X}^T(\bs{y}-\bs{X}^T\bs{\beta})
+\end{equation}
 
 \subsection{Logistic regression}
-Up to this point, we have discussed regression with continuous output. But what do we do if we want a discrete output, for example in form of classification?
+Up to this point, we have discussed regression with continuous output. But what do we do if we want a discrete output, for example in form of classification? This is what logistic regression is about, and we will now show how the cost function is defined.
 
-Need to introduce log likelyhood here
+Consider a system that can have two possible energies $\varepsilon_0$ and $\varepsilon_1$. From elementary statistical mechanics, we have that the probability of finding the system in the first state is given by
+\begin{align}
+P(y_i=0)&=\frac{\exp(-\varepsilon_0/k_BT)}{\exp(-\varepsilon_0/k_BT)+\exp(-\varepsilon_1/k_BT)}\\
+&=\frac{1}{1+\exp(-(\varepsilon_1-\varepsilon_0)/k_BT)}
+\end{align}
+which is the \textit{sigmoid function}, which in the most general form is given by
+\begin{equation}
+f(x)=\frac{1}{1+\exp(-x)}.
+\end{equation}
+The first denominator is known as the \textit{partition function},
+\begin{equation}
+Z=\sum_{i=0}^1\exp(-\varepsilon_i/k_BT)
+\end{equation}
+where $k_B$ is Boltzmann's constant and $T$ is the system temperature. The probability of finding the system in the second state is given by
+\begin{align}
+P(y_i=1)&=1-P(y_i=0)\\
+&=\frac{1}{1+\exp(-(\varepsilon_0-\varepsilon_1)/k_BT)}.
+\end{align}
 
-In the previous section we presented how to fit a polynomial to a set of points using linear regression. In this chapter we will look at classification problems using logistic regression. Traditionally, the perceptron model was used for \textit{hard classification}, which sets the outputs directly to binary values. However, often we are interested in the probability of a given category, which means that we need a continuous \textit{activation function}. Logistic regression can, like linear regression, be considered as a function where weights are adjusted with the intention to minimize the error. An illustration of a simple perceptron is found in figure (\ref{fig:single_perceptron}).
+Notice that the only thing we need is the difference in energy between those two systems, not the energy itself. This is often the case in physics. 
 
-\input{tikz/singlelayer_perceptron.tex}
+\begin{figure}
+	\centering
+	\input{tikz/singlelayer_perceptron.tex}
+	\caption{Logistic regression model with $n$ inputs. Each input $x_i^j$ is multiplied with a weight $w_j$, and the contribution from all elements is summarized. The output is obtained after the sum is activated by an activation function.}
+	\label{fig:single_perceptron}
+\end{figure}
 
+If we now assume that the difference in energy can be written as a function of the coordinates that specify the state $i$, $\bs{x}_i$ and a matrix of parameters, $\bs{w}$, known as the \textit{weights}, the difference can be written as
+\begin{equation}
+\varepsilon_1-\varepsilon_0=\bs{x}_i^T\bs{w},
+\end{equation}
+which gives the probability
+\begin{equation}
+P(\bs{x}_i,y_i|\bs{w})=\big(f(\bs{x}_i^T\bs{w})\big)^{y_i}\big(1-f(\bs{x}_i^T\bs{w})\big)^{1-y_i}.
+\end{equation}
+given a set of parameters $\bs{w}$. If we have a set of states $\mathcal{D}=\{(\bs{x}_i,y_i)\}$, the joint probability is given by
+\begin{equation}
+P(\mathcal{D}|\bs{w})=\prod_{i=1}^n\big(f(\bs{x}_i^T\bs{w})\big)^{y_i}\big(1-f(\bs{x}_i^T\bs{w})\big)^{1-y_i}
+\end{equation}
+which is known as the \textit{likelihood}. The \textit{log-likelihood} function is simply the log of the likelihood, and is given by 
+\begin{equation}
+l(\bs{w})=\sum_{i=1}^ny_i\log f(\bs{x}_i^T\bs{w})+(1-y_i)\log(1-f(\bs{x}_i^T\bs{w})).
+\end{equation}
+
+As in linear regression, we want to kind a cost function which we can minimize in order to fit the model to the data set. Since the log-likelihood function is maximized where the highest probability is, a natural choice is to set
+\begin{equation}
+\mathcal{C}(\bs{w})=-l(\bs{w})=-\sum_{i=1}^ny_i\log f(\bs{x}_i^T\bs{w})+(1-y_i)\log(1-f(\bs{x}_i^T\bs{w})).
+\end{equation}
+which is known as the \textit{cross entropy}. To make things clearer, we will try to illustrate how this works. In figure (\ref{fig:single_perceptron}), we have a input set $\bs{x}_i$ where each element is multiplied with a parameter from $\bs{w}$ and summarized. This corresponds to the inner product $\bs{x}_i^T\bs{w}$. Further, the sum (or the inner product) \textit{activated} with an \textit{activation function}, which we here have assumed to be the sigmoid function. The output is then given by
+\begin{eqnarray}
+z_i=f(\bs{x}_i^T\bs{w}).
+\end{eqnarray}
+After the activation the output is sent into the cost function to calculate the cost. As before, the cost function is minimized in an iterative scheme, where for example gradient descent gives the weight update
+\begin{empheq}[box={\mybluebox[5pt]}]{align}
+\bs{w}^+= \bs{w} - \eta\bs{x}^T[f(\bs{x}^T\bs{w})-\bs{y}].
+\end{empheq}
+which is extremely similar to the estimator update for linear regression.
+
+\iffalse
 Consider first a classification problem with two possible outcomes, for example the ultimatum: will I pass or fail the exam? In that case an output node is sufficient, where 0 is pass, 1 is fail and an intermediate value gives the probability that I will fail. In order to map the output to a number between 0 and 1, we use an activation function.
 
 But, how does the model know if I will pass or fail? In order to get any useful information from the perceptron, we need to train it first. In our case, one could for instance use data from other students as input, and train the model as long as we know if they passed or failed. 
@@ -328,56 +384,62 @@ and obtain a weight update algorithm
 	\bs{w}^+= \bs{w} - \eta\cdot[f(\bs{x}^T\bs{w})-\bs{y}]^T\bs{x}.
 \end{empheq}
 where the bias weight is included implicitly in $\bs{w}$ and the same applies for $\bs{x}$.
-
-\subsection{Neural network} \label{sec:neural_network}
-If you have understood logistic regression, understanding a neural network should not be a difficult task. According to  \textbf{the universal approximation theorem}, a neural network with only one hidden layer can approximate any continuous function. [8] However, often multiple layers are used since this tends to give fewer nodes in total. 
-
-In figure \eqref{fig:neural_network}, a two-layer neural network (one hidden layer) is illustrated. It has some similarities with the logistic regression model in figure \eqref{fig:single_perceptron}, but a hidden layer and multiple outputs are added. In addition, the output is no longer probabilities and can take any number, which means that we do not need to use the logistic function on the outputs anymore.
-
-\input{tikz/multilayer_perceptron.tex}
-
-Without a hidden layer, we have seen that the update of weights is quite straight forward. For a neural network consisting of multiple layers, the question is: how do we update the weights when we do not know the values of the hidden nodes? And how do we know which layer causing the error? This will be explained in section \ref{sec:backward}, where one of the most popular techniques for that is discussed. Before that we will generalize the forward phase presented in logistic regression.
-
-\subsubsection{Forward phase}
-In section \ref{sec:forward}, we saw how the output is found for a single perceptron. Since we only had one output node, the weights could be stored in an array. Generally, it is more practical to store the weights in matrices, since they will have indices related to both the node on left-hand side and the node on the right-hand side. For instance, the weight between input node $x_3$ and hidden node $h_5$ in figure \eqref{fig:neural_network} is usually labeled as $w_{35}$. Since we have two layers, we also need to denote which weight set it belongs to, which we will do by a superscript ($w_{35}\Rightarrow w_{35}^{(1)}$). In the same way, $\bs{W}^1$ is the matrix containing all $w_{ij}^{(1)}$, $\bs{x}$ is the vector containing all $x_i$'s and so on. We then find the net outputs at the hidden layer to be
-\begin{empheq}{equation}
-	net_{h,j} = \sum_{i=1}^{I} x_i\cdot w_{ij}^{(1)}=\bs{x}^T\bs{W}_j^{(1)}
-	\label{eq:forward_hidden}
-\end{empheq}
-where the $\bs{x}$ and $\bs{W}^{(1)}$ again are understood to take the biases. This will be the case henceforth. The real output to the hidden nodes will be
-\begin{equation}
-h_j = f(net_{h,j}).
-\end{equation}
-Further, we need to find the net output to the output nodes, which is obviously just
-\begin{empheq}{equation}
-	net_{o,j} = \sum_{i=1}^{H} h_i\cdot w_{ij}^{(2)}=\bs{h}^T\bs{W}_j^{(2)}
-	\label{eq:forward_output}
-\end{empheq}
-We can easily generalize this. Looking at the net output to a hidden layer $l$, we get
-\begin{empheq}[box={\mybluebox[5pt]}]{equation}
-	\bs{net}_{h_l} = \bs{h^{(l-1)}}^T\bs{W}^{(l)}.
-	\label{eq:forward_general}
-\end{empheq}
-
-\subsubsection{Activation function}
-Before 2012, the logistic, the tanh and the pur linear functions where the standard activation functions, but then Alex Krizhevsky published an article where he introduced a new activation function called \textit{Rectified Linear Units (ReLU)} which outperformed the classical activation functions. [4] The network he used is now known as AlexNet, and helped to revolutionize the field of computer vision. [5] After that, the ReLU activation function has been modified several times (avoiding zero derivative among others), and example of innovations are \textit{leaky ReLU} and \textit{Exponential Linear Unit (ELU)}. All those networks are linear for positive numbers, and small for negative numbers. Often, especially in the output layer, a straight linear function is used as well.
-
-In figure (\ref{fig:activation_functions}), \textit{standard RELU, leaky RELU} and \textit{ELU} are plotted along with the logistic function.
-\iffalse
-\begin{figure} [H]
-	\centering
-	\subfloat[logistic]{{\includegraphics[width=8cm]{../plots/sigmoid.png} }}
-	\subfloat[ReLU]{{\includegraphics[width=8cm]{../plots/ReLU.png} }}\\
-	
-	\subfloat[Leaky ReLU]{{\includegraphics[width=8cm]{../plots/LeakyReLU.png} }}%
-	\subfloat[ELU]{{\includegraphics[width=8cm]{../plots/ELU.png} }}
-	\caption{Some more or less popular activation functions}%
-	\label{fig:activation_functions}%
-\end{figure}
 \fi
 
-\subsubsection{Backward Propagation} \label{sec:backward}
-Backward propagation is probably the most used technique for updating the weights, and is actually again based on equation (\ref{eq:w_update}). What differs, is the differentiation of the net input with respect to the weight, which gets more complex as we add more layers. For one hidden layer, we have two sets of weights, where the last layer is updated in a similar way as for a network without hidden layer, but the inputs are replaced with the values of the hidden nodes:
+\subsection{Neural networks} \label{sec:neural_network}
+Now we know enough to dive into the field of artificial neural networks. Neural networks can given either continuous or discrete outputs, and is therefore a competitor to both linear and logistic regression. The big strength of neural networks is that one can add multiple \textit{layers}, which potentially makes the model extremely flexible. According to \textbf{the universal approximation theorem}, a neural network with only one hidden layer can approximate any continuous function. [8] However, often multiple layers are used since this tends to give fewer nodes in total, and is known to give better results. Neural networks of more than one layer are called \textit{deep} networks, and as more layers are added the network gets \textit{deeper}.
+
+In figure \eqref{fig:neural_network}, a two-layer neural network (one hidden layer) is illustrated. It has some similarities with the logistic regression model in figure \eqref{fig:single_perceptron}, but a hidden layer and multiple outputs are added. We have also dropped the representation of the weights, but each line corresponds to a weight. 
+
+\begin{figure}
+	\centering
+	\input{tikz/multilayer_perceptron.tex}
+	\caption{Neural network with 3 input nodes, 5 hidden nodes and 2 output nodes, in addition to the bias nodes.}
+	\label{fig:neural_network}
+\end{figure}
+
+Without a hidden layer, we have seen that the update of weights is quite straight forward. For a neural network consisting of multiple layers, the question is: how do we update the weights when we do not know the values of the hidden nodes? And how do we know which layer causing the error? This will be explained in section \ref{sec:backward}, where the most popular technique for that is discussed. Before that, we will generalize the forward phase presented in logistic regression.
+
+\subsubsection{Forward phase}
+In the previous section, we saw how the output is found for a single perceptron. For a neural network, the net output to the first layer is similar, and given by
+\begin{equation}
+y_j^{(1)}=\sum_{i=1}^nx_iw_{ij}^{(1)}=\bs{x}^T\bs{w}_j^{(1)}
+\end{equation}
+which gives the real output
+\begin{equation}
+z_j^{(1)}=f(y_j^1)=f(\bs{x}^T\bs{w}_j^{(1)}).
+\end{equation}
+This is then again the input to the next layer, so the output from the second layer is simply
+\begin{equation}
+z_j^{(2)}=f\big((\bs{z}^{(1)})^T\bs{w}_j^{(2)}\big).
+\end{equation}
+This connection between layer $l$ and $l-1$ applies for all the layers, so the general relation reads
+\begin{equation}
+z_j^{(l)}=f\big((\bs{z}^{(l-1)})^T\bs{w}_j^{(l)}\big),
+\end{equation}
+although the first outputs $\bs{z}^{(0)}$ is the dataset $\bs{x}$.
+
+\subsubsection{Activation function}
+Until now, we have mentioned the sigmoid function as the only activation function. However, there are plenty of other activation functions that one can use. In fact, the sigmoid function lost its popularity, and is today superseded by the more modern functions based on \textit{rectified Linear Units} (ReLU). Some popular choices are the \textit{leaky} ReLU and \textit{exponential Linear Unit} (ELU), which are linear for positive numbers. Pure linear activation functions are still widely used, especially on the output layer. 
+
+In figure (\ref{fig:activation_functions}), standard RELU, leaky RELU and ELU are plotted along with the sigmoid function.
+
+\begin{figure}
+	\centering
+	\subfloat[Sigmoid]{{\includegraphics[width=8cm]{Images/sigmoid.png} }}
+	\subfloat[ReLU]{{\includegraphics[width=8cm]{Images/ReLU.png} }}\\
+	
+	\subfloat[Leaky ReLU]{{\includegraphics[width=8cm]{Images/LeakyReLU.png} }}%
+	\subfloat[ELU]{{\includegraphics[width=8cm]{Images/ELU.png} }}
+	\caption{Some well-known activation functions. The sigmoid function stands out from the others since it maps between 0 and 1, and it is not linear for positive numbers.}%
+	\label{fig:activation_functions}%
+\end{figure}
+
+
+\subsubsection{Backward propagation} \label{sec:backward}
+Backward propagation is probably the most used technique for updating the weights in a neural network, and is actually again based on the parameter update presented for linear and logistic regression. It is called backward propagation because we are propagating from the outputs to the inputs.  
+
+What differs, is the differentiation of the net input with respect to the weight, which gets more complex as we add more layers. For one hidden layer, we have two sets of weights, where the last layer is updated in a similar way as for a network without hidden layer, but the inputs are replaced with the values of the hidden nodes:
 \begin{empheq}[box={\mybluebox[5pt]}]{align}
 	w_{ij}^{(2)+}= w_{ij}^{(2)} - \eta\cdot[f(h_i^Tw_{ij})-y_j]^Th_i.
 \end{empheq}

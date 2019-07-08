@@ -49,7 +49,7 @@ So far, so good, but how about the first problem stated above? How do we find th
 For every iteration, we run $M$ Monte-Carlo cycles where we withdraw a new position $\bs{r}_i$. Whether or not the proposed move should be accepted is determined by the Metropolis algorithm.
 
 \section{The Metropolis algorithm}
-Metropolis sampling is a method of accepting or rejecting moves in Markov chains, and is today often the preferred sampling algorithm in quantum Monte-Carlo. The genius of this algorithm, is that the acceptance of a move is not based on the probabilities themselves, but the ratio between the new and the old probabilities. In that way, we avoid calculating the sum over all probabilities, which often is expensive or even impossible to calculate. 
+Metropolis sampling is a method of accepting or rejecting moves in Markov chains, and is today often the preferred sampling algorithm in quantum Monte-Carlo. The genius of this algorithm, is that the acceptance of a move is not based on the probabilities themselves, but the ratio between the new and the old probabilities. In that way, we avoid calculating the sum over all probabilities, which is often computational intractable. 
 
 If we denote $\bs{r}$ as the current state, and $\bs{r}'$ as the proposed state, we have a transition rule $P(\bs{r}'|\bs{r})$ for going from $\bs{r}$ to $\bs{r}'$ and a transition rule $P(\bs{r}|\bs{r}')$ for going the other way around. If we then assume that the rules satisfy \textit{ergodicity} and \textit{detailed balance}, we have the following relationship:
 \begin{equation}
@@ -141,7 +141,10 @@ where the marginal probabilities are still given by equation \eqref{eq:probvmc}.
 		$r=\mathcal{U}(0,1)$\;
 		\eIf{$w<r$}{
 			$\bs{r}'=\bs{r}$\;
-		}{
+			$P(\bs{r}';\theta)=P(\bs{r};\theta)$\;
+			$G(\bs{r}',\bs{r},\Delta t;\theta)=G(\bs{r},\bs{r}',\Delta t;\theta)$\;
+		}
+		{
 			keep going\;
 		}
 	}
@@ -155,4 +158,8 @@ In the machine learning community, Gibbs sampling is widely used when it comes t
 Given an initial set of coordinates $\bs{r}$ and $\bs{h}$, one can use the conditional probability $P(\bs{r}|\bs{h})$ to find a new set of 
 
 \section{Diffusion Monte-Carlo}
-Diffusion Monte-Carlo is based on the time-imaginary Schrödinger equation. 
+Diffusion Monte-Carlo belongs to a class of projection and Green's function approaches. Consider the time-imaginary Schrödinger equation
+\begin{eqnarray}
+-\frac{\partial\Psi(\bs{r},\tau)}{\partial\tau}=(\mathcal{H}-E_T)\Psi(\bs{r},\tau)
+\end{eqnarray}
+where $\tau$ is the imaginary time and $E_T$ is an energy offset. 

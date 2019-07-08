@@ -182,36 +182,36 @@ In general, the the Slater determinant contains all the single particle function
 
 As discussed in section \eqref{subsec:slater}, it can be split up in a spin-up part and a spin-down part,
 \begin{equation*}
-\psi_{sd}(\bs{x})=
-|\hat{D}_{\uparrow}(\bs{x}_{\uparrow})|\cdot |\hat{D}_{\downarrow}(\bs{x}_{\downarrow})|.
+\psi_{sd}(\bs{r})=
+|\hat{D}_{\uparrow}(\bs{r}_{\uparrow})|\cdot |\hat{D}_{\downarrow}(\bs{r}_{\downarrow})|.
 \end{equation*}
-$x_{\uparrow}$ are the coordinates of particles with spin up (defined as the first $N_{\uparrow}$ coordinates) and $x_{\downarrow}$ are the coordinates of particles with spin down (defined as the last $N_{\downarrow}$ coordinates). 
+$r_{\uparrow}$ are the coordinates of particles with spin up (defined as the first $N_{\uparrow}$ coordinates) and $r_{\downarrow}$ are the coordinates of particles with spin down (defined as the last $N_{\downarrow}$ coordinates). 
 
 We can now utilize the logarithmic scale, by using that the logarithm of a product corresponds to summarize the logarithm of each factor,
 \begin{equation*}
-\ln\psi_{sd}=\ln|\hat{D}_{\uparrow}(\bs{x}_{\uparrow})|+\ln|\hat{D}_{\downarrow}(\bs{x}_{\downarrow})|
+\ln\psi_{sd}=\ln|\hat{D}_{\uparrow}(\bs{r}_{\uparrow})|+\ln|\hat{D}_{\downarrow}(\bs{r}_{\downarrow})|
 \end{equation*}
 such that we only need to care about one of the determinants when differentiating, dependent on whether the coordinate we differentiate with respect to is among the spin-up or the spin-down coordinates:
 \begin{equation*}
 \nabla_k\ln\psi_{sd}=
 \begin{cases} 
-\nabla_k\ln|\hat{D}_{\uparrow}(\bs{x}_{\uparrow})| & \text{if} \quad k<N_{\uparrow}\\
-\nabla_k\ln|\hat{D}_{\downarrow}(\bs{x}_{\downarrow})| & \text{if} \quad k\geq N_{\uparrow}.
+\nabla_k\ln|\hat{D}_{\uparrow}(\bs{r}_{\uparrow})| & \text{if} \quad k<N_{\uparrow}\\
+\nabla_k\ln|\hat{D}_{\downarrow}(\bs{r}_{\downarrow})| & \text{if} \quad k\geq N_{\uparrow}.
 \end{cases}
 \end{equation*}
 Before we go further, we will introduce a more general notation which cover both the cases:
 \begin{equation*}
-\hat{D}\equiv \hat{D}_{m_s}(\bs{x}_{m_s})
+\hat{D}(\bs{r})\equiv \hat{D}_{m_s}(\bs{r}_{m_s})
 \end{equation*}
 where $m_s$ is the spin projection. When summarizing, the sum is always over all relevant coordinates. 
 
 Furthermore, we have that
 \begin{equation*}
-\nabla_k\ln|\hat{D}|=\frac{\nabla_k\detD}{|\hat{D}|}
+\nabla_k\ln|\hat{D}(\bs{r})|=\frac{\nabla_k|\hat{D}(\bs{r})|}{|\hat{D}(\bs{r})|}
 \end{equation*}
 and
 \begin{equation*}
-\nabla_k^2\ln|\hat{D}|=\frac{\nabla_k^2\detD}{|\hat{D}|}-\bigg(\frac{\nabla_k\detD}{|\hat{D}|}\bigg)^2
+\nabla_k^2\ln|\hat{D}(\bs{r})|=\frac{\nabla_k^2\hat{D}(\bs{r})}{|\hat{D}(\bs{r})|}-\bigg(\frac{\nabla_k\hat{D}(\bs{r})}{|\hat{D}(\bs{r})|}\bigg)^2
 \end{equation*}
 
 The first derivative of a determinant is given by Jacobi's formula, which reads
@@ -226,24 +226,25 @@ and the second derivative is then
 \end{align*}
 where $\tr\big(\hat{B}\big)$ is the trace of matrix $\hat{B}$, i.e, the sum of all diagonal elements. $\nabla_i\hat{A}$ means that we differentiate the matrix component-wise with respect to coordinate $i$. The traces can then be written as sums,
 \begin{equation*}
-\tr(\hat{A}^{-1}\nabla_i\hat{A})=\sum_{j}A_{ji}^{-1}\nabla_iA_{ij}.
+\tr(\hat{A}^{-1}\nabla_i\hat{A})=\sum_{j}a_{ji}^{-1}\nabla_ia_{ij}.
 \end{equation*}
 and
 \begin{equation*}
 	\tr(\hat{A}^{-1}\nabla_i^2\hat{A})=\sum_{j}a_{ji}^{-1}\nabla_i^2a_{ij}.
 \end{equation*}
+where $a_{ij}$ is element $i,j$ of matrix $\hat{A}$.
 
-Using all the general matrix operations presented above, we end up with
+Using all the general matrix operations presented above, for our specific case we end up with
 \begin{equation*}
-\nabla_k\ln|\hat{D}|=\sum_{j}d_{jk}^{-1}\nabla_kd_{kj}
+\nabla_k\ln|\hat{D}(\bs{r})|=\sum_{j}d_{jk}^{-1}(\bs{r})\nabla_kd_{kj}(\bs{r})
 \end{equation*}
 and
 \begin{equation*}
-\nabla_k^2\ln|\hat{D}|=\sum_jd_{jk}^{-1}\nabla_k^2d_{kj}-\Big(\sum_jd_{jk}^{-1}\nabla_kd_{kj}\Big)^2
+\nabla_k^2\ln|\hat{D}(\bs{r})|=\sum_jd_{jk}^{-1}(\bs{r})\nabla_k^2d_{kj}(\bs{r})-\Big(\sum_jd_{jk}^{-1}(\bs{r})\nabla_kd_{kj}\Big)^2
 \end{equation*}
 
 \subsubsection{Efficient calculation of Slater determinants}
-As you might already have noticed, we need to calculate the inverse of the matrices every time a particle is moved. This is a pretty heavy task for the computer, where the standard way, LU decomposition, requires $\sim$ N$^3$ floating point operations for an N$\times$N matrix. \cite{trahan_computational_2006}. 
+As you might already have noticed, we need to calculate the inverse of the matrices every time a particle is moved. This is a pretty heavy task for the computer, where the standard way, LU decomposition goes as $\mathcal{O}($N$^3)$ for an N$\times$N matrix. \cite{trahan_computational_2006}. 
 
 The good thing is that, by exploiting that only one row in the Slater matrix is updated for each step, we can update the inverse iteratively. 
 
@@ -254,32 +255,48 @@ Before we start finding an algorithm for this, we will introduce the reader to s
 where the comatrix is defined by the inner determinants of the matrix. \cite{weisstein_matrix_nodate} As a consequence, the determinant can be written as 
 \begin{equation}
 |\hat{A}|=\sum_{i,j}a_{ij}c_{ij}.
+\label{eq:detcomatrix}
 \end{equation}
-As always, we are interested in the ratio between the wave functions, and since only a row is updated every time we move a particle, the ratio between the determinants can be expressed as
+where $c_{ij}$ is the element $i,j$ of the comatrix. As always, we are interested in the ratio between the old and the new wave functions, and since only a row in the matrix $\hat{D}$ is updated every time we move a particle, the ratio between the determinants can be expressed as
 \begin{equation}
-R\equiv \frac{|\hat{D}^{\text{new}}|}{|\hat{D}^{\text{old}}|}=\frac{\sum_{j}d_{ij}^{\text{new}}c_{ij}^{\text{new}}}{\sum_{j}d_{ij}^{\text{old}}c_{ij}^{\text{old}}}
+R\equiv \frac{|\hat{D}(\bs{r}_{\text{new}})|}{|\hat{D}(\bs{r}_{\text{old}})|}=\frac{\sum_{j}d_{ij}(\bs{r}_{\text{new}})c_{ij}(\bs{r}_{\text{new}})}{\sum_{j}d_{ij}(\bs{r}_{\text{old}})c_{ij}(\bs{r}_{\text{old}})}
 \end{equation}
-where the particle associated with the $i$'th row is moved. The $i$'th row of the comatrix is independent of the $i$'th row of the matrix itself, such that $c_{ij}^{\text{new}}=c_{ij}^{\text{old}}$. 
+where the particle associated with the $i$'th row is moved. The $i$'th row of the comatrix is independent of the $i$'th row of the matrix itself, such that $c_{ij}^{\text{new}}=c_{ij}^{\text{old}}$. From equation \eqref{eq:detcomatrix}, we can see that $c_{ij}=|\hat{A}|a_{ji}^{-1}$, such that the ratio can be further expressed as
+\begin{equation}
+R=\frac{\sum_{j}d_{ij}(\bs{r}_{\text{new}})d_{ji}^{-1}(\bs{r}_{\text{old}})}{\sum_{j}d_{ij}(\bs{r}_{\text{old}})d_{ji}^{-1}(\bs{r}_{\text{old}})}=\sum_{j}d_{ij}(\bs{r}_{\text{new}})d_{ji}^{-1}(\bs{r}_{\text{old}})
+\end{equation}
+where we have used that fact that $a_{ij}a_{ji}^{-1}=1$.
 
-HERE I NEED TO EXPLAIN HOW TO FURTHER UPDATE SLATERS
----------
+To calculate the inverse of matrix, $\hat{D}^{-1}$, efficiently, we need to calculate 
+\begin{equation}
+S_j=\sum_{l=1}^Nd_{il}(\bs{r}_{\text{new}})d_{lj}^{-1}(\bs{r}_{\text{old}})
+\end{equation}
+for all columns but the one associated with the moved particle, $i$. The $j'th$ column of $\hat{D}^{-1}$ is then given by 
+\begin{equation}
+d_{kj}^{-1}(\bs{r}_{\text{new}})=d_{kj}^{-1}(\bs{r}_{\text{old}})-\frac{S_j}{R}d_{ki}^{-1}(\bs{r}_{\text{old}})
+\end{equation}
+while the remaining column, $i$, can simply be updated as
+\begin{equation}
+d_{ki}^{-1}(\bs{r}_{\text{new}})=d_{ki}^{-1}(\bs{r}_{\text{old}}).
+\end{equation}
+Those procedures makes the inverting go as $\mathcal{O}($N$^2)$ instead of $\mathcal{O}($N$^3)$, which is largely beneficial for large systems. \cite{morten_hjorth-jensen_computational_2019}
 
-In the end, we will take advantage of the fact that we only move one particle at a time. This means that one of the two determinants cancel when calculating the probability ratio used in Metropolis sampling. Since we do not have any variational parameters in the Slater determinant, we end up with three expressions for each determinant:
+We assume that we do not have any variational parameter in the Slater determinant, and obtain three expression for the case when a particle with spin up is moved and three for the case when a particle with spin down is moved. 
 
 \begin{empheq}[box={\mybluebox[5pt]}]{align}
 &\quad\text{if}\quad k<N_{\uparrow}:\notag\\
-\frac{|\psi_{sd}(\bs{x}_{\text{new}})|^2}{|\psi_{sd}(\bs{x}_{\text{old}})|^2}&=
-|\hat{D}_{\uparrow}(\bs{x}_{\uparrow}^{\text{new}})|^2/|\hat{D}_{\uparrow}(\bs{x}_{\uparrow}^{\text{old}})|^2\notag\\
-\nabla_k\ln|\hat{D}_{\uparrow}|&=\sum_{j=1}^{M/2}\nabla_kd_{jk}d_{kj}^{-1}\\
-\nabla_k^2\ln|\hat{D}_{\uparrow}|&=\sum_{j=1}^{M/2}\nabla_k^2d_{jk}d_{kj}^{-1}-\Big(\sum_{j=1}^{M/2}\nabla_kd_{ik}d_{ki}^{-1}\Big)^2\notag
+\frac{|\psi_{sd}(\bs{r}_{\text{new}})|^2}{|\psi_{sd}(\bs{r}_{\text{old}})|^2}&=
+\frac{|\hat{D}_{\uparrow}(\bs{r}_{\uparrow}^{\text{new}})|^2}{|\hat{D}_{\uparrow}(\bs{r}_{\uparrow}^{\text{old}})|^2}\notag\\
+\nabla_k\ln|\hat{D}_{\uparrow}(\bs{r}_{\uparrow})|&=\sum_{j=1}^{N_{\uparrow}}\nabla_kd_{jk}(\bs{r}_{\uparrow})d_{kj}^{-1}(\bs{r}_{\uparrow})\\
+\nabla_k^2\ln|\hat{D}_{\uparrow}(\bs{r}_{\uparrow})|&=\sum_{j=1}^{N_{\uparrow}}\nabla_k^2d_{jk}(\bs{r}_{\uparrow})d_{kj}^{-1}(\bs{r}_{\uparrow})-\Big(\sum_{j=1}^{N_{\uparrow}}\nabla_kd_{ik}(\bs{r}_{\uparrow})d_{ki}^{-1}(\bs{r}_{\uparrow})\Big)^2\notag
 \end{empheq}
 
 \begin{empheq}[box={\mybluebox[5pt]}]{align}
 &\quad\text{if}\quad k\geq N_{\uparrow}:\notag\\
-\frac{|\psi_{sd}(\bs{x}_{\text{new}})|^2}{|\psi_{sd}(\bs{x}_{\text{old}})|^2}&=
-|\hat{D}_{\downarrow}(\bs{x}_{\downarrow}^{\text{new}})|^2/|\hat{D}_{\downarrow}(\bs{x}_{\downarrow}^{\text{old}})|^2\notag\\
-\nabla_k\ln|\hat{D}_{\downarrow}|&=\sum_{j=M/2}^{M}\nabla_kd_{jk}d_{kj}^{-1}\\
-\nabla_k^2\ln|\hat{D}_{\downarrow}|&=\sum_{j=M/2}^{M}\nabla_k^2d_{jk}d_{kj}^{-1}-\Big(\sum_{j=M/2}^{M}\nabla_kd_{ik}d_{ki}^{-1}\Big)^2\notag
+\frac{|\psi_{sd}(\bs{r}_{\text{new}})|^2}{|\psi_{sd}(\bs{r}_{\text{old}})|^2}&=
+\frac{|\hat{D}_{\downarrow}(\bs{r}_{\downarrow}^{\text{new}})|^2}{|\hat{D}_{\downarrow}(\bs{r}_{\downarrow}^{\text{old}})|^2}\notag\\
+\nabla_k\ln|\hat{D}_{\downarrow}(\bs{r}_{\downarrow})|&=\sum_{j=N_{\uparrow}}^{ND}\nabla_kd_{jk}(\bs{r}_{\downarrow})d_{kj}^{-1}(\bs{r}_{\downarrow})\\
+\nabla_k^2\ln|\hat{D}_{\downarrow}(\bs{r}_{\downarrow})|&=\sum_{j=N_{\uparrow}}^{ND}\nabla_k^2d_{jk}(\bs{r}_{\downarrow})d_{kj}^{-1}(\bs{r}_{\downarrow})-\Big(\sum_{j=N_{\uparrow}}^{ND}\nabla_kd_{ik}(\bs{r}_{\downarrow})d_{ki}^{-1}(\bs{r}_{\downarrow})\Big)^2\notag
 \end{empheq}
 
 \subsection{Restricted Boltzmann machine}
@@ -365,7 +382,7 @@ which we can threaten separately. We end up with the expressions
 where $x_i$ is the changed coordinated. Also here can we use vectorization to speed-up the computations. 
 
 \subsection{Hydrogen-like orbitals}
-The Hydrogen-like orbitals were presented in \eqref{eq:hydrogenlike}, but as we discussed they cause some problems for atoms of the size of Neon and larger due to complex numbers. Instead, we decided to look at hydrogen-like orbitals with solid harmonics. Even though they do not have problem with complex numbers, they are quite complicated to differentiate, and the closed form will therefore be found by differentiating numerically. However, we will do the exercise for the simplest case, which is sufficient to find the Hydrogen and Helium ground states. This reads
+The Hydrogen-like orbitals were presented in \eqref{eq:hydrogenlike}, but as we discussed earlier they cause some problems for atoms of the size of Neon and larger due to complex numbers. Instead, we decided to look at hydrogen-like orbitals with solid harmonics. Even though they do not have problems with complex numbers, they are quite complicated to differentiate, and the closed form will therefore be found by symbolic differentiating on the computer. However, we will do the exercise for the simplest case, which is sufficient to find the Hydrogen and Helium ground states. This reads
 \begin{equation}
 \psi_{hl}( \bs{r};\alpha)=\exp\Big(-Z\alpha\sum_{j=1}^Nr_j\Big)
 \end{equation}
@@ -381,3 +398,5 @@ and the differentiation with respect to the variational parameter $\alpha$ is
 \begin{equation}
 \partial_{\alpha}\ln\psi_{\text{hl}}=-Z\sum_{j=1}^Nr_j.
 \end{equation}
+
+For close-form expressions for higher order wave functions, please run the script \texttt{generateHydrogenOrbitals.py}.
