@@ -13,7 +13,7 @@
 \usepackage{afterpage}	% avoid undesired blank page
 \usepackage{color}
 \usepackage{array} 		% For column alignment
-\usepackage{xcolor}
+\usepackage[svgnames]{xcolor}
 \usepackage{pgfplots}	% Plotting directly in latex
 \usepackage{listings}
 \usepackage{hyperref}
@@ -35,6 +35,8 @@
 \usepackage{arydshln}   % Dashed lines in table
 \usepackage{epigraph}	% Quote at beg. of chapter
 %\usepackage{times}
+\usepackage{framed}
+%\usepackage{libertine}
 
 % Change margins on each page
 \usepackage[right=2cm, 
@@ -106,6 +108,21 @@
 	\advance\mytemplen #2\relax
 	\dp\mytempbox\mytemplen
 	\colorbox{myblue}{\hspace{1em}\usebox{\mytempbox}\hspace{1em}}}
+
+%double quotes
+\newcommand*\openquote{\makebox(25,-22){\scalebox{5}{``}}}
+\newcommand*\closequote{\makebox(25,-22){\scalebox{5}{''}}}
+\colorlet{shadecolor}{Azure}
+
+\makeatletter
+\newif\if@right
+\def\shadequote{\@righttrue\shadequote@i}
+\def\shadequote@i{\begin{snugshade}\begin{quote}\openquote}
+		\def\endshadequote{%
+			\if@right\hfill\fi\closequote\end{quote}\end{snugshade}}
+\@namedef{shadequote*}{\@rightfalse\shadequote@i}
+\@namedef{endshadequote*}{\endshadequote}
+\makeatother
 
 %specific reused text
 \newcommand{\mdate}{\today}

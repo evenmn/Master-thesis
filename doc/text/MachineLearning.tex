@@ -2,21 +2,23 @@
 \epigraph{In the early 1990's we were working with machine learning all the time, but back then we called it pattern recognition and regression.}{Prof. Anne Solberg, UiO}
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.4]{Images/example.png}
-	\caption{Caption}
+	\includegraphics[scale=0.25]{Images/brain.png}
+	\caption{Artificial neural networks are inspired by neural networks in the brain.\\ © Copyright trzcacak.rs.}
 \end{figure}
 
-\iffalse
-Parameter estimation is a large part of science, because we are often not able to measure things directly. For instance, when Millikan in ... performed his famous electron charge experiment or when we estimate Sun's mass.
-\fi 
+The use of the term \textit{machine learning} has exploded over the past years, and sometimes it sounds like it is a totally new field. However, the truth is that many of the methods are relatively old, where for instance \textit{linear regression} was known early in the 19th century. \cite{legendre_nouvelles_1805, gauss_theoria_1809} Those methods have just recently been taken under the machine learning umbrella, which is one of the reasons why the term is used more frequently than before. Another important contributor to the booming popularity is the dramatically improvement of a majority of machine learning algorithms. We will come back to this, but before that we will make an attempt defining the term machine learning.
 
-The use of the term \textit{machine learning} has exploded over the past years, and sometimes it sounds like it is a totally new field. However, the truth is that many of the methods are relatively old, where for instance \textit{linear regression} was known early in the 19th century. \cite{legendre_nouvelles_1805, gauss_theoria_1809} Those methods have just recently been taken under the machine learning umbrella, which is one of the reasons why the term is used more frequently than before. Machine learning is the science of getting computers to act without being explicitly programmed, which in facts covers regression and classification. This has made machine learning an extremely rich field. 
+Unlike traditional algorithms, machine learning algorithms are not told what to do explicitly, but they use optimization tools to find patterns in a data set with or without prior knowledge. Based on this, we land at the following definition:
 
-Unlike traditional algorithms, machine learning algorithms are not told what to do directly, but they use optimization tools to reproduce targets in the best way. As a consequence, we often do not know exactly what the algorithm does and why it behaves as is does, and because of this behavior, the processing is often called artificial intelligence. In our search for a technique to solve quantum mechanical problems where less physical intuition is needed, machine learning appears as a natural tool.
+\begin{shadequote}{}
+	Machine learning is the science of getting computers to act without being explicitly programmed.
+\end{shadequote}
 
-The increasing popularity should also without any doubt be attributed to the dramatically improvement of a majority of the machine learning algorithms. Perhaps the most important contribution to this came in 2012, when the deep convolution neural network (CNN) \textbf{AlexNet} managed to classify 1.2 millions images into 1000 classes with a remarkable top-5 test error rate of 15.3\%. \cite{krizhevsky_imagenet_2012} Today, the CNNs have been further improved, and they are even able to beat humans in recognizing images! (The history began from AlexNet) Also voice recognition algorithms have lately been revolutionized, thanks to recurrent neural networks (RNNs), and especially long short-term memory (LSTM) networks. Their ability to recognize sequential (time-dependent) data made the technology good enough for an entry to millions of peoples everyday-life through services such as \textbf{Google Translate} \cite{wu_googles_2016}, \textbf{Apple Siri} \cite{smith_ios_2016} and \textbf{Amazon Alexa} \cite{noauthor_bringing_nodate}. It is also interesting to see how machine learning has made computers eminent tacticians using recurrent neural networks. The \textbf{Google DeepMind} developed program \textbf{AlphaGo} demonstrated this by beating the 9-dan professional L. Sedol in the board game Go \cite{noauthor_alphago_nodate}, before an improved version, \textbf{AlphaZero}, beat the at that time highest rated chess computer, \textbf{StockFish} \cite{klein_mikeklein_googles_nodate}. Both these scenarios were unbelievable just a decade ago.
+As a consequence, we often do not know exactly what the algorithm does and why it behaves as is does. Because of this behavior and the fact that artificial neural networks are inspired by the human brain, the processing is often called artificial intelligence. In our search for a technique to solve quantum mechanical problems where less physical intuition is needed, machine learning appears as a natural tool.
 
-Even though all these branches are both exciting and promising, they will not be discussed further in this work, since they will simply not work for our purposes. The reason is that they initially require a data set with known outputs in order to be trained, they obey so-called \textit{supervised} learning. Instead, we rely on \textit{unsupervised} learning, which has the task of finding patterns in the data and is therefore not in need for known outputs. However, we will discuss some simpler supervised learning algorithms as an introduction and a motivation for the unsupervised learning section. But first, let us start with the fundamentals. 
+Especially the artificial neural networks have experienced a significant progress over the past decade, which can be attributed to an array of innovations. Most notably, the convolutional neural network (CNN) \textbf{AlexNet}  managed to increase the top-5 test error rate of image recognition with a remarkable 11.1\% compared to the second best back in 2012! \cite{krizhevsky_imagenet_2012} Today, the CNNs have been further improved, and they are even able to beat humans in recognizing images! \cite{alom_history_2018} Also voice recognition algorithms have lately been revolutionized, thanks to recurrent neural networks (RNNs), and especially long short-term memory (LSTM) networks. Their ability to recognize sequential (time-dependent) data made the technology good enough for an entry to millions of peoples everyday-life through services such as \textbf{Google Translate} \cite{wu_googles_2016}, Apple's \textbf{Siri} \cite{smith_ios_2016} and \textbf{Amazon Alexa} \cite{noauthor_bringing_nodate}. It is also interesting to see how machine learning has made computers eminent tacticians using reinforcement learning. The \textbf{Google DeepMind} developed program \textbf{AlphaGo} demonstrated this by beating the 9-dan professional L. Sedol in the board game Go \cite{noauthor_alphago_nodate}, before an improved version, \textbf{AlphaZero}, beat the at that time highest rated chess computer, \textbf{StockFish}, plying chess. \cite{klein_mikeklein_googles_nodate} Both these scenarios were unbelievable just a couple of decades ago.
+
+Even though all these branches are both exciting and promising, they will not be discussed further in this work, since they will simply not work for our purposes. The reason is that they initially require a data set with known outputs in order to be trained, they obey so-called \textit{supervised} learning. Instead, we rely on \textit{unsupervised} learning, which has the task of finding patterns in the data and is therefore not in need for known outputs. However, we will discuss some simpler supervised learning algorithms as an introduction and a motivation for the unsupervised learning section.
 
 \section{Supervised learning}
 As hinted above, in machine learning we want to fit a model to a data set in the best possible way. In supervised learning, we have prior knowledge about what kind of results the model should give in some specific cases, which we can use to train our model. After training, we want the model to
@@ -50,9 +52,9 @@ where $\tilde{y}_i=f(x_i)$ is the $y$-value of the polynomial at $x=x_i$. What w
 \begin{equation}
 \min_{a,b,c}\frac{1}{n}\sum_{i=0}^{n-1}(y_i-f(x_i;a.b.c))^2.
 \end{equation}
-There are several ways to do this, but they all are based on the \textit{cost function} (also called the loss function), which can simply be defined as the MSE
+There are several ways to do this, but they all are based on the \textit{cost function} (also called the loss function), which can simply be defined as the MSE,
 \begin{equation}
-\mathcal{C}(a,b,c)=\frac{1}{n}\sum_{i=0}^{n-1}\Big(y_i-(ax_i^2+bx_i+c)\Big)^2
+\mathcal{C}(a,b,c)=\frac{1}{n}\sum_{i=0}^{n-1}\Big(y_i-(ax_i^2+bx_i+c)\Big)^2,
 \end{equation}
 and which we seek to minimize. Before we start minimizing this, we will introduce a more general notation, where the estimators are collected in a column vector 
 \begin{equation*}
@@ -64,18 +66,18 @@ and the $x_i^j$'s also are collected in a row vector
 \end{equation*}
 Using this, the cost function can be written as
 \begin{align}
-\mathcal{C}(\bs{\beta})&=\sum_{i=0}^{n-1}\Big(y_i-\sum_{j=0}^2X_{ij}\beta_j\Big)^2\notag\\
-&=\sum_{i=0}^{n-1}\Big(y_i-\bs{X}_i\bs{\beta}\Big)^2\label{eq:costols}\\
-&=(\bs{y}-\bs{X}\bs{\beta})^T(\bs{y}-\bs{X}\bs{\beta})\notag
+\mathcal{C}(\bs{\beta})&=\frac{1}{n}\sum_{i=0}^{n-1}\Big(y_i-\sum_{j=0}^2X_{ij}\beta_j\Big)^2\notag\\
+&=\frac{1}{n}\sum_{i=0}^{n-1}\Big(y_i-\bs{X}_i\bs{\beta}\Big)^2\label{eq:costols}\\
+&=\frac{1}{n}(\bs{y}-\bs{X}\bs{\beta})^T(\bs{y}-\bs{X}\bs{\beta})\notag
 \end{align}
 where we in the last step have collected all the vectors $\bs{X}_i$ in a matrix. As the minimum of the cost function with respect to a estimator $\beta_j$ is found when the derivative is zero, we need to solve
 \begin{align*}
-\frac{\partial \mathcal{C}(\bs{\beta})}{\partial\beta_j} &=\frac{\partial}{\partial\beta_j}\bigg(\sum_{i=0}^{n-1}\Big(y_i-\sum_{j=0}^2X_{ij}\beta_j\Big)^2\bigg)\notag\label{eq:gh}\\
-&=2\sum_{i=0}^{n-1}X_{ij}\Big(y_i-\sum_{j=0}^2X_{ij}\beta_j\Big)=0.
+\frac{\partial \mathcal{C}(\bs{\beta})}{\partial\beta_j} &=\frac{\partial}{\partial\beta_j}\bigg(\frac{1}{n}\sum_{i=0}^{n-1}\Big(y_i-\sum_{j=0}^2X_{ij}\beta_j\Big)^2\bigg)\notag\label{eq:gh}\\
+&=\frac{2}{n}\sum_{i=0}^{n-1}X_{ij}\Big(y_i-\sum_{j=0}^2X_{ij}\beta_j\Big)=0.
 \end{align*}
 We can go further and write it on matrix-vector form as
 \begin{equation*}
-\frac{\partial \mathcal{C}(\bs{\beta})}{\partial\bs{\beta}}=2\bs{X}^T(\bs{y}-\bs{X}\bs{\beta})=0
+\frac{\partial \mathcal{C}(\bs{\beta})}{\partial\bs{\beta}}=\frac{2}{n}\bs{X}^T(\bs{y}-\bs{X}\bs{\beta})=0
 \end{equation*}
 where differentiating with respect to a vector here means that each component is $\partial\mathcal{C(\bs{\beta})}/\partial\beta_j$. This is satisfied if
 \begin{equation}
@@ -83,17 +85,17 @@ where differentiating with respect to a vector here means that each component is
 \label{eq:polynomialestimators}
 \end{equation}
 which is the equation we seek to solve to find the best fitting polynomial. Before we proceed to the general case, let us have a quick look at an example.
-git
-\subsubsection{Example}
-In this example, we will see how we in practice fit a polynomial to a data set. Suppose we have a tiny data set consisting of 10 points
-\begin{align*}
-\bs{x}&=(1,2,4,6,7,9,10,11,13,16)\\
+
+\subsubsection{Example} \label{sec:example}
+In this example, we will see how we in practice fit a polynomial to a data set. Suppose we have a tiny data set consisting of 10 points on a plane
+\begin{align}
+\bs{x}&=(1,2,4,6,7,9,10,11,13,16)\notag\\
 \bs{y}&=(15,30,50,60,65,63,60,55,40,0)
 \label{eq:datapoints}
-\end{align*}
-in a plane, which we want to fit a polynomial of degree $p$ to. The data points can be seen in figure (\ref{fig:polynomials} a). The first thing we need to realize, is that in order to validate our models, we cannot use all points for the training. There is no strict rules on how much of the data set that should be used for training and validation, but at least the training data set should be larger than the validation data set. For this particular problem, we decide to leave out $\{(1,15),(9,63),(10,60)\}$ from the training, which we later will use for validation.
+\end{align}
+to which we want to fit a polynomial of degree $p$. The data points can be seen in figure (\ref{fig:polynomials} a). The first thing we need to realize, is that in order to validate our models, we cannot use all points for the training. There is no strict rules on how much of the data set that should be used for training and validation, but at least the training data set should be larger than the validation data set. For this particular problem, we decide to leave out $\{(1,15),(9,63),(10,60)\}$ from the training, which we later will use for validation.
 
-Furthermore, we use equation \eqref{eq:polynomialestimators} to find the best fitting first-, second- and sixth order polynomials, and obtain the functions presented in table \eqref{tab:example} with the respective training and validation errors. The polynomials are also plotted in figure (\ref{fig:polynomials} b) together with the actual data points.
+Furthermore, we use equation \eqref{eq:polynomialestimators} to find the best fitting first-, second- and sixth order polynomials, and obtain the functions presented in table \eqref{tab:example} with the respective training and prediction errors. The polynomials are also plotted in figure (\ref{fig:polynomials} b) together with the actual data points.
 
 \begin{figure}
 	\centering
@@ -117,36 +119,40 @@ Furthermore, we use equation \eqref{eq:polynomialestimators} to find the best fi
 
 What we immediately observe, is that the more complex model (higher degree polynomial) the lower training error. In fact, the polynomial of sixth order reproduces the points perfectly. The first order polynomial is quite bad, while the second order polynomial is intermediate.
 
-However, what really makes sense is the prediction error, and for that we can see that the sixth order polynomial has a terrible performance. When a model can reproduce the training set very well, but is not able to reproduce the training set, we say that it overfits the data set. This means that the model is too complex for the purpose.
+However, what really makes sense is the prediction error, and for that we can see that the sixth order polynomial performs terribly. When a model can reproduce the training set very well, but is not able to reproduce the training set, we say that it overfits the data set. This means that the model is too complex for the purpose.
 
 On the other hand, we see that the first order polynomial has also a large prediction error, which means that it is not able to reproduce the validation set either. We say that it is underfitted, and we are in need of a more complex model.
 
-Finally, we have the second order polynomial, which is miles ahead its competitors when it comes to prediction error. It turns out that the second order model has an appropriate complexity, which we could have guess in advance.
+Finally, we have the second order polynomial, which is miles ahead its competitors when it comes to the prediction error. It turns out that the second order model has an appropriate complexity, which we could have guessed just by looking at the data points.
 
 The natural question now is \textit{"How do we find a correct model complexity?"}. The answer is that one should try various complexities and calculate the prediction error for each model. To find the prediction error precisely, the standard is to use $K$ cross-validation resampling, which tries $K$ choices of validation set to make the most use of our data. More about resampling analysis can be found in section \eqref{sec:resampling}. A deeper understanding of the prediction error will hopefully be gained in the next section, on bias-variance decomposition. 
 
-\subsection{Bias-variance decomposition}
-Up to this point, we have skipped some important terms in the statistics. First, we have the \textit{bias}, which can be seen as the absolute error between the predictions and the targets,
-\begin{equation*}
-\text{bias}=\frac{1}{n}\sum_{i=0}^n(y_i-\tilde{y}_i),
-\end{equation*}
-which describes the best our model could do if we had an infinite amount of training data. We also have the \textit{variance}, which is given by 
-...
-So, should we seek to minimize the bias or the variance? This is a good question without any definitely correct answer. If we minimize the bias, the variance will explode and vice versa, so a better solution would be minimizing non of them. In other words, we need to do a trade-off between the bias and the variance known as the bias-variance trade-off. In figure \eqref{fig:bias_variance} 
+\subsection{Bias-variance tradeoff}
+Up to this point, we have skipped some important terms in the statistics behind machine learning. First, we have the \textit{bias}, which describes the best our model could do if we had an infinite amount of training data. We also have the \textit{variance}, which is a measure on the fluctuations in the predictions. In figure (\ref{fig:bias_variance} a), example on high variance low-bias and a low variance high bias models are presented. What we actually want is a low variance low-bias model, but this model is normally infeasible and we need to find the optimal tradeoff between bias and variance. This is known as the bias-variance tradeoff. 
 
 \begin{figure}
 	\centering
 	\subfloat[Illustration of bias and variance]{{\includegraphics[width=8cm]{Images/bias_variance.png}}}
 	\subfloat[Bias-variance trade-off]{{\includegraphics[width=8cm]{Images/bias_variance_tradeoff.png} }}
-	\caption{Bias-variance}%
+	\caption{Examples of high variance, low-bias and low variance high-bias (a) and illustration of the bias-variance trade-off (b). Figures are taken from Mehta et.al., \cite{mehta_high-bias_2019}.}%
 	\label{fig:bias_variance}
 \end{figure}
 
-The bias is reduced as a function of the complexity, but the variance tends to get higher as the complexity of the model is increased. For that reason, a very complex model is not guaranteed to provide a small error, but instead we need to find the trade-off between how expressive our model class is and how sensitive the fitted model is to sample fluctuations in the training data. This is known as the bias-variance trade-off, and is illustrated in figure \eqref{fig:bias_variance_tradeoff}.
+In figure (\ref{fig:bias_variance} b), the bias-variance tradeoff is illustrated as a function of the model complexity. We observe that the prediction error if large when the model complexity is too low, which corresponds to a low variance. This substantiates what we discussed in the example in \eqref{sec:example}, where we claimed that a too low model complexity underfits the data set. Therefore, a too low variance is associated with underfitting.
 
-However, as Mehta et.al. notice, this is not necessarily a trade-off; we could both have a high variance and a high bias, and perhaps a more appropriate term would be bias-variance decomposition since the error can be decomposed into a bias part and a variance part. \cite{mehta_high-bias_2019} This decomposition is given by
+On the other side of the plot, we can see that also a too complex model causes a large prediction error, which corresponds to a low bias. As discussed before, a too complex model overfits the model, which is associated with low bias. 
+
+To minimize the prediction error, we should therefore neither minimize the bias nor the variance. Instead, we should find the bias and variance which corresponds ot the lowest error. The prediction error can also be decomposed into bias and variance, given by
 \begin{equation}
-E_{out}=bias^2+\sigma^2.
+E[(y-\tilde{y})^2]=\text{bias}[\tilde{y}]^2+\sigma^2[\tilde{y}]
+\end{equation}
+where 
+\begin{equation}
+\text{bias}[\tilde{y}]=E[\tilde{y}]-y
+\end{equation}
+and 
+\begin{equation}
+\sigma^2[\tilde{y}]=E[\tilde{y}^2]-E[\tilde{y}]^2.
 \end{equation}
 
 \subsection{Linear regression}
@@ -213,13 +219,14 @@ However, to illustrate how this procedure goes on, we will explain how an arbitr
 \begin{equation}
 \beta_j^+=\beta_j-\eta \frac{\partial\mathcal{C}(\bs{\beta})}{\partial\beta_j},
 \end{equation}
-where $\beta_j^+$ is the updated version of $\beta_j$  Here we again are introduced to a hyperparameter $\eta$, known as the \textit{learning rate}, which controls how much the estimators should be changed for each iteration. This should be set carefully, where a too large $\eta$ will make the cost function diverge and a too small $\eta$ will make the training too slow. Typically, the $\eta$ is 0.01-0.0001. For ordinary least squares, the parameter update cna be written as
+where $\beta_j^+$ is the updated version of $\beta_j$. Here we again are introduced to a hyperparameter $\eta$, known as the \textit{learning rate}, which controls how much the estimators should be changed for each iteration. This should be set carefully, where a too large $\eta$ will make the cost function diverge and a too small $\eta$ will make the training too slow. Typically, the $\eta\in 0.01-0.0001$ is a good choice. For ordinary least squares, the parameter update can be written as
 \begin{equation}
-\bs{\beta}=\bs{\beta}^+-\eta\bs{X}^T(\bs{y}-\bs{X}^T\bs{\beta})
+\bs{\beta}^+=\bs{\beta}-\eta\bs{X}^T(\bs{y}-\bs{X}^T\bs{\beta})
+\label{eq:olsupdate}
 \end{equation}
 
 \subsection{Logistic regression}
-Up to this point, we have discussed regression with continuous output. But what do we do if we want a discrete output, for example in form of classification? This is what logistic regression is about, and we will now show how the cost function is defined.
+Up to this point, we have discussed regression with continuous outputs. But what do we do if we want a discrete output, for example in form of classification? This is what logistic regression is about, and we will now show how the cost function is defined.
 
 Consider a system that can have two possible energies $\varepsilon_0$ and $\varepsilon_1$. From elementary statistical mechanics, we have that the probability of finding the system in the first state is given by
 \begin{align}
@@ -242,43 +249,48 @@ P(y_i=1)&=1-P(y_i=0)\\
 
 Notice that the only thing we need is the difference in energy between those two systems, not the energy itself. This is often the case in physics. 
 
-\begin{figure}
-	\centering
-	\input{tikz/singlelayer_perceptron.tex}
-	\caption{Logistic regression model with $n$ inputs. Each input $x_i^j$ is multiplied with a weight $w_j$, and the contribution from all elements is summarized. The output is obtained after the sum is activated by an activation function.}
-	\label{fig:single_perceptron}
-\end{figure}
-
-If we now assume that the difference in energy can be written as a function of the coordinates that specify the state $i$, $\bs{x}_i$ and a matrix of parameters, $\bs{w}$, known as the \textit{weights}, the difference can be written as
+If we now assume that the difference in energy can be written as a function of the coordinates that specify the state $i$, $\bs{X}_i$ and a matrix of parameters, $\bs{w}$, known as the \textit{weights}, the difference can be written as
 \begin{equation}
-\varepsilon_1-\varepsilon_0=\bs{x}_i^T\bs{w},
+\varepsilon_1-\varepsilon_0=\bs{X}_i^T\bs{w}\equiv\tilde{y}_i,
 \end{equation}
 which gives the probability
 \begin{equation}
-P(\bs{x}_i,y_i|\bs{w})=\big(f(\bs{x}_i^T\bs{w})\big)^{y_i}\big(1-f(\bs{x}_i^T\bs{w})\big)^{1-y_i}.
+P(\bs{X}_i,y_i|\bs{w})=\big(f(\bs{X}_i^T\bs{w})\big)^{y_i}\big(1-f(\bs{X}_i^T\bs{w})\big)^{1-y_i}.
 \end{equation}
-given a set of parameters $\bs{w}$. If we have a set of states $\mathcal{D}=\{(\bs{x}_i,y_i)\}$, the joint probability is given by
+given a set of weights $\bs{w}$. If we have a set of states $\mathcal{D}=\{(\bs{X}_i,y_i)\}$, the joint probability is given by
 \begin{equation}
-P(\mathcal{D}|\bs{w})=\prod_{i=1}^n\big(f(\bs{x}_i^T\bs{w})\big)^{y_i}\big(1-f(\bs{x}_i^T\bs{w})\big)^{1-y_i}
+P(\mathcal{D}|\bs{w})=\prod_{i=1}^n\big(f(\bs{X}_i^T\bs{w})\big)^{y_i}\big(1-f(\bs{X}_i^T\bs{w})\big)^{1-y_i}
 \end{equation}
 which is known as the \textit{likelihood}. The \textit{log-likelihood} function is simply the log of the likelihood, and is given by 
 \begin{equation}
-l(\bs{w})=\sum_{i=1}^ny_i\log f(\bs{x}_i^T\bs{w})+(1-y_i)\log(1-f(\bs{x}_i^T\bs{w})).
+l(\bs{w})=\sum_{i=1}^ny_i\log f(\bs{X}_i^T\bs{w})+(1-y_i)\log(1-f(\bs{X}_i^T\bs{w})).
 \end{equation}
 
-As in linear regression, we want to kind a cost function which we can minimize in order to fit the model to the data set. Since the log-likelihood function is maximized where the highest probability is, a natural choice is to set
+As in linear regression, we want to find a cost function which we can minimize in order to fit the model to the data set. Since the log-likelihood function is maximized where the highest probability is, a natural choice is to set
 \begin{equation}
-\mathcal{C}(\bs{w})=-l(\bs{w})=-\sum_{i=1}^ny_i\log f(\bs{x}_i^T\bs{w})+(1-y_i)\log(1-f(\bs{x}_i^T\bs{w})).
+\mathcal{C}(\bs{w})=-l(\bs{w})=-\sum_{i=1}^n\Big[y_i\log f(\bs{X}_i^T\bs{w})+(1-y_i)\log(1-f(\bs{X}_i^T\bs{w}))\Big],
 \end{equation}
-which is known as the \textit{cross entropy}. To make things clearer, we will try to illustrate how this works. In figure (\ref{fig:single_perceptron}), we have a input set $\bs{x}_i$ where each element is multiplied with a parameter from $\bs{w}$ and summarized. This corresponds to the inner product $\bs{x}_i^T\bs{w}$. Further, the sum (or the inner product) \textit{activated} with an \textit{activation function}, which we here have assumed to be the sigmoid function. The output is then given by
+which is known as the \textit{cross entropy}. To make things clearer, we will try to illustrate how this works. In figure (\ref{fig:single_perceptron}), we have a input set $\bs{X}_i$ where each element is multiplied with a parameter from $\bs{w}$ and summarized. This corresponds to the inner product $\bs{X}_i^T\bs{w}$. Further, the sum (or the inner product) is \textit{activated} by an \textit{activation function}, which we above have assumed to be the sigmoid function. The output is then given by
+
+\begin{figure}
+	\centering
+	\input{tikz/singlelayer_perceptron.tex}
+	\caption{Logistic regression model with $n$ inputs. Each input $X_i^j$ is multiplied with a weight $w_j$, and the contribution from all elements is summarized. The output is obtained after the sum is activated by an activation function.}
+	\label{fig:single_perceptron}
+\end{figure}
+
 \begin{eqnarray}
-z_i=f(\bs{x}_i^T\bs{w}).
+z_i=f(\bs{X}_i^T\bs{w}).
 \end{eqnarray}
-After the activation the output is sent into the cost function to calculate the cost. As before, the cost function is minimized in an iterative scheme, where for example gradient descent gives the weight update
+where we have assumed that the bias node is included in the $\bs{X}$'s and the bias weight is included in the $\bs{w}$'s.
+
+In addition, a bias node is added, which allows us to shift the activation function to the left or right. 
+
+After the activation the output is sent into the cost function to calculate the cost. As before, the cost function is minimized in an iterative scheme, where for example the gradient descent method gives the weight update
 \begin{empheq}[box={\mybluebox[5pt]}]{align}
-\bs{w}^+= \bs{w} - \eta\bs{x}^T[f(\bs{x}^T\bs{w})-\bs{y}].
+\bs{w}^+= \bs{w} - \eta\bs{X}^T[\bs{y}-f(\bs{X}^T\bs{w})].
 \end{empheq}
-which is extremely similar to the estimator update for linear regression.
+which is extremely similar to the estimator update for ordinary least square presented in equation \eqref{eq:olsupdate}.
 
 \iffalse
 Consider first a classification problem with two possible outcomes, for example the ultimatum: will I pass or fail the exam? In that case an output node is sufficient, where 0 is pass, 1 is fail and an intermediate value gives the probability that I will fail. In order to map the output to a number between 0 and 1, we use an activation function.
@@ -389,7 +401,7 @@ where the bias weight is included implicitly in $\bs{w}$ and the same applies fo
 \subsection{Neural networks} \label{sec:neural_network}
 Now we know enough to dive into the field of artificial neural networks. Neural networks can given either continuous or discrete outputs, and is therefore a competitor to both linear and logistic regression. The big strength of neural networks is that one can add multiple \textit{layers}, which potentially makes the model extremely flexible. According to \textbf{the universal approximation theorem}, a neural network with only one hidden layer can approximate any continuous function. [8] However, often multiple layers are used since this tends to give fewer nodes in total, and is known to give better results. Neural networks of more than one layer are called \textit{deep} networks, and as more layers are added the network gets \textit{deeper}.
 
-In figure \eqref{fig:neural_network}, a two-layer neural network (one hidden layer) is illustrated. It has some similarities with the logistic regression model in figure \eqref{fig:single_perceptron}, but a hidden layer and multiple outputs are added. We have also dropped the representation of the weights, but each line corresponds to a weight. 
+In figure \eqref{fig:neural_network}, a two-layer neural network (one hidden layer) is illustrated. It has some similarities with the logistic regression model in figure \eqref{fig:single_perceptron}, but a hidden layer and multiple outputs are added. We have also dropped the representation of the weights, but each line corresponds to a weight. Each node represents a neuron in the brain.
 
 \begin{figure}
 	\centering
@@ -403,24 +415,28 @@ Without a hidden layer, we have seen that the update of weights is quite straigh
 \subsubsection{Forward phase}
 In the previous section, we saw how the output is found for a single perceptron. For a neural network, the net output to the first layer is similar, and given by
 \begin{equation}
-y_j^{(1)}=\sum_{i=1}^nx_iw_{ij}^{(1)}=\bs{x}^T\bs{w}_j^{(1)}
+z_j^{(1)}=\sum_{i=1}^{N_0}x_iw_{ij}^{(1)}=\bs{x}^T\bs{w}_j^{(1)}
 \end{equation}
-which gives the real output
+where $N_0$ is the number of nodes in layer 0 (the input layer) and we again have assumed that the bias node is included in $\bs{x}$ and the bias weight is included in $\bs{w}$. If we let the activation function act on the net output, we get the real output given by
 \begin{equation}
-z_j^{(1)}=f(y_j^1)=f(\bs{x}^T\bs{w}_j^{(1)}).
+a_j^{(1)}=f(z_j^{(1)})=f\Big(\sum_{i=1}^{N_0}x_iw_{ij}^{(1)}\Big).
 \end{equation}
 This is then again the input to the next layer, so the output from the second layer is simply
 \begin{equation}
-z_j^{(2)}=f\big((\bs{z}^{(1)})^T\bs{w}_j^{(2)}\big).
+a_j^{(2)}=f\big(\sum_{i=1}^{N_1}a_i^{(1)}w_{ij}^{(2)}\big).
 \end{equation}
-This connection between layer $l$ and $l-1$ applies for all the layers, so the general relation reads
+For a neural network of many layers, the same procedure applies to all the layers, and the connection between layer $l$ and $l-1$ can be written in the general way
 \begin{equation}
-z_j^{(l)}=f\big((\bs{z}^{(l-1)})^T\bs{w}_j^{(l)}\big),
+z_j^{(l)}=\sum_{i=1}^{N_{l-1}}a_i^{(l-1)}w_{ij}^{(l)}
 \end{equation}
-although the first outputs $\bs{z}^{(0)}$ is the dataset $\bs{x}$.
+for the forward phase and
+\begin{equation}
+a_j^{(l)}=f\big(\sum_{i=1}^{N_{l-1}}a_i^{(l-1)}w_{ij}^{(l)}\big)
+\end{equation}
+with activation. The only time we need to be aware is when updating hte nodes in the first layer $l=1$, since the outputs then actually are the inputs to the network, $\bs{z}^{(0)}=\bs{x}$. The equation also tells us that the only independent variables in a neural network is the input values $x_i$.
 
 \subsubsection{Activation function}
-Until now, we have mentioned the sigmoid function as the only activation function. However, there are plenty of other activation functions that one can use. In fact, the sigmoid function lost its popularity, and is today superseded by the more modern functions based on \textit{rectified Linear Units} (ReLU). Some popular choices are the \textit{leaky} ReLU and \textit{exponential Linear Unit} (ELU), which are linear for positive numbers. Pure linear activation functions are still widely used, especially on the output layer. 
+Until now, we have mentioned the sigmoid function as the only activation function. However, there are plenty of other activation functions that one can use. In fact, the sigmoid function has lost its popularity, and is today superseded by the more modern functions based on \textit{rectified linear units} (ReLU). Some popular choices are the \textit{leaky} ReLU and \textit{exponential linear units} (ELU), which are linear for positive numbers. Pure linear activation functions are still widely used, especially on the output layer. 
 
 In figure (\ref{fig:activation_functions}), standard RELU, leaky RELU and ELU are plotted along with the sigmoid function.
 
@@ -437,7 +453,34 @@ In figure (\ref{fig:activation_functions}), standard RELU, leaky RELU and ELU ar
 
 
 \subsubsection{Backward propagation} \label{sec:backward}
-Backward propagation is probably the most used technique for updating the weights in a neural network, and is actually again based on the parameter update presented for linear and logistic regression. It is called backward propagation because we are propagating from the outputs to the inputs.  
+Backward propagation is today the most used technique for updating the weights in a neural network, and is actually again based on the weight update presented for linear and logistic regression. The algorithm for this was presented 1986, which made the deep neural networks able to solve relatively complicated problems for the first time. \cite{rumelhart_learning_1986} To update the weights, one starts with the outputs and updates the weights layer-wise until one gets to the inputs, hence th name backward propagation. 
+
+As observed above, all the nodes are connected, and so applies for the weights. This is the reason why the weights updating scheme does not have a simple form. 
+
+From the linear and logistic regression, we know that we need the derivative of the cost function in order to do the weight update. Again, we define the cost function as the mean square error,
+\begin{equation}
+\mathcal{C}(\bs{w})=\frac{1}{2}\sum_{i=1}^{N_L}(y_i-a_i^{(L)})^2
+\end{equation}
+where we have $L+1$ layers ($L$ is the last layer) and $N_L$ output nodes. The derivative of this with respect to one of the weights between the $L-1$'th and $L$'th layer can be written as a sum using the chain rule
+\begin{equation}
+\frac{\partial\mathcal{C}(\bs{w})}{\partial w_{jk}^{(L)}}=\frac{\partial\mathcal{C}(\bs{w})}{\partial a_j^{(L)}}\frac{\partial a_j^{(L)}}{\partial z_j^{(L)}}\frac{\partial z_j^{(L)}}{\partial w_{jk}^{(L)}}.
+\end{equation}
+The first one can easily be found to be
+\begin{equation}
+\frac{\partial\mathcal{C}(\bs{w})}{\partial a_j^{(L)}}=(y_j-a_j^{(L)})
+\end{equation}
+using the definition of the cost function. The second differential is the derivative of the activation function with respect to its argument, and is for the sigmoid function given by
+\begin{equation}
+\frac{\partial a_j^{(L)}}{\partial z_j^{(L)}}=a_j^{(L)}(1-a_j^{(L)}).
+\end{equation}
+Finally, the last differential is given by 
+\begin{equation}
+\frac{\partial z_j^{(L)}}{\partial w_{jk}^{(L)}}=a_k^{(L-1)}.
+\end{equation}
+Collecting all the factors, we obtain 
+\begin{equation}
+\frac{\partial\mathcal{C}(\bs{w})}{\partial w_{jk}^{(L)}}=(y_j-a_j^{(L)})a_j^{(L)}(1-a_j^{(L)})a_k^{(L-1)}
+\end{equation}
 
 What differs, is the differentiation of the net input with respect to the weight, which gets more complex as we add more layers. For one hidden layer, we have two sets of weights, where the last layer is updated in a similar way as for a network without hidden layer, but the inputs are replaced with the values of the hidden nodes:
 \begin{empheq}[box={\mybluebox[5pt]}]{align}
@@ -515,6 +558,8 @@ Kullback-Leibler divergence gives a measure of how much information is loss when
 \subsubsection{Marginal Distributions}
 
 \subsubsection{Conditional Distributions}
+
+The weights are updated following the log-likelihood. 
 
 \subsection{Boltzmann Machines}
 Boltzmann Machines are based on the more primitive Hopfield network, where a system of nodes is set up which defines the system energy. Inspired by statistical mechanics, the probability of finding the system in a state of energy $E$ is given by the Boltzmann distribution,

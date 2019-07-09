@@ -361,6 +361,73 @@
     \field{year}{1977}
   \endentry
 
+  \entry{rumelhart_learning_1986}{article}{}
+    \name{author}{3}{}{%
+      {{hash=RDE}{%
+         family={Rumelhart},
+         familyi={R\bibinitperiod},
+         given={David\bibnamedelima E.},
+         giveni={D\bibinitperiod\bibinitdelim E\bibinitperiod},
+      }}%
+      {{hash=HGE}{%
+         family={Hinton},
+         familyi={H\bibinitperiod},
+         given={Geoffrey\bibnamedelima E.},
+         giveni={G\bibinitperiod\bibinitdelim E\bibinitperiod},
+      }}%
+      {{hash=WRJ}{%
+         family={Williams},
+         familyi={W\bibinitperiod},
+         given={Ronald\bibnamedelima J.},
+         giveni={R\bibinitperiod\bibinitdelim J\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {En}%
+    }
+    \strng{namehash}{RDEHGEWRJ1}
+    \strng{fullhash}{RDEHGEWRJ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{1}
+    \field{sortinithash}{1}
+    \field{abstract}{%
+    We describe a new learning procedure, back-propagation, for networks of
+  neurone-like units. The procedure repeatedly adjusts the weights of the
+  connections in the network so as to minimize a measure of the difference
+  between the actual output vector of the net and the desired output vector. As
+  a result of the weight adjustments, internal ‘hidden’ units which are not
+  part of the input or output come to represent important features of the task
+  domain, and the regularities in the task are captured by the interactions of
+  these units. The ability to create useful new features distinguishes
+  back-propagation from earlier, simpler methods such as the
+  perceptron-convergence procedure1.%
+    }
+    \verb{doi}
+    \verb 10.1038/323533a0
+    \endverb
+    \field{issn}{1476-4687}
+    \field{number}{6088}
+    \field{pages}{533}
+    \field{title}{Learning representations by back-propagating errors}
+    \verb{url}
+    \verb https://www.nature.com/articles/323533a0
+    \endverb
+    \field{volume}{323}
+    \verb{file}
+    \verb Full Text PDF:/home/evenmn/Zotero/storage/YZUG3YS8/Rumelhart et al. -
+    \verb  1986 - Learning representations by back-propagating error.pdf:applic
+    \verb ation/pdf;Snapshot:/home/evenmn/Zotero/storage/G2FCAIT7/323533a0.html
+    \verb :text/html
+    \endverb
+    \field{journaltitle}{Nature}
+    \field{month}{10}
+    \field{year}{1986}
+    \field{urlday}{09}
+    \field{urlmonth}{07}
+    \field{urlyear}{2019}
+  \endentry
+
   \entry{taut_two_1993}{article}{}
     \name{author}{1}{}{%
       {{hash=TM}{%
@@ -2323,6 +2390,124 @@
     \field{month}{06}
     \field{year}{2017}
     \field{urlday}{05}
+    \field{urlmonth}{07}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{alom_history_2018}{article}{}
+    \name{author}{9}{}{%
+      {{hash=AMZ}{%
+         family={Alom},
+         familyi={A\bibinitperiod},
+         given={Md\bibnamedelima Zahangir},
+         giveni={M\bibinitperiod\bibinitdelim Z\bibinitperiod},
+      }}%
+      {{hash=TTM}{%
+         family={Taha},
+         familyi={T\bibinitperiod},
+         given={Tarek\bibnamedelima M.},
+         giveni={T\bibinitperiod\bibinitdelim M\bibinitperiod},
+      }}%
+      {{hash=YC}{%
+         family={Yakopcic},
+         familyi={Y\bibinitperiod},
+         given={Christopher},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=WS}{%
+         family={Westberg},
+         familyi={W\bibinitperiod},
+         given={Stefan},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=SP}{%
+         family={Sidike},
+         familyi={S\bibinitperiod},
+         given={Paheding},
+         giveni={P\bibinitperiod},
+      }}%
+      {{hash=NMS}{%
+         family={Nasrin},
+         familyi={N\bibinitperiod},
+         given={Mst\bibnamedelima Shamima},
+         giveni={M\bibinitperiod\bibinitdelim S\bibinitperiod},
+      }}%
+      {{hash=VEBC}{%
+         family={Van\bibnamedelima Esesn},
+         familyi={V\bibinitperiod\bibinitdelim E\bibinitperiod},
+         given={Brian\bibnamedelima C.},
+         giveni={B\bibinitperiod\bibinitdelim C\bibinitperiod},
+      }}%
+      {{hash=AAAS}{%
+         family={Awwal},
+         familyi={A\bibinitperiod},
+         given={Abdul A.\bibnamedelima S.},
+         giveni={A\bibinitperiod\bibinitdelim A\bibinitperiod\bibinitdelim
+  S\bibinitperiod},
+      }}%
+      {{hash=AVK}{%
+         family={Asari},
+         familyi={A\bibinitperiod},
+         given={Vijayan\bibnamedelima K.},
+         giveni={V\bibinitperiod\bibinitdelim K\bibinitperiod},
+      }}%
+    }
+    \keyw{Computer Science - Computer Vision and Pattern Recognition}
+    \strng{namehash}{AMZ+1}
+    \strng{fullhash}{AMZTTMYCWSSPNMSVEBCAAASAVK1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{shorttitle}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{abstract}{%
+    Deep learning has demonstrated tremendous success in variety of application
+  domains in the past few years. This new field of machine learning has been
+  growing rapidly and applied in most of the application domains with some new
+  modalities of applications, which helps to open new opportunity. There are
+  different methods have been proposed on different category of learning
+  approaches, which includes supervised, semi-supervised and un-supervised
+  learning. The experimental results show state-of-the-art performance of deep
+  learning over traditional machine learning approaches in the field of Image
+  Processing, Computer Vision, Speech Recognition, Machine Translation, Art,
+  Medical imaging, Medical information processing, Robotics and control,
+  Bio-informatics, Natural Language Processing (NLP), Cyber security, and many
+  more. This report presents a brief survey on development of DL approaches,
+  including Deep Neural Network (DNN), Convolutional Neural Network (CNN),
+  Recurrent Neural Network (RNN) including Long Short Term Memory (LSTM) and
+  Gated Recurrent Units (GRU), Auto-Encoder (AE), Deep Belief Network (DBN),
+  Generative Adversarial Network (GAN), and Deep Reinforcement Learning (DRL).
+  In addition, we have included recent development of proposed advanced variant
+  DL techniques based on the mentioned DL approaches. Furthermore, DL
+  approaches have explored and evaluated in different application domains are
+  also included in this survey. We have also comprised recently developed
+  frameworks, SDKs, and benchmark datasets that are used for implementing and
+  evaluating deep learning approaches. There are some surveys have published on
+  Deep Learning in Neural Networks [1, 38] and a survey on RL [234]. However,
+  those papers have not discussed the individual advanced techniques for
+  training large scale deep learning models and the recently developed method
+  of generative models [1].%
+    }
+    \field{note}{arXiv: 1803.01164}
+    \field{shorttitle}{The {History} {Began} from {AlexNet}}
+    \field{title}{The {History} {Began} from {AlexNet}: {A} {Comprehensive}
+  {Survey} on {Deep} {Learning} {Approaches}}
+    \verb{url}
+    \verb http://arxiv.org/abs/1803.01164
+    \endverb
+    \verb{file}
+    \verb arXiv\:1803.01164 PDF:/home/evenmn/Zotero/storage/ZNZNGJ6B/Alom et al
+    \verb . - 2018 - The History Began from AlexNet A Comprehensive Su.pdf:appl
+    \verb ication/pdf;arXiv.org Snapshot:/home/evenmn/Zotero/storage/J9IMXDN6/1
+    \verb 803.html:text/html
+    \endverb
+    \field{journaltitle}{arXiv:1803.01164 [cs]}
+    \field{annotation}{%
+    Comment: 39 pages, 46 figures, 3 tables. arXiv admin note: text overlap
+  with arXiv:1408.3264, arXiv:1411.4046%
+    }
+    \field{month}{03}
+    \field{year}{2018}
+    \field{urlday}{09}
     \field{urlmonth}{07}
     \field{urlyear}{2019}
   \endentry

@@ -42,10 +42,10 @@ Using the fact that the trial wave function is a product of all the elements, th
 \end{equation*}
 such that the total kinetic energy is given by
 \begin{align*}
--\frac{1}{2}\frac{1}{\Psi_T(\bs{r})}\nabla^2\Psi_T(\bs{r})&=-\frac{1}{2}\sum_{k=1}^{ND}\frac{1}{\Psi_T(\bs{r})}\nabla_k^2\Psi_T(\bs{r})\notag\\
-&=\sum_{i=1}^p\nabla^2\ln\psi_i(\bs{r}) + \sum_{k=1}^{ND}\Big(\sum_{i=1}^p\nabla_k\ln\psi_i(\bs{r})\Big)^2
+-\frac{1}{2}\frac{1}{\Psi_T(\bs{r})}\nabla^2\Psi_T(\bs{r})&=-\frac{1}{2}\sum_{k=1}^{F}\frac{1}{\Psi_T(\bs{r})}\nabla_k^2\Psi_T(\bs{r})\notag\\
+&=\sum_{i=1}^p\nabla^2\ln\psi_i(\bs{r}) + \sum_{k=1}^{F}\Big(\sum_{i=1}^p\nabla_k\ln\psi_i(\bs{r})\Big)^2
 \end{align*}
-which can be found when all local derivatives $\nabla^2\ln\psi_i(\bs{r})$ and $\nabla_k\ln\psi_i(\bs{r})$ are given. For each wave function element given below, those local derivatives will be evaluated. In addition, we need to know the derivative of local energy with respect to the variational parameters in order to update the parameters correctly. 
+where $F$ is the number of free dimensions, $F=ND$. This can be found when all local derivatives $\nabla^2\ln\psi_i(\bs{r})$ and $\nabla_k\ln\psi_i(\bs{r})$ are given. For each wave function element given below, those local derivatives will be evaluated. In addition, we need to know the derivative of local energy with respect to the variational parameters in order to update the parameters correctly. 
 
 \section{Parameter update}
 In gradient based optimization methods, as we use, one needs to know the gradient of the expectation value of local energy with respect to all variational parameters $\theta_j$, 
@@ -94,7 +94,7 @@ We will in this section go through the derivatives of the various wave function 
 \subsection{Simple Gaussian}
 A natural starting point is the Gaussian function, since it appears in standard variational Monte-Carlo computations of quantum dot systems. For $N$ number of particles and $NP$ free dimensions, the function is given by
 \begin{equation*}
-\psi_{sg}(\bs{x}; \alpha)=\exp\Big(-\frac{1}{2}\omega\alpha\sum_{j=1}^Nr_j^2\Big)=\exp\Big(-\frac{1}{2}\omega\alpha\sum_{j=1}^{NP}x_j^2\Big),
+\psi_{sg}(\bs{x}; \alpha)=\exp\Big(-\frac{1}{2}\omega\alpha\sum_{j=1}^Nr_j^2\Big)=\exp\Big(-\frac{1}{2}\omega\alpha\sum_{j=1}^{F}x_j^2\Big),
 \end{equation*}
 similarly to the function presented in section \eqref{sec:quantumdots}. $\omega$ is the oscillator strength and $\alpha$ is a variational parameter, which for non-interacting atoms is 1. Due to the presence of $r_i^2$, the function can easily be treated both in Cartesian and spherical coordinates, but in this thesis we will focus on the former.
 
@@ -112,7 +112,7 @@ and similar to $i$, $k$ will be reserved the coordinate we are differentiating w
 \end{empheq}
 and finally, we will update $\alpha$ according to
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-\partial_{\alpha}\ln\psi_{sg} = -\frac{1}{2}\omega\sum_{j=1}^Mx_j^2.
+\partial_{\alpha}\ln\psi_{sg} = -\frac{1}{2}\omega\sum_{j=1}^Fx_j^2.
 \end{empheq}
 Since this wave function element is quite simple, there is no special optimization available that will cause a noticeable speed-up.
 
@@ -133,7 +133,7 @@ The gradient reads
 \end{empheq}
 where $j$ is related to the same dimension as $k$. This also applies for the Laplacian,
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-\nabla^2\ln\psi_{sj}=\sum_{k=1}^{ND}\sum_{j'=1}^N\frac{\beta_{k'j'}}{r_{k'j'}}\Big(1-\frac{(x_k-x_j)^2}{r_{k'j'}^2}\Big).
+\nabla^2\ln\psi_{sj}=\sum_{k=1}^{F}\sum_{j'=1}^N\frac{\beta_{k'j'}}{r_{k'j'}}\Big(1-\frac{(x_k-x_j)^2}{r_{k'j'}^2}\Big).
 \end{empheq}
 Finally, the parameter update is given by
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
@@ -154,7 +154,7 @@ Similarly to the simple Jastrow, we also here need to distinguish between partic
 \end{equation*}
 with respect to the coordinate $x_k$. By again differentiating this with respect to $x_k$, we obtain the Laplacian
 \begin{equation*}
-\nabla^2\ln\psi_{pj}=\sum_{k=1}^{ND}\sum_{j'\neq k'=1}^N\frac{a_{k'j'}}{(1+\beta r_{k'j'})^2}\bigg[1-\Big(1+2\frac{\beta r_{k'j'}}{1+\beta r_{k'j'}}\Big)\frac{(x_k-x_j)^2}{r_{k'j'}^2}\bigg]\frac{1}{r_{k'j'}}.
+\nabla^2\ln\psi_{pj}=\sum_{k=1}^{F}\sum_{j'\neq k'=1}^N\frac{a_{k'j'}}{(1+\beta r_{k'j'})^2}\bigg[1-\Big(1+2\frac{\beta r_{k'j'}}{1+\beta r_{k'j'}}\Big)\frac{(x_k-x_j)^2}{r_{k'j'}^2}\bigg]\frac{1}{r_{k'j'}}.
 \end{equation*}
 
 The last expression we need  is the one used to update the variational parameter $\beta$, which is found to be
@@ -170,7 +170,7 @@ The final expressions then read
 \begin{empheq}[box={\mybluebox[5pt]}]{align}
 \frac{|\psi_{pj}(\bs{r}_{\text{new}})|^2}{|\psi_{pj}(\bs{r}_{\text{old}})|^2}&=\exp\Big(2\sum_{j'=1}^Na_{i'j'}(h_{i'j'}^{\text{new}}-h_{i'j'}^{\text{old}})\Big)\notag\\
 \nabla_k\ln\psi_{pj} &=\sum_{j'\neq k'=1}^Na_{k'j'}\cdot f_{k'j'}^2\cdot g_{kj}\notag\\
-\nabla_k^2\ln\psi_{pj} &= \sum_{j'\neq k'=1}^N\frac{a_{k'j'}}{r_{k'j'}}f_{k'j'}^2\Big[1-(1+2\beta h_{k'j'})g_{kj}^2\Big]\\
+\nabla^2\ln\psi_{pj} &= \sum_{k=1}^F\sum_{j'\neq k'=1}^N\frac{a_{k'j'}}{r_{k'j'}}f_{k'j'}^2\Big[1-(1+2\beta h_{k'j'})g_{kj}^2\Big]\\
 \partial_{\beta}\ln\psi_{pj}&=-\sum_{l'=1}^N\sum_{j>l}^Na_{l'j'}h_{l'j'}^2\notag
 \end{empheq}
 with marked indices ($i'$) as the particle related ones and the unmarked ($i$) as the coordinate related ones. $i'$ is the moved particle. 
@@ -287,29 +287,31 @@ We assume that we do not have any variational parameter in the Slater determinan
 &\quad\text{if}\quad k<N_{\uparrow}:\notag\\
 \frac{|\psi_{sd}(\bs{r}_{\text{new}})|^2}{|\psi_{sd}(\bs{r}_{\text{old}})|^2}&=
 \frac{|\hat{D}_{\uparrow}(\bs{r}_{\uparrow}^{\text{new}})|^2}{|\hat{D}_{\uparrow}(\bs{r}_{\uparrow}^{\text{old}})|^2}\notag\\
-\nabla_k\ln|\hat{D}_{\uparrow}(\bs{r}_{\uparrow})|&=\sum_{j=1}^{N_{\uparrow}}\nabla_kd_{jk}(\bs{r}_{\uparrow})d_{kj}^{-1}(\bs{r}_{\uparrow})\\
-\nabla_k^2\ln|\hat{D}_{\uparrow}(\bs{r}_{\uparrow})|&=\sum_{j=1}^{N_{\uparrow}}\nabla_k^2d_{jk}(\bs{r}_{\uparrow})d_{kj}^{-1}(\bs{r}_{\uparrow})-\Big(\sum_{j=1}^{N_{\uparrow}}\nabla_kd_{ik}(\bs{r}_{\uparrow})d_{ki}^{-1}(\bs{r}_{\uparrow})\Big)^2\notag
+\nabla_k\ln|\hat{D}_{\uparrow}(\bs{r}_{\uparrow})|&=\sum_{j=1}^{N_{\uparrow}}\nabla_kd_{jk}(\bs{r}_{\uparrow})d_{kj}^{-1}(\bs{r}_{\uparrow})
 \end{empheq}
 
 \begin{empheq}[box={\mybluebox[5pt]}]{align}
 &\quad\text{if}\quad k\geq N_{\uparrow}:\notag\\
 \frac{|\psi_{sd}(\bs{r}_{\text{new}})|^2}{|\psi_{sd}(\bs{r}_{\text{old}})|^2}&=
 \frac{|\hat{D}_{\downarrow}(\bs{r}_{\downarrow}^{\text{new}})|^2}{|\hat{D}_{\downarrow}(\bs{r}_{\downarrow}^{\text{old}})|^2}\notag\\
-\nabla_k\ln|\hat{D}_{\downarrow}(\bs{r}_{\downarrow})|&=\sum_{j=N_{\uparrow}}^{ND}\nabla_kd_{jk}(\bs{r}_{\downarrow})d_{kj}^{-1}(\bs{r}_{\downarrow})\\
-\nabla_k^2\ln|\hat{D}_{\downarrow}(\bs{r}_{\downarrow})|&=\sum_{j=N_{\uparrow}}^{ND}\nabla_k^2d_{jk}(\bs{r}_{\downarrow})d_{kj}^{-1}(\bs{r}_{\downarrow})-\Big(\sum_{j=N_{\uparrow}}^{ND}\nabla_kd_{ik}(\bs{r}_{\downarrow})d_{ki}^{-1}(\bs{r}_{\downarrow})\Big)^2\notag
+\nabla_k\ln|\hat{D}_{\downarrow}(\bs{r}_{\downarrow})|&=\sum_{j=N_{\uparrow}}^{F}\nabla_kd_{jk}(\bs{r}_{\downarrow})d_{kj}^{-1}(\bs{r}_{\downarrow})
+\end{empheq}
+
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
+\nabla^2\ln|\hat{D}(\bs{r})|=\sum_{k=1}^F\bigg[\sum_{j=1}^{F}\nabla_k^2d_{jk}(\bs{r})d_{kj}^{-1}(\bs{r})-\Big(\sum_{j=1}^{F}\nabla_kd_{ik}(\bs{r})d_{ki}^{-1}(\bs{r})\Big)^2\bigg]
 \end{empheq}
 
 \subsection{Restricted Boltzmann machine}
 Now over to the real deal; the wave function elements inspired by machine learning. The total restricted Boltzmann machine (RBM) wave function was presented in equation \eqref{eq:RBMWF2},
 \begin{equation}
-\psi_{rbm}(\bs{x};\bs{a},\bs{b},\bs{w})=\exp\Big(-\sum_{i=1}^{ND}\frac{(x_i-a_i)^2}{2\sigma^2}\Big)\prod_{j=1}^H\bigg(1+\exp\Big(b_j+\sum_{i=1}^{ND}\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg).
+\psi_{rbm}(\bs{x};\bs{a},\bs{b},\bs{w})=\exp\Big(-\sum_{i=1}^{F}\frac{(x_i-a_i)^2}{2\sigma^2}\Big)\prod_{j=1}^H\bigg(1+\exp\Big(b_j+\sum_{i=1}^{F}\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg).
 \end{equation}
 and contains a Gaussian part and a product part. In order to minimize the complexity of each wave function element, we decided to split it up in the code and they will therefore be presented separately below. The first part will henceforth be denoted as the RBM-Gaussian, while the last part will be denoted as the RBM-Product. 
 
 \subsubsection{RBM-Gaussian}
 The RBM-Gaussian reads
 \begin{equation}
-\psi_{rg}(\bs{x};\bs{a})=\exp(-\sum_{i=1}^{ND}\frac{(x_i-a_i)^2}{2\sigma^2})
+\psi_{rg}(\bs{x};\bs{a})=\exp(-\sum_{i=1}^{F}\frac{(x_i-a_i)^2}{2\sigma^2})
 \end{equation}
 
 
@@ -326,7 +328,7 @@ The derivatives of the RBM-Gaussian are similar to those of the simple Gaussian,
 \subsubsection{RBM-product}
 The RBM product is the last part of \eqref{eq:RBMWF2}, and is thus given by
 \begin{equation*}
-\psi_{rp}(\bs{x};\bs{b},\bs{w})=\prod_{j=1}^H\bigg[1+\exp\Big(b_j+\sum_{i=1}^{ND}\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg].
+\psi_{rp}(\bs{x};\bs{b},\bs{w})=\prod_{j=1}^H\bigg[1+\exp\Big(b_j+\sum_{i=1}^{F}\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg].
 \end{equation*}
 In appendix D, section \eqref{sec:derivatives}, a general Gaussian-binary RBM product on the form
 \begin{equation*}
@@ -370,12 +372,12 @@ There the linear algebra package Eigen is used for the matrix-vector operations,
 \subsection{Partly restricted Boltzmann machine}
 For the partly restricted Boltzmann machine given in equation \eqref{eq:PRBMWF}, we observe that the only difference from a standard Boltzmann machine is the factor 
 \begin{equation}
-\psi_{pr}=\exp\Big(\sum_{i=1}^{ND}\sum_{j=1}^{ND}x_ic_{ij}x_j\Big)
+\psi_{pr}=\exp\Big(\sum_{i=1}^{F}\sum_{j=1}^{F}x_ic_{ij}x_j\Big)
 \end{equation}
 which we can threaten separately. We end up with the expressions
 \begin{empheq}[box={\mybluebox[5pt]}]{align}
-\frac{|\psi_{pr}(\bs{x}_{\text{new}})|^2}{|\psi_{pr}(\bs{x}_{\text{old}})|^2}&=\exp\Big(2\sum_{j=1}^{ND}c_{ij}x_j(x_i^{\text{new}}-x_i^{\text{old}})\Big)\notag\\
-\nabla_k\ln\psi_{pr} &=2\sum_{j=1}^{ND}c_{kj}x_j\notag\\
+\frac{|\psi_{pr}(\bs{x}_{\text{new}})|^2}{|\psi_{pr}(\bs{x}_{\text{old}})|^2}&=\exp\Big(2\sum_{j=1}^{F}c_{ij}x_j(x_i^{\text{new}}-x_i^{\text{old}})\Big)\notag\\
+\nabla_k\ln\psi_{pr} &=2\sum_{j=1}^{F}c_{kj}x_j\notag\\
 \nabla_k^2\ln\psi_{pr} &= 2c_{kk}\\
 \partial_{c_{ml}}\ln\psi_{pr}&=x_mx_l\notag
 \end{empheq}
