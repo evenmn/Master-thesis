@@ -442,11 +442,10 @@ In figure (\ref{fig:activation_functions}), standard RELU, leaky RELU and ELU ar
 
 \begin{figure}
 	\centering
-	\subfloat[Sigmoid]{{\includegraphics[width=8cm]{Images/sigmoid.png} }}
-	\subfloat[ReLU]{{\includegraphics[width=8cm]{Images/ReLU.png} }}\\
-	
-	\subfloat[Leaky ReLU]{{\includegraphics[width=8cm]{Images/LeakyReLU.png} }}%
-	\subfloat[ELU]{{\includegraphics[width=8cm]{Images/ELU.png} }}
+	\subfloat[Sigmoid]{{\includegraphics[width=4cm]{Images/sigmoid.png} }}
+	\subfloat[ReLU]{{\includegraphics[width=4cm]{Images/ReLU.png}}}
+	\subfloat[Leaky ReLU]{{\includegraphics[width=4cm]{Images/LeakyReLU.png} }}
+	\subfloat[ELU]{{\includegraphics[width=4cm]{Images/ELU.png}}}
 	\caption{Some well-known activation functions. The sigmoid function stands out from the others since it maps between 0 and 1, and it is not linear for positive numbers.}%
 	\label{fig:activation_functions}%
 \end{figure}
@@ -483,55 +482,25 @@ Collecting all the factors, we obtain
 \end{equation}
 In the next step, we can define
 \begin{equation}
-\delta_j^{(L)}=a_j^{(L)}(1-a_j^{(L)})(y_j-a_j^{(L)})=f'(a_j^{(L)})\frac{\partial \mathcal{C}(\bs{w})}{\partial a_j^{(L)}}
+\delta_j^{(L)}=a_j^{(L)}(1-a_j^{(L)})(y_j-a_j^{(L)})=f'(a_j^{(L)})\frac{\partial \mathcal{C}(\bs{w})}{\partial a_j^{(L)}}=\frac{\partial \mathcal{C}(\bs{w})}{\partial z_j^{(L)}}
 \end{equation}
 such that the weight update can be expressed in a neater form
+\begin{empheq}[box={\mybluebox[5pt]}]{align}
+\frac{\partial\mathcal{C}(\bs{w})}{\partial w_{jk}^{(l)}}=\delta_j^{(l)}a_k^{(l-1)}
+\end{empheq}
+
+For an arbitrary layer $l$, we find $\delta_j^{(l)}$ to be de same as about,
 \begin{equation}
-\frac{\partial\mathcal{C}(\bs{w})}{\partial w_{jk}^{(L)}}=\delta_j^{(L)}a_k^{(L-1)}
+\delta_j^{(l)}=\frac{\partial \mathcal{C}(\bs{w})}{\partial z_j^{(l)}}=\sum_k\frac{\partial\mathcal{C}}{\partial z_k^{(l+1)}}\frac{\partial z_k^{(l+1)}}{\partial z_j^{(l)}}
 \end{equation}
-
-What differs, is the differentiation of the net input with respect to the weight, which gets more complex as we add more layers. For one hidden layer, we have two sets of weights, where the last layer is updated in a similar way as for a network without hidden layer, but the inputs are replaced with the values of the hidden nodes:
-\begin{empheq}[box={\mybluebox[5pt]}]{align}
-	w_{ij}^{(2)+}= w_{ij}^{(2)} - \eta\cdot[f(h_i^Tw_{ij})-y_j]^Th_i.
-\end{empheq}
-We recognize the first part as $\delta_{ok}$, such that
+using the definition of $z_j^{(l+1)}$, we obtain the final expression
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-	w_{ij}^{(1)+} = w_{ij}^{(1)} - \eta\cdot\sum_{k=1}^{O}\delta_{ok}\cdot w_{jk}^{(2)}\cdot f'(out_{hj})\cdot x_i
+\delta_j^{(l)}=\sum_k\delta_k^{(l+1)}w_{kj}^{(l+1)}f'(z_j^{(l)})
 \end{empheq}
-where we recall $\delta_{ok}$ as
-\begin{equation*}
-	\delta_{ok}=-(t_{ok}-out_{ok})\cdot f'(out_{ok}).
-\end{equation*}
-For more layers, the procedure is the same, but we keep on inserting the obtained outputs from various layers.
-
-\subsubsection{Summary}
-Since it will be quite a lot calculations, I will just express the results here, and move the calculations to Appendix B. The forward phase in a three-layer perceptron is
+where we use the expression for $\delta_j^{(L)}$ as our initial condition. The new weight $w_{ij}^{(l)+}$ is found from
 \begin{empheq}[box={\mybluebox[5pt]}]{align}
-	net_{hi}&=\sum_jw_{ji}^{(1)}\cdot x_j\notag\\
-	out_{hi}&=\text{f}(net_{hi})\notag\\
-	\notag\\
-	net_{ki}&=\sum_jw_{ji}^{(2)}\cdot out_{hj}\\
-	out_{ki}&=\text{f}(net_{ki})\notag\\
-	\notag\\
-	net_{oi}&=\sum_jw_{ji}^{(3)}\cdot out_{kj}\notag\\
-	out_{oi}&=\text{f}(net_{oi})\notag
+w_{ij}^{(l)+}=w_{ij}^{(l)}-\eta\frac{\partial\mathcal{C}(\bs{w})}{\partial w_{jk}^{(l)}}
 \end{empheq}
-which can easily be turned into vector form. The backward propagation follows from the two-layer example, and we get
-\begin{empheq}[box={\mybluebox[5pt]}]{align}
-	w_{ij}^{(3)}&=w_{ij}^{(3)}-\eta\cdot\delta_{oj}\cdot out_{ki}\notag\\
-	\notag\\
-	w_{ij}^{(2)}&=w_{ij}^{(2)}-\eta\sum_{k=1}^O\delta_{ok}\cdot w_{jk}^{(3)}\cdot f'(out_{kj})\cdot out_{hi}\notag\\
-	\notag\\
-	w_{ij}^{(1)}&=w_{ij}^{(1)}-\eta\sum_{k=1}^O\sum_{l=1}^K\delta_{ok}\cdot w_{lk}^{(3)}\cdot f'(out_{kl})\cdot w_{jl}^{(2)}f'(out_{hj})\cdot x_i\notag
-\end{empheq}
-where we again use the short hand 
-\begin{equation*}
-	\delta_{oj}=(t_j-out_{oj})\cdot f'(out_{oj}).
-\end{equation*}
-If we compare with the weight update formulas for the two-layer case, we recognize some obvious connections, and it is easy to imagine how we can construct a general weight update algorithm, no matter how many layers we have. 
-
-Now over to the problem we want to solve using neural networks.
-
 
 \section{Unsupervised Learning}
 In unsupervised learning, a neural network is given the inputs only, and does not know what the output should look like. The task is then to find structures in the data, comparing data sets to each other and categorize the data sets with respect to their similarities and differences. 
