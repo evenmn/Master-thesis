@@ -1,49 +1,47 @@
 % This file was created by matplotlib2tikz v0.7.4.
-\begin{tikzpicture}
+\begin{tikzpicture}[scale=0.9]
 
 \definecolor{color0}{rgb}{0.12156862745098,0.466666666666667,0.705882352941177}
 \definecolor{color1}{rgb}{1,0.498039215686275,0.0549019607843137}
 
-\begin{axis}[
-legend cell align={left},
-legend style={at={(0.03,0.97)}, anchor=north west, draw=white!80.0!black},
-tick align=outside,
-tick pos=left,
-x grid style={white!69.01960784313725!black},
-xlabel={Number of orbitals},
-xmajorgrids,
-xmin=0.65, xmax=8.35,
-xtick style={color=black},
-y grid style={white!69.01960784313725!black},
-ylabel={CPU-time [s]},
-ymajorgrids,
-ymin=-12.690605, ymax=370.969705,
-ytick style={color=black}
-]
-\addplot [semithick, color0]
-table {%
-1 5.141258
-2 9.239086
-3 15.17534
-4 29.92524
-5 60.01942
-6 105.355
-7 186.3048
-8 309.9558
-};
-\addlegendentry{RBM}
-\addplot [semithick, color1, dashed]
-table {%
-1 4.7485
-2 8.551862
-3 16.69836
-4 34.40414
-5 68.92126
-6 125.4514
-7 214.0844
-8 353.5306
-};
-\addlegendentry{VMC}
-\end{axis}
+\begin{axis}[name=2D, xlabel=Number of particles, ylabel={CPU-time [s]}, grid=major, legend pos=north west] 
+\addplot[color=blue,mark=oplus*, dashed] coordinates { 
+	(2,5.141258)
+	(6,9.239086)
+	(12,15.17534) 
+	(20,29.92524) 
+	(30,60.01942) 
+	(42,105.3550) 
+	(56,186.3048)
+	(72,309.9558) }; 
+\addlegendentry{RBM};
 
+\addplot[color=orange,mark=oplus*, dash dot] coordinates { 
+	(12,19.79258) 
+	(20,49.38614) 
+	(30,103.70718) 
+	(42,194.3012) 
+	(56,361.7808) }; 
+\addlegendentry{RBM+SJ};
+
+\addplot[color=green,mark=oplus*, dotted] coordinates { 
+	(2,13.70556)
+	(6,26.81268)
+	(12,49.86926)
+	(20,52.58098) 
+	(30,108.3858) 
+	(42,196.3522) }; 
+\addlegendentry{RBM+PJ};
+
+\addplot[color=red,mark=oplus*] coordinates { 
+	(2,4.7485)
+	(6,8.551862)
+	(12,16.69836) 
+	(20,34.40414) 
+	(30,68.92126) 
+	(42,125.4514) 
+	(56,214.0844)
+	(72,353.5306) }; 
+\addlegendentry{VMC};
+\end{axis}
 \end{tikzpicture}

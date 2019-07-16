@@ -1,0 +1,21 @@
+\begin{tikzpicture} [scale=0.9, spy using outlines=
+	{rectangle, magnification=8,size=2cm, height=1cm, connect spies}]
+	\begin{axis} [name=2D, xlabel=Iteration, ylabel={Energy [Ha]}, grid=major, every axis plot/.append style={thick}]
+		\addplot table [x expr=\coordindex+1, y index=0, mark=none] {/home/evenmn/VMC/data/int1/energy/VMC/2D/2P/1.000000w/GD_MC16777216.dat};
+		\addlegendentry{GD};
+		
+		\addplot table [x expr=\coordindex+1, y index=0, mark=none, green] {/home/evenmn/VMC/data/int1/energy/VMC/2D/2P/1.000000w/SGD_MC16777216.dat}; 
+		\addlegendentry{SGD};
+		
+		\addplot table [x expr=\coordindex+1, y index=0, mark=none, green] {/home/evenmn/VMC/data/int1/energy/VMC/2D/2P/1.000000w/ADAM_MC16777216.dat}; 
+		\addlegendentry{ADAM};
+		
+		\addplot+ [dashed,mark=none,black] coordinates {(0,3) (100,3)};
+		\addlegendentry{Exact};
+		
+		\coordinate (spypoint1) at (axis cs:75,2.995);
+		\coordinate (magnifyglass1) at (axis cs:50,3.05);
+	\end{axis}
+	\spy [size=2.0cm] on (spypoint1)
+	in node[fill=white] at (magnifyglass1);
+\end{tikzpicture}

@@ -1,0 +1,16 @@
+\ProvidesPackage{libertineMono-type1}[%
+   2013/08/16 (Bob Tennent)  Compatibility style file for Linux Libertine. ] 
+
+\PackageWarningNoLine{libertineMono-type1}{%
+ ******************************************\MessageBreak
+  This package is obsolete. \MessageBreak
+  For new documents, please use            \MessageBreak
+  \@spaces\string\usepackage[type1]{libertineMono} \MessageBreak
+ ******************************************}
+
+\DeclareOption*{\PassOptionsToPackage{\CurrentOption}{libertineMono}}
+\ProcessOptions\relax
+
+\RequirePackage[type1]{libertineMono}
+
+\endinput

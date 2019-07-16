@@ -1,0 +1,301 @@
+\ProvidesPackage{libertineRoman}[%
+  2014/03/16 (Bob Tennent) Supports Libertine Roman fonts for all LaTeX engines.] 
+
+\RequirePackage{ifxetex,ifluatex,xkeyval,textcomp}
+
+\newif\iflibertine@otf
+\ifxetex
+  \libertine@otftrue
+\else\ifluatex
+  \libertine@otftrue
+\else  % [pdf]LaTeX
+  \libertine@otffalse
+\fi\fi
+
+\newif\iflibertine@lining \libertine@liningtrue          % NEW
+\newif\iflibertine@tabular \libertine@tabulartrue        % NEW
+\newif\iflibertine@semibold \libertine@semiboldfalse
+
+\def\libertine@newfigdefaults{%
+\PackageWarningNoLine{libertine}{%
+  ****************************************\MessageBreak
+   Figure defaults are now: lining, tabular; \MessageBreak
+   for options, see the documentation. \MessageBreak
+  ****************************************}
+}
+\DeclareOptionX{type1}[true]{%
+\@nameuse{if#1}\libertine@otffalse\fi
+}
+\DeclareOptionX{nofontspec}[true]{%
+\@nameuse{if#1}\libertine@otffalse\fi
+}
+\DeclareOptionX{lining}[true]{%
+\@nameuse{libertine@lining#1}
+\iflibertine@lining\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{nf}[true]{%
+\@nameuse{libertine@lining#1}
+\iflibertine@lining\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{lf}[true]{%
+\@nameuse{libertine@lining#1}
+\iflibertine@lining\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{oldstyle}[true]{%
+\@nameuse{if#1}%
+  \libertine@liningfalse
+\else
+  \libertine@liningtrue
+\fi
+\iflibertine@lining\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{osf}[true]{%
+\@nameuse{if#1}%
+  \libertine@liningfalse
+\else
+  \libertine@liningtrue
+\iflibertine@lining\libertine@newfigdefaults\fi
+\fi
+}
+\DeclareOptionX{tabular}[true]{%
+\@nameuse{libertine@tabular#1}
+\iflibertine@tabular\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{t}[true]{%
+\@nameuse{libertine@tabular#1}
+\iflibertine@tabular\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{proportional}[true]{%
+\@nameuse{if#1}%
+  \libertine@tabularfalse
+\else
+  \libertine@tabulartrue
+\fi
+\iflibertine@tabular\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{p}[true]{%
+\@nameuse{if#1}%
+  \libertine@tabularfalse
+\else
+  \libertine@tabulartrue
+\fi
+\iflibertine@tabular\libertine@newfigdefaults\fi
+}
+
+\DeclareOptionX{semibold}[true]{%
+\@nameuse{libertine@semibold#1}
+}
+\DeclareOptionX{sb}[true]{%
+\@nameuse{libertine@semibold#1}
+}
+\DeclareOptionX{bold}[true]{%
+\@nameuse{if#1}\libertine@semiboldfalse\else\libertine@semiboldtrue\fi
+}
+
+\newcommand*{\LinuxLibertineT@scale}{1}  
+\newcommand*{\LinuxLibertineDisplayT@scale}{1} 
+\newcommand*{\LinuxLibertineInitialsT@scale}{1}  
+
+\DeclareOptionX{defaultfeatures}{\def\libertine@defaultfeatures{#1}}
+\def\libertine@defaultfeatures{}
+
+\ProcessOptionsX\relax
+
+\iflibertine@otf
+  \iflibertine@lining
+    \def\libertine@figurestyle{Lining}
+  \else
+    \def\libertine@figurestyle{OldStyle}
+  \fi
+  \iflibertine@tabular
+    \def\libertine@figurealign{Monospaced} 
+  \else
+    \def\libertine@figurealign{Proportional} 
+  \fi
+  \iflibertine@semibold
+     \def\libertine@boldstyle{RZ} 
+  \else
+    \def\libertine@boldstyle{RB} 
+  \fi
+
+\else % type1
+
+  \iflibertine@lining
+    \def\libertine@figurestyle{LF} 
+  \else
+    \def\libertine@figurestyle{OsF} 
+  \fi
+  \iflibertine@tabular
+    \def\libertine@figurealign{T} 
+  \else
+    \def\libertine@figurealign{} 
+  \fi
+  \iflibertine@semibold
+    \def\bfseries@rm{sb}
+  \else
+    \def\bfseries@rm{b}
+  \fi
+\fi
+
+
+\iflibertine@otf
+  \RequirePackage{fontspec}
+\else
+  \RequirePackage{mweights}
+  \RequirePackage{fontenc,fontaxes}
+\fi
+
+% Set main and/or sans and mono fonts:
+
+\iflibertine@otf
+
+  \def\libertine@base{LinLibertine}
+  \ifxetex\XeTeXtracingfonts=1\fi
+  \defaultfontfeatures{
+     Ligatures = TeX ,
+     Extension = .otf ,
+     SmallCapsFeatures={Letters=SmallCaps} ,
+     \libertine@defaultfeatures
+  }
+    \setmainfont
+          [ Numbers = {\libertine@figurealign,\libertine@figurestyle},
+            UprightFont    = *_R,
+            ItalicFont     = *_RI,
+            BoldFont       = *_\libertine@boldstyle, 
+            BoldItalicFont = *_\libertine@boldstyle I,
+          ] {\libertine@base}
+  \newfontfamily\libertine
+        [ Numbers = {\libertine@figurealign,\libertine@figurestyle},
+          UprightFont    = *_R,
+          ItalicFont     = *_RI,
+          BoldFont       = *_\libertine@boldstyle, 
+          BoldItalicFont = *_\libertine@boldstyle I,
+        ] {\libertine@base}
+  \newfontfamily\libertineSB
+        [ Numbers = {\libertine@figurealign,\libertine@figurestyle},
+          UprightFont    = *_RZ,
+          ItalicFont     = *_RZI,
+          BoldFont       = *_\libertine@boldstyle, 
+          BoldItalicFont = *_\libertine@boldstyle I,
+        ] {\libertine@base}
+  \newfontfamily\libertineOsF
+        [ Numbers = {\libertine@figurealign,OldStyle},
+          UprightFont    = *_R,
+          ItalicFont     = *_RI,
+          BoldFont       = *_\libertine@boldstyle, 
+          BoldItalicFont = *_\libertine@boldstyle I,
+        ] {\libertine@base}
+  \newfontfamily\libertineLF
+        [ Numbers = {\libertine@figurealign,Lining},
+          UprightFont    = *_R,
+          ItalicFont     = *_RI,
+          BoldFont       = *_\libertine@boldstyle, 
+          BoldItalicFont = *_\libertine@boldstyle I,
+        ] {\libertine@base}
+  \newfontfamily\libertineDisplay
+        [ Numbers = {\libertine@figurealign,\libertine@figurestyle},
+          UprightFont    = *_DR,
+          ItalicFont     = *_RI,
+          BoldFont       = *_\libertine@boldstyle, 
+          BoldItalicFont = *_\libertine@boldstyle I,
+        ] {\libertine@base}
+  \newfontface\libertineInitial{\libertine@base _I}
+
+  \providecommand\sufigures{\addfontfeatures{VerticalPosition=Superior}}
+
+\else % type1
+
+  \edef\libertine@family{LinuxLibertineT-\libertine@figurealign\libertine@figurestyle}
+
+  \def\rmdefault{\libertine@family} 
+  \providecommand*\libertine{\fontfamily{\libertine@family}\selectfont}
+  \providecommand*\libertineSB{\fontfamily{\libertine@family}\fontseries{sb}\selectfont}
+  \providecommand*\libertineOsF{\fontfamily{LinuxLibertineT-\libertine@figurealign OsF}\selectfont}
+  \providecommand*\libertineLF{\fontfamily{LinuxLibertineT-\libertine@figurealign LF}\selectfont}
+  \providecommand*\libertineDisplay{\fontfamily{LinuxLibertineDisplayT-\libertine@figurealign\libertine@figurestyle}\selectfont}
+  \providecommand*\libertineInitial{\fontfamily{LinuxLibertineInitialsT-\libertine@figurealign\libertine@figurestyle}\selectfont}
+
+  \fa@naming@exception{figures}{{superior}{proportional}}{Sup}
+  \fa@naming@exception{figures}{{superior}{tabular}}{Sup}
+  \def\sufigures{\@nomath\sufigures\fontfigurestyle{superior}\selectfont}
+
+\fi
+\DeclareTextFontCommand{\textsu}{\sufigures}
+\let\textsuperior\textsu
+
+% Define \oldstylenums[f] and \liningnums[f]
+
+\iflibertine@otf
+      \DeclareTextFontCommand{\oldstylenumsf}{\sffamily\oldstylenums}
+      \DeclareTextFontCommand{\liningnumsf}{\sffamily\liningnums}
+\else % type1
+      \DeclareTextFontCommand{\oldstylenums}{\libertineOsF}
+      \DeclareTextFontCommand{\liningnums}{\libertineLF}
+      \DeclareTextFontCommand{\oldstylenumsf}{\sffamily\oldstylenums}
+      \DeclareTextFontCommand{\liningnumsf}{\sffamily}
+\fi
+
+% Define \tabularnums[f] and \proportionalnums[f]
+
+\iflibertine@otf
+  \newfontfamily\libertinetabular
+    [ Numbers = {Monospaced,\libertine@figurestyle},
+      UprightFont = *_R,
+      ItalicFont = *_RI,
+      BoldFont = *_\libertine@boldstyle,
+      BoldItalicFont = *_\libertine@boldstyle I ,
+    ] {\libertine@base}
+  \newfontfamily\libertineproportional
+    [ Numbers = {Proportional,\libertine@figurestyle},
+      UprightFont    = *_R,
+      ItalicFont     = *_RI,
+      BoldFont       = *_\libertine@boldstyle, 
+      BoldItalicFont = *_\libertine@boldstyle I,
+    ] {\libertine@base}
+    \DeclareTextFontCommand{\tabularnums}{\libertinetabular}
+    \DeclareTextFontCommand{\proportionalnums}{\libertineproportional}
+\else % type1
+    \DeclareTextFontCommand{\tabularnums}{\fontfamily{LinuxLibertineT-T\libertine@figurestyle}\selectfont}
+    \DeclareTextFontCommand{\proportionalnums}{\fontfamily{LinuxLibertineT-\libertine@figurestyle}\selectfont}
+\fi
+
+\iflibertine@otf
+  \def\lib@fxl{LinLibertine_R}
+  \def\lib@fxi{LinLibertine_I}
+
+  \providecommand*\DeclareTextGlyphY[3]{%
+      % \DeclareTextGlyphY{fxl}{s_t}{64262}
+      % #1=basefont #2=glyphname, #3=position
+      \def\lib@temp{#1}%
+      \ifx\lib@temp\lib@fxl \@namedef{#1@#2}{{\libertine\char#3\relax}}\else%
+            \ifx\lib@temp\lib@fxi \@namedef{#1@#2}{{\libertineInitial\char#3\relax}}\else%
+      \fi\fi}
+  %
+  \input{LinLibertine_R}
+  \input{LinLibertine_I}
+  %
+  \DeclareRobustCommand*\libertineGlyph[1]{\@nameuse{LinLibertine_R@#1}}
+  \DeclareRobustCommand*\libertineInitialGlyph[1]{\@nameuse{LinLibertine_I@#1}}
+
+\else %type1
+  
+  \def\lib@ini{LinLibertine_I}
+  \providecommand*\DeclareTextGlyphY[3]{%
+      % \DeclareTextGlyphY{fxl}{s_t}{64262}
+      % #1=basefont #2=glyphname, #3=position
+      \def\lib@temp{#1}%
+      \ifx\lib@temp\lib@ini \@namedef{#1@#2}{{\libertineInitial\char#3\relax}}\else%
+      \fi}
+  %
+  \input{LinLibertine_I}
+  %
+  \DeclareRobustCommand*\libertineInitialGlyph[1]{\@nameuse{LinLibertine_I@#1}}
+
+\fi
+
+\iflibertine@otf
+% turn off defaults in case other fonts are selected:
+  \defaultfontfeatures{}
+\fi
+
+\endinput

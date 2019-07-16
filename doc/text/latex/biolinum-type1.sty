@@ -1,0 +1,16 @@
+\ProvidesPackage{biolinum-type1}[%
+  2013/02/14 (Bob Tennent)  Compatibility style file for Linux Biolinum. ] 
+
+\PackageWarningNoLine{biolinum-type1}{%
+ *****************************************\MessageBreak
+  The biolinum-type1 package is obsolete. \MessageBreak
+  For new documents, please use           \MessageBreak
+  \@spaces\string\usepackage[type1]{biolinum} \MessageBreak
+ *****************************************}
+
+\DeclareOption*{\PassOptionsToPackage{\CurrentOption}{biolinum}}
+\ProcessOptions\relax
+
+\RequirePackage[type1]{biolinum}
+
+\endinput

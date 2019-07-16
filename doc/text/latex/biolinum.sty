@@ -1,0 +1,309 @@
+\ProvidesPackage{biolinum}[%
+  2014/02/11 (Bob Tennent) Supports Biolinum fonts for all LaTeX engines.] 
+
+\RequirePackage{ifxetex,ifluatex,xkeyval,textcomp}
+
+\newif\iflibertine@otf
+\ifxetex
+  \libertine@otftrue
+\else\ifluatex
+  \libertine@otftrue
+\else  % [pdf]LaTeX
+  \libertine@otffalse
+\fi\fi
+
+\newif\iflibertine@sfdefault \libertine@sfdefaultfalse
+\newif\ifbiolinum@lining \biolinum@liningtrue            % NEW
+\newif\ifbiolinum@tabular \biolinum@tabulartrue          % NEW
+
+\def\libertine@newfigdefaults{%
+\PackageWarningNoLine{libertine}{%
+  ****************************************\MessageBreak
+   Figure defaults are now: lining, tabular; \MessageBreak
+   for options, see the documentation. \MessageBreak
+  ****************************************}
+}
+\DeclareOptionX{sfdefault}[true]{%
+\@nameuse{if#1}\libertine@sfdefaulttrue\fi
+}
+\DeclareOptionX{type1}[true]{%
+\@nameuse{if#1}\libertine@otffalse\fi
+}
+\DeclareOptionX{nofontspec}[true]{%
+\@nameuse{if#1}\libertine@otffalse\fi
+}
+\DeclareOptionX{lining}[true]{%
+\@nameuse{biolinum@lining#1}
+\ifbiolinum@lining\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{nf}[true]{%
+\@nameuse{biolinum@lining#1}
+\ifbiolinum@lining\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{lf}[true]{%
+\@nameuse{biolinum@lining#1}
+\ifbiolinum@lining\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{oldstyle}[true]{%
+\@nameuse{if#1}%
+  \biolinum@liningfalse
+\else
+  \biolinum@liningtrue
+\fi
+\ifbiolinum@lining\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{osf}[true]{%
+\@nameuse{if#1}%
+  \biolinum@liningfalse
+\else
+  \biolinum@liningtrue
+\ifbiolinum@lining\libertine@newfigdefaults\fi
+\fi
+}
+\DeclareOptionX{sflining}[true]{%
+\@nameuse{biolinum@lining#1}
+\ifbiolinum@lining\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{sflf}[true]{%
+\@nameuse{biolinum@lining#1}
+\ifbiolinum@lining\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{sfoldstyle}[true]{%
+\@nameuse{if#1}\biolinum@liningfalse\else\biolinum@liningtrue\fi
+\ifbiolinum@lining\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{sfosf}[true]{%
+\@nameuse{if#1}\biolinum@liningfalse\else\biolinum@liningtrue\fi
+\ifbiolinum@lining\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{osfss}[true]{%
+\@nameuse{if#1}\biolinum@liningfalse\else\biolinum@liningtrue\fi
+\ifbiolinum@lining\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{tabular}[true]{%
+\@nameuse{biolinum@tabular#1}
+\ifbiolinum@tabular\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{t}[true]{%
+\@nameuse{biolinum@tabular#1}
+\ifbiolinum@tabular\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{proportional}[true]{%
+\@nameuse{if#1}%
+  \biolinum@tabularfalse
+\else
+  \biolinum@tabulartrue
+\fi
+\ifbiolinum@tabular\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{p}[true]{%
+\@nameuse{if#1}%
+  \biolinum@tabularfalse
+\else
+  \biolinum@tabulartrue
+\fi
+\ifbiolinum@tabular\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{sftabular}[true]{%
+\@nameuse{biolinum@tabular#1}
+\ifbiolinum@tabular\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{sft}[true]{%
+\@nameuse{biolinum@tabular#1}
+\ifbiolinum@tabular\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{sfproportional}[true]{%
+\@nameuse{if#1}%
+  \biolinum@tabularfalse
+\else
+  \biolinum@tabulartrue
+\fi
+\ifbiolinum@tabular\libertine@newfigdefaults\fi
+}
+\DeclareOptionX{sfp}[true]{%
+\@nameuse{if#1}%
+  \biolinum@tabularfalse
+\else
+  \biolinum@tabulartrue
+\fi
+\ifbiolinum@tabular\libertine@newfigdefaults\fi
+}
+
+\newcommand*{\LinuxBiolinumT@scale}{1}
+\DeclareOptionX{scaled}{\renewcommand*{\LinuxBiolinumT@scale}{#1}}
+\DeclareOptionX{scale}{\renewcommand*{\LinuxBiolinumT@scale}{#1}}
+
+\DeclareOptionX{defaultfeatures}{\def\libertine@defaultfeatures{#1}}
+\def\libertine@defaultfeatures{}
+
+\ProcessOptionsX\relax
+
+\iflibertine@otf
+  \ifbiolinum@lining
+    \def\biolinum@figurestyle{}  % lnum feature missing in RB (and hence RBO)
+  \else
+    \def\biolinum@figurestyle{OldStyle}
+  \fi
+  \ifbiolinum@tabular
+    \def\biolinum@figurealign{Monospaced} 
+  \else
+    \def\biolinum@figurealign{Proportional} 
+  \fi
+
+\else % type1
+
+  \ifbiolinum@lining
+    \def\biolinum@figurestyle{LF} 
+  \else
+    \def\biolinum@figurestyle{OsF} 
+  \fi
+  \ifbiolinum@tabular
+    \def\biolinum@figurealign{T} 
+  \else
+    \def\biolinum@figurealign{} 
+  \fi
+\fi
+
+
+\iflibertine@otf
+  \RequirePackage{fontspec}
+\else
+  \RequirePackage{fontenc,fontaxes}
+\fi
+
+% Set sans fonts:
+
+\iflibertine@otf
+
+  \def\biolinum@base{LinBiolinum}
+  \ifxetex\XeTeXtracingfonts=1\fi
+  \defaultfontfeatures{
+     Ligatures = TeX ,
+     Extension = .otf ,
+     SmallCapsFeatures={Letters=SmallCaps} ,
+     \libertine@defaultfeatures
+  }
+    \setsansfont
+          [ Numbers   = {\biolinum@figurealign, \biolinum@figurestyle} ,
+            Scale     = \LinuxBiolinumT@scale ,
+            UprightFont    = *_R ,
+            ItalicFont     = *_RI ,
+            BoldFont       = *_RB , 
+            BoldItalicFont = *_RBO , % oblique to fake italic
+          ] {\biolinum@base}
+    % grab the \sfdefault in case it changes subsequently:
+    \let\biolinum@family\sfdefault
+    \iflibertine@sfdefault\renewcommand*\familydefault{\biolinum@family}\fi
+  \newfontfamily\biolinum
+        [ Numbers   = {\biolinum@figurealign, \biolinum@figurestyle} ,
+          Scale     = \LinuxBiolinumT@scale ,
+          UprightFont    = *_R ,
+          ItalicFont     = *_RI ,
+          BoldFont       = *_RB , 
+          BoldItalicFont = *_RBO,   % oblique to fake italic
+        ] {\biolinum@base}
+  \newfontfamily\biolinumOsF
+        [ Numbers   = {\biolinum@figurealign, OldStyle} ,
+          Scale     = \LinuxBiolinumT@scale ,
+          UprightFont    = *_R ,
+          ItalicFont     = *_RI ,
+          BoldFont       = *_RB , 
+          BoldItalicFont = *_RBO , % oblique to fake italic
+        ] {\biolinum@base}
+  \newfontfamily\biolinumLF
+        [ Numbers   = {\biolinum@figurealign} , % lnum feature missing
+          Scale     = \LinuxBiolinumT@scale ,
+          UprightFont    = *_R ,
+          ItalicFont     = *_RI ,
+          BoldFont       = *_RB , 
+          BoldItalicFont = *_RBO , % oblique to fake italic
+        ] {\biolinum@base}
+  \defaultfontfeatures{ Extension = .otf } % Don't want ligatures for keyboard
+  \newfontface\biolinumkey{\biolinum@base _K}
+
+  \providecommand\sufigures{\addfontfeatures{VerticalPosition=Superior}}
+
+\else % type1
+
+  \def\biolinum@family{LinuxBiolinumT-\biolinum@figurealign\biolinum@figurestyle}
+  \def\sfdefault{\biolinum@family} 
+  \iflibertine@sfdefault\edef\familydefault{\sfdefault}\fi
+
+  \providecommand*\biolinum{\fontfamily{\biolinum@family}\selectfont}
+  \providecommand*\biolinumOsF{\fontfamily{LinuxBiolinumT-\biolinum@figurealign OsF}\selectfont}
+  \providecommand*\biolinumLF{\fontfamily{LinuxBiolinumT-\biolinum@figurealign LF}\selectfont}
+
+  \fa@naming@exception{figures}{{superior}{proportional}}{Sup}
+  \fa@naming@exception{figures}{{superior}{tabular}}{Sup}
+  \def\sufigures{\@nomath\sufigures\fontfigurestyle{superior}\selectfont}
+
+\fi
+\DeclareTextFontCommand{\textsu}{\sufigures}
+\let\textsuperior\textsu
+
+% Define \oldstylenums[f] and \liningnums[f]
+
+\iflibertine@otf
+\else % type1
+    % \oldstylenums defined by \textcomp?
+    \DeclareTextFontCommand{\liningnums}{}
+    \DeclareTextFontCommand{\oldstylenumsf}{\biolinumOsF}
+    \DeclareTextFontCommand{\liningnumsf}{\biolinumLF}
+\fi
+
+% Define \tabularnums[f] and \proportionalnums[f]
+
+\iflibertine@otf
+  \newfontfamily\biolinumtabular
+    [ Numbers = {Monospaced,\biolinum@figurestyle},
+      Scale     = \LinuxBiolinumT@scale ,
+      UprightFont    = *_R,
+      ItalicFont     = *_RI,
+      BoldFont       = *_RB,
+      BoldItalicFont = *_RBO , % oblique to fake italic
+    ] {\biolinum@base}
+  \newfontfamily\biolinumproportional
+    [ Numbers = {Proportional,\biolinum@figurestyle},
+      Scale     = \LinuxBiolinumT@scale ,
+      UprightFont    = *_R,
+      ItalicFont     = *_RI,
+      BoldFont       = *_RB,
+      BoldItalicFont = *_RBO , % oblique to fake italic
+    ] {\biolinum@base}
+    \DeclareTextFontCommand{\tabularnumsf}{\biolinumtabular}
+    \DeclareTextFontCommand{\proportionalnumsf}{\biolinumproportional}
+\else % type1
+    \DeclareTextFontCommand{\tabularnumsf}{\fontfamily{LinuxBiolinumT-T\biolinum@figurestyle}\selectfont}
+    \DeclareTextFontCommand{\proportionalnumsf}{\fontfamily{LinuxBiolinumT-\biolinum@figurestyle}\selectfont}
+\fi
+
+\iflibertine@otf
+  \def\lib@fxb{LinBiolinum_R}
+  \def\lib@fxk{LinBiolinum_K}
+
+  \providecommand*\DeclareTextGlyphY[3]{%
+      % \DeclareTextGlyphY{fxl}{s_t}{64262}
+      % #1=basefont #2=glyphname, #3=position
+      \def\lib@temp{#1}%
+        \ifx\lib@temp\lib@fxb \@namedef{#1@#2}{{\biolinum\char#3\relax}}\else%
+          \ifx\lib@temp\lib@fxk \@namedef{#1@#2}{{\biolinumkey\char#3\relax}}\else%
+      \fi\fi}
+  %
+  \input{LinBiolinum_R}
+  \input{LinBiolinum_K}
+  %
+  \DeclareRobustCommand*\biolinumGlyph[1]{\@nameuse{LinBiolinum_R@#1}}
+  \DeclareRobustCommand*\biolinumKeyGlyph[1]{\@nameuse{LinBiolinum_K@#1}}
+  \input{LKey}
+
+\else %type1
+  
+\fi
+
+
+\iflibertine@otf
+% turn off defaults in case other fonts are selected:
+  \defaultfontfeatures{}
+\fi
+
+\endinput

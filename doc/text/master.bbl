@@ -2546,6 +2546,35 @@
     \field{urlyear}{2019}
   \endentry
 
+  \entry{nordhagen_computational_2018}{misc}{}
+    \name{author}{1}{}{%
+      {{hash=NEM}{%
+         family={Nordhagen},
+         familyi={N\bibinitperiod},
+         given={Even\bibnamedelima Marius},
+         giveni={E\bibinitperiod\bibinitdelim M\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{NEM1}
+    \strng{fullhash}{NEM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{shorttitle}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{note}{original-date: 2018-01-25T16:21:07Z}
+    \field{shorttitle}{Computational physics {II}}
+    \field{title}{Computational physics {II}: {Quantum} mechanical systems:
+  evenmn/{FYS}4411}
+    \verb{url}
+    \verb https://github.com/evenmn/FYS4411
+    \endverb
+    \field{month}{11}
+    \field{year}{2018}
+    \field{urlday}{16}
+    \field{urlmonth}{07}
+    \field{urlyear}{2019}
+  \endentry
+
   \entry{mehta_high-bias_2019}{article}{}
     \name{author}{7}{}{%
       {{hash=MP}{%

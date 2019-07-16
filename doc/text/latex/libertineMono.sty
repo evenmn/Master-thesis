@@ -1,0 +1,71 @@
+\ProvidesPackage{libertineMono}[%
+  2013/07/19 (Bob Tennent) Supports Libertine Mono fonts for all LaTeX engines.] 
+
+\RequirePackage{ifxetex,ifluatex,xkeyval,textcomp}
+
+\newif\iflibertine@otf
+\ifxetex
+  \libertine@otftrue
+\else\ifluatex
+  \libertine@otftrue
+\else  % [pdf]LaTeX
+  \libertine@otffalse
+\fi\fi
+
+\DeclareOptionX{type1}[true]{%
+\@nameuse{if#1}\libertine@otffalse\fi
+}
+\DeclareOptionX{nofontspec}[true]{%
+\@nameuse{if#1}\libertine@otffalse\fi
+}
+
+\newcommand*{\LinuxLibertineMonoT@scale}{1}  
+\DeclareOptionX{ttscaled}{\renewcommand*{\LinuxLibertineMonoT@scale}{#1}}
+\DeclareOptionX{ttscale}{\renewcommand*{\LinuxLibertineMonoT@scale}{#1}}
+\DeclareOptionX{scale}{\renewcommand*{\LinuxLibertineMonoT@scale}{#1}}
+\DeclareOptionX{scaled}{\renewcommand*{\LinuxLibertineMonoT@scale}{#1}}
+
+\ProcessOptionsX\relax
+
+\iflibertine@otf
+  \RequirePackage{fontspec}
+\else
+  \RequirePackage{mweights}
+  \RequirePackage{fontenc,fontaxes}
+\fi
+
+% Set mono fonts:
+
+\iflibertine@otf
+
+  \def\libertine@base{LinLibertine}
+  \defaultfontfeatures{ Extension = .otf , HyphenChar=None} 
+  % Don't want ligatures or hyphenation for mono 
+    \setmonofont 
+          [ Scale = \LinuxLibertineMonoT@scale,
+            UprightFont    = *_M, 
+            ItalicFont     = *_MO, % oblique to fake italic
+            BoldFont       = *_MB,   % fontforge 
+            BoldItalicFont = *_MBO,  % fontforge
+          ] {\libertine@base}
+  \newfontfamily\libmono
+          [ Scale = \LinuxLibertineMonoT@scale,
+            UprightFont    = *_M, 
+            ItalicFont     = *_MO, % oblique to fake italic
+            BoldFont       = *_MB,   % fontforge 
+            BoldItalicFont = *_MBO,  % fontforge
+          ] {\libertine@base}
+
+\else % type1
+
+  \def\ttdefault{LinuxLibertineMonoT-TLF} 
+  \providecommand*\libmono{\fontfamily{LinuxLibertineMonoT-TLF}\selectfont}
+
+\fi
+
+\iflibertine@otf
+% turn off defaults in case other fonts are selected:
+  \defaultfontfeatures{}
+\fi
+
+\endinput

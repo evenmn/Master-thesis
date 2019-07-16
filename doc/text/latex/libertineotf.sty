@@ -1,0 +1,21 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{libertineotf}
+  [2012/11/19 (Bob Tennent)  Compatibility style file for Linux Libertine and Biolinum.]
+
+\PackageWarningNoLine{libertineotf}{%
+*********************************************\MessageBreak
+The libertine package provides partial       \MessageBreak
+compatibility with the original libertineotf \MessageBreak
+package for legacy documents; for new        \MessageBreak
+documents, please use `libertine' directly:  \MessageBreak
+\@spaces\string\usepackage{libertine}. \MessageBreak
+The original libertineotf package is         \MessageBreak
+available from CTAN.                         \MessageBreak
+**********************************************}
+
+\DeclareOption*{\PassOptionsToPackage{\CurrentOption}{libertine}}
+\ProcessOptions\relax
+
+\RequirePackage{libertine}
+
+\endinput

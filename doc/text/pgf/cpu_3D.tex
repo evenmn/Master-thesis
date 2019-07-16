@@ -1,0 +1,25 @@
+% This file was created by matplotlib2tikz v0.7.4.
+\begin{tikzpicture}[scale=0.9]
+
+\definecolor{color0}{rgb}{0.12156862745098,0.466666666666667,0.705882352941177}
+\definecolor{color1}{rgb}{1,0.498039215686275,0.0549019607843137}
+
+\begin{axis}[name=2D, xlabel=Number of particles, ylabel={CPU-time [s]}, grid=major, legend pos=north west] 
+\addplot[color=blue,mark=oplus*, dashed] coordinates { 
+	(2,6.717078)
+	(8,12.33682)
+	(20,39.74432) 
+	(40,122.864) 
+	(70,462.75) }; 
+\addlegendentry{RBM};
+
+\addplot[color=red,mark=oplus*] coordinates { 
+	(2,5.490018)
+	(8,13.35986)
+	(20,46.03914) 
+	(40,169.0882) 
+	(70,497.2244) };
+\addlegendentry{VMC};
+\end{axis}
+
+\end{tikzpicture}

@@ -50,7 +50,7 @@ where the parameters $a$, $b$ and $c$ are our estimators. The polynomial is now 
 \end{equation}
 where $\tilde{y}_i=f(x_i)$ is the $y$-value of the polynomial at $x=x_i$. What we want to do is to determine the estimators $a$, $b$ and $c$ such that the mean squared error (MSE) of all these equations is minimized,
 \begin{equation}
-\min_{a,b,c}\frac{1}{n}\sum_{i=0}^{n-1}(y_i-f(x_i;a.b.c))^2.
+\min_{a,b,c}\frac{1}{n}\sum_{i=0}^{n-1}(y_i-f(x_i;a,b,c))^2.
 \end{equation}
 There are several ways to do this, but they all are based on the \textit{cost function} (also called the loss function), which can simply be defined as the MSE,
 \begin{equation}
@@ -249,6 +249,13 @@ P(y_i=1)&=1-P(y_i=0)\\
 
 Notice that the only thing we need is the difference in energy between those two systems, not the energy itself. This is often the case in physics. 
 
+\begin{figure}
+	\centering
+	\input{tikz/singlelayer_perceptron.tex}
+	\caption{Logistic regression model with $n$ inputs. Each input $X_i^j$ is multiplied with a weight $w_j$, and the contribution from all elements is summarized. The output is obtained after the sum is activated by an activation function.}
+	\label{fig:single_perceptron}
+\end{figure}
+
 If we now assume that the difference in energy can be written as a function of the coordinates that specify the state $i$, $\bs{X}_i$ and a matrix of parameters, $\bs{w}$, known as the \textit{weights}, the difference can be written as
 \begin{equation}
 \varepsilon_1-\varepsilon_0=\bs{X}_i^T\bs{w}\equiv\tilde{y}_i,
@@ -263,7 +270,7 @@ P(\mathcal{D}|\bs{w})=\prod_{i=1}^n\big(f(\bs{X}_i^T\bs{w})\big)^{y_i}\big(1-f(\
 \end{equation}
 which is known as the \textit{likelihood}. The \textit{log-likelihood} function is simply the log of the likelihood, and is given by 
 \begin{equation}
-l(\bs{w})=\sum_{i=1}^ny_i\log f(\bs{X}_i^T\bs{w})+(1-y_i)\log(1-f(\bs{X}_i^T\bs{w})).
+l(\bs{w})=\sum_{i=1}^n\bigg[y_i\log f(\bs{X}_i^T\bs{w})+(1-y_i)\log(1-f(\bs{X}_i^T\bs{w}))\bigg].
 \end{equation}
 
 As in linear regression, we want to find a cost function which we can minimize in order to fit the model to the data set. Since the log-likelihood function is maximized where the highest probability is, a natural choice is to set
@@ -271,13 +278,6 @@ As in linear regression, we want to find a cost function which we can minimize i
 \mathcal{C}(\bs{w})=-l(\bs{w})=-\sum_{i=1}^n\Big[y_i\log f(\bs{X}_i^T\bs{w})+(1-y_i)\log(1-f(\bs{X}_i^T\bs{w}))\Big],
 \end{equation}
 which is known as the \textit{cross entropy}. To make things clearer, we will try to illustrate how this works. In figure (\ref{fig:single_perceptron}), we have a input set $\bs{X}_i$ where each element is multiplied with a parameter from $\bs{w}$ and summarized. This corresponds to the inner product $\bs{X}_i^T\bs{w}$. Further, the sum (or the inner product) is \textit{activated} by an \textit{activation function}, which we above have assumed to be the sigmoid function. The output is then given by
-
-\begin{figure}
-	\centering
-	\input{tikz/singlelayer_perceptron.tex}
-	\caption{Logistic regression model with $n$ inputs. Each input $X_i^j$ is multiplied with a weight $w_j$, and the contribution from all elements is summarized. The output is obtained after the sum is activated by an activation function.}
-	\label{fig:single_perceptron}
-\end{figure}
 
 \begin{eqnarray}
 z_i=f(\bs{X}_i^T\bs{w}).
@@ -403,40 +403,41 @@ Now we know enough to dive into the field of artificial neural networks. Neural 
 
 In figure \eqref{fig:neural_network}, a two-layer neural network (one hidden layer) is illustrated. It has some similarities with the logistic regression model in figure \eqref{fig:single_perceptron}, but a hidden layer and multiple outputs are added. We have also dropped the representation of the weights, but each line corresponds to a weight. Each node represents a neuron in the brain.
 
+Without a hidden layer, we have seen that the update of weights is quite straight forward. For a neural network consisting of multiple layers, the question is: how do we update the weights when we do not know the values of the hidden nodes? And how do we know which layer causing the error? This will be explained in section \ref{sec:backward}, where the most popular technique for that is discussed. Before that, we will generalize the forward phase presented in logistic regression.
+
 \begin{figure}
 	\centering
 	\input{tikz/multilayer_perceptron.tex}
-	\caption{Neural network with 3 input nodes, 5 hidden nodes and 2 output nodes, in addition to the bias nodes.}
+	\caption{Neural network with 3 input nodes, $L$ hidden layers with 5 hidden nodes each and two outputs. $B_0$, $B_1$, $B_l$ and $B_L$ are bias nodes for their respective layers, and the dashed lines indicate that it might be more layers between the two layers. We have labeled a few of the lines to relate them to the weights. }
 	\label{fig:neural_network}
 \end{figure}
 
-Without a hidden layer, we have seen that the update of weights is quite straight forward. For a neural network consisting of multiple layers, the question is: how do we update the weights when we do not know the values of the hidden nodes? And how do we know which layer causing the error? This will be explained in section \ref{sec:backward}, where the most popular technique for that is discussed. Before that, we will generalize the forward phase presented in logistic regression.
-
 \subsubsection{Forward phase}
 In the previous section, we saw how the output is found for a single perceptron. For a neural network, the net output to the first layer is similar, and given by
-\begin{equation}
+\begin{equation*}
 z_j^{(1)}=\sum_{i=1}^{N_0}x_iw_{ij}^{(1)}=\bs{x}^T\bs{w}_j^{(1)}
-\end{equation}
-where $N_0$ is the number of nodes in layer 0 (the input layer) and we again have assumed that the bias node is included in $\bs{x}$ and the bias weight is included in $\bs{w}$. If we let the activation function act on the net output, we get the real output given by
-\begin{equation}
+\end{equation*}
+where $N_0$ is the number of nodes in layer 0 (the input layer) and we again have assumed that the bias node is included in $\bs{x}$ and the bias weight is included in $\bs{w}$. If we let the activation function, $f(x)$, act on the net output, we get the real output given by
+\begin{equation*}
 a_j^{(1)}=f(z_j^{(1)})=f\Big(\sum_{i=1}^{N_0}x_iw_{ij}^{(1)}\Big).
-\end{equation}
-This is then again the input to the next layer, so the output from the second layer is simply
-\begin{equation}
-a_j^{(2)}=f\big(\sum_{i=1}^{N_1}a_i^{(1)}w_{ij}^{(2)}\big).
-\end{equation}
-For a neural network of many layers, the same procedure applies to all the layers, and the connection between layer $l$ and $l-1$ can be written in the general way
-\begin{equation}
+\end{equation*}
+This is then again the input to the next layer with $N_1$ nodes, so the output from the second layer is simply
+\begin{equation*}
+a_j^{(2)}=f\Big(\sum_{i=1}^{N_1}a_i^{(1)}w_{ij}^{(2)}\Big).
+\end{equation*}
+For a neural network of multiple layers, the same procedure applies to all the layers and we can find a general formula for the output at a layer $l$. The net output to a node $z_j^{(l)}$ in layer $l$ can be found to be
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
 z_j^{(l)}=\sum_{i=1}^{N_{l-1}}a_i^{(l-1)}w_{ij}^{(l)}
-\end{equation}
-for the forward phase and
-\begin{equation}
-a_j^{(l)}=f\big(\sum_{i=1}^{N_{l-1}}a_i^{(l-1)}w_{ij}^{(l)}\big)
-\end{equation}
-with activation. The only time we need to be aware is when updating hte nodes in the first layer $l=1$, since the outputs then actually are the inputs to the network, $\bs{z}^{(0)}=\bs{x}$. The equation also tells us that the only independent variables in a neural network is the input values $x_i$.
+\label{eq:netoutput}
+\end{empheq}
+where layer $l-1$ has $N_{l-1}$ nodes and we need to be aware that $a_j^{(0)}=x_j$. After activation, the output is obviously found to be
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
+a_j^{(l)}=f\Big(\sum_{i=1}^{N_{l-1}}a_i^{(l-1)}w_{ij}^{(l)}\Big)
+\end{empheq}
+which is the only formula needed for the forward phase. The activation function $f(x)$ is not explicitly defined, because there is often expedient to be able to test multiple activation functions. 
 
 \subsubsection{Activation function}
-Until now, we have mentioned the sigmoid function as the only activation function. However, there are plenty of other activation functions that one can use. In fact, the sigmoid function has lost its popularity, and is today superseded by the more modern functions based on \textit{rectified linear units} (ReLU). Some popular choices are the \textit{leaky} ReLU and \textit{exponential linear units} (ELU), which are linear for positive numbers. Pure linear activation functions are still widely used, especially on the output layer. 
+Until now, we have mentioned the sigmoid function as the only activation function. However, there are plenty of other activation functions that one can use. In fact, the sigmoid function has lost its popularity, and is today superseded by the more modern functions based on \textit{rectified linear units} (ReLU). Some popular choices are the \textit{leaky} ReLU and \textit{exponential linear units} (ELU), which are linear for positive numbers. The pure linear activation function is still widely used, especially on the output layer. 
 
 In figure (\ref{fig:activation_functions}), standard RELU, leaky RELU and ELU are plotted along with the sigmoid function.
 
@@ -452,78 +453,86 @@ In figure (\ref{fig:activation_functions}), standard RELU, leaky RELU and ELU ar
 
 
 \subsubsection{Backward propagation} \label{sec:backward}
-Backward propagation is today the most used technique for updating the weights in a neural network, and is actually again based on the weight update presented for linear and logistic regression. The algorithm for this was presented 1986, which made the deep neural networks able to solve relatively complicated problems for the first time. \cite{rumelhart_learning_1986} To update the weights, one starts with the outputs and updates the weights layer-wise until one gets to the inputs, hence th name backward propagation. 
+Backward propagation is the most robust technique for updating the weights in a neural network, and is actually again based on the weight update presented for linear and logistic regression. The algorithm for this was presented 1986, which made the deep neural networks able to solve relatively complicated problems for the first time. \cite{rumelhart_learning_1986} To update the weights, one starts with the outputs and updates the weights layer-wise until one gets to the inputs, hence the name backward propagation. 
 
-As observed above, all the nodes are connected, and so applies for the weights. This is the reason why the weights updating scheme does not have a simple form. 
+As observed above, a node is dependent on all the nodes in the previous layers, and so are the weights. This means that the nodes are dependent on a large number of parameters, which makes the training scheme quite complex. Nevertheless, there is possible to generalize this to express the updating formulas on a relatively simple form.
 
-From the linear and logistic regression, we know that we need the derivative of the cost function in order to do the weight update. Again, we define the cost function as the mean square error,
-\begin{equation}
+From the linear and logistic regression, we know that we need the derivative of the cost function in order to implement the weight update regime. Again, we define the cost function as the mean square error,
+\begin{equation*}
 \mathcal{C}(\bs{w})=\frac{1}{2}\sum_{i=1}^{N_L}(y_i-a_i^{(L)})^2
-\end{equation}
+\end{equation*}
 where we have $L+1$ layers ($L$ is the last layer) and $N_L$ output nodes. The derivative of this with respect to one of the weights between the $L-1$'th and $L$'th layer can be written as a sum using the chain rule
-\begin{equation}
+\begin{equation*}
 \frac{\partial\mathcal{C}(\bs{w})}{\partial w_{jk}^{(L)}}=\frac{\partial\mathcal{C}(\bs{w})}{\partial a_j^{(L)}}\frac{\partial a_j^{(L)}}{\partial z_j^{(L)}}\frac{\partial z_j^{(L)}}{\partial w_{jk}^{(L)}}.
-\end{equation}
-The first one can easily be found to be
-\begin{equation}
+\end{equation*}
+If we start with the first factor, it can easily be found to be 
+\begin{equation*}
 \frac{\partial\mathcal{C}(\bs{w})}{\partial a_j^{(L)}}=(y_j-a_j^{(L)})
-\end{equation}
-using the definition of the cost function. The second differential is the derivative of the activation function with respect to its argument, and is for the sigmoid function given by
-\begin{equation}
+\end{equation*}
+using the definition of the cost function. The second factor is the derivative of the activation function with respect to its argument, and is for the sigmoid function given by
+\begin{equation*}
 \frac{\partial a_j^{(L)}}{\partial z_j^{(L)}}=a_j^{(L)}(1-a_j^{(L)}).
-\end{equation}
-Finally, the last differential is given by 
-\begin{equation}
+\end{equation*}
+Finally, the last factor is found from equation \eqref{eq:netoutput}, and we obtain
+\begin{equation*}
 \frac{\partial z_j^{(L)}}{\partial w_{jk}^{(L)}}=a_k^{(L-1)}.
-\end{equation}
-Collecting all the factors, we obtain 
-\begin{equation}
+\end{equation*}
+Collecting all the factors, the last set of weights can be found by
+\begin{equation*}
 \frac{\partial\mathcal{C}(\bs{w})}{\partial w_{jk}^{(L)}}=(y_j-a_j^{(L)})a_j^{(L)}(1-a_j^{(L)})a_k^{(L-1)}
-\end{equation}
+\end{equation*}
 In the next step, we can define
-\begin{equation}
+\begin{equation*}
 \delta_j^{(L)}=a_j^{(L)}(1-a_j^{(L)})(y_j-a_j^{(L)})=f'(a_j^{(L)})\frac{\partial \mathcal{C}(\bs{w})}{\partial a_j^{(L)}}=\frac{\partial \mathcal{C}(\bs{w})}{\partial z_j^{(L)}}
-\end{equation}
-such that the weight update can be expressed in a neater form
-\begin{empheq}[box={\mybluebox[5pt]}]{align}
-\frac{\partial\mathcal{C}(\bs{w})}{\partial w_{jk}^{(l)}}=\delta_j^{(l)}a_k^{(l-1)}
-\end{empheq}
+\end{equation*}
+such that the weight update can be expressed on a neater form
+\begin{equation*}
+\frac{\partial\mathcal{C}(\bs{w})}{\partial w_{jk}^{(L)}}=\delta_j^{(L)}a_k^{(L-1)}.
+\end{equation*}
 
-For an arbitrary layer $l$, we find $\delta_j^{(l)}$ to be de same as about,
-\begin{equation}
-\delta_j^{(l)}=\frac{\partial \mathcal{C}(\bs{w})}{\partial z_j^{(l)}}=\sum_k\frac{\partial\mathcal{C}}{\partial z_k^{(l+1)}}\frac{\partial z_k^{(l+1)}}{\partial z_j^{(l)}}
-\end{equation}
-using the definition of $z_j^{(l+1)}$, we obtain the final expression
+For a general layer $l$, the derivative of the cost function with respect to a weight $w_{jk}^{(l)}$ is similar, and given by
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
+\frac{\partial\mathcal{C}(\bs{w})}{\partial w_{jk}^{(l)}}=\delta_j^{(l)}a_k^{(l-1)}.
+\end{empheq}
+Our goal is to find the general relation between layer $l$ and $l+1$, and therefore we use the chain rule and sum over all the net outputs in layer $l+1$,
+\begin{equation*}
+\delta_j^{(l)}=\frac{\partial \mathcal{C}(\bs{w})}{\partial z_j^{(l)}}=\sum_k\frac{\partial\mathcal{C}(\bs{w})}{\partial z_k^{(l+1)}}\frac{\partial z_k^{(l+1)}}{\partial z_j^{(l)}}.
+\end{equation*}
+We now recognize that the first factor in the sum is just $\delta_k^{(l+1)}$ and the last factor can be found from equation \eqref{eq:netoutput}. We obtain the final expression, 
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \delta_j^{(l)}=\sum_k\delta_k^{(l+1)}w_{kj}^{(l+1)}f'(z_j^{(l)})
 \end{empheq}
-where we use the expression for $\delta_j^{(L)}$ as our initial condition. The new weight $w_{ij}^{(l)+}$ is found from
+where we use the expression for $\delta_j^{(L)}$ as our initial condition. Using gradient descent, a new weight $w_{ij}^{(l)+}$ is found from
 \begin{empheq}[box={\mybluebox[5pt]}]{align}
-w_{ij}^{(l)+}=w_{ij}^{(l)}-\eta\frac{\partial\mathcal{C}(\bs{w})}{\partial w_{jk}^{(l)}}
+w_{ij}^{(l)+}=w_{ij}^{(l)}-\eta\frac{\partial\mathcal{C}(\bs{w})}{\partial w_{jk}^{(l)}}.
 \end{empheq}
 
 \section{Unsupervised Learning}
 In unsupervised learning, a neural network is given the inputs only, and does not know what the output should look like. The task is then to find structures in the data, comparing data sets to each other and categorize the data sets with respect to their similarities and differences. 
 
-We have previously seen how the parameters can be adjusted using the backward propagation algorithm, but it does not work when we do not have prior known targets. Instead, we need to rely on a set of probabilities, and we therefore need to look carefully at the statistical foundation before we move on to the unsupervised algorithms.
+We have previously seen how the weights in supervised learning can be adjusted using the backward propagation algorithm, but it does not work when we do not have prior known targets. Instead, the weights are controlled by a set of probabilities, and we let the cost function be defined by the log likelihood function. This is known as Bayesian statistics, and will be presented in the next section.
 
 \subsection{Statistical foundation}
+In this section, we will use Bayesian statistics to exploit the link between a data set $\bs{x}$ and another data set $\bs{y}$. We will first do it in a general way, before we link it to machine learning in the next section. 
+
 In this section, we will explain the general relation between the joint probability distribution of two variables $x$ and $y$, the marginal distributions and the conditional distributions. The expressions can either be set up with respect to the continuous space or the discrete space, and we will do the latter since we in practice will deal with discrete data sets. 
 
-The joint probability of measure both $x$ and $y$ is given by
+We start expressing the joint probability distribution of measuring both $\bs{x}$ and $\bs{y}$ using the general relation,
 \begin{equation}
-p(x,y)=p(x|y)p(y)=p(y|x)p(x)
+p(\bs{x},\bs{y})=p(\bs{x}|\bs{y})p(\bs{y})=p(\bs{y}|\bs{x})p(\bs{x}).
 \label{eq:jointprob}
 \end{equation}
-where $p(x|y)$ and $p(y|x)$ are the conditional distributions of $x$ and $y$ respectively. $p(x)$ and $p(y)$ are called the marginal probabilities for $x$ and $y$, and by reordering equation \eqref{eq:jointprob}, we obtain Bayes' theorem
+$p(\bs{x}|\bs{y})$ is the conditional distributions of $\bs{x}$ and gives the probability of $\bs{x}$ given that $\bs{y}$ is true. The opposite applies for $p(\bs{y}|\bs{x})$. $p(\bs{x})$ and $p(\bs{y})$ are called the marginal probabilities for $\bs{x}$ and $\bs{y}$, and by reordering equation \eqref{eq:jointprob}, we obtain Bayes' theorem
 \begin{equation}
-p(x|y)=\frac{p(y|x)p(x)}{p(y)}
+p(\bs{x}|\bs{y})=\frac{p(\bs{y}|\bs{x})p(\bs{x})}{p(\bs{y})}.
 \end{equation}
-where $p(x)$ is the \textit{prior} probability, $p(y|x)$ is the \textit{likelyhood} function and $p(x|y)$ is the \textit{posterior} probability. $p(y)$ can sometimes be found by a sum over the joint probability,
+The marginal probability $p(\bs{y})$ is given by the sum over all the possible joint probabilities when $\bs{y}$ is fixed,
 \begin{equation}
-p(y)=\sum_i p(x_i,y) = \sum_i p(y|x_i)p(x_i),
+p(\bs{y})=\sum_i p(x_i,\bs{y}) = \sum_i p(\bs{y}|x_i)p(x_i),
 \end{equation}
-but often this summation is intractable. Different techniques require different approaches to this problem, and for our case we will use Markov chain Monte-Carlo methods to bypass it. More about that in section \eqref{chp:methods}. 
+and from this we observe that the theorem tells us that to find the \textit{posterior} probability, $p(\bs{x}|\bs{y})$, all we need is to know the \textit{prior} probability, $p(\bs{x})$, and the \textit{likelihood}, $p(\bs{y}|\bs{x})$. However, the summation gets extremely expensive quickly, and is intractable even for small systems. This was a big problem for a long time, but with the advent of powerful computers, algorithms like Markov chain Monte-Carlo can be used to estimate the posterior without knowing the \textit{normalization constant}, $p(\bs{y})$. More about that in chapter \ref{chp:methods}. 
+
+In the section on supervised learning, the cost function was an important concept, and so is the case in unsupervised learning. But how do we define a cost function when we do not have any targets? We find the answer by revealing the similarities between the logistic regression and the Bayesian statistics. In logistic regression, we find the probability that a system is in a particular state, and define the cost function as the maximum log-likelihood. We can do the same in unsupervised learning, and define the 
 
 For supervised learning, the 
 The parameters will always be updated such that the probability is maximized. For instance, 

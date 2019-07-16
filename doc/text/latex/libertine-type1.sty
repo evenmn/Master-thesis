@@ -1,0 +1,16 @@
+\ProvidesPackage{libertine-type1}[%
+   2013/02/14 (Bob Tennent)  Compatibility style file for Linux Libertine. ] 
+
+\PackageWarningNoLine{libertine-type1}{%
+ ******************************************\MessageBreak
+  The libertine-type1 package is obsolete. \MessageBreak
+  For new documents, please use            \MessageBreak
+  \@spaces\string\usepackage[type1]{libertineRoman} \MessageBreak
+ ******************************************}
+
+\DeclareOption*{\PassOptionsToPackage{\CurrentOption}{libertineRoman}}
+\ProcessOptions\relax
+
+\RequirePackage[type1]{libertineRoman}
+
+\endinput

@@ -1,0 +1,59 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{biolinum-otf}
+    [2012/10/31 (autoinst)  Style file for LinuxBiolinumO when using LuaLaTeX or XeLatex.]
+\RequirePackage{ifxetex,ifluatex}
+\ifxetex
+   % okay
+  \XeTeXtracingfonts=1\relax
+\else
+   \ifluatex
+      % okay
+   \else
+      \PackageError{biolinum-otf}{runs only with xelatex and lualatex!}{}
+   \fi
+\fi
+
+
+\RequirePackage{textcomp}
+\IfFileExists{fontaxes.sty}{
+    \RequirePackage{fontaxes}
+}{}
+
+\IfFileExists{xkeyval.sty}{
+    \providecommand*{\LinuxBiolinumO@scale}{1}
+    \RequirePackage{xkeyval}
+    \DeclareOptionX{scaled}{\renewcommand*{\LinuxBiolinumO@scale}{##1}}
+}{
+    \let\DeclareOptionX\DeclareOption
+    \let\ExecuteOptionsX\ExecuteOptions
+    \let\ProcessOptionsX\ProcessOptions
+}
+
+
+\DeclareOptionX{lining}{\edef\LinuxBiolinumO@figurestyle{Lining}}
+\DeclareOptionX{nf}{\edef\LinuxBiolinumO@figurestyle{Lining}}
+\DeclareOptionX{oldstyle}{\edef\LinuxBiolinumO@figurestyle{OldStyle}}
+\DeclareOptionX{osf}{\edef\LinuxBiolinumO@figurestyle{OldStyle}}
+\DeclareOptionX{tabular}{\edef\LinuxBiolinumO@figurealign{Monospaced}}
+\DeclareOptionX{proportional}{\edef\LinuxBiolinumO@figurealign{Proportional}}
+\DeclareOptionX{bold}{}
+\DeclareOptionX{semibold}{}
+\ExecuteOptionsX{oldstyle,proportional}
+\ProcessOptionsX\relax
+
+\RequirePackage{fontspec}
+\defaultfontfeatures{
+      Ligatures = TeX ,
+      Extension = .otf }
+
+% Default font
+\setsansfont
+        [ Numbers   = {\LinuxBiolinumO@figurealign, \LinuxBiolinumO@figurestyle} ,
+          Scale     = \LinuxBiolinumO@scale ,
+          UprightFont    = *_R ,
+          ItalicFont     = *_RI ,
+          BoldFont       = *_RB , 
+          BoldItalicFont = *_RBO ]  % oblique to fake italic
+        {LinBiolinum}
+
+\endinput

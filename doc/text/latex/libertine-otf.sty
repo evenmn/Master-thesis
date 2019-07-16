@@ -1,0 +1,60 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{libertine-otf}
+    [2012/10/31 (autoinst)  Style file for LinuxLibertineO when using LuaLaTeX or XeLatex.]
+\RequirePackage{ifxetex,ifluatex}
+\ifxetex
+   % okay
+  \XeTeXtracingfonts=1\relax
+\else
+   \ifluatex
+      % okay
+   \else
+      \PackageError{libertine-otf}{runs only with xelatex and lualatex!}{}
+   \fi
+\fi
+
+\RequirePackage{textcomp}
+\IfFileExists{fontaxes.sty}{
+    \RequirePackage{fontaxes}
+}{}
+
+\IfFileExists{xkeyval.sty}{
+    \newcommand*{\LinuxLibertineO@scale}{1}
+    \RequirePackage{xkeyval}
+%   \DeclareOptionX{scaled}{\renewcommand*{\LinuxLibertineO@scale}{##1}}
+    \DeclareOptionX{scaled}{}
+}{
+    \let\DeclareOptionX\DeclareOption
+    \let\ExecuteOptionsX\ExecuteOptions
+    \let\ProcessOptionsX\ProcessOptions
+}
+
+
+\DeclareOptionX{lining}{\edef\LinuxLibertineO@figurestyle{Lining}}
+\DeclareOptionX{nf}{\edef\LinuxLibertineO@figurestyle{Lining}}
+\DeclareOptionX{oldstyle}{\edef\LinuxLibertineO@figurestyle{OldStyle}}
+\DeclareOptionX{osf}{\edef\LinuxLibertineO@figurestyle{OldStyle}}
+\DeclareOptionX{tabular}{\edef\LinuxLibertineO@figurealign{Monospaced}}
+\DeclareOptionX{proportional}{\edef\LinuxLibertineO@figurealign{Proportional}}
+\DeclareOptionX{bold}{\edef\LinuxLibertineO@boldstyle{RB}}
+\DeclareOptionX{semibold}{\edef\LinuxLibertineO@boldstyle{RZ}}
+\ExecuteOptionsX{oldstyle,proportional,bold}
+\ProcessOptionsX\relax
+
+\RequirePackage{fontspec}
+\defaultfontfeatures{
+      Ligatures = TeX ,
+      Extension = .otf }
+
+% Default font
+\setmainfont
+        [ SmallCapsFeatures={Letters=SmallCaps},
+          Numbers = {\LinuxLibertineO@figurealign, \LinuxLibertineO@figurestyle} ,
+          Scale = \LinuxLibertineO@scale ,
+          UprightFont    = *_R ,
+          ItalicFont     = *_RI,
+          BoldFont       = *_\LinuxLibertineO@boldstyle , 
+          BoldItalicFont = *_\LinuxLibertineO@boldstyle I]
+        {LinLibertine}
+
+\endinput

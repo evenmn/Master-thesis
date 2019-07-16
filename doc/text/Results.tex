@@ -11,22 +11,32 @@ For validation purposes, we will present a few selected results on the case with
 
 \newpage
 \section{Computational cost}
-One of the major problems of simulating quantum many-body systems is the computational cost, which explodes as the system size increases. In figure \eqref{fig:cpu_time} the CPU-time is plotted as a function of number of particles. We observe that the restricted Boltzmann machine (RBM) generally is cheaper to calculate compared to standard variational Monte-Carlo (VMC), which is a bit surprising. In the VMC trial wave function, we have only two variational parameters, while we in the RBM have $D\cdot N \cdot (1+H)+H$ with $N$ as number of particles, $D$ as the number of dimensions and $H$ as the number of hidden nodes. Throughout this thesis, we always set $H=N$, which gives 10,584 parameters for 72 particles in two dimensions and 14,980 parameters for 70 particles in three dimensions. 
+One of the major problems when performing quantum many-body simulations is the computational cost, which explodes as the system size increases. In figure \eqref{fig:cpu_time} the CPU-time is plotted as a function of the number of particles. We observe that the restricted Boltzmann machine (RBM) generally is cheaper to calculate compared to standard variational Monte-Carlo (VMC), which is a bit surprising. In the VMC trial wave function, we have only two variational parameters, while in the RBM we have $N\cdot D\cdot (1+H)+H$ with $N$ as number of particles $D$ as the number of dimensions and $H$ as the number of hidden nodes. Throughout this thesis we always set $H=N$, which was found to give the lowest energies when testing on small systems. \cite{nordhagen_computational_2018} 
 
-In other words, this evolve to be an optimization problem. The reason why the RBM still appears to have a cheaper cost, is probably that we do not need to calculate the distance matrix over and over again. For RBM+SJ and RBM+PJ, the cost is significantly higher due to the distance matrix.
+With our choice of hidden nodes, we end up with 10,584 parameters for 72 particles in two dimensions and 14,980 parameters for 70 particles in three dimensions. In other words, this evolve to be an optimization problem. The reason why the RBM still appears to have a cheaper cost, is probably that we do not need to calculate the distance matrix over and over again, and the very efficient LAPACK and BLAS packages lie behind the matrix operations. For RBM+SJ and RBM+PJ, the cost is significantly higher because of the update of the distance matrix.
 
+\iffalse
 \begin{figure} %[h]
 	\centering
 	\input{pgf/cpu.tex}
-	\label{fig:cpu_time}
-	\caption{CPU-time per iteration as a function of number of particles for two and three dimensions. The solid line is standard variational Monte-Carlo (VMC), while the dashed lines are restricted Boltzmann machines without Jastrow factor (RBM), with simple Jastrow factor (RBM+SJ) and with Padé-Jastrow factor (RBM+PJ)}
+	\caption{CPU-time per iteration as a function of number of particles for two and three dimensions. The solid line is standard variational Monte-Carlo (VMC), while the dashed lines are restricted Boltzmann machines without Jastrow factor (RBM), with simple Jastrow factor (RBM+SJ) and with Padé-Jastrow factor (RBM+PJ).}
+	\label{fig:cpu_time1}
 \end{figure}
+\fi
+
+\begin{figure}
+	\centering 
+	\subfloat[2D]{{\input{pgf/cpu_2D.tex}}}
+	\subfloat[3D]{{\input{pgf/cpu_3D.tex}}}
+	\caption{CPU-time per iteration as a function of number of particles for two dimensions (a) and three dimensions (b). The solid line is associated with standard variational Monte-Carlo (VMC), while the dashed lines are associated with restricted Boltzmann machines without Jastrow factor (RBM), simple Jastrow factor (RBM+SJ) and Padé-Jastrow factor (RBM+PJ).}
+	\label{fig:cpu_time}
+\end{figure} 
 
 As the applied theory used in quantum many-body simulations agrees perfectly with laboratory experiments, they can be considered as actual experiments. In that manner, one can use computer experiments to verify other experiments and even predict new things. Similarly to experiments in a laboratory, computer experiments are also dependent on external factors, especially when it comes to the CPU-time, and therefore it is important to do such measurements multiple times to find an accurate average time. The CPU-times above are the average from at least four independent runs for each number of particles. All the runs were performed on the Abel computational cluster, which is equipped with Supermicro X9DRT compute nodes with dual Intel E5-2670 CPUs running at 2.6 GHz. Different hardware might give different CPU-times, but the CPU-time ratios (the exponential factor) should be the same. 
 
-To estimate how fast the cost increases as we add more particles, we do linear regression with a function on the form $f(x)=\alpha x^{\beta}$ where $x$ is the number of particles while $\alpha$ and $\beta$ are the unknown parameters to be found. From the limited number of points, we have found the parameters and presented them in table \eqref{tab:cputimefit}.
+To estimate how fast the cost increases as we add more particles, we do linear regression with a function on the form $f(x)=\alpha x^{\beta}$ where $x$ is the number of particles while $\alpha$ and $\beta$ are the unknown parameters to be found. From the limited number of points, we have found the parameters and presented them in table \eqref{tab:cputimefit}. Although the RBM was found to be cheaper than VMC, we can see that the estimated exponential factor $\alpha$ is actually slightly larger. The prefactor $\beta$ is significantly lower though.
 
-\begin{table} [H]
+\begin{table}
 	\caption{Optimal constants $\alpha$ and $\beta$ for restricted Boltzmann machine (RBM), restricted Boltzmann machine with a simple Jastrow factor (RBM+SJ), restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo sampling (VMC).}
 	\begin{tabularx}{\textwidth}{X|CC:CC} \hline\hline
 		\label{tab:cputimefit}
@@ -40,18 +50,27 @@ To estimate how fast the cost increases as we add more particles, we do linear r
 	\end{tabularx}
 \end{table}
 
-Although the RBM was found to be cheaper than VMC, we can see that the estimated exponential factor $\alpha$ is actually slightly larger. The prefactor $\beta$ is significantly lower though.
-
 \section{Energy convergence}
-We want our calculations to converge fast and to be stable, and that is what the optimization tools are responsible for. In figure \eqref{fig:convergenceoptimization} we compare standard gradient descent to stochastic gradient descent and ADAM for two interacting electrons in a two- and three dimensional well. 
+We want our calculations to converge fast and to be stable, and that is what the optimization tools are responsible for. In figure \eqref{fig:convergenceoptimization} we compare standard gradient descent to stochastic gradient descent and ADAM for two interacting electrons in a two- and three dimensional well. The frequency $\omega=1.0$ is used for the two-dimensional case since we know that the exact energy is $E=3.0$ for this case. \cite{taut_two_1993} Similarly, we use the frequency $\omega=0.5$ for the three-dimensional case since the exact energy is $E=2.0$. \cite{taut_two_1994} 
 
+The first thing we observe, is that all the three optimization tools manage to converge to the exact energy. The stochastic and non-stochastic gradient descent methods are hard to distinguish, they both converge smoothly. The ADAM optimizer, on the other hand, fluctuates much more. This behavior can be described by the momentum, as discussed in section \ref{sec:momentum}. It is also important to remember that this is the case when we use standard variational Monte-Carlo wave function. The ADAM optimizer is known to be good at machine learning problems, so we will stick to it even though gradient descent seems like a clever choice seen from the figure. 
+
+\begin{figure}[h]
+	\centering 
+	\subfloat[2D, $\omega=1.0$]{{\input{pgf/convergence2D.tex}}}
+	\subfloat[3D, $\omega=0.5$]{{\input{pgf/convergence3D.tex}}}
+	\caption{Energy convergence for circular quantum dots where we use the optimization tools gradient descent (GD), stochastic gradient descent with 10 batches (SGD) and the ADAM optimizer. The plot in (a) shows a two-dimensional quantum dot of frequency $\omega=1.0$ containing two interacting electrons with exact energy $E=3.0$. The plot in (b) shows a three-dimensional quantum dot of frequency $\omega=0.5$ containing two interacting electrons with exact energy $E=2.0$. We use a standard variational Monte-Carlo wave function, the learning rate was set to $\eta=0.5$ and the number of Metropolis steps used for each iteration was $M=2^{24}=16,777,216$. All energies are given in units of $\hbar$ (Hartree units).}
+	\label{fig:convergenceoptimization}
+\end{figure} 
+
+\iffalse
 \begin{figure} [H]
 	\centering
 	\input{pgf/convergenceopt.tex}
 	\caption{Energy convergence for circular quantum dots of two particles in two dimensions (left) and three dimensions (right). We use a standard variational Monte-Carlo wave function, the learning rate was set to $\eta=0.5$ and the number of Metropolis steps used for each iteration was $M=2^{24}=16,777,216$.}
 \end{figure}
+\fi
 
-We observe that the gradient descent methods in the cases above have a smoother convergence compared ADAM. However, this could be the case for the standard variational Monte-Carlo wave function only, so we better also look how well they do for other structures. 
 \iffalse
 \begin{figure}[H]
 	\centering
@@ -62,55 +81,44 @@ We observe that the gradient descent methods in the cases above have a smoother 
 \end{figure}
 \fi
 
-\iffalse
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.3]{Images/example.png}
-	\caption{Will add convergence plots here}
-\end{figure}
-\fi
-
-Even though the gradient descent methods seem to be the best choice based on those graphs, we experience that the energy occasionally explode when they are applied on more heavy systems, and therefore we will rely in the ADAM optimizer henceforth. 
-
 \newpage
 \section{No repulsive interaction}
-We start with the non-interacting case in order to validate the implemented code. In this case we both know the exact energies and the exact one-body densities for an array of systems, and can therefore validate the code.
+We start with the non-interacting case in order to validate the implemented code. For this case, we know the exact energy and the exact one-body density for both quantum dots and atoms, which makes it a good test for both systems. The physical significance is though limited, such systems do not appear in the real world. We will first present the quantum dots, before we move on to atoms. 
 
 \subsection{Quantum dots}
-We will start with quantum dots, 
-
 \subsubsection{Ground-state energy}
-The single quantum dot has analytical ground-state energies given by equation \eqref{eq:HOenergies} and number of closed-shell particles given by equation \eqref{eq:HOclosedshell}. The first 5 closed-shell energies for $\omega=0.5$ and $\omega=1.0$ are presented in table \eqref{tab:quantumdotswointeraction}.
+The single quantum dot has analytical ground-state energies given by equation \eqref{eq:HOenergies} and a number particles given by the magic numbers in equation \eqref{eq:HOclosedshell}. For some selected number of electrons and for frequencies $\omega=0.5$ and $\omega=1.0$ the obtained energies are presented in table \eqref{tab:quantumdotswointeraction}.
 
-\begin{table}[H]
+\begin{table} [h]
 	\caption{Energy of circular quantum dots of frequency $\omega=0.5$ and $\omega=1.0$ consisting of $N$ non-interacting particles. RBM is a single Slater determinant with a plain Boltzmann machine baked in, while VMC is a standard variational Monte-Carlo Slater determinant. Exact values are obtained by $E=\omega(n+1/2)$, and all values are given in units of $\hbar$.}
 	\label{tab:quantumdotswointeraction}
 	\begin{tabularx}{\textwidth}{r|r|R{2cm}R{2cm}R{2cm}|R{2cm}R{2cm}R{2cm}} \hline\hline
 		&& \multicolumn{3}{c}{$\omega=0.5$}&\multicolumn{3}{c}{$\omega=1.0$}\\ \hline
 		\makecell{\\ \phantom{=}}& $N$ & \multicolumn{1}{c}{RBM} & \multicolumn{1}{c}{VMC} & \multicolumn{1}{c}{Exact} & \multicolumn{1}{c}{RBM} & \multicolumn{1}{c}{VMC} & \multicolumn{1}{c}{Exact} \\ \hline \\
 		
-		\parbox[t]{2mm}{\multirow{5}{*}{\rotatebox[origin=c]{90}{2D}}}
+		\parbox[t]{2mm}{\multirow{3}{*}{\rotatebox[origin=c]{90}{2D}}}
 		&2 & 1.0 & 1.0 & 1 & 2.0 & 2.0 & 2\\
-		&6 & 5.0 & 5.0 & 5 & 10.0 & 10.0 & 10 \\
+		%&6 & 5.0 & 5.0 & 5 & 10.0 & 10.0 & 10 \\
 		&12 & 14.0 & 14.0 & 14 & 28.0 & 28.0 & 28\\
-		&20 & 30.0 & 30.0 & 30 & 60.0 & 60.0 & 60\\
+		%&20 & 30.0 & 30.0 & 30 & 60.0 & 60.0 & 60\\
 		&30 & 55.0 & 55.0 & 55 & 110.0 & 110.0 & 110\\ \hline \\
 		
-		\parbox[t]{2mm}{\multirow{5}{*}{\rotatebox[origin=c]{90}{3D}}}
+		\parbox[t]{2mm}{\multirow{3}{*}{\rotatebox[origin=c]{90}{3D}}}
 		&2 & 1.5 & 1.5 & 1.5 & 3.0 & 3.0 & 3 \\
-		&8 & 9.0 & 9.0 & 9 & 18.0 & 18.0 & 18 \\
+		%&8 & 9.0 & 9.0 & 9 & 18.0 & 18.0 & 18 \\
 		&20 & 30.0 & 30.0 & 30 & 60.0 & 60.0 & 60 \\
-		&40 & 75.0 & 75.0 & 75 & 150.0 & 150.0 & 150 \\
+		%&40 & 75.0 & 75.0 & 75 & 150.0 & 150.0 & 150 \\
 		&70 & 157.5 & 157.5 & 157.5 & 315.0 & 315.0 & 315 \\ \hline\hline
 	\end{tabularx}
 \end{table}
-We observe that both the standard VMC, with $\alpha=1$, and standard RBM, with all parameters set to zero, are able to reproduce the analytical expression. 
+We observe that both the standard VMC, with $\alpha=1$, and standard RBM, with all parameters set to zero, are able to reproduce the analytical expression. This is as expected, since the exact wave functions are found when the parameters have these particular values.
 
-\newpage
 \subsubsection{One-body density}
-We will also focus on the one-body densities throughout the results, and comparing the obtained densities to the analytical ones is a good indicator on whether the implementation is correct or not. In figure \eqref{fig:OB_nointeraction} the one-body densities are plotted for quantum dots of two non-interacting electrons. The analytical one-body densities are found from the definition of one-body density in equation \eqref{eq:electron_density}.
+We will also focus on the one-body densities throughout the results, and comparing the obtained densities to the analytical ones is a good indicator on whether the implementation is correct or not. In figure \eqref{fig:OB_nointeraction} the one-body densities are plotted for quantum dots of two non-interacting electrons in two and three dimensions and frequencies $\omega=0.5$ and $\omega=1.0$. The analytical one-body densities are found from the definition of one-body density in equation \eqref{eq:electron_density}.
 
-\begin{figure} [h]%
+We observe that both the standard variational Monte-Carlo wave function and the restricted Boltzmann machine reproduce the analytical one-body density. The distribution gets narrower as the frequency is increased, and we also observe that the distributions are identical for two- and three dimensions with the same frequency.
+
+\begin{figure}[h]
 	\centering
 	\subfloat[2D, $\omega=0.5$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int0/onebody/2D/2P/GD_MC2pow28_w0p5.png}}}
 	\subfloat[2D, $\omega=1.0$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int0/onebody/2D/2P/GD_MC2pow28_w1p0.png} }}\\
@@ -121,15 +129,12 @@ We will also focus on the one-body densities throughout the results, and compari
 	\label{fig:OB_nointeraction}
 \end{figure}
 
-We observe that both the standard variational Monte-Carlo wave function (VMC) and the restricted Boltzmann machine (RBM) reproduce the analytical one-body density. The distribution gets narrower as the frequency is increased, and we also observe that the distributions are identical for two- and three dimensions with the same frequency.
-
 \newpage
 \subsection{Atoms}
-Also atoms will be studied as well...
+The second system we will use for validation is atoms. The energies of atoms containing non-interacting electrons are given by the Bohr formula presented in equation \eqref{eq:bohrformula}. In table \eqref{tab:atomswointeraction}, the lowest closed-shell atoms He, Be and Ne are listed with their exact energy and the obtained energy from the code. In addition, we added calculations of the Hydrogen ground-state energy as another test.
 
-\subsubsection{Ground-state energy}
 \begin{table} [H]
-	\caption{Energy of atoms of $N$ non-interacting electrons. RBM is a single Slater determinant with a plain Boltzmann machine baked in, while VMC is a standard variational Monte-Carlo Slater determinant.}
+	\caption{Energy of atoms of $N$ non-interacting electrons. RBM is a single Slater determinant with a plain Boltzmann machine baked in, while VMC is a standard variational Monte-Carlo Slater determinant. The variance is zero to machine precision for all listed results. }
 	\label{tab:atomswointeraction}
 	\begin{tabularx}{\textwidth}{lrrR{3.5cm}R{3.5cm}R{3.5cm}} \hline\hline
 		Atom & $N$ & \makecell{\\ \phantom{=}} & RBM & VMC & Exact \\ \hline \\
@@ -137,8 +142,7 @@ Also atoms will be studied as well...
 		H & 1 && - & -0.5 & -0.5 \\
 		He & 2 && - & -4.0 & -4 \\
 		Be & 4 && - & -20.0 & -20 \\
-		Ne & 10 && - & -200.0 & -200\\
-		Mg & 12 && - & - & -320 \\ \hline\hline
+		Ne & 10 && - & -200.0 & -200 \\ \hline\hline
 	\end{tabularx}
 \end{table}
 
@@ -159,87 +163,94 @@ For other references, we need to rely on what researchers have found before us. 
 
 Ground state energy computations of two- and three dimensional quantum dots are found in tables \eqref{tab:quantumdotswinteraction2D1} and \eqref{tab:quantumdotswinteraction3D1} respectively. They are performed by a restricted Boltzmann machine (RBM), restricted Boltzmann machine with a simple Jastrow factor (RBM+SJ), restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ), partly restricted Boltzmann machine (PRBM) and standard variational Monte-Carlo (VMC). In addition, the Hartree-Fock limit (HF) and diffusion Monte-Carlo (DMC) are present for reference purposes. 
 
-We observe that the method where less physical intuition is used, RBM, is the one that gives the highest energies. However, compared to HF, the energy is mostly lower. When we add more intuition in form of a simple Jastrow factor, the energy drops significantly. RBM+PJ and VMC are on the same level, with VMC pinched in front.
+We observe that the method where less physical intuition is used, RBM, is the one that gives the highest energies. This is as expected, but considering that no Jastrow factor is added to take care of the interactions, the result is not bad. It is overall lower than the Hartree-Fock limit. 
+
+When we add more intuition in form of a simple Jastrow factor, the energy drops significantly. The RBM+SJ is not very far from reproducing the reference, and the RBM+PJ is even closer and on the same level as VMC. The RBM+PJ and VMC also give the lowest variances.
+
+In three dimensions, all the methods give smaller errors with respect to the references compared to two dimensions, which is because we have more degrees of freedom.
+
+We made effort in trying to get the deep Boltzmann machine and the partly restricted Boltzmann machines to work, but they did not behave nicely. 
 
 \afterpage{
 \begin{landscape}
 \begin{table}
-	\caption{The ground state energy of two-dimensional circular quantum dots of frequency $\omega$ obtained by various methods. The column on the left-hand-side represents restricted Boltzmann machine (RBM), followed by restricted Boltzmann machine with simple Jastrow factor (RBM+SJ), restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ), partly restricted Boltzmann machine (PRBM), the Hartree-Fock limit (HF), standard variational Monte-Carlo with Hartree-Fock basis (VMC+HF), standard variational Monte-Carlo with Hermite basis (VMC) and diffusion Monte-Carlo (DMC). Hartree-Fock results are taken from Ref.\cite{mariadason_quantum_2018}, DMC results are taken from \cite{hogberget_quantum_2013} and semi-analytical results are taken from \cite{taut_two_1994}. $N$ is the number of electrons in the dot, and $L=S=0$. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
-	\begin{tabularx}{\hsize}{llR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}} \hline\hline
+	\caption{The ground state energy of two-dimensional circular quantum dots of frequency $\omega$ obtained by various methods. The column on the left-hand-side represents restricted Boltzmann machine (RBM), followed by restricted Boltzmann machine with simple Jastrow factor (RBM+SJ), restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ), the Hartree-Fock limit (HF), standard variational Monte-Carlo with Hartree-Fock basis (VMC+HF), standard variational Monte-Carlo with Hermite basis (VMC), diffusion Monte-Carlo (DMC) and semi-analytical results (Exact). Hartree-Fock results are taken from Ref.\cite{mariadason_quantum_2018}, DMC results are taken from \cite{hogberget_quantum_2013} and semi-analytical results are taken from \cite{taut_two_1994}. $N$ is the number of electrons in the dot, and $L=S=0$. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
+	\begin{tabularx}{\hsize}{llR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.2cm}} \hline\hline
 		\label{tab:quantumdotswinteraction2D1}
-		\makecell{\\ $N$ \\ \phantom{=}} & $\omega$ & \multicolumn{1}{c}{RBM} & \multicolumn{1}{c}{RBM+SJ} & \multicolumn{1}{c}{RBM+PJ} & \multicolumn{1}{c}{PRBM} & \multicolumn{1}{c}{\makecell{HF \\ (Ref.\cite{mariadason_quantum_2018})}} & \multicolumn{1}{c}{\makecell{VMC+HF \\ (Ref.\cite{mariadason_quantum_2018})}} & \multicolumn{1}{c}{VMC} & \multicolumn{1}{c}{\makecell{DMC \\ (Ref.\cite{hogberget_quantum_2013})}} \\ \hline \\
-		2 & 0.1 & 0.4728(1) & 0.44859(6) & 0.440975(8) & 0.4959(2) & 0.525635 & - & 0.44129(1) & 0.44079(1) \\ 
-		& 1/6 & 0.7036(1) & 0.67684(7) & 0.66715(6) & 0.7326(2) & 0.768675 & - & 0.66710(1) & $0.\bar{6}^{1}$ \\
-		& 0.28 & 1.0707(2) & 1.03485(7) & 1.021668(7) & 1.0987(2) & 1.14171 & - & 1.02192(1) & 1.02164(1) \\
-		& 0.5 & 1.7234(2) & 1.67787(8) & 1.659637(6) & 1.7182(3) & 1.79974 & - & 1.65974(1) & 1.65977(1)  \\
-		& 1.0 & 3.0829(2) & 3.0255(1) & 2.999587(5) & 3.0566(3) & 3.16190 & - & 2.99936(1) & $3.0^{1}$ \\ \hdashline \\
+		\makecell{\\ $N$ \\ \phantom{=}} & $\omega$ & \multicolumn{1}{c}{RBM} & \multicolumn{1}{c}{RBM+SJ} & \multicolumn{1}{c}{RBM+PJ} & \multicolumn{1}{c}{\makecell{HF \\ (Ref.\cite{mariadason_quantum_2018})}} & \multicolumn{1}{c}{VMC+HF} & \multicolumn{1}{c}{VMC} & \multicolumn{1}{c}{\makecell{DMC \\ (Ref.\cite{hogberget_quantum_2013})}} & \multicolumn{1}{c}{\makecell{Exact \\ (Ref.\cite{taut_two_1994})}} \\ \hline \\
+		2 & 0.1 & 0.4728(1) & 0.44858(6) & 0.440975(8) & 0.525635 & - & 0.44129(1) & 0.44079(1) \\ 
+		& 1/6 & 0.7036(1) & 0.67684(7) & 0.66715(6) & 0.768675 & - & 0.66710(1) & - & 2/3 \\
+		& 0.28 & 1.0707(2) & 1.03470(7) & 1.021668(7) & 1.14171 & - & 1.02192(1) & 1.02164(1) \\
+		& 0.5 & 1.7234(2) & 1.67739(9) & 1.659637(6) & 1.79974 & - & 1.65974(1) & 1.65977(1)  \\
+		& 1.0 & 3.0829(2) & 3.0259(1) & 2.999587(5) & 3.16190 & - & 2.99936(1) & 3.00000(1) & 3.0 \\ \hdashline \\
 
-		6 & 0.1 & 3.697(1) & 3.6584(4) & 3.5700(2) & - & 3.85238 & - & 3.5695(1) & 3.55385(5) \\ 
-		& 0.28 & 7.9273(9) & 7.7503(4) & 7.6203(2) & - & 8.01957 & - & 7.6219(1) & 7.60019(6) \\
-		& 0.5 & 12.241(1) & 11.9659(5) & 11.8074(2) & 11.995(3) & 12.2713 & - & 11.8104(2) & 11.78484(6) \\
-		& 1.0 & 20.716(1) & 20.4061(7) & 20.1832(2) & 20.483(1) & 20.7192 & - & 20.1918(2) & 20.15932(8) \\ \hdashline \\
+		6 & 0.1 & 3.697(1) & 3.6584(4) & 3.5700(2) & 3.85238 & - & 3.5695(1) & 3.55385(5) \\ 
+		& 0.28 & 7.9273(9) & 7.7503(4) & 7.6203(2) & 8.01957 & - & 7.6219(1) & 7.60019(6) \\
+		& 0.5 & 12.241(1) & 11.9659(5) & 11.8074(2) & 12.2713 & - & 11.8104(2) & 11.78484(6) \\
+		& 1.0 & 20.716(1) & 20.4061(7) & 20.1832(2) & 20.7192 & - & 20.1918(2) & 20.15932(8) \\ \hdashline \\
 		
-		12 & 0.1 & 12.705(2) & 12.566(2) & 12.3416(4) & - & 12.9247 & - & 12.3196(3) & 12.26984(8) \\ 
-		& 0.28 & 26.389(2) & 26.083(1) & 25.7331(5) & - & 26.5500 & - & 25.7049(4) & 25.63577(9) \\
-		& 0.5 & 40.440(3) & 39.694(1) & 39.2743(6) & - & 40.2161 & - & 39.2421(5) & 39.1596(1) \\
-		& 1.0 & 67.632(3) & 66.378(2) & 65.7911(7) & - & 66.9113 & - & 65.7928(5) & 65.7001(1) \\ \hdashline
+		12 & 0.1 & 12.705(2) & 12.566(2) & 12.3416(4) & 12.9247 & - & 12.3196(3) & 12.26984(8) \\ 
+		& 0.28 & 26.389(2) & 26.083(1) & 25.7331(5) & 26.5500 & - & 25.7049(4) & 25.63577(9) \\
+		& 0.5 & 40.440(3) & 39.694(1) & 39.2743(6) & 40.2161 & - & 39.2421(5) & 39.1596(1) \\
+		& 1.0 & 67.632(3) & 66.378(2) & 65.7911(7) & 66.9113 & - & 65.7928(5) & 65.7001(1) \\ \hdashline
 	\end{tabularx}
 \end{table}
 
 \begin{table}
-	\begin{tabularx}{\hsize}{llR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}} \\
+	\begin{tabularx}{\hsize}{llR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.1cm}} \\
 		\label{tab:quantumdotswinteraction2D2}
-		20 & 0.1 & 30.824(2) & 30.567(3) & 30.1553(9) & - & 31.1902 & - & 30.086(1) & 29.9779(1) \\ 
-		& 0.28 & 63.746(4) & 62.811(3) & 62.148(1) & - & 63.5390 & - & 62.0755(7) & 61.9268(1) \\
-		& 0.5 & 97.166(5) & 94.920(4) & 94.104(1) & - & 95.7328 & - & 94.0433(9) & 93.8752(1) \\
-		& 1.0 & 159.640(5) & 157.209(4) & 156.104(1) & - & 158.004 & - & 156.102(1) & 155.8822(1) \\ \hdashline \\
+		20 & 0.1 & 30.824(2) & 30.567(3) & 30.1553(9) & 31.1902 & - & 30.086(1) & 29.9779(1) \\ 
+		& 0.28 & 63.746(4) & 62.811(3) & 62.148(1) & 63.5390 & - & 62.0755(7) & 61.9268(1) \\
+		& 0.5 & 97.166(5) & 94.920(4) & 94.104(1) & 95.7328 & - & 94.0433(9) & 93.8752(1) \\
+		& 1.0 & 159.640(5) & 157.209(4) & 156.104(1) & 158.004 & - & 156.102(1) & 155.8822(1) & \phantom{=} \\ \hdashline \\
 		
-		30 & 0.1 & 61.829(5) & 61.351(4) & 60.774(2) & - & - & - & 60.585(1) & 60.4205(2) \\ 
-		& 0.28 & 126.958(6) & 126.067(5) & 124.437(2) & - & - & - & 124.195(2) & 123.9683(2) \\
-		& 0.5 & 191.495(7) & 188.995(5) & 187.493(2) & - & - & - & 187.325(3) & 187.0426(2) \\
-		& 1.0 & 315.364(8) & 311.468(7) & 308.989(2) & - & - & - & 308.957(2) & 308.5627(2) \\ \hdashline \\
+		30 & 0.1 & 61.829(5) & 61.351(4) & 60.774(2) & - & - & 60.585(1) & 60.4205(2) \\ 
+		& 0.28 & 126.958(6) & 126.067(5) & 124.437(2) & - & - & 124.195(2) & 123.9683(2) \\
+		& 0.5 & 191.495(7) & 188.995(5) & 187.493(2) & - & - & 187.325(3) & 187.0426(2) \\
+		& 1.0 & 315.364(8) & 311.468(7) & 308.989(2) & - & - & 308.957(2) & 308.5627(2) \\ \hdashline \\
 		
-		42 & 0.1 & 109.892(6) & 110.030(7) & - & - & - & - &  107.928(2) & 107.6389(2) \\ 
-		& 0.28 & 224.462(8) & 224.587(8) & - & - & - & - & 220.224(2) & 219.8426(2) \\
-		& 0.5 & 337.523(8) & 333.582(9) & 331.410(3) & - & - & - & 331.276(3) & 330.6306(2) \\
-		& 1.0 & 553.40(1) & 549.76(1) & 543.746(3) & - & - & - & 543.738(7) & 542.9428(8) \\ \hdashline \\
+		42 & 0.1 & 109.892(6) & 110.030(7) & - & - & - &  107.928(2) & 107.6389(2) \\ 
+		& 0.28 & 224.462(8) & 224.587(8) & - & - & - & 220.224(2) & 219.8426(2) \\
+		& 0.5 & 337.523(8) & 333.582(9) & 331.410(3) & - & - & 331.276(3) & 330.6306(2) \\
+		& 1.0 & 553.40(1) & 549.76(1) & 543.746(3) & - & - & 543.738(7) & 542.9428(8) \\ \hdashline \\
 		
-		56 & 0.1 & - & 180.52(1) & - & - & - & - & 176.774(3) & 175.9553(7) \\ 
-		& 0.28 & 364.85(1) & 366.91(1) & - & - & - & - & 359.63(1) & 358.145(2) \\
-		& 0.5 & 547.46(1) & 545.74(1) & - & - & - & - & 538.686(9) & 537.353(2) \\
-		& 1.0 & 894.12(2) & 890.70(2) & - & - & - & - & 880.352(5) & 879.3986(6) \\ \hline\hline
+		56 & 0.1 & - & 180.52(1) & - & - & - & 176.774(3) & 175.9553(7) \\ 
+		& 0.28 & 364.85(1) & 366.91(1) & - & - & - & 359.63(1) & 358.145(2) \\
+		& 0.5 & 547.46(1) & 545.74(1) & - & - & - & 538.686(9) & 537.353(2) \\
+		& 1.0 & 894.12(2) & 890.70(2) & - & - & - & 880.352(5) & 879.3986(6) \\ \hline\hline
 	\end{tabularx}
 \end{table}
 
 \begin{table}
-	\caption{The ground state energy of three-dimensional circular quantum dots of frequency $\omega$ obtained by various methods. The column on the left-hand-side represents restricted Boltzmann machine (RBM), followed by restricted Boltzmann machine with simple Jastrow factor (RBM+SJ), restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ), partly restricted Boltzmann machine (PRBM), the Hartree-Fock limit (HF), standard variational Monte-Carlo with Hartree-Fock basis (VMC+HF), standard variational Monte-Carlo with Hermite basis (VMC) and diffusion Monte-Carlo (DMC). Hartree-Fock results are taken from Ref.\cite{mariadason_quantum_2018}, DMC results are taken from \cite{hogberget_quantum_2013} and semi-analytical results are taken from \cite{taut_two_1993}. $N$ is the number of electrons in the dot, and $L=S=0$. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.} 
-	\begin{tabularx}{\hsize}{llR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}} \hline\hline
+	\caption{The ground state energy of three-dimensional circular quantum dots of frequency $\omega$ obtained by various methods. The column on the left-hand-side represents restricted Boltzmann machine (RBM), followed by restricted Boltzmann machine with simple Jastrow factor (RBM+SJ), restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ), the Hartree-Fock limit (HF), standard variational Monte-Carlo with Hartree-Fock basis (VMC+HF), standard variational Monte-Carlo with Hermite basis (VMC), diffusion Monte-Carlo (DMC) and semi-analytical results (Exact). Hartree-Fock results are taken from Ref.\cite{mariadason_quantum_2018}, DMC results are taken from \cite{hogberget_quantum_2013} and semi-analytical results are taken from \cite{taut_two_1993}. $N$ is the number of electrons in the dot, and $L=S=0$. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.} 
+	\begin{tabularx}{\hsize}{llR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.2cm}} \hline\hline
 		\label{tab:quantumdotswinteraction3D1}
-		\makecell{\\ $N$ \\ \phantom{=}} & $\omega$ & \multicolumn{1}{c}{RBM} & \multicolumn{1}{c}{RBM+SJ} & \multicolumn{1}{c}{RBM+PJ} & \multicolumn{1}{c}{PRBM} & \multicolumn{1}{c}{\makecell{HF \\ (Ref.\cite{mariadason_quantum_2018})}} & \multicolumn{1}{c}{\makecell{VMC+HF \\ (Ref.\cite{mariadason_quantum_2018})}} & \multicolumn{1}{c}{VMC} & \multicolumn{1}{c}{\makecell{DMC \\ (Ref.\cite{hogberget_quantum_2013})}} \\ \hline \\
-		2 & 0.1 & 0.5178(1) & 0.50225(3) & 0.500080(6) & - & 0.529065 & - & 0.500083(7) & $0.5^{1}$ \\
-		& 0.28 & 1.2259(1) & 1.20471(4) & 1.201717(6) & - & 1.23722 & - & 1.201752(6) & 1.201725(2) \\
-		& 0.5 & 2.0269(1) & 2.00374(4) & 1.999912(5) & - & 2.03851 & - & 1.999977(5) & $2.0^{1}$ \\
-		& 1.0 & 3.7571(1) & 3.73559(4) & 3.729827(5) & - & 3.77157 & - & 3.730030(5) & 3.730123(3) \\ \hdashline \\
+		\makecell{\\ $N$ \\ \phantom{=}} & $\omega$ & \multicolumn{1}{c}{RBM} & \multicolumn{1}{c}{RBM+SJ} & \multicolumn{1}{c}{RBM+PJ} & \multicolumn{1}{c}{\makecell{HF \\ (Ref.\cite{mariadason_quantum_2018})}} & \multicolumn{1}{c}{VMC+HF} & \multicolumn{1}{c}{VMC} & \multicolumn{1}{c}{\makecell{DMC \\ (Ref.\cite{hogberget_quantum_2013})}} & \multicolumn{1}{c}{\makecell{Exact \\ (Ref.\cite{taut_two_1993})}} \\ \hline \\
+		2 & 0.1 & 0.5178(1) & 0.50225(3) & 0.500080(6) & 0.529065 & - & 0.500083(7) & 0.499997(3) & 0.5 \\
+		& 0.28 & 1.2259(1) & 1.20471(4) & 1.201717(6) & 1.23722 & - & 1.201752(6) & 1.201725(2) \\
+		& 0.5 & 2.0269(1) & 2.00374(4) & 1.999912(5) & 2.03851 & - & 1.999977(5) & 2.000000(2) & 2.0 \\
+		& 1.0 & 3.7571(1) & 3.73559(4) & 3.729827(5) & 3.77157 & - & 3.730030(5) & 3.730123(3) \\ \hdashline \\
 		
-		8 & 0.1 & 6.549(7) & 5.7995(5) & 5.8448(7) & - & 5.86255 & - & 5.7126(1) & 5.7028(1) \\ 
-		& 0.28 & 13.098(2) & 12.2512(4) & 12.2056(2) & - & 12.3987 & - & 12.2050(2) & 12.1927(1) \\
-		& 0.5 & 19.487(2) & 19.0266(4) & 18.9747(2) & - & 19.1916 & - & 18.9759(1) & 18.9611(1) \\
-		& 1.0 & 33.302(1) & 32.739(4) & 32.6820(2) & - & 32.9246 & - & 32.6863(2) & 32.6680(1) \\ \hdashline \\
+		8 & 0.1 & 6.549(7) & 5.7995(5) & 5.8448(7) & 5.86255 & - & 5.7126(1) & 5.7028(1) \\ 
+		& 0.28 & 13.098(2) & 12.2512(4) & 12.2056(2) & 12.3987 & - & 12.2050(2) & 12.1927(1) \\
+		& 0.5 & 19.487(2) & 19.0266(4) & 18.9747(2) & 19.1916 & - & 18.9759(1) & 18.9611(1) \\
+		& 1.0 & 33.302(1) & 32.739(4) & 32.6820(2) & 32.9246 & - & 32.6863(2) & 32.6680(1) \\ \hdashline \\
 		
-		20 & 0.1 & 27.813(2) & - & 29.425(9) & - & - & - & 27.3144(5) & 27.2717(2) \\ 
-		& 0.28 & 57.700(4) & - & - & - & - & - & 56.4297(5) & 56.3868(2) \\
-		& 0.5 & 87.840(4) & - & - & - & - & - & 85.7161(5) & 85.6555(2) \\
-		& 1.0 & 146.292(4) & - & - & - & - & - & 142.9560(7) & 142.8875(2) \\ \hdashline \\
+		20 & 0.1 & 27.813(2) & - & 29.425(9) & - & - & 27.3144(5) & 27.2717(2) \\ 
+		& 0.28 & 57.700(4) & - & - & - & - & 56.4297(5) & 56.3868(2) \\
+		& 0.5 & 87.840(4) & - & - & - & - & 85.7161(5) & 85.6555(2) \\
+		& 1.0 & 146.292(4) & - & - & - & - & 142.9560(7) & 142.8875(2) \\ \hdashline \\
 		
-		40 & 0.1 & - & - & - & - & - & - & 88.182(1) & - \\ 
-		& 0.28 & 182.714(6) & - & - & - & - & - & 179.567(1) & - \\
-		& 0.5 & 275.262(7) & - & - & - & - & - & 269.746(1) & - \\
-		& 1.0 & 452.732(8) & - & - & - & - & - & 442.602(2) & - \\ \hline\hline
+		40 & 0.1 & - & - & - & - & - & 88.182(1) \\ 
+		& 0.28 & 182.714(6) & - & - & - & - & 179.567(1) \\
+		& 0.5 & 275.262(7) & - & - & - & - & 269.746(1) \\
+		& 1.0 & 452.732(8) & - & - & - & - & 442.602(2) \\ \hline\hline
 	\end{tabularx}
 \end{table}
 \end{landscape}
 }
 
+\newpage
 \subsection{One-body density}
 Another quantity of particular interest is the one-body density. We have produced one-body density plots using a restricted Boltzmann machine (RBM), a restricted Boltzmann machine with simple Jastrow factor (RBM+SJ), a restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo (VMC) for frequencies $\omega=[1.0,0.5,0.1]$ and up to 42 electrons in two dimensions and 40 electrons in three dimensions. The plots for two- and three-dimensional dots can be found in figures (\ref{fig:OB_interaction_2D_1w}-\ref{fig:OB_interaction_2D_01w}) and \ref{fig:OB_interaction_3D} respectively.
 
@@ -288,6 +299,7 @@ We observe that the density gets a wave shape with more peaks as the number of p
 	\caption{One-body density plots for two-dimensional circular quantum dots of 2, 6, 12, 20, 30 and 42 interacting electrons for frequencies $\omega=0.1$ produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM), restricted Boltzmann machine with simple Jastrow factor (RBM+SJ) and restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ). ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $MC=2^{28}=268,435,456$.}%
 	\label{fig:OB_interaction_2D_01w}
 \end{figure}
+\iffalse
 \begin{figure} [H]%
 	\centering
 	\subfloat[2P, $\omega=0.1$]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody/3D/2P/0.100000w/3D_2P_0p100000w_MC2pow28.png}}}
@@ -364,9 +376,65 @@ The last thing we will investigate, is the two-body density. See figure \eqref{f
 		\label{fig:TB_interaction_2D}
 	\end{figure}
 \end{landscape}
+\fi
 
 \subsection{Splitting the energy}
-It is also interesting to investigate how the energy is distributed between kinetic energy, external energy and interaction energy. 
+It is also interesting to investigate how the energy is distributed between kinetic energy, external energy and interaction energy for the different methods and various oscillator frequencies. This makes us able to check if the results agree with the virial theorem presented in section \ref{sec:virial}, and it is also interesting to see if the different methods have different energy distribution. In figure \eqref{fig:energysplit}, the kinetic energy, external potential energy and interaction energy are plotted as a function of oscillator frequency for a two-dimensional quantum dot containing two electrons.  
+\begin{figure}[H]  
+	\centering 
+	\subfloat[$\langle \mathcal{T} \rangle$]{{\input{pgf/kinetic.tex}}}
+	\subfloat[$\langle \mathcal{V_{\text{ext}}} \rangle$]{{\input{pgf/external.tex}}}
+	\subfloat[$\langle \mathcal{V_{\text{int}}} \rangle$]{{\input{pgf/interaction.tex}}}
+	\caption{In figure (a), the kinetic energy over total energy, $\langle\mathcal{T}\rangle/\langle\mathcal{H}\rangle$, of two-dimensional quantum dots containing two electrons are plotted as a function of the oscillator frequency $\omega$. Similar plots for the external potential energy and interaction energy are found in figure (b) and (c) respectively. The methods used are standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM), restricted Boltzmann machine with simple Jastrow factor (RBM+SJ) and restricted Boltzmann machine with Padé-Jastrow factor.}
+	\label{fig:energysplit}
+\end{figure} 
+
+One can observe that the kinetic energy and potential energy are dominant for high frequencies, but as the frequency is decreased the interaction energy gets ever more important. At frequency $\omega=0.01$, the interaction energy actually accounts for 50\% of the energy, while the kinetic energy accounts for about 10\% of the energy. We predicted this already in section \ref{sec:wigner}.
+
+We also see a significant difference between the methods, where the plain restricted Boltzmann machine is the one that really stands out. This is not very surprising, considering that it does not have any Jastrow factor to take care of the interactions. This apparently gives a higher interaction energy and a lower kinetic energy. 
+
+If we now recall the virial theorem in section \ref{sec:virial}, it states that the kinetic energy is related to the potential energies in a certain way. For the interaction quantum dot system, the virial theorem reads
+\begin{equation}
+2\langle \mathcal{T} \rangle=2\langle \mathcal{V_{\text{ext}}} \rangle-\langle \mathcal{V_{\text{int}}} \rangle
+\end{equation}
+which can be verified from the energy splitting. To do this accurate, we better list up the exact energies, which is done in table \eqref{tab:splitfrequencyQD2D} for some selected frequencies for a two-dimensional quantum dots containing two electrons. By doing the math, we see that the virial theorem is satisfied for low frequencies, but as the frequency increases the theorem gets more and more off. This is the case for all the methods.
+
+\begin{table}
+	\caption{This table shows how the total energy ($\langle\mathcal{H}\rangle$) is distributed between kinetic energy ($\langle\mathcal{T}\rangle$), external potential energy ($\langle\mathcal{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\mathcal{V}_{\text{int}}\rangle$) of two-dimensional circular quantum dots at a wide range of frequencies $\omega$ and two interacting electrons. The methods used are standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM), restricted Boltzmann machine with a simple Jastrow factor (RBM+SJ) and restricted Boltzmann machine with Padé-Jastrow factor. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
+	\label{tab:splitfrequencyQD2D}
+	\begin{tabularx}{\textwidth}{R{1cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{0.3cm}} \hline\hline
+		&\makecell{\\ \phantom{$N$} \\ \phantom{=}} & $\omega$ && \multicolumn{1}{c}{$\langle \mathcal{H}\rangle$} & \multicolumn{1}{c}{$\langle \mathcal{T}\rangle$} & \multicolumn{1}{c}{$\langle \mathcal{V_{\text{ext}}} \rangle$} & \multicolumn{1}{c}{$\langle \mathcal{V_{\text{int}}} \rangle$} \\ \hline \\
+		&RBM & 0.01 && 0.07954(7) & 0.00872(2) & 0.03402(9) & 0.0368(1) \\
+		%&& 0.1 && 0.4743(1) & 0.08102(8) & 0.2082(2) & 0.1851(2) \\
+		%&& 0.28 && 1.0707(2) & 0.2047(1) & 0.4678(3) & 0.3983(3) \\
+		&& 0.5 && 1.7234(2) & 0.3739(2) & 0.7611(3) & 0.5884(3)\\
+		%&& 1.0 && 3.0829(2) & 0.7691(2) & 1.3926(4) & 0.9212(3)\\
+		&& 3.0 && 7.9968(4) & 2.2346(5) & 4.0201(7) & 1.7422(4) \\ \hdashline \\
+		
+		&RBM+SJ & 0.01 && 0.075267(3) & 0.00738(2) & 0.03071(8) & 0.03718(8) \\
+		%&& 0.1 && 0.44858(6) & 0.07539(8) & 0.1990(2) & 0.1742(1) \\
+		%&& 0.28 && 1.03470(7) & 0.2163(1) & 0.4547(2) & 0.3637(2) \\
+		&& 0.5 && 1.67739(9) & 0.3913(2) & 0.7450(3) & 0.5411(2)\\
+		%&& 1.0 && 3.0259(1) & 0.7857(3) & 1.3958(4) & 0.8444(3)\\
+		&& 3.0 && 7.9409(1) & 2.2162(5) & 4.0834(7) & 1.6413(3) \\ \hdashline \\
+		
+		&RBM+PJ & 0.01 && 0.074107(8) & 0.01031(3) & 0.02703(4) & 0.03677(3) \\
+		%&& 0.1 && 0.440975(8) & 0.09223(9) & 0.1757(1) & 0.17304(9) \\
+		%&& 0.28 && 1.021668(7) & 0.2468(1) & 0.4258(2) & 0.3490(1) \\
+		&& 0.5 && 1.659637(6) & 0.4305(2) & 0.7112(2) & 0.5179(2)\\
+		%&& 1.0 && 2.999587(5) & 0.8440(3) & 1.3418(3) & 0.8238(2)\\
+		&& 3.0 && 7.882355(8) & 2.2466(6) & 4.0117(6) & 1.6240(3) \\ \hdashline \\
+		
+		&VMC & 0.01 && 0.074070(8) & 0.00947(3) & 0.02732(5) & 0.03728(4) \\
+		%&& 0.1 && 0.44129(1) & 0.09117(9) & 0.1789(1) & 0.17119(9) \\
+		%&& 0.28 && 1.02192(1) & 0.2477(1) & 0.4256(2) & 0.3487(1) \\
+		&& 0.5 && 1.65974(1) & 0.4346(2) & 0.7057(2) & 0.5195(2) & \\
+		%&& 1.0 && 2.99936(1) & 0.8523(3) & 1.3149(3) & 0.8321(2)\\
+		&& 3.0 && 7.881906(9) & 2.5028(5) & 3.6911(6) & 1.6880(3) \\ \hdashline \\
+	\end{tabularx}
+\end{table} 
+
+\iffalse
 \begin{table}
 	\caption{Total energy ($\langle\mathcal{H}\rangle$), kinetic energy ($\langle\mathcal{T}\rangle$) and potential energy ($\langle\mathcal{V}\rangle$) of two-dimensional circular quantum dots at a wide range of frequencies $\omega$. A standard variational Monte-Carlo wave function is used. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
 	\label{tab:splitfrequencyQDVMC}
@@ -407,8 +475,8 @@ It is also interesting to investigate how the energy is distributed between kine
 	\label{tab:splitfrequencyQDRBM}
 	\begin{tabularx}{\textwidth}{R{1.5cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}} \hline\hline
 		&\makecell{\\ $N$ \\ \phantom{=}} & $\omega$ && \multicolumn{1}{c}{$\langle \mathcal{H}\rangle$} & \multicolumn{1}{c}{$\langle \mathcal{T}\rangle$} & \multicolumn{1}{c}{$\langle \mathcal{V_{\text{ext}}} \rangle$} & \multicolumn{1}{c}{$\langle \mathcal{V_{\text{int}}} \rangle$} \\ \hline \\
-		&2 & 0.01 && EXPL & - & - & - \\
-		&& 0.1 && 0.475(2) & 0.02(2) & 0.27(2) & 0.184(3) \\
+		&2 & 0.01 && 0.07954(7) & 0.00872(2) & 0.03402(9) & 0.0368(1) \\
+		&& 0.1 && 0.4743(1) & 0.08102(8) & 0.2082(2) & 0.1851(2) \\
 		&& 0.28 && 1.0707(2) & 0.2047(1) & 0.4678(3) & 0.3983(3) \\
 		&& 0.5 && 1.7234(2) & 0.3739(2) & 0.7611(3) & 0.5884(3)\\
 		&& 1.0 && 3.0829(2) & 0.7691(2) & 1.3926(4) & 0.9212(3)\\
@@ -473,6 +541,41 @@ It is also interesting to investigate how the energy is distributed between kine
 \end{table} 
 
 \begin{table}
+	\caption{Total energy ($\langle\mathcal{H}\rangle$), kinetic energy ($\langle\mathcal{T}\rangle$) and potential energy ($\langle\mathcal{V}\rangle$) of two-dimensional circular quantum dots at a wide range of frequencies $\omega$. A restricted Boltzmann machine wave function with a simple Jastrow factor is used. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
+	\label{tab:splitfrequencyQDRBMSJ}
+	\begin{tabularx}{\textwidth}{R{1.5cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}} \hline\hline
+		&\makecell{\\ $N$ \\ \phantom{=}} & $\omega$ && \multicolumn{1}{c}{$\langle \mathcal{H}\rangle$} & \multicolumn{1}{c}{$\langle \mathcal{T}\rangle$} & \multicolumn{1}{c}{$\langle \mathcal{V_{\text{ext}}} \rangle$} & \multicolumn{1}{c}{$\langle \mathcal{V_{\text{int}}} \rangle$} \\ \hline \\
+		&2 & 0.01 && 0.075267(3) & 0.00738(2) & 0.03071(8) & 0.03718(8) \\
+		&& 0.1 && 0.44858(6) & 0.07539(8) & 0.1990(2) & 0.1742(1) \\
+		&& 0.28 && 1.03470(7) & 0.2163(1) & 0.4547(2) & 0.3637(2) \\
+		&& 0.5 && 1.67739(9) & 0.3913(2) & 0.7450(3) & 0.5411(2)\\
+		&& 1.0 && 3.0259(1) & 0.7857(3) & 1.3958(4) & 0.8444(3)\\
+		&& 3.0 && 7.9409(1) & 2.2162(5) & 4.0834(7) & 1.6413(3) \\ \hdashline \\
+		
+		&6 & 0.01 && - & - & - & - \\
+		&& 0.1 && - & - & - & - \\
+		&& 0.28 && - & - & - & - \\
+		&& 0.5 && - & - & - & - \\
+		&& 1.0 && - & - & - & - \\
+		&& 3.0 && - & - & - & - \\ \hdashline \\
+		
+		&12 & 0.01 && - & - & - & - \\
+		&& 0.1 && - & - & - & - \\
+		&& 0.28 && - & - & - & - \\
+		&& 0.5 && - & - & - & - \\
+		&& 1.0 && - & - & - & - \\
+		&& 3.0 && - & - & - & - \\ \hdashline \\
+		
+		&20 & 0.01 && - & - & - & - \\
+		&& 0.1 && - & - & - & - \\
+		&& 0.28 && - & - & - & - \\
+		&& 0.5 && - & - & - & - \\
+		&& 1.0 && - & - & - & - \\
+		&& 3.0 && - & - & - & - \\ \hline \hline
+	\end{tabularx}
+\end{table} 
+
+\begin{table}
 	\caption{Total energy ($\langle \mathcal{H}\rangle$), kinetic energy ($\langle\mathcal{T}\rangle$) and potential energy ($\langle \mathcal{V}\rangle$) of three-dimensional circular quantum dots at a wide range of frequencies $\omega$. A restricted Boltzmann machine with Padé-Jastrow wave function is used. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
 	\label{tab:splitfrequencyQDRBMPJ3D}
 	\begin{tabularx}{\textwidth}{R{1.5cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}} \hline\hline
@@ -519,41 +622,6 @@ It is also interesting to investigate how the energy is distributed between kine
 		&& 1.0 && 3.730030(5) & 1.3105(4) & 1.7551(5) & 0.6644(2) \\
 		&& 3.0 && 10.31717(1) & 3.8365(7) & 5.2770(8) & 1.2037(2) \\ \hdashline \\
 		
-		&8 & 0.01 && EXPL & - & - & - \\
-		&& 0.1 && EXPL & - & - & - \\
-		&& 0.28 && EXPL & - & - & - \\
-		&& 0.5 && EXPL & - & - & - \\
-		&& 1.0 && 33.305(1) & 7.032(2) & 12.267(3) & 14.006(2) \\
-		&& 3.0 && 80.677(1) & 17(3) & 38(3) & 25.0(1) \\ \hdashline \\
-		
-		&20 & 0.01 && EXPL & - & - & - \\
-		&& 0.1 && ERROR & - & - & - \\
-		&& 0.28 && EXPL & - & - & - \\
-		&& 0.5 && EXPL & - & - & - \\
-		&& 1.0 && 147.03(1) & 1(4) & 79(5) & 66(1) \\
-		&& 3.0 && EXPL & - & - & - \\ \hdashline \\
-		
-		&40 & 0.01 && - & - & - & - \\
-		&& 0.1 && - & - & - & - \\
-		&& 0.28 && - & - & - & - \\
-		&& 0.5 && - & - & - & - \\
-		&& 1.0 && - & - & - & - \\
-		&& 3.0 && - & - & - & - \\ \hline \hline
-	\end{tabularx}
-\end{table}
-
-\begin{table}
-	\caption{Total energy ($\langle \mathcal{H}\rangle$), kinetic energy ($\langle\mathcal{T}\rangle$) and potential energy ($\langle \mathcal{V}\rangle$) of three-dimensional circular quantum dots at a wide range of frequencies $\omega$. A simple restricted Boltzmann machine wave function is used. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
-	\label{tab:splitfrequencyQDRBM3D}
-	\begin{tabularx}{\textwidth}{R{1.5cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}} \hline\hline
-		&\makecell{\\ $N$ \\ \phantom{=}} & $\omega$ && \multicolumn{1}{c}{$\langle \mathcal{H}\rangle$} & \multicolumn{1}{c}{$\langle \mathcal{T}\rangle$} & \multicolumn{1}{c}{$\langle \mathcal{V_{\text{ext}}} \rangle$} & \multicolumn{1}{c}{$\langle \mathcal{V_{\text{int}}} \rangle$} \\ \hline \\
-		&2 & 0.01 && EXPL & - & - & - \\
-		&& 0.1 && 0.5177(1) & 0.1249(1) & 0.2065(2) & 0.1863(2) \\
-		&& 0.28 && 1.2261(1) & 0.35(2) & 0.53(2) & 0.3488(6) \\
-		&& 0.5 && 2.0269(1) & 0.6595(3) & 0.8778(4) & 0.4896(2) \\
-		&& 1.0 && 3.7574(1) & 1.3224(5) & 1.7215(5) & 0.7136(2) \\
-		&& 3.0 && DID START & - & - & - \\ \hdashline \\
-		
 		&8 & 0.01 && 1.1490(4) & 0.02339(8) & 0.427(1) & 0.6985(9) \\
 		&& 0.1 && 5.7126(1) & 0.4930(4) & 2.085(1) & 3.1342(9) \\
 		&& 0.28 && 12.2050(2) & 1.5332(7) & 4.630(2) & 6.041(1) \\
@@ -577,8 +645,45 @@ It is also interesting to investigate how the energy is distributed between kine
 	\end{tabularx}
 \end{table}
 
+\begin{table}
+	\caption{Total energy ($\langle \mathcal{H}\rangle$), kinetic energy ($\langle\mathcal{T}\rangle$) and potential energy ($\langle \mathcal{V}\rangle$) of three-dimensional circular quantum dots at a wide range of frequencies $\omega$. A simple restricted Boltzmann machine wave function is used. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
+	\label{tab:splitfrequencyQDRBM3D}
+	\begin{tabularx}{\textwidth}{R{1.5cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}} \hline\hline
+		&\makecell{\\ $N$ \\ \phantom{=}} & $\omega$ && \multicolumn{1}{c}{$\langle \mathcal{H}\rangle$} & \multicolumn{1}{c}{$\langle \mathcal{T}\rangle$} & \multicolumn{1}{c}{$\langle \mathcal{V_{\text{ext}}} \rangle$} & \multicolumn{1}{c}{$\langle \mathcal{V_{\text{int}}} \rangle$} \\ \hline \\
+		&2 & 0.01 && EXPL & - & - & - \\
+		&& 0.1 && 0.5177(1) & 0.1249(1) & 0.2065(2) & 0.1863(2) \\
+		&& 0.28 && 1.2261(1) & 0.35(2) & 0.53(2) & 0.3488(6) \\
+		&& 0.5 && 2.0269(1) & 0.6595(3) & 0.8778(4) & 0.4896(2) \\
+		&& 1.0 && 3.7574(1) & 1.3224(5) & 1.7215(5) & 0.7136(2) \\
+		&& 3.0 && DID START & - & - & - \\ \hdashline \\
+		
+		&8 & 0.01 && EXPL & - & - & - \\
+		&& 0.1 && EXPL & - & - & - \\
+		&& 0.28 && EXPL & - & - & - \\
+		&& 0.5 && EXPL & - & - & - \\
+		&& 1.0 && 33.305(1) & 7.032(2) & 12.267(3) & 14.006(2) \\
+		&& 3.0 && 80.677(1) & 17(3) & 38(3) & 25.0(1) \\ \hdashline \\
+		
+		&20 & 0.01 && EXPL & - & - & - \\
+		&& 0.1 && ERROR & - & - & - \\
+		&& 0.28 && EXPL & - & - & - \\
+		&& 0.5 && EXPL & - & - & - \\
+		&& 1.0 && 147.03(1) & 1(4) & 79(5) & 66(1) \\
+		&& 3.0 && EXPL & - & - & - \\ \hdashline \\
+		
+		&40 & 0.01 && - & - & - & - \\
+		&& 0.1 && - & - & - & - \\
+		&& 0.28 && - & - & - & - \\
+		&& 0.5 && - & - & - & - \\
+		&& 1.0 && - & - & - & - \\
+		&& 3.0 && - & - & - & - \\ \hline \hline
+	\end{tabularx}
+\end{table}
+\fi
+
+\newpage
 \subsection{Low frequency dots}
-When we lower the frequency, the potential energy dominates the kinetic energy. An evidence of that can be seen in table \eqref{tab:lowfrequencyQD}, where we present the expectation value of the total energy ($\langle \hat{\mathcal{H}}\rangle$) together with the expectation value of the kinetic energy ($\langle \hat{\mathcal{T}}\rangle$) and the expectation value of the potential energies ($\langle \mathcal{\hat{V}_{\text{ext}}} \rangle$,$\langle \mathcal{\hat{V}_{\text{int}}} \rangle$). From this, we can also see that the virial theorem, discussed in section \ref{sec:virial}, is satisfied.
+As we saw above, the potential energy dominates the kinetic energy as low frequencies. An evidence of that can be seen in table \eqref{tab:lowfrequencyQD}, where we present the expectation value of the total energy ($\langle \hat{\mathcal{H}}\rangle$) together with the expectation value of the kinetic energy ($\langle \hat{\mathcal{T}}\rangle$) and the expectation value of the potential energies ($\langle \mathcal{\hat{V}_{\text{ext}}} \rangle$,$\langle \mathcal{\hat{V}_{\text{int}}} \rangle$).
 
 As discussed in section \ref{sec:wigner}, at low kinetic energy the interaction is dominating, and in order to minimize this the electrons tend to orientate such that they maximize the distance to each other. They then form a lattice, known as Wigner crystals, and as we also claimed, this might be observed in the electron density plots. The one-body density of ...
 
