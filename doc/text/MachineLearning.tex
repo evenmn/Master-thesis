@@ -502,7 +502,7 @@ We now recognize that the first factor in the sum is just $\delta_k^{(l+1)}$ and
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \delta_j^{(l)}=\sum_k\delta_k^{(l+1)}w_{kj}^{(l+1)}f'(z_j^{(l)})
 \end{empheq}
-where we use the expression for $\delta_j^{(L)}$ as our initial condition. Using gradient descent, a new weight $w_{ij}^{(l)+}$ is found from
+where we use the expression for $\delta_j^{(L)}$ as our initial condition. Similar to LASSO regression, a solution of the weight update does not exist in closed form and we need to rely on interative optimization methods. Using gradient descent, a new weight $w_{ij}^{(l)+}$ is found from
 \begin{empheq}[box={\mybluebox[5pt]}]{align}
 w_{ij}^{(l)+}=w_{ij}^{(l)}-\eta\frac{\partial\mathcal{C}(\bs{w})}{\partial w_{jk}^{(l)}}.
 \end{empheq}

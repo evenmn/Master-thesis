@@ -7,10 +7,10 @@ In chapter \eqref{chp:quantum} we presented the basic principles behind a many-b
 The first assumption is useful when updating position dependent arrays. Typically, we only need to update a coordinate of an array or a row of a matrix when this assumption is raised, which is hugely beneficial with respect to the computational time. The last assumption is makes all wave function elements independent, which obviously makes life easier. 
 
 The trial wave function $\Psi_T$ is a product of all the $p$ wave function elements $\{\psi_1, \psi_2\hdots\psi_p\}$ that are involved in a calculation,
-\begin{equation}
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \Psi_T(\bs{r}) = \prod_{i=1}^p\psi_i(\bs{r}).
 \label{eq:elementproduct}
-\end{equation}
+\end{empheq}
 
 For instance, consider a quantum dot of six interacting electrons. In that case, a Slater determinant needs to be included in order to ensure that the wave function is anti-symmetric, but since the Gaussian function appears in all the single particle function, this can be factorized out. We can therefore split the Slater determinant up in a simple Gaussian element and a determinant consisting of the Hermite polynomials. In addition, a Jastrow factor is required to take care of the correlations, so the trial wave function should consist of a total of three elements for this particular system:
 \begin{equation*}
@@ -24,9 +24,9 @@ We will first try to convince the reader that the local energy and the parameter
 The local energy, defined in equation \eqref{eq:local energy}, is
 \begin{align*}
 E_L &=\frac{1}{\Psi_T(\bs{r})}\hat{\mathcal{H}}\Psi_T(\bs{r})\\
-&=\sum_{k=1}^M\Big[-\frac{1}{2}\Big(\frac{1}{\Psi_T(\bs{r})}\nabla_k^2\Psi_T(\bs{r})\Big) + \mathcal{V}\Big].
+&=\sum_{k=1}^F\Big[-\frac{1}{2}\Big(\frac{1}{\Psi_T(\bs{r})}\nabla_k^2\Psi_T(\bs{r})\Big) + \mathcal{V}\Big].
 \end{align*}
-The first term, which is the kinetic energy term, is the only wave function-dependent one, and we will in this section split it up with respect to the elements. The potential energy term, $\mathcal{V}$, is not directly dependent on the wave function and will therefore not be further touched here. 
+where we have $F=ND$ degrees of freedom. The first term, which is the kinetic energy term, is the only wave function-dependent one, and we will in this section split it up with respect to the elements. The potential energy term, $\mathcal{V}$, is not directly dependent on the wave function and will therefore not be further touched here. 
 
 From the definition of differentiation of a logarithm, we have that
 \begin{equation}
@@ -41,51 +41,56 @@ Using the fact that the trial wave function is a product of all the elements, th
 \frac{1}{\Psi_T(\bs{r})}\nabla_k^2\Psi_T(\bs{r})=\sum_{i=1}^p\nabla_k^2\ln\psi_i(\bs{r}) + \Big(\sum_{i=1}^p\nabla_k\ln\psi_i(\bs{r})\Big)^2
 \end{equation*}
 such that the total kinetic energy is given by
-\begin{align*}
--\frac{1}{2}\frac{1}{\Psi_T(\bs{r})}\nabla^2\Psi_T(\bs{r})&=-\frac{1}{2}\sum_{k=1}^{F}\frac{1}{\Psi_T(\bs{r})}\nabla_k^2\Psi_T(\bs{r})\notag\\
-&=\sum_{i=1}^p\nabla^2\ln\psi_i(\bs{r}) + \sum_{k=1}^{F}\Big(\sum_{i=1}^p\nabla_k\ln\psi_i(\bs{r})\Big)^2
-\end{align*}
-where $F$ is the number of free dimensions, $F=ND$. This can be found when all local derivatives $\nabla^2\ln\psi_i(\bs{r})$ and $\nabla_k\ln\psi_i(\bs{r})$ are given. For each wave function element given below, those local derivatives will be evaluated. In addition, we need to know the derivative of local energy with respect to the variational parameters in order to update the parameters correctly. 
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
+-\frac{1}{2}\frac{1}{\Psi_T(\bs{r})}\nabla^2\Psi_T(\bs{r})=-\frac{1}{2}\bigg[\sum_{i=1}^p\nabla^2\ln\psi_i(\bs{r}) + \sum_{k=1}^{F}\Big(\sum_{i=1}^p\nabla_k\ln\psi_i(\bs{r})\Big)^2\bigg].
+\end{empheq}
+This can be found when all local derivatives $\nabla^2\ln\psi_i(\bs{r})$ and $\nabla_k\ln\psi_i(\bs{r})$ are given. For each wave function element given below, those local derivatives will be evaluated. In addition, we need to know the derivative of the local energy with respect to the variational parameters in order to update the parameters correctly. 
 
 \section{Parameter update}
-In gradient based optimization methods, as we use, one needs to know the gradient of the expectation value of local energy with respect to all variational parameters $\theta_j$, 
+In gradient based optimization methods, as we use, one needs to know the gradient of the cost function with respect to all the parameters in order to update the parameters correctly. To update the specific parameter $\theta_j$, we thus need to find 
+\begin{equation*}
+\nabla_{\theta_j} \mathcal{C}(\bs{\theta})\equiv\frac{\partial \mathcal{C}(\bs{\theta})}{\partial \theta_j},
+\end{equation*}
+where $\mathcal{C}(\bs{\theta})$ is our cost function. For our problem, a natural choice is to define the cost function as the local energy, since that is the function that we want to minimize. We therefore set
 \begin{equation}
-\partial_{\theta_j} \langle E_L\rangle\equiv\frac{\partial \langle E_L(\alpha_j)\rangle}{\partial \theta_j}.
+\mathcal{C}(\bs{\theta})=\langle E_L\rangle
 \end{equation}
-The gradient of an expectation value 
+since we get the expectation value of the local energy from the Metropolis sampling. Further, we use the definition of the gradient of an expectation value and obtain
 \begin{equation}
-\partial_{\theta_j} \langle E_L\rangle=2\Big(\langle E_L\partial_{\theta_j}\ln\Psi_T\rangle - \langle E_L\rangle\langle\partial_{\theta_j}\ln\Psi_T\rangle\Big)
+\nabla_{\theta_j} \langle E_L\rangle=2\Big(\langle E_L\nabla_{\theta_j}\ln\Psi_T\rangle - \langle E_L\rangle\langle\nabla_{\theta_j}\ln\Psi_T\rangle\Big)
 \end{equation}
-which means that we need to calculate the expectation values $\langle E_L\partial_{\theta_j}\ln\Psi_T\rangle$ and $\langle\partial_{\theta_j}\ln\Psi_T\rangle$ in addition to the local energy. Those expectation values are found from the integrals
-\begin{equation}
-\langle\partial_{\theta_j}\ln\Psi_T\rangle = \int_{-\infty}^{\infty}d\bs{r}P(\bs{r})\partial_{\theta_j}\ln\Psi_T(\bs{r})
-\end{equation}
+which means that we need to calculate the expectation values $\langle E_L\nabla_{\theta_j}\ln\Psi_T\rangle$ and $\langle\nabla_{\theta_j}\ln\Psi_T\rangle$ in addition to the expectation value of the local energy. Those expectation values are found from the integrals
+\begin{equation*}
+\langle\nabla_{\theta_j}\ln\Psi_T\rangle = \int_{-\infty}^{\infty}d\bs{r}P(\bs{r})\nabla_{\theta_j}\ln\Psi_T(\bs{r})
+\end{equation*}
 and
-\begin{equation}
-\langle E_L\partial_{\theta_i}\ln\Psi_T\rangle = \int_{-\infty}^{\infty}d\bs{r}P(\bs{r})E_L(\bs{r})\partial_{\theta_i}\ln\Psi_T(\bs{r}),
-\end{equation}
+\begin{equation*}
+\langle E_L\nabla_{\theta_j}\ln\Psi_T\rangle = \int_{-\infty}^{\infty}d\bs{r}P(\bs{r})E_L(\bs{r})\nabla_{\theta_j}\ln\Psi_T(\bs{r}),
+\end{equation*}
 which can be found by Monte-Carlo integration in the same way as the local energy:
 \begin{equation}
-\langle\partial_{\theta_i}\ln\Psi_T\rangle\approx \frac{1}{M}\sum_{i=1}^M\partial_{\theta_j}\ln\Psi_T(\bs{r}_i)
+\langle\nabla_{\theta_j}\ln\Psi_T\rangle\approx \frac{1}{M}\sum_{i=1}^M\nabla_{\theta_j}\ln\Psi_T(\bs{r}_i)
 \end{equation}
 and
 \begin{equation}
-\langle E_L\partial_{\theta_i}\ln\Psi_T\rangle\approx \frac{1}{M}\sum_{i=1}^ME_L(\bs{r}_i)\partial_{\theta_j}\ln\Psi_T(\bs{r}_i).
+\langle E_L\nabla_{\theta_j}\ln\Psi_T\rangle\approx \frac{1}{M}\sum_{i=1}^ME_L(\bs{r}_i)\nabla_{\theta_j}\ln\Psi_T(\bs{r}_i).
 \end{equation}
 
 By applying equation \eqref{eq:elementproduct}, we find that
-\begin{equation}
-\partial_{\theta_j}\ln\Psi_T(\bs{r})=\sum_{i=1}^p\partial_{\theta_j}\ln\psi_i(\bs{r}),
-\end{equation}
-which means that we need to find closed-form expressions of $\partial_{\theta_j}\ln\psi_i(\bs{r})$ for all wave function elements $\psi_i(\bs{r})$ and all variational parameters $\theta_{j}$.
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
+\nabla_{\theta_j}\ln\Psi_T(\bs{r})=\sum_{i=1}^p\nabla_{\theta_j}\ln\psi_i(\bs{r}),
+\end{empheq}
+which means that we need to find closed-form expressions of $\nabla_{\theta_j}\ln\psi_i(\bs{r})$ for all wave function elements $\psi_i(\bs{r})$ and all variational parameters $\theta_{j}$.
+
+We want to stress that the local energy is not the only possible choice of the cost function. By taking advantage of the zero-variance property of the expectation value of the local energy in the minimum, one can also minimize the variance. This requires the calculation of a few additional expectation values, but it is a fully manageable task to do. See for instance Ref.\cite{bajdich_electronic_2010} for more information.
 
 \section{Optimizations}
 How much a wave function element can be optimized heavily depends on the specific form of the element. For instance, sometimes the previous and present $\nabla_k\ln\phi_i$ are closely related, and only differ from each other by a factor, while for some other elements they are not related at all. Those subjective optimizations will therefore be described when presenting each wave function element. 
 
 However, there are still optimizations that apply to all elements and give great speed-up. An example is when calculating the ratio between the previous and present wave functions for all wave function elements instead of the wave function itself. Firstly, this is usually cheaper to calculate than the wave function itself because we are working in the logarithm space. Secondly, the ratio is actually what we use in the sampling, so it is a natural thing to calculate. The total wave function ratio is just the product of all the wave function element ratios
-\begin{equation*}
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
 	\frac{\Psi_T(\bs{r}_{\text{new}})}{\Psi_T(\bs{r}_{\text{old}})}=\prod_{i=1}^p\frac{\psi_i(\bs{r}_{\text{new}})}{\psi_i(\bs{r}_{\text{old}})},
-\end{equation*}
+\end{empheq}
 and below we will calculate this ratio squared since we are going to use that directly in the sampling. 
 
 \section{Derivatives}
@@ -108,11 +113,11 @@ and henceforth the index $i$ will be reserved the changed coordinate.  The gradi
 \end{empheq}
 and similar to $i$, $k$ will be reserved the coordinate we are differentiating with respect to. The corresponding Laplacian is
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-\nabla^2\ln\psi_{sg}=-ND\omega\alpha,
+\nabla^2\ln\psi_{sg}=-F\omega\alpha,
 \end{empheq}
 and finally, we will update $\alpha$ according to
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-\partial_{\alpha}\ln\psi_{sg} = -\frac{1}{2}\omega\sum_{j=1}^Fx_j^2.
+\nabla_{\alpha}\ln\psi_{sg} = -\frac{1}{2}\omega\sum_{j=1}^Fx_j^2.
 \end{empheq}
 Since this wave function element is quite simple, there is no special optimization available that will cause a noticeable speed-up.
 
@@ -137,7 +142,7 @@ where $j$ is related to the same dimension as $k$. This also applies for the Lap
 \end{empheq}
 Finally, the parameter update is given by
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-\partial_{\beta_{m'l'}}\ln\psi_{sj}=r_{m'l'}.
+\nabla_{\beta_{m'l'}}\ln\psi_{sj}=r_{m'l'}.
 \end{empheq}
 For this element, the most important thing we can do to keep the computational cost as low as possible is to reveal that only a row and a column of the distance matrix is changed as we change a coordinate. Updating the entire distance matrix means updating $N^2$ elements, while updating a row and a column means updating $2N$ elements, which is an essential difference for large systems. 
 
@@ -171,7 +176,7 @@ The final expressions then read
 \frac{|\psi_{pj}(\bs{r}_{\text{new}})|^2}{|\psi_{pj}(\bs{r}_{\text{old}})|^2}&=\exp\Big(2\sum_{j'=1}^Na_{i'j'}(h_{i'j'}^{\text{new}}-h_{i'j'}^{\text{old}})\Big)\notag\\
 \nabla_k\ln\psi_{pj} &=\sum_{j'\neq k'=1}^Na_{k'j'}\cdot f_{k'j'}^2\cdot g_{kj}\notag\\
 \nabla^2\ln\psi_{pj} &= \sum_{k=1}^F\sum_{j'\neq k'=1}^N\frac{a_{k'j'}}{r_{k'j'}}f_{k'j'}^2\Big[1-(1+2\beta h_{k'j'})g_{kj}^2\Big]\\
-\partial_{\beta}\ln\psi_{pj}&=-\sum_{l'=1}^N\sum_{j>l}^Na_{l'j'}h_{l'j'}^2\notag
+\nabla_{\beta}\ln\psi_{pj}&=-\sum_{l'=1}^N\sum_{j>l}^Na_{l'j'}h_{l'j'}^2\notag
 \end{empheq}
 with marked indices ($i'$) as the particle related ones and the unmarked ($i$) as the coordinate related ones. $i'$ is the moved particle. 
 
@@ -322,7 +327,7 @@ The derivatives of the RBM-Gaussian are similar to those of the simple Gaussian,
 \frac{|\psi_{rg}(\bs{x}_{\text{new}})|^2}{|\psi_{rg}(\bs{x}_{\text{old}})|^2}&=\exp\Big((x_i^{\text{old}}+x_i^{\text{new}}-2a_i)(x_i^{\text{old}}-x_i^{\text{new}})\Big)\notag\\
 \nabla_k\ln\psi_{\text{rg}} &= -\frac{x_k-a_k}{\sigma^2}\notag\\
 \nabla_k^2\ln\psi_{\text{rg}}&=-\frac{1}{\sigma^2}\\
-\partial_{\alpha}\ln\psi_{\text{rg}} &= \frac{x_k-a_k}{\sigma^2}\notag
+\nabla_{\alpha}\ln\psi_{\text{rg}} &= \frac{x_k-a_k}{\sigma^2}\notag
 \end{empheq}
 
 \subsubsection{RBM-product}
@@ -350,8 +355,8 @@ we can express the required derivatives in the following fashion
 \frac{|\psi_{rp}(\bs{x}_{\text{new}})|^2}{|\psi_{\text{rp}}(\bs{x}_{\text{old}})|^2}&=\prod_{j=1}^H\frac{p_j(\bs{x}_{\text{old}})^2}{p_j(\bs{x}_{\text{new}})^2}\notag\\
 \nabla_k\ln\psi_{rp} &=\sum_{j=1}^H\frac{w_{kj}}{\sigma^2}n_j\notag\\
 \nabla_k^2\ln\psi_{rp} &= \sum_{j=1}^H\frac{w_{kj}^2}{\sigma^4}p_jn_j\\
-\partial_{b_l}\ln\psi_{rp}&=n_l\notag\\
-\partial_{w_{ml}}\ln\psi_{rp}&=\frac{x_mn_l}{\sigma^2}.\notag
+\nabla_{b_l}\ln\psi_{rp}&=n_l\notag\\
+\nabla_{w_{ml}}\ln\psi_{rp}&=\frac{x_mn_l}{\sigma^2}.\notag
 \end{empheq}
 In this element, there are plenty of optimization possibilities. By revealing that some sums are vector products, we can get a significant speed-up. Instead of presenting the vectorized expressions, we will present how the elements actually are implemented.
 \lstset{basicstyle=\scriptsize}
@@ -379,7 +384,7 @@ which we can threaten separately. We end up with the expressions
 \frac{|\psi_{pr}(\bs{x}_{\text{new}})|^2}{|\psi_{pr}(\bs{x}_{\text{old}})|^2}&=\exp\Big(2\sum_{j=1}^{F}c_{ij}x_j(x_i^{\text{new}}-x_i^{\text{old}})\Big)\notag\\
 \nabla_k\ln\psi_{pr} &=2\sum_{j=1}^{F}c_{kj}x_j\notag\\
 \nabla_k^2\ln\psi_{pr} &= 2c_{kk}\\
-\partial_{c_{ml}}\ln\psi_{pr}&=x_mx_l\notag
+\nabla_{c_{ml}}\ln\psi_{pr}&=x_mx_l\notag
 \end{empheq}
 where $x_i$ is the changed coordinated. Also here can we use vectorization to speed-up the computations. 
 

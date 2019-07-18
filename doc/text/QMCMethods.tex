@@ -38,7 +38,7 @@ P(\bs{r})=\frac{|\Psi_T(\bs{r})|^2}{\int d\bs{r}|\Psi_T(\bs{r})|^2}.
 \end{equation}
 When increasing the number of energies drawn from the distribution, $M$, henceforth denoted as Monte-Carlo cycles, the standard error decreases and we get a more accurate energy. The error goes as $\mathcal{O}(1/\sqrt{M})$, and in the limit when $M$ goes to infinity, the error goes to zero,
 \begin{equation}
-\langle E\rangle=\lim_{M\to\infty} \frac{1}{M}\sum_{i=1}^ME_L(\bs{r}_i).
+\langle E_L\rangle=\lim_{M\to\infty} \frac{1}{M}\sum_{i=1}^ME_L(\bs{r}_i).
 \end{equation}
 
 Zero-variance property: 
@@ -148,7 +148,7 @@ where the marginal probabilities are still given by equation \eqref{eq:probvmc}.
 			keep going\;
 		}
 	}
-	\caption{The Metropolis-Hastings algorithm}
+	\caption{The Metropolis-Hastings algorithm. }
 	\label{al:hasting}
 \end{algorithm}
 

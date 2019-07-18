@@ -188,6 +188,13 @@ How the classes are communicating is no easy task to explain, most classes are c
 
 This is the main aim of the flow, but the actual flow does also depend on system. For instance, when using importance sampling, we will have an additional call between \texttt{WaveFunctions} and \texttt{Metropolis} due to calculations of the quantum force. 
 
+\section{Random number generators} \label{sec:RNG}
+In the Monte-Carlo sampling we are drawing millions of numbers, and in order to get accurate estimations, they should all be random, independent and fast to get. 
+
+In C++ there are plenty of random number generator available, but not all of them meet our requirements. For instance the standard 
+
+Mersenne Twister needs to be mentioned here
+
 \section{Foundation} \label{subsec:foundation}
 The foundation of the code are all the super classes, nine in the number. They all have multiple sub classes, and the reader needs to specify which sub class to be used. The exception is the \texttt{WaveFunctions} class, as described above, where multiple sub classes can be used. Below, the role of all the super classes will be discussed briefly and the difference between various sub classes will be explained. 
 

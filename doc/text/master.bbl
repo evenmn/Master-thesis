@@ -428,6 +428,52 @@
     \field{urlyear}{2019}
   \endentry
 
+  \entry{flyvbjerg_error_1989}{article}{}
+    \name{author}{2}{}{%
+      {{hash=FH}{%
+         family={Flyvbjerg},
+         familyi={F\bibinitperiod},
+         given={H.},
+         giveni={H\bibinitperiod},
+      }}%
+      {{hash=PHG}{%
+         family={Petersen},
+         familyi={P\bibinitperiod},
+         given={H.\bibnamedelima G.},
+         giveni={H\bibinitperiod\bibinitdelim G\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{FHPHG1}
+    \strng{fullhash}{FHPHG1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{1}
+    \field{sortinithash}{1}
+    \verb{doi}
+    \verb 10.1063/1.457480
+    \endverb
+    \field{issn}{0021-9606}
+    \field{number}{1}
+    \field{pages}{461\bibrangedash 466}
+    \field{title}{Error estimates on averages of correlated data}
+    \verb{url}
+    \verb https://aip.scitation.org/doi/abs/10.1063/1.457480
+    \endverb
+    \field{volume}{91}
+    \verb{file}
+    \verb Full Text PDF:/home/evenmn/Zotero/storage/8CGHNHA5/Flyvbjerg and Pete
+    \verb rsen - 1989 - Error estimates on averages of correlated data.pdf:appl
+    \verb ication/pdf;Snapshot:/home/evenmn/Zotero/storage/I2A8UKC4/1.html:text
+    \verb /html
+    \endverb
+    \field{journaltitle}{The Journal of Chemical Physics}
+    \field{month}{07}
+    \field{year}{1989}
+    \field{urlday}{18}
+    \field{urlmonth}{07}
+    \field{urlyear}{2019}
+  \endentry
+
   \entry{taut_two_1993}{article}{}
     \name{author}{1}{}{%
       {{hash=TM}{%
@@ -2508,6 +2554,72 @@
     \field{month}{03}
     \field{year}{2018}
     \field{urlday}{09}
+    \field{urlmonth}{07}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{jonsson_standard_2018}{article}{}
+    \name{author}{1}{}{%
+      {{hash=JM}{%
+         family={Jonsson},
+         familyi={J\bibinitperiod},
+         given={Marius},
+         giveni={M\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{JM1}
+    \strng{fullhash}{JM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{abstract}{%
+    The sample mean ¯¯¯X is probably the most popular estimator of the
+  expected value in all sciences and var(¯¯¯X) measures the error (standard-
+  and mean-square-errors). Here, an alternative approach to estimation of
+  var(¯¯¯X) for time series data is presented. The method has an accuracy
+  similar to dependent bootstrapping, but scales in O(n) time, and applies to
+  stationary time series, including stationary Markov chains. The computational
+  complexity is bounded by 12n floating point operations, but this can be
+  reduced to n+O(1) in large computations. Convergence in relative error
+  squared is faster than n−1/2 and the method is insensitive to the
+  probability distribution of the observations. It is proven that a small part
+  of the correlation structure is relevant to the convergence rate of the
+  method. From this, proof of the Blocking method [Flyvbjerg and Petersen, J.
+  Chem. Phys. 91, 461 (1989)] follows as a corollary. The result is also used
+  to propose a hypothesis test surveying the relevant part of the correlation
+  structure. It yields a fully automatic method which is sufficiently robust to
+  operate without supervision. An algorithm and sample code showing the
+  implementation is available for Python, C++, and R
+  [www.github.com/computative/block]. Method validation using autoregressive
+  AR(1) and AR(2) processes and physics applications is included. Method
+  self-evaluation is provided by bias and mean-square-error statistics. The
+  method is easily adapted to multithread applications and data larger than
+  computing cluster memory, such as ultralong time series or data streams. This
+  way, the paper provides a stringent and modern treatment of the Blocking
+  method using rigorous linear algebra, multivariate probability theory, real
+  analysis, and Fisherian statistical inference.%
+    }
+    \verb{doi}
+    \verb 10.1103/PhysRevE.98.043304
+    \endverb
+    \field{number}{4}
+    \field{pages}{043304}
+    \field{title}{Standard error estimation by an automated blocking method}
+    \verb{url}
+    \verb https://link.aps.org/doi/10.1103/PhysRevE.98.043304
+    \endverb
+    \field{volume}{98}
+    \verb{file}
+    \verb APS Snapshot:/home/evenmn/Zotero/storage/WT7X5LJH/PhysRevE.98.html:te
+    \verb xt/html;Full Text PDF:/home/evenmn/Zotero/storage/9EAHQY3K/Jonsson -
+    \verb 2018 - Standard error estimation by an automated blocking.pdf:applica
+    \verb tion/pdf
+    \endverb
+    \field{journaltitle}{Physical Review E}
+    \field{month}{10}
+    \field{year}{2018}
+    \field{urlday}{18}
     \field{urlmonth}{07}
     \field{urlyear}{2019}
   \endentry

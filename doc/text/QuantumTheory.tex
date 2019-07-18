@@ -78,6 +78,7 @@ In equation \eqref{eq:energyintegral}, we found the expectation value of the ene
 As a consequence, there is always an uncertainty associated with a measurement in quantum physics, which means that we can only tell the probability of measuring something. The variance of measurements is given by
 \begin{equation}
 \sigma^2=\langle \mathcal{O}^2\rangle-\langle \mathcal{O}\rangle^2
+\label{eq:variance}
 \end{equation}
 and if we take the square root of this we will get the standard deviation.
 From this, a variety of mathematical inequalities follows, where Heisenberg's uncertainty principle is the most famous. It states that the more precisely the position of some particle is determined, the less precisely its momentum can be known, and is mathematically presented as
@@ -125,18 +126,18 @@ The \textbf{spin} quantum number $s$ gives the spin of a particle, which can jus
 \subsubsection*{Spin projection}
 The last number we will discuss is the \textbf{spin projection} quantum number $m_s$. It has the range $-s,-s+1,\hdots,s-1,s$, and is therefore related to the spin quantum number in the same way as $m_l$ is related to the angular quantum number. Electrons can for that reason take the values $m_s=+1/2$ or $m_s=-1/2$, such that there are two groups of electrons. The consequences will be discussed in the section \eqref{sec:wavefunction}.
 
-\subsection{The virial theorem} \label{sec:virial}
-The virial theorem relates the kinetic energy to the potential energy, and makes it possible to find the average kinetic energy even for complex systems. The classical statement of the theorem was formulated during the 19th century and named by Rudolf Clausius in 1870, \cite{clausius_xvi._1870} and in 1930 Vladimir Fock managed to prove the quantum virial theorem. \cite{fock_bemerkung_1930} The theorem can be expressed as
+\subsection{The Virial Theorem} \label{sec:virial}
+The virial theorem relates the kinetic energy to the potential energy, and makes it possible to find the average kinetic energy even for complex systems. The classical statement of the theorem was formulated during the 19th century and named by Rudolf Clausius in 1870, \cite{clausius_xvi._1870}, and is in the most general form given by 
 \begin{equation}
-2\langle \mathcal{T} \rangle = \sum_{i}n_i\langle \mathcal{V}_{i} \rangle
+\langle\mathcal{T}\rangle=-\frac{1}{2}\sum_{i=1}^N\langle\bs{F}_i\cdot\bs{r}_i\rangle
 \end{equation}
-for sources of potential energy on the form
+where $\bs{F}_k$ represents the force on particle $i$ at position $\bs{r}_i$. If we further assume that all the sources of potential are on the form $\mathcal{V}_i=ar^{n_i}$, we can use the relation $\bs{F}_i=-\nabla \mathcal{V}_i$ to express the virial theorem in a simpler fashion
 \begin{equation}
-\mathcal{V}_{i}=ar^{n_i}.
+2\langle \mathcal{T} \rangle = \sum_{i}n_i\langle \mathcal{V}_{i} \rangle.
 \end{equation}
+Vladimir Fock proved that this holds for quantum mechanics in 1930. \cite{fock_bemerkung_1930} The assumption raised above holds for our situation as the interaction energy does as $r^{-1}$. We will also later see that the potential used in quantum dots goes as $r^2$ and the potential used in atoms goes as $r^{-1}$ as well.
 
-The expectation value is in principle the time average of the operator. However, if the ergodic hypothesis hold for the system, an ensemble average can also be taken. This is exactly what we gonna do...
-
+The expectation value is in principle the time average of the operator. However, if the ergodic hypothesis hold for the system, an ensemble average can also be taken. Ergodicity means that the ensemble average is equal to the time average. \cite{flyvbjerg_error_1989}
 
 
 \iffalse
