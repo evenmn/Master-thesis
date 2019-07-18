@@ -226,20 +226,20 @@ We made effort in trying to get the deep Boltzmann machine and the partly restri
 	\begin{tabularx}{\hsize}{llR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{2.2cm}} \hline\hline
 		\label{tab:quantumdotswinteraction3D1}
 		\makecell{\\ $N$ \\ \phantom{=}} & $\omega$ & \multicolumn{1}{c}{RBM} & \multicolumn{1}{c}{RBM+SJ} & \multicolumn{1}{c}{RBM+PJ} & \multicolumn{1}{c}{\makecell{HF \\ (Ref.\cite{mariadason_quantum_2018})}} & \multicolumn{1}{c}{VMC+HF} & \multicolumn{1}{c}{VMC} & \multicolumn{1}{c}{\makecell{DMC \\ (Ref.\cite{hogberget_quantum_2013})}} & \multicolumn{1}{c}{\makecell{Exact \\ (Ref.\cite{taut_two_1993})}} \\ \hline \\
-		2 & 0.1 & 0.5178(1) & 0.50225(3) & 0.500080(6) & 0.529065 & - & 0.500083(7) & 0.499997(3) & 0.5 \\
-		& 0.28 & 1.2259(1) & 1.20471(4) & 1.201717(6) & 1.23722 & - & 1.201752(6) & 1.201725(2) \\
-		& 0.5 & 2.0269(1) & 2.00374(4) & 1.999912(5) & 2.03851 & - & 1.999977(5) & 2.000000(2) & 2.0 \\
-		& 1.0 & 3.7571(1) & 3.73559(4) & 3.729827(5) & 3.77157 & - & 3.730030(5) & 3.730123(3) \\ \hdashline \\
+		2 & 0.1 & 0.5178(1) & 0.50214(3) & 0.500080(6) & 0.529065 & - & 0.500083(7) & 0.499997(3) & 0.5 \\
+		& 0.28 & 1.2259(1) & 1.20475(4) & 1.201717(6) & 1.23722 & - & 1.201752(6) & 1.201725(2) \\
+		& 0.5 & 2.0269(1) & 2.00371(4) & 1.999912(5) & 2.03851 & - & 1.999977(5) & 2.000000(2) & 2.0 \\
+		& 1.0 & 3.7571(1) & 3.73543(4) & 3.729827(5) & 3.77157 & - & 3.730030(5) & 3.730123(3) \\ \hdashline \\
 		
-		8 & 0.1 & 6.549(7) & 5.7995(5) & 5.8448(7) & 5.86255 & - & 5.7126(1) & 5.7028(1) \\ 
-		& 0.28 & 13.098(2) & 12.2512(4) & 12.2056(2) & 12.3987 & - & 12.2050(2) & 12.1927(1) \\
-		& 0.5 & 19.487(2) & 19.0266(4) & 18.9747(2) & 19.1916 & - & 18.9759(1) & 18.9611(1) \\
+		8 & 0.1 & 6.549(7) & 5.7498(4) & 5.8448(7) & 5.86255 & - & 5.7126(1) & 5.7028(1) \\ 
+		& 0.28 & 13.098(2) & 12.2492(4) & 12.2056(2) & 12.3987 & - & 12.2050(2) & 12.1927(1) \\
+		& 0.5 & 19.487(2) & 19.0241(4) & 18.9747(2) & 19.1916 & - & 18.9759(1) & 18.9611(1) \\
 		& 1.0 & 33.302(1) & 32.739(4) & 32.6820(2) & 32.9246 & - & 32.6863(2) & 32.6680(1) \\ \hdashline \\
 		
 		20 & 0.1 & 27.813(2) & - & 29.425(9) & - & - & 27.3144(5) & 27.2717(2) \\ 
-		& 0.28 & 57.700(4) & - & - & - & - & 56.4297(5) & 56.3868(2) \\
-		& 0.5 & 87.840(4) & - & - & - & - & 85.7161(5) & 85.6555(2) \\
-		& 1.0 & 146.292(4) & - & - & - & - & 142.9560(7) & 142.8875(2) \\ \hdashline \\
+		& 0.28 & 57.700(4) & 56.600(1) & - & - & - & 56.4297(5) & 56.3868(2) \\
+		& 0.5 & 87.840(4) & 85.893(1) & - & - & - & 85.7161(5) & 85.6555(2) \\
+		& 1.0 & 146.292(4) & 143.209(2) & - & - & - & 142.9560(7) & 142.8875(2) \\ \hdashline \\
 		
 		40 & 0.1 & - & - & - & - & - & 88.182(1) \\ 
 		& 0.28 & 182.714(6) & - & - & - & - & 179.567(1) \\
@@ -378,7 +378,7 @@ The last thing we will investigate, is the two-body density. See figure \eqref{f
 \end{landscape}
 \fi
 
-\subsection{Splitting the energy}
+\subsection{Energy distribution}
 It is also interesting to investigate how the energy is distributed between kinetic energy, external energy and interaction energy for the different methods and various oscillator frequencies. This makes us able to check if the results agree with the virial theorem presented in section \ref{sec:virial}, and it is also interesting to see if the different methods have different energy distribution. In figure \eqref{fig:energysplit}, the kinetic energy, external potential energy and interaction energy are plotted as a function of oscillator frequency for a two-dimensional quantum dot containing two electrons.  
 \begin{figure}[H]  
 	\centering 
@@ -434,7 +434,6 @@ which can be verified from the energy splitting. To do this accurate, we better 
 	\end{tabularx}
 \end{table} 
 
-\iffalse
 \begin{table}
 	\caption{Total energy ($\langle\mathcal{H}\rangle$), kinetic energy ($\langle\mathcal{T}\rangle$) and potential energy ($\langle\mathcal{V}\rangle$) of two-dimensional circular quantum dots at a wide range of frequencies $\omega$. A standard variational Monte-Carlo wave function is used. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
 	\label{tab:splitfrequencyQDVMC}
@@ -471,7 +470,7 @@ which can be verified from the energy splitting. To do this accurate, we better 
 \end{table} 
 
 \begin{table}
-	\caption{Total energy ($\langle\mathcal{H}\rangle$), kinetic energy ($\langle\mathcal{T}\rangle$) and potential energy ($\langle\mathcal{V}\rangle$) of two-dimensional circular quantum dots at a wide range of frequencies $\omega$. A standard restricted Boltzmann machine wave function is used. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
+	\caption{Total energy ($\langle\mathcal{H}\rangle$), kinetic energy ($\langle\mathcal{T}\rangle$) and potential energy ($\langle\mathcal{V}\rangle$) of two-dimensional circular quantum dots at a wide range of frequencies $\omega$. A plain restricted Boltzmann machine wave function is used. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
 	\label{tab:splitfrequencyQDRBM}
 	\begin{tabularx}{\textwidth}{R{1.5cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}} \hline\hline
 		&\makecell{\\ $N$ \\ \phantom{=}} & $\omega$ && \multicolumn{1}{c}{$\langle \mathcal{H}\rangle$} & \multicolumn{1}{c}{$\langle \mathcal{T}\rangle$} & \multicolumn{1}{c}{$\langle \mathcal{V_{\text{ext}}} \rangle$} & \multicolumn{1}{c}{$\langle \mathcal{V_{\text{int}}} \rangle$} \\ \hline \\
@@ -559,18 +558,18 @@ which can be verified from the energy splitting. To do this accurate, we better 
 		&& 1.0 && - & - & - & - \\
 		&& 3.0 && - & - & - & - \\ \hdashline \\
 		
-		&12 & 0.01 && - & - & - & - \\
-		&& 0.1 && - & - & - & - \\
-		&& 0.28 && - & - & - & - \\
-		&& 0.5 && - & - & - & - \\
-		&& 1.0 && - & - & - & - \\
+		&12 & 0.01 && 2.4950(5) & 0.07(2) & 0.845(4) & 1.58(2) \\
+		&& 0.1 && 13.11(6) & 0.29(5) & 4.8(1) & 8.1(2) \\
+		&& 0.28 && 26.340(2) & 1.917(2) & 10.006(4) & 14.417(4) \\
+		&& 0.5 && 41.28(1) & 4.07(1) & 16.948(5) & 20.265(4) \\
+		&& 1.0 && 70.0(2) & 7.7(2) & 33.615(9) & 28.723(4) \\
 		&& 3.0 && - & - & - & - \\ \hdashline \\
 		
-		&20 & 0.01 && - & - & - & - \\
-		&& 0.1 && - & - & - & - \\
-		&& 0.28 && - & - & - & - \\
-		&& 0.5 && - & - & - & - \\
-		&& 1.0 && - & - & - & - \\
+		&20 & 0.01 && 8.014(4) & 0.02(5) & 5.26(8) & 2.7(1) \\
+		&& 0.1 && 30.585(3) & 1.3(1) & 10.33(4) & 19.0(2) \\
+		&& 0.28 && 63.209(6) & 3.668(5) & 22.560(8) & 36.981(8) \\
+		&& 0.5 && 99.917(7) & 7.574(5) & 45.20(1) & 47.144(6) \\
+		&& 1.0 && 172(4) & 12(4) & 83.70(2) & 75.637(8) \\
 		&& 3.0 && - & - & - & - \\ \hline \hline
 	\end{tabularx}
 \end{table} 
@@ -646,7 +645,7 @@ which can be verified from the energy splitting. To do this accurate, we better 
 \end{table}
 
 \begin{table}
-	\caption{Total energy ($\langle \mathcal{H}\rangle$), kinetic energy ($\langle\mathcal{T}\rangle$) and potential energy ($\langle \mathcal{V}\rangle$) of three-dimensional circular quantum dots at a wide range of frequencies $\omega$. A simple restricted Boltzmann machine wave function is used. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
+	\caption{Total energy ($\langle \mathcal{H}\rangle$), kinetic energy ($\langle\mathcal{T}\rangle$) and potential energy ($\langle \mathcal{V}\rangle$) of three-dimensional circular quantum dots at a wide range of frequencies $\omega$. A plain restricted Boltzmann machine wave function is used. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
 	\label{tab:splitfrequencyQDRBM3D}
 	\begin{tabularx}{\textwidth}{R{1.5cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}} \hline\hline
 		&\makecell{\\ $N$ \\ \phantom{=}} & $\omega$ && \multicolumn{1}{c}{$\langle \mathcal{H}\rangle$} & \multicolumn{1}{c}{$\langle \mathcal{T}\rangle$} & \multicolumn{1}{c}{$\langle \mathcal{V_{\text{ext}}} \rangle$} & \multicolumn{1}{c}{$\langle \mathcal{V_{\text{int}}} \rangle$} \\ \hline \\
@@ -679,19 +678,55 @@ which can be verified from the energy splitting. To do this accurate, we better 
 		&& 3.0 && - & - & - & - \\ \hline \hline
 	\end{tabularx}
 \end{table}
-\fi
+
+\begin{table}
+	\caption{Total energy ($\langle \mathcal{H}\rangle$), kinetic energy ($\langle\mathcal{T}\rangle$) and potential energy ($\langle \mathcal{V}\rangle$) of three-dimensional circular quantum dots at a wide range of frequencies $\omega$. A restricted Boltzmann machine with a simple Jastrow factor is used. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
+	\label{tab:splitfrequencyQDRBMSJ3D}
+	\begin{tabularx}{\textwidth}{R{1.5cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}} \hline\hline
+		&\makecell{\\ $N$ \\ \phantom{=}} & $\omega$ && \multicolumn{1}{c}{$\langle \mathcal{H}\rangle$} & \multicolumn{1}{c}{$\langle \mathcal{T}\rangle$} & \multicolumn{1}{c}{$\langle \mathcal{V_{\text{ext}}} \rangle$} & \multicolumn{1}{c}{$\langle \mathcal{V_{\text{int}}} \rangle$} \\ \hline \\
+		&2 & 0.01 && 0.07994(2) & 0.01069(3) & 0.03190(8) & 0.03735(8) \\
+		&& 0.1 && 0.50214(3) & 0.1178(1) & 0.2177(2) & 0.1666(1) \\
+		&& 0.28 && 1.20475(4) & 0.3497(2) & 0.5326(3) & 0.3225(1) \\
+		&& 0.5 && 2.00371(4) & 0.6340(3) & 0.9201(4) & 0.4496(2) \\
+		&& 1.0 && 3.73543(4) & 1.2801(4) & 1.7871(5) & 0.6683(2) \\
+		&& 3.0 && 10.32289(5) & 3.5281(8) & 5.6147(9) & 1.1801(2) \\ \hdashline \\
+		
+		&8 & 0.01 && 1.1371(5) & 0.02(1) & 0.388(6) & 0.73(2) \\
+		&& 0.1 && 5.7498(4) & 0.4107(3) & 2.113(1) & 3.226(1) \\
+		&& 0.28 && 12.2492(4) & 1.3909(6) & 4.756(2) & 6.101(1) \\
+		&& 0.5 && 19.0241(4) & 2.7417(9) & 7.579(2) & 8.704(2) \\
+		&& 1.0 && EXPL & - & - & - \\
+		&& 3.0 && EXPL & - & - & - \\ \hdashline \\
+		
+		&20 & 0.01 && 5.7778(4) & -0.3(1) & 2.26(5) & 3.8(2) \\
+		&& 0.1 && EXPL & - & - & - \\
+		&& 0.28 && 56.600(1) & 3.515(1) & 20.616(7) & 32.469(6) \\
+		&& 0.5 && 85.893(1) & 7.212(2) & 31.722(8) & 46.958(7) \\
+		&& 1.0 && 143.209(2) & 16.531(7) & 54.86(1) & 71.819(7) \\
+		&& 3.0 && 333.3(2) & 47(6) & 147(6) & 138.700(9) \\ \hdashline \\
+		
+		&40 & 0.01 && - & - & - & - \\
+		&& 0.1 && - & - & - & - \\
+		&& 0.28 && - & - & - & - \\
+		&& 0.5 && - & - & - & - \\
+		&& 1.0 && - & - & - & - \\
+		&& 3.0 && - & - & - & - \\ \hline \hline
+	\end{tabularx}
+\end{table}
+
 
 \newpage
 \subsection{Low frequency dots}
-As we saw above, the potential energy dominates the kinetic energy as low frequencies. An evidence of that can be seen in table \eqref{tab:lowfrequencyQD}, where we present the expectation value of the total energy ($\langle \hat{\mathcal{H}}\rangle$) together with the expectation value of the kinetic energy ($\langle \hat{\mathcal{T}}\rangle$) and the expectation value of the potential energies ($\langle \mathcal{\hat{V}_{\text{ext}}} \rangle$,$\langle \mathcal{\hat{V}_{\text{int}}} \rangle$).
+As we pointed out in section \ref{sec:wigner}, and as shown in the previous section, the potential energy dominates the kinetic energy as low frequencies. This means that the electrons have a lower average momentum, which makes Wigner crystallization possible. As already discussed in the theory part, this phenomenon can be observed by some distinct peaks in the one-body density plots. In figure \eqref{fig:lowfreqOB}, the one-body density is plotted for low frequency dots. 
 
-As discussed in section \ref{sec:wigner}, at low kinetic energy the interaction is dominating, and in order to minimize this the electrons tend to orientate such that they maximize the distance to each other. They then form a lattice, known as Wigner crystals, and as we also claimed, this might be observed in the electron density plots. The one-body density of ...
-
-\begin{figure}[H]
+\begin{figure}
 	\centering
 	\includegraphics[scale=0.7]{/home/evenmn/VMC/plots/int1/onebody/2D/2P/0.010000w/ADAM_MC2pow28.png}
 	\caption{One-body density of two-dimensional circular quantum dot containing two electrons. $\omega=0.01$.}
+	\label{fig:lowfreqOB}
 \end{figure}
+
+For two particles, we can see that the one-body density has a peak at a distance from origin, and a local minimum in origin. This means that the probability of finding the two electrons close to each other is low, which is as expected due to the low momentum. 
 
 \subsection{$S\neq0$}
 When the number of particles in the quantum dot is among the magic numbers presented in equation \eqref{eq:HOclosedshell}, the ground state is guaranteed to be found at $L=S=0$. However, if we want to look at dots of other sizes, this is often not true, and we will therefore look at some cases with $S\neq 0$. We will still stick to $L=0$ and closed shell systems.
