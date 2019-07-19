@@ -28,7 +28,7 @@ With our choice of hidden nodes, we end up with 10,584 parameters for 72 particl
 	\centering 
 	\subfloat[2D]{{\input{pgf/cpu_2D.tex}}}
 	\subfloat[3D]{{\input{pgf/cpu_3D.tex}}}
-	\caption{CPU-time per iteration as a function of number of particles for two dimensions (a) and three dimensions (b). The solid line is associated with standard variational Monte-Carlo (VMC), while the dashed lines are associated with restricted Boltzmann machines without Jastrow factor (RBM), simple Jastrow factor (RBM+SJ) and Padé-Jastrow factor (RBM+PJ).}
+	\caption{CPU-time per iteration as a function of number of particles for two dimensions (a) and three dimensions (b). The solid line is associated with standard variational Monte-Carlo (VMC), while the dashed lines are associated with restricted Boltzmann machines without Jastrow factor (RBM), with simple Jastrow factor (RBM+SJ) and with Padé-Jastrow factor (RBM+PJ).}
 	\label{fig:cpu_time}
 \end{figure} 
 
@@ -397,7 +397,7 @@ If we now recall the virial theorem in section \ref{sec:virial}, it states that 
 \begin{equation}
 2\langle \mathcal{T} \rangle=2\langle \mathcal{V_{\text{ext}}} \rangle-\langle \mathcal{V_{\text{int}}} \rangle
 \end{equation}
-which can be verified from the energy splitting. To do this accurate, we better list up the exact energies, which is done in table \eqref{tab:splitfrequencyQD2D} for some selected frequencies for a two-dimensional quantum dots containing two electrons. By doing the math, we see that the virial theorem is satisfied for low frequencies, but as the frequency increases the theorem gets more and more off. This is the case for all the methods.
+which can be verified from the energy splitting. To do this accurate, we better list up the exact energies, which is done in tables \eqref{tab:splitfrequencyQD2D},\eqref{tab:splitfrequencyQD3D2P} for some selected frequencies for quantum dots containing two electrons in two- and three dimensions respectively. By doing the math, we see that the virial theorem is satisfied for low frequencies, but as the frequency increases the theorem gets more and more off. This is the case for all the methods.
 
 \begin{table}
 	\caption{This table shows how the total energy ($\langle\mathcal{H}\rangle$) is distributed between kinetic energy ($\langle\mathcal{T}\rangle$), external potential energy ($\langle\mathcal{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\mathcal{V}_{\text{int}}\rangle$) of two-dimensional circular quantum dots at a wide range of frequencies $\omega$ and two interacting electrons. The methods used are standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM), restricted Boltzmann machine with a simple Jastrow factor (RBM+SJ) and restricted Boltzmann machine with Padé-Jastrow factor. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
@@ -433,7 +433,80 @@ which can be verified from the energy splitting. To do this accurate, we better 
 		&& 3.0 && 7.881906(9) & 2.5028(5) & 3.6911(6) & 1.6880(3) \\ \hdashline \\
 	\end{tabularx}
 \end{table} 
+\iffalse
+\begin{table}
+	\caption{This table shows how the total energy ($\langle\mathcal{H}\rangle$) is distributed between kinetic energy ($\langle\mathcal{T}\rangle$), external potential energy ($\langle\mathcal{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\mathcal{V}_{\text{int}}\rangle$) of two-dimensional circular quantum dots at a wide range of frequencies $\omega$ and 20 interacting electrons. The methods used are standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM), restricted Boltzmann machine with a simple Jastrow factor (RBM+SJ) and restricted Boltzmann machine with Padé-Jastrow factor. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
+	\label{tab:splitfrequencyQD2D20P}
+	\begin{tabularx}{\textwidth}{R{1cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{0.3cm}} \hline\hline
+		&\makecell{\\ \phantom{$N$} \\ \phantom{=}} & $\omega$ && \multicolumn{1}{c}{$\langle \mathcal{H}\rangle$} & \multicolumn{1}{c}{$\langle \mathcal{T}\rangle$} & \multicolumn{1}{c}{$\langle \mathcal{V_{\text{ext}}} \rangle$} & \multicolumn{1}{c}{$\langle \mathcal{V_{\text{int}}} \rangle$} \\ \hline \\
+		&RBM & 0.01 && - & - & - & - \\
+		&& 0.5 && 96.491(4) & 8.144(3) & 34.953(8) & 53.394(8) \\
+		&& 3.0 && - & - & - & - \\ \hdashline \\
+		
+		&RBM+SJ & 0.01 && - & - & - & - \\
+		&& 0.5 && - & - & - & - \\
+		&& 3.0 && - & - & - & - \\ \hdashline \\
+		
+		&RBM+PJ & 0.01 && - & - & - & - \\
+		&& 0.5 && - & - & - & - \\
+		&& 3.0 && - & - & - & - \\ \hdashline \\
+		
+		&VMC & 0.01 && 6.342(1) & 0.0559(2) & 2.125(6) & 4.161(6) \\
+		&& 0.5 && 94.0433(9) & 7.823(3) & 33.938(6) & 52.282(5) \\
+		&& 3.0 && 357.1(3) & 6(15) & 194(15) & 156.751(9) \\ \hline \hline
+	\end{tabularx}
+\end{table} 
+\fi
 
+\begin{table}
+	\caption{This table shows how the total energy ($\langle\mathcal{H}\rangle$) is distributed between kinetic energy ($\langle\mathcal{T}\rangle$), external potential energy ($\langle\mathcal{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\mathcal{V}_{\text{int}}\rangle$) of three-dimensional circular quantum dots at a wide range of frequencies $\omega$ and two interacting electrons. The methods used are standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM), restricted Boltzmann machine with a simple Jastrow factor (RBM+SJ) and restricted Boltzmann machine with Padé-Jastrow factor. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
+	\label{tab:splitfrequencyQD3D2P}
+	\begin{tabularx}{\textwidth}{R{1cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{0.3cm}} \hline\hline
+		&\makecell{\\ \phantom{$N$} \\ \phantom{=}} & $\omega$ && \multicolumn{1}{c}{$\langle \mathcal{H}\rangle$} & \multicolumn{1}{c}{$\langle \mathcal{T}\rangle$} & \multicolumn{1}{c}{$\langle \mathcal{V_{\text{ext}}} \rangle$} & \multicolumn{1}{c}{$\langle \mathcal{V_{\text{int}}} \rangle$} \\ \hline \\
+		&RBM & 0.01 && - & - & - & - \\
+		&& 0.5 && 2.0269(1) & 0.6595(3) & 0.8778(4) & 0.4896(2) \\
+		&& 3.0 && - & - & - & - \\ \hdashline \\
+		
+		&RBM+SJ & 0.01 && 0.07994(2) & 0.01069(3) & 0.03190(8) & 0.03735(8) \\
+		&& 0.5 && 2.00371(4) & 0.6340(3) & 0.9201(4) & 0.4496(2) \\
+		&& 3.0 && 10.32289(5) & 3.5281(8) & 5.6147(9) & 1.1801(2) \\ \hdashline \\
+		
+		&RBM+PJ & 0.01 && 0.079312(6) & 0.01283(4) & 0.02987(6) & 0.03661(4) \\
+		&& 0.5 && 1.999912(5) & 0.6515(3) & 0.9040(3) & 0.4444(1) \\
+		&& 3.0 && 10.31271(4) & 3.5410(8) & 5.5989(9) & 1.1728(2) \\ \hdashline \\
+		
+		&VMC & 0.01 && 0.079284(6) & 0.01221(4) & 0.039757(6) & 0.036319(4) \\
+		&& 0.5 && 1.999977(5) & 0.6517(3) & 0.9032(3) & 0.4451(1) \\
+		&& 3.0 && 10.31717(1) & 3.8365(7) & 5.2770(8) & 1.2037(2) \\ \hdashline \\
+	\end{tabularx}
+\end{table} 
+
+\iffalse
+\begin{table}
+	\caption{This table shows how the total energy ($\langle\mathcal{H}\rangle$) is distributed between kinetic energy ($\langle\mathcal{T}\rangle$), external potential energy ($\langle\mathcal{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\mathcal{V}_{\text{int}}\rangle$) of three-dimensional circular quantum dots at a wide range of frequencies $\omega$ and two interacting electrons. The methods used are standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM), restricted Boltzmann machine with a simple Jastrow factor (RBM+SJ) and restricted Boltzmann machine with Padé-Jastrow factor. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
+	\label{tab:splitfrequencyQD3D20P}
+	\begin{tabularx}{\textwidth}{R{1cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{0.3cm}} \hline\hline
+		&\makecell{\\ \phantom{$N$} \\ \phantom{=}} & $\omega$ && \multicolumn{1}{c}{$\langle \mathcal{H}\rangle$} & \multicolumn{1}{c}{$\langle \mathcal{T}\rangle$} & \multicolumn{1}{c}{$\langle \mathcal{V_{\text{ext}}} \rangle$} & \multicolumn{1}{c}{$\langle \mathcal{V_{\text{int}}} \rangle$} \\ \hline \\
+		&RBM & 0.01 && - & - & - & - \\
+		&& 0.5 && - & - & - & - \\
+		&& 3.0 && - & - & - & - \\ \hdashline \\
+		
+		&RBM+SJ & 0.01 && 5.7778(4) & -0.3(1) & 2.26(5) & 3.8(2) \\
+		&& 0.5 && 85.893(1) & 7.212(2) & 31.722(8) & 46.958(7) \\
+		&& 3.0 && 333.07(6) & 53.2(5) & 138.0(5) & 141.835(9) \\ \hdashline \\
+		
+		&RBM+PJ & 0.01 && - & - & - & - \\
+		&& 0.5 && - & - & - & - \\
+		&& 3.0 && 333.027(1) & 49.3(3) & 152.1(3) & 131.618(7) \\ \hdashline \\
+		
+		&VMC & 0.01 && 5.809(2) & 0.0473(2) & 1.940(7) & 3.822(7) \\
+		&& 0.5 && 85.7197(6) & 7.868(2) & 31.383(6) & 46.469(5) \\
+		&& 3.0 && 333.38(4) & 49.0(6) & 151.3(6) & 133.091(7) \\ \hdashline \\
+	\end{tabularx}
+\end{table} 
+\fi
+
+\iffalse
 \begin{table}
 	\caption{Total energy ($\langle\mathcal{H}\rangle$), kinetic energy ($\langle\mathcal{T}\rangle$) and potential energy ($\langle\mathcal{V}\rangle$) of two-dimensional circular quantum dots at a wide range of frequencies $\omega$. A standard variational Monte-Carlo wave function is used. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
 	\label{tab:splitfrequencyQDVMC}
@@ -713,21 +786,25 @@ which can be verified from the energy splitting. To do this accurate, we better 
 		&& 3.0 && - & - & - & - \\ \hline \hline
 	\end{tabularx}
 \end{table}
-
+\fi
 
 \newpage
 \subsection{Low frequency dots}
-As we pointed out in section \ref{sec:wigner}, and as shown in the previous section, the potential energy dominates the kinetic energy as low frequencies. This means that the electrons have a lower average momentum, which makes Wigner crystallization possible. As already discussed in the theory part, this phenomenon can be observed by some distinct peaks in the one-body density plots. In figure \eqref{fig:lowfreqOB}, the one-body density is plotted for low frequency dots. 
+As we pointed out in section \ref{sec:wigner}, and as shown in the previous section, the potential energy dominates the kinetic energy as low frequencies. This means that the electrons have a lower average momentum, which makes Wigner crystallization possible. As already discussed in the theory part, this phenomenon can be observed by some distinct peaks in the one-body density plots. In figure \eqref{fig:lowfreqOB}, the one-body density is plotted for low frequency dots containing 2, 6, 12 and 20 particles. 
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.7]{/home/evenmn/VMC/plots/int1/onebody/2D/2P/0.010000w/ADAM_MC2pow28.png}
-	\caption{One-body density of two-dimensional circular quantum dot containing two electrons. $\omega=0.01$.}
+	\subfloat[2P]{\includegraphics[scale=0.4]{/home/evenmn/VMC/plots/int1/onebody/2D/2P/0.010000w/ADAM_MC2pow28.png}}
+	\subfloat[6P]{\includegraphics[scale=0.4]{/home/evenmn/VMC/plots/int1/onebody/2D/6P/0.010000w/ADAM_MC2pow28.png}}\\
+	\subfloat[12P]{\includegraphics[scale=0.4]{/home/evenmn/VMC/plots/int1/onebody/2D/12P/0.010000w/ADAM_MC2pow28.png}}
+	\subfloat[20P]{\includegraphics[scale=0.4]{/home/evenmn/VMC/plots/int1/onebody/2D/20P/0.010000w/ADAM_MC2pow28.png}}
+	\caption{One-body density of two-dimensional circular quantum dots. $\omega=0.01$.}
 	\label{fig:lowfreqOB}
 \end{figure}
 
 For two particles, we can see that the one-body density has a peak at a distance from origin, and a local minimum in origin. This means that the probability of finding the two electrons close to each other is low, which is as expected due to the low momentum. 
 
+\iffalse
 \subsection{$S\neq0$}
 When the number of particles in the quantum dot is among the magic numbers presented in equation \eqref{eq:HOclosedshell}, the ground state is guaranteed to be found at $L=S=0$. However, if we want to look at dots of other sizes, this is often not true, and we will therefore look at some cases with $S\neq 0$. We will still stick to $L=0$ and closed shell systems.
 
@@ -752,6 +829,7 @@ We find both the RBM+PJ and VMC to reproduce the reference energy in all the cas
 		11 & 0.28 && 0 & 1/2 && 22.285(2) & 22.252(1) & 22.8733 & 22.0750(4)$^a$ \\ \hline\hline
 	\end{tabularx}
 \end{table}
+\fi
 
 \subsection{Large dots}
 In order to test the code, we also decided to run for systems with $N\geq 56$. This has no scientific significance, other than testing how far a VMC code can go. We look at weakly interacting particles, so we will not get any relativistic effects even when adding many particles.

@@ -10,7 +10,7 @@ In this chapter, we will cover the remaining algorithms we need before we can mo
 
 \newpage
 \section{Optimization algorithms}
-In chapter \ref{chp:machinelearning}, we discussed the gradient descent optimization algorithm, which is among the most basic methods available. That method is based on the gradient, which is the slope of the cost function, but many methods are also in need of the Hessian matrix, which gives the curvature of the cost function. We will barely scratch the surface of this field, limiting us to the gradient methods. 
+In chapter \ref{chp:machinelearning}, we discussed the gradient descent optimization algorithm, which is among the most basic methods available. That method is based on the gradient, which is the slope of the cost function, but many methods are also in need of the Hessian matrix, which gives the curvature of the cost function. We will overlineely scratch the surface of this field, limiting us to the gradient methods. 
 
 To have the method fresh in mind, we will start with reintroducing the gradient descent method before we move on the its stochastic brother. We will then have a look at how momentum can be added, and finally we examine the stochastic and momentum based ADAM optimizer. 
 
@@ -139,7 +139,7 @@ Before we go through the methods, we will give a brief introduction to some usef
 \end{equation*}
 where $p(x)$ is the true \textit{probability density function}. If we know this function, we had not have to estimate the statistical errors, but as it is unavailable in real experiments, the moments can only be estimated. The first moment is the \textit{mean} of $p$, and is often denoted by the letter $\mu$
 \begin{equation}
-\langle x\rangle=\mu=\int dxxp(x).
+\langle x\rangle=\mu=\int dxxp(x)\approx \frac{1}{n}\sum_{i=1}^n x_i=\overline{x}_n.
 \end{equation}
 Furthermore, we can define the \textit{central moments}, which are given by
 \begin{equation}
@@ -150,17 +150,124 @@ which is centered around the mean. With $n=0$ and $n=1$, this is easy to find, b
 \sigma^2=\langle(x-\langle x\rangle)^2\rangle=\langle x^2\rangle - \langle x \rangle^2
 \label{eq:variance2}
 \end{equation}
-which as already stated in the theory. This is the simple variance estimate, and is very cheap to calculate because we only need the second moment of the local energy, $\langle E_L^2\rangle$, in addition to the first moment which needs to be computed anyway. 
+which was already stated in the theory chapter. For a sampling, the corresponding quantity can be found from
+\begin{equation}
+\sigma^2=\frac{1}{n-1}\sum_{i=1}^n(x_i-\langle x\rangle)^2\approx \frac{1}{n-1}\sum_{i=1}^n(x_i-\overline{x})^2
+\end{equation}
+which is very cheap to compute. However, as an estimate of the sample variance, this is poor if the ...
+This is very cheap to compute as we only need the mean of the local energy squared, $\overline{E_L^2}$, but as a sample variance of a data set $X$, $V(\overline{X})$ it is a poor estimate since it does not account for the covariance between the measurements. This covariance is essential when the measurements are correlated, and leads to equation \eqref{eq:variance2} being an underestimation of $V(\overline{X})$, and is thus more a guideline for the size of the uncertainty, more than an actual estimate of it. For a stationary time series $X$ consisting of $n$ subsets $X_i$, the variance can be written as
+\begin{equation}
+\begin{aligned}
+V(\overline{X})&=V\bigg[\frac{1}{n}\sum_{i=1}^nX_i\bigg]=\frac{1}{n^2}\text{Cov}\bigg[\sum_{i=1}^nX_i,\sum_{j=1}^nX_j\bigg]\\
+&=\frac{\sigma^2}{n}+\frac{2}{n}\sum_{h=1}^{n-1}\Big(1-\frac{h}{n}\Big)\gamma(h)
+\end{aligned}
+\label{eq:samplevariance}
+\end{equation}
+where $\gamma(h)$ is the autocovariance function which describes the covariance of a set of time points in a series with another set of time points in the same series. The covariance gives the correlation between two set of data $X_i$ and $X_j$ according to
+\begin{equation}
+\text{Cov}(X_i,X_j)=\langle(X_i-\langle X_i\rangle)(X_j-\langle X_j\rangle)\rangle\approx \langle(X_i-\overline{X})(X_j-\overline{X})\rangle,
+\end{equation}
 
-The problem with this method, is that it does not account for the covariance between the measurements, i.e., it assumes that the measurements are totally independent. This leads to equation \eqref{eq:variance2} being an underestimation
-of $\sigma^2$, and is thus more a guideline for the size of the uncertainty, more than an actual estimate of it. Luckily, there are computational methods that can
+
+Fortunately, there are computational methods that can
 calculate $\sigma^2$ with the covariance contribution included. The method used in
 this project is the blocking method, which follows.
 
 \subsection{Blocking}\label{sec:resampling}
+Above, we have described the need of a proper estimation of the uncertainty in computational simulations, where the covariance was included in
+the calculation of $\sigma^2$. A quick and easy way to get a proper estimate of the uncertainty, is by using the blocking method.
 
+When the blocking method was made popular by Flyvberg and Peterson in 1989, the method required hyper-parameters which had to be carefully adjusted for each particular data set. \cite{flyvbjerg_error_1989} In 2018, Marius Jonsson reinvented the algorithm and made it automated, with no need for external parameters. Despite this, no compromise was made on performance. The method scales as $12n+\mathcal{O}(\log_2n)$ for small data sets, but reduces to $n+\mathcal{O}(1)$ for large data sets, which makes it preferred over bootstrap and jackknife for large data sets. \cite{jonsson_standard_2018} We will now go through the idea behind the blocking method.
 
-In our work, we have used Marius Jonsson's automated blocking algorithm and code, which gives an estimate of the variance without the need of any external parameters. \cite{jonsson_standard_2018} The code is available at \url{https://github.com/computative/block}
+Consider a time series $\{x_1, x_2, \hdots, x_n\}$ with $n=2^d$ data point for some integer $d>1$. For this case, an autocovariance function $\gamma(h)$ is guaranteed to exist. We arrange the data in a vector
+\begin{equation}
+X=(x_i,x_2,\hdots,x_n),
+\end{equation}
+which we assume to be asymptotically uncorrelated. The idea is to take the mean of subsequent pair of elements from $X$, and form a new vector $X_1$. We then repeat the operation on $X_1$ and form a new vector $X_2$ and so on. This is the reason why we require $n=2^d$. If $k$ denotes an element in vector $X_i$, we can write the procedure recursively as
+\begin{equation}
+\begin{aligned}
+(X_0)_k&\equiv(X)_k\\
+(X_{i+1})_k&\equiv\frac{1}{2}\Big((X_i)_{2k-1}+(X_i)_{2k}\Big)
+\end{aligned}
+\end{equation}
+where $1\leq i\leq d-1$ and $1\leq k\leq n/2^i$. According to equation \eqref{eq:samplevariance}, we have that
+\begin{equation}
+V(\overline{X}_k)=\frac{\sigma_k^2}{n_k}+\frac{2}{n_k}\sum_{h=1}^{n_k-1}\Big(1-\frac{h}{n_k}\Big)\gamma_k(h)
+\end{equation}
+Where we define the last term as the \textit{truncation error}, $e_k$, as it is intractable. It can be shown that the sample variance of all pairs $(X_i)_k$ and $(X_j)_k$ after a while will be identical \cite{flyvbjerg_error_1989},
+\begin{equation}
+V(\overline{X}_i)=V(\overline{X}_j)
+\label{eq:varivarj}
+\end{equation}
+with the consequence that
+\begin{equation}
+V(\overline{X})=\frac{\sigma_k^2}{n_k}+e_k\quad\text{for all}\quad 0\leq k\leq d-1.
+\end{equation}
+In the original (manual) blocking method, we had to know exactly where to stop the procedure in order to equation \eqref{eq:varivarj} to hold. If we do not continue long enough, the sample variance has not converged, while if we keep on going for too long, the standard error of $V(\hat{\sigma}_k^2/n_k)$ get very large. If one plots the sample variance as a function of the iterations, one will see that the curve forms a plateau before it gets very noisy, but with Jonsson's automated method, we do not need to worry about this. 
+
+We will end this section by scratching the most basic blocking algorithm
+
+\IncMargin{1em}
+\begin{algorithm}
+	\SetAlgoLined
+	\Parameter{$\eta$: Learning rate}
+	\Parameter{$\gamma$: Momentum parameter}
+	\Parameter{$\lambda$: Monotonic decay rate}
+	\Require{$\mathcal{C}(\bs{\theta})$: Cost function}
+	\Data{$\bs{\theta}_0$: Initial parameters}
+	
+	$\bs{m}_0\leftarrow 0$ (Initialize momentum vector)\;
+	$t\leftarrow 0$ (Initialize time step)\;
+	\While{$\bs{\theta}_t$ not converged}{
+		$t\leftarrow t+1$ (Increase time for each iteration)\;
+		$\bs{g}_t\leftarrow \nabla_{\theta}\mathcal{C}_t(\bs{\theta}_{t-1})$ (Get gradients from a given batch at time $t$)\;
+		$\bs{m}_t\leftarrow \gamma\bs{m}_{t-1}+\eta\cdot\bs{g}_t$ (Update first momentum estimate)\;
+		$\bs{\theta}_t=\bs{\theta}_{t-1}-\eta\cdot\bs{m}_t/\lambda^t$ (Update parameters)\;
+	}
+	\KwResult{Updated parameters $\bs{\theta}_t$ after convergence}
+	\caption{Adaptive stochastic gradient descent with momentum. See sections (\ref{sec:sgd}-\ref{sec:momentum}) for details. Robust default settings for the hyper-parameters are $\eta=0.001$, $\gamma=0.01$ and $\lambda=0.1$. All the operations are element-wise.}
+	\label{alg:asgd}
+\end{algorithm}\DecMargin{1em}
+
+In our work, we will consequently use Marius Jonsson's automated blocking algorithm and code, available on \url{https://github.com/computative/block}.
 
 \section{Summary of the algorithms}
-Up to this point we have presented several algorithms, and to give the reader a complete description of the simulating procedure, we will here summarize them and place them in the correct order. First, Metropolis-Hastings algorithm was given, which is responsible for the sampling. Thereafter, we presented a few optimization algorithms, before we gave the blocking algorithm. The optimization loop forms the main environment, where the sampling loop is inside. 
+Up to this point we have presented several algorithms, and to give the reader a complete description of the simulating procedure, we will here summarize them and place them in the correct order. First, Metropolis-Hastings algorithm was given, which is responsible for the sampling. Thereafter, we presented a few optimization algorithms, before we gave the blocking algorithm. 
+
+The optimization loop forms the outer environment
+
+\IncMargin{1em}
+\begin{algorithm}
+	\SetAlgoLined
+	
+	\Parameter{$\eta$: Learning rate}
+	\Parameter{$\Delta x$: Step length}
+	\Require{$\Psi_T(\bs{r},\bs{\theta})$: Trial wave function}
+	\BlankLine
+	$\bs{r}\leftarrow \mathcal{N}(0,\sigma^2)$ (Initialize positions randomly)\;
+	$\bs{r}\leftarrow \mathcal{U}(0,1)$ (Initialize parameters, could be randomly)\;
+	\While{not converged}{ 
+		$E_L=[-]$ (Declare an empty local energy list)\;
+		$grad=[-]$ (Declare an empty parameter gradient list)\;
+		$ELgrad=[-]$ (Declare an empty list containing parameter gradient $\cdot$ local energy)\;
+		\For{$i\leftarrow 1$ \KwTo $M$}{
+			$\bs{r}\leftarrow\bs{r}+\Delta x$ (Update position)\;
+			\If{$\Psi_T(\bs{r}_{\text{new}})/\Psi_T(\bs{r}_{\text{old}})<\mathcal{U}(0,1)$}{
+				reject move \;
+			}
+			$E_L^i\leftarrow \big(\hat{\mathcal{H}}\Psi_T(\bs{r},\bs{\theta})\big)/\Psi_T(\bs{r},\bs{\theta})$ (Fill $E_L$-list with local energies) \;
+			$grad^i\leftarrow \nabla_{\theta}\ln\Psi_T(\bs{r})$ (Fill grad-list with parameter gradients) \;
+			$ELgrad^i\leftarrow E_L^i\cdot grad^i$ (Fill ELgrad-list) \;
+		}
+	}
+	\KwResult{Updated parameters $\bs{\theta}_t$ after convergence}
+	\caption{Adaptive stochastic gradient descent with momentum. See sections (\ref{sec:sgd}-\ref{sec:momentum}) for details. Robust default settings for the hyper-parameters are $\eta=0.001$, $\gamma=0.01$ and $\lambda=0.1$. All the operations are element-wise.}
+	\label{alg:asgd}
+\end{algorithm} \DecMargin{1em}
+
+
+
+
+
+
+

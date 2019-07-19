@@ -2558,6 +2558,72 @@
     \field{urlyear}{2019}
   \endentry
 
+  \entry{jonsson_standard_2018-1}{article}{}
+    \name{author}{1}{}{%
+      {{hash=JM}{%
+         family={Jonsson},
+         familyi={J\bibinitperiod},
+         given={Marius},
+         giveni={M\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {nob}%
+    }
+    \strng{namehash}{JM1}
+    \strng{fullhash}{JM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{abstract}{%
+    Background: The sample mean \${\textbackslash}overline X =
+  {\textbackslash}sum\_\{i=1\}{\textasciicircum}\{n\}X\_i\$ is probably the
+  most popular estimator of the expected value in all sciences, the standard
+  error is given by the square root of the variance \$V
+  ({\textbackslash}overline\{X\})\$. Purpose: This work aims at providing a
+  stringent and modern treatment of the Blocking method (sensu Flyvbjerg
+  {\textbackslash}\&amp; Petersen 1989), a popular way to compute
+  \$V({\textbackslash}overline\{X\})\$ for correlated data. Methods: Linear
+  algebra, results from multivariate probability theory, real analysis and
+  Fisherian statistical inference were used. The method validation was
+  performed by Metropolis-Hasting-type sampling and autoregressive models.
+  Results: Here a new approach to estimate \$V({\textbackslash}overline\{X\})\$
+  for time series data is presented. The method applies to stationary data,
+  such as Markov chains and other stationary time series. The complexity of the
+  method is bounded above by \$12n + O({\textbackslash}log\_2 n)\$ floating
+  point operations, but this can be reduced to \$n + O(1)\$ in large
+  computations. The convergence in relative error squared is better than
+  \${\textbackslash}propto n{\textasciicircum}\{-1/2\}\$. The method is
+  insensitive to the probability distribution of the observations. It is proven
+  that only a small part of the correlation structure is relevant to the
+  convergence rate of the method. From this, the 1989 Blocking method follows
+  as a corollary. The result is also used to propose a hypothesis test to
+  survey the relevant part of the correlation structure. The method is
+  sufficiently robust to operate without supervision. An algorithm and sample
+  code showing the implementation is available for Python, C++ and R. This code
+  is available for download at github.com/computative/block. Method validation
+  using autoregressive AR(1)- and AR(2)-processes and physics applications are
+  included. This method has an accuracy similar to dependent bootstrapping, but
+  scales in \$O(n)\$-time. The method is easily adapted to multithread
+  applications and time series larger than computing cluster memory.
+  Conclusions: By applying stringent mathematics, the Blocking method was
+  automated, which will be helpful for all users of this method for computing
+  standard errors of means generated from correlated data series.%
+    }
+    \field{title}{Standard error estimation by an automated blocking method}
+    \verb{url}
+    \verb https://www.duo.uio.no/handle/10852/63557
+    \endverb
+    \verb{file}
+    \verb Snapshot:/home/evenmn/Zotero/storage/S63R4Z42/63557.html:text/html
+    \endverb
+    \field{year}{2018}
+    \field{urlday}{19}
+    \field{urlmonth}{07}
+    \field{urlyear}{2019}
+  \endentry
+
   \entry{jonsson_standard_2018}{article}{}
     \name{author}{1}{}{%
       {{hash=JM}{%
