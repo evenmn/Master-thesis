@@ -119,14 +119,15 @@ which is called Green's functions. They correspond to the normal distribution $\
 \begin{equation}
 A(\bs{r}'|\bs{r})=\text{min }\left[1,\frac{G(\bs{r},\bs{r}',\Delta t)P(\bs{r}')}{G(\bs{r}',\bs{r}, \Delta t)P(\bs{r})}\right],
 \end{equation}
-where the marginal probabilities are still given by equation \eqref{eq:probvmc}. As a summary, we set up the actual algorithm, known as Metropolis-Hasting's algorithm, see algorithm \eqref{al:hasting}.
+where the marginal probabilities are still given by equation \eqref{eq:probvmc}. As a summary, we set up the actual algorithm, known as Metropolis-Hasting's algorithm, see algorithm \eqref{alg:hasting}.
 
+\IncMargin{1em}
 \begin{algorithm}
 	\SetAlgoLined
 	\KwData{Initialize particle positions $\bs{r}$ and parameters $\theta$ randomly.}
 	\KwResult{The optimized trial wave function.}
-	$\bs{r}'=\mathcal{N}(0,1)$\;
-	$\theta=\mathcal{N}(0,1)$\;
+	$\bs{r}'=\mathcal{N}(0,\sigma^2)$\;
+	$\theta=\mathcal{U}(0,1)$\;
 	$P(\bs{r}';\theta)=|\Psi_T(\bs{r}';\theta)|^2$\;
 	$G$\;
 	\While{not converged}{
@@ -149,8 +150,8 @@ where the marginal probabilities are still given by equation \eqref{eq:probvmc}.
 		}
 	}
 	\caption{The Metropolis-Hastings algorithm. }
-	\label{al:hasting}
-\end{algorithm}
+	\label{alg:hastings}
+\end{algorithm}\DecMargin{1em}
 
 \subsection{Gibbs sampling}
 In the machine learning community, Gibbs sampling is widely used when it comes to training Boltzmann machines. It is an instance of the Metropolis-Hastings algorithm, but since the units are updated to maximize the probabilities, all the moves are accepted. The algorithm will be discussed for the restricted Boltzmann case only.
