@@ -124,19 +124,20 @@ where the marginal probabilities are still given by equation \eqref{eq:probvmc}.
 \IncMargin{1em}
 \begin{algorithm}
 	\SetAlgoLined
-	\KwData{Initialize particle positions $\bs{r}$ and parameters $\theta$ randomly.}
-	\KwResult{The optimized trial wave function.}
-	$\bs{r}'=\mathcal{N}(0,\sigma^2)$\;
-	$\theta=\mathcal{U}(0,1)$\;
-	$P(\bs{r}';\theta)=|\Psi_T(\bs{r}';\theta)|^2$\;
-	$G$\;
+	\Parameter{$\Delta t$: Fictive time step}
+	\Data{$\bs{r}'$: Initial particle positions}
+	\Data{$\bs{\theta}$: Initial parameters}
+	\Require{$\Psi_T(\bs{r};\bs{\theta})$: Initial trial wave function guess}
+	\BlankLine
+	$\bs{F}(\bs{r}')\leftarrow2(\nabla\Psi_T(\bs{r}'))/\Psi_T(\bs{r}')$ (Initialize the quantum force)\;
+	$G(\bs{r}',\Delta t;\bs{\theta})\leftarrow\exp(-(D\Delta t\bs{F}(\bs{r}))^2/4D\Delta t)$ (Initialize Green's function) \;
 	\While{not converged}{
 		$\bs{r}=\bs{r}'$\;
-		$P(\bs{r};\theta)=P(\bs{r}';\theta)$\;
+		$\Psi_T(\bs{r};\theta)=\Psi_T(\bs{r}';\theta)$\;
 		$G(\bs{r},\bs{r}',\Delta t;\theta)=G(\bs{r}',\bs{r},\Delta t;\theta)$\;
-		\;
+		\BlankLine
 		$\bs{r}'=\bs{r}+D\bs{F}(\bs{r;\theta})\Delta t + \bs{\xi}\sqrt{\Delta t}$\;
-		$p=P(\bs{r}';\theta)/P(\bs{r};\theta)$\;
+		$p=|\Psi_T(\bs{r}';\theta)|^2/|\Psi_T(\bs{r};\theta)|^2$\;
 		$g=G(\bs{r}',\bs{r},\Delta t;\theta)/G(\bs{r},\bs{r}',\Delta t;\theta)$\;
 		$w=gp$\;
 		$r=\mathcal{U}(0,1)$\;
@@ -149,7 +150,8 @@ where the marginal probabilities are still given by equation \eqref{eq:probvmc}.
 			keep going\;
 		}
 	}
-	\caption{The Metropolis-Hastings algorithm. }
+	\KwResult{The optimized trial wave function.}
+	\caption{The Metropolis-Hastings algorithm. The positions are chosen randomly or was chosen by a previous sampling. The parameters are also usually initialized randomly or chosen by a parameter update. The diffusion constant $D=1/2$ in natural units. }
 	\label{alg:hastings}
 \end{algorithm}\DecMargin{1em}
 
