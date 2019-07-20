@@ -240,6 +240,7 @@ f(x)=\frac{1}{1+\exp(-x)}.
 The first denominator is known as the \textit{partition function},
 \begin{equation}
 Z=\sum_{i=0}^1\exp(-\varepsilon_i/k_BT)
+\label{eq:partition}
 \end{equation}
 where $k_B$ is Boltzmann's constant and $T$ is the system temperature. The probability of finding the system in the second state is given by
 \begin{align}
@@ -513,39 +514,70 @@ In unsupervised learning, a neural network is given the inputs only, and does no
 We have previously seen how the weights in supervised learning can be adjusted using the backward propagation algorithm, but it does not work when we do not have prior known targets. Instead, the weights are controlled by a set of probabilities, and we let the cost function be defined by the log likelihood function. This is known as Bayesian statistics, and will be presented in the next section.
 
 \subsection{Statistical foundation}
-In this section, we will use Bayesian statistics to exploit the link between a data set $\bs{x}$ and another data set $\bs{y}$. We will first do it in a general way, before we link it to machine learning in the next section. 
+In this section, we will use Bayesian statistics to exploit the link between some data $\bs{x}$, called the \textit{hypothesis}, and some other data $\bs{y}$, called the evidence.  We will first do it in a general way, before we link it to machine learning in the next section.
 
-In this section, we will explain the general relation between the joint probability distribution of two variables $x$ and $y$, the marginal distributions and the conditional distributions. The expressions can either be set up with respect to the continuous space or the discrete space, and we will do the latter since we in practice will deal with discrete data sets. 
+Bayesian statistics appear in many field of science, as it is a basic and often useful probability theory. It is based on Bayes' theorem, which gives rise to some marginal and conditional distributions. The expressions can either be set up in the continuous space or the discrete space, but here we will stick to the latter as we in practice will deal with discrete data. 
 
 We start expressing the joint probability distribution of measuring both $\bs{x}$ and $\bs{y}$ using the general relation,
 \begin{equation}
-p(\bs{x},\bs{y})=p(\bs{x}|\bs{y})p(\bs{y})=p(\bs{y}|\bs{x})p(\bs{x}).
+p(\bs{x},\bs{y})=p(\bs{x}|\bs{y})p(\bs{y})=p(\bs{y}|\bs{x})p(\bs{x}),
 \label{eq:jointprob}
 \end{equation}
-$p(\bs{x}|\bs{y})$ is the conditional distributions of $\bs{x}$ and gives the probability of $\bs{x}$ given that $\bs{y}$ is true. The opposite applies for $p(\bs{y}|\bs{x})$. $p(\bs{x})$ and $p(\bs{y})$ are called the marginal probabilities for $\bs{x}$ and $\bs{y}$, and by reordering equation \eqref{eq:jointprob}, we obtain Bayes' theorem
+which basically states that the probability of observing $\bs{x}$ \textit{and} $\bs{y}$ is just the probability of observing $\bs{x}$ multiplied with the probability of observing $\bs{y}$ given $\bs{x}$. 
+$p(\bs{x}|\bs{y})$ is the conditional distribution of $\bs{x}$ and gives the probability of $\bs{x}$ given that $\bs{y}$ is true. The opposite applies for $p(\bs{y}|\bs{x})$. $p(\bs{x})$ and $p(\bs{y})$ are called the marginal probabilities for $\bs{x}$ and $\bs{y}$, and by reordering equation \eqref{eq:jointprob}, we obtain Bayes' theorem
 \begin{equation}
 p(\bs{x}|\bs{y})=\frac{p(\bs{y}|\bs{x})p(\bs{x})}{p(\bs{y})}.
 \end{equation}
-The marginal probability $p(\bs{y})$ is given by the sum over all the possible joint probabilities when $\bs{y}$ is fixed,
+The marginal probability of $\bs{y}$, $p(\bs{y})$, is given by the sum over all the possible joint probabilities when $\bs{y}$ is fixed,
 \begin{equation}
 p(\bs{y})=\sum_i p(x_i,\bs{y}) = \sum_i p(\bs{y}|x_i)p(x_i),
 \end{equation}
-and from this we observe that the theorem tells us that to find the \textit{posterior} probability, $p(\bs{x}|\bs{y})$, all we need is to know the \textit{prior} probability, $p(\bs{x})$, and the \textit{likelihood}, $p(\bs{y}|\bs{x})$. However, the summation gets extremely expensive quickly, and is intractable even for small systems. This was a big problem for a long time, but with the advent of powerful computers, algorithms like Markov chain Monte-Carlo can be used to estimate the posterior without knowing the \textit{normalization constant}, $p(\bs{y})$. More about that in chapter \ref{chp:methods}. 
+and from this we observe that Bayes' theorem gives us the \textit{posterior} probability, $p(\bs{x}|\bs{y})$, given the \textit{prior} probability, $p(\bs{x})$, and the \textit{likelihood}, $p(\bs{y}|\bs{x})$, seen from
+\begin{equation}
+p(\bs{x}|\bs{y})=\frac{p(\bs{y}|\bs{x})p(\bs{x})}{\sum_i p(\bs{y}|x_i)p(x_i)}.
+\end{equation}
+However, the summation gets extremely expensive quickly, and is intractable even for small systems. This was a big problem for a long time, but with the advent of powerful computers, algorithms like Markov chain Monte-Carlo can be used to estimate the posterior without knowing the \textit{normalization constant}, $p(\bs{y})$. More about that in chapter \ref{chp:methods}. 
 
-In the section on supervised learning, the cost function was an important concept, and so is the case in unsupervised learning. But how do we define a cost function when we do not have any targets? We find the answer by revealing the similarities between the logistic regression and the Bayesian statistics. In logistic regression, we find the probability that a system is in a particular state, and define the cost function as the maximum log-likelihood. We can do the same in unsupervised learning, and define the 
+In the section on supervised learning, the cost function was an important concept, and so is the case in unsupervised learning. But how do we define a cost function when we do not have any targets? We find the answer by revealing the similarities between the logistic regression and the Bayesian statistics. In logistic regression, we find the probability that a system is in a particular state, and define the cost function as the log-likelihood. We can do the same in unsupervised learning, and define the cost function as
+\begin{equation}
+\mathcal{C}(\bs{y})=\ln\prod_{i=1}^lp(\bs{x}_i|\bs{y})=\sum_{i=1}^l\ln p(\bs{x}_i|\bs{y})
+\end{equation}
+which is the log-likelihood. Maximizing the likelihood is the same as maximizing the log-likelihood, which again corresponds to minimizing the distance between the unknown distribution $q$ underlying $\bs{x}$ and the distribution $p$ of the Markov random field $\bs{y}$. This distance is expressed in terms of the Kullback-Leibler divergence (KL divergence), which for a finite state space $\Omega$ is given by
+\begin{equation}
+\text{KL}(q||p)=\sum_{\bs{x}\in\Omega}q(\bs{x})\frac{q(\bs{x})}{p(\bs{x})}.
+\end{equation}
+The KL divergence is a measure of the difference between two \textit{probability density functions} (PDFs), and is zero for two identical PDFs. The divergence is often called a distance, but that is an unsatisfying description as it is non-symmetric ($\text{KL}(q||p))\neq\text{KL}(p||q)$) in general. 
 
-For supervised learning, the 
-The parameters will always be updated such that the probability is maximized. For instance, 
-
-Next challenge is that we do not have the posterior
-
-Kullback-Leibler divergence gives a measure of how much information is loss when one goes from one probability distribution to another. 
+To proceed further, we will introduce latent variables in form of hidden nodes. Suppose we want to model an $m$-dimensional unknown probability distribution $q$. Typically, not all the variables $\bs{s}$ are observed components, they can also be latent variables. If we split $\bs{s}$ into \textit{visible} variables $\bs{x}$ and hidden variables $\bs{h}$, and under the assumption that $\bs{x}$ and $\bs{h}$ are variables in an energy function $E(\bs{x},\bs{h})$, we can express the joint probability as the Boltzmann distribution
+\begin{equation}
+p(\bs{x},\bs{h})=\frac{\exp(-E(\bs{x},\bs{h}))}{Z}
+\end{equation}
+where $Z$ is the partition function, which is the sum of the probability of all possible states, which was already introduced in equation \eqref{eq:partition}. Where the visible nodes correspond to components of an observation, the hidden nodes introduce the system to more degrees of freedom. This allows us to describe complex distributions over the visible variables by means of simple conditional distributions. \cite{asja_training_nodate} Those conditional distributions will be described later, but let us first take a look at the marginal distributions.
 
 \subsubsection{Marginal Distributions}
+We have already used the term marginal distribution, which means that we get rid of a set of variables by integrating the joint probability over all of them. The marginal probability of $\bs{x}$ is given by
+\begin{equation}
+p(\bs{x})=\sum_{\bs{h}}p(\bs{x},\bs{h})=\frac{1}{Z}\sum_{\bs{h}}\exp(-E(\bs{x},\bs{h})).
+\end{equation}
+The sum over the $\bs{h}$ vector is just a short-hand notation where we sum over all the possible values of all the variables in $\bs{h}$. Further, the marginal probability of $\bs{h}$ is expressed similarly, with
+\begin{equation}
+p(\bs{h})=\sum_{\bs{x}}p(\bs{x},\bs{h})=\frac{1}{Z}\sum_{\bs{x}}\exp(-E(\bs{x},\bs{h})).
+\end{equation}
+$p(\bs{x})$ is important as it gives the probability of a particular set of visible nodes $\bs{x}$, while $p(\bs{h})$ will not be used in the same scope in this work. 
 
 \subsubsection{Conditional Distributions}
+The conditional distributions can be found from Bayes' theorem, and read
+\begin{equation}
+p(\bs{h}|\bs{x})=\frac{p(\bs{x},\bs{h})}{p(\bs{x})}=\frac{\exp(-E(\bs{x},\bs{h}))}{\sum_{\bs{h}}\exp(-E(\bs{x},\bs{h}))}
+\end{equation}
+and
+\begin{equation}
+p(\bs{x}|\bs{h})=\frac{p(\bs{x},\bs{h})}{p(\bs{h})}=\frac{\exp(-E(\bs{x},\bs{h}))}{\sum_{\bs{x}}\exp(-E(\bs{x},\bs{h}))}.
+\end{equation}
+The conditional probabilities are especially important in Gibbs sampling, where we want to update the $\bs{x}$'s given a $\bs{h}$ and vice versa. 
 
-The weights are updated following the log-likelihood. 
+\subsubsection{Maximum likelihood estimate}
+Now suppose that the energy function also is a function of some parameters $\bs{\theta}$. 
 
 \subsection{Boltzmann Machines}
 Boltzmann Machines are based on the more primitive Hopfield network, where a system of nodes is set up which defines the system energy. Inspired by statistical mechanics, the probability of finding the system in a state of energy $E$ is given by the Boltzmann distribution,

@@ -3040,6 +3040,51 @@
     \field{urlyear}{2019}
   \endentry
 
+  \entry{asja_training_nodate}{misc}{}
+    \name{author}{2}{}{%
+      {{hash=AF}{%
+         family={Asja},
+         familyi={A\bibinitperiod},
+         given={Fischer},
+         giveni={F\bibinitperiod},
+      }}%
+      {{hash=IC}{%
+         family={Igel},
+         familyi={I\bibinitperiod},
+         given={Christian},
+         giveni={C\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {en}%
+    }
+    \strng{namehash}{AFIC1}
+    \strng{fullhash}{AFIC1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{shorttitle}
+    \field{sortinit}{9}
+    \field{sortinithash}{9}
+    \field{abstract}{%
+    ResearchGate is a network dedicated to science and research. Connect,
+  collaborate and discover scientific publications, jobs and conferences. All
+  for free.%
+    }
+    \field{shorttitle}{({PDF}) {Training} restricted {Boltzmann} machines}
+    \field{title}{Training restricted {Boltzmann} machines: {An} introduction}
+    \verb{url}
+    \verb https://www.researchgate.net/publication/249012618_Training_restricte
+    \verb d_Boltzmann_machines_An_introduction
+    \endverb
+    \verb{file}
+    \verb Snapshot:/home/evenmn/Zotero/storage/F9BXZ8B9/249012618_Training_rest
+    \verb ricted_Boltzmann_machines_An_introduction.html:text/html
+    \endverb
+    \field{journaltitle}{ResearchGate}
+    \field{urlday}{20}
+    \field{urlmonth}{07}
+    \field{urlyear}{2019}
+  \endentry
+
   \entry{noauthor_bringing_nodate}{misc}{}
     \field{labeltitlesource}{title}
     \field{sortinit}{9}
@@ -3165,6 +3210,26 @@
     \field{journaltitle}{Chess.com}
     \field{urlday}{27}
     \field{urlmonth}{06}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{noauthor_training_nodate}{misc}{}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{9}
+    \field{sortinithash}{9}
+    \field{title}{Training {Restricted} {Boltzmann} {Machines}: {An}
+  {Introduction}⋆}
+    \verb{url}
+    \verb https://webcache.googleusercontent.com/search?q=cache:JHzm9N4wEaoJ:ht
+    \verb tps://christian-igel.github.io/paper/TRBMAI.pdf+&cd=1&hl=en&ct=clnk&g
+    \verb l=no&client=ubuntu
+    \endverb
+    \verb{file}
+    \verb Training Restricted Boltzmann Machines\: An Introduction⋆:/home/eve
+    \verb nmn/Zotero/storage/MCX2UX8K/search.html:text/html
+    \endverb
+    \field{urlday}{20}
+    \field{urlmonth}{07}
     \field{urlyear}{2019}
   \endentry
 
