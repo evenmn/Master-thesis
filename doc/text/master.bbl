@@ -226,30 +226,58 @@
 
   \entry{dirac_new_1939}{article}{}
     \name{author}{1}{}{%
-      {{hash=DPAM}{%
+      {{hash=DPaM}{%
          family={Dirac},
          familyi={D\bibinitperiod},
-         given={P.\bibnamedelima A.\bibnamedelima M.},
-         giveni={P\bibinitperiod\bibinitdelim A\bibinitperiod\bibinitdelim
+         given={P.\bibnamedelima a.\bibnamedelima M.},
+         giveni={P\bibinitperiod\bibinitdelim a\bibinitperiod\bibinitdelim
   M\bibinitperiod},
       }}%
     }
-    \strng{namehash}{DPAM1}
-    \strng{fullhash}{DPAM1}
+    \list{language}{1}{%
+      {en}%
+    }
+    \strng{namehash}{DPaM1}
+    \strng{fullhash}{DPaM1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
     \field{sortinit}{1}
     \field{sortinithash}{1}
+    \field{abstract}{%
+    In mathematical theories the question of notation, while not of primary
+  importance, is yet worthy of careful consideration, since a good notation can
+  be of great value in helping the development of a theory, by making it easy
+  to write down those quantities or combinations of quantities that are
+  important, and difficult or impossible to write down those that are
+  unimportant. The summation convention in tensor analysis is an example,
+  illustrating how specially appropriate a notation can be.%
+    }
     \verb{doi}
     \verb 10.1017/S0305004100021162
     \endverb
+    \field{issn}{1469-8064, 0305-0041}
     \field{number}{3}
     \field{pages}{416\bibrangedash 418}
     \field{title}{A new notation for quantum mechanics}
+    \verb{url}
+    \verb https://www.cambridge.org/core/journals/mathematical-proceedings-of-t
+    \verb he-cambridge-philosophical-society/article/new-notation-for-quantum-m
+    \verb echanics/4631DB9213D680D6332BA11799D76AFB
+    \endverb
     \field{volume}{35}
+    \verb{file}
+    \verb Full Text PDF:/home/evenmn/Zotero/storage/LMAKXWHK/Dirac - 1939 - A n
+    \verb ew notation for quantum mechanics.pdf:application/pdf;Snapshot:/home/
+    \verb evenmn/Zotero/storage/M2RBZALF/4631DB9213D680D6332BA11799D76AFB.html:
+    \verb text/html
+    \endverb
     \field{journaltitle}{Mathematical Proceedings of the Cambridge
   Philosophical Society}
+    \field{month}{07}
     \field{year}{1939}
+    \field{urlday}{21}
+    \field{urlmonth}{07}
+    \field{urlyear}{2019}
   \endentry
 
   \entry{hehre_selfconsistent_1969}{article}{}
@@ -359,6 +387,79 @@
     \field{journaltitle}{IL NUOVO CIMENTO}
     \field{month}{08}
     \field{year}{1977}
+  \endentry
+
+  \entry{ackley_learning_1985}{article}{}
+    \name{author}{3}{}{%
+      {{hash=ADH}{%
+         family={Ackley},
+         familyi={A\bibinitperiod},
+         given={David\bibnamedelima H.},
+         giveni={D\bibinitperiod\bibinitdelim H\bibinitperiod},
+      }}%
+      {{hash=HGE}{%
+         family={Hinton},
+         familyi={H\bibinitperiod},
+         given={Geoffrey\bibnamedelima E.},
+         giveni={G\bibinitperiod\bibinitdelim E\bibinitperiod},
+      }}%
+      {{hash=STJ}{%
+         family={Sejnowski},
+         familyi={S\bibinitperiod},
+         given={Terrence\bibnamedelima J.},
+         giveni={T\bibinitperiod\bibinitdelim J\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {en}%
+    }
+    \strng{namehash}{ADHHGESTJ1}
+    \strng{fullhash}{ADHHGESTJ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{1}
+    \field{sortinithash}{1}
+    \field{abstract}{%
+    The computational power of massively parallel networks of simple processing
+  elements resides in the communication bandwidth provided by the hardware
+  connections between elements. These connections can allow a significant
+  fraction of the knowledge of the system to be applied to an instance of a
+  problem in a very short time. One kind of computation for which massively
+  parallel networks appear to be well suited is large constraint satisfaction
+  searches, but to use the connections efficiently two conditions must be met:
+  First, a search technique that is suitable for parallel networks must be
+  found. Second, there must be some way of choosing internal representations
+  which allow the preexisting hardware connections to be used efficiently for
+  encoding the constraints in the domain being searched. We describe a general
+  parallel search method, based on statistical mechanics, and we show how it
+  leads to a general learning rule for modifying the connection strengths so as
+  to incorporate knowledge about a task domain in an efficient way. We describe
+  some simple examples in which the learning algorithm creates internal
+  representations that are demonstrably the most efficient way of using the
+  preexisting connectivity structure.%
+    }
+    \verb{doi}
+    \verb 10.1207/s15516709cog0901_7
+    \endverb
+    \field{issn}{1551-6709}
+    \field{number}{1}
+    \field{pages}{147\bibrangedash 169}
+    \field{title}{A {Learning} {Algorithm} for {Boltzmann} {Machines}*}
+    \verb{url}
+    \verb https://onlinelibrary.wiley.com/doi/abs/10.1207/s15516709cog0901_7
+    \endverb
+    \field{volume}{9}
+    \verb{file}
+    \verb Full Text PDF:/home/evenmn/Zotero/storage/6RXEYDVT/Ackley et al. - 19
+    \verb 85 - A Learning Algorithm for Boltzmann Machines.pdf:application/pdf;
+    \verb Snapshot:/home/evenmn/Zotero/storage/PCFFZIU5/s15516709cog0901_7.html
+    \verb :text/html
+    \endverb
+    \field{journaltitle}{Cognitive Science}
+    \field{year}{1985}
+    \field{urlday}{21}
+    \field{urlmonth}{07}
+    \field{urlyear}{2019}
   \endentry
 
   \entry{rumelhart_learning_1986}{article}{}
@@ -1427,6 +1528,80 @@
     \field{urlyear}{2019}
   \endentry
 
+  \entry{hinton_improving_2012}{article}{}
+    \name{author}{5}{}{%
+      {{hash=HGE}{%
+         family={Hinton},
+         familyi={H\bibinitperiod},
+         given={Geoffrey\bibnamedelima E.},
+         giveni={G\bibinitperiod\bibinitdelim E\bibinitperiod},
+      }}%
+      {{hash=SN}{%
+         family={Srivastava},
+         familyi={S\bibinitperiod},
+         given={Nitish},
+         giveni={N\bibinitperiod},
+      }}%
+      {{hash=KA}{%
+         family={Krizhevsky},
+         familyi={K\bibinitperiod},
+         given={Alex},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=SI}{%
+         family={Sutskever},
+         familyi={S\bibinitperiod},
+         given={Ilya},
+         giveni={I\bibinitperiod},
+      }}%
+      {{hash=SRR}{%
+         family={Salakhutdinov},
+         familyi={S\bibinitperiod},
+         given={Ruslan\bibnamedelima R.},
+         giveni={R\bibinitperiod\bibinitdelim R\bibinitperiod},
+      }}%
+    }
+    \keyw{Computer Science - Computer Vision and Pattern Recognition, Computer
+  Science - Machine Learning, Computer Science - Neural and Evolutionary
+  Computing}
+    \strng{namehash}{HGE+1}
+    \strng{fullhash}{HGESNKASISRR1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{abstract}{%
+    When a large feedforward neural network is trained on a small training set,
+  it typically performs poorly on held-out test data. This "overfitting" is
+  greatly reduced by randomly omitting half of the feature detectors on each
+  training case. This prevents complex co-adaptations in which a feature
+  detector is only helpful in the context of several other specific feature
+  detectors. Instead, each neuron learns to detect a feature that is generally
+  helpful for producing the correct answer given the combinatorially large
+  variety of internal contexts in which it must operate. Random "dropout" gives
+  big improvements on many benchmark tasks and sets new records for speech and
+  object recognition.%
+    }
+    \field{note}{arXiv: 1207.0580}
+    \field{title}{Improving neural networks by preventing co-adaptation of
+  feature detectors}
+    \verb{url}
+    \verb http://arxiv.org/abs/1207.0580
+    \endverb
+    \verb{file}
+    \verb arXiv\:1207.0580 PDF:/home/evenmn/Zotero/storage/5IUGTRKK/Hinton et a
+    \verb l. - 2012 - Improving neural networks by preventing co-adaptat.pdf:ap
+    \verb plication/pdf;arXiv.org Snapshot:/home/evenmn/Zotero/storage/UIJYNA23
+    \verb /1207.html:text/html
+    \endverb
+    \field{journaltitle}{arXiv:1207.0580 [cs]}
+    \field{month}{07}
+    \field{year}{2012}
+    \field{urlday}{21}
+    \field{urlmonth}{07}
+    \field{urlyear}{2019}
+  \endentry
+
   \entry{jelic_double_2012}{article}{}
     \name{author}{2}{}{%
       {{hash=JV}{%
@@ -1814,6 +1989,70 @@
     \field{journaltitle}{Resonance}
     \field{month}{08}
     \field{year}{2014}
+  \endentry
+
+  \entry{fischer_training_2014}{article}{}
+    \name{author}{2}{}{%
+      {{hash=FA}{%
+         family={Fischer},
+         familyi={F\bibinitperiod},
+         given={Asja},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=IC}{%
+         family={Igel},
+         familyi={I\bibinitperiod},
+         given={Christian},
+         giveni={C\bibinitperiod},
+      }}%
+    }
+    \keyw{Contrastive divergence learning, Gibbs sampling, Markov chains,
+  Markov random fields, Neural networks, Parallel tempering, Restricted
+  Boltzmann machines}
+    \strng{namehash}{FAIC1}
+    \strng{fullhash}{FAIC1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{shorttitle}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{abstract}{%
+    Restricted Boltzmann machines (RBMs) are probabilistic graphical models
+  that can be interpreted as stochastic neural networks. They have attracted
+  much attention as building blocks for the multi-layer learning systems called
+  deep belief networks, and variants and extensions of RBMs have found
+  application in a wide range of pattern recognition tasks. This tutorial
+  introduces RBMs from the viewpoint of Markov random fields, starting with the
+  required concepts of undirected graphical models. Different learning
+  algorithms for RBMs, including contrastive divergence learning and parallel
+  tempering, are discussed. As sampling from RBMs, and therefore also most of
+  their learning algorithms, are based on Markov chain Monte Carlo (MCMC)
+  methods, an introduction to Markov chains and MCMC techniques is provided.
+  Experiments demonstrate relevant aspects of RBM training.%
+    }
+    \verb{doi}
+    \verb 10.1016/j.patcog.2013.05.025
+    \endverb
+    \field{issn}{0031-3203}
+    \field{number}{1}
+    \field{pages}{25\bibrangedash 39}
+    \field{shorttitle}{Training restricted {Boltzmann} machines}
+    \field{title}{Training restricted {Boltzmann} machines: {An} introduction}
+    \verb{url}
+    \verb http://www.sciencedirect.com/science/article/pii/S0031320313002495
+    \endverb
+    \field{volume}{47}
+    \verb{file}
+    \verb ScienceDirect Full Text PDF:/home/evenmn/Zotero/storage/ADF2XZE7/Fisc
+    \verb her and Igel - 2014 - Training restricted Boltzmann machines An intro
+    \verb du.pdf:application/pdf;ScienceDirect Snapshot:/home/evenmn/Zotero/sto
+    \verb rage/46VDVSSP/S0031320313002495.html:text/html
+    \endverb
+    \field{journaltitle}{Pattern Recognition}
+    \field{month}{01}
+    \field{year}{2014}
+    \field{urlday}{21}
+    \field{urlmonth}{07}
+    \field{urlyear}{2019}
   \endentry
 
   \entry{kingma_adam:_2014}{article}{}
@@ -3040,51 +3279,6 @@
     \field{urlyear}{2019}
   \endentry
 
-  \entry{asja_training_nodate}{misc}{}
-    \name{author}{2}{}{%
-      {{hash=AF}{%
-         family={Asja},
-         familyi={A\bibinitperiod},
-         given={Fischer},
-         giveni={F\bibinitperiod},
-      }}%
-      {{hash=IC}{%
-         family={Igel},
-         familyi={I\bibinitperiod},
-         given={Christian},
-         giveni={C\bibinitperiod},
-      }}%
-    }
-    \list{language}{1}{%
-      {en}%
-    }
-    \strng{namehash}{AFIC1}
-    \strng{fullhash}{AFIC1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{shorttitle}
-    \field{sortinit}{9}
-    \field{sortinithash}{9}
-    \field{abstract}{%
-    ResearchGate is a network dedicated to science and research. Connect,
-  collaborate and discover scientific publications, jobs and conferences. All
-  for free.%
-    }
-    \field{shorttitle}{({PDF}) {Training} restricted {Boltzmann} machines}
-    \field{title}{Training restricted {Boltzmann} machines: {An} introduction}
-    \verb{url}
-    \verb https://www.researchgate.net/publication/249012618_Training_restricte
-    \verb d_Boltzmann_machines_An_introduction
-    \endverb
-    \verb{file}
-    \verb Snapshot:/home/evenmn/Zotero/storage/F9BXZ8B9/249012618_Training_rest
-    \verb ricted_Boltzmann_machines_An_introduction.html:text/html
-    \endverb
-    \field{journaltitle}{ResearchGate}
-    \field{urlday}{20}
-    \field{urlmonth}{07}
-    \field{urlyear}{2019}
-  \endentry
-
   \entry{noauthor_bringing_nodate}{misc}{}
     \field{labeltitlesource}{title}
     \field{sortinit}{9}
@@ -3218,15 +3412,15 @@
     \field{sortinit}{9}
     \field{sortinithash}{9}
     \field{title}{Training {Restricted} {Boltzmann} {Machines}: {An}
-  {Introduction}⋆}
+  {Introduction}*}
     \verb{url}
     \verb https://webcache.googleusercontent.com/search?q=cache:JHzm9N4wEaoJ:ht
     \verb tps://christian-igel.github.io/paper/TRBMAI.pdf+&cd=1&hl=en&ct=clnk&g
     \verb l=no&client=ubuntu
     \endverb
     \verb{file}
-    \verb Training Restricted Boltzmann Machines\: An Introduction⋆:/home/eve
-    \verb nmn/Zotero/storage/MCX2UX8K/search.html:text/html
+    \verb Training Restricted Boltzmann Machines\: An Introduction*:/home/evenm
+    \verb n/Zotero/storage/MCX2UX8K/search.html:text/html
     \endverb
     \field{urlday}{20}
     \field{urlmonth}{07}

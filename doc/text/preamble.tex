@@ -7,7 +7,6 @@
 \usepackage{tabularx}
 \usepackage{booktabs}
 \usepackage{amsmath}
-\usepackage[linesnumbered,lined,boxed,commentsnumbered,ruled,vlined]{algorithm2e}
 \usepackage{float}		% fix object
 \usepackage{pdflscape}	% landscape page
 \usepackage{afterpage}	% avoid undesired blank page
@@ -28,21 +27,21 @@
 \usepackage{enumitem}	% Itemize settings
 \usepackage{subfig}		% Sub figures
 \usepackage{subfloat}	% Figures side by side
-%\usepackage{subcaption} % Sub caption
 \usepackage{empheq}		% Beautiful boxes
 \usepackage{multirow}	% Multirow in table
 \usepackage{multicol}	% Multicolumn in table
 \usepackage{varwidth}	% Rotate text in table
 \usepackage{arydshln}   % Dashed lines in table
 \usepackage{epigraph}	% Quote at beg. of chapter
-%\usepackage{times}
 \usepackage{framed}
-%\usepackage{libertine}
-
-% subcaption
-%\captionsetup{compatibility=false}
 
 % Algorithm2e
+\usepackage[linesnumbered,
+			lined,
+			commentsnumbered,
+			ruled,
+			vlined
+]{algorithm2e}
 \SetKwInOut{Parameter}{Parameter}
 \SetKwInOut{Require}{Require}
 \SetKwInOut{Data}{Data}
@@ -53,10 +52,9 @@
            top=2.5cm, 
            bottom=2cm,
 ]{geometry}	
-\setlength{\oddsidemargin}{0.5cm}
+%\setlength{\oddsidemargin}{0.5cm}
 
 %biblatex
-%\usepackage{biblatex}
 \usepackage[backend=bibtex,
 			sorting=ynt,
 			style=numeric-comp

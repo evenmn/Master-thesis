@@ -307,11 +307,11 @@ We assume that we do not have any variational parameter in the Slater determinan
 \end{empheq}
 
 \subsection{Restricted Boltzmann machine}
-Now over to the real deal; the wave function elements inspired by machine learning. The total restricted Boltzmann machine (RBM) wave function was presented in equation \eqref{eq:RBMWF2},
+Now over to the real deal; the wave function elements inspired by machine learning. The marginal distribution of the visible nodes of a restricted Boltzmann machine was presented in equation \eqref{eq:RBMWF2}. By defining the wave function as this marginal distribution, we have
 \begin{equation}
-\psi_{rbm}(\bs{x};\bs{a},\bs{b},\bs{w})=\exp\Big(-\sum_{i=1}^{F}\frac{(x_i-a_i)^2}{2\sigma^2}\Big)\prod_{j=1}^H\bigg(1+\exp\Big(b_j+\sum_{i=1}^{F}\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg).
+\psi_{rbm}(\bs{x};\bs{a},\bs{b},\bs{w})=\exp\Big(-\sum_{i=1}^{F}\frac{(x_i-a_i)^2}{2\sigma^2}\Big)\prod_{j=1}^H\bigg(1+\exp\Big(b_j+\sum_{i=1}^{F}\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg),
 \end{equation}
-and contains a Gaussian part and a product part. In order to minimize the complexity of each wave function element, we decided to split it up in the code and they will therefore be presented separately below. The first part will henceforth be denoted as the RBM-Gaussian, while the last part will be denoted as the RBM-Product. 
+which contains a Gaussian part and a product part. In order to minimize the complexity of each wave function element, we decided to split it up in the code and they will therefore be presented separately below. The first part will henceforth be denoted as the RBM-Gaussian, while the last part will be denoted as the RBM-Product. 
 
 \subsubsection{RBM-Gaussian}
 The RBM-Gaussian reads
@@ -327,7 +327,7 @@ The derivatives of the RBM-Gaussian are similar to those of the simple Gaussian,
 \frac{|\psi_{rg}(\bs{x}_{\text{new}})|^2}{|\psi_{rg}(\bs{x}_{\text{old}})|^2}&=\exp\Big((x_i^{\text{old}}+x_i^{\text{new}}-2a_i)(x_i^{\text{old}}-x_i^{\text{new}})\Big)\notag\\
 \nabla_k\ln\psi_{\text{rg}} &= -\frac{x_k-a_k}{\sigma^2}\notag\\
 \nabla_k^2\ln\psi_{\text{rg}}&=-\frac{1}{\sigma^2}\\
-\nabla_{\alpha}\ln\psi_{\text{rg}} &= \frac{x_k-a_k}{\sigma^2}\notag
+\nabla_{\alpha_l}\ln\psi_{\text{rg}} &= \frac{x_l-a_l}{\sigma^2}\notag
 \end{empheq}
 
 \subsubsection{RBM-product}
@@ -335,7 +335,7 @@ The RBM product is the last part of \eqref{eq:RBMWF2}, and is thus given by
 \begin{equation*}
 \psi_{rp}(\bs{x};\bs{b},\bs{w})=\prod_{j=1}^H\bigg[1+\exp\Big(b_j+\sum_{i=1}^{F}\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg].
 \end{equation*}
-In appendix D, section \eqref{sec:derivatives}, a general Gaussian-binary RBM product on the form
+In appendix \ref{app:rbmderive}, section \eqref{sec:derivatives}, a general Gaussian-binary RBM product on the form
 \begin{equation*}
 \psi(\bs{x};\bs{\theta})=\prod_{j=1}^H\bigg[1+\exp\Big(f_j(\bs{x};\bs{\theta})\Big)\bigg]
 \end{equation*}
@@ -358,7 +358,7 @@ we can express the required derivatives in the following fashion
 \nabla_{b_l}\ln\psi_{rp}&=n_l\notag\\
 \nabla_{w_{ml}}\ln\psi_{rp}&=\frac{x_mn_l}{\sigma^2}.\notag
 \end{empheq}
-In this element, there are plenty of optimization possibilities. By revealing that some sums are vector products, we can get a significant speed-up. Instead of presenting the vectorized expressions, we will present how the elements actually are implemented.
+This is the same result as obtained for the gradient of the log-likelihood function presented in chapter \ref{chp:machinelearning}. In this element, there are plenty of optimization possibilities. By revealing that some sums are vector products, we can get a significant speed-up. Instead of presenting the vectorized expressions, we will present how the elements actually are implemented.
 \lstset{basicstyle=\scriptsize}
 \begin{lstlisting}[language=c++]
 double prod =  m_pOld.prod() / m_p.prod();

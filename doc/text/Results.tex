@@ -130,6 +130,25 @@ We observe that both the standard variational Monte-Carlo wave function and the 
 \end{figure}
 
 \newpage
+\subsection{Double quantum dots}
+For the double quantum dots, we can also find analytical energies without interaction, as explained in section \ref{sec:doubledots}. We first find the matrix 
+\begin{equation*}
+\hat{h}_{\nu\lambda}=\mel{\phi_{\nu}^{\text{HO}}(x)}{\hat{\mathcal{H}}_{\text{HO}}}{\phi_{\lambda}^{\text{HO}}(x)}+\mel{\phi_{\nu}^{\text{HO}}(x)}{\hat{\mathcal{H}}_{\text{+}}}{\phi_{\lambda}^{\text{HO}}(x)}
+\end{equation*}
+for a satisfying number of harmonic oscillator functions. All the symbols are detailed in section \ref{sec:doubledots}. The energies are the eigenvalues of the matrix, which were obtained by the script \texttt{doublewell\_functions.py}. For one particle in one-dimensional potentials, we get the energy $E=0.3095$ for $\omega=1.0$ and $b=2$, and $E=0.1916$ for $\omega=0.5$ and $b=4$. This gives the analytical energies presented in table \eqref{tab:doubledotswointeraction}. 
+\begin{table} [H]
+	\caption{Energy of double quantum dots of $N$ non-interacting electrons. RBM is a single Slater determinant with a plain Boltzmann machine baked in, while VMC is a standard variational Monte-Carlo Slater determinant.}
+	\label{tab:doubledotswointeraction}
+	\begin{tabularx}{\textwidth}{lrrrR{3.5cm}R{3.5cm}R{3.5cm}} \hline\hline
+		D & $\omega$ & $b$ & \makecell{\\ \phantom{=}} & RBM & VMC & Exact \\ \hline \\
+		
+		2D & 0.5 & 4.0 && - & - & 0.8832 \\
+		& 1.0 & 2.0 && - & - & 1.619 \\
+		3D & 0.5 & 4.0 && - & - & 1.3832 \\
+		& 1.0 & 2.0 && - & - & 2.619 \\ \hline\hline
+	\end{tabularx}
+\end{table}
+
 \subsection{Atoms}
 The second system we will use for validation is atoms. The energies of atoms containing non-interacting electrons are given by the Bohr formula presented in equation \eqref{eq:bohrformula}. In table \eqref{tab:atomswointeraction}, the lowest closed-shell atoms He, Be and Ne are listed with their exact energy and the obtained energy from the code. In addition, we added calculations of the Hydrogen ground-state energy as another test.
 
