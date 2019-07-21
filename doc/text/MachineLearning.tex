@@ -576,8 +576,12 @@ p(\bs{x}|\bs{h})=\frac{p(\bs{x},\bs{h})}{p(\bs{h})}=\frac{\exp(-E(\bs{x},\bs{h})
 \end{equation}
 The conditional probabilities are especially important in Gibbs sampling, where we want to update the $\bs{x}$'s given a $\bs{h}$ and vice versa. 
 
-\subsubsection{Maximum likelihood estimate}
-Now suppose that the energy function also is a function of some parameters $\bs{\theta}$. 
+\subsubsection{Maximum log-likelihood estimate}
+Now suppose that the energy function also is a function of some parameters $\bs{\theta}$. We have already expressed the log-likelihood function, 
+\begin{equation}
+\ln p(\bs{x}|\bs{\theta})=\ln\bigg[\frac{1}{Z}\sum_{\bs{h}}\exp(-E(\bs{x},\bs{h}))\bigg]=\ln\sum_{\bs{h}}\exp(-E(\bs{x},\bs{h}))-\ln\sum_{\bs{x},\bs{h}}\exp(-E(\bs{x},\bs{h}))
+\end{equation}
+and by maximizing this we find the maximum log-likelihood estimate. This estimate is important in stochastic processes since we always seek to maximize the likelihood. As discussed before, 
 
 \subsection{Boltzmann Machines}
 Boltzmann Machines are based on the more primitive Hopfield network, where a system of nodes is set up which defines the system energy. Inspired by statistical mechanics, the probability of finding the system in a state of energy $E$ is given by the Boltzmann distribution,
