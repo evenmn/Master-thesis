@@ -61,7 +61,7 @@ The next step is to rewrite the transition rules in terms of a proposal distribu
 \begin{equation}
 P(\bs{r}'|\bs{r})=T(\bs{r}'|\bs{r})A(\bs{r}',\bs{r}).
 \end{equation}
-In order to satisfy the detailed balance, we need to choose $A(\bs{r},\bs{r}')$ such that
+In order to satisfy the detailed balance, we need to choose $A(\bs{r}',\bs{r})$ such that
 \begin{equation}
 A(\bs{r}',\bs{r})=\text{min }\left[1,\frac{T(\bs{r}|\bs{r}')P(\bs{r}')}{T(\bs{r}'|\bs{r})P(\bs{r})}\right],
 \label{eq:acceptance}
@@ -175,13 +175,32 @@ for all the wave function elements of interest, also the elements based on restr
 \subsection{Gibbs sampling}
 In the machine learning community, Gibbs sampling is widely used when it comes to training Boltzmann machines. It is an instance of the Metropolis-Hastings algorithm, but since the units are updated to maximize the probabilities, all the moves are accepted. 
 
+In general...
+
+For a restricted Boltzmann machine, this is a two-step sampling process. Because of the latent variables, we use the conditional probabilities $P(\bs{r}|\bs{h})$ and $P(\bs{h}|\bs{r})$ to update the visible and hidden units respectively. For the restricted Boltzmann machine with Gaussian-binary units presented in section \ref{sec:RBM}, the conditional probability of $h_j=0$ given a set of visible nodes $\bs{x}$ is
+\begin{equation}
+P(h_j=0|\bs{x})=\frac{1}{1+\exp(b_j+\sum_{i=1}^Nx_iw_{ij}/\sigma^2)}
+\end{equation}
+and the corresponding conditional probability of $h_j=1$ is
+\begin{equation}
+P(h_j=1|\bs{x})=\frac{1}{1+\exp(-b_j-\sum_{i=1}^Nx_iw_{ij}/\sigma^2)},
+\end{equation}
+which is by the way the sigmoid function again. Note that $P(h_j=0|\bs{x})+P(h_j=1|\bs{x})=1$, indicating that a hidden node $h_j$ can only take 0 or 1, hence binary. Then updating the hidden node, we simply set the value to the one with highest probability. 
+
+For the update of the visible nodes, we see from equation \eqref{eq:normal} that the visible nodes are chosen after the normal distribution,
+\begin{equation}
+P(x_i|\bs{h})=\mathcal{N}\Big(a_i+\sum_{j=1}^Hw_{ij}h_j,\sigma^2\Big)
+\end{equation}
+which introduce some stochasticity to the system. By going back and forth in the Boltzmann machine multiple times (each time is an iteration), the hope is that the 
+
 As pointed out earlier, the Gibbs sampling will not be implemented in this work, but is described for completeness purposes. The reason for this, is that the method has not shown promising results for our specific problem, and we will instead rely on Metropolis sampling. We have already tested the Gibbs sampling in another similar project on small quantum dots \cite{nordhagen_computational_2018}, and so have others like Vilde Flugsrud \cite{flugsrud_vilde_moe_solving_nodate}. The results are similar and poor.
 
 However, the Gibbs sampling method itself should not be underestimated. Carleo and Troyer showed its importance when solving the Ising model using a restricted Boltzmann machine and Gibbs sampling, and in traditional Boltzmann machines the Gibbs sampling is the preferred tool. \cite{carleo_solving_2017}
 
-The algorithm will be discussed for the restricted Boltzmann case only.
+\section{Similarities between restricted Boltzmann machines and variational Monte-Carlo}
+In chapter \ref{chp:systems}, we presented the relation between a quantum system and expressions of the Hamiltonian, which is the energy operator. In section \ref{sec:unsupervised}, we described how Boltzmann machines are defined and how one can find the energy of a Boltzmann machine. Further, we looked at the updating schemes, which for both cases corresponds to minimizing the cost function and maximizing the log-likelihood function. 
 
-Given an initial set of coordinates $\bs{r}$ and $\bs{h}$, one can use the conditional probability $P(\bs{r}|\bs{h})$ to find a new set of 
+All in all, there are many similarities between 
 
 \section{Diffusion Monte-Carlo}
 Diffusion Monte-Carlo belongs to a class of projection and Green's function approaches. Consider the time-imaginary Schrödinger equation

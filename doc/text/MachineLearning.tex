@@ -508,7 +508,7 @@ where we use the expression for $\delta_j^{(L)}$ as our initial condition. Simil
 w_{ij}^{(l)+}=w_{ij}^{(l)}-\eta\frac{\partial\mathcal{C}(\bs{w})}{\partial w_{jk}^{(l)}}.
 \end{empheq}
 
-\section{Unsupervised Learning}
+\section{Unsupervised Learning} \label{sec:unsupervised}
 In unsupervised learning, a neural network is given the inputs only, and does not know what the output should look like. The task is then to find structures in the data, comparing data sets to each other and categorize the data sets with respect to their similarities and differences. 
 
 We have previously seen how the weights in supervised learning can be adjusted using the backward propagation algorithm, but it does not work when we do not have prior known targets. Instead, the weights are controlled by a set of probabilities, and we let the cost function be defined by the log likelihood function. This is known as Bayesian statistics, and will be presented in the next section.
@@ -621,7 +621,7 @@ where $Z$ again is the partition function. The PDF contains weights, which can b
 
 A Boltzmann machine is also a Markov random field, as the stochastic processes satisfy the Markov property. Loosely speaking, this means that all the probabilities of going from one state to another are known, making it possible to predict future of the process based solely on its present state. It is also determined by a "memorylessness", meaning that the next state of the system depends only on the current state and not on the sequence of events that preceded it. \cite{fischer_training_2014} Markov chains is an important part of the sampling methods that will be discussed later. 
 
-\subsection{Restricted Boltzmann Machines}
+\subsection{Restricted Boltzmann Machines} \label{sec:RBM}
 When there is an unrestricted guy, a restricted guy must exist as well. What the term restricted means in this case, is that we ignore all the connections between nodes in the same layer, and keep only the inter-layer ones. Only the units in the first layer are the observable, while the nodes in the next layer are latent or hidden. In the same manner as in equation \eqref{eq:unrestrictedboltzmannmachine}, we can look at the linear case, where each node is multiplied with the corresponding weight, but now we need to distinguish between a visible node $x_i$ and a hidden node $h_j$. For the same reason, all the bias weights need to be divided into a group connected to the visible nodes, $a_i$ and a group connected to the hidden nodes, $b_j$. The system energy then reads
 \begin{equation}
 E(\bs{x},\bs{h})=- \sum_{i=1}^Fx_ia_i- \sum_{j=1}^Hh_jb_j-\sum_{i=1}^F\sum_{j=i}^H x_iw_{ij}h_j 
@@ -662,8 +662,9 @@ P(\bs{h}|\bs{x})=\frac{P(\bs{x},\bs{h})}{P(\bs{x})}=\prod_{j=1}^H\frac{\exp(h_jb
 and
 \begin{equation}
 P(\bs{x}|\bs{h})=\mathcal{N}(\bs{x};\bs{a}+\bs{w}^T\bs{h},\sigma^2)
+\label{eq:normal}
 \end{equation}
-where the latter is assumed to be given by a normal distribution in a Bayesian scheme. 
+where the latter is assumed to be given by a normal distribution in a Bayesian scheme. Note that the mean is $\bs{\mu}=\bs{a}+\bs{w}^T\bs{h}$, which is the vector obtained when going backwards in the restricted Boltzmann machine (multiplying the hidden nodes with the weights).
 
 In Metropolis sampling, we only use the marginal distribution of the visible nodes use the weights to the hidden nodes are additional variational parameters. For completeness reasons, we will discuss the Gibbs sampling, but we will in practice stick to the Metropolis sampling. More about the different sampling tools can be found in chapter \ref{chp:systems}.
 
