@@ -247,7 +247,7 @@ In our work, we will consequently use Marius Jonsson's automated blocking algori
 \section{Summary of the algorithms}
 Up to this point we have presented several algorithms that contribute to the variational Monte-Carlo algorithm, and to give the reader a complete description of the simulating procedure, we will here summarize them and place them in the correct order. First, Metropolis-Hastings algorithm was given, which is responsible for the sampling. Thereafter, we presented a few optimization algorithms, before the blocking algorithm was given. 
 
-The optimization loop forms the outer environment, 
+The optimization loop forms the outer environment of the algorithm, which means that for every time we update the parameters, we run a set of Monte-Carlo cycles. The expectation values found throughout those cycles are used to update the parameters. Further, the blocking algorithm is used to approximate the uncertainties of the expectation values. In algorithm \ref{alg:total}, a simple variational Monte-Carlo algorithm is presented in its entirety. For simplicity, we present the Brute-Force Metropolis algorithm and standard gradient descent. 
 
 \IncMargin{1em}
 \begin{algorithm}

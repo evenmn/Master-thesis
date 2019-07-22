@@ -32,8 +32,8 @@
     \field{labeltitlesource}{title}
     \field{sortinit}{1}
     \field{sortinithash}{1}
-    \field{title}{Nouvelles méthodes pour la détermination des orbites des
-  comètes}
+    \field{title}{Nouvelles m{\'e}thodes pour la d{\'e}termination des orbites
+  des com{\`e}tes}
     \field{year}{1805}
   \endentry
 
@@ -130,23 +130,23 @@
   developed, which can lead to an explanation of the main features of complex
   atomic systems without too much computation. Already before the arrival of
   quantum mechanics there existed a theory of atomic structure, based on
-  Bohr’s ideas of quantised orbits, which was fairly successful in a wide
-  field. To get agreement with experiment it was found necessary to introduce
-  the spin of the electron, giving a doubling in the number of orbits of an
-  electron in an atom. With the help of this spin and Pauli’s exclusion
-  principle, a satisfactory theory of multiplet terms was obtained when one
-  made the additional assumption that the electrons in an atom all set
-  themselves with their spins parallel or antiparallel. If s denoted the
-  magnitude of the resultant spin angular momentum, this s was combined
-  vectorially with the resultant orbital angular momentum l to give a multiplet
-  of multiplicity 2s + 1. The fact that one had to make this additional
-  assumption was, however, a serious disadvantage, as no theoretical reasons to
-  support it could be given. It seemed to show that there were large forces
-  coupling the spin vectors of the electrons in an atom, much larger forces
-  than could be accounted for as due to the interaction of the magnetic moments
-  of the electrons. The position was thus that there was empirical evidence in
-  favour of these large forces, but that their theoretical nature was quite
-  unknown.%
+  Bohr{\textquoteright}s ideas of quantised orbits, which was fairly successful
+  in a wide field. To get agreement with experiment it was found necessary to
+  introduce the spin of the electron, giving a doubling in the number of orbits
+  of an electron in an atom. With the help of this spin and
+  Pauli{\textquoteright}s exclusion principle, a satisfactory theory of
+  multiplet terms was obtained when one made the additional assumption that the
+  electrons in an atom all set themselves with their spins parallel or
+  antiparallel. If s denoted the magnitude of the resultant spin angular
+  momentum, this s was combined vectorially with the resultant orbital angular
+  momentum l to give a multiplet of multiplicity 2s + 1. The fact that one had
+  to make this additional assumption was, however, a serious disadvantage, as
+  no theoretical reasons to support it could be given. It seemed to show that
+  there were large forces coupling the spin vectors of the electrons in an
+  atom, much larger forces than could be accounted for as due to the
+  interaction of the magnetic moments of the electrons. The position was thus
+  that there was empirical evidence in favour of these large forces, but that
+  their theoretical nature was quite unknown.%
     }
     \verb{doi}
     \verb 10.1098/rspa.1929.0094
@@ -193,13 +193,14 @@
     \field{sortinithash}{1}
     \field{abstract}{%
     Es wird eine einfache Ableitung des quantenmechanischen Virialsatzes aus
-  dem Variationsprinzip gegeben. Es zeigt sich, daß die vom Virialsatz
+  dem Variationsprinzip gegeben. Es zeigt sich, da{\ss} die vom Virialsatz
   geforderte Beziehung zwischen den Erwartungswerten der kinetischen und der
-  potentiellen Energie auch durch jede Näherungslösung der Wellengleichung
-  erfüllt wird, falls diese nach einem Variationsverfahren berechnet ist,
-  welches die „Streckung des Grundgebietes“ als mögliche Variation
-  gestattet. Zum Schluß wird die Gültigkeit des Virialsatzes für die
-  Diracsche Gleichung bewiesen.%
+  potentiellen Energie auch durch jede N{\"a}herungsl{\"o}sung der
+  Wellengleichung erf{\"u}llt wird, falls diese nach einem Variationsverfahren
+  berechnet ist, welches die {\quotedblbase}Streckung des
+  Grundgebietes{\textquotedblleft} als m{\"o}gliche Variation gestattet. Zum
+  Schlu{\ss} wird die G{\"u}ltigkeit des Virialsatzes f{\"u}r die Diracsche
+  Gleichung bewiesen.%
     }
     \verb{doi}
     \verb 10.1007/BF01339281
@@ -216,7 +217,7 @@
     \verb Springer Full Text PDF:/home/evenmn/Zotero/storage/IHR3ZIQR/Fock - 19
     \verb 30 - Bemerkung zum Virialsatz.pdf:application/pdf
     \endverb
-    \field{journaltitle}{Zeitschrift für Physik}
+    \field{journaltitle}{Zeitschrift f{\"u}r Physik}
     \field{month}{11}
     \field{year}{1930}
     \field{urlday}{03}
@@ -280,6 +281,71 @@
     \field{urlyear}{2019}
   \endentry
 
+  \entry{metropolis_equation_1953}{article}{}
+    \name{author}{5}{}{%
+      {{hash=MN}{%
+         family={Metropolis},
+         familyi={M\bibinitperiod},
+         given={Nicholas},
+         giveni={N\bibinitperiod},
+      }}%
+      {{hash=RAW}{%
+         family={Rosenbluth},
+         familyi={R\bibinitperiod},
+         given={Arianna\bibnamedelima W.},
+         giveni={A\bibinitperiod\bibinitdelim W\bibinitperiod},
+      }}%
+      {{hash=RMN}{%
+         family={Rosenbluth},
+         familyi={R\bibinitperiod},
+         given={Marshall\bibnamedelima N.},
+         giveni={M\bibinitperiod\bibinitdelim N\bibinitperiod},
+      }}%
+      {{hash=TAH}{%
+         family={Teller},
+         familyi={T\bibinitperiod},
+         given={Augusta\bibnamedelima H.},
+         giveni={A\bibinitperiod\bibinitdelim H\bibinitperiod},
+      }}%
+      {{hash=TE}{%
+         family={Teller},
+         familyi={T\bibinitperiod},
+         given={Edward},
+         giveni={E\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{MN+1}
+    \strng{fullhash}{MNRAWRMNTAHTE1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{1}
+    \field{sortinithash}{1}
+    \verb{doi}
+    \verb 10.1063/1.1699114
+    \endverb
+    \field{issn}{0021-9606}
+    \field{number}{6}
+    \field{pages}{1087\bibrangedash 1092}
+    \field{title}{Equation of {State} {Calculations} by {Fast} {Computing}
+  {Machines}}
+    \verb{url}
+    \verb https://aip.scitation.org/doi/10.1063/1.1699114
+    \endverb
+    \field{volume}{21}
+    \verb{file}
+    \verb Full Text PDF:/home/evenmn/Zotero/storage/B9IVJPHY/Metropolis et al.
+    \verb - 1953 - Equation of State Calculations by Fast Computing M.pdf:appli
+    \verb cation/pdf;Snapshot:/home/evenmn/Zotero/storage/I23S72ML/1.html:text/
+    \verb html
+    \endverb
+    \field{journaltitle}{The Journal of Chemical Physics}
+    \field{month}{06}
+    \field{year}{1953}
+    \field{urlday}{22}
+    \field{urlmonth}{07}
+    \field{urlyear}{2019}
+  \endentry
+
   \entry{hehre_selfconsistent_1969}{article}{}
     \name{author}{3}{}{%
       {{hash=HWJ}{%
@@ -313,22 +379,69 @@
     \field{issn}{0021-9606}
     \field{number}{6}
     \field{pages}{2657\bibrangedash 2664}
-    \field{title}{Self‐{Consistent} {Molecular}‐{Orbital} {Methods}. {I}.
-  {Use} of {Gaussian} {Expansions} of {Slater}‐{Type} {Atomic} {Orbitals}}
+    \field{title}{Self-{Consistent} {Molecular}-{Orbital} {Methods}. {I}. {Use}
+  of {Gaussian} {Expansions} of {Slater}-{Type} {Atomic} {Orbitals}}
     \verb{url}
     \verb https://aip.scitation.org/doi/10.1063/1.1672392
     \endverb
     \field{volume}{51}
     \verb{file}
     \verb Full Text PDF:/home/evenmn/Zotero/storage/GI4EV9N9/Hehre et al. - 196
-    \verb 9 - Self‐Consistent Molecular‐Orbital Methods. I. Use .pdf:applic
-    \verb ation/pdf;Snapshot:/home/evenmn/Zotero/storage/KPCD872D/1.html:text/h
-    \verb tml
+    \verb 9 - Self-Consistent Molecular-Orbital Methods. I. Use .pdf:applicatio
+    \verb n/pdf;Snapshot:/home/evenmn/Zotero/storage/KPCD872D/1.html:text/html
     \endverb
     \field{journaltitle}{The Journal of Chemical Physics}
     \field{month}{09}
     \field{year}{1969}
     \field{urlday}{04}
+    \field{urlmonth}{07}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{hastings_monte_1970}{article}{}
+    \name{author}{1}{}{%
+      {{hash=HWK}{%
+         family={Hastings},
+         familyi={H\bibinitperiod},
+         given={W.\bibnamedelima K.},
+         giveni={W\bibinitperiod\bibinitdelim K\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {en}%
+    }
+    \strng{namehash}{HWK1}
+    \strng{fullhash}{HWK1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{1}
+    \field{sortinithash}{1}
+    \field{abstract}{%
+    Summary. A generalization of the sampling method introduced by Metropolis
+  et al. (1953) is presented along with an exposition of the relevant theory,
+  technique%
+    }
+    \verb{doi}
+    \verb 10.1093/biomet/57.1.97
+    \endverb
+    \field{issn}{0006-3444}
+    \field{number}{1}
+    \field{pages}{97\bibrangedash 109}
+    \field{title}{Monte {Carlo} sampling methods using {Markov} chains and
+  their applications}
+    \verb{url}
+    \verb https://academic.oup.com/biomet/article/57/1/97/284580
+    \endverb
+    \field{volume}{57}
+    \verb{file}
+    \verb Full Text PDF:/home/evenmn/Zotero/storage/KJ5I6LV5/Hastings - 1970 -
+    \verb Monte Carlo sampling methods using Markov chains a.pdf:application/pd
+    \verb f;Snapshot:/home/evenmn/Zotero/storage/VVZUN5NN/284580.html:text/html
+    \endverb
+    \field{journaltitle}{Biometrika}
+    \field{month}{04}
+    \field{year}{1970}
+    \field{urlday}{22}
     \field{urlmonth}{07}
     \field{urlyear}{2019}
   \endentry
@@ -497,12 +610,12 @@
   neurone-like units. The procedure repeatedly adjusts the weights of the
   connections in the network so as to minimize a measure of the difference
   between the actual output vector of the net and the desired output vector. As
-  a result of the weight adjustments, internal ‘hidden’ units which are not
-  part of the input or output come to represent important features of the task
-  domain, and the regularities in the task are captured by the interactions of
-  these units. The ability to create useful new features distinguishes
-  back-propagation from earlier, simpler methods such as the
-  perceptron-convergence procedure1.%
+  a result of the weight adjustments, internal
+  {\textquoteleft}hidden{\textquoteright} units which are not part of the input
+  or output come to represent important features of the task domain, and the
+  regularities in the task are captured by the interactions of these units. The
+  ability to create useful new features distinguishes back-propagation from
+  earlier, simpler methods such as the perceptron-convergence procedure1.%
     }
     \verb{doi}
     \verb 10.1038/323533a0
@@ -591,7 +704,7 @@
     \field{sortinit}{1}
     \field{sortinithash}{1}
     \field{abstract}{%
-    The problem of the Schrödinger equation for two electrons (interacting
+    The problem of the Schr{\"o}dinger equation for two electrons (interacting
   with Coulomb potentials) in an external harmonic-oscillator potential is
   revisited and shown to be solvable analytically for a particular, denumerably
   infinite set of oscillator frequencies. Solutions are given for ground and
@@ -638,13 +751,13 @@
          giveni={G\bibinitperiod},
       }}%
       {{hash=BG}{%
-         family={Böhm},
+         family={B{\"o}hm},
          familyi={B\bibinitperiod},
          given={G.},
          giveni={G\bibinitperiod},
       }}%
       {{hash=TG}{%
-         family={Tränkle},
+         family={Tr{\"a}nkle},
          familyi={T\bibinitperiod},
          given={G.},
          giveni={G\bibinitperiod},
@@ -670,9 +783,9 @@
   emerge at lower energy. They are attributed to localized biexciton states.
   The biexciton correlation energy is about 4 meV. A distinct two-photon
   resonant absorption peak of the biexciton ground state is observed in PL
-  excitation spectroscopy. Its linewidth is only about 30 μeV. The spectra and
-  their polarization properties are discussed on the basis of a discrete level
-  scheme and the Pauli exclusion principle.%
+  excitation spectroscopy. Its linewidth is only about 30 $\mu$eV. The spectra
+  and their polarization properties are discussed on the basis of a discrete
+  level scheme and the Pauli exclusion principle.%
     }
     \verb{doi}
     \verb 10.1103/PhysRevLett.73.1138
@@ -709,13 +822,13 @@
          giveni={J\bibinitperiod\bibinitdelim Y\bibinitperiod},
       }}%
       {{hash=GJM}{%
-         family={Gérard},
+         family={G{\'e}rard},
          familyi={G\bibinitperiod},
          given={J.\bibnamedelima M.},
          giveni={J\bibinitperiod\bibinitdelim M\bibinitperiod},
       }}%
       {{hash=IA}{%
-         family={Izraël},
+         family={Izra{\"e}l},
          familyi={I\bibinitperiod},
          given={A.},
          giveni={A\bibinitperiod},
@@ -1114,6 +1227,78 @@
     \field{urlyear}{2019}
   \endentry
 
+  \entry{assaraf_zero-variance_2003}{article}{}
+    \name{author}{2}{}{%
+      {{hash=AR}{%
+         family={Assaraf},
+         familyi={A\bibinitperiod},
+         given={Roland},
+         giveni={R\bibinitperiod},
+      }}%
+      {{hash=CM}{%
+         family={Caffarel},
+         familyi={C\bibinitperiod},
+         given={Michel},
+         giveni={M\bibinitperiod},
+      }}%
+    }
+    \keyw{Condensed Matter, Physics - Chemical Physics}
+    \strng{namehash}{ARCM1}
+    \strng{fullhash}{ARCM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{shorttitle}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{abstract}{%
+    A simple and stable method for computing accurate expectation values of
+  observable with Variational Monte Carlo (VMC) or Diffusion Monte Carlo (DMC)
+  algorithms is presented. The basic idea consists in replacing the usual
+  ``bare'' estimator associated with the observable by an improved or
+  ``renormalized'' estimator. Using this estimator more accurate averages are
+  obtained: Not only the statistical fluctuations are reduced but also the
+  systematic error (bias) associated with the approximate VMC or (fixed-node)
+  DMC probability densities. It is shown that improved estimators obey a
+  Zero-Variance Zero-Bias (ZVZB) property similar to the usual Zero-Variance
+  Zero-Bias property of the energy with the local energy as improved estimator.
+  Using this property improved estimators can be optimized and the resulting
+  accuracy on expectation values may reach the remarkable accuracy obtained for
+  total energies. As an important example, we present the application of our
+  formalism to the computation of forces in molecular systems. Calculations of
+  the entire force curve of the H\$\_2\$,LiH, and Li\$\_2\$ molecules are
+  presented. Spectroscopic constants \$R\_e\$ (equilibrium distance) and
+  \${\textbackslash}omega\_e\$ (harmonic frequency) are also computed. The
+  equilibrium distances are obtained with a relative error smaller than 1\%,
+  while the harmonic frequencies are computed with an error of about 10\%.%
+    }
+    \verb{doi}
+    \verb 10.1063/1.1621615
+    \endverb
+    \field{issn}{0021-9606, 1089-7690}
+    \field{note}{arXiv: physics/0310035}
+    \field{number}{20}
+    \field{pages}{10536\bibrangedash 10552}
+    \field{shorttitle}{Zero-{Variance} {Zero}-{Bias} {Principle} for
+  {Observables} in quantum {Monte} {Carlo}}
+    \field{title}{Zero-{Variance} {Zero}-{Bias} {Principle} for {Observables}
+  in quantum {Monte} {Carlo}: {Application} to {Forces}}
+    \verb{url}
+    \verb http://arxiv.org/abs/physics/0310035
+    \endverb
+    \field{volume}{119}
+    \verb{file}
+    \verb arXiv\:physics/0310035 PDF:/home/evenmn/Zotero/storage/SXEYX3Z3/Assar
+    \verb af and Caffarel - 2003 - Zero-Variance Zero-Bias Principle for Observ
+    \verb ables .pdf:application/pdf;arXiv.org Snapshot:/home/evenmn/Zotero/sto
+    \verb rage/TJ9XXSBQ/0310035.html:text/html
+    \endverb
+    \field{journaltitle}{The Journal of Chemical Physics}
+    \field{month}{11}
+    \field{year}{2003}
+    \field{urlday}{22}
+    \field{urlmonth}{07}
+    \field{urlyear}{2019}
+  \endentry
+
   \entry{sherrill_david_postulates_2003}{misc}{}
     \name{author}{1}{}{%
       {{hash=S}{%
@@ -1299,7 +1484,7 @@
          giveni={A\bibinitperiod},
       }}%
       {{hash=GAD}{%
-         family={Güçlü},
+         family={G{\"u}{\c c}l{\"u}},
          familyi={G\bibinitperiod},
          given={A.\bibnamedelima D.},
          giveni={A\bibinitperiod\bibinitdelim D\bibinitperiod},
@@ -1332,24 +1517,24 @@
     \field{abstract}{%
     We study the development of electron-electron correlations in circular
   quantum dots as the density is decreased. We consider a wide range of both
-  electron number, N⩽20, and electron gas parameter, rs≲18, using the
-  diffusion quantum Monte Carlo technique. Features associated with correlation
-  appear to develop very differently in quantum dots than in bulk. The main
-  reason is that translational symmetry is necessarily broken in a dot, leading
-  to density modulation and inhomogeneity. Electron-electron interactions act
-  to enhance this modulation ultimately leading to localization. This process
+  electron number, N?20, and electron gas parameter, rs?18, using the diffusion
+  quantum Monte Carlo technique. Features associated with correlation appear to
+  develop very differently in quantum dots than in bulk. The main reason is
+  that translational symmetry is necessarily broken in a dot, leading to
+  density modulation and inhomogeneity. Electron-electron interactions act to
+  enhance this modulation ultimately leading to localization. This process
   appears to be completely smooth and occurs over a wide range of density. Thus
-  there is a broad regime of “incipient” Wigner crystallization in these
-  quantum dots. Our specific conclusions are (i) the density develops sharp
-  rings while the pair density shows both radial and angular inhomogeneity;
-  (ii) the spin of the ground state is consistent with Hund’s (first) rule
-  throughout our entire range of rs for all 4⩽N⩽20; (iii) the addition
-  energy curve first becomes smoother as interactions strengthen—the
-  mesoscopic fluctuations are damped by correlation—and then starts to show
-  features characteristic of the classical addition energy; (iv) localization
-  effects are stronger for a smaller number of electrons; (v) finally, the gap
-  to certain spin excitations becomes small at the strong interaction (large
-  rs) side of our regime.%
+  there is a broad regime of {\textquotedblleft}incipient{\textquotedblright}
+  Wigner crystallization in these quantum dots. Our specific conclusions are
+  (i) the density develops sharp rings while the pair density shows both radial
+  and angular inhomogeneity; (ii) the spin of the ground state is consistent
+  with Hund{\textquoteright}s (first) rule throughout our entire range of rs
+  for all 4?N?20; (iii) the addition energy curve first becomes smoother as
+  interactions strengthen{\textemdash}the mesoscopic fluctuations are damped by
+  correlation{\textemdash}and then starts to show features characteristic of
+  the classical addition energy; (iv) localization effects are stronger for a
+  smaller number of electrons; (v) finally, the gap to certain spin excitations
+  becomes small at the strong interaction (large rs) side of our regime.%
     }
     \verb{doi}
     \verb 10.1103/PhysRevB.76.085341
@@ -1752,9 +1937,9 @@
   \entry{hogberget_quantum_2013}{article}{}
     \name{author}{1}{}{%
       {{hash=HJ}{%
-         family={Høgberget},
+         family={H{\o}gberget},
          familyi={H\bibinitperiod},
-         given={Jørgen},
+         given={J{\o}rgen},
          giveni={J\bibinitperiod},
       }}%
     }
@@ -1769,14 +1954,14 @@
     \field{sortinithash}{2}
     \field{abstract}{%
     Oppgaven omhandler utviklingen av en generell Quantum Monte-Carlo (QMC)
-  -løser. Dette er gjort ved å bruke objekt-orientert C++. Oppgaven begynner
-  med en itrodusjon av dette, samt Python-scripting. Videre gås teorien bak
-  QMC grundig igjennom. Optimeringer blir også dekket, ettersom løseren
-  skulle kjøres for et høyt antall partikler. Deretter diskuteres de
-  forskjellige systemene som har blitt simulert, før resultatene fremlegges og
-  diskuteres. De modellerte systemene er kvanteprikker i to og tre dimensjoner,
-  i tillegg til en dobbeltbrønn, atomer og homonukleære diatomiske
-  molekyler.%
+  -l{\o}ser. Dette er gjort ved {\r a} bruke objekt-orientert C++. Oppgaven
+  begynner med en itrodusjon av dette, samt Python-scripting. Videre g{\r a}s
+  teorien bak QMC grundig igjennom. Optimeringer blir ogs{\r a} dekket,
+  ettersom l{\o}seren skulle kj{\o}res for et h{\o}yt antall partikler.
+  Deretter diskuteres de forskjellige systemene som har blitt simulert, f{\o}r
+  resultatene fremlegges og diskuteres. De modellerte systemene er
+  kvanteprikker i to og tre dimensjoner, i tillegg til en dobbeltbr{\o}nn,
+  atomer og homonukle{\ae}re diatomiske molekyler.%
     }
     \field{title}{Quantum {Monte}-{Carlo} {Studies} of {Generalized}
   {Many}-body {Systems}}
@@ -1784,10 +1969,10 @@
     \verb https://www.duo.uio.no/handle/10852/37167
     \endverb
     \verb{file}
-    \verb Full Text PDF:/home/evenmn/Zotero/storage/PELJ9DCI/Høgberget - 2013
-    \verb - Quantum Monte-Carlo Studies of Generalized Many-bo.pdf:application/
-    \verb pdf;Snapshot:/home/evenmn/Zotero/storage/GSTFMX8L/37167.html:text/htm
-    \verb l
+    \verb Full Text PDF:/home/evenmn/Zotero/storage/PELJ9DCI/H{\o}gberget - 201
+    \verb 3 - Quantum Monte-Carlo Studies of Generalized Many-bo.pdf:applicatio
+    \verb n/pdf;Snapshot:/home/evenmn/Zotero/storage/GSTFMX8L/37167.html:text/h
+    \verb tml
     \endverb
     \field{year}{2013}
     \field{urlday}{22}
@@ -1804,13 +1989,13 @@
          giveni={A\bibinitperiod\bibinitdelim S\bibinitperiod},
       }}%
       {{hash=RA}{%
-         family={Rouzée},
+         family={Rouz{\'e}e},
          familyi={R\bibinitperiod},
          given={A.},
          giveni={A\bibinitperiod},
       }}%
       {{hash=LF}{%
-         family={Lépine},
+         family={L{\'e}pine},
          familyi={L\bibinitperiod},
          given={F.},
          giveni={F\bibinitperiod},
@@ -1896,7 +2081,7 @@
          giveni={M\bibinitperiod\bibinitdelim H\bibinitperiod},
       }}%
       {{hash=KTD}{%
-         family={Kühne},
+         family={K{\"u}hne},
          familyi={K\bibinitperiod},
          given={Thomas\bibnamedelima D.},
          giveni={T\bibinitperiod\bibinitdelim D\bibinitperiod},
@@ -2207,9 +2392,9 @@
          given={Jake},
          giveni={J\bibinitperiod},
       }}%
-      {{hash=TJ}{%
-         family={Tokarz‐Scott},
-         familyi={T\bibinitperiod},
+      {{hash=TSJ}{%
+         family={Tokarz-Scott},
+         familyi={T\bibinitperiod-S\bibinitperiod},
          given={Jean},
          giveni={J\bibinitperiod},
       }}%
@@ -2232,7 +2417,7 @@
     \keyw{displays, full color gamut, NTSC, QDLED, QLED, Quantum dots, Rec.
   2020, solution processing}
     \strng{namehash}{MJR+1}
-    \strng{fullhash}{MJRQLTAHJTJXJHPH1}
+    \strng{fullhash}{MJRQLTAHJTSJXJHPH1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{shorttitle}
     \field{sortinit}{2}
@@ -2311,8 +2496,9 @@
     \field{sortinit}{2}
     \field{sortinithash}{2}
     \field{abstract}{%
-    One of the main iOS 10 features concerns Siri, Apple’s virtual assistant
-  that’s now getting smarter than ever with the help of developers.%
+    One of the main iOS 10 features concerns Siri, Apple{\textquoteright}s
+  virtual assistant that{\textquoteright}s now getting smarter than ever with
+  the help of developers.%
     }
     \field{shorttitle}{{iOS} 10}
     \field{title}{{iOS} 10: {Siri} now works in third-party apps, comes with
@@ -2418,11 +2604,11 @@
          given={Xiaobing},
          giveni={X\bibinitperiod},
       }}%
-      {{hash=K�}{%
+      {{hash=KL}{%
          family={Kaiser},
          familyi={K\bibinitperiod},
-         given={Łukasz},
-         giveni={�\bibinitperiod},
+         given={{\L }ukasz},
+         giveni={{\L }\bibinitperiod},
       }}%
       {{hash=GS}{%
          family={Gouws},
@@ -2524,7 +2710,7 @@
     \keyw{Computer Science - Machine Learning, Computer Science - Artificial
   Intelligence, Computer Science - Computation and Language}
     \strng{namehash}{WY+1}
-  \strng{fullhash}{WYSMCZLQVNMMWKMCYGQMKKJSAJMLXK�GSKYKTKHSKKGPNWWYCSJRJRAVOCGHMDJ1}
+  \strng{fullhash}{WYSMCZLQVNMMWKMCYGQMKKJSAJMLXKLGSKYKTKHSKKGPNWWYCSJRJRAVOCGHMDJ1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{shorttitle}
     \field{sortinit}{2}
@@ -2879,31 +3065,32 @@
     \field{sortinit}{2}
     \field{sortinithash}{2}
     \field{abstract}{%
-    The sample mean ¯¯¯X is probably the most popular estimator of the
-  expected value in all sciences and var(¯¯¯X) measures the error (standard-
-  and mean-square-errors). Here, an alternative approach to estimation of
-  var(¯¯¯X) for time series data is presented. The method has an accuracy
-  similar to dependent bootstrapping, but scales in O(n) time, and applies to
-  stationary time series, including stationary Markov chains. The computational
-  complexity is bounded by 12n floating point operations, but this can be
-  reduced to n+O(1) in large computations. Convergence in relative error
-  squared is faster than n−1/2 and the method is insensitive to the
-  probability distribution of the observations. It is proven that a small part
-  of the correlation structure is relevant to the convergence rate of the
-  method. From this, proof of the Blocking method [Flyvbjerg and Petersen, J.
-  Chem. Phys. 91, 461 (1989)] follows as a corollary. The result is also used
-  to propose a hypothesis test surveying the relevant part of the correlation
-  structure. It yields a fully automatic method which is sufficiently robust to
-  operate without supervision. An algorithm and sample code showing the
-  implementation is available for Python, C++, and R
-  [www.github.com/computative/block]. Method validation using autoregressive
-  AR(1) and AR(2) processes and physics applications is included. Method
-  self-evaluation is provided by bias and mean-square-error statistics. The
-  method is easily adapted to multithread applications and data larger than
-  computing cluster memory, such as ultralong time series or data streams. This
-  way, the paper provides a stringent and modern treatment of the Blocking
-  method using rigorous linear algebra, multivariate probability theory, real
-  analysis, and Fisherian statistical inference.%
+    The sample mean {\textasciimacron}{\textasciimacron}{\textasciimacron}X is
+  probably the most popular estimator of the expected value in all sciences and
+  var({\textasciimacron}{\textasciimacron}{\textasciimacron}X) measures the
+  error (standard- and mean-square-errors). Here, an alternative approach to
+  estimation of var({\textasciimacron}{\textasciimacron}{\textasciimacron}X)
+  for time series data is presented. The method has an accuracy similar to
+  dependent bootstrapping, but scales in O(n) time, and applies to stationary
+  time series, including stationary Markov chains. The computational complexity
+  is bounded by 12n floating point operations, but this can be reduced to
+  n+O(1) in large computations. Convergence in relative error squared is faster
+  than n-1/2 and the method is insensitive to the probability distribution of
+  the observations. It is proven that a small part of the correlation structure
+  is relevant to the convergence rate of the method. From this, proof of the
+  Blocking method [Flyvbjerg and Petersen, J. Chem. Phys. 91, 461 (1989)]
+  follows as a corollary. The result is also used to propose a hypothesis test
+  surveying the relevant part of the correlation structure. It yields a fully
+  automatic method which is sufficiently robust to operate without supervision.
+  An algorithm and sample code showing the implementation is available for
+  Python, C++, and R [www.github.com/computative/block]. Method validation
+  using autoregressive AR(1) and AR(2) processes and physics applications is
+  included. Method self-evaluation is provided by bias and mean-square-error
+  statistics. The method is easily adapted to multithread applications and data
+  larger than computing cluster memory, such as ultralong time series or data
+  streams. This way, the paper provides a stringent and modern treatment of the
+  Blocking method using rigorous linear algebra, multivariate probability
+  theory, real analysis, and Fisherian statistical inference.%
     }
     \verb{doi}
     \verb 10.1103/PhysRevE.98.043304
@@ -3210,7 +3397,7 @@
   decide which individual bug fixes to highlight here, so please just have a
   look at our change log for details :). Get Qt Creator 4.8.2 The opensource
   version is available on the Qt download page, and you find commercially
-  licensed packages …%
+  licensed packages {\textellipsis}%
     }
     \field{title}{Qt {Creator} 4.8.2 released}
     \verb{url}
@@ -3263,7 +3450,7 @@
     \field{sortinit}{9}
     \field{sortinithash}{9}
     \field{abstract}{%
-    A Documentary • Spring 2017%
+    A Documentary {\textbullet} Spring 2017%
     }
     \field{title}{{AlphaGo} {Movie}}
     \verb{url}
@@ -3325,8 +3512,9 @@
   often complicated, both due to specific correlations and/or the fact that the
   analytical form of the trial wave function is difficult to obtain. Our
   Boltzmann machine trial wave function can easily be used as start- ing points
-  in Green’s function Monte Carlo calculations. The latter allow for in
-  principle exact solutions of Schrödinger’s equation.%
+  in Green{\textquoteright}s function Monte Carlo calculations. The latter
+  allow for in principle exact solutions of Schr{\"o}dinger{\textquoteright}s
+  equation.%
     }
     \field{title}{Solving {Quantum} {Mechanical} {Problems} with {Machine}
   {Learning}}

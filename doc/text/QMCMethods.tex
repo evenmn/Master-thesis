@@ -10,15 +10,15 @@ Some great quantum many-body methods have been developed throughout the past cen
 
 Monte Carlo methods in quantum mechanics are a bunch of methods that are built on diffusion processes, and includes variational Monte Carlo (VMC), diffusion Monte Carlo (DMC) and others. The common denominator is that we move particles in order to find the optimal configuration, usually where the energy is minimized. Usually one uses the methods to study time-independent systems, but also time-dependent systems can be studied by for example time-dependent variational Monte-Carlo.
 
-As variational Monte-Carlo is our main focus in this work, it will be explained thoroughly in this chapter together with common sampling tools. In the end, we will briefly explain the idea behind the diffusion Monte-Carlo method, as we will use the method as reference for our results. 
+As variational Monte-Carlo is our main focus in this work, it will be explained thoroughly in this chapter together with common sampling tools. In the end, we will briefly explain the idea behind the diffusion Monte-Carlo method, which is in principle is capable of giving exact solutions of the Schrödinger equation. This methods will not be implemented, but since we will use it as our reference for most of the systems, it is natural to include a section on it.
 
 \section{Variational Monte-Carlo} \label{subsec:vmc}
-The variational Monte-Carlo (hereafter VMC) method is today widely used when it comes to the study of ground state properties of quantum mechanical systems. It is a Markov chain Monte-Carlo method which makes use of Metropolis sampling, and has been used in studies of fermionic systems since the 1970's. \cite{deb_variational_2014} If we go back to the variational principle in equation \eqref{eq:variationalprinciple}, we see that by choosing a wave function which satisfies the criteria, we will get an energy larger or equal to the ground state energy. \bigskip
+The variational Monte-Carlo (hereafter VMC) method is today widely used when it comes to the study of ground state properties of quantum mechanical systems. It makes use of Markov chain Monte-Carlo methods, often abbreviated MCMC, where the particles are assumed to be moving in Markov chains and Monte-Carlo simulations are used. The method has been used in studies of fermionic systems since the 1970's. \cite{deb_variational_2014} If we go back to the variational principle in equation \eqref{eq:variationalprinciple}, we see that by choosing a wave function which satisfies the criteria, we will get an energy larger or equal to the ground state energy. \bigskip
 
 There are two main problems we need to solve
 \begin{enumerate}
 	\item We seldomly know the correct wave function
-	\item The integral we need to find the energy is hard or impossible to solve
+	\item The integral we need to find the energy is hard or impossible to solve analytically
 \end{enumerate}
 Let us first determine the last problem, which often is considered as the root of all evil. Solving this integral analytically is impossible, but we can approximate it with a sum,
 \begin{align}
@@ -40,16 +40,23 @@ When increasing the number of energies drawn from the distribution, $M$, hencefo
 \begin{equation}
 \langle E_L\rangle=\lim_{M\to\infty} \frac{1}{M}\sum_{i=1}^ME_L(\bs{r}_i).
 \end{equation}
-
+This is associated with a zero-variance property, which is detailed in 
 Zero-variance property: 
 For more statistical details, see \cite{deb_variational_2014}. 
 
+Generally, sampling from the beginning of the chain may not represent the desired distribution. Instead, we introduce a \textit{burn-in period}, which does not contribute to the expectation values. The burn-in period is associated with a equilibriation fraction, which how big amount of the total cycles that should be in the burn-in period. When running multiple parallel processes, the burn-in period should be the same at all the processes.
+
+We also have a technique called \textit{thinning}, which means picking every $n$'th sample in the chain and ignore the rest. This 
+
 So far, so good, but how about the first problem stated above? How do we find the correct wave function? In VMC, we define a wave function with variational parameters, which are adjusted in order to minimize the energy for every iteration. Of course, we need a decent initial guess, which is usually based on our physical intuition. We will later examine how much physical intuition we need to get an acceptable result. 
 
-For every iteration, we run $M$ Monte-Carlo cycles where we withdraw a new position $\bs{r}_i$. Whether or not the proposed move should be accepted is determined by the Metropolis algorithm.
+For every iteration, we run $M$ Monte-Carlo cycles where we withdraw a new position $\bs{r}_i$. Whether or not the proposed move should be accepted is determined by a Markov chain Monte-Carlo method, as for instance the Metropolis method. In the following we will explain how it works and present an algorithm for it.
 
 \section{The Metropolis algorithm}
-Metropolis sampling is a method of accepting or rejecting moves in Markov chains, and is today often the preferred sampling algorithm in quantum Monte-Carlo. The genius of this algorithm, is that the acceptance of a move is not based on the probabilities themselves, but the ratio between the new and the old probabilities. In that way, we avoid calculating the sum over all probabilities, which is often computational intractable. 
+Metropolis sampling is a Markov chain Monte-Carlo method, which generates a Markov chain using a proposal density for new steps, and the method also rejects unsatisfying moves. In its most simple form, a particle is moved in a random direction, which was the original method invented by Metropolis et.al. back in 1953. \cite{metropolis_equation_1953} Later, the method was improved by Hastings et.al., giving rise to the more general Metropolis-Hastings algorithm. \cite{hastings_monte_1970}
+The genius of the Metropolis algorithm, is that the acceptance of a move is not based on the probabilities themselves, but the ratio between the new and the old probabilities. In that way, we avoid calculating the sum over all probabilities, which is often computational intractable.
+
+We will first discuss Markov chains in general, before we connect them to the original Metropolis algorithm, henceforth called \textit{brute-force sampling}, and then the Metropolis-Hastings algorithm, also called \textit{importance sampling}.
 
 If we denote $\bs{r}$ as the current state, and $\bs{r}'$ as the proposed state, we have a transition rule $P(\bs{r}'|\bs{r})$ for going from $\bs{r}$ to $\bs{r}'$ and a transition rule $P(\bs{r}|\bs{r}')$ for going the opposite way. If we then assume that the rules satisfy \textit{ergodicity} and \textit{detailed balance}, we have the following relationship:
 \begin{equation}
@@ -173,11 +180,15 @@ p(\bs{r}',\bs{r})\equiv\frac{P(\bs{r}')}{P(\bs{r})}=\frac{|\Psi_T(\bs{r}')|^2}{|
 for all the wave function elements of interest, also the elements based on restricted Boltzmann machines. Additionally, closed-form expressions fo $\nabla\ln\Psi_T(\bs{r})$ are found, which are needed for the quantum force computations as well as the kinetic energy computations. 
 
 \subsection{Gibbs sampling}
-In the machine learning community, Gibbs sampling is widely used when it comes to training Boltzmann machines. It is an instance of the Metropolis-Hastings algorithm, but since the units are updated to maximize the probabilities, all the moves are accepted. 
+In the machine learning community, Gibbs sampling is widely used when it comes to training Boltzmann machines. It is popular partly because it does not require any "tuning". It is an instance of the Metropolis-Hastings algorithm, and is therefore another Markov chain Monte-Carlo method. In the Metropolis sampling, we have seen that some moves will be rejected, but in Gibbs sampling all the moved are accepted, which means that the we do not "waste" computations. 
 
-In general...
+The point of Gibbs sampling is that given a multivariate distribution it is simpler to sample from a conditional distribution than to marginalize by integrating over a joint distribution. This is the reason why we do not need the marginal distributions in Gibbs sampling, but rather the conditional distributions. In the most general, Gibbs sampling proposes a rule for going from a sample $\bs{x}^{(i)}=(x_1^{(i)},x_2^{(i)},\hdots,x_n^{(i)})$ to another sample $\bs{x}^{(i+1)}=(x_1^{(i+1)},x_2^{(i+1)},\hdots,x_n^{(i+1)})$, similar to the Metropolis algorithm. However, in Gibbs sampling the transition from $x_j^{(i)}$ to $x_j^{(i+1)}$ is performed according to the conditional distribution specified by
+\begin{equation}
+P\big(x_j^{(i+1)}|x_1^{(i+1)},\hdots,x_{j-1}^{(i+1)},x_{j+1}^{(i)},\hdots,x_n^{(i)}\big).
+\end{equation}
+The marginal distribution of a subset of variables can then be approximated by simply considering the samples for that subset of variables, ignoring the rest. 
 
-For a restricted Boltzmann machine, this is a two-step sampling process. Because of the latent variables, we use the conditional probabilities $P(\bs{r}|\bs{h})$ and $P(\bs{h}|\bs{r})$ to update the visible and hidden units respectively. For the restricted Boltzmann machine with Gaussian-binary units presented in section \ref{sec:RBM}, the conditional probability of $h_j=0$ given a set of visible nodes $\bs{x}$ is
+For a restricted Boltzmann machine, this is a two-step sampling process, because of the latent variables, we use the conditional probabilities $P(\bs{r}|\bs{h})$ and $P(\bs{h}|\bs{r})$ to update the visible and hidden units respectively. For the restricted Boltzmann machine with Gaussian-binary units presented in section \ref{sec:RBM}, the conditional probability of $h_j=0$ given a set of visible nodes $\bs{x}$ is
 \begin{equation}
 P(h_j=0|\bs{x})=\frac{1}{1+\exp(b_j+\sum_{i=1}^Nx_iw_{ij}/\sigma^2)}
 \end{equation}
@@ -185,15 +196,15 @@ and the corresponding conditional probability of $h_j=1$ is
 \begin{equation}
 P(h_j=1|\bs{x})=\frac{1}{1+\exp(-b_j-\sum_{i=1}^Nx_iw_{ij}/\sigma^2)},
 \end{equation}
-which is by the way the sigmoid function again. Note that $P(h_j=0|\bs{x})+P(h_j=1|\bs{x})=1$, indicating that a hidden node $h_j$ can only take 0 or 1, hence binary. Then updating the hidden node, we simply set the value to the one with highest probability. 
+which is by the way the sigmoid function again. Note that $P(h_j=0|\bs{x})+P(h_j=1|\bs{x})=1$, indicating that a hidden node $h_j$ can only take 0 or 1, hence binary. When updating the hidden node, one typically calculate the sigmoid $P(h_j=1|\bs{x})$ and set $h_j$ to 1 if this probability is larger than 1/2, and set it to 0 otherwise. 
 
 For the update of the visible nodes, we see from equation \eqref{eq:normal} that the visible nodes are chosen after the normal distribution,
 \begin{equation}
 P(x_i|\bs{h})=\mathcal{N}\Big(a_i+\sum_{j=1}^Hw_{ij}h_j,\sigma^2\Big)
 \end{equation}
-which introduce some stochasticity to the system. By going back and forth in the Boltzmann machine multiple times (each time is an iteration), the hope is that the 
+which introduce some stochasticity to the system. By going back and forth in the Boltzmann machine multiple times (a round trip corresponds to an iteration), the hope is that the expectation values can be approximated by averaging over all the iterations. 
 
-As pointed out earlier, the Gibbs sampling will not be implemented in this work, but is described for completeness purposes. The reason for this, is that the method has not shown promising results for our specific problem, and we will instead rely on Metropolis sampling. We have already tested the Gibbs sampling in another similar project on small quantum dots \cite{nordhagen_computational_2018}, and so have others like Vilde Flugsrud \cite{flugsrud_vilde_moe_solving_nodate}. The results are similar and poor.
+As pointed out earlier, the Gibbs sampling will not be implemented in this work, but is described for completeness purposes. The reason for this, is that the method has not shown promising results for our specific problem, and we will instead rely on Metropolis sampling. We have already tested the Gibbs sampling in another similar project on small quantum dots \cite{nordhagen_computational_2018}, and so have others like Vilde Flugsrud \cite{flugsrud_vilde_moe_solving_nodate}. The results are similar and poor compared to the Metropolis-Hastings algorithm.
 
 However, the Gibbs sampling method itself should not be underestimated. Carleo and Troyer showed its importance when solving the Ising model using a restricted Boltzmann machine and Gibbs sampling, and in traditional Boltzmann machines the Gibbs sampling is the preferred tool. \cite{carleo_solving_2017}
 
@@ -207,4 +218,12 @@ Diffusion Monte-Carlo belongs to a class of projection and Green's function appr
 \begin{eqnarray}
 -\frac{\partial\Psi(\bs{r},\tau)}{\partial\tau}=(\mathcal{H}-E_T)\Psi(\bs{r},\tau)
 \end{eqnarray}
-where $\tau$ is the imaginary time and $E_T$ is an energy offset. 
+where $\tau$ is the imaginary time and $E_T$ is an energy offset. If we first look at the equation with non-interacting particles, it contains basically only the kinetic energy term, 
+\begin{equation}
+\frac{\partial\Psi(\bs{r},\tau)}{\partial\tau}=\frac{1}{2}\nabla^2\Psi(\bs{r},\tau)
+\end{equation}
+which is really similar to the diffusion equation,
+\begin{equation}
+\frac{\partial\phi(\bs{r},t)}{\partial t}=D\nabla^2\phi(\bs{r},t)
+\end{equation}
+where $D$ is the diffusion constant set to $1/2$ in our calculations, and now it is easy to see why. The similarities between the imaginary time Schrödinger and the diffusion equation was noticed by Fermi already in the 1930's, and is what diffusion Monte-Carlo is based on. 

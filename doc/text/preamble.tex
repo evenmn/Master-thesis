@@ -1,4 +1,4 @@
-\documentclass[twosided, english]{book}
+\documentclass[twosided, english]{uiofysmaster}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 \usepackage{csquotes}	% Supports babel
@@ -12,7 +12,7 @@
 \usepackage{afterpage}	% avoid undesired blank page
 \usepackage{color}
 \usepackage{array} 		% For column alignment
-\usepackage[svgnames]{xcolor}
+\usepackage{xcolor}
 \usepackage{pgfplots}	% Plotting directly in latex
 \usepackage{listings}
 \usepackage{hyperref}
@@ -34,6 +34,8 @@
 \usepackage{arydshln}   % Dashed lines in table
 \usepackage{epigraph}	% Quote at beg. of chapter
 \usepackage{framed}
+\usepackage{mathpazo}
+%\usepackage{eulervm}
 
 % Algorithm2e
 \usepackage[linesnumbered,
@@ -47,11 +49,11 @@
 \SetKwInOut{Data}{Data}
 
 % Change margins on each page
-\usepackage[right=2cm, 
-           left=3cm, 
-           top=2.5cm, 
-           bottom=2cm,
-]{geometry}	
+%\usepackage[right=2cm, 
+%           left=3cm, 
+%           top=2.5cm, 
+%           bottom=2cm,
+%]{geometry}	
 %\setlength{\oddsidemargin}{0.5cm}
 
 %biblatex
@@ -119,7 +121,7 @@
 %double quotes
 \newcommand*\openquote{\makebox(25,-22){\scalebox{5}{``}}}
 \newcommand*\closequote{\makebox(25,-22){\scalebox{5}{''}}}
-\colorlet{shadecolor}{Azure}
+\colorlet{shadecolor}{myblue}
 
 \makeatletter
 \newif\if@right
