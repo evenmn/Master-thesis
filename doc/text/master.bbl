@@ -281,6 +281,57 @@
     \field{urlyear}{2019}
   \endentry
 
+  \entry{metropolis_monte_1949}{article}{}
+    \name{author}{2}{}{%
+      {{hash=MN}{%
+         family={Metropolis},
+         familyi={M\bibinitperiod},
+         given={Nicholas},
+         giveni={N\bibinitperiod},
+      }}%
+      {{hash=US}{%
+         family={Ulam},
+         familyi={U\bibinitperiod},
+         given={S.},
+         giveni={S\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{MNUS1}
+    \strng{fullhash}{MNUS1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{1}
+    \field{sortinithash}{1}
+    \field{abstract}{%
+    We shall present here the motivation and a general description of a method
+  dealing with a class of problems in mathematical physics. The method is,
+  essentially, a statistical approach to the study of differential equations,
+  or more generally, of integro-differential equations that occur in various
+  branches of the natural sciences.%
+    }
+    \verb{doi}
+    \verb 10.1080/01621459.1949.10483310
+    \endverb
+    \field{issn}{0162-1459}
+    \field{number}{247}
+    \field{pages}{335\bibrangedash 341}
+    \field{title}{The {Monte} {Carlo} {Method}}
+    \verb{url}
+    \verb https://www.tandfonline.com/doi/abs/10.1080/01621459.1949.10483310
+    \endverb
+    \field{volume}{44}
+    \verb{file}
+    \verb Snapshot:/home/evenmn/Zotero/storage/QUVHRPPS/01621459.1949.html:text
+    \verb /html
+    \endverb
+    \field{journaltitle}{Journal of the American Statistical Association}
+    \field{month}{09}
+    \field{year}{1949}
+    \field{urlday}{23}
+    \field{urlmonth}{07}
+    \field{urlyear}{2019}
+  \endentry
+
   \entry{metropolis_equation_1953}{article}{}
     \name{author}{5}{}{%
       {{hash=MN}{%
@@ -571,6 +622,67 @@
     \field{journaltitle}{Cognitive Science}
     \field{year}{1985}
     \field{urlday}{21}
+    \field{urlmonth}{07}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{ceperley_quantum_1986}{article}{}
+    \name{author}{2}{}{%
+      {{hash=CD}{%
+         family={Ceperley},
+         familyi={C\bibinitperiod},
+         given={David},
+         giveni={D\bibinitperiod},
+      }}%
+      {{hash=AB}{%
+         family={Alder},
+         familyi={A\bibinitperiod},
+         given={Berni},
+         giveni={B\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {en}%
+    }
+    \strng{namehash}{CDAB1}
+    \strng{fullhash}{CDAB1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{1}
+    \field{sortinithash}{1}
+    \field{abstract}{%
+    An outline of a random walk computational method for solving the
+  Schr{\"o}dinger equation for many interacting particles is given, together
+  with a survey of results achieved so far and of applications that remain to
+  be explored. Monte Carlo simulations can be used to calculate accurately the
+  bulk properties of the light elements hydrogen, helium, and lithium as well
+  as the properties of the isolated atoms and of molecules made up from these
+  elements. It is now possible to make reliable predictions of the behavior of
+  these substances under experimentally difficult conditions, such as high
+  pressure, and of properties that are difficult to measure experimentally,
+  such as the momentum distribution in superfluid helium. For chemical systems,
+  the stochastic method has a number of advantages over the widely used
+  variational approach to determine ground-state properties, namely fast
+  convergence to the exact result within objectively established error bounds.%
+    }
+    \verb{doi}
+    \verb 10.1126/science.231.4738.555
+    \endverb
+    \field{issn}{0036-8075, 1095-9203}
+    \field{number}{4738}
+    \field{pages}{555\bibrangedash 560}
+    \field{title}{Quantum {Monte} {Carlo}}
+    \verb{url}
+    \verb https://science.sciencemag.org/content/231/4738/555
+    \endverb
+    \field{volume}{231}
+    \verb{file}
+    \verb Snapshot:/home/evenmn/Zotero/storage/ZS5L72X9/tab-pdf.html:text/html
+    \endverb
+    \field{journaltitle}{Science}
+    \field{month}{02}
+    \field{year}{1986}
+    \field{urlday}{23}
     \field{urlmonth}{07}
     \field{urlyear}{2019}
   \endentry
@@ -1159,6 +1271,72 @@
     \field{urlyear}{2019}
   \endentry
 
+  \entry{helgaker_perspective_2000}{article}{}
+    \name{author}{2}{}{%
+      {{hash=HT}{%
+         family={Helgaker},
+         familyi={H\bibinitperiod},
+         given={Trygve},
+         giveni={T\bibinitperiod},
+      }}%
+      {{hash=KW}{%
+         family={Klopper},
+         familyi={K\bibinitperiod},
+         given={Wim},
+         giveni={W\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {en}%
+    }
+    \keyw{Key words: Helium atom {\textendash} Electron correlation
+  {\textendash} Explicitly correlated wave functions {\textendash} Hylleraas
+  expansion}
+    \strng{namehash}{HTKW1}
+    \strng{fullhash}{HTKW1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{abstract}{%
+    . Hylleraas' paper on the ground state of the helium atom represents the
+  first ab initio calculation on a two-electron system in quantitative
+  agreement with experiment. As such, it served not only as an important
+  numerical verification of wave mechanics, it also exposed the shortcomings of
+  determinantal expansions for accurate calculations of molecular and atomic
+  electronic structure. By the simple addition of terms linear in the
+  interelectronic distance, dramatic improvements in the description of the
+  electronic wave function were achieved. The generalization to larger systems
+  of chemical interest has proven difficult but interest in the techniques
+  pioneered by Hylleraas has grown in recent years, prompted by progress in
+  computer technology.%
+    }
+    \verb{doi}
+    \verb 10.1007/s002149900051
+    \endverb
+    \field{issn}{1432-2234}
+    \field{number}{3}
+    \field{pages}{180\bibrangedash 181}
+    \field{title}{Perspective on {\textquotedblleft}{Neue} {Berechnung} der
+  {Energie} des {Heliums} im {Grundzustande}, sowie des tiefsten {Terms} von
+  {Ortho}-{Helium}{\textquotedblright}}
+    \verb{url}
+    \verb https://doi.org/10.1007/s002149900051
+    \endverb
+    \field{volume}{103}
+    \verb{file}
+    \verb Springer Full Text PDF:/home/evenmn/Zotero/storage/VLGSQI9F/Helgaker
+    \verb and Klopper - 2000 - Perspective on {\textquotedblleft}Neue Berechnun
+    \verb g der Energie des He.pdf:application/pdf
+    \endverb
+    \field{journaltitle}{Theoretical Chemistry Accounts}
+    \field{month}{02}
+    \field{year}{2000}
+    \field{urlday}{23}
+    \field{urlmonth}{07}
+    \field{urlyear}{2019}
+  \endentry
+
   \entry{pederiva_diffusion_2000}{article}{}
     \name{author}{3}{}{%
       {{hash=PF}{%
@@ -1441,6 +1619,88 @@
     \field{year}{2006}
   \endentry
 
+  \entry{cohen_quantities_2007}{book}{}
+    \name{author}{5}{}{%
+      {{hash=CR}{%
+         family={Cohen},
+         familyi={C\bibinitperiod},
+         given={Richard},
+         giveni={R\bibinitperiod},
+      }}%
+      {{hash=CT}{%
+         family={Cvitas},
+         familyi={C\bibinitperiod},
+         given={Tom},
+         giveni={T\bibinitperiod},
+      }}%
+      {{hash=FJG}{%
+         family={Frey},
+         familyi={F\bibinitperiod},
+         given={Jeremy\bibnamedelima G},
+         giveni={J\bibinitperiod\bibinitdelim G\bibinitperiod},
+      }}%
+      {{hash=HB}{%
+         family={Holstrom},
+         familyi={H\bibinitperiod},
+         given={Bertil},
+         giveni={B\bibinitperiod},
+      }}%
+      {{hash=KK}{%
+         family={Kuchitsu},
+         familyi={K\bibinitperiod},
+         given={Kozo},
+         giveni={K\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {en}%
+    }
+    \strng{namehash}{CR+1}
+    \strng{fullhash}{CRCTFJGHBKK1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{abstract}{%
+    The first IUPAC Manual of Symbols and Terminology for Physicochemical
+  Quantities and Units (the Green Book) of which this is the direct successor,
+  was published in 1969, with the object of 'securing clarity and precision,
+  and wider agreement in the use of symbols, by chemists in different
+  countries, among physicists, chemists and engineers, and by editors of
+  scientific journals'. Subsequent revisions have taken account of many
+  developments in the field, culminating in the major extension and revision
+  represented by the 1988 edition under the simplified title Quantities, Units
+  and Symbols in Physical Chemistry. This 2007, Third Edition, is a further
+  revision of the material which reflects the experience of the contributors
+  with the previous editions. The book has been systematically brought up to
+  date and new sections have been added. It strives to improve the exchange of
+  scientific information among the readers in different disciplines and across
+  different nations. In a rapidly expanding volume of scientific literature
+  where each discipline has a tendency to retreat into its own jargon this book
+  attempts to provide a readable compilation of widely used terms and symbols
+  from many sources together with brief understandable definitions. This is the
+  definitive guide for scientists and organizations working across a multitude
+  of disciplines requiring internationally approved nomenclature.%
+    }
+    \verb{doi}
+    \verb 10.1039/9781847557889
+    \endverb
+    \field{isbn}{978-0-85404-433-7}
+    \field{title}{Quantities, {Units} and {Symbols} in {Physical} {Chemistry}}
+    \verb{url}
+    \verb https://pubs.rsc.org/en/content/ebook/978-0-85404-433-7
+    \endverb
+    \verb{file}
+    \verb Snapshot:/home/evenmn/Zotero/storage/RYYKBCJB/978-0-85404-433-7.html:
+    \verb text/html
+    \endverb
+    \field{month}{08}
+    \field{year}{2007}
+    \field{urlday}{23}
+    \field{urlmonth}{07}
+    \field{urlyear}{2019}
+  \endentry
+
   \entry{daniel_crawford_introduction_2007}{incollection}{}
     \name{author}{2}{}{%
       {{hash=DCT}{%
@@ -1558,6 +1818,53 @@
     \field{urlday}{20}
     \field{urlmonth}{06}
     \field{urlyear}{2019}
+  \endentry
+
+  \entry{hunter_matplotlib:_2007}{article}{}
+    \name{author}{1}{}{%
+      {{hash=HJD}{%
+         family={Hunter},
+         familyi={H\bibinitperiod},
+         given={J.\bibnamedelima D.},
+         giveni={J\bibinitperiod\bibinitdelim D\bibinitperiod},
+      }}%
+    }
+    \keyw{2D graphics package, application development, computer graphics,
+  Computer languages, Equations, Graphical user interfaces, Graphics, Image
+  generation, interactive scripting, Interpolation, mathematics computing,
+  Matplotlib, object-oriented programming, operating system, Operating systems,
+  Packaging, Programming profession, publication-quality image generation,
+  Python, scientific programming, scripting languages, software packages, user
+  interface, User interfaces}
+    \strng{namehash}{HJD1}
+    \strng{fullhash}{HJD1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{shorttitle}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{abstract}{%
+    Matplotlib is a 2D graphics package used for Python for application
+  development, interactive scripting,and publication-quality image generation
+  across user interfaces and operating systems%
+    }
+    \verb{doi}
+    \verb 10.1109/MCSE.2007.55
+    \endverb
+    \field{issn}{1521-9615}
+    \field{number}{3}
+    \field{pages}{90\bibrangedash 95}
+    \field{shorttitle}{Matplotlib}
+    \field{title}{Matplotlib: {A} 2D {Graphics} {Environment}}
+    \field{volume}{9}
+    \verb{file}
+    \verb IEEE Xplore Abstract Record:/home/evenmn/Zotero/storage/G8NE8G8A/4160
+    \verb 265.html:text/html;IEEE Xplore Full Text PDF:/home/evenmn/Zotero/stor
+    \verb age/S9MJ73ZT/Hunter - 2007 - Matplotlib A 2D Graphics Environment.pdf
+    \verb :application/pdf
+    \endverb
+    \field{journaltitle}{Computing in Science Engineering}
+    \field{month}{05}
+    \field{year}{2007}
   \endentry
 
   \entry{weisstein_kelvin_2007}{book}{}
@@ -2057,6 +2364,74 @@
     \field{volume}{110}
     \field{journaltitle}{Phys. Rev. Lett.}
     \field{month}{05}
+    \field{year}{2013}
+  \endentry
+
+  \entry{tantau_graph_2013}{inproceedings}{}
+    \name{author}{1}{}{%
+      {{hash=TT}{%
+         family={Tantau},
+         familyi={T\bibinitperiod},
+         given={Till},
+         giveni={T\bibinitperiod},
+      }}%
+    }
+    \name{editor}{2}{}{%
+      {{hash=DW}{%
+         family={Didimo},
+         familyi={D\bibinitperiod},
+         given={Walter},
+         giveni={W\bibinitperiod},
+      }}%
+      {{hash=PM}{%
+         family={Patrignani},
+         familyi={P\bibinitperiod},
+         given={Maurizio},
+         giveni={M\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {en}%
+    }
+    \list{publisher}{1}{%
+      {Springer Berlin Heidelberg}%
+    }
+    \keyw{Actual Algorithm, Graph Drawing, Graph Transformation, Input Graph,
+  Message Sequence Chart}
+    \strng{namehash}{TT1}
+    \strng{fullhash}{TT1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{abstract}{%
+    At the heart of every good graph drawing algorithm lies an efficient
+  procedure for assigning canvas positions to a graph{\textquoteright}s nodes
+  and the bend points of its edges. However, every real-world implementation of
+  such an algorithm must address numerous problems that have little to do with
+  the actual algorithm, like handling input and output formats, formatting node
+  texts, and styling nodes and edges. We present a new framework, implemented
+  in the Lua programming language and integrated into the TikZ graphics
+  description language, that aims at simplifying the implementation of graph
+  drawing algorithms. Implementers using the framework can focus on the core
+  algorithmic ideas and will automatically profit from the
+  framework{\textquoteright}s pre- and post-processing steps as well as from
+  the extensive capabilities of the TikZ graphics language and the
+  {\textbackslash}TeX{\textbackslash}TeX\{{\textbackslash}hbox\{{\textbackslash}TeX\}\}
+  typesetting engine. Algorithms already implemented using the framework
+  include the Reingold-Tilford tree drawing algorithm, a modular version of
+  Sugiyama{\textquoteright}s layered algorithm, and several force-based
+  multilevel algorithms.%
+    }
+    \field{booktitle}{Graph {Drawing}}
+    \field{isbn}{978-3-642-36763-2}
+    \field{pages}{517\bibrangedash 528}
+    \field{series}{Lecture {Notes} in {Computer} {Science}}
+    \field{title}{Graph {Drawing} in {TikZ}}
+    \verb{file}
+    \verb Springer Full Text PDF:/home/evenmn/Zotero/storage/WRMT7I92/Tantau -
+    \verb 2013 - Graph Drawing in TikZ.pdf:application/pdf
+    \endverb
     \field{year}{2013}
   \endentry
 
@@ -3551,6 +3926,75 @@
     \field{journaltitle}{martinfowler.com}
     \field{urlday}{14}
     \field{urlmonth}{03}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{iso/tc_12_iso_nodate}{misc}{}
+    \name{author}{1}{}{%
+      {{hash=I}{%
+         family={{ISO/TC 12}},
+         familyi={I\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {en}%
+    }
+    \strng{namehash}{I1}
+    \strng{fullhash}{I1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{shorttitle}
+    \field{sortinit}{9}
+    \field{sortinithash}{9}
+    \field{abstract}{%
+    Quantities and units -- Part 2: Mathematical signs and symbols to be used
+  in the natural sciences and technology%
+    }
+    \field{shorttitle}{{ISO} 80000-2}
+    \field{title}{{ISO} 80000-2:2009}
+    \verb{url}
+    \verb http://www.iso.org/cms/render/live/en/sites/isoorg/contents/data/stan
+    \verb dard/03/18/31887.html
+    \endverb
+    \verb{file}
+    \verb Snapshot:/home/evenmn/Zotero/storage/MQSXBFCC/31887.html:text/html
+    \endverb
+    \field{journaltitle}{ISO}
+    \field{urlday}{23}
+    \field{urlmonth}{07}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{iso/tc_12_iso_nodate-1}{misc}{}
+    \name{author}{1}{}{%
+      {{hash=I}{%
+         family={{ISO/TC 12}},
+         familyi={I\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {en}%
+    }
+    \strng{namehash}{I1}
+    \strng{fullhash}{I1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{shorttitle}
+    \field{sortinit}{9}
+    \field{sortinithash}{9}
+    \field{abstract}{%
+    Quantities and units -- Part 9: Physical chemistry and molecular physics%
+    }
+    \field{shorttitle}{{ISO} 80000-9}
+    \field{title}{{ISO} 80000-9:2009}
+    \verb{url}
+    \verb http://www.iso.org/cms/render/live/en/sites/isoorg/contents/data/stan
+    \verb dard/03/18/31894.html
+    \endverb
+    \verb{file}
+    \verb Snapshot:/home/evenmn/Zotero/storage/4RQ8YCAD/31894.html:text/html
+    \endverb
+    \field{journaltitle}{ISO}
+    \field{urlday}{23}
+    \field{urlmonth}{07}
     \field{urlyear}{2019}
   \endentry
 

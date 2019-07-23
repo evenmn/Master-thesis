@@ -211,7 +211,7 @@ However, the Gibbs sampling method itself should not be underestimated. Carleo a
 \section{Similarities between restricted Boltzmann machines and variational Monte-Carlo}
 In chapter \ref{chp:systems}, we presented the relation between a quantum system and expressions of the Hamiltonian, which is the energy operator. In section \ref{sec:unsupervised}, we described how Boltzmann machines are defined and how one can find the energy of a Boltzmann machine. Further, we looked at the updating schemes, which for both cases corresponds to minimizing the cost function and maximizing the log-likelihood function. 
 
-All in all, there are many similarities between 
+All in all, there are many similarities between the two methods. They are fundamentally related through Markov random fields, ...
 
 \section{Diffusion Monte-Carlo}
 Diffusion Monte-Carlo belongs to a class of projection and Green's function approaches. Consider the time-imaginary Schrödinger equation
@@ -226,4 +226,6 @@ which is really similar to the diffusion equation,
 \begin{equation}
 \frac{\partial\phi(\bs{r},t)}{\partial t}=D\nabla^2\phi(\bs{r},t)
 \end{equation}
-where $D$ is the diffusion constant set to $1/2$ in our calculations, and now it is easy to see why. The similarities between the imaginary time Schrödinger and the diffusion equation was noticed by Fermi already in the 1930's, and is what diffusion Monte-Carlo is based on. 
+where $D$ is the diffusion constant set to $1/2$ in our calculations, no wonder why. The similarities between the imaginary time Schrödinger and the diffusion equation was noticed by Fermi already around 1945, and is what diffusion Monte-Carlo is based on \cite{metropolis_monte_1949,ceperley_quantum_1986}. 
+
+
