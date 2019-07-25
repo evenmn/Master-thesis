@@ -3,44 +3,69 @@
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.4]{Images/random_walk.png}
-	\caption{Random walk in two dimensions on a grid.\\ © Copyright wikipedia.org.}
+	\caption{Random walk on a two-dimensional grid.\\ © Copyright wikipedia.org.}
 \end{figure}
 
-Some great quantum many-body methods have been developed throughout the past century. The Hartree-Fock method is one of the most successful, which sets up a mean field and is thus relatively computational cheap to work with. It works also as an input to so-called post-Hartree-Fock methods, which includes configuration interaction, coupled cluster and quantum Monte-Carlo. The two former will be discussed in the next chapter, together with the Hartree-Fock method itself, and in this chapter we will dig into the quantum Monte-Carlo methods. 
+Quantum Monte-Carlo methods (QMC) is a bunch of methods that attempt to solve the Schrödinger equation using stochastic Monte-Carlo integration. They all seek to evaluate the multi-dimensional integral arising from the Schrödinger equation,
+\begin{equation}
+E_0= \mel{\Psi_0}{\hat{\mathcal{H}}}{\Psi_0}= \frac{\int d\bs{r}\Psi_0(\bs{r})^*\hat{\mathcal{H}}\Psi_0(\bs{r})}{\int d\bs{r}\Psi_0(\bs{r})^*\Psi_0(\bs{r})},
+\label{eq:schrodingergroundstate}
+\end{equation}
+which provides the ground state energy expectation value for the exact ground state wave function $\Psi_0$. As aforementioned, this integral is analytically infeasible for more or less all systems of interest, rising the need of numerical methods like QMC.
 
-Monte Carlo methods in quantum mechanics are a bunch of methods that are built on diffusion processes, and includes variational Monte Carlo (VMC), diffusion Monte Carlo (DMC) and others. The common denominator is that we move particles in order to find the optimal configuration, usually where the energy is minimized. Usually one uses the methods to study time-independent systems, but also time-dependent systems can be studied by for example time-dependent variational Monte-Carlo.
+In Monte-Carlo integration, we use random number to evaluate integrals numerically. Typically, the we want to estimate an expectation value $\langle\mathcal{O}\rangle$ by approximating the definition integral with a dense sum,
+\begin{equation}
+\langle \mathcal{O}\rangle\equiv\int_{-\infty}^{\infty}d\bs{r}P(\bs{r})\hat{\mathcal{O}}(\bs{r})\approx\frac{1}{M}\sum_{i=1}^M\hat{\mathcal{O}}(\bs{r}_i)
+\label{eq:montecarlointegration}
+\end{equation}
+where $M$ is the number of \textit{Monte-Carlo cycles} and the coordinates $\bs{r}_i$ are drawn randomly from the probability density function $P(\bs{r})$.
 
-As variational Monte-Carlo is our main focus in this work, it will be explained thoroughly in this chapter together with common sampling tools. In the end, we will briefly explain the idea behind the diffusion Monte-Carlo method, which is in principle is capable of giving exact solutions of the Schrödinger equation. This methods will not be implemented, but since we will use it as our reference for most of the systems, it is natural to include a section on it.
+A great advantage of the QMC methods, is that we obtain approximative ground state wave functions when solving equation \eqref{eq:schrodingergroundstate}, which by the fourth postulate of quantum mechanics let us estimate ground state expectation values associated with other operators as well. 
+
+Two widely popular QMC methods are the variational Monte-Carlo method (VMC) and the diffusion Monte-Carlo method (DMC), where the former is arguably the simplest of all the QMC methods. It attempts to directly solve the integrals in equation \eqref{eq:schrodingergroundstate} by varying parameters, with the support of the variational principle presented in section \ref{sec:variationalprinciple}. This makes VMC a relatively computationally cheap method, but the performance is not in the league of the best methods.
+
+DMC, on the other hand, is computationally expensive, but is also potentially numerically exact, making it a preferred method when high accuracy is needed. At first glance it might seems like a tradeoff where VMC is used when computational time is more important than the accuracy and DMC is used when the opposite is true. However, DMC requires a wave function input which is close to the exact wave function, forcing us to first run VMC to obtain this wave function before the DMC machinery can be started.
+
+As VMC is our main focus in this work, it will be explained thoroughly in this chapter together with common sampling techniques. In the end we will briefly explain the idea behind the DMC method, but since this method is not implemented it will not be in our main focus.
 
 \section{Variational Monte-Carlo} \label{subsec:vmc}
-The variational Monte-Carlo (hereafter VMC) method is today widely used when it comes to the study of ground state properties of quantum mechanical systems. It makes use of Markov chain Monte-Carlo methods, often abbreviated MCMC, where the particles are assumed to be moving in Markov chains and Monte-Carlo simulations are used. The method has been used in studies of fermionic systems since the 1970's. \cite{deb_variational_2014} If we go back to the variational principle in equation \eqref{eq:variationalprinciple}, we see that by choosing a wave function which satisfies the criteria, we will get an energy larger or equal to the ground state energy. \bigskip
+The variational Monte-Carlo method (hereafter VMC) is today widely used when it comes to the study of ground state properties of quantum many-body systems. It makes use of Markov chain Monte-Carlo methods, often abbreviated MCMC, where the particles are assumed to be moving in Markov chains controlled by Monte-Carlo simulations. Going back to the variational principle in equation \eqref{eq:variationalprinciple}, one observes that by choosing an approved wave function, one gets an energy larger or equal to the ground state energy. \bigskip
 
-There are two main problems we need to solve
+Before we present the mathematical framework of the method, we will restate the two big problems in many-body physics, mentioned in the introduction:
 \begin{enumerate}
-	\item We seldomly know the correct wave function
-	\item The integral we need to find the energy is hard or impossible to solve analytically
+	\item The correct many-body wave function is generally unavailable
+	\item The many-body energy expectation value is analytically infeasible
 \end{enumerate}
-Let us first determine the last problem, which often is considered as the root of all evil. Solving this integral analytically is impossible, but we can approximate it with a sum,
-\begin{align}
-E &\leq \frac{\int d\bs{r}\Psi_T(\bs{r})^*\hat{\mathcal{H}}\Psi_T(\bs{r})}{\int d\bs{r}\Psi_T(\bs{r})^*\Psi_T(\bs{r})} \notag\\
-& = \int P(\bs{r}) E_L(\bs{r}) d\bs{r} \notag\\
-& \approx \frac{1}{M}\sum_{i=1}^ME_L(\bs{r}_i) \label{eq:energysum}
-\end{align}
-which is a common trick in statistical physics. The local energy is defined as
+
+Let us first address the second problem, which often is considered as the root of all evil in many-body physics. In chapter \ref{chp:quantum}, we saw that the two-body interaction term makes the integral impossible to solve for many particles, such that we need to rely on numerical methods. 
+
+In VMC, we start with a trial wave function guess $\Psi_T(\bs{r};\bs{\theta})$ where the parameters $\bs{\theta}$ are varied to minimize the energy. According to the variational principle, the obtained energy will always be higher or equal to the true ground state energy, where the equality is the case if and only if the wave function is the exact ground state wave function. Denoting the exact ground state energy by $E_0$ and the obtained energy as $E$, we can summarize this by
+\begin{equation}
+E_0 \leq E = \frac{\int d\bs{r}\Psi_T(\bs{r})^*\hat{\mathcal{H}}\Psi_T(\bs{r})}{\int d\bs{r}\Psi_T(\bs{r})^*\Psi_T(\bs{r})}.
+\end{equation}
+Furthermore, the integral can be written on the form of a general expectation value
+\begin{equation}
+E = \int d\bs{r} P(\bs{r}) E_L(\bs{r})
+\end{equation}
+defining the local energy as
 \begin{equation}
 E_L(\bs{r})\equiv\frac{1}{\Psi_T(\bs{r})}\hat{\mathcal{H}}\Psi_T(\bs{r})
-\label{eq:local energy}
+\label{eq:local energy}.
 \end{equation}
-and the $\bs{r}_i$ is withdrawn from the probability distribution $P(\bs{r})$, which is given by
+$P(\bs{r})$ is called the probability density function (PDF), and was first presented in equation \eqref{eq:pdf}, and in a more general scheme the PDF reads
 \begin{equation}
 P(\bs{r})=\frac{|\Psi_T(\bs{r})|^2}{\int d\bs{r}|\Psi_T(\bs{r})|^2}.
 \label{eq:probvmc}
 \end{equation}
-When increasing the number of energies drawn from the distribution, $M$, henceforth denoted as Monte-Carlo cycles, the standard error decreases and we get a more accurate energy. The error goes as $\mathcal{O}(1/\sqrt{M})$, and in the limit when $M$ goes to infinity, the error goes to zero,
+Since the energy expectation value now is on a form of a general expectation value, we can use the approximation set up by Monte-Carlo integration in equation \eqref{eq:montecarlointegration}, yielding 
+\begin{equation}
+E \approx \frac{1}{M}\sum_{i=1}^ME_L(\bs{r}_i) \label{eq:energysum}.
+\end{equation}
+We recall that the local energies $E_L(\bs{r}_i)$ are evaluated with particle configurations $\bs{r}_i$ drawn from the PDF $P(\bs{r})$. In this manner the obtained energy is guaranteed to approach the exact energy as the number of Monte-Carlo cycles, $M$, increases. Actually the standard error goes as $\mathcal{O}(1/\sqrt{M})$, making the method pretty accurate for large numbers of cycles. In the limit $M\rightarrow\infty$, the error goes to zero,
 \begin{equation}
 \langle E_L\rangle=\lim_{M\to\infty} \frac{1}{M}\sum_{i=1}^ME_L(\bs{r}_i).
 \end{equation}
-This is associated with a zero-variance property, which is detailed in 
+This is associated with a zero-variance property governing the VMC method, which is detailed in 
 Zero-variance property: 
 For more statistical details, see \cite{deb_variational_2014}. 
 
@@ -227,5 +252,7 @@ which is really similar to the diffusion equation,
 \frac{\partial\phi(\bs{r},t)}{\partial t}=D\nabla^2\phi(\bs{r},t)
 \end{equation}
 where $D$ is the diffusion constant set to $1/2$ in our calculations, no wonder why. The similarities between the imaginary time Schrödinger and the diffusion equation was noticed by Fermi already around 1945, and is what diffusion Monte-Carlo is based on \cite{metropolis_monte_1949,ceperley_quantum_1986}. 
+
+A solution of the 
 
 

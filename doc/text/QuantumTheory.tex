@@ -62,9 +62,12 @@ Setting up equation \eqref{eq:Energy} with respect to the energies, we obtain an
 \epsilon_n=\frac{\int d\bs{r}\psinc\hat{\mathcal{H}}\psin}{\int d\bs{r}\psinc\psin},
 \label{eq:energyintegral}
 \end{equation}
-which not necessarily is trivial to solve. As suggested by Max Born, we get the probability distribution function if we take the dot product between the complex conjugate wave function and the wave function itself,
+which not necessarily is trivial to solve. For almost\footnote{Exceptions include quantum dots of two electrons in two and three dimensions, where M.Taut have presented semi-analytical energies for a few oscillator frequencies \cite{taut_two_1993,taut_two_1994}.} all many-electron systems, this becomes analytically intractable due to the two-body interaction term.
+
+As suggested by Max Born, we get the probability distribution function if we take the dot product between the complex conjugate wave function and the wave function itself,
 \begin{equation}
 P(\bs{r})=\psinc\psin=|\psin|^2,
+\label{eq:pdf}
 \end{equation}
 so the denominator is basically the integral over all the probabilities. If the wave function is normalized correctly, this should always give 1. 
 
@@ -98,7 +101,7 @@ Often, the inner product in the denominator is assumed to be 1, such that the ex
 \end{equation}
 which we will henceforth assume. More information about the Dirac formalism can be found in Appendix A. 
 
-\subsection{The variational principle}
+\subsection{The variational principle} \label{sec:variationalprinciple}
 In the equations above, the presented wave functions are assumed to be the exact eigenfunctions of the Hamiltonian. But often we do not know the exact wave functions, and we need to guess what the wave functions might be. In those cases we make use of the Rayleigh-Ritz variational principle or just the variational principle, which states that only the exact ground state wave function is able to give the ground state energy. All other wave functions that fulfill the required properties (see section \ref{sec:wavefunction}) give higher energies, and mathematically we can express the statement as
 \begin{equation}
 \epsilon_0\leq\mel{\Psi_T}{\hat{\mathcal{H}}}{\Psi_T}.
@@ -169,7 +172,7 @@ We will summary all the quantum numbers through a table.
 Hund's rules define the filling order of electron structure shells with respect to the ground state energy. 
 \fi
 
-\subsection{Postulates of Quantum Mechanics}
+\subsection{Postulates of Quantum Mechanics} \label{sec:postulates}
 The quantum theory is built on six fundamental postulates, which should always hold. Some of them are already described, but here we present the complete list. Without mentioning them our section on quantum theory would be incomplete. The postulates write:
 
 \begin{enumerate}
