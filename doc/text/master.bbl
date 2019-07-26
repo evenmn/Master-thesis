@@ -3139,6 +3139,34 @@
     \field{urlyear}{2019}
   \endentry
 
+  \entry{noauthor_c++_2017}{misc}{}
+    \list{language}{1}{%
+      {en-US}%
+    }
+    \field{labeltitlesource}{title}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{abstract}{%
+    All variables use data-type during declaration to restrict the type of data
+  to be stored. Therefore, we can say that data types are used
+  to{\textellipsis} Read More {\guillemotright}%
+    }
+    \field{title}{C++ {Data} {Types}}
+    \verb{url}
+    \verb https://www.geeksforgeeks.org/c-data-types/
+    \endverb
+    \verb{file}
+    \verb Snapshot:/home/evenmn/Zotero/storage/HXJKGVSF/c-data-types.html:text/
+    \verb html
+    \endverb
+    \field{journaltitle}{GeeksforGeeks}
+    \field{month}{05}
+    \field{year}{2017}
+    \field{urlday}{26}
+    \field{urlmonth}{07}
+    \field{urlyear}{2019}
+  \endentry
+
   \entry{carleo_solving_2017}{article}{}
     \name{author}{2}{}{%
       {{hash=CG}{%
@@ -4098,6 +4126,35 @@
     \field{type}{Text}
     \field{urlday}{24}
     \field{urlmonth}{05}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{woods_usage_nodate}{misc}{}
+    \name{author}{1}{}{%
+      {{hash=WJF}{%
+         family={Woods},
+         familyi={W\bibinitperiod},
+         given={John\bibnamedelima F.},
+         giveni={J\bibinitperiod\bibinitdelim F\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{WJF1}
+    \strng{fullhash}{WJF1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{9}
+    \field{sortinithash}{9}
+    \field{title}{Usage of comma operator - {Google} {Groups}}
+    \verb{url}
+    \verb https://groups.google.com/forum/#!msg/comp.lang.c++/rYCO5yn4lXw/oITtS
+    \verb kZOtoUJ
+    \endverb
+    \verb{file}
+    \verb Usage of comma operator - Google Groups:/home/evenmn/Zotero/storage/E
+    \verb A82FDW9/forum.html:text/html
+    \endverb
+    \field{urlday}{26}
+    \field{urlmonth}{07}
     \field{urlyear}{2019}
   \endentry
 \enddatalist

@@ -1,14 +1,15 @@
 \chapter{Scientific Programming} \label{chp:scientificprogramming}
-\epigraph{Great quote.}{Author}
+\epigraph{Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live..}{John F. Woods, \cite{woods_usage_nodate}}
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.4]{Images/example.png}
-	\caption{Caption}
+	\includegraphics[scale=0.9]{Images/montecarlointegration.png}
+	\caption{One can estimate the value of $\pi$ using Monte-Carlo integration. Here we approximate the ratio between the area of the circle and the area of the square by counting the number of random points occurring inside the circle and inside the square. The estimate of $\pi$ is found from $\pi=4\cdot A_{\text{circle}}/A_{\text{square}}$.\\ © Copyright 101computing.net}
+	\label{fig:montecarlointegration}
 \end{figure}
 
-Since this scientific work is based on solving equations numerically on the computer, software development is a major part of the work. We will in this chapter go through the main concepts of scientific programming, and directly relate them to our code in the next chapter on implementation. As a motivation, we will serve a brief recap of the some historical milestones in scientific computing.
+Since this scientific work is based on solving equations numerically on the computer, software development is a major part of the work. We will in this chapter go through the main concepts of scientific programming, and directly relate them to our code in the next chapter on implementation. As a motivation, we will provide a brief recap of some historical milestones in scientific computing.
 
-Computers have long been used for solving complex scientific problems. Actually, for a long time science was the main motivation of developing computers. Already in 1929, Egil Hylleraas used his primary mechanical desk calculator to calculate the ground state energy of the Helium atom, which remains a milestone in computational quantum chemistry and quantum chemistry in general \cite{helgaker_perspective_2000}. Later, pioneers like ...
+Computers have long been used for solving complex scientific problems. Actually, for a long time science was the main motivation of developing computers. Already in 1929, Egil Hylleraas used his mechanical desk calculator to calculate the ground state energy of the Helium atom, which remains a milestone in computational quantum chemistry as well as quantum chemistry in general \cite{helgaker_perspective_2000}. Later, pioneers like ...
 
 Today's computers are much more advanced, but they are also way more used-friendly than the primary computers. ...
 
@@ -18,7 +19,9 @@ The computer's language itself is binary, and is the lowest level. To translate 
 One can either do \textit{procedural programming} or \textit{object oriented programming}. The former means that the code is written in the same order as the program flow goes, while one in the latter defines objects. 
 
 \section{Object orientated programming in Python}
-In the everyday life, we are surrounded by objects all the time which we can place in different categories. For instance, a \textit{circle} is an object with properties like area, circumference and so on, and can be placed in the class \textit{shapes}. Other members of the class shapes might be square and triangle. In object oriented programming, we would call the main class, shapes, the \textit{parent}, while the sub-classes circle, square and triangle are the children. By this analogy, we form an inheritance were the children inherit from their parents. In Python, this inheritance can be implemented as
+In the everyday life, we are surrounded by objects all the time which we can place in different categories. For instance, a \textit{circle} is an object with properties like area, circumference and so on, and can be placed in the class \textit{shapes}. Other members of the class shapes might be square and triangle. In object orientated programming, we create similar objects, or classes, to make the program flow more intuitive for the reader. The main class is called the parent class, while the sub-classes are called the children. the reason for this analogy, is that the sub-classes always inherit from their main class, but not the other way around. 
+
+The example with the shapes can therefore be implemented with \texttt{Shapes} being the parent, and \texttt{Circle}, \texttt{Square} and \texttt{Triangle} being its children. In the high-level language Python, this can be implemented as 
 
 \lstset{basicstyle=\scriptsize}
 \begin{lstlisting}[language=python]
@@ -61,16 +64,14 @@ class Triangle(Shapes):
 	def getCircumference(self):
 		return 6*self.r
 \end{lstlisting}
-where we give the children the properties area, circumference and extent. The length \texttt{r} means the radius of a circle, half the side length of a square and also half a side length of the equilateral triangle. We can now define the objects "circ", "squr" and "tria" as
-
+where we give the children the properties area, circumference and extent. The length \texttt{r} means the radius of a circle, half the side length of a square and also half a side length of the equilateral triangle, see figure \eqref{fig:montecarlointegration}. We can implement a circle, square and triangle of \texttt{r}=1, respectively named "circ", "squr" and "tria" by these three lines
 \lstset{basicstyle=\scriptsize}
 \begin{lstlisting}[language=python]
 circ = Circle(1)
 squr = Square(1)
 tria = Triangle(1)
 \end{lstlisting}
-where all have \texttt{r}=1, and try to compute their area as
-
+Moreover, we can easily get their areas by calling the \texttt{getArea()} function,
 \lstset{basicstyle=\scriptsize}
 \begin{lstlisting}
 >>> circ.getArea()
@@ -83,16 +84,16 @@ where all have \texttt{r}=1, and try to compute their area as
 NotImplementedError: Class Triangle has no instance 'getArea'.
 \end{lstlisting}
 
-As we can see, the area of the circle and the square were calculated successfully, while the area of the triangle raised an error, which is obviously because we do not have defined the area of the triangle! This example illustrates that properties of the children overwrites the properties of the parent, but if the children does not have the called property, it will instead return the parent's property. 
+As we can see, the area of the circle and the square were calculated successfully, giving $\pi r^2$ and $4r$ respectively. On the other hand, the area of the triangle raised an error, which is obviously because we do not have defined the area of the triangle! This example illustrates that properties of the children overwrites the properties of the parent, but if the children does not have the called property, it will instead return the parent's property. 
 
 \subsubsection{An example based on Monte-Carlo simulations}
-Up to this point, we have talked a lot about Monte-Carlo simulations without giving a illustrating example on what it is. Methods where we draw numbers randomly from a function to reveal properties of the function are in general categorized as Monte-Carlo simulations. 
+Up to this point, we have talked a lot about Monte-Carlo simulations without giving an illustrating example on what it is. Methods where we draw numbers randomly from a function to reveal properties of the function are in general categorized as Monte-Carlo simulations. 
 
 Suppose we did not know the value of $\pi$, what could we do to approximate its value? There are many ways to do this, where the most intuitive might be to measure the ratio between the diameter and the circumference in a circle. It is not possible to do this very accurate manually. A more accurate and robust solution would be to use Monte-Carlo simulations, where we for instance can take the starting point on the relation
 \begin{equation}
 \pi=4\frac{\text{A}_{\text{circle}}}{\text{A}_{\text{square}}}
 \end{equation}
-which is derived from the ratio between the circle area and the square area. By drawing random numbers from a uniform distribution and count the number of point which are in the square and in the circle, we can approximate $\text{A}_{\text{circle}}/\text{A}_{\text{square}}$. We can do this by using the \texttt{getExtent}-function of the square class and circle class,
+which is derived from the ratio between the circle area and the square area. By drawing random numbers from a uniform distribution and count the number of point which are in the square and in the circle, we can approximate $\text{A}_{\text{circle}}/\text{A}_{\text{square}}$. We can do this by using the \texttt{getExtent()} function of the square class and circle class,
 \lstset{basicstyle=\scriptsize}
 \begin{lstlisting}[language=python]
 for i in range(1,10):					# Iteration loop
@@ -108,18 +109,19 @@ for i in range(1,10):					# Iteration loop
 			A_square += 1
 	print("Pi: ", 4 * A_circle/A_square)
 \end{lstlisting}
-which gives the output
+which gives a output similar to
 \begin{lstlisting}
-Pi:  3.2
-Pi:  3.04
-Pi:  3.08
-Pi:  3.1304
-Pi:  3.15112
-Pi:  3.140616
-Pi:  3.1416464
-Pi:  3.14159312
+Pi:  2.4
+Pi:  3.32
+Pi:  3.156
+Pi:  3.1296
+Pi:  3.14168
+Pi:  3.140044
+Pi:  3.1420708
+Pi:  3.1416844
+Pi:  3.141615628
 \end{lstlisting}
-Considering the fact that $\pi=3.141592653589793...$, which is a quite good result. However, to produce the last approximation with $M=10^9$ Monte-Carlo cycles, the program spend a lot of time. How can we do this faster? The answer is by using a low-level language. 
+Considering the fact that $\pi=3.141592653589793...$, the obtained result is quite acceptable. However, to run the program with $M=10^9$ Monte-Carlo cycles, the program is quite slow. Is it possible to do this faster? The answer is yes, by switching entirely or partly to a low-level language.
 
 \section{Low-level programming with C++}
 Above, we looked at how inheritance can be implemented in the high-level language Python, and we observed the main weakness of high-level languages: the computational time. In this section we will repeat the implementation and example above using C++. This will, hopefully, provide a significantly speed-up. A similar class structure in C++ looks like
@@ -179,18 +181,37 @@ Square::Square(double r) : Shapes() {
 m_r = r;
 }
 \end{lstlisting}
-which looks quite different from the implementation in Python. But do not panic! We will go thoroughly through the different part of the code. one of the first thing we observe, is that we here need to \textit{declare} all the variables, which means that we need to specify what find of variable it is. In the following we will have a look at some standard \textit{data types}.
+which looks quite different from the implementation in Python. We will go thoroughly through the different part of the code. 
 
-\subsection{Data types}
-To not lose precision, it is important to choose the correct data type. As a thumb rule, a large integer should be declared as a \texttt{long int} (or just a \texttt{long}), and an extremely large float should be declared as a \texttt{long double}. However, normally it is sufficient to declare integers as \texttt{int}s and floats as \texttt{double}s. 
+One of the first thing we observe, is that we here need to \textit{declare} all the variables, which means that we need to specify what find of variable it is. In the following we will have a look at some standard \textit{data types}.
 
-Some variables should always be non-negative, such as counters and variables that gives the number of something. In those situations, the prefix \texttt{unsigned} is useful because it does two things: 1. ensures that a negative number is never assigned to the variable, 2. increases the range in positive direction. In for-loops, the control variable will usually be declared as \texttt{unsigned int}.
+\subsection{Built-in data types}
+In low-level languages, we need to specify the data types manually, causing more control and flexibility. The most fundamental data types are \texttt{int} representing an integer number, \texttt{float} representing a floating number, \texttt{bool} representing a Boolean number and a \texttt{char} representing a character.
 
-When using a library some variable types are already set, for instance the length of a standard vector is always given as an \texttt{unsigned long}. In those cases, it is most appropriate to continue using that type. 
+Often, these four data types are not sufficient for the task we want to implement and we need to introduce more data types. An especially common error is \textit{overflow}, meaning that the number computed is out of the range of our data type. To avoid this, we can switch to data types of longer range, replacing \texttt{int} with a \texttt{long int} (or just a \texttt{long}), and replacing \texttt{float} with a \texttt{double}. The range of an integer can also be further extended to a \texttt{long long}, and some languages offer \texttt{long double} (this is not the case for C++, where a \texttt{double} automatically is a \texttt{long double}). As lack of memory seldomly is a problem on modern computers, it is common to declare all floating numbers as \texttt{double}s. In table \eqref{tab:datatypes}, the most common data types are listed with their range and memory occupation in C++.
 
-When we tell the pros, we should also tell the cons. With \texttt{unsigned} types there is always a risk for underflow, which means that the number explode if it ...
+\begin{table}
+	\caption{Built-in data types in C++, with their memory occupation and range. Parenthesis () means that the the extension is optional. Numbers are taken from \cite{noauthor_c++_2017}.}
+	\label{tab:datatypes}
+	\begin{tabularx}{\textwidth}{R{0.5cm}L{7cm}R{1.5cm}R{5cm}R{0.3cm}} \hline\hline
+		&\makecell{\\ Data types \\ \phantom{=}} & Size [bytes] & Range & \\ \hline \\
+		&(\texttt{signed}) \texttt{short} (\texttt{int}) & 2 & $-2^{15}$ to $2^{15}-1$ & \\
+		&(\texttt{signed}) \texttt{int} / \texttt{long} (\texttt{int}) & 4 & $-2^{31}$ to $2^{31}-1$ & \\ 
+		&(\texttt{signed}) \texttt{long long} (\texttt{int}) & 8 & $-2^{63}$ to $2^{63}-1$ & \\
+		&\texttt{unsigned short} (\texttt{int}) & 2 & 0 to $2^{16}$ & \\
+		&\texttt{unsigned int} / \texttt{unsigned long} (\texttt{int}) & 4 & 0 to $2^{32}$ & \\ 
+		&\texttt{unsigned long long} (\texttt{int}) & 8 & 0 to $2^{64}$ & \\
+		&\texttt{float} & 4 & $\sim$ $\pm$3.4E38 ($\sim$ 7 digits) & \\
+		&(\texttt{long}) \texttt{double} & 8 & $\sim$ $\pm$1.7E308 ($\sim$ 15 digits) & \\
+		&(\texttt{signed}) \texttt{char} & 1 & $-2^7$ to $2^{7}-1$ & \\ 
+		&\texttt{unsigned char} & 1 & 0 to $2^{8}$ & \\ 
+		\hline\hline
+	\end{tabularx}
+\end{table} 
 
-As an additional note, we often want to ensure that a variable is not changed inside a function. To prevent this, the arguments can be passed with the feature \texttt{const}, which raises an error if the respective variable is tried changed. 
+For integers it is also possible to "move" the range from its zero-centered default to only include positive numbers. This is done by declaring a \texttt{unsigned int} or \texttt{unsigned long}. This doubles the range in the positive direction, but should not be done if one by any chance can get negative numbers, as one will get \textit{underflow}. 
+
+Furthermore, the \texttt{char} is often replaced with \texttt{string}s, offering more flexibility and 
 
 \subsection{Access modifiers}
 Another thing that we observe from the code example above, is that we define the functions as \texttt{private} or \texttt{public}, which are called access modifiers. The access modifiers specify how much access the environment should have to the function: \texttt{private} means that the function can only be called from the particular class, while \texttt{public} means that also sub-classes (children) have access to the function. 

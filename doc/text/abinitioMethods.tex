@@ -1,4 +1,4 @@
-\chapter{\textit{Ab initio} Quantum Many-body Methods} \label{chp:othermethods}
+\chapter{Other Quantum Many-body Methods} \label{chp:othermethods}
 \epigraph{Hartree-Fock plays the same role in many-body quantum physics as a basic kitchen tool does in cooking; it can be used to prepare almost everything.}{Morten Hjorth-Jensen}
 \begin{figure}[H]
 	\centering
@@ -6,9 +6,39 @@
 	\caption{Caption}
 \end{figure}
 
-Post Hartree-Fock methods are usually \textit{ab initio} methods where Hartree-Fock can be used as input. The term \textit{ab initio} means from first principles, implying that only physical constants are put into the methods. The Monte-Carlo methods are not considered \textit{ab initio} as nonphysical hyper parameters are required. The methods we will discuss here are the \textbf{configuration interaction} method and the \textbf{coupled cluster} method. \newpage
+QMC methods, as presented in the previous chapter, is just a fraction of the existing many-body methods, and we will in this chapter discuss some of the most common. 
+
+Hartree-Fock (HF) is (arguably) the most successive many-body method, as it provides relatively accurate results with an affordable computational cost. Just a few methods give more accurate results themselves (included QMC methods), but they are in return naturally more expensive. Additionally, HF is often used as an input to other methods, which then are categorized as \textit{post Hartree-Fock methods}. Popular post Hartree-Fock methods cover the full configuration interaction method (FCI) and the coupled cluster method (CC), which both will be explained in this chapter. Also QMC methods commonly use the HF basis as inputs.
+
+The methods HF, FCI and CC are all fundamental different from QMC methods in the sense that they require the one-body and two-body elements
+\begin{equation}
+\mel{\phi_i}{\hat{h}}{\phi_j}\quad\wedge\quad\mel{\phi_i\phi_j}{\hat{w}}{\phi_i\phi_j}
+\end{equation}
+for a given basis $\{\phi_1,\phi_2,\hdots,\phi_n\}$ in advance. For commonly used basis sets, these matrix elements are freely available in an array of software programs. 
+
+The FCI method is by some considered as the most natural way of solving the Schrödinger equation, as it is a linear combination of Slater determinants yielding exact results for an infinity basis. Although this is an elegant method, it quickly becomes infeasible since it scales as $\mathcal{O}(N!)$. 
+
+On the other hand, the CC method truncates the Slater determinants using an exponential expansion, which for an infinity basis also yields exact result. Because of the exponential treatment, the method becomes more efficient than its brother, FCI, scaling as $\mathcal{O}(N^6)$.
+
+We have implemented the FCI and the coupled cluster doubles (CCD) algorithms, and will therefore detail the methods in the following. However, since the HF algorithm is so important, it will first be discussed thoroughly. It is implemented as well, though in its simplest form. All those methods will be applied on the atoms only as references for our VMC and RBM results.
 
 \section{The Hartree-Fock method}
+For the QMC methods, we used the general expression for the energy expectation value from equation \eqref{eq:energyintegral},
+\begin{equation}
+E=\mel{\Psi}{\hat{\mathcal{H}}}{\Psi},
+\end{equation}
+as our starting point, and we will do the same here. Recall that the total Hamiltonian operator $\hat{\mathcal{H}}$ can be split in a one-body operator $\hat{\mathcal{H}}_0$ and a two-body operator $\hat{\mathcal{H}}_{\text{I}}$, such that the energy can be expressed as
+\begin{equation}
+E=\mel{\Psi}{\hat{\mathcal{H}}_0}{\Psi}+\mel{\Psi}{\hat{\mathcal{H}}_{\text{I}}}{\Psi}.
+\end{equation}
+
+The one-body Hamiltonian is given by a sum over all the single-particle one-body Hamiltonians $\hat{h}$,
+\begin{equation}
+\hat{\mathcal{H}}_0=\sum_{i=1}^N\hat{h}_i=\sum_{i=1}^N\Big(-\frac{1}{2}\nabla_i^2 + u_i\Big)
+\end{equation}
+
+The first integral is the solution of the non-interacting system, which is often known (at least in the systems in our studies), while 
+
 Hartree-Fock is an algorithm for finding an approximative expression for the ground state energy of a Hamiltonian. Ever since the childhood of many-body quantum mechanics, it has been an important quantum many-body method due to its accuracy contra expensiveness. 
 
 The method sets up a mean-field potential, often called the Hartree-Fock potential, which replaces the two-body repulsive interaction found in electronic structure calculations. Thereafter, a new basis is expanded in a given basis, and the optimal coefficients with respect to the mean-field constraint are generated. Traditionally, the method has been called the self-consistent field method, but today Hartree-Fock is mostly used. 

@@ -33,11 +33,12 @@ The variational Monte-Carlo method (hereafter VMC) is today widely used when it 
 
 Before we present the mathematical framework of the method, we will restate the two big problems in many-body physics, mentioned in the introduction:
 \begin{enumerate}
-	\item The correct many-body wave function is generally unavailable
 	\item The many-body energy expectation value is analytically infeasible
+	\item The correct many-body wave function is generally unavailable
 \end{enumerate}
 
-Let us first address the second problem, which often is considered as the root of all evil in many-body physics. In chapter \ref{chp:quantum}, we saw that the two-body interaction term makes the integral impossible to solve for many particles, such that we need to rely on numerical methods. 
+\subsection{Approaching the first problem}
+Let us first address the first problem, which often is considered as the root of all evil in many-body physics. In chapter \ref{chp:quantum}, we saw that the two-body interaction term makes the integral impossible to solve for many particles, such that we need to rely on numerical methods. 
 
 In VMC, we start with a trial wave function guess $\Psi_T(\bs{r};\bs{\theta})$ where the parameters $\bs{\theta}$ are varied to minimize the energy. According to the variational principle, the obtained energy will always be higher or equal to the true ground state energy, where the equality is the case if and only if the wave function is the exact ground state wave function. Denoting the exact ground state energy by $E_0$ and the obtained energy as $E$, we can summarize this by
 \begin{equation}
@@ -63,21 +64,21 @@ E \approx \frac{1}{M}\sum_{i=1}^ME_L(\bs{r}_i) \label{eq:energysum}.
 \end{equation}
 We recall that the local energies $E_L(\bs{r}_i)$ are evaluated with particle configurations $\bs{r}_i$ drawn from the PDF $P(\bs{r})$. In this manner the obtained energy is guaranteed to approach the exact energy as the number of Monte-Carlo cycles, $M$, increases. Actually the standard error goes as $\mathcal{O}(1/\sqrt{M})$, making the method pretty accurate for large numbers of cycles. In the limit $M\rightarrow\infty$, the error goes to zero,
 \begin{equation}
-\langle E_L\rangle=\lim_{M\to\infty} \frac{1}{M}\sum_{i=1}^ME_L(\bs{r}_i).
+\langle E_L\rangle=\lim_{M\to\infty} \frac{1}{M}\sum_{i=1}^ME_L(\bs{r}_i),
 \end{equation}
-This is associated with a zero-variance property governing the VMC method, which is detailed in 
-Zero-variance property: 
-For more statistical details, see \cite{deb_variational_2014}. 
+indicating the desire of largest number of cycles. This is associated with a zero-variance property governing the VMC method, stating that the variance in the true ground state should be zero. For more statistical details, see \cite{deb_variational_2014}.
 
-Generally, sampling from the beginning of the chain may not represent the desired distribution. Instead, we introduce a \textit{burn-in period}, which does not contribute to the expectation values. The burn-in period is associated with a equilibriation fraction, which how big amount of the total cycles that should be in the burn-in period. When running multiple parallel processes, the burn-in period should be the same at all the processes.
+\subsection{Approaching the second problem}
+So far so good, but how do we attack the second problem stated above? One of the big strengths of VMC, as aforesaid, is that we obtain an approximative wave function meanwhile the energy expectation value is calculated. If we go back to equation \eqref{eq:probvmc}, we see that a PDF is required in order to estimate the energy, 
 
-We also have a technique called \textit{thinning}, which means picking every $n$'th sample in the chain and ignore the rest. This 
+\subsection{Common extensions}
+This finalizes the essential theory behind the VMC method. However, a sampling algorithm is needed to draw samples randomly from $P(\bs{r})$, and in section \ref{sec:metropolis} some popular sampling techniques are described. Before we jump into this field, we will discuss some usual extensions and improvements to the VMC method.
 
-So far, so good, but how about the first problem stated above? How do we find the correct wave function? In VMC, we define a wave function with variational parameters, which are adjusted in order to minimize the energy for every iteration. Of course, we need a decent initial guess, which is usually based on our physical intuition. We will later examine how much physical intuition we need to get an acceptable result. 
+Initially, the particle configuration $\bs{r}$ might not be representative for a configuration in equilibrium, making the first cycles a poor estimate of the expectation value. An easy fix to this problem is to basically ignore the first sampling period, known as the \textit{burn-in period}. With this in mind, we implement an equilibriation fraction describing the fraction of the total number of cycles that is used in the burn-in period. When running multiple parallel processes, the burn-in period should be the same for all the processes.
 
-For every iteration, we run $M$ Monte-Carlo cycles where we withdraw a new position $\bs{r}_i$. Whether or not the proposed move should be accepted is determined by a Markov chain Monte-Carlo method, as for instance the Metropolis method. In the following we will explain how it works and present an algorithm for it.
+We also have a technique called \textit{thinning}, which means picking every $n$'th sample in the chain and ignore the rest. This is shown to give a more or less identical expectation value and makes the program less memory-requiring, but due to worse statistics, this should be avoided as long as the computer does not lack memory. 
 
-\section{The Metropolis algorithm}
+\section{The Metropolis algorithm} \label{sec:metropolis}
 Metropolis sampling is a Markov chain Monte-Carlo method, which generates a Markov chain using a proposal density for new steps, and the method also rejects unsatisfying moves. In its most simple form, a particle is moved in a random direction, which was the original method invented by Metropolis et.al. back in 1953. \cite{metropolis_equation_1953} Later, the method was improved by Hastings et.al., giving rise to the more general Metropolis-Hastings algorithm. \cite{hastings_monte_1970}
 The genius of the Metropolis algorithm, is that the acceptance of a move is not based on the probabilities themselves, but the ratio between the new and the old probabilities. In that way, we avoid calculating the sum over all probabilities, which is often computational intractable.
 

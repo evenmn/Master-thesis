@@ -150,7 +150,7 @@ for a satisfying number of harmonic oscillator functions. All the symbols are de
 \end{table}
 
 \subsection{Atoms}
-The second system we will use for validation is atoms. The energies of atoms containing non-interacting electrons are given by the Bohr formula presented in equation \eqref{eq:bohrformula}. In table \eqref{tab:atomswointeraction}, the lowest closed-shell atoms He, Be and Ne are listed with their exact energy and the obtained energy from the code. In addition, we added calculations of the Hydrogen ground-state energy as another test.
+The second system we will use for validation is atoms. The energy of an atoms containing non-interacting electrons is given by the Bohr formula presented in equation \eqref{eq:bohrformula}. In table \eqref{tab:atomswointeraction}, the lowest closed-shell atoms He, Be and Ne are listed with their exact energy and the obtained energy from the code. In addition, we added calculations of the Hydrogen ground-state energy as another test.
 
 \begin{table} [H]
 	\caption{Energy of atoms of $N$ non-interacting electrons. RBM is a single Slater determinant with a plain Boltzmann machine baked in, while VMC is a standard variational Monte-Carlo Slater determinant. The variance is zero to machine precision for all listed results. }
@@ -223,20 +223,20 @@ We made effort in trying to get the deep Boltzmann machine and the partly restri
 		& 0.5 & 97.166(5) & 94.920(4) & 94.104(1) & 95.7328 & - & 94.0433(9) & 93.8752(1) \\
 		& 1.0 & 159.640(5) & 157.209(4) & 156.104(1) & 158.004 & - & 156.102(1) & 155.8822(1) & \phantom{=} \\ \hdashline \\
 		
-		30 & 0.1 & 61.829(5) & 61.351(4) & 60.774(2) & - & - & 60.585(1) & 60.4205(2) \\ 
-		& 0.28 & 126.958(6) & 126.067(5) & 124.437(2) & - & - & 124.195(2) & 123.9683(2) \\
-		& 0.5 & 191.495(7) & 188.995(5) & 187.493(2) & - & - & 187.325(3) & 187.0426(2) \\
-		& 1.0 & 315.364(8) & 311.468(7) & 308.989(2) & - & - & 308.957(2) & 308.5627(2) \\ \hdashline \\
+		30 & 0.1 & 61.829(5) & 61.351(4) & 60.774(2) & & - & 60.585(1) & 60.4205(2) \\ 
+		& 0.28 & 126.958(6) & 126.067(5) & 124.437(2) & & - & 124.195(2) & 123.9683(2) \\
+		& 0.5 & 191.495(7) & 188.995(5) & 187.493(2) & & - & 187.325(3) & 187.0426(2) \\
+		& 1.0 & 315.364(8) & 311.468(7) & 308.989(2) & & - & 308.957(2) & 308.5627(2) \\ \hdashline \\
 		
-		42 & 0.1 & 109.892(6) & 110.030(7) & - & - & - &  107.928(2) & 107.6389(2) \\ 
-		& 0.28 & 224.462(8) & 224.587(8) & - & - & - & 220.224(2) & 219.8426(2) \\
-		& 0.5 & 337.523(8) & 333.582(9) & 331.410(3) & - & - & 331.276(3) & 330.6306(2) \\
-		& 1.0 & 553.40(1) & 549.76(1) & 543.746(3) & - & - & 543.738(7) & 542.9428(8) \\ \hdashline \\
+		42 & 0.1 & 109.892(6) & 110.030(7) & - & & - &  107.928(2) & 107.6389(2) \\ 
+		& 0.28 & 224.462(8) & 224.587(8) & - & & - & 220.224(2) & 219.8426(2) \\
+		& 0.5 & 337.523(8) & 333.582(9) & 331.410(3) & & - & 331.276(3) & 330.6306(2) \\
+		& 1.0 & 553.40(1) & 549.76(1) & 543.746(3) & & - & 543.738(7) & 542.9428(8) \\ \hdashline \\
 		
-		56 & 0.1 & - & 180.52(1) & - & - & - & 176.774(3) & 175.9553(7) \\ 
-		& 0.28 & 364.85(1) & 366.91(1) & - & - & - & 359.63(1) & 358.145(2) \\
-		& 0.5 & 547.46(1) & 545.74(1) & - & - & - & 538.686(9) & 537.353(2) \\
-		& 1.0 & 894.12(2) & 890.70(2) & - & - & - & 880.352(5) & 879.3986(6) \\ \hline\hline
+		56 & 0.1 & - & 180.52(1) & - & & - & 176.774(3) & 175.9553(7) \\ 
+		& 0.28 & 364.85(1) & 366.91(1) & - & & - & 359.63(1) & 358.145(2) \\
+		& 0.5 & 547.46(1) & 545.74(1) & - & & - & 538.686(9) & 537.353(2) \\
+		& 1.0 & 894.12(2) & 890.70(2) & - & & - & 880.352(5) & 879.3986(6) \\ \hline\hline
 	\end{tabularx}
 \end{table}
 
