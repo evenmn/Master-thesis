@@ -75,7 +75,7 @@ When it comes to machine learning, there are dozens of serious ethical aspects. 
 \section{Our developed code}
 There exist multiple commercial code for solving the quantum many-body problem, and they are often optimized. In general it is wise to use already existing code and not try reinvent the wheel, but in our case we will investigate a new approach, which forces us to write the code from scratch.
 
-Our variational Monte-Carlo (VMC) solver is written in object-orientated C++ inspired by Morten Ledum's example implementation, but our code is based on Cartesian coordinates. The goal is not to compete with the commercial software when it comes to performance, but we will still make some significant effort to make it efficient. 
+Our variational Monte-Carlo (VMC) solver is written in object-orientated C++ inspired by Morten Ledum's example implementation \cite{ledum_simple_2016}, but our basis set is assumed to be given in Cartesian coordinates. The goal is not to compete with the performance of commercial software, but we will still put in significant effort to make the code fast.  
 
 Additionally, the author has developed Hartree-Fock code and coupled cluster doubles (CCD) code written in Python, in cooperation with Stian Bilek. Also a full configuration interaction (FCI) code was developed. Alocias Mariadasons Hartree-Fock code was used to generate Hartree-Fock coefficients used in VMC code, because it lives in Cartesian coordinates and so does the VMC code. All code is open-source, and is freely available on \url{https://github.com/evenmn} under MIT license. 
 

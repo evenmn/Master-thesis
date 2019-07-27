@@ -1420,7 +1420,7 @@
          giveni={M\bibinitperiod},
       }}%
     }
-    \keyw{Condensed Matter, Physics - Chemical Physics}
+    \keyw{Physics - Chemical Physics, Condensed Matter}
     \strng{namehash}{ARCM1}
     \strng{fullhash}{ARCM1}
     \field{labelnamesource}{author}
@@ -2053,8 +2053,8 @@
          giveni={R\bibinitperiod\bibinitdelim R\bibinitperiod},
       }}%
     }
-    \keyw{Computer Science - Computer Vision and Pattern Recognition, Computer
-  Science - Machine Learning, Computer Science - Neural and Evolutionary
+    \keyw{Computer Science - Machine Learning, Computer Science - Computer
+  Vision and Pattern Recognition, Computer Science - Neural and Evolutionary
   Computing}
     \strng{namehash}{HGE+1}
     \strng{fullhash}{HGESNKASISRR1}
@@ -3578,6 +3578,34 @@
     \field{month}{11}
     \field{year}{2018}
     \field{urlday}{16}
+    \field{urlmonth}{07}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{aldanial_cloc_2019}{misc}{}
+    \name{author}{1}{}{%
+      {{hash=A}{%
+         family={AlDanial},
+         familyi={A\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{A1}
+    \strng{fullhash}{A1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{shorttitle}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{note}{original-date: 2015-09-07T03:30:43Z}
+    \field{shorttitle}{cloc counts blank lines, comment lines, and physical
+  lines of source code in many programming languages.}
+    \field{title}{cloc counts blank lines, comment lines, and physical lines of
+  source code in many programming languages.: {AlDanial}/cloc}
+    \verb{url}
+    \verb https://github.com/AlDanial/cloc
+    \endverb
+    \field{month}{07}
+    \field{year}{2019}
+    \field{urlday}{27}
     \field{urlmonth}{07}
     \field{urlyear}{2019}
   \endentry
