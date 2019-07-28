@@ -1,16 +1,17 @@
 \chapter{Optimization and Resampling Algorithms} \label{chp:optimization}
-\epigraph{Great quote.}{Author}
+%\epigraph{Great quote.}{Author}
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.5]{Images/gd_bw.png}
+	\includegraphics[scale=0.4]{Images/gd_bw.png}
 	\caption{An iterative optimization algorithm is always approaching an extremum in a possibly multi-dimensional space. Here illustrated in a two-dimensional space where the equipotential curves are drawn.}
 \end{figure}
 
-In this chapter, we will cover the remaining algorithms we need before we can move on to the implementation. A good optimization algorithm is a must, we need an algorithm which can treat a large number of parameters because of the restricted Boltzmann machines. For that reason, we will introduce the ADAM optimizer, which has gained an extreme popularity after is was presented in 2014.  We also need an algorithm 
+In this chapter, we will cover the remaining algorithms we need before we can move on to the implementation. First of all, a good optimization algorithm is a must in order to obtain the correct minimum of the cost function. For our purpose, we potentially have thousands of parameters to optimize, and therefore a robust optimizer is required. The ADAM optimizer has proven its ability to solve similar problems, and we will therefore have a thoroughly discussion of the algorithm.
 
-\newpage
+Secondly, we need an algorithm to determine the statistical errors with high precision. This is the task of the resampling methods, where we keep our attention on the blocking method. For long, the blocking method suffered from the need of tailored hyper-parameters, but the recent years automated blocking methods have been developed, in particular by Marius Jonsson \cite{jonsson_standard_2018}. We will explain the idea behind the traditional blocking method, and in the code we use the automated blocking algorithm. 
+
 \section{Optimization algorithms}
-In chapter \ref{chp:machinelearning}, we discussed the gradient descent optimization algorithm, which is among the most basic methods available. That method is based on the gradient, which is the slope of the cost function, but many methods are also in need of the Hessian matrix, which gives the curvature of the cost function. We will overlineely scratch the surface of this field, limiting us to the gradient methods. 
+In chapter \ref{chp:machinelearning}, we discussed the gradient descent optimization algorithm, which is among the most basic methods available. That method is based on the gradient, which is the slope of the cost function, but many methods are also in need of the Hessian matrix, which gives the curvature of the cost function. We will barely scratch the surface of this field, limiting us to the gradient methods. 
 
 To have the method fresh in mind, we will start with reintroducing the gradient descent method before we move on the its stochastic brother. We will then have a look at how momentum can be added, and finally we examine the stochastic and momentum based ADAM optimizer. 
 

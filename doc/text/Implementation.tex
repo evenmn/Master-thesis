@@ -1,43 +1,101 @@
 \chapter{Implementation} \label{sec:implementation}
 \epigraph{There are only two hard things in Computer Science: cache invalidation and naming things.}{Phil Karlton, \cite{fowler_bliki:_nodate}}
+\iffalse
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.4]{Images/example.png}
 	\caption{Caption}
 \end{figure}
+\fi
 
 In this chapter de will describe the implemented VMC code, which was developed from scratch in C++. As the code itself is around 7000 significant\footnote{Significant lines of code in this sense means lines that are not blank or commented. Counted by the cloc program \cite{aldanial_cloc_2019}.} lines of code, we will just go through selected and often not obvious parts. As often said, \textit{good planning is half the battle}, which largely relates to writing VMC code. The code was rewritten and restructured several times before we ended on the final version. As a starting point, we used Morten Ledum's VMC framework \cite{ledum_simple_2016}, which was meant as an example implementation in the course \textit{FYS4411 - Computational Physics II: Quantum Mechanical Systems}. The entire source code can be found on the authors github, \cite{nordhagen_general_2019}.
 
 For all matrix operations, the open source template library for linear algebra Eigen was used throughout the code. Eigen provides an elegant interface, with support for all the needed matrix and vector operations. In addition, Eigen is built on the standard software libraries for numerical linear algebra, BLAS and LAPACK, which are incredibly fast. These contribute greatly to the performance of the code. 
 
 The code was developed in regards to three principal aims:
-\begin{itemize}
-	\itemsep-0.3em
-	\item flexible,
-	\item fast,
-	\item readable.
-\end{itemize}
-It needs to be flexible in order to support the Boltzmann machines as our trial wave function guess, and since we will try out various Jastrow factors it should be easy to add and remove wave function elements. Since quantum mechanical simulations in general are very expensive, it is important to develop efficient code to be able to study systems of some size. Lastly, we aim to write readable code such that others can reuse and rewrite the code later. 
+\begin{center}
+	\begin{minipage}{0.2\textwidth}
+		\begin{itemize}
+			%\itemsep-0.6em
+			\item flexible,
+			\item fast,
+			\item readable.
+		\end{itemize}
+	\end{minipage}
+\end{center}
+It needs to be flexible in order to support the Boltzmann machines as our trial wave function guess, and since we will try out various Jastrow factors it should be easy to add and remove wave function elements. Since quantum mechanical simulations in general are very expensive, it is important to develop efficient code to be able to study systems of some size. Lastly, we aim to write readable code such that others can reuse the code in its entirety or parts of it later. 
 
 How we work to achieve the goals will be illustrated by code mainly picked from the \texttt{WaveFunction} class, which is the heart of the code. 
 
 \section{Flexibility}
-Unlike many other VMC codes, our code was developed flexible with respect to the wave functions. This means that one can combine various wave function elements, where each element is implemented separately. For instance, the Slater determinant with the Gaussian part factorized out and the Padé-Jastrow factor were implemented as three separate elements, but they all can easily be combined. The way one does this in practice, is to append multiple wave function elements to a vector \texttt{WaveFunctionElements}. A quantum dot trial wave function combining the Gaussian with the Padé-Jastrow factor and the Slater determinant can be called in following way
+Unlike many other VMC codes, our code was developed flexible with respect to the wave functions. This means that one can combine various wave function elements, where each element is implemented separately. For instance, the Slater determinant with the Gaussian part factorized out and the Padé-Jastrow factor were implemented as three separate elements, but they all can easily be combined. The way one does this in practice, is to append multiple wave function elements to a vector \texttt{WaveFunctionElements}. A trial wave function for a quantum dot combining a Slater determinant with the Gaussian part factorized out and the Padé-Jastrow factor can be specified by a system \texttt{quantumDot} is the following way
 
 \lstset{basicstyle=\scriptsize}
-\begin{lstlisting}[language=c++,caption={Due to the flexibility of the code, wave function elements can be combined in every possible way.}]
+\begin{lstlisting}[language=c++,caption={The code was implemented in a flexible way such that all the wave function elements can be combined with other wave function elements by appending all the wanted elements to a vector, here named \texttt{waveFunctionElements}, which again is set as the trial wave function using the function \texttt{setWaveFunctionElements}.}]
 System* quantumDot = new System();
 std::vector<class WaveFunction*> WaveFunctionElements;
+
 WaveFunctionElements.push_back(new Gaussian(quantumDot));
 WaveFunctionElements.push_back(new PadeJastrow(quantumDot));
 WaveFunctionElements.push_back(new SlaterDeterminant(quantumDot));
+
 quantumDot->setWaveFunctionElements(WaveFunctionElements);
 \end{lstlisting}
 
-The big advantage of this implementation technique is that we do not need to hard code every possible combination of wave function elements, which reduces the number of code lines significantly. This also eases the operation of adding new elements, since we only need to calculate the derivatives of the particular element (do not need to worry about cross terms). The exact derivation of all the wave function elements, with all the required derivatives, can be read in chaper \ref{chp:WFE}. The con is that the program becomes slightly slower, since even canceling cross terms are calculated.
+The big advantage of this implementation technique is that we do not need to hard code every possible combination of wave function elements, which reduces the number of code lines significantly. This will be very useful when dealing with the Boltzmann machines, which will be tested with various Jastrow factors, and also with extensions like the partly restricted element. Additionally, this also eases the operation of adding new elements, since we only need to calculate the derivatives of the particular element (do not need to worry about cross terms). The exact derivation of all the wave function elements, with all the required derivatives, can be read in chapter \ref{chp:WFE}. The con is that the program becomes slightly slower, since even canceling cross terms are calculated, but it will most likely not be noticeable.
 
 \section{Efficiency}
-The efficiency is mostly based on recursive computations, such that we do not need to calculate everything over again when it is enough to calculate the fraction between the old the new number. This is highly relevant when it comes to the Slater determinant, but we also do this for other wave function elements. Those optimizations are described for all the respective elements in chapter \ref{chp:WFE}.
+There are many ways to improve the efficiency of a code. Usually, the first rule is to calculate closed-form expressions for the functions as far as it is possible, which we have done in chapter \ref{chp:WFE}. All the optimization for the respective elements are also described there. 
+
+Secondly, computations already performed should \textbf{not} be repeated as far as it is possible.
+
+\subsection{Updating the distance matrix}
+The distance matrix, which is used in the Jastrow factors, gives an illustrating example on this. The matrix, henceforth named $M$, contains the relative distances between all the particles, for three particles given by
+\begin{eqnarray}
+M=
+\begin{pmatrix}
+r_{11} & r_{12} & r_{13} \\
+r_{21} & r_{22} & r_{23} \\
+r_{31} & r_{32} & r_{33}
+\end{pmatrix}
+=
+\begin{pmatrix}
+0 & r_{12} & r_{13} \\
+r_{12} & 0 & r_{23} \\
+r_{13} & r_{23} & 0
+\end{pmatrix}
+\end{eqnarray}
+where $r_{12}$ means the distance between particles 1 and 2. Since $r_{12}=r_{21}$ and $r_{ii}=0$, the matrix becomes symmetric with zeros on the diagonal, which means that we only need to calculate $N(N-1)/2$ elements instead of $N^2$. Further, we can exploit that only a particle is moved at a time, which means that only a row and a column are changed when a particle is moved. For instance, if particle 1 is moved, the upper row and the left-hand-side column in matrix $M$ need to be updated. 
+
+In our program, we have implemented this in the following way
+\lstset{basicstyle=\scriptsize}
+\begin{lstlisting}[language=c++,caption={When a particle is moved, we update a row and a column in the distance matrix. The functions are parts of the Metropolis class, as the distance matrix is updated for every step in the Metropolis sampling. Taken from \texttt{metropolis.cpp}.}]
+double Metropolis::calculateDistanceMatrixElement(const int i, const int j) {
+	double dist = 0;
+	int parti   = m_numberOfDimensions*i;
+	int partj   = m_numberOfDimensions*j;
+	for(int d=0; d<m_numberOfDimensions; d++) {
+		double diff = m_positions(parti+d)-m_positions(partj+d);
+		dist += diff*diff;
+	}
+	return sqrt(dist);
+}
+
+void Metropolis::calculateDistanceMatrixCross(const int particle) {
+	for(int i=0; i<m_numberOfParticles; i++) {
+		m_distanceMatrix(particle, i) = calculateDistanceMatrixElement(particle, i);
+		m_distanceMatrix(i, particle) = m_distanceMatrix(particle, i);
+	}
+}
+
+\end{lstlisting}
+where the function \texttt{calculateDistanceMatrixElement(i,j)} returns element \texttt{i,j} of the matrix, which is called from the function \texttt{calculateDistanceMatrixCross(particle)}. The latter takes the moved particle index as input, and updates the necessary row and column of the matrix. 
+
+For systems of non-interacting particles, the distance matrix is redundant, and should therefore not be calculated. We have solved this by giving all the wave function elements and the Hamiltonians a number which indicated whether they require the distance matrix or not. If no part of the code needs the distance matrix, it is never calculated. 
+
+We also calculate the radial position, $r_i=\sqrt{x_i^2+y_i^2+z_i^2}$, when it is required by any part of the code. There components are stored in a vector named \texttt{radialVector}, applying the same optimization ideas as the distance matrix. 
+
+\subsection{Next section}
 
 First of all, we need to initialize all position dependent arrays. Some of these are initialized once, and then updated for the rest of the run based on their earlier value. \texttt{initializeArrays} does all the magic here.
 

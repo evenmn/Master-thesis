@@ -1,5 +1,5 @@
 \chapter{Scientific Programming} \label{chp:scientificprogramming}
-\epigraph{Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live..}{John F. Woods, \cite{woods_usage_nodate}}
+\epigraph{Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live.}{John F. Woods, \cite{woods_usage_nodate}}
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.9]{Images/montecarlointegration.png}
@@ -9,17 +9,18 @@
 
 Since this scientific work is based on solving equations numerically on the computer, software development is a major part of the work. We will in this chapter go through the main concepts of scientific programming, and directly relate them to our code in the next chapter on implementation. As a motivation, we will provide a brief recap of some historical milestones in scientific computing.
 
-Computers have long been used for solving complex scientific problems. Actually, for a long time science was the main motivation of developing computers. Already in 1929, Egil Hylleraas used his mechanical desk calculator to calculate the ground state energy of the Helium atom, which remains a milestone in computational quantum chemistry as well as quantum chemistry in general \cite{helgaker_perspective_2000}. Later, pioneers like ...
+Computers have long been used for solving complex scientific problems. Actually, for a long time science was the main motivation of developing computers. Already in 1929, Egil Hylleraas used his mechanical desk calculator to calculate the ground state energy of the Helium atom, which remains a milestone in computational quantum chemistry as well as quantum chemistry in general \cite{helgaker_perspective_2000}. Later, pioneers like Alan Turing and John von Neumann contributed to the invention of the first electronic computer, which made numerical solutions of ordinary differential equations possible \cite{gustafsson_scientific_2018}. 
 
-Today's computers are much more advanced, but they are also way more used-friendly than the primary computers. ...
+The computer used today have become possible due to heroic effort of an array of scientists, engineers and mechanics over a long period. The computers are stronger than ever, have more memory than ever, are compacter than ever and, last but not least, they are more user-friendly than ever. This has made advanced simulations possible even for young, inexperienced students like the author, and we should we aware that it has not always been like that. 
 
+The computer's language itself is binary, and is the lowest level. To translate commands to this language, we need a "translator", which is a language that fills the gap between the binary language and human commands. This language is categorized in levels based on how similar they are to the binary language. Low-level languages are more similar to the binary language than a high-level language. The result is that low-level languages in general are more demanding to deal with, but they are typically faster than high-level languages. In our work, we have used the low-level language C++ for the main code, but for scripting, including plotting and solving less expensive problems, the high-level language Python has been used. 
 
-The computer's language itself is binary, and is the lowest level. To translate commands to this language, we need a "translator", which is a language that fills the gap between the binary language and human commands. This language is categorized in levels based on how similar they are to the binary language. Low-level languages are similar to the binary language, which means fast but complicated. High-level languages are easy to work with, but are not as fast as low-level languages. Might mention grammar etc
+In this chapter, we will explain the essentials behind scientific programming, using examples from both C++ and Python. We will begin from the very basic, so if the reader is an experienced programmer, this chapter is probably old news.
 
 One can either do \textit{procedural programming} or \textit{object oriented programming}. The former means that the code is written in the same order as the program flow goes, while one in the latter defines objects. 
 
 \section{Object orientated programming in Python}
-In the everyday life, we are surrounded by objects all the time which we can place in different categories. For instance, a \textit{circle} is an object with properties like area, circumference and so on, and can be placed in the class \textit{shapes}. Other members of the class shapes might be square and triangle. In object orientated programming, we create similar objects, or classes, to make the program flow more intuitive for the reader. The main class is called the parent class, while the sub-classes are called the children. the reason for this analogy, is that the sub-classes always inherit from their main class, but not the other way around. 
+In the everyday life, we are surrounded by objects all the time which we can place in different categories. For instance, a \textit{circle} is an object with properties like area, circumference and so on, and can be placed in the class \textit{shapes}. Other members of the class shapes might be square and triangle. In object orientated programming, we create similar objects, or classes, to make the program flow more intuitive for the reader. The main class is called the parent class, while the sub-classes are called the children. The reason for this analogy, is that the sub-classes always inherit from their main class, but not the other way around. 
 
 The example with the shapes can therefore be implemented with \texttt{Shapes} being the parent, and \texttt{Circle}, \texttt{Square} and \texttt{Triangle} being its children. In the high-level language Python, this can be implemented as 
 

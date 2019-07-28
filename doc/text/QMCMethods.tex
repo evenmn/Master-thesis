@@ -1,19 +1,19 @@
 \chapter{Quantum Monte-Carlo Methods} \label{chp:methods}
-\epigraph{Great quote.}{Author}
+%\epigraph{Great quote.}{Author}
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.4]{Images/random_walk.png}
 	\caption{Random walk on a two-dimensional grid.\\ © Copyright wikipedia.org.}
 \end{figure}
 
-Quantum Monte-Carlo methods (QMC) is a bunch of methods that attempt to solve the Schrödinger equation using stochastic Monte-Carlo integration. They all seek to evaluate the multi-dimensional integral arising from the Schrödinger equation,
+Quantum Monte-Carlo methods (QMC) is a bunch of \textit{ab initio} methods that attempt to solve the Schrödinger equation using stochastic Monte-Carlo integration. \textit{ab initio} reads "from first principles", which indicates that the methods constitute a fundamental approach to the problem. They all seek to evaluate the multi-dimensional integral arising from the Schrödinger equation,
 \begin{equation}
 E_0= \mel{\Psi_0}{\hat{\mathcal{H}}}{\Psi_0}= \frac{\int d\bs{r}\Psi_0(\bs{r})^*\hat{\mathcal{H}}\Psi_0(\bs{r})}{\int d\bs{r}\Psi_0(\bs{r})^*\Psi_0(\bs{r})},
 \label{eq:schrodingergroundstate}
 \end{equation}
 which provides the ground state energy expectation value for the exact ground state wave function $\Psi_0$. As aforementioned, this integral is analytically infeasible for more or less all systems of interest, rising the need of numerical methods like QMC.
 
-In Monte-Carlo integration, we use random number to evaluate integrals numerically. Typically, the we want to estimate an expectation value $\langle\mathcal{O}\rangle$ by approximating the definition integral with a dense sum,
+In Monte-Carlo integration, we use random numbers to evaluate integrals numerically. Typically, the we want to estimate an expectation value $\langle\mathcal{O}\rangle$ by approximating the definition integral with a dense sum,
 \begin{equation}
 \langle \mathcal{O}\rangle\equiv\int_{-\infty}^{\infty}d\bs{r}P(\bs{r})\hat{\mathcal{O}}(\bs{r})\approx\frac{1}{M}\sum_{i=1}^M\hat{\mathcal{O}}(\bs{r}_i)
 \label{eq:montecarlointegration}
@@ -22,11 +22,11 @@ where $M$ is the number of \textit{Monte-Carlo cycles} and the coordinates $\bs{
 
 A great advantage of the QMC methods, is that we obtain approximative ground state wave functions when solving equation \eqref{eq:schrodingergroundstate}, which by the fourth postulate of quantum mechanics let us estimate ground state expectation values associated with other operators as well. 
 
-Two widely popular QMC methods are the variational Monte-Carlo method (VMC) and the diffusion Monte-Carlo method (DMC), where the former is arguably the simplest of all the QMC methods. It attempts to directly solve the integrals in equation \eqref{eq:schrodingergroundstate} by varying parameters, with the support of the variational principle presented in section \ref{sec:variationalprinciple}. This makes VMC a relatively computationally cheap method, but the performance is not in the league of the best methods.
+Two widely popular QMC methods are the variational Monte-Carlo method (VMC) and the diffusion Monte-Carlo method (DMC), where the former is arguably the simplest of all the QMC methods. It attempts to directly solve the integrals in equation \eqref{eq:schrodingergroundstate} by varying parameters, with the support of the variational principle presented in section \ref{sec:variationalprinciple}. This makes VMC a comparably computationally cheap method, but the performance is not in the league of the best methods.
 
 DMC, on the other hand, is computationally expensive, but is also potentially numerically exact, making it a preferred method when high accuracy is needed. At first glance it might seems like a tradeoff where VMC is used when computational time is more important than the accuracy and DMC is used when the opposite is true. However, DMC requires a wave function input which is close to the exact wave function, forcing us to first run VMC to obtain this wave function before the DMC machinery can be started.
 
-As VMC is our main focus in this work, it will be explained thoroughly in this chapter together with common sampling techniques. In the end we will briefly explain the idea behind the DMC method, but since this method is not implemented it will not be in our main focus.
+As VMC is our main focus in this work, it will be explained thoroughly in this chapter together with common sampling techniques. In the end we will briefly explain the idea behind the DMC method, but since this method is not implemented it will not be our main focus.
 
 \section{Variational Monte-Carlo} \label{subsec:vmc}
 The variational Monte-Carlo method (hereafter VMC) is today widely used when it comes to the study of ground state properties of quantum many-body systems. It makes use of Markov chain Monte-Carlo methods, often abbreviated MCMC, where the particles are assumed to be moving in Markov chains controlled by Monte-Carlo simulations. Going back to the variational principle in equation \eqref{eq:variationalprinciple}, one observes that by choosing an approved wave function, one gets an energy larger or equal to the ground state energy. \bigskip
