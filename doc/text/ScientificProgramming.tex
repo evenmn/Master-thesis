@@ -129,30 +129,30 @@ Above, we looked at how inheritance can be implemented in the high-level languag
 \begin{lstlisting}[language=c++]
 class Shapes {
 	public:
-	Shapes();
-	virtual double getArea() = 0;
-	virtual double getCircumference() = 0;
-	virtual bool getExtent(double x, double y) = 0;
-	virtual ~Shapes();
+		Shapes();
+		virtual double getArea() = 0;
+		virtual double getCircumference() = 0;
+		virtual bool getExtent(double x, double y) = 0;
+		virtual ~Shapes();
 };
 
 class Circle : public Shapes {
 	public:
-	Circle(double r);
-	double getArea() {
-		return M_PI * m_r * m_r;
-	}
-	double getCircumference() {
-		return 2 * M_PI * m_r;
-	}
-	bool getExtent(double x, double y) {
-		if(sqrt(x*x+y*y) < m_r) {
-			return true;
+		Circle(double r);
+		double getArea() {
+			return M_PI * m_r * m_r;
 		}
-		return false;
-	}
+		double getCircumference() {
+			return 2 * M_PI * m_r;
+		}
+		bool getExtent(double x, double y) {
+			if(sqrt(x*x+y*y) < m_r) {
+				return true;
+			}
+			return false;
+		}
 	private:
-	double m_r = 1;
+		double m_r = 1;
 };
 
 Circle::Circle(double r) : Shapes() {
@@ -161,21 +161,21 @@ Circle::Circle(double r) : Shapes() {
 
 class Square: public Shapes {
 	public:
-	Square(double r);
-	double getArea() {
-		return 4 * m_r * m_r;
-	}
-	double getCircumference() {
-		return 8 * m_r;
-	}
-	bool getExtent(double x, double y) {
-		if(fabs(x) < m_r && fabs(y) < m_r) {
-			return true;
+		Square(double r);
+		double getArea() {
+			return 4 * m_r * m_r;
 		}
-		return false;
-	}
+		double getCircumference() {
+			return 8 * m_r;
+		}
+		bool getExtent(double x, double y) {
+			if(fabs(x) < m_r && fabs(y) < m_r) {
+				return true;
+			}
+			return false;
+		}
 	private:
-	double m_r = 1;
+		double m_r = 1;
 };
 Square::Square(double r) : Shapes() {
 m_r = r;
@@ -183,12 +183,14 @@ m_r = r;
 \end{lstlisting}
 which looks quite different from the implementation in Python. We will go thoroughly through the different part of the code. 
 
-One of the first thing we observe, is that we here need to \textit{declare} all the variables, which means that we need to specify what find of variable it is. In the following we will have a look at some standard \textit{data types}.
+One of the first thing we observe, is that we here need to \textit{declare} all the variables, which means that we need to specify what kind of variable it is. In the following we will have a look at some standard \textit{data types}.
 
 \subsection{Built-in data types}
-In low-level languages, we need to specify the data types manually, causing more control and flexibility. The most fundamental data types are \texttt{int} representing an integer number, \texttt{float} representing a floating number, \texttt{bool} representing a Boolean number and a \texttt{char} representing a character.
+In low-level languages we need to specify the data types manually, giving us more control and flexibility. The most fundamental data types are \texttt{int} representing an integer number, \texttt{float} representing a floating number, \texttt{bool} representing a Boolean number and a \texttt{char} representing a character.
 
-Often, these four data types are not sufficient for the task we want to implement and we need to introduce more data types. An especially common error is \textit{overflow}, meaning that the number computed is out of the range of our data type. To avoid this, we can switch to data types of longer range, replacing \texttt{int} with a \texttt{long int} (or just a \texttt{long}), and replacing \texttt{float} with a \texttt{double}. The range of an integer can also be further extended to a \texttt{long long}, and some languages offer \texttt{long double} (this is not the case for C++, where a \texttt{double} automatically is a \texttt{long double}). As lack of memory seldomly is a problem on modern computers, it is common to declare all floating numbers as \texttt{double}s. In table \eqref{tab:datatypes}, the most common data types are listed with their range and memory occupation in C++.
+Often, these four data types are not sufficient for the task we want to implement and we need to introduce more data types. An especially common error is \textit{overflow}, meaning that the number computed is out of the range of our data type. To avoid this, we can switch to data types of longer range, replacing \texttt{int} with a \texttt{long long int} (or just a \texttt{long long}), and replacing \texttt{float} with a \texttt{double}. 
+
+Some languages also deal with \texttt{long int} and \texttt{long double}, but in C++ an \texttt{int} and a \texttt{long int} is the same. Additionally, a \texttt{long double} is the same as a \texttt{double}. As lack of memory seldomly is a problem on modern computers, it is common to declare all floating numbers as \texttt{double}s. In table \eqref{tab:datatypes}, the most common data types are listed with their range and memory occupation in C++.
 
 \begin{table}
 	\caption{Built-in data types in C++, with their memory occupation and range. Parenthesis () means that the the extension is optional. Numbers are taken from \cite{noauthor_c++_2017}.}
@@ -209,17 +211,19 @@ Often, these four data types are not sufficient for the task we want to implemen
 	\end{tabularx}
 \end{table} 
 
-For integers it is also possible to "move" the range from its zero-centered default to only include positive numbers. This is done by declaring a \texttt{unsigned int} or \texttt{unsigned long}. This doubles the range in the positive direction, but should not be done if one by any chance can get negative numbers, as one will get \textit{underflow}. 
-
-Furthermore, the \texttt{char} is often replaced with \texttt{string}s, offering more flexibility and 
+For integers it is also possible to "move" the range from its zero-centered default to only include positive numbers. This is done by declaring a \texttt{unsigned int} or \texttt{unsigned long}. This doubles the range in the positive direction, but should not be done if one, by any chance, can get negative numbers, as one will get \textit{underflow}.  
 
 \subsection{Access modifiers}
-Another thing that we observe from the code example above, is that we define the functions as \texttt{private} or \texttt{public}, which are called access modifiers. The access modifiers specify how much access the environment should have to the function: \texttt{private} means that the function can only be called from the particular class, while \texttt{public} means that also sub-classes (children) have access to the function. 
+Another thing that we observe from the code example above, is that we define the functions as \texttt{private} or \texttt{public}, which are called access modifiers. The access modifiers specify how much access the environment should have to the function: \texttt{private} means that the function can only be called from the particular class, while \texttt{public} means that also sub-classes (children) and other classes have access to the function. 
 
-We also have a third access modifier in C++, called \texttt{protected}. 
+We also have a third access modifier in C++, called \texttt{protected}. \texttt{protected} members of a class A are not accessible outside of A's code, but any class that inherit from A has access to the protected member. 
 
-\subsection{Virtual Functions}
-Often one wants to define a template of objects... where the super class defines which functions its objects should have. In C++, this can be achieved by virtual functions, functions with arguments specified but task undefined. Those functions are overwritten by the corresponding functions in the object (hence virtual), 
+\subsection{Virtual functions}
+In Python, we saw how a parent's function was overwritten by a function of the child. This work as long as the child's function has identical name and identical arguments as the parent's function, otherwise it all will fail.
+
+In C++, a much safer method exists based on virtual functions, where a child is \textit{forced} to have the same virtual functions as its parent. The virtual functions of the parent therefore serves as a template of its children, such that all the children have the same features. 
+
+This is often very useful, as the children tend to have the same features. Taking it back to the \texttt{Shapes} class, all the shapes ought to have features area and circumference, which can be forced by using virtual functions, as done in the example above. 
 
 \subsection{Constructors and destructors}
 
@@ -227,6 +231,7 @@ Often one wants to define a template of objects... where the super class defines
 In the example above, we have not directly used any pointer. However, pointers are important in low-level languages 
 
 \subsection{Back to the Monte-Carlo example}
+We can now call the class above from the \texttt{main} function. We start defining the children \texttt{circ} and \texttt{squr}, and use the \texttt{getExtent()} function to approximate the area ratio between them. The code looks like 
 \begin{lstlisting}[language=c++]
 int main() {   
 	class Shapes* circ = new Circle(1);
