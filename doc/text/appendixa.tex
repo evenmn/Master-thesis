@@ -1,4 +1,4 @@
-\chapter{Dirac Formalism}
+\chapter{Dirac Formalism} \label{app:dirac}
 The Dirac formalism, also called braket notation, was suggested by Paul Dirac in a 1939 paper with the purpose of improving the reading ease. \cite{dirac_new_1939} The notation unites the integral representation and the matrix representation in an elegant fashion by representing all elements in the \textit{Hilbert-space}. 
 
 %\section{Properties of the Hilbert-space}
@@ -65,3 +65,14 @@ The inner product is then given by
 \end{aligned}
 \end{equation}
 where we have assumed that also the states $\ket{\uparrow\downarrow}$ and $\ket{\downarrow\uparrow}$ are orthonormal. From this, we can see that the normalization constant $A$ must be equal to $1/\sqrt{2}$.
+
+Further, a ket consisting of multiple single particle wave function, $\ket{\psi_1\psi_2,\hdots,\psi_n}$, is assumed to be a short-hand notation of the Slater determinant,
+\begin{equation}
+\ket{\psi_1(\bs{r}_1)\psi_2(\bs{r}_2),\hdots,\psi_n(\bs{r}_n)}\equiv
+\begin{vmatrix}
+\psi_1(\boldsymbol{r}_1) & \psi_2(\boldsymbol{r}_1) & \hdots & \psi_n(\boldsymbol{r}_1)\\
+\psi_1(\boldsymbol{r}_2) & \psi_2(\boldsymbol{r}_2) & \hdots & \psi_n(\boldsymbol{r}_2)\\
+\vdots & \vdots & \ddots & \vdots \\
+\psi_1(\boldsymbol{r}_n) & \psi_2(\boldsymbol{r}_n) & \hdots & \psi_n(\boldsymbol{r}_n)
+\end{vmatrix}
+\end{equation}

@@ -96,6 +96,82 @@
     \field{urlyear}{2019}
   \endentry
 
+  \entry{hartree_wave_1928}{article}{}
+    \name{author}{1}{}{%
+      {{hash=HDR}{%
+         family={Hartree},
+         familyi={H\bibinitperiod},
+         given={D.\bibnamedelima R.},
+         giveni={D\bibinitperiod\bibinitdelim R\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {en}%
+    }
+    \strng{namehash}{HDR1}
+    \strng{fullhash}{HDR1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{1}
+    \field{sortinithash}{1}
+    \field{abstract}{%
+    The methods of solution of the wave equation for a central field given in
+  the previous paper are applied to various atoms. For the core electrons, the
+  details of the interaction of the electrons in a single nk group are
+  neglected, but an approximate correction is made for the fact that the
+  distributed charge of an electron does not contribute to the field acting on
+  itself ({\textsection}2).For a given atom the object of the work is to find a
+  field such that the solutions of the wave equation for the core electrons in
+  this field (corrected as just mentioned for each core electron) give a
+  distribution of charge which reproduces the field. This is called the
+  self-consistent field, and the process of finding it is one of successive
+  approximation ({\textsection} 3).Approximations to the self-consistent field
+  have been found for He ({\textsection} 4), Rb+ ({\textsection} 5), Na+, Cl-
+  ({\textsection} 9). For He the energy parameter for the solution of the wave
+  equation for one electron in the self-consistent field of the nucleus and the
+  other corresponds to an ionisation potential of 24{\textperiodcentered}85
+  volts (observed 24{\textperiodcentered}6 volts); this agreement suggests that
+  for other atoms the values of the energy parameter in the self-consistent
+  field (corrected for each core electron) will probably give good
+  approximations to the X-ray terms ({\textsection}4).The most extensive work
+  has been carried out for Rb+. The distribution of charge given by the wave
+  functions in the self-consistent field is compared with the distribution
+  calculated by other methods ({\textsection} 6). The values of X-ray and
+  optical terms calculated from the self-consistent field show satisfactory
+  agreement with those observed ({\textsection} 7).The wave mechanical analogue
+  of the case in which on the orbital model an internal and an external orbit
+  of the same energy are possible is discussed ({\textsection} 8).%
+    }
+    \verb{doi}
+    \verb 10.1017/S0305004100011920
+    \endverb
+    \field{issn}{1469-8064, 0305-0041}
+    \field{number}{1}
+    \field{pages}{111\bibrangedash 132}
+    \field{title}{The {Wave} {Mechanics} of an {Atom} with a {Non}-{Coulomb}
+  {Central} {Field}. {Part} {II}. {Some} {Results} and {Discussion}}
+    \verb{url}
+    \verb https://www.cambridge.org/core/journals/mathematical-proceedings-of-t
+    \verb he-cambridge-philosophical-society/article/wave-mechanics-of-an-atom-
+    \verb with-a-noncoulomb-central-field-part-ii-some-results-and-discussion/5
+    \verb 916E7A0DEC0A051B435688BE2ACD57E
+    \endverb
+    \field{volume}{24}
+    \verb{file}
+    \verb Full Text PDF:/home/evenmn/Zotero/storage/FK6XL652/Hartree - 1928 - T
+    \verb he Wave Mechanics of an Atom with a Non-Coulomb C.pdf:application/pdf
+    \verb ;Snapshot:/home/evenmn/Zotero/storage/G6CP9H9D/5916E7A0DEC0A051B43568
+    \verb 8BE2ACD57E.html:text/html
+    \endverb
+    \field{journaltitle}{Mathematical Proceedings of the Cambridge
+  Philosophical Society}
+    \field{month}{01}
+    \field{year}{1928}
+    \field{urlday}{28}
+    \field{urlmonth}{07}
+    \field{urlyear}{2019}
+  \endentry
+
   \entry{dirac_paul_adrien_maurice_quantum_1929}{article}{}
     \name{author}{2}{}{%
       {{hash=D}{%
@@ -221,6 +297,59 @@
     \field{month}{11}
     \field{year}{1930}
     \field{urlday}{03}
+    \field{urlmonth}{07}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{fock_selfconsistent_1930}{article}{}
+    \name{author}{1}{}{%
+      {{hash=FV}{%
+         family={Fock},
+         familyi={F\bibinitperiod},
+         given={V.},
+         giveni={V\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {de}%
+    }
+    \strng{namehash}{FV1}
+    \strng{fullhash}{FV1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{1}
+    \field{sortinithash}{1}
+    \field{abstract}{%
+    Die in einer fr{\"u}heren Arbeit entwickelte Verallgemeinerung der
+  Hartreeschen Methode des {\quotedblbase}selfconsistent
+  field{\textquotedblleft} wird auf das Natriumatom angewandt, indem der Ansatz
+  f{\"u}r die sph{\"a}rische Symmetrie durchgef{\"u}hrt wird. Die Gleichungen
+  f{\"u}r die radialen Funktionen fi (r), der Ausdruck f{\"u}r die Energie und
+  die Formeln zur Berechnung der Intensit{\"a}ten werden explizite
+  hingeschrieben. Es erweist sich, da{\ss} die Auswahlregel in der alten Form
+  bestehen bleibt.%
+    }
+    \verb{doi}
+    \verb 10.1007/BF01330439
+    \endverb
+    \field{issn}{0044-3328}
+    \field{number}{11}
+    \field{pages}{795\bibrangedash 805}
+    \field{title}{{\quotedblbase}{Selfconsistent} field{\textquotedblleft} mit
+  {Austausch} f{\"u}r {Natrium}}
+    \verb{url}
+    \verb https://doi.org/10.1007/BF01330439
+    \endverb
+    \field{volume}{62}
+    \verb{file}
+    \verb Springer Full Text PDF:/home/evenmn/Zotero/storage/RYX2IEE2/Fock - 19
+    \verb 30 - {\quotedblbase}Selfconsistent field{\textquotedblleft} mit Austa
+    \verb usch f{\"u}r Natrium.pdf:application/pdf
+    \endverb
+    \field{journaltitle}{Zeitschrift f{\"u}r Physik}
+    \field{month}{11}
+    \field{year}{1930}
+    \field{urlday}{28}
     \field{urlmonth}{07}
     \field{urlyear}{2019}
   \endentry
@@ -3386,6 +3515,65 @@
     \field{urlyear}{2019}
   \endentry
 
+  \entry{gustafsson_scientific_2018}{book}{}
+    \name{author}{1}{}{%
+      {{hash=GB}{%
+         family={Gustafsson},
+         familyi={G\bibinitperiod},
+         given={Bertil},
+         giveni={B\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {en}%
+    }
+    \list{publisher}{1}{%
+      {Springer International Publishing}%
+    }
+    \strng{namehash}{GB1}
+    \strng{fullhash}{GB1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{shorttitle}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{abstract}{%
+    This book explores the most significant computational methods and the
+  history of their development. It begins with the earliest mathematical /
+  numerical achievements made by the Babylonians and the Greeks, followed by
+  the period beginning in the 16th century. For several centuries the main
+  scientific challenge concerned the mechanics of planetary dynamics, and the
+  book describes the basic numerical methods of that time. In turn, at the end
+  of the Second World War scientific computing took a giant step forward with
+  the advent of electronic computers, which greatly accelerated the development
+  of numerical methods. As a result, scientific computing became established as
+  a third scientific method in addition to the two traditional branches: theory
+  and experimentation. The book traces numerical methods{\textquoteright}
+  journey back to their origins and to the people who invented them, while also
+  briefly examining the development of electronic computers over the years.
+  Featuring 163 references and more than 100 figures, many of them portraits or
+  photos of key historical figures, the book provides a unique historical
+  perspective on the general field of scientific computing {\textendash} making
+  it a valuable resource for all students and professionals interested in the
+  history of numerical analysis and computing, and for a broader readership
+  alike.%
+    }
+    \field{isbn}{978-3-319-69846-5}
+    \field{series}{Texts in {Computational} {Science} and {Engineering}}
+    \field{shorttitle}{Scientific {Computing}}
+    \field{title}{Scientific {Computing}: {A} {Historical} {Perspective}}
+    \verb{url}
+    \verb https://www.springer.com/gp/book/9783319698465
+    \endverb
+    \verb{file}
+    \verb Snapshot:/home/evenmn/Zotero/storage/UWY9JMP8/9783319698465.html:text
+    \verb /html
+    \endverb
+    \field{year}{2018}
+    \field{urlday}{28}
+    \field{urlmonth}{07}
+    \field{urlyear}{2019}
+  \endentry
+
   \entry{jonsson_standard_2018-1}{article}{}
     \name{author}{1}{}{%
       {{hash=JM}{%
@@ -4092,6 +4280,32 @@
     \field{journaltitle}{Chess.com}
     \field{urlday}{27}
     \field{urlmonth}{06}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{noauthor_mit_nodate}{misc}{}
+    \list{language}{1}{%
+      {en}%
+    }
+    \field{labeltitlesource}{title}
+    \field{sortinit}{9}
+    \field{sortinithash}{9}
+    \field{abstract}{%
+    A short and simple permissive license with conditions only requiring
+  preservation of copyright and license notices. Licensed works, modifications,
+  and larger works may be distributed under different terms and without source
+  code.%
+    }
+    \field{title}{{MIT} {License}}
+    \verb{url}
+    \verb https://choosealicense.com/licenses/mit/
+    \endverb
+    \verb{file}
+    \verb Snapshot:/home/evenmn/Zotero/storage/E222C63X/mit.html:text/html
+    \endverb
+    \field{journaltitle}{Choose a License}
+    \field{urlday}{29}
+    \field{urlmonth}{07}
     \field{urlyear}{2019}
   \endentry
 

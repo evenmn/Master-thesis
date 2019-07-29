@@ -1,43 +1,153 @@
 \chapter{Implementation} \label{sec:implementation}
 \epigraph{There are only two hard things in Computer Science: cache invalidation and naming things.}{Phil Karlton, \cite{fowler_bliki:_nodate}}
+\iffalse
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.4]{Images/example.png}
 	\caption{Caption}
 \end{figure}
+\fi
 
 In this chapter de will describe the implemented VMC code, which was developed from scratch in C++. As the code itself is around 7000 significant\footnote{Significant lines of code in this sense means lines that are not blank or commented. Counted by the cloc program \cite{aldanial_cloc_2019}.} lines of code, we will just go through selected and often not obvious parts. As often said, \textit{good planning is half the battle}, which largely relates to writing VMC code. The code was rewritten and restructured several times before we ended on the final version. As a starting point, we used Morten Ledum's VMC framework \cite{ledum_simple_2016}, which was meant as an example implementation in the course \textit{FYS4411 - Computational Physics II: Quantum Mechanical Systems}. The entire source code can be found on the authors github, \cite{nordhagen_general_2019}.
 
 For all matrix operations, the open source template library for linear algebra Eigen was used throughout the code. Eigen provides an elegant interface, with support for all the needed matrix and vector operations. In addition, Eigen is built on the standard software libraries for numerical linear algebra, BLAS and LAPACK, which are incredibly fast. These contribute greatly to the performance of the code. 
 
 The code was developed in regards to three principal aims:
-\begin{itemize}
-	\itemsep-0.3em
-	\item flexible,
-	\item fast,
-	\item readable.
-\end{itemize}
-It needs to be flexible in order to support the Boltzmann machines as our trial wave function guess, and since we will try out various Jastrow factors it should be easy to add and remove wave function elements. Since quantum mechanical simulations in general are very expensive, it is important to develop efficient code to be able to study systems of some size. Lastly, we aim to write readable code such that others can reuse and rewrite the code later. 
+\begin{center}
+	\begin{minipage}{0.2\textwidth}
+		\begin{itemize}
+			%\itemsep-0.6em
+			\item flexible,
+			\item fast,
+			\item readable.
+		\end{itemize}
+	\end{minipage}
+\end{center}
+It needs to be flexible in order to support the Boltzmann machines as our trial wave function guess, and since we will try out various Jastrow factors it should be easy to add and remove wave function elements. Since quantum mechanical simulations in general are very expensive, it is important to develop efficient code to be able to study systems of some size. Lastly, we aim to write readable code such that others can reuse the code in its entirety or parts of it later. 
 
 How we work to achieve the goals will be illustrated by code mainly picked from the \texttt{WaveFunction} class, which is the heart of the code. 
 
 \section{Flexibility}
-Unlike many other VMC codes, our code was developed flexible with respect to the wave functions. This means that one can combine various wave function elements, where each element is implemented separately. For instance, the Slater determinant with the Gaussian part factorized out and the Padé-Jastrow factor were implemented as three separate elements, but they all can easily be combined. The way one does this in practice, is to append multiple wave function elements to a vector \texttt{WaveFunctionElements}. A quantum dot trial wave function combining the Gaussian with the Padé-Jastrow factor and the Slater determinant can be called in following way
+Unlike many other VMC codes, our code was developed flexible with respect to the wave functions. This means that one can combine various wave function elements, where each element is implemented separately. For instance, the Slater determinant with the Gaussian part factorized out and the Padé-Jastrow factor were implemented as three separate elements, but they all can easily be combined. The way one does this in practice, is to append multiple wave function elements to a vector \texttt{WaveFunctionElements}. A trial wave function for a quantum dot combining a Slater determinant with the Gaussian part factorized out and the Padé-Jastrow factor can be specified by a system \texttt{quantumDot} is the following way
 
 \lstset{basicstyle=\scriptsize}
-\begin{lstlisting}[language=c++,caption={Due to the flexibility of the code, wave function elements can be combined in every possible way.}]
+\begin{lstlisting}[language=c++,caption={The code was implemented in a flexible way such that all the wave function elements can be combined with other wave function elements by appending all the wanted elements to a vector, here named \texttt{waveFunctionElements}, which again is set as the trial wave function using the function \texttt{setWaveFunctionElements}.}]
 System* quantumDot = new System();
 std::vector<class WaveFunction*> WaveFunctionElements;
+
 WaveFunctionElements.push_back(new Gaussian(quantumDot));
 WaveFunctionElements.push_back(new PadeJastrow(quantumDot));
 WaveFunctionElements.push_back(new SlaterDeterminant(quantumDot));
+
 quantumDot->setWaveFunctionElements(WaveFunctionElements);
 \end{lstlisting}
 
-The big advantage of this implementation technique is that we do not need to hard code every possible combination of wave function elements, which reduces the number of code lines significantly. This also eases the operation of adding new elements, since we only need to calculate the derivatives of the particular element (do not need to worry about cross terms). The exact derivation of all the wave function elements, with all the required derivatives, can be read in chaper \ref{chp:WFE}. The con is that the program becomes slightly slower, since even canceling cross terms are calculated.
+The big advantage of this implementation technique is that we do not need to hard code every possible combination of wave function elements, which reduces the number of code lines significantly. This will be very useful when dealing with the Boltzmann machines, which will be tested with various Jastrow factors, and also with extensions like the partly restricted element. Additionally, this also eases the operation of adding new elements, since we only need to calculate the derivatives of the particular element (do not need to worry about cross terms). The exact derivation of all the wave function elements, with all the required derivatives, can be read in chapter \ref{chp:WFE}. The con is that the program becomes slightly slower, since even canceling cross terms are calculated, but it will most likely not be noticeable. In the next section, we will look at what really matters when dealing with the efficiency of the code.
 
 \section{Efficiency}
-The efficiency is mostly based on recursive computations, such that we do not need to calculate everything over again when it is enough to calculate the fraction between the old the new number. This is highly relevant when it comes to the Slater determinant, but we also do this for other wave function elements. Those optimizations are described for all the respective elements in chapter \ref{chp:WFE}.
+Even though the computers have become much faster the past decades, they are still far from being fast enough for large scale quantum computations. To be able to study interesting systems, which often are relatively large, we therefore need to focus on the efficiency in all terms. In our particular code, a majority of the run time is spent on the sampling such that this is the part we should strive to optimize.
+
+In general, there are several points that one should consider when optimizing the code. One should
+\begin{itemize}
+	%\itemsep-0.6em
+	\item find closed-form expressions if possible,
+	\item never repeat calculations,
+	\item find iterative expressions for the update of scalars, vectors and matrices.
+\end{itemize}
+We have already done the first point for all our wave function elements. The explicit expressions are presented in chapter \ref{chp:WFE}, where we also write about possible optimization schemes for each specific wave function element. In the next section, \ref{sec:thewavefunctionclass}, we will go through how the wave function class is implemented with respect to the optimizations.
+
+Furthermore, we will describe how the distance matrix is updated in section \ref{sec:distancematrix}, which is an illustrating example on how to avoid repeating calculations. This might sounds obvious, but in complex calculations not recalculate anything is really an art. 
+
+Lastly, we will show how vectors and matrices can be updated iteratively to gain efficiency. We do this in more os less all the wave function elements, but as the update of the Slater determinant is the most comprehensive, it will be used as the example in section 
+
+\subsection{The wave function class} \label{sec:thewavefunctionclass}
+The wave function class is the heart of the code, and in order to make the code fast, it needs to be implemented in a clever way. In chapter \ref{chp:scientificprogramming}, we looked at how virtual functions can be used to force all the sub-classes of a class to have the same properties, which we will utilize here. Each wave function element should carry the properties \texttt{evaluateRatio} (which returns the probability ratio), \texttt{computeGradient} (which returns $\nabla_k\ln\psi_i(\bs{r})$), \texttt{computeLaplacian} (which returns $\nabla^2\ln\psi_i(\bs{r})$) and \texttt{computeParameterGradient} (which returns $\partial_{\theta}\ln\psi_i(\bs{r})$). All these four expressions are given in chapter \ref{chp:WFE} for all the wave function elements. In addition, the wave function class includes a bunch of functions that are used in the update of vectors, parameters and so on. We will first present the virtual functions in the header file \texttt{wavefunction.h}, and thereafter discuss how the various functions are used in the optimization. 
+\lstset{basicstyle=\scriptsize}
+\begin{lstlisting}[language=c++,caption={The code is taken from \texttt{wavefunction.h}, presenting all the virtual functions that are used in the wave function class. Clang formating is used.}]
+public:
+	WaveFunction(class System *system);
+	virtual int getNumberOfParameters() = 0;
+	virtual int getGlobalArrayNeed() = 0;
+	virtual std::string getLabel() = 0;
+
+	virtual void updateParameters(const Eigen::MatrixXd parameters) = 0;
+	virtual void initializeArrays(const Eigen::VectorXd positions,
+								  const Eigen::VectorXd radialVector,
+								  const Eigen::MatrixXd distanceMatrix)
+		= 0;
+	virtual void updateArrays(const Eigen::VectorXd positions,
+							  const Eigen::VectorXd radialVector,
+							  const Eigen::MatrixXd distanceMatrix,
+							  const int changedCoord)
+		= 0;
+	virtual void setConstants(const int elementNumber) = 0;
+	virtual void setArrays() = 0;
+	virtual void resetArrays() = 0;
+	virtual double evaluateRatio() = 0;
+	virtual double computeGradient(const int k) = 0;
+	virtual double computeLaplacian() = 0;
+	virtual Eigen::VectorXd computeParameterGradient() = 0;
+
+	virtual ~WaveFunction() = 0;
+
+\end{lstlisting}
+
+The three former functions are getting the properties "number of parameters", "array need" and "label" respectively for each wave function element. The first one, \texttt{getNumberOfParameters}, is important when declaring the global parameter matrix, which contains all the parameters in all the elements. The \texttt{getGlobalArrayNeed} function is used to chart the need of the distance matrix, containing all the relative distances, and the radial vector, containing all the radial coordinates, $r_i=\sqrt{x_i^2+y_i^2+z_i^2}$. An element returns 1 if it requires the distance matrix, 2 if it requires the radial vector, 3 if it requires both and 0 if it requires none. This makes it possible to calculate the global arrays only when they are needed. The \texttt{getLabel} function is returning the label of the respective element, used to collect a composition of elements under a common label (ex. "RBM" contains the elements "slaterdeterminant", "rbmgaussian" and "rbmproduct").
+
+Further, the \texttt{updateParameters} is called to update the parameters in each wave function element after the global parameter matrix is updated. \texttt{initializeArrays} is used to initialize all the arrays in an element, which is important when the arrays are updated iteratively, since they will only be set once. This function will therefore only be called in the very beginning of a run. After this, all the arrays are updated using the \texttt{updateArrays} function, where all the iterative magic happens, further detailed in section \ref{sec:updateslater}. As this function takes the changed coordinate, \texttt{changedCoord}, as argument, it can update only the affected parts of the arrays. 
+
+We always need to store the old arrays in case a move is rejected, since we then need to go back to the old state. The function \texttt{setArrays} replaces the old arrays with the new arrays, $\bs{X}_{\text{old}}=\bs{X}_{\text{new}}$, which is done to store the arrays. When a move is rejected, we need to reset the arrays going the other way, $\bs{X}_{\text{new}}=\bs{X}_{\text{old}}$, which naturally is done by the function \texttt{resetArrays}. Finally, the function \texttt{setConstants} is called once, and gives each element a unique element number and defines the size of the global parameter matrix. 
+
+Before we proceed further, we will give an example from the code on how a specific element is implemented. We choose the 
+
+\subsection{Updating the distance matrix} \label{sec:distancematrix}
+The distance matrix, which is used in the Jastrow factors, gives an illustrating example on this. The matrix, henceforth named $M$, contains the relative distances between all the particles, for three particles given by
+\begin{eqnarray}
+M=
+\begin{pmatrix}
+r_{11} & r_{12} & r_{13} \\
+r_{21} & r_{22} & r_{23} \\
+r_{31} & r_{32} & r_{33}
+\end{pmatrix}
+=
+\begin{pmatrix}
+0 & r_{12} & r_{13} \\
+r_{12} & 0 & r_{23} \\
+r_{13} & r_{23} & 0
+\end{pmatrix}
+\end{eqnarray}
+where $r_{12}$ means the distance between particles 1 and 2. Since $r_{12}=r_{21}$ and $r_{ii}=0$, the matrix becomes symmetric with zeros on the diagonal, which means that we only need to calculate $N(N-1)/2$ elements instead of $N^2$. Further, we can exploit that only a particle is moved at a time, which means that only a row and a column are changed when a particle is moved. For instance, if particle 1 is moved, the upper row and the left-hand-side column in matrix $M$ need to be updated. 
+
+In our program, we have implemented this in the following way
+\lstset{basicstyle=\scriptsize}
+\begin{lstlisting}[language=c++,caption={When a particle is moved, we update a row and a column in the distance matrix. The functions are parts of the Metropolis class, as the distance matrix is updated for every step in the Metropolis sampling. Taken from \texttt{metropolis.cpp}.}]
+double Metropolis::calculateDistanceMatrixElement(const int i, const int j) {
+	double dist = 0;
+	int parti   = m_numberOfDimensions*i;
+	int partj   = m_numberOfDimensions*j;
+	for(int d=0; d<m_numberOfDimensions; d++) {
+		double diff = m_positions(parti+d)-m_positions(partj+d);
+		dist += diff*diff;
+	}
+	return sqrt(dist);
+}
+
+void Metropolis::calculateDistanceMatrixCross(const int particle) {
+	for(int i=0; i<m_numberOfParticles; i++) {
+		m_distanceMatrix(particle, i) = calculateDistanceMatrixElement(particle, i);
+		m_distanceMatrix(i, particle) = m_distanceMatrix(particle, i);
+	}
+}
+
+\end{lstlisting}
+where the function \texttt{calculateDistanceMatrixElement(i,j)} returns element \texttt{i,j} of the matrix, which is called from the function \texttt{calculateDistanceMatrixCross(particle)}. The latter takes the moved particle index as input, and updates the necessary row and column of the matrix. 
+
+For systems of non-interacting particles, the distance matrix is redundant, and should therefore not be calculated. We have solved this by giving all the wave function elements and the Hamiltonians a number which indicated whether they require the distance matrix or not. If no part of the code needs the distance matrix, it is never calculated. 
+
+We also calculate the radial position, $r_i=\sqrt{x_i^2+y_i^2+z_i^2}$, when it is required by any part of the code. There components are stored in a vector named \texttt{radialVector}, applying the same optimization ideas as the distance matrix. 
+
+\subsection{Iterative update of the Slater determinant} \label{sec:updateslater}
+
 
 First of all, we need to initialize all position dependent arrays. Some of these are initialized once, and then updated for the rest of the run based on their earlier value. \texttt{initializeArrays} does all the magic here.
 
@@ -84,6 +194,8 @@ NEED TO ADD EXACT IMPLEMENTATION
 For profiling, we used \textbf{callgrind} with \textbf{kcachegrind} visualization, which are great tools when we want to find out which functions that steal CPU time.
 
 \section{Readability}
+Whenever writing code, the code should be not only be understandable for the computer, but also for humans. ClangFormat... 
+
 To maximize the readability, we developed a highly object oriented code based on the theory in chapter \eqref{chp:scientificprogramming}. For instance, each wave function element was treated as an object, with the properties \texttt{updateArrays}, \texttt{setArrays}, \texttt{resetArrays}, \texttt{initializeArrays}, \texttt{updateParameters}, \texttt{evaluateRatio}, \texttt{computeGradient}, \texttt{computeLaplacian} and \newline\texttt{computeParameterGradient}. To ensure that all wave function elements have all the necessary properties, the super class \texttt{WaveFunctions} is equipped with the corresponding virtual functions
 \lstset{basicstyle=\scriptsize}
 \begin{lstlisting}[language=c++,caption={\texttt{wavefunction.h}}]
@@ -116,7 +228,7 @@ int     m_maxNumberOfParametersPerElement   = 0;
 class System* m_system = nullptr;
 };
 \end{lstlisting}
-which serves a template for all the sub classes (wave function elements). As you might notice, we use the \textbf{lowerCamelCase} naming convention for function and variable names, which means that each word begins with a capital letter except the initial word. For classes, we use the \textbf{UpperCamelCase} to distinguish from function names. This is known to be easy to read, and apart from for example the popular \textbf{snake\_case}, we do not need delimiters between the words, which saves some space. After the naming convention is decided, we are still responsible for giving reasonable names, which is not always an easy task, as Phil Karlton points out. When one sees the name, one should know exactly what the variable/function/class is or does. More about naming conventions can be read at \cite{noauthor_naming_2019}. 
+which serves a template for all the sub classes (wave function elements). As you might notice, we use the \textbf{lowerCamelCase} naming convention for function and variable names, which means that each word begins with a capital letter except the initial word. For classes, we use the \textbf{UpperCamelCase} to distinguish from function names. This is known to be easy to read, and apart from for example the popular \textbf{snake\_case}, we do not need delimiters between the words, which saves some space. After the naming convention is decided, we are still responsible for giving reasonable names, which is not always an easy task, as Phil Karlton points out. When one sees the name, one should know exactly what the variable/function/class is or does. More about naming conventions can be read at Ref.\cite{noauthor_naming_2019}.
 
 \subsection{Energy calculation}
 The way we calculate the total kinetic energy then is based on the theory presented in chapter \ref{chp:WFE}, where we explain that
@@ -292,11 +404,117 @@ We have now described all the available super classes and sub classes, but how d
 system->setHamiltonian(new HarmonicOscillator(system));
 \end{lstlisting}
 which is calling the function \texttt{setHamiltonian} in the class \texttt{System}. This function sets the official Hamiltonian object to \texttt{HarmonicOscillator}, such that every time we call the super class \texttt{Hamiltonian}, we are forwarded to \texttt{HarmonicOscillator}. The \texttt{System} class is basically filled with functions that set objects and scalars. To make those objects and scalars available in other classes, the \texttt{System} header is equipped with get-functions. For instance, there exist a function 
+\lstset{basicstyle=\scriptsize}
 \begin{lstlisting}
 class Hamiltonian* getHamiltonian() { return m_hamiltonian; }
 \end{lstlisting}
 which returns the correct Hamiltonian sub class. In the other classes where the \texttt{System} objects appears as \texttt{m\_system}, the local energy can be found by
+\lstset{basicstyle=\scriptsize}
 \begin{lstlisting}
 double localEnergy = m_system->getHamiltonian->computeLocalEnergy();
 \end{lstlisting}
 Similar functions exist for other essential objects, arrays and scalar. 
+
+\section{Running the code}
+The software is freely available on \url{github.com/evenmn/VMC} under MIT license, summarized with "do whatever you want". Officially, the MIT license says \cite{noauthor_mit_nodate}\bigskip
+
+\textit{"Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software"}
+
+We encourage reuse of the code.
+
+\subsection{Download}
+The code can be downloaded from github by cloning the repository \url{github.com/evenmn/VMC}. Prerequisites are MPI, Eigen and the automatized blocking code developed by Marius Jonsson. 
+\begin{itemize}
+	%\itemsep-0.6em
+	\item In Linux, MPI can be installed by\\
+	\texttt{sudo apt-get install libopenmpi-dev}\\
+	\texttt{sudo apt-get install openmpi-bin}
+	\item To install Eigen, see \url{http://eigen.tuxfamily.org/}.
+	\item The automatized blocking code can be cloned from \url{https://github.com/computative/block}.
+\end{itemize}
+
+\subsection{Build}
+The code can either be built using CMake or QMake in QT-creator. 
+
+\subsubsection{CMake}
+Go to the VMC prefix, and run the four commands
+\lstset{basicstyle=\scriptsize}
+\begin{lstlisting}
+mkdir build
+cd build
+cmake ../
+make -j4
+\end{lstlisting}
+or one can simply run \texttt{./CompileVMC}. The executable is then found in the \texttt{build} folder.
+
+\subsubsection{QMake (QT-Creator)}
+\begin{itemize}
+	%\itemsep-0.6em
+	\item Download QT-Creator from \url{https://www.qt.io/download}.
+	\item Configure \texttt{QMC.pro}.
+\end{itemize}
+After the configuration, the executable can be found in the building folder, by default named \texttt{build-VMC-...}.
+
+\subsection{Run}
+Before the code is run, the system of interest should be specified. There are multiple ways of doing this: one can either use the provided \texttt{main.cpp} with all possible settings, create a new more minimalistic \texttt{main.cpp} or use a configuration to specify the system. 
+
+\subsubsection{Create \texttt{main.cpp}}
+The simplest possible main file one can write, is probably
+\lstset{basicstyle=\scriptsize}
+\begin{lstlisting}[language={C++}]
+int numberOfDimensions =  2;
+int numberOfParticles = 6;
+int numberOfSteps = int(pow(2, 20));
+int maxNumberOfIterations = 1000;
+double learningrate = 0.1;
+double omega = 1.0;
+
+System *QD = new System();
+
+QD->setNumberOfParticles(numberOfParticles);
+QD->setNumberOfDimensions(numberOfDimensions);
+QD->setNumberOfMetropolisSteps(numberOfSteps);
+QD->setFrequency(omega);
+QD->setLearningRate(learningRate);
+
+QD->setBasis(new Hermite(QD));
+
+std::vector<class WaveFunction *> waveFunctionElements;
+waveFunctionElements.push_back(new Gaussian(QD));
+waveFunctionElements.push_back(new SlaterDeterminant(QD));
+waveFunctionElements.push_back(new PadeJastrow(QD));
+
+QD->setWaveFunctionElements(waveFunctionElements);
+QD->setHamiltonian(new HarmonicOscillator(QD));
+QD->runIterations(maxNumberOfIterations);
+\end{lstlisting}
+where we look at a two-dimensional circular quantum dot containing 6 electrons using a standard variational Monte-Carlo calculation. For more inspiration, see the provided \texttt{main.cpp}. When the main file is implemented, the code can be run using
+\lstset{basicstyle=\scriptsize}
+\begin{lstlisting}[language={bash}]
+mpirun -n 4 build/dotnet
+\end{lstlisting}
+where \texttt{dotnet} is the executable and we run 4 parallel processes. 
+
+\subsubsection{Write configuration file}
+Second, one can specify the system partly or entirely by a configuration file. The config file overwrites the settings in main. We have provided two config files, \texttt{config} and \texttt{config\_extended}, where the first one is limited and is dependent on settings in main, while the second contains all possible settings. We can specify a corresponding system to the one above, using the configuration file
+\lstset{basicstyle=\scriptsize}
+\begin{lstlisting}[language={bash}]
+numDimensions: 2
+numParticles: 6
+numSteps: 1048576
+numIterations: 1000
+learningRate: 1.0
+omega: 1.0
+basis: hermite
+waveFunction: VMC
+hamiltonian: harmonicOscillator
+\end{lstlisting}
+and run the code using
+\begin{lstlisting}[language={bash}]
+mpirun -n 4 build/dotnet config
+\end{lstlisting}
+where we run 4 parallel processes, \texttt{dotnet} is the executable and \texttt{config} is the configuration file. 

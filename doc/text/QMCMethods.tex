@@ -1,19 +1,19 @@
 \chapter{Quantum Monte-Carlo Methods} \label{chp:methods}
-\epigraph{Great quote.}{Author}
+%\epigraph{Great quote.}{Author}
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.4]{Images/random_walk.png}
 	\caption{Random walk on a two-dimensional grid.\\ © Copyright wikipedia.org.}
 \end{figure}
 
-Quantum Monte-Carlo methods (QMC) is a bunch of methods that attempt to solve the Schrödinger equation using stochastic Monte-Carlo integration. They all seek to evaluate the multi-dimensional integral arising from the Schrödinger equation,
+Quantum Monte-Carlo methods (QMC) is a bunch of \textit{ab initio} methods that attempt to solve the Schrödinger equation using stochastic Monte-Carlo integration. \textit{Ab initio} reads "from first principles", which implies that the methods constitute a fundamental approach to the problem. They all seek to evaluate the multi-dimensional integral arising from the Schrödinger equation,
 \begin{equation}
 E_0= \mel{\Psi_0}{\hat{\mathcal{H}}}{\Psi_0}= \frac{\int d\bs{r}\Psi_0(\bs{r})^*\hat{\mathcal{H}}\Psi_0(\bs{r})}{\int d\bs{r}\Psi_0(\bs{r})^*\Psi_0(\bs{r})},
 \label{eq:schrodingergroundstate}
 \end{equation}
 which provides the ground state energy expectation value for the exact ground state wave function $\Psi_0$. As aforementioned, this integral is analytically infeasible for more or less all systems of interest, rising the need of numerical methods like QMC.
 
-In Monte-Carlo integration, we use random number to evaluate integrals numerically. Typically, the we want to estimate an expectation value $\langle\mathcal{O}\rangle$ by approximating the definition integral with a dense sum,
+In Monte-Carlo integration, we use random numbers to evaluate integrals numerically. Typically, we want to estimate an expectation value $\langle\mathcal{O}\rangle$ by approximating the definition integral with a dense sum,
 \begin{equation}
 \langle \mathcal{O}\rangle\equiv\int_{-\infty}^{\infty}d\bs{r}P(\bs{r})\hat{\mathcal{O}}(\bs{r})\approx\frac{1}{M}\sum_{i=1}^M\hat{\mathcal{O}}(\bs{r}_i)
 \label{eq:montecarlointegration}
@@ -22,18 +22,18 @@ where $M$ is the number of \textit{Monte-Carlo cycles} and the coordinates $\bs{
 
 A great advantage of the QMC methods, is that we obtain approximative ground state wave functions when solving equation \eqref{eq:schrodingergroundstate}, which by the fourth postulate of quantum mechanics let us estimate ground state expectation values associated with other operators as well. 
 
-Two widely popular QMC methods are the variational Monte-Carlo method (VMC) and the diffusion Monte-Carlo method (DMC), where the former is arguably the simplest of all the QMC methods. It attempts to directly solve the integrals in equation \eqref{eq:schrodingergroundstate} by varying parameters, with the support of the variational principle presented in section \ref{sec:variationalprinciple}. This makes VMC a relatively computationally cheap method, but the performance is not in the league of the best methods.
+Two widely popular QMC methods are the variational Monte-Carlo method (VMC) and the diffusion Monte-Carlo method (DMC), where the former is arguably the simplest of all the QMC methods. It attempts to directly solve the integrals in equation \eqref{eq:schrodingergroundstate} by varying parameters, with the support of the variational principle presented in section \ref{sec:variationalprinciple}. This makes VMC a comparably computationally cheap method, but the performance is not in the league of the best methods.
 
 DMC, on the other hand, is computationally expensive, but is also potentially numerically exact, making it a preferred method when high accuracy is needed. At first glance it might seems like a tradeoff where VMC is used when computational time is more important than the accuracy and DMC is used when the opposite is true. However, DMC requires a wave function input which is close to the exact wave function, forcing us to first run VMC to obtain this wave function before the DMC machinery can be started.
 
-As VMC is our main focus in this work, it will be explained thoroughly in this chapter together with common sampling techniques. In the end we will briefly explain the idea behind the DMC method, but since this method is not implemented it will not be in our main focus.
+As VMC is our main focus in this work, it will be explained thoroughly in this chapter together with common sampling techniques. In the end we will briefly explain the idea behind the DMC method, but since this method is not implemented it will not be our main priority.
 
 \section{Variational Monte-Carlo} \label{subsec:vmc}
 The variational Monte-Carlo method (hereafter VMC) is today widely used when it comes to the study of ground state properties of quantum many-body systems. It makes use of Markov chain Monte-Carlo methods, often abbreviated MCMC, where the particles are assumed to be moving in Markov chains controlled by Monte-Carlo simulations. Going back to the variational principle in equation \eqref{eq:variationalprinciple}, one observes that by choosing an approved wave function, one gets an energy larger or equal to the ground state energy. \bigskip
 
 Before we present the mathematical framework of the method, we will restate the two big problems in many-body physics, mentioned in the introduction:
 \begin{enumerate}
-	\item The many-body energy expectation value is analytically infeasible
+	\item The many-body energy expectation value is analytically infeasible for most systems
 	\item The correct many-body wave function is generally unavailable
 \end{enumerate}
 
@@ -51,36 +51,54 @@ E = \int d\bs{r} P(\bs{r}) E_L(\bs{r})
 defining the local energy as
 \begin{equation}
 E_L(\bs{r})\equiv\frac{1}{\Psi_T(\bs{r})}\hat{\mathcal{H}}\Psi_T(\bs{r})
-\label{eq:local energy}.
+\label{eq:localenergy}.
 \end{equation}
-$P(\bs{r})$ is called the probability density function (PDF), and was first presented in equation \eqref{eq:pdf}, and in a more general scheme the PDF reads
+$P(\bs{r})$ is called the probability density function (PDF), was first introduced in equation \eqref{eq:pdf} and in a more general scheme the PDF reads
 \begin{equation}
 P(\bs{r})=\frac{|\Psi_T(\bs{r})|^2}{\int d\bs{r}|\Psi_T(\bs{r})|^2}.
 \label{eq:probvmc}
 \end{equation}
-Since the energy expectation value now is on a form of a general expectation value, we can use the approximation set up by Monte-Carlo integration in equation \eqref{eq:montecarlointegration}, yielding 
+Since the energy expectation value now is on the form of a general expectation value, we can use the approximation set up by Monte-Carlo integration in equation \eqref{eq:montecarlointegration}, yielding 
 \begin{equation}
 E \approx \frac{1}{M}\sum_{i=1}^ME_L(\bs{r}_i) \label{eq:energysum}.
 \end{equation}
-We recall that the local energies $E_L(\bs{r}_i)$ are evaluated with particle configurations $\bs{r}_i$ drawn from the PDF $P(\bs{r})$. In this manner the obtained energy is guaranteed to approach the exact energy as the number of Monte-Carlo cycles, $M$, increases. Actually the standard error goes as $\mathcal{O}(1/\sqrt{M})$, making the method pretty accurate for large numbers of cycles. In the limit $M\rightarrow\infty$, the error goes to zero,
+We recall that the local energies $E_L(\bs{r}_i)$ are evaluated with particle configurations $\bs{r}_i$ drawn from $P(\bs{r})$. In this manner the obtained energy is guaranteed to approach the exact energy as the number of Monte-Carlo cycles, $M$, increases. Actually, the standard error goes as $\mathcal{O}(1/\sqrt{M})$, making the method pretty accurate for large numbers of cycles. In the limit $M\rightarrow\infty$, the error goes to zero,
 \begin{equation}
 \langle E_L\rangle=\lim_{M\to\infty} \frac{1}{M}\sum_{i=1}^ME_L(\bs{r}_i),
 \end{equation}
 indicating the desire of largest number of cycles. This is associated with a zero-variance property governing the VMC method, stating that the variance in the true ground state should be zero. For more statistical details, see \cite{deb_variational_2014}.
 
 \subsection{Approaching the second problem}
-So far so good, but how do we attack the second problem stated above? One of the big strengths of VMC, as aforesaid, is that we obtain an approximative wave function meanwhile the energy expectation value is calculated. If we go back to equation \eqref{eq:probvmc}, we see that a PDF is required in order to estimate the energy, 
+So far so good, but how do we attack the second problem stated above? One of the big strengths of VMC, as aforesaid, is that we obtain an approximative wave function meanwhile the energy expectation value is calculated. If we go back to equation \eqref{eq:localenergy}, we see that a PDF is required in order to estimate the energy, which again is based on a wave function. 
+
+In VMC, we need to "guess" an initial trial wave function, $\Psi_T(\bs{r},\bs{\theta})$, which hopefully is close to the exact wave function. The parameters, $\theta$, are then updated in order to minimize $\langle E_L\rangle$, such that the energy gets lower for each \textit{iteration}. If the estimated energy approaches the ground state energy, we also assume that the wave function approaches the ground state wave function. Consequently, we will end up with a more or less accurate wave function approximation when the energy has converged. 
+
+As a notice, the term \textit{iterations} should not be confused with the term \textit{cycles}. For each iteration, we run $M$ Monte-Carlo cycles and then update the parameters. As a simple sketch, the algorithm can be written as 
+
+\begin{algorithm}[H]
+	%\SetAlgoLined
+	\Require{$\Psi_T(\bs{r},\bs{\theta})$: Initial trial wave function guess}
+	\While{not converged}{
+		\For{$i\leftarrow 1$ \KwTo $M$}{
+			sample\;
+		}
+		update parameters $\bs{\theta}$\;
+	}
+	\KwResult{Estimate of $\langle E_L\rangle$ and $\Psi(\bs{r},\bs{\theta})$.}
+	\caption{Simple sketch of the VMC algorithm. The total algorithm is given in algorithm \ref{alg:total} in section \ref{sec:algorithmsummary}.}
+\end{algorithm}
+where the while loop runs over the iterations and the for loop runs over the cycles. 
 
 \subsection{Common extensions}
 This finalizes the essential theory behind the VMC method. However, a sampling algorithm is needed to draw samples randomly from $P(\bs{r})$, and in section \ref{sec:metropolis} some popular sampling techniques are described. Before we jump into this field, we will discuss some usual extensions and improvements to the VMC method.
 
 Initially, the particle configuration $\bs{r}$ might not be representative for a configuration in equilibrium, making the first cycles a poor estimate of the expectation value. An easy fix to this problem is to basically ignore the first sampling period, known as the \textit{burn-in period}. With this in mind, we implement an equilibriation fraction describing the fraction of the total number of cycles that is used in the burn-in period. When running multiple parallel processes, the burn-in period should be the same for all the processes.
 
-We also have a technique called \textit{thinning}, which means picking every $n$'th sample in the chain and ignore the rest. This is shown to give a more or less identical expectation value and makes the program less memory-requiring, but due to worse statistics, this should be avoided as long as the computer does not lack memory. 
+We also have a technique called \textit{thinning}, which means picking every $n$'th sample in the chain and ignore the rest. This is shown to give a more or less identical expectation value and makes the program less memory-requiring, but due to worse statistics, this should be avoided as long as there is no lack of memory. 
 
 \section{The Metropolis algorithm} \label{sec:metropolis}
-Metropolis sampling is a Markov chain Monte-Carlo method, which generates a Markov chain using a proposal density for new steps, and the method also rejects unsatisfying moves. In its most simple form, a particle is moved in a random direction, which was the original method invented by Metropolis et.al. back in 1953. \cite{metropolis_equation_1953} Later, the method was improved by Hastings et.al., giving rise to the more general Metropolis-Hastings algorithm. \cite{hastings_monte_1970}
-The genius of the Metropolis algorithm, is that the acceptance of a move is not based on the probabilities themselves, but the ratio between the new and the old probabilities. In that way, we avoid calculating the sum over all probabilities, which is often computational intractable.
+Metropolis sampling is a Markov chain Monte-Carlo method, which generates a Markov chain using a proposal density for new steps, and the method also rejects unsatisfying moves. In its most simple form, a particle is moved in a random direction, which was the original method invented by Metropolis et.al. back in 1953 \cite{metropolis_equation_1953}. Later, the method was improved by Hastings et.al., giving rise to the more general Metropolis-Hastings algorithm \cite{hastings_monte_1970}.
+The genius of the Metropolis algorithms, is that the acceptance of a move is not based on the probabilities themselves, but the ratio between the new and the old probabilities. In that way, we avoid calculating normalizing factor, which is often computational intractable.
 
 We will first discuss Markov chains in general, before we connect them to the original Metropolis algorithm, henceforth called \textit{brute-force sampling}, and then the Metropolis-Hastings algorithm, also called \textit{importance sampling}.
 
@@ -104,49 +122,70 @@ since $A$ cannot be larger than 1. We want to accept a move with probability $A(
 \subsection{Brute-force sampling}
 In its simplest form, the move is proposed randomly both in magnitude and direction. Mathematically, we can write this as
 \begin{equation}
-\bs{r}'=\bs{r}+sd\bs{r}
+\bs{r}'=\bs{r}+\Delta xd\bs{r}
 \end{equation}
-where $s$ is a random number which determines the distance to move and $d\bs{r}$ is a random direction (typically which particle to move). We obtain the naive acceptance probability when requiring $T(\bs{r}'|\bs{r})=T(\bs{r}|\bs{r}')$, such that the it simplifies to
+where $\Delta x$ is the step length and $d\bs{r}$ is a random direction (typically which particle to move). We obtain the naive acceptance probability when requiring $T(\bs{r}'|\bs{r})=T(\bs{r}|\bs{r}')$, such that the it simplifies to
 \begin{equation}
 A(\bs{r}',\bs{r})=\text{min }\left[1,\frac{P(\bs{r}')}{P(\bs{r})}\right].
 \end{equation}
 
-However, with this approach a lot of moves will be rejected, which results in a significant waste of computing power. A better method is \textbf{importance sampling}.
+However, with this approach an unsatisfying number of moves will be rejected, which results in a significant waste of computing power. A better method is \textbf{importance sampling}.
 
 \subsection{Importance sampling} \label{sec:importancesampling}
 Importance sampling is a more intelligent sampling method than the brute-force sampling, since the new position is based on an educated guess. To understand how it works, we need to take a quick look at diffusion processes. We start from the Fokker-Planck equation,
 \begin{equation}
 \frac{\partial P(\bs{r},t)}{\partial t}=D\nabla\left(\nabla-\bs{F}\right)P(\bs{r},t)
 \end{equation}
-which describes how a probability distribution $P(\bs{r},t)$ evolves in appearance of a drift force $\bs{F}$. In the case $\bs{F}=0$, the equation reduces to the diffusion equation with $D$ as the diffusion constant. This simplifies to $D=1/2$ in atomic units. 
+which describes how a probability distribution $P(\bs{r},t)$ evolves in appearance of a drift force $\bs{F}$. In the case $\bs{F}=0$, the equation reduces to the diffusion equation with $D$ as the diffusion constant. This simplifies to $D=1/2$ in natural units. 
 
-The Langevin equation states that a diffusion particle tends to move parallel to the drift force in the coordinate space, but because of a random variable $\bs{\eta}$ this is not always true. The equation reads
+The Langevin equation states that a diffusion particle tends to move parallel to the drift force in the coordinate space, with $\bs{\eta}$ introducing some random noise. The equation reads
 \begin{equation}
 \frac{\partial \bs{r}(t)}{\partial t}=D\bs{F}(\bs{r}(t))+\bs{\eta}.
 \label{eq:langevin}
 \end{equation}
-Given a position $\bs{r}$, the new position $\bs{r}'$ can be be found by applying forward-Euler on equation \eqref{eq:langevin},
+Given a position $\bs{r}$, the new position $\bs{r}'$ can be be found by applying forward-Euler on the Langevin equation, obtaining
 \begin{equation}
-%\bs{r}'=\bs{r}+D\bs{F}(\bs{r})\Delta t + \bs{\xi}\sqrt{\Delta t}
+\bs{r}'=\bs{r}+D\Delta t\bs{F}(\bs{r}) + \bs{\xi}\sqrt{\Delta t}
 \end{equation}
-where $\Delta t$ is a fictive time step and $\bs{\xi}$ is a Gaussian random variable. The next thing we want to find, is an expression for the drift force $\bs{F}$ which makes the system converge to a stationary state. 
-
-A stationary state is found when the probability density $P(\bs{r})$ is constant in time, i.e, when the left-hand-side of Fokker-Planck is zero. In that case, we can write the equation as
+where $\Delta t$ is a fictive time step and $\bs{\xi}$ is a Gaussian random variable. Further, we want to find an expression of the drift force $\bs{F}$ which makes the system converge to a stationary state. A stationary state is found when the probability density function, $P(\bs{r})$, is constant in time, i.e, when the left-hand-side of Fokker-Planck is zero. In that case, we can rewrite the equation as
 \begin{equation}
 \nabla^2P(\bs{r})=P(\bs{r})\nabla\bs{F(\bs{r})}+\bs{F(\bs{r})}\nabla P(\bs{r}).
 \end{equation}
-In the next, we assume that the drift force takes the form $\bs{F(\bs{r})}=g(\bs{r})\nabla P(\bs{r})$, since the force should point to a higher probability. We can then go further and write
+Moreover, we assume that the drift force takes the form $\bs{F(\bs{r})}=g(\bs{r})\nabla P(\bs{r})$ based on the fact that the force should point to a higher probability. We can then go ahead and write
 \begin{equation}
 \nabla^2 P(\bs{r})\big(1-P(\bs{r})g(\bs{r})\big)=\nabla\big(g(\bs{r})P(\bs{r})\big)\nabla P(\bs{r})
 \end{equation}
-which is satisfied when $g(\bs{r})=1/P(\bs{r})$. We then get the drift force 
+where the quantity $\nabla^2 P(\bs{r})$ is factorized out from two of the terms. The equation is satisfied when $g(\bs{r})=1/P(\bs{r})$, such that the drift force evolves to the well-known form
 \begin{equation}
 \bs{F}(\bs{r})=\frac{\nabla P(\bs{r})}{P(\bs{r})}=2\frac{\nabla\Psi_T(\bs{r})}{\Psi_T(\bs{r})}=2\nabla\ln\Psi_T(\bs{r}),
 \end{equation}
 which is also known as the \textit{quantum force}.
 
+The remaining part concerns how to decide if a proposed move should be accepted or not. For this, we need to find the sampling distributions $T(\bs{r}'|\bs{r})$ from equation \eqref{eq:acceptance}, which are just the solutions of the Fokker-Planck equation. The solutions read
+\begin{equation}
+G(\bs{r}',\bs{r},\Delta t)\propto\exp\Big(-\big(\bs{r}'-\bs{r}-D\Delta t\bs{F}(\bs{r})\big)^2/4D\Delta t\Big)
+\end{equation}
+which is categorized as a Green's function. In general, the essential property of any Green's function is that it provides a way to describe the response of an arbitrary differential equation solution. For our particular case, it correspond to the normal distribution centered around $\mu=\bs{r}+D\Delta t \bs{F}(\bs{r})$ with variance $2D\Delta t$, $\mathcal{N}(\bs{r}'|\bs{r}+D\Delta t \bs{F}(\bs{r}),2D\Delta t)$. By utilizing this, the acceptance probability for the importance sampling can finally be written as
+\begin{equation}
+A(\bs{r}'|\bs{r})=\text{min }\left[1,\frac{G(\bs{r},\bs{r}',\Delta t)P(\bs{r}')}{G(\bs{r}',\bs{r}, \Delta t)P(\bs{r})}\right],
+\end{equation}
+where the marginal probabilities are still given by equation \eqref{eq:probvmc}. 
+
+As a summary, we set up the actual algorithm, known as Metropolis-Hasting's algorithm, see algorithm \eqref{alg:hastings}. We write the position update in a general form, where we allow updating all the particles at the same time. However, often one ends up moving only a particle at each time step, as this make some advantageous optimization schemes possible. These optimization opportunities will be discussed in chapter \ref{chp:WFE}.
+
+The ratio between the new and old Green's function can be expressed in the elegant form 
+\begin{equation}
+g(\bs{r}',\bs{r},\Delta t)\equiv\frac{G(\bs{r}',\bs{r},\Delta t)}{G(\bs{r},\bs{r}',\Delta t)}=\exp((\bs{r}'-\bs{r})\cdot(\bs{F}(\bs{r})-\bs{F}(\bs{r}'))/2)
+\label{eq:greensratio}
+\end{equation}
+which may be evaluated efficiently using vector operations. Also the probability ratios can be computed in an efficient way for certain trial wave functions $\Psi_T(\bs{r})$, in particular when the wave function is on an exponential form. We express the probability ratio as 
+\begin{equation}
+p(\bs{r}',\bs{r})\equiv\frac{P(\bs{r}')}{P(\bs{r})}=\frac{|\Psi_T(\bs{r}')|^2}{|\Psi_T(\bs{r})|^2},
+\end{equation}
+and in chapter \ref{chp:WFE} we find closed-form expressions of all the wave function elements of interest, including the elements based on restricted Boltzmann machines. Additionally, closed-form expressions of $\nabla\ln\Psi_T(\bs{r})$ are found, which are vital in the quantum force computations as well as the kinetic energy computations. 
+
 \IncMargin{1em}
-\begin{algorithm} [t]
+\begin{algorithm}
 	\SetAlgoLined
 	\Parameter{$\Delta t$: Fictive time step}
 	\Data{$\bs{r}'$: Initial particle positions}
@@ -155,7 +194,7 @@ which is also known as the \textit{quantum force}.
 	$\bs{F}(\bs{r}')\leftarrow2(\nabla\Psi_T(\bs{r}'))/\Psi_T(\bs{r}')$ (Initialize the quantum force) \;
 	$p(\bs{r}',\bs{r})\leftarrow1$ (Initialize the probability ratio) \;
 	$g(\bs{r}',\bs{r},\Delta t)\leftarrow1$ (Initialize Green's function ratio) \;
-	\While{not converged}{
+	\For{$i\leftarrow 1$ \KwTo $M$}{
 		$\bs{r}\leftarrow\bs{r}'$ (Save current positions $\bs{r}'$ in a vector $\bs{r}$) \;
 		$\bs{F}(\bs{r})\leftarrow\bs{F}(\bs{r}')$ (Save the current quantum force, $\bs{F}(\bs{r}')$, in a vector $\bs{F}(\bs{r})$) \;
 		$p(\bs{r},\bs{r}')\leftarrow p(\bs{r}',\bs{r})$ (Save current probability ratio)\;
@@ -182,39 +221,18 @@ which is also known as the \textit{quantum force}.
 	\label{alg:hastings}
 \end{algorithm}\DecMargin{1em}
 
-The remaining part is how to decide if a proposed move should be accepted or not. For this, we need to find the sampling distributions $T(\bs{r}'|\bs{r})$ from equation \eqref{eq:acceptance}, which are just the solutions of the Fokker-Planck equation. The solutions read
-\begin{equation}
-G(\bs{r},\bs{r}',\Delta t)\propto\exp\Big(-\big(\bs{r}-\bs{r}'-D\Delta t\bs{F}(\bs{r})\big)^2/4D\Delta t\Big)
-\end{equation}
-which is called Green's functions. They correspond to the normal distribution $\mathcal{N}(\bs{r}|\bs{r}'+D\Delta t \bs{F}(\bs{r}),2D\Delta t)$. The acceptance probability for importance sampling can finally be written as
-\begin{equation}
-A(\bs{r}'|\bs{r})=\text{min }\left[1,\frac{G(\bs{r},\bs{r}',\Delta t)P(\bs{r}')}{G(\bs{r}',\bs{r}, \Delta t)P(\bs{r})}\right],
-\end{equation}
-where the marginal probabilities are still given by equation \eqref{eq:probvmc}. 
-
-As a summary, we set up the actual algorithm, known as Metropolis-Hasting's algorithm, see algorithm \eqref{alg:hastings}. In that algorithm, we write the position update in a general form, where we allow updating all the particles at the same time. However, often one ends up moving only a particle at each time step, as this make some advantageous optimization schemes possible. 
-
-The ratio between the new and old Green's function can be expressed in the elegant form 
-\begin{equation}
-g(\bs{r}',\bs{r},\Delta t)\equiv\frac{G(\bs{r}',\bs{r},\Delta t)}{G(\bs{r},\bs{r}',\Delta t)}=\exp((\bs{r}'-\bs{r})\cdot(\bs{F}(\bs{r})-\bs{F}(\bs{r}'))/2)
-\label{eq:greensratio}
-\end{equation}
-which can be evaluated very efficiently. Also the probability ratios can be computed in an efficient way for many trial wave functions $\Psi_T(\bs{r})$, in particular when the wave function is on an exponential form. In chapter \ref{chp:WFE}, we find closed-form expressions for
-\begin{equation}
-p(\bs{r}',\bs{r})\equiv\frac{P(\bs{r}')}{P(\bs{r})}=\frac{|\Psi_T(\bs{r}')|^2}{|\Psi_T(\bs{r})|^2}
-\end{equation}
-for all the wave function elements of interest, also the elements based on restricted Boltzmann machines. Additionally, closed-form expressions fo $\nabla\ln\Psi_T(\bs{r})$ are found, which are needed for the quantum force computations as well as the kinetic energy computations. 
-
 \subsection{Gibbs sampling}
-In the machine learning community, Gibbs sampling is widely used when it comes to training Boltzmann machines. It is popular partly because it does not require any "tuning". It is an instance of the Metropolis-Hastings algorithm, and is therefore another Markov chain Monte-Carlo method. In the Metropolis sampling, we have seen that some moves will be rejected, but in Gibbs sampling all the moved are accepted, which means that the we do not "waste" computations. 
+Gibbs sampling has throughout the years gained high popularity in the machine learning community when it comes to training Boltzmann machines. There are probably many factors that contribute to this, where the performance obviously is one of them. Another relevant motivation is the absent of tuning parameters, which makes the method easier to deal with compared to many of its competitors. 
 
-The point of Gibbs sampling is that given a multivariate distribution it is simpler to sample from a conditional distribution than to marginalize by integrating over a joint distribution. This is the reason why we do not need the marginal distributions in Gibbs sampling, but rather the conditional distributions. In the most general, Gibbs sampling proposes a rule for going from a sample $\bs{x}^{(i)}=(x_1^{(i)},x_2^{(i)},\hdots,x_n^{(i)})$ to another sample $\bs{x}^{(i+1)}=(x_1^{(i+1)},x_2^{(i+1)},\hdots,x_n^{(i+1)})$, similar to the Metropolis algorithm. However, in Gibbs sampling the transition from $x_j^{(i)}$ to $x_j^{(i+1)}$ is performed according to the conditional distribution specified by
+The method is an instance of the Metropolis-Hastings algorithm, and is therefore classified as another Markov chain Monte-Carlo method. It differs from the Metropolis methods discussed above by the fact that all the moves are accepted, such that we do not waste computational time on rejected moves. Nevertheless, we should not use this argument alone to motivate the use of Gibbs sampling, as less than 1\% of the moves in importance sampling is usually rejected.
+
+We will in the following briefly describe the mathematical foundation of the method, before we, for the sake of clarity, connect it to the restricted Boltzmann machines. The method is built on the concept that, given a multivariate distribution, it is simpler to sample from a conditional distribution than to marginalize by integrating over a joint distribution. This is the reason why we do not need the marginal distributions in Gibbs sampling, but rather the conditional distributions. In the most general, Gibbs sampling proposes a rule for going from a sample $\bs{x}^{(i)}=(x_1^{(i)},x_2^{(i)},\hdots,x_n^{(i)})$ to another sample $\bs{x}^{(i+1)}=(x_1^{(i+1)},x_2^{(i+1)},\hdots,x_n^{(i+1)})$, similar to the Metropolis algorithm. However, in Gibbs sampling the transition from $x_j^{(i)}$ to $x_j^{(i+1)}$ is performed according to the conditional distribution specified by
 \begin{equation}
 P\big(x_j^{(i+1)}|x_1^{(i+1)},\hdots,x_{j-1}^{(i+1)},x_{j+1}^{(i)},\hdots,x_n^{(i)}\big).
 \end{equation}
 The marginal distribution of a subset of variables can then be approximated by simply considering the samples for that subset of variables, ignoring the rest. 
 
-For a restricted Boltzmann machine, this is a two-step sampling process, because of the latent variables, we use the conditional probabilities $P(\bs{r}|\bs{h})$ and $P(\bs{h}|\bs{r})$ to update the visible and hidden units respectively. For the restricted Boltzmann machine with Gaussian-binary units presented in section \ref{sec:RBM}, the conditional probability of $h_j=0$ given a set of visible nodes $\bs{x}$ is
+For a restricted Boltzmann machine, this becomes a two-step sampling process due to the latent variables, such that we use the conditional probabilities $P(\bs{r}|\bs{h})$ and $P(\bs{h}|\bs{r})$ to update the visible and hidden units respectively. For the restricted Boltzmann machine with Gaussian-binary units presented in section \ref{sec:RBM}, the conditional probability of $h_j=0$ given a set of visible nodes $\bs{x}$ is
 \begin{equation}
 P(h_j=0|\bs{x})=\frac{1}{1+\exp(b_j+\sum_{i=1}^Nx_iw_{ij}/\sigma^2)}
 \end{equation}
@@ -230,9 +248,9 @@ P(x_i|\bs{h})=\mathcal{N}\Big(a_i+\sum_{j=1}^Hw_{ij}h_j,\sigma^2\Big)
 \end{equation}
 which introduce some stochasticity to the system. By going back and forth in the Boltzmann machine multiple times (a round trip corresponds to an iteration), the hope is that the expectation values can be approximated by averaging over all the iterations. 
 
-As pointed out earlier, the Gibbs sampling will not be implemented in this work, but is described for completeness purposes. The reason for this, is that the method has not shown promising results for our specific problem, and we will instead rely on Metropolis sampling. We have already tested the Gibbs sampling in another similar project on small quantum dots \cite{nordhagen_computational_2018}, and so have others like Vilde Flugsrud \cite{flugsrud_vilde_moe_solving_nodate}. The results are similar and poor compared to the Metropolis-Hastings algorithm.
+As pointed out earlier, the Gibbs sampling will not be implemented in this work, but is described for completeness purposes. The reason for this, is that the method has not shown promising results for our specific problem, and we will instead rely on Metropolis sampling. We have already tested the Gibbs sampling in another similar project on small quantum dots \cite{nordhagen_computational_2018}, and so have others like Vilde Flugsrud \cite{flugsrud_vilde_moe_solving_nodate}. The results are matching and show poor performance compared to the Metropolis-Hastings algorithm.
 
-However, the Gibbs sampling method itself should not be underestimated. Carleo and Troyer showed its importance when solving the Ising model using a restricted Boltzmann machine and Gibbs sampling, and in traditional Boltzmann machines the Gibbs sampling is the preferred tool. \cite{carleo_solving_2017}
+However, the Gibbs sampling method itself should not be underestimated. Carleo and Troyer showed its importance when solving the Ising model using a restricted Boltzmann machine and Gibbs sampling, and in traditional Boltzmann machines the Gibbs sampling is the preferred tool \cite{carleo_solving_2017}.
 
 \section{Similarities between restricted Boltzmann machines and variational Monte-Carlo}
 In chapter \ref{chp:systems}, we presented the relation between a quantum system and expressions of the Hamiltonian, which is the energy operator. In section \ref{sec:unsupervised}, we described how Boltzmann machines are defined and how one can find the energy of a Boltzmann machine. Further, we looked at the updating schemes, which for both cases corresponds to minimizing the cost function and maximizing the log-likelihood function. 
