@@ -4283,6 +4283,32 @@
     \field{urlyear}{2019}
   \endentry
 
+  \entry{noauthor_mit_nodate}{misc}{}
+    \list{language}{1}{%
+      {en}%
+    }
+    \field{labeltitlesource}{title}
+    \field{sortinit}{9}
+    \field{sortinithash}{9}
+    \field{abstract}{%
+    A short and simple permissive license with conditions only requiring
+  preservation of copyright and license notices. Licensed works, modifications,
+  and larger works may be distributed under different terms and without source
+  code.%
+    }
+    \field{title}{{MIT} {License}}
+    \verb{url}
+    \verb https://choosealicense.com/licenses/mit/
+    \endverb
+    \verb{file}
+    \verb Snapshot:/home/evenmn/Zotero/storage/E222C63X/mit.html:text/html
+    \endverb
+    \field{journaltitle}{Choose a License}
+    \field{urlday}{29}
+    \field{urlmonth}{07}
+    \field{urlyear}{2019}
+  \endentry
+
   \entry{noauthor_training_nodate}{misc}{}
     \field{labeltitlesource}{title}
     \field{sortinit}{9}

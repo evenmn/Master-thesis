@@ -213,7 +213,7 @@ Finally, we introduce the \textit{least absolute shrinkage and selection operato
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 	\mathcal{C}(\bs{\beta})=\sum_{i=1}^{n}\Big(y_i-\sum_{j=0}^pX_{ij}\beta_j\Big)^2+\lambda\sum_{j=1}^p|\beta_j|.\qquad\text{Lasso}
 \end{empheq}
-For LASSO regression, we cannot set $\partial\mathcal{C}(\bs{\beta})/\partial\beta_j=0$ and find a closed-form expression for $\bs{\beta}$, which means that we need to use an iterative optimization algorithm in order to obtain the optimal estimators. Such optimization methods are essential in non-linear problems such as deep neural networks and variational Monte-Carlo. They will therefore be familiar to the reader throughout this thesis. 
+For LASSO regression, we cannot set $\partial\mathcal{C}(\bs{\beta})/\partial\beta_j=0$ and find a closed-form expression of $\bs{\beta}$, which means that we need to use an iterative optimization algorithm in order to obtain the optimal estimators. Such optimization methods are essential in non-linear problems such as deep neural networks and variational Monte-Carlo. They will therefore be familiar to the reader throughout this thesis. 
 
 In chapter \eqref{chp:optimization}, we will present various optimization schemes, but for now on we will stick to one of the most basic methods, \textit{gradient descent}, which can be written as  
 \begin{equation}
@@ -503,7 +503,7 @@ We now recognize that the first factor in the sum is just $\delta_k^{(l+1)}$ and
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \delta_j^{(l)}=\sum_k\delta_k^{(l+1)}w_{kj}^{(l+1)}f'(z_j^{(l)})
 \end{empheq}
-where we use the expression for $\delta_j^{(L)}$ as our initial condition. Similar to LASSO regression, a solution of the weight update does not exist in closed form and we need to rely on interative optimization methods. Using gradient descent, a new weight $w_{ij}^{(l)+}$ is found from
+where we use the expression of $\delta_j^{(L)}$ as our initial condition. Similar to LASSO regression, a solution of the weight update does not exist in closed form and we need to rely on interative optimization methods. Using gradient descent, a new weight $w_{ij}^{(l)+}$ is found from
 \begin{empheq}[box={\mybluebox[5pt]}]{align}
 w_{ij}^{(l)+}=w_{ij}^{(l)}-\eta\frac{\partial\mathcal{C}(\bs{w})}{\partial w_{jk}^{(l)}}.
 \end{empheq}
