@@ -11,15 +11,13 @@ Since this scientific work is based on solving equations numerically on the comp
 
 Computers have long been used for solving complex scientific problems. Actually, for a long time science was the main motivation of developing computers. Already in 1929, Egil Hylleraas used his mechanical desk calculator to calculate the ground state energy of the Helium atom, which remains a milestone in computational quantum chemistry as well as quantum chemistry in general \cite{helgaker_perspective_2000}. Later, pioneers like Alan Turing and John von Neumann contributed to the invention of the first electronic computer, which made numerical solutions of ordinary differential equations possible \cite{gustafsson_scientific_2018}. 
 
-Also on the software side, big breakthroughs ... Since Fortran saw the light in 1957, then considered as a higher-level language,  MENTION Ole Johan Dahl and Kristen Nygaard
+Also on the software side, big breakthroughs have been made since the advent of the electronic computer. The programming language Fortran was released in 1957, which provided a new basis of scientific programming \cite{allen_history_1981}. Later, Ole Johan Dahl and Kristen Nygaard developed the language SIMULA, which is considered as the first object orientated language \cite{holmevik_compiling_1994}. The language that we mostly will rely on in this work, C++, is an extension of the language C which was developed in the early 1970's and is, together with Fortran, one of few languages that have survived the ravages of time. 
 
-The computer used today have become possible due to heroic effort of an array of scientists, engineers and mechanics over a long period. The computers are stronger than ever, have more memory than ever, are compacter than ever and, last but not least, they are more user-friendly than ever. This has made advanced simulations possible even for young, inexperienced students like the author, and we should we aware that it has not always been like that. 
+The computer used today, included both the hardware and the software, have become possible due to heroic effort of an array of scientists, engineers and mechanics over a long period. The computers are stronger than ever, have more memory than ever, are compacter than ever and, last but not least, they are more user-friendly than ever. This has made heavy computations that was unthinkable just decades ago possible, and has contributed to the development of essentially all branches of science. Due to the user-friendliness, advanced simulations have also been available to young and curious students like the author, which we should not take for granted. 
 
 The computer's language itself is binary, and is the lowest level. To translate commands to this language, we need a "translator", which is a language that fills the gap between the binary language and human commands. This language is categorized in levels based on how similar they are to the binary language. Low-level languages are more similar to the binary language than a high-level language. The result is that low-level languages in general are more demanding to deal with, but they are typically faster than high-level languages. In our work, we have used the low-level language C++ for the main code, but for scripting, including plotting and solving less expensive problems, the high-level language Python has been used. 
 
-In this chapter, we will explain the essentials behind scientific programming, using examples from both C++ and Python. We will begin from the very basic, so if the reader is an experienced programmer, this chapter is probably old news.
-
-One can either do \textit{procedural programming} or \textit{object oriented programming}. The former means that the code is written in the same order as the program flow goes, while one in the latter defines objects. 
+In this chapter, we will explain the essentials behind scientific programming, using examples from both C++ and Python. We will begin from the very basic, so if the reader is an experienced programmer this chapter will probably be perceived as old news. Programs are often either classified as \textit{procedural programming} or \textit{object oriented programming}, based on whether the code is written in the same order as the program flow goes (procedural) or is based on objects (object-orientated).
 
 \section{Object orientated programming in Python}
 In the everyday life, we are surrounded by objects all the time which we can place in different categories. For instance, a \textit{circle} is an object with properties like area, circumference and so on, and can be placed in the class \textit{shapes}. Other members of the class shapes might be square and triangle. In object orientated programming, we create similar objects, or classes, to make the program flow more intuitive for the reader. The main class is called the parent class, while the sub-classes are called the children. The reason for this analogy, is that the sub-classes always inherit from their main class, but not the other way around. 
@@ -89,7 +87,7 @@ NotImplementedError: Class Triangle has no instance 'getArea'.
 
 As we can see, the area of the circle and the square were calculated successfully, giving $\pi r^2$ and $4r$ respectively. On the other hand, the area of the triangle raised an error, which is obviously because we do not have defined the area of the triangle! This example illustrates that properties of the children overwrites the properties of the parent, but if the children does not have the called property, it will instead return the parent's property. 
 
-\subsubsection{An example based on Monte-Carlo simulations}
+\subsection{An example based on Monte-Carlo simulations}
 Up to this point, we have talked a lot about Monte-Carlo simulations without giving an illustrating example on what it is. Methods where we draw numbers randomly from a function to reveal properties of the function are in general categorized as Monte-Carlo simulations. 
 
 Suppose we did not know the value of $\pi$, what could we do to approximate its value? There are many ways to do this, where the most intuitive might be to measure the ratio between the diameter and the circumference in a circle. It is not possible to do this very accurate manually. A more accurate and robust solution would be to use Monte-Carlo simulations, where we for instance can take the starting point on the relation
@@ -229,9 +227,22 @@ In C++, a much safer method exists based on virtual functions, where a child is 
 This is often very useful, as the children tend to have the same features. Taking it back to the \texttt{Shapes} class, all the shapes ought to have features area and circumference, which can be forced by using virtual functions, as done in the example above. 
 
 \subsection{Constructors and destructors}
+In the example above, we observe that the class \texttt{Shapes} has a function with the same name, \texttt{Shapes} and another virtual function \texttt{~Shapes}. The former one is used to create the object, and is hence named a \textit{constructor}. This function gets called automatically when the object of a class is created. Similarly, the latter one destructs an object when we are done evaluating the object. It is therefore named a \textit{destructor}, and is also called automatically when an object is deleted or goes out of scope.
 
 \subsection{Pointers}
-In the example above, we have not directly used any pointer. However, pointers are important in low-level languages 
+In the example above, we have not directly used any pointer. However, pointers are important in low-level languages, and we will here give a very brief introduction to pointers.
+
+For a C++ program, the memory of a computer is like a succession of memory cells, each with a unique address and of size one byte. When declaring a variable of size larger than one byte, the object will occupy memory cells that have consecutive addresses. Often, it is useful to know this address, which allows you to change the object directly in the memory. The address of a variable is given by the address-of operator, \&, working as
+\lstset{basicstyle=\scriptsize}
+\begin{lstlisting}[language=C++]
+address=&variable
+\end{lstlisting}
+Doing this, we say that we \textit{point to the address}, and a variable that stores the address of another variable is thereby called a pointer. 
+
+Furthermore, the dereference operator, *, gives the value of the address to where a pointer points. Thus, the following is true
+\begin{lstlisting}[language=C++]
+variable=*address
+\end{lstlisting}
 
 \subsection{Back to the Monte-Carlo example}
 We can now call the class above from the \texttt{main} function. We start defining the children \texttt{circ} and \texttt{squr}, and use the \texttt{getExtent()} function to approximate the area ratio between them. The code looks like 

@@ -58,7 +58,7 @@ There are several ways to do this, but they all are based on the \textit{cost fu
 \end{equation}
 and which we seek to minimize. Before we start minimizing this, we will introduce a more general notation, where the estimators are collected in a column vector 
 \begin{equation*}
-\bs{\beta}=(a,b,c)^T
+\bs{\theta}=(a,b,c)^T
 \end{equation*}
 and the $x_i^j$'s also are collected in a row vector
 \begin{equation*}
@@ -66,22 +66,22 @@ and the $x_i^j$'s also are collected in a row vector
 \end{equation*}
 Using this, the cost function can be written as
 \begin{align}
-\mathcal{C}(\bs{\beta})&=\frac{1}{n}\sum_{i=0}^{n-1}\Big(y_i-\sum_{j=0}^2X_{ij}\beta_j\Big)^2\notag\\
-&=\frac{1}{n}\sum_{i=0}^{n-1}\Big(y_i-\bs{X}_i\bs{\beta}\Big)^2\label{eq:costols}\\
-&=\frac{1}{n}(\bs{y}-\bs{X}\bs{\beta})^T(\bs{y}-\bs{X}\bs{\beta})\notag
+\mathcal{C}(\bs{\theta})&=\frac{1}{n}\sum_{i=0}^{n-1}\Big(y_i-\sum_{j=0}^2X_{ij}\theta_j\Big)^2\notag\\
+&=\frac{1}{n}\sum_{i=0}^{n-1}\Big(y_i-\bs{X}_i\bs{\theta}\Big)^2\label{eq:costols}\\
+&=\frac{1}{n}(\bs{y}-\bs{X}\bs{\theta})^T(\bs{y}-\bs{X}\bs{\theta})\notag
 \end{align}
-where we in the last step have collected all the vectors $\bs{X}_i$ in a matrix. As the minimum of the cost function with respect to a estimator $\beta_j$ is found when the derivative is zero, we need to solve
+where we in the last step have collected all the vectors $\bs{X}_i$ in a matrix. As the minimum of the cost function with respect to a estimator $\theta_j$ is found when the derivative is zero, we need to solve
 \begin{align*}
-\frac{\partial \mathcal{C}(\bs{\beta})}{\partial\beta_j} &=\frac{\partial}{\partial\beta_j}\bigg(\frac{1}{n}\sum_{i=0}^{n-1}\Big(y_i-\sum_{j=0}^2X_{ij}\beta_j\Big)^2\bigg)\notag\label{eq:gh}\\
-&=\frac{2}{n}\sum_{i=0}^{n-1}X_{ij}\Big(y_i-\sum_{j=0}^2X_{ij}\beta_j\Big)=0.
+\frac{\partial \mathcal{C}(\bs{\theta})}{\partial\theta_j} &=\frac{\partial}{\partial\theta_j}\bigg(\frac{1}{n}\sum_{i=0}^{n-1}\Big(y_i-\sum_{j=0}^2X_{ij}\theta_j\Big)^2\bigg)\notag\label{eq:gh}\\
+&=\frac{2}{n}\sum_{i=0}^{n-1}X_{ij}\Big(y_i-\sum_{j=0}^2X_{ij}\theta_j\Big)=0.
 \end{align*}
 We can go further and write it on matrix-vector form as
 \begin{equation*}
-\frac{\partial \mathcal{C}(\bs{\beta})}{\partial\bs{\beta}}=\frac{2}{n}\bs{X}^T(\bs{y}-\bs{X}\bs{\beta})=0
+\frac{\partial \mathcal{C}(\bs{\theta})}{\partial\bs{\theta}}=\frac{2}{n}\bs{X}^T(\bs{y}-\bs{X}\bs{\theta})=0
 \end{equation*}
-where differentiating with respect to a vector here means that each component is $\partial\mathcal{C(\bs{\beta})}/\partial\beta_j$. This is satisfied if
+where differentiating with respect to a vector here means that each component is $\partial\mathcal{C(\bs{\theta})}/\partial\theta_j$. This is satisfied if
 \begin{equation}
-\bs{\beta}=(\bs{X}^T\bs{X})^{-1}\bs{X}^T\bs{y}
+\bs{\theta}=(\bs{X}^T\bs{X})^{-1}\bs{X}^T\bs{y}
 \label{eq:polynomialestimators}
 \end{equation}
 which is the equation we seek to solve to find the best fitting polynomial. Before we proceed to the general case, let us have a quick look at an example.
@@ -158,18 +158,18 @@ and
 \subsection{Linear regression}
 Polynomial regression, as already discussed, is an example on a linear regression method, and was meant as motivation before we study linear regression in general. Instead of fitting a polynomials to a set of points, we can fit a general function on the form
 \begin{equation}
-f(x_i)=\sum_{j=0}^pX_{ij}(x_i)\beta_j
+f(x_i)=\sum_{j=0}^pX_{ij}(x_i)\theta_j
 \label{eq:targets}
 \end{equation}
-where we have $p$ estimators $\beta_j$. The matrix $\bs{X}$ is called the \textit{design matrix}, and the case where $X_{ij}(x_i)=x_i^j$ corresponds to polynomial regression, but it can in principle be an arbitrary function of $x_i$.
+where we have $p$ estimators $\theta_j$. The matrix $\bs{X}$ is called the \textit{design matrix}, and the case where $X_{ij}(x_i)=x_i^j$ corresponds to polynomial regression, but it can in principle be an arbitrary function of $x_i$.
 
 The cost function for \textit{the ordinary least square regression} (OLS) case is already found in equation \eqref{eq:costols}, and we can recall it as
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-	\mathcal{C}(\bs{\beta})=\sum_{i=1}^{n}\Big(y_i-\sum_{j=0}^pX_{ij}\beta_j\Big)^2,\qquad\qquad\qquad\text{OLS}
+	\mathcal{C}(\bs{\theta})=\sum_{i=1}^{n}\Big(y_i-\sum_{j=0}^pX_{ij}\theta_j\Big)^2,\qquad\qquad\qquad\text{OLS}
 \end{empheq}
 which is minimized when
 \begin{equation}
-\bs{\beta}=(\bs{X}^T\bs{X})^{-1}\bs{X}^T\bs{y}.
+\bs{\theta}=(\bs{X}^T\bs{X})^{-1}\bs{X}^T\bs{y}.
 \label{eq:ols}
 \end{equation}
 
@@ -194,34 +194,34 @@ and similarly
 \end{equation}
 when transposing the matrix. Using those expressions, one can show that
 \begin{equation}
-\bs{X}\bs{\beta}=\bs{U}\bs{U}^T\bs{y}.
+\bs{X}\bs{\theta}=\bs{U}\bs{U}^T\bs{y}.
 \end{equation}
 
 \subsubsection{Ridge regression}
 So, how can we avoid non-singular values in our matrix $\bs{X}^T\bs{X}$? We can remove them by introduce a penalty $\lambda$ to ensure that all the diagonal values are non-zero, which can be accomplished by adding a small value to all diagonal elements. Doing this, all diagonal elements will get a non-zero value and the matrix is guaranteed to be non-singular. Still using the matrix-vector form, this can be written as 
 \begin{equation}
-\bs{\beta}=(\bs{X}^T\bs{X}+\lambda\bs{I})^{-1}\bs{X}^T\bs{y}
+\bs{\theta}=(\bs{X}^T\bs{X}+\lambda\bs{I})^{-1}\bs{X}^T\bs{y}
 \end{equation}
 where $\bs{I}$ is the identity matrix. The penalty $\lambda$ is also a \textit{hyper parameter}, which is a parameter that is set before the training begins, in contrast to the estimators which are determined throughout training. This method is called Ridge regression, and has a cost function given by 
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-	\mathcal{C}(\bs{\beta})=\sum_{i=1}^{n}\Big(y_i-\sum_{j=0}^pX_{ij}\beta_j\Big)^2+\lambda\sum_{j=1}^p|\beta_j|^2\qquad\text{Ridge}
+	\mathcal{C}(\bs{\theta})=\sum_{i=1}^{n}\Big(y_i-\sum_{j=0}^pX_{ij}\theta_j\Big)^2+\lambda\sum_{j=1}^p|\theta_j|^2\qquad\text{Ridge}
 \end{empheq}
-where we in principle just add the L2-norm of the estimator vector to the OLS cost function. This can easiest be proven going from the cost function to the matrix-vector expression of $\bs{\beta}$, as we did for ordinary least squares.
+where we in principle just add the L2-norm of the estimator vector to the OLS cost function. This can easiest be proven going from the cost function to the matrix-vector expression of $\bs{\theta}$, as we did for ordinary least squares.
 
 \subsubsection{LASSO regression}
-Finally, we introduce the \textit{least absolute shrinkage and selection operator} (LASSO) regression, which in the same way as Ridge regression is based on a regularization. Instead of adding the L2-norm of the estimator matrix, we add the the L1-norm $|\beta_j|$, and the cost function expresses
+Finally, we introduce the \textit{least absolute shrinkage and selection operator} (LASSO) regression, which in the same way as Ridge regression is based on a regularization. Instead of adding the L2-norm of the estimator matrix, we add the the L1-norm $|\theta_j|$, and the cost function expresses
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-	\mathcal{C}(\bs{\beta})=\sum_{i=1}^{n}\Big(y_i-\sum_{j=0}^pX_{ij}\beta_j\Big)^2+\lambda\sum_{j=1}^p|\beta_j|.\qquad\text{Lasso}
+	\mathcal{C}(\bs{\theta})=\sum_{i=1}^{n}\Big(y_i-\sum_{j=0}^pX_{ij}\theta_j\Big)^2+\lambda\sum_{j=1}^p|\theta_j|.\qquad\text{Lasso}
 \end{empheq}
-For LASSO regression, we cannot set $\partial\mathcal{C}(\bs{\beta})/\partial\beta_j=0$ and find a closed-form expression of $\bs{\beta}$, which means that we need to use an iterative optimization algorithm in order to obtain the optimal estimators. Such optimization methods are essential in non-linear problems such as deep neural networks and variational Monte-Carlo. They will therefore be familiar to the reader throughout this thesis. 
+For LASSO regression, we cannot set $\partial\mathcal{C}(\bs{\theta})/\partial\theta_j=0$ and find a closed-form expression of $\bs{\theta}$, which means that we need to use an iterative optimization algorithm in order to obtain the optimal estimators. Such optimization methods are essential in non-linear problems such as deep neural networks and variational Monte-Carlo. They will therefore be familiar to the reader throughout this thesis. 
 
 In chapter \eqref{chp:optimization}, we will present various optimization schemes, but for now on we will stick to one of the most basic methods, \textit{gradient descent}, which can be written as  
 \begin{equation}
-\beta_j^+=\beta_j-\eta \frac{\partial\mathcal{C}(\bs{\beta})}{\partial\beta_j},
+\theta_j^+=\theta_j-\eta \frac{\partial\mathcal{C}(\bs{\theta})}{\partial\theta_j},
 \end{equation}
-where $\beta_j^+$ is the updated version of $\beta_j$ and $\mathcal{C}(\bs{\beta})$ is an arbitrary cost function. Here we are introduced to a new hyperparameter, $\eta$, known as the \textit{learning rate}, which controls how much the estimators should be changed for each iteration. This should be set carefully, where a too large $\eta$ will make the cost function diverge and a too small $\eta$ will make the training too slow. Typically, to choose a $\eta\in 0.01-0.0001$ is a good choice. For ordinary least squares, the parameter update can be written as
+where $\theta_j^+$ is the updated version of $\theta_j$ and $\mathcal{C}(\bs{\theta})$ is an arbitrary cost function. Here we are introduced to a new hyperparameter, $\eta$, known as the \textit{learning rate}, which controls how much the estimators should be changed for each iteration. This should be set carefully, where a too large $\eta$ will make the cost function diverge and a too small $\eta$ will make the training too slow. Typically, to choose a $\eta\in 0.01-0.0001$ is a good choice. For ordinary least squares, the parameter update can be written as
 \begin{equation}
-\bs{\beta}^+=\bs{\beta}-\eta\bs{X}^T(\bs{y}-\bs{X}^T\bs{\beta})
+\bs{\theta}^+=\bs{\theta}-\eta\bs{X}^T(\bs{y}-\bs{X}^T\bs{\theta})
 \label{eq:olsupdate}
 \end{equation}
 
@@ -317,7 +317,7 @@ out = f(net).
 If not everything is clear right now, it is fine. We will discuss the most important concepts before we dive into the maths.
 
 \subsubsection{BIAS}
-As mentioned above, we use biases when calculating the outputs. The nodes, with value $B$, are called the bias nodes, and the weights, $b$, are called the bias weights. But why do we need those? 
+As mentioned above, we use biases when calculating the outputs. The units, with value $B$, are called the bias units, and the weights, $b$, are called the bias weights. But why do we need those? 
 
 Suppose we have two inputs of value zero, and one output which should not be zero (this could for instance be a NOR gate). Without the bias, we will not be able to get any other output than zero, and in fact the network would struggle to find the right weights even if the output had been zero. 
 
@@ -400,16 +400,16 @@ where the bias weight is included implicitly in $\bs{w}$ and the same applies fo
 \fi
 
 \subsection{Neural networks} \label{sec:neural_network}
-Now we know enough to dive into the field of artificial neural networks. Neural networks can given either continuous or discrete outputs, and is therefore a competitor to both linear and logistic regression. The big strength of neural networks is that one can add multiple \textit{layers}, which potentially makes the model extremely flexible. According to \textbf{the universal approximation theorem}, a neural network with only one hidden layer can approximate any continuous function. [8] However, often multiple layers are used since this tends to give fewer nodes in total, and is known to give better results. Neural networks of more than one layer are called \textit{deep} networks, and as more layers are added the network gets \textit{deeper}.
+Now we know enough to dive into the field of artificial neural networks. Neural networks can given either continuous or discrete outputs, and is therefore a competitor to both linear and logistic regression. The big strength of neural networks is that one can add multiple \textit{layers}, which potentially makes the model extremely flexible. According to \textbf{the universal approximation theorem}, a neural network with only one hidden layer can approximate any continuous function. [8] However, often multiple layers are used since this tends to give fewer units in total, and is known to give better results. Neural networks of more than one layer are called \textit{deep} networks, and as more layers are added the network gets \textit{deeper}.
 
 In figure \eqref{fig:neural_network}, a two-layer neural network (one hidden layer) is illustrated. It has some similarities with the logistic regression model in figure \eqref{fig:single_perceptron}, but a hidden layer and multiple outputs are added. We have also dropped the representation of the weights, but each line corresponds to a weight. Each node represents a neuron in the brain.
 
-Without a hidden layer, we have seen that the update of weights is quite straight forward. For a neural network consisting of multiple layers, the question is: how do we update the weights when we do not know the values of the hidden nodes? And how do we know which layer causing the error? This will be explained in section \ref{sec:backward}, where the most popular technique for that is discussed. Before that, we will generalize the forward phase presented in logistic regression.
+Without a hidden layer, we have seen that the update of weights is quite straight forward. For a neural network consisting of multiple layers, the question is: how do we update the weights when we do not know the values of the hidden units? And how do we know which layer causing the error? This will be explained in section \ref{sec:backward}, where the most popular technique for that is discussed. Before that, we will generalize the forward phase presented in logistic regression.
 
 \begin{figure}
 	\centering
 	\input{tikz/multilayer_perceptron.tex}
-	\caption{Neural network with 3 input nodes, $L$ hidden layers with 5 hidden nodes each and two outputs. $B_0$, $B_1$, $B_l$ and $B_L$ are bias nodes for their respective layers, and the dashed lines indicate that it might be more layers between the two layers. We have labeled a few of the lines to relate them to the weights. }
+	\caption{Neural network with 3 input units, $L$ hidden layers with 5 hidden units each and two outputs. $B_0$, $B_1$, $B_l$ and $B_L$ are bias units for their respective layers, and the dashed lines indicate that it might be more layers between the two layers. We have labeled a few of the lines to relate them to the weights. }
 	\label{fig:neural_network}
 \end{figure}
 
@@ -418,11 +418,11 @@ In the previous section, we saw how the output is found for a single perceptron.
 \begin{equation*}
 z_j^{(1)}=\sum_{i=1}^{N_0}x_iw_{ij}^{(1)}=\bs{x}^T\bs{w}_j^{(1)}
 \end{equation*}
-where $N_0$ is the number of nodes in layer 0 (the input layer) and we again have assumed that the bias node is included in $\bs{x}$ and the bias weight is included in $\bs{w}$. If we let the activation function, $f(x)$, act on the net output, we get the real output given by
+where $N_0$ is the number of units in layer 0 (the input layer) and we again have assumed that the bias node is included in $\bs{x}$ and the bias weight is included in $\bs{w}$. If we let the activation function, $f(x)$, act on the net output, we get the real output given by
 \begin{equation*}
 a_j^{(1)}=f(z_j^{(1)})=f\Big(\sum_{i=1}^{N_0}x_iw_{ij}^{(1)}\Big).
 \end{equation*}
-This is then again the input to the next layer with $N_1$ nodes, so the output from the second layer is simply
+This is then again the input to the next layer with $N_1$ units, so the output from the second layer is simply
 \begin{equation*}
 a_j^{(2)}=f\Big(\sum_{i=1}^{N_1}a_i^{(1)}w_{ij}^{(2)}\Big).
 \end{equation*}
@@ -431,7 +431,7 @@ For a neural network of multiple layers, the same procedure applies to all the l
 z_j^{(l)}=\sum_{i=1}^{N_{l-1}}a_i^{(l-1)}w_{ij}^{(l)}
 \label{eq:netoutput}
 \end{empheq}
-where layer $l-1$ has $N_{l-1}$ nodes and we need to be aware that $a_j^{(0)}=x_j$. After activation, the output is obviously found to be
+where layer $l-1$ has $N_{l-1}$ units and we need to be aware that $a_j^{(0)}=x_j$. After activation, the output is obviously found to be
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 a_j^{(l)}=f\Big(\sum_{i=1}^{N_{l-1}}a_i^{(l-1)}w_{ij}^{(l)}\Big)
 \end{empheq}
@@ -456,13 +456,13 @@ In figure (\ref{fig:activation_functions}), standard RELU, leaky RELU and ELU ar
 \subsubsection{Backward propagation} \label{sec:backward}
 Backward propagation is the most robust technique for updating the weights in a neural network, and is actually again based on the weight update presented for linear and logistic regression. The algorithm for this was presented 1986, which made the deep neural networks able to solve relatively complicated problems for the first time. \cite{rumelhart_learning_1986} To update the weights, one starts with the outputs and updates the weights layer-wise until one gets to the inputs, hence the name backward propagation. 
 
-As observed above, a node is dependent on all the nodes in the previous layers, and so are the weights. This means that the nodes are dependent on a large number of parameters, which makes the training scheme quite complex. Nevertheless, there is possible to generalize this to express the updating formulas on a relatively simple form.
+As observed above, a node is dependent on all the units in the previous layers, and so are the weights. This means that the units are dependent on a large number of parameters, which makes the training scheme quite complex. Nevertheless, there is possible to generalize this to express the updating formulas on a relatively simple form.
 
 From the linear and logistic regression, we know that we need the derivative of the cost function in order to implement the weight update regime. Again, we define the cost function as the mean square error,
 \begin{equation*}
 \mathcal{C}(\bs{w})=\frac{1}{2}\sum_{i=1}^{N_L}(y_i-a_i^{(L)})^2
 \end{equation*}
-where we have $L+1$ layers ($L$ is the last layer) and $N_L$ output nodes. The derivative of this with respect to one of the weights between the $L-1$'th and $L$'th layer can be written as a sum using the chain rule
+where we have $L+1$ layers ($L$ is the last layer) and $N_L$ output units. The derivative of this with respect to one of the weights between the $L-1$'th and $L$'th layer can be written as a sum using the chain rule
 \begin{equation*}
 \frac{\partial\mathcal{C}(\bs{w})}{\partial w_{jk}^{(L)}}=\frac{\partial\mathcal{C}(\bs{w})}{\partial a_j^{(L)}}\frac{\partial a_j^{(L)}}{\partial z_j^{(L)}}\frac{\partial z_j^{(L)}}{\partial w_{jk}^{(L)}}.
 \end{equation*}
@@ -548,11 +548,11 @@ which is the log-likelihood. Maximizing the likelihood is the same as maximizing
 \end{equation}
 The KL divergence is a measure of the difference between two \textit{probability density functions} (PDFs), and is zero for two identical PDFs. The divergence is often called a distance, but that is an unsatisfying description as it is non-symmetric ($\text{KL}(Q||P))\neq\text{KL}(P||Q)$) in general. 
 
-To proceed further, we will introduce latent variables in form of hidden nodes. Suppose we want to model an $m$-dimensional unknown probability distribution $Q$. Typically, not all the variables $\bs{s}$ are observed components, they can also be latent variables. If we split $\bs{s}$ into \textit{visible} variables $\bs{x}$ and hidden variables $\bs{h}$, and under the assumption that $\bs{x}$ and $\bs{h}$ are variables in an energy function $E(\bs{x},\bs{h})$, we can express the joint probability as the Boltzmann distribution
+To proceed further, we will introduce latent variables in form of hidden units. Suppose we want to model an $m$-dimensional unknown probability distribution $Q$. Typically, not all the variables $\bs{s}$ are observed components, they can also be latent variables. If we split $\bs{s}$ into \textit{visible} variables $\bs{x}$ and hidden variables $\bs{h}$, and under the assumption that $\bs{x}$ and $\bs{h}$ are variables in an energy function $E(\bs{x},\bs{h})$, we can express the joint probability as the Boltzmann distribution
 \begin{equation}
 P(\bs{x},\bs{h})=\frac{\exp(-E(\bs{x},\bs{h}))}{Z}
 \end{equation}
-where $Z$ is the partition function, which is the sum of the probability of all possible states, which was already introduced in equation \eqref{eq:partition}. We have ignored the factor $k_BT$ by setting it to 1. Where the visible nodes correspond to components of an observation, the hidden nodes introduce the system to more degrees of freedom. This allows us to describe complex distributions over the visible variables by means of simple conditional distributions. \cite{fischer_training_2014} Those conditional distributions will be described later, but let us first take a look at the marginal distributions.
+where $Z$ is the partition function, which is the sum of the probability of all possible states, which was already introduced in equation \eqref{eq:partition}. We have ignored the factor $k_BT$ by setting it to 1. Where the visible units correspond to components of an observation, the hidden units introduce the system to more degrees of freedom. This allows us to describe complex distributions over the visible variables by means of simple conditional distributions. \cite{fischer_training_2014} Those conditional distributions will be described later, but let us first take a look at the marginal distributions.
 
 \subsubsection{Marginal distributions}
 We have already used the term marginal distribution, which means that we get rid of a set of variables by integrating the joint probability over all of them. The marginal probability of $\bs{x}$ is given by
@@ -563,7 +563,7 @@ The sum over the $\bs{h}$ vector is just a short-hand notation where we sum over
 \begin{equation}
 P(\bs{h})=\sum_{\bs{x}}P(\bs{x},\bs{h})=\frac{1}{Z}\sum_{\bs{x}}\exp(-E(\bs{x},\bs{h})).
 \end{equation}
-$p(\bs{x})$ is important as it gives the probability of a particular set of visible nodes $\bs{x}$, while $p(\bs{h})$ will not be used in the same scope in this work. 
+$p(\bs{x})$ is important as it gives the probability of a particular set of visible units $\bs{x}$, while $p(\bs{h})$ will not be used in the same scope in this work. 
 
 \subsubsection{Conditional distributions}
 The conditional distributions can be found from Bayes' theorem, and read
@@ -594,23 +594,23 @@ Similar to LASSO regression and neural networks, we cannot find a closed-form ex
 \subsection{Boltzmann Machines}
 Boltzmann Machines are energy-based, generative neural networks based on the more primitive Hopfield network. They were invented in 1985 by Geoffrey Hinton \cite{ackley_learning_1985}, often referred to as "The Godfather of Deep Learning"\footnote{Hinton's contribution to machine learning can hardly be overstated. He was co-author of the paper popularizing the backpropagation algorithm, \cite{rumelhart_learning_1986} supervisor of Alex Krizhevsky who designed AlexNet \cite{krizhevsky_imagenet_2012} and the main author of the paper introducing the regularization technique \textit{dropout} \cite{hinton_improving_2012}.}, and the network is named after the Boltzmann distribution.
 
-A Boltzmann machine consists of a set of nodes where a node is connected to all other nodes through weights, similar to the neural network already presented. It is also common to add bias nodes. In figure \eqref{fig:boltzmann_machine}, a simple Boltzmann machine consisting of 6 nodes and 1 bias node is illustrated. 
+A Boltzmann machine consists of a set of units where a node is connected to all other units through weights, similar to the neural network already presented. It is also common to add bias units. In figure \eqref{fig:boltzmann_machine}, a simple Boltzmann machine consisting of 6 units and 1 bias node is illustrated. 
 
 \begin{figure}
 	\centering
 	\input{tikz/boltzmann_machine.tex}
-	\caption{Unrestricted Boltzmann machine. Black lines are connections between all the nodes, where for instance the line between $s_1$ and $s_6$ is related to the weight $w_{16}$. The blue lines are related to the bias weights, and, for instance, the line going from the bias node to $s_3$ is related to $b_3$.}
+	\caption{Unrestricted Boltzmann machine. Black lines are connections between all the units, where for instance the line between $s_1$ and $s_6$ is related to the weight $w_{16}$. The blue lines are related to the bias weights, and, for instance, the line going from the bias node to $s_3$ is related to $b_3$.}
 	\label{fig:boltzmann_machine}
 \end{figure}
 
-By multiplying each node with all the other nodes and the weight connecting them, one obtains the system energy. For the simplest case, the energy reads
+By multiplying each node with all the other units and the weight connecting them, one obtains the system energy. For the simplest case, the energy reads
 \begin{equation}
 E(\bs{s})=- \sum_{i=1}^Ns_ib_i-\sum_{i=1}^N\sum_{j=i}^N s_iw_{ij}s_j 
 \label{eq:unrestrictedboltzmannmachine}
 \end{equation}
-where $\bs{s}$ are the nodes and $w_{ij}$ is the weight between node $s_i$ and $s_j$. The bias node is fixed to 1, as always, and the weight between the bias node and the node $s_i$ is denoted by $b_i$. In its most simple form, the nodes can only take binary values, and we therefore call it a binary-unit Boltzmann machine. Also other architectures are possible. 
+where $\bs{s}$ are the units and $w_{ij}$ is the weight between node $s_i$ and $s_j$. The bias node is fixed to 1, as always, and the weight between the bias node and the node $s_i$ is denoted by $b_i$. In its most simple form, the units can only take binary values, and we therefore call it a binary-unit Boltzmann machine. Also other architectures are possible. 
 
-The energy formula is identical to the system energy of Hopfield networks, but what distinguish a Boltzmann machine from a Hopfield network is that the nodes are \textit{stochastic}. This means that their values are randomly determined, introducing some randomness to the system. Also the energy of an Ising model takes the same form as equation \eqref{eq:unrestrictedboltzmannmachine}
+The energy formula is identical to the system energy of Hopfield networks, but what distinguish a Boltzmann machine from a Hopfield network is that the units are \textit{stochastic}. This means that their values are randomly determined, introducing some randomness to the system. Also the energy of an Ising model takes the same form as equation \eqref{eq:unrestrictedboltzmannmachine}
 
 You might already have foreseen the next step, which is to use the Boltzmann distribution to define the probability of finding the system in a particular state $E(\bs{s};\bs{w},\bs{b})$, as discussed in the previous section. The probability distribution function (PDF) is then given by
 \begin{equation}
@@ -622,22 +622,22 @@ where $Z$ again is the partition function. The PDF contains weights, which can b
 A Boltzmann machine is also a Markov random field, as the stochastic processes satisfy the Markov property. Loosely speaking, this means that all the probabilities of going from one state to another are known, making it possible to predict future of the process based solely on its present state. It is also determined by a "memorylessness", meaning that the next state of the system depends only on the current state and not on the sequence of events that preceded it. \cite{fischer_training_2014} Markov chains is an important part of the sampling methods that will be discussed later. 
 
 \subsection{Restricted Boltzmann Machines} \label{sec:RBM}
-When there is an unrestricted guy, a restricted guy must exist as well. What the term restricted means in this case, is that we ignore all the connections between nodes in the same layer, and keep only the inter-layer ones. Only the units in the first layer are the observable, while the nodes in the next layer are latent or hidden. In the same manner as in equation \eqref{eq:unrestrictedboltzmannmachine}, we can look at the linear case, where each node is multiplied with the corresponding weight, but now we need to distinguish between a visible node $x_i$ and a hidden node $h_j$. For the same reason, all the bias weights need to be divided into a group connected to the visible nodes, $a_i$ and a group connected to the hidden nodes, $b_j$. The system energy then reads
+When there is an unrestricted guy, a restricted guy must exist as well. What the term restricted means in this case, is that we ignore all the connections between units in the same layer, and keep only the inter-layer ones. Only the units in the first layer are the observable, while the units in the next layer are latent or hidden. In the same manner as in equation \eqref{eq:unrestrictedboltzmannmachine}, we can look at the linear case, where each node is multiplied with the corresponding weight, but now we need to distinguish between a visible node $x_i$ and a hidden node $h_j$. For the same reason, all the bias weights need to be divided into a group connected to the visible units, $a_i$ and a group connected to the hidden units, $b_j$. The system energy then reads
 \begin{equation}
 E(\bs{x},\bs{h})=- \sum_{i=1}^Fx_ia_i- \sum_{j=1}^Hh_jb_j-\sum_{i=1}^F\sum_{j=i}^H x_iw_{ij}h_j 
 \label{eq:binarybinary}
 \end{equation}
-which is called binary-binary units or Bernoulli-Bernoulli units. $F$ is the number of visible nodes and $H$ is number of hidden nodes. In figure \eqref{fig:restricted_boltzmann_machine}, a restricted Boltzmann machine with three visible nodes and three hidden nodes is illustrated.
+which is called binary-binary units or Bernoulli-Bernoulli units. $F$ is the number of visible units and $H$ is number of hidden units. In figure \eqref{fig:restricted_boltzmann_machine}, a restricted Boltzmann machine with three visible units and three hidden units is illustrated.
 
 \begin{figure}
 	\centering
 	\input{tikz/restricted_boltzmann_machine.tex}
-	\caption{Restricted Boltzmann machine. Black lines are the inter-layer connections, where for instance the line between $x_1$ and $h_1$ is related to the weight $w_{11}$. The blue lines are related to the input bias weights, and, for instance, the line going from the bias node to $x_3$ is called $a_3$. Similarly, the green lines are connections between the hidden nodes and the bias, and, for instance, the line going from the bias node to $h_3$ is called $b_3$.}
+	\caption{Restricted Boltzmann machine. Black lines are the inter-layer connections, where for instance the line between $x_1$ and $h_1$ is related to the weight $w_{11}$. The blue lines are related to the input bias weights, and, for instance, the line going from the bias node to $x_3$ is called $a_3$. Similarly, the green lines are connections between the hidden units and the bias, and, for instance, the line going from the bias node to $h_3$ is called $b_3$.}
 	\label{fig:restricted_boltzmann_machine}
 \end{figure}
 
 \subsubsection{Gaussian-binary units}
-Until now we have discussed the linear models only, but as for feed-forward neural networks, we need non-linear models to solve non-linear problems. A natural next step is the Gaussian-binary units, which has a Gaussian mapping between the visible node bias and the visible nodes. The simplest such structure gives the following system energy:
+Until now we have discussed the linear models only, but as for feed-forward neural networks, we need non-linear models to solve non-linear problems. A natural next step is the Gaussian-binary units, which has a Gaussian mapping between the visible node bias and the visible units. The simplest such structure gives the following system energy:
 
 \begin{equation}
 E(\bs{x},\bs{h})= \sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2} - \sum_{j=1}^Hh_jb_j-\sum_{i=1}^F\sum_{j=i}^H \frac{x_iw_{ij}h_j}{\sigma_i^2} 
@@ -648,12 +648,12 @@ where $\sigma_i$ is the width of the Gaussian distribution, which can be set to 
 P(\bs{x},\bs{h})\propto\exp\Big(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2}\Big)\prod_{j=1}^H\exp\Big(h_jb_j+\sum_{i=1}^F\frac{h_jw_{ij}x_i}{\sigma^2}\Big)
 \label{eq:RBMWF1}
 \end{equation}
-which is the Gaussian-binary joint probability distribution. Generative sampling algorithms, as Gibbs' sampling, use this distribution directly, while other sampling tools, as Metropolis sampling, need the marginal distribution. Since the hidden nodes are binary, we just need to sum the joint probability distribution over $h=0$ and $h=1$ to find the marginal distribution of the visible nodes,
+which is the Gaussian-binary joint probability distribution. Generative sampling algorithms, as Gibbs' sampling, use this distribution directly, while other sampling tools, as Metropolis sampling, need the marginal distribution. Since the hidden units are binary, we just need to sum the joint probability distribution over $h=0$ and $h=1$ to find the marginal distribution of the visible units,
 \begin{equation}
 P(\bs{x})\propto\exp\Big(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2}\Big)\prod_{j=1}^H\bigg(1+\exp\Big(b_j+\sum_{i=1}^F\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg),
 \label{eq:RBMWF2}
 \end{equation}
-which is shown thoroughly in appendix \ref{app:rbmderive}. Since the visible nodes take continuous values, we need to integrate to find the marginal distribution of the hidden nodes, but since we never will use that distribution in this work, we will ignore the marginal distribution of the hidden units.
+which is shown thoroughly in appendix \ref{app:rbmderive}. Since the visible units take continuous values, we need to integrate to find the marginal distribution of the hidden units, but since we never will use that distribution in this work, we will ignore the marginal distribution of the hidden units.
 
 The conditional distributions are important in Gibbs sampling, and read
 \begin{equation}
@@ -664,9 +664,9 @@ and
 P(\bs{x}|\bs{h})=\mathcal{N}(\bs{x};\bs{a}+\bs{w}^T\bs{h},\sigma^2)
 \label{eq:normal}
 \end{equation}
-where the latter is assumed to be given by a normal distribution in a Bayesian scheme. Note that the mean is $\bs{\mu}=\bs{a}+\bs{w}^T\bs{h}$, which is the vector obtained when going backwards in the restricted Boltzmann machine (multiplying the hidden nodes with the weights).
+where the latter is assumed to be given by a normal distribution in a Bayesian scheme. Note that the mean is $\bs{\mu}=\bs{a}+\bs{w}^T\bs{h}$, which is the vector obtained when going backwards in the restricted Boltzmann machine (multiplying the hidden units with the weights).
 
-In Metropolis sampling, we only use the marginal distribution of the visible nodes use the weights to the hidden nodes are additional variational parameters. For completeness reasons, we will discuss the Gibbs sampling, but we will in practice stick to the Metropolis sampling. More about the different sampling tools can be found in chapter \ref{chp:systems}.
+In Metropolis sampling, we only use the marginal distribution of the visible units use the weights to the hidden units are additional variational parameters. For completeness reasons, we will discuss the Gibbs sampling, but we will in practice stick to the Metropolis sampling. More about the different sampling tools can be found in chapter \ref{chp:systems}.
 
 We also need the gradient of the log-likelihood function in order to train the network. The likelihood function is defined as the probability is $\bs{x}$ given a set of parameters $\bs{\theta}$, which relate to our problem as $P(\bs{x}|\bs{a},\bs{b},\bs{w})$. We therefore get three maximum log-likelihood estimates,
 \begin{align}
@@ -677,22 +677,22 @@ We also need the gradient of the log-likelihood function in order to train the n
 which will be used later to maximize the likelihood with respect to the respective set of parameters. 
 
 \subsection{Partly Restricted Boltzmann Machines}
-One can also imagine a partly restricted architecture, where we have connections inwards the visible nodes, but not the hidden nodes. This is what we have decided to call a partly restricted Boltzmann machine. A such neural network with three visible nodes and three hidden nodes is illustrated in figure \eqref{fig:partly_restricted_boltzmann_machine}.
+One can also imagine a partly restricted architecture, where we have connections inwards the visible units, but not the hidden units. This is what we have decided to call a partly restricted Boltzmann machine. A such neural network with three visible units and three hidden units is illustrated in figure \eqref{fig:partly_restricted_boltzmann_machine}.
 
 \begin{figure} [H]
 	\centering
 	\input{tikz/partly_restricted_boltzmann_machine.tex}
-	\caption{Partly restricted Boltzmann machine. Black lines are inter-layer connections, where for instance the line between $x_1$ and $h_1$ is related to the weight $w_{11}$. The blue lines are related to the input bias weights, and, for instance, the line going from the bias node to $x_3$ is related to $a_3$. Similarly, the green lines are related to the hidden nodes bias weights, and, for instance, the line going from the bias node to $h_3$ is related to $b_3$. Finally, the red lines are the intra-layer connections related to the intra-layer weights. The weight between node $x_1$ and $x_2$ is called $c_{12}$. }
+	\caption{Partly restricted Boltzmann machine. Black lines are inter-layer connections, where for instance the line between $x_1$ and $h_1$ is related to the weight $w_{11}$. The blue lines are related to the input bias weights, and, for instance, the line going from the bias node to $x_3$ is related to $a_3$. Similarly, the green lines are related to the hidden units bias weights, and, for instance, the line going from the bias node to $h_3$ is related to $b_3$. Finally, the red lines are the intra-layer connections related to the intra-layer weights. The weight between node $x_1$ and $x_2$ is called $c_{12}$. }
 	\label{fig:partly_restricted_boltzmann_machine}
 \end{figure}
 
-Compared to a standard restricted Boltzmann machine, we get an extra term in the energy expression where the visible nodes are connected. It is easy to find that the expression should be
+Compared to a standard restricted Boltzmann machine, we get an extra term in the energy expression where the visible units are connected. It is easy to find that the expression should be
 
 \begin{equation}
 E(\bs{x},\bs{h})= \sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2} - \sum_{i=1}^F\sum_{j>i}^Fx_ic_{ij}x_j- \sum_{j=1}^Hh_jb_j-\sum_{i=1}^F\sum_{j=i}^H \frac{x_iw_{ij}h_j}{\sigma_i^2} 
 \label{eq:partlygaussianbinary}
 \end{equation}
-with $c_{ij}$ as the weights between the visible nodes. For the later calculations, we are interested in the marginal distribution only, which reads
+with $c_{ij}$ as the weights between the visible units. For the later calculations, we are interested in the marginal distribution only, which reads
 
 \begin{equation}
 P(\bs{x})=\exp\Big(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2}+\sum_{i=1}^F\sum_{j>i}^Fx_ic_{ij}x_j\Big)\prod_{j=1}^H\bigg(1+\exp\Big(b_j+\sum_{i=1}^F\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg).
@@ -705,11 +705,11 @@ In chapter \ref{chp:WFE}, we utilize that this marginal distribution can be spli
 \end{equation}
 
 \subsection{Deep Boltzmann Machines}
-We can also construct deep Boltzmann machines, where we just stack single-layer Boltzmann machines. There are many ways to construct those networks, where the number of layers, unit types, number of nodes and the degree of restriction can be chosen as the constructor wants. The number of combinations is endless, but in order to make use of the dept, all the layer should have different configurations. Otherwise, the deep network can be reduced to a shallower network. In figure \eqref{fig:deep_restricted_boltzmann_machine} a restricted Boltzmann machine of two hidden layers is illustrated. We have chosen three hidden nodes in each layer, and three visible nodes. It should be trivial to imagine how the network can be expanded to more layers. 
+We can also construct deep Boltzmann machines, where we just stack single-layer Boltzmann machines. There are many ways to construct those networks, where the number of layers, unit types, number of units and the degree of restriction can be chosen as the constructor wants. The number of combinations is endless, but in order to make use of the dept, all the layer should have different configurations. Otherwise, the deep network can be reduced to a shallower network. In figure \eqref{fig:deep_restricted_boltzmann_machine} a restricted Boltzmann machine of two hidden layers is illustrated. We have chosen three hidden units in each layer, and three visible units. It should be trivial to imagine how the network can be expanded to more layers. 
 \begin{figure} [H]
 	\centering
 	\input{tikz/deep_boltzmann_machine.tex}
-	\caption{Deep restricted Boltzmann machine. Black lines the inter-layer connections, where for instance the line between $x_1$ and $h_1$ is related to the weight $w_{11}$. The blue lines are related to the input bias weights, and, for instance, the line going from the bias node to $x_3$ is related to $a_3$. Similarly, the green lines are related to the hidden nodes bias weights, and, for instance, the line going from the bias node to $h_3$ is related to $b_3$.}
+	\caption{Deep restricted Boltzmann machine. Black lines the inter-layer connections, where for instance the line between $x_1$ and $h_1$ is related to the weight $w_{11}$. The blue lines are related to the input bias weights, and, for instance, the line going from the bias node to $x_3$ is related to $a_3$. Similarly, the green lines are related to the hidden units bias weights, and, for instance, the line going from the bias node to $h_3$ is related to $b_3$.}
 	\label{fig:deep_restricted_boltzmann_machine}
 \end{figure}
 
@@ -718,7 +718,7 @@ As the main focus so far has been restricted Boltzmann machines, also the deep n
 E(\bs{x},\bs{h})= \sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2} - \sum_{l=1}^L\sum_{j=1}^{H_L}h_j^lb_j^l-\sum_{l=1}^L\sum_{i=1}^F\sum_{j=i}^{H_L} \frac{x_iw_{ij}^lh_j^l}{\sigma_i^2}
 \label{eq:deepgaussianbinary}
 \end{equation}
-where $H_L$ is the number of hidden nodes in layer $L$. The marginal probability distribution of the visible nodes read
+where $H_L$ is the number of hidden units in layer $L$. The marginal probability distribution of the visible units read
 \begin{equation}
 P(\bs{x})=\exp\Big(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2}\Big)\prod_{l=1}^L\prod_{j=1}^{H_L}\bigg(1+\exp\Big(b_j^l+\sum_{i=1}^F\frac{w_{ij}^lx_i}{\sigma^2}\Big)\bigg).
 \label{eq:DRBMWF}

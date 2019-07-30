@@ -682,6 +682,49 @@
     \field{year}{1977}
   \endentry
 
+  \entry{allen_history_1981}{article}{}
+    \name{author}{1}{}{%
+      {{hash=AFE}{%
+         family={Allen},
+         familyi={A\bibinitperiod},
+         given={F.\bibnamedelima E.},
+         giveni={F\bibinitperiod\bibinitdelim E\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{AFE1}
+    \strng{fullhash}{AFE1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{1}
+    \field{sortinithash}{1}
+    \field{abstract}{%
+    The history of language processor technology in IBM is described in this
+  paper. Most of the paper is devoted to compiler technology; interpreters,
+  assemblers, and macro systems are discussed briefly. The emphasis is on
+  scientific contributions and technological advances from a historical
+  perspective. The synergistic relationship between theory and practice is a
+  subtheme.%
+    }
+    \verb{doi}
+    \verb 10.1147/rd.255.0535
+    \endverb
+    \field{issn}{0018-8646}
+    \field{number}{5}
+    \field{pages}{535\bibrangedash 548}
+    \field{title}{The {History} of {Language} {Processor} {Technology} in
+  {IBM}}
+    \field{volume}{25}
+    \verb{file}
+    \verb IEEE Xplore Abstract Record:/home/evenmn/Zotero/storage/S6BSBN4T/5390
+    \verb 587.html:text/html;IEEE Xplore Full Text PDF:/home/evenmn/Zotero/stor
+    \verb age/4SF7S58N/Allen - 1981 - The History of Language Processor Technol
+    \verb ogy in IB.pdf:application/pdf
+    \endverb
+    \field{journaltitle}{IBM Journal of Research and Development}
+    \field{month}{09}
+    \field{year}{1981}
+  \endentry
+
   \entry{ackley_learning_1985}{article}{}
     \name{author}{3}{}{%
       {{hash=ADH}{%
@@ -1052,6 +1095,57 @@
     \field{urlday}{18}
     \field{urlmonth}{06}
     \field{urlyear}{2019}
+  \endentry
+
+  \entry{holmevik_compiling_1994}{article}{}
+    \name{author}{1}{}{%
+      {{hash=HJR}{%
+         family={Holmevik},
+         familyi={H\bibinitperiod},
+         given={J.\bibnamedelima R.},
+         giveni={J\bibinitperiod\bibinitdelim R\bibinitperiod},
+      }}%
+    }
+    \keyw{Appraisal, Computer languages, digital simulation, Discrete event
+  simulation, historical study, history, History, Modems, Operations research,
+  politics, Problem-solving, program compilers, programming language history,
+  Programming profession, Simula, SIMULA compilation, simulation language,
+  sociotechnical analysis, Tail, technological change, technological genesis,
+  Terminology}
+    \strng{namehash}{HJR1}
+    \strng{fullhash}{HJR1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{shorttitle}
+    \field{sortinit}{1}
+    \field{sortinithash}{1}
+    \field{abstract}{%
+    This article traces the history of the programming language SIMULA from the
+  1950s into the 1970s, focusing in particular on the formative years between
+  1962 and 1967. It offers no technical appraisal of the language per se.
+  Rather, it is a sociotechnical analysis aimed at exploring the broader
+  history of the SIMULA project. The article asserts that technological change
+  should be studied in a contextual perspective. Thus the politics surrounding
+  the project and the prehistory of SIMULA are given ample
+  attention.{\textless}{\textgreater}%
+    }
+    \verb{doi}
+    \verb 10.1109/85.329756
+    \endverb
+    \field{issn}{1058-6180}
+    \field{number}{4}
+    \field{pages}{25\bibrangedash 37}
+    \field{shorttitle}{Compiling {SIMULA}}
+    \field{title}{Compiling {SIMULA}: a historical study of technological
+  genesis}
+    \field{volume}{16}
+    \verb{file}
+    \verb IEEE Xplore Abstract Record:/home/evenmn/Zotero/storage/IAWB3MRI/3297
+    \verb 56.html:text/html;IEEE Xplore Full Text PDF:/home/evenmn/Zotero/stora
+    \verb ge/BTULMYYU/Holmevik - 1994 - Compiling SIMULA a historical study of
+    \verb technologi.pdf:application/pdf
+    \endverb
+    \field{journaltitle}{IEEE Annals of the History of Computing}
+    \field{year}{1994}
   \endentry
 
   \entry{marzin_photoluminescence_1994}{article}{}

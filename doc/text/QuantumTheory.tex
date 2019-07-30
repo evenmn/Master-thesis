@@ -220,7 +220,7 @@ It turns out that because of their anti-symmetric wave function, two identical f
 
 The probability of finding two identical particles at the same position at the same time should be zero due to the Pauli principle, so technically we need to set the wave function to zero if it happens. To deal with this, we introduce a so-called Slater determinant, which automatically sets the wave function to zero if the principle is not satisfied.
 
-\subsection{Slater determinant} \label{subsec:slater}
+\subsection{Slater determinant} \label{sec:slater}
 For a system of many particles we can define a total wave function, which is a composition of all the single particle wave functions (SPF) and contains all the information about the system as the first postulate requires. For fermions, we need to combine the SPFs such that the Pauli principle is fulfilled at all times, which can be accomplished by a determinant. 
 
 Consider a system of two identical fermions with SPFs $\phi_1$ and $\phi_2$ at positions $\boldsymbol{r}_1$ and $\boldsymbol{r}_2$ respectively. The way we define the wavefunction of the system is then
@@ -238,17 +238,17 @@ The Slater determinant is just a wave function ansatz to satisfy the Pauli princ
 \begin{equation}
 \Psi_T(\bs{r})=
 \begin{vmatrix}
-\psi_1(\boldsymbol{r}_1) & \psi_2(\boldsymbol{r}_1) & \hdots & \psi_N(\boldsymbol{r}_1)\\
-\psi_1(\boldsymbol{r}_2) & \psi_2(\boldsymbol{r}_2) & \hdots & \psi_N(\boldsymbol{r}_2)\\
+\phi_1(\boldsymbol{r}_1) & \phi_2(\boldsymbol{r}_1) & \hdots & \phi_N(\boldsymbol{r}_1)\\
+\phi_1(\boldsymbol{r}_2) & \phi_2(\boldsymbol{r}_2) & \hdots & \phi_N(\boldsymbol{r}_2)\\
 \vdots & \vdots & \ddots & \vdots \\
-\psi_1(\boldsymbol{r}_N) & \psi_2(\boldsymbol{r}_N) & \hdots & \psi_N(\boldsymbol{r}_N)
+\phi_1(\boldsymbol{r}_N) & \phi_2(\boldsymbol{r}_N) & \hdots & \phi_N(\boldsymbol{r}_N)
 \end{vmatrix}
 \end{equation}
-where the $\psi$'s are the true single particle wave functions, which are the tensor products 
+where the $\phi$'s are the true single particle wave functions, which are the tensor products 
 \begin{equation}
-\psi=\phi\otimes\xi
+\phi=\psi\otimes\chi
 \end{equation}
-with $\xi$ as the spin part. In the next section, we will proceed further and show how the spin part can be factorized out of a general Slater determinant.
+with $\chi$ as the spin part. In the next section, we will proceed further and show how the spin part can be factorized out of a general Slater determinant.
 
 For bosonic systems, one can correspondingly construct a Slater permanent. The permanent of a matrix is similar to the determinant, but all negative signs are replaced by positive signs. 
 

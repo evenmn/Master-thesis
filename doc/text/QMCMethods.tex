@@ -252,7 +252,9 @@ As pointed out earlier, the Gibbs sampling will not be implemented in this work,
 
 However, the Gibbs sampling method itself should not be underestimated. Carleo and Troyer showed its importance when solving the Ising model using a restricted Boltzmann machine and Gibbs sampling, and in traditional Boltzmann machines the Gibbs sampling is the preferred tool \cite{carleo_solving_2017}.
 
-\section{Similarities between restricted Boltzmann machines and variational Monte-Carlo}
+\section{Similarities between Gibbs and Metropolis sampling}
+Based on the previous section, it might be hard to recognize the similarities between Gibbs sampling and the Metropolis sampling methods. However, the connection between them is important for several reasons. Firstly, this can lead us to the link between standard restricted Boltzmann machines and standard VMC, as Boltzmann machines often are based on Gibbs sampling and VMC often is based on the Metropolis samplings. We need to exploit this link to take fully advantage of the Boltzmann machines. Secondly, this might clarify why the Gibbs sampling does not serve our purpose.
+
 In chapter \ref{chp:systems}, we presented the relation between a quantum system and expressions of the Hamiltonian, which is the energy operator. In section \ref{sec:unsupervised}, we described how Boltzmann machines are defined and how one can find the energy of a Boltzmann machine. Further, we looked at the updating schemes, which for both cases corresponds to minimizing the cost function and maximizing the log-likelihood function. 
 
 All in all, there are many similarities between the two methods. They are fundamentally related through Markov random fields, ...
