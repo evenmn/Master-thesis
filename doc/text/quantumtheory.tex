@@ -225,18 +225,18 @@ For a system of many particles we can define a total wave function, which is a c
 
 Consider a system of two identical fermions with SPFs $\phi_1$ and $\phi_2$ at positions $\boldsymbol{r}_1$ and $\boldsymbol{r}_2$ respectively. The way we define the wavefunction of the system is then
 \begin{equation}
-\Psi_T(\bs{r}_1,\bs{r}_2)=
+\Psi_T(\bs{r}_1,\bs{r}_2)=\frac{1}{\sqrt{2}}
 \begin{vmatrix}
 \phi_1(\boldsymbol{r}_1) & \phi_2(\boldsymbol{r}_1)\\
 \phi_1(\boldsymbol{r}_2) & \phi_2(\boldsymbol{r}_2)
 \end{vmatrix}
-=\phi_1(\boldsymbol{r}_1)\phi_2(\boldsymbol{r}_2)-\phi_2(\boldsymbol{r}_1)\phi_1(\boldsymbol{r}_2),
+=\frac{1}{\sqrt{2}}\Big[\phi_1(\boldsymbol{r}_1)\phi_2(\boldsymbol{r}_2)-\phi_2(\boldsymbol{r}_1)\phi_1(\boldsymbol{r}_2)\Big],
 \end{equation}
 which is set to zero if the particles are at the same position. The determinant yields the same no matter the size of the system.
 
 The Slater determinant is just a wave function ansatz to satisfy the Pauli principle, and we therefore need to denote it as the trial wave function. Additionally, the Slater determinant above contains the radial part only, because the single particle functions are the radial part by convention. For a general Slater determinant of $N$ particles, the spin part needs to be included as well, giving 
 \begin{equation}
-\Psi_T(\bs{r})=
+\Psi_T(\bs{r})=\frac{1}{\sqrt{N!}}
 \begin{vmatrix}
 \phi_1(\boldsymbol{r}_1) & \phi_2(\boldsymbol{r}_1) & \hdots & \phi_N(\boldsymbol{r}_1)\\
 \phi_1(\boldsymbol{r}_2) & \phi_2(\boldsymbol{r}_2) & \hdots & \phi_N(\boldsymbol{r}_2)\\
@@ -251,43 +251,6 @@ where the $\phi$'s are the true single particle wave functions, which are the te
 with $\chi$ as the spin part. In the next section, we will proceed further and show how the spin part can be factorized out of a general Slater determinant.
 
 For bosonic systems, one can correspondingly construct a Slater permanent. The permanent of a matrix is similar to the determinant, but all negative signs are replaced by positive signs. 
-
-\subsection{Splitting up the Slater determinant} \label{subsec:electronsystem}
-A determinant is relative computational expensive, and as the number of particles increases, it will certainly give us some problems. Fortunately, the Slater determinant can be split up when the particles have different spin, which is often hugely beneficial. Not only does the dimensions of the determinant reduce, but this makes it also possible to factorize out the spin part.
-
-In this work, we will study fermions of spin $\sigma=\pm 1/2$ only, and we will therefore do the splitting for this specific case. However, this case is very important since both electrons and protons among others are spin-1/2 particles. The particles with $\sigma=+1/2=\uparrow$ will be denoted as the spin-up particles, and the particles with $\sigma=-1/2=\downarrow$ will be denoted as the spin-down particles. For simplicity, we will assume that the first coordinates $\bs{r}_1,\hdots\bs{r}_{N_{\uparrow}}$ are the coordinates of the spin-up particles and the coordinates $\bs{r}_{N_{\uparrow}+1},\hdots\bs{r}_N$ are associated with the spin-down particles. $N_{\uparrow}$ is the number of spin-up particles and $N_{\downarrow}$ is the number of spin-down particles. The Slater determinant can then be written as
-\begin{equation*}
-\Psi(\boldsymbol{r})=
-\begin{vmatrix}
-\phi_1(\boldsymbol{r}_1)\xi_{\uparrow}(\uparrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_1)\xi_{\uparrow}(\uparrow) & \phi_{N_{\uparrow}+1}(\boldsymbol{r}_1)\xi_{\downarrow}(\uparrow) & \hdots & \phi_{N}(\boldsymbol{r}_1)\xi_{\downarrow}(\uparrow)\\
-\vdots & & \vdots & \vdots & & \vdots \\
-\phi_1(\boldsymbol{r}_{N_{\uparrow}})\xi_{\uparrow}(\uparrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_{N_{\uparrow}})\xi_{\uparrow}(\uparrow) & \phi_{N_{\uparrow}+1}(\boldsymbol{r}_{N_{\uparrow}})\xi_{\downarrow}(\uparrow) & \hdots & \phi_{N}(\boldsymbol{r}_{N_{\uparrow}})\xi_{\downarrow}(\uparrow)\\
-\phi_1(\boldsymbol{r}_{N_{\uparrow}+1})\xi_{\uparrow}(\downarrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_{N_{\uparrow}+1})\xi_{\uparrow}(\downarrow) & \phi_{N_{\uparrow}+1}(\boldsymbol{r}_{N_{\uparrow}+1})\xi_{\downarrow}(\downarrow) & \hdots & \phi_{N}(\boldsymbol{r}_{N_{\uparrow}+1})\xi_{\downarrow}(\downarrow)\\
-\vdots & & \vdots & \vdots & & \vdots \\
-\phi_1(\boldsymbol{r}_N)\xi_{\uparrow}(\downarrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_N)\xi_{\uparrow}(\downarrow) & \phi_{N_{\uparrow}+1}(\boldsymbol{r}_N)\xi_{\downarrow}(\downarrow) & \hdots & \phi_{N}(\boldsymbol{r}_N)\xi_{\downarrow}(\downarrow)\\
-\end{vmatrix},
-\end{equation*}
-where spin-up wave functions require spin-up particles and vice versa. For that reason, half of the elements become zero and the determinant can be further expressed as
-\begin{equation*}
-\Psi(\boldsymbol{r})=
-\begin{vmatrix}
-\phi_1(\boldsymbol{r}_1)\xi_{\uparrow}(\uparrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_1)\xi_{\uparrow}(\uparrow) & 0 & \hdots & 0\\
-\vdots & & \vdots & \vdots & & \vdots \\
-\phi_1(\boldsymbol{r}_{N_{\uparrow}})\xi_{\uparrow}(\uparrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_{N_{\uparrow}})\xi_{\uparrow}(\uparrow) & 0 & \hdots & 0\\
-0 & \hdots & 0 & \phi_{N_{\uparrow}+1}(\boldsymbol{r}_{N_{\uparrow}+1})\xi_{\downarrow}(\downarrow) & \hdots & \phi_{N}(\boldsymbol{r}_{N_{\uparrow}+1})\xi_{\downarrow}(\downarrow)\\
-\vdots & & \vdots & \vdots & & \vdots \\
-0 & \hdots & 0 & \phi_{N_{\uparrow}+1}(\boldsymbol{r}_N)\xi_{\downarrow}(\downarrow) & \hdots & \phi_{N}(\boldsymbol{r}_N)\xi_{\downarrow}(\downarrow)\\
-\end{vmatrix}.
-\end{equation*}
-This determinant can by definition be split up in a product of two determinants,
-\begin{equation}
-\Psi(\boldsymbol{r})=|\hat{D}_{\uparrow}|\cdot |\hat{D}_{\downarrow}|
-\end{equation}
-where $\hat{D}_{\uparrow}$ is the matrix containing all spin-up states and $\hat{D}_{\downarrow}$ is the matrix containing all spin-down states. Since all elements in the respective matrices contain the same spin function, it can be factorized out and omitted in the future study since the energy is independent of spin.
-
-It is also worth to notice that the size of the spin-up determinant is determined by the number of spin-up particles, and it is similar for the spin-down determinant. This means that the we can change the total spin $S$ by adjusting the relative sizes of the determinants.
-
-This section was heavily inspired by D.Nissenbaum's dissertation, see appendix I in \cite{nissenbaum_stochastic_2008}.
 
 \subsection{Basis set} \label{subsec:basisset}
 To go further, we need to define a basis set, $\{\phi_1(\bs{r}),\phi_2(\bs{r}),\hdots\phi_N(\bs{r})\}$ which should be chosen carefully based on the system. For a few systems, we know the exact basis of the non-interacting case, and it is thus a natural basis to use in the Slater determinant. For other systems, the choice of basis might depend on the situation, where we typically need to weigh computational time against accuracy. Concrete examples on both cases will be presented in chapter \eqref{chp:systems}.

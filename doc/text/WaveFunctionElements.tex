@@ -1,31 +1,34 @@
 \chapter{Derivation of Wave Function Elements} \label{chp:WFE}
-In chapter \eqref{chp:quantum} we presented the basic principles behind a many-body trial wave function, including the Slater determinant and the well-known Padé-Jastrow factor. Further in chapter \eqref{chp:systems}, the common basis functions of the quantum dot and atomic systems were given, and in the previous chapter, \eqref{chp:machinelearning}, we explained how to create wave functions using Boltzmann machines. This means that all wave function elements used in this thesis already are presented, and in this chapter they are all collected, together with their derivatives and various optimizations. The calculations below are based on two main assumptions:
+In chapter \eqref{chp:quantum} we presented the basic principles behind a many-body trial wave function, including the Slater determinant and the well-known Padé-Jastrow factor. Further in chapter \eqref{chp:systems}, the common basis functions of the quantum dot and atomic systems were given, and in the previous chapter, \eqref{chp:machinelearning}, we explained how to create wave functions using Boltzmann machines. This means that all wave function elements used in this thesis already are presented, and in this chapter we collect them, together with their derivatives and various optimizations. The calculations below are based on two main assumptions:
 \begin{enumerate}
 	\item For each time step, we change one position coordinate only, i.e, move a particle along one of the principal axis.
-	\item A variational parameter $\alpha_i$ appears in only one of the wave function elements.
+	\item A variational parameter $\theta_i$ appears in only one of the wave function elements.
 \end{enumerate}
-The first assumption is useful when updating position dependent arrays. Typically, we only need to update a coordinate of an array or a row of a matrix when this assumption is raised, which is hugely beneficial with respect to the computational time. The last assumption is makes all wave function elements independent, which obviously makes life easier. 
+The first assumption is useful when updating position dependent arrays. Typically, we only need to update an element in a vector or a row in a matrix when this assumption is raised, which is hugely beneficial with respect to the computational time. The last assumption makes all wave function elements independent, which obviously makes life easier. 
 
-The trial wave function $\Psi_T$ is a product of all the $p$ wave function elements $\{\psi_1, \psi_2\hdots\psi_p\}$ that are involved in a calculation,
+In this work, the trial wave function $\Psi_T$ is a product of all the $p$ wave function elements $\{\psi_1, \psi_2\hdots\psi_p\}$ that are involved in a calculation,
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-\Psi_T(\bs{r}) = \prod_{i=1}^p\psi_i(\bs{r}).
+\Psi_T(\bs{r}) = \prod_{i=1}^p\psi_i(\bs{r}),
 \label{eq:elementproduct}
 \end{empheq}
+where $\bs{r}$ contains all the positions at a certain time. 
 
-For instance, consider a quantum dot of six interacting electrons. In that case, a Slater determinant needs to be included in order to ensure that the wave function is anti-symmetric, but since the Gaussian function appears in all the single particle function, this can be factorized out. We can therefore split the Slater determinant up in a simple Gaussian element and a determinant consisting of the Hermite polynomials. In addition, a Jastrow factor is required to take care of the correlations, so the trial wave function should consist of a total of three elements for this particular system:
+As a practical example, consider a quantum dot of six interacting electrons. In that case, a Slater determinant needs to be included in order to ensure that the wave function is anti-symmetric, but since the Gaussian function appears in all the single particle function, this can be factorized out. We can therefore split the Slater determinant up in a simple Gaussian element and a determinant consisting of the Hermite polynomials. In addition, a Jastrow factor is required to take care of the correlations, so the trial wave function should consist of a total of three elements for this particular system:
 \begin{equation*}
 \Psi_T(\bs{r})=\psi_{sg}(\bs{r})\psi_{sd}(\bs{r})\psi_{jf}(\bs{r})
 \end{equation*}
-where $sg$ denotes the simple Gaussian, $sd$ denotes the Slater determinant and $jf$ denotes an arbitrary Jastrow factor. 
+where $sg$ stands for the simple Gaussian, $sd$ stands for the Slater determinant and $jf$ stands for an arbitrary Jastrow factor. 
 
 We will first try to convince the reader that the local energy and the parameter update can be calculated separately for each element, and then move on to find closed-form expressions for the required term in the calculations for all the elements.
 
 \section{Kinetic energy computations}
-The local energy, defined in equation \eqref{eq:local energy}, is
-\begin{align*}
+The local energy, defined in equation \eqref{eq:localenergy}, is
+\begin{equation}
+\begin{aligned}
 E_L &=\frac{1}{\Psi_T(\bs{r})}\hat{\mathcal{H}}\Psi_T(\bs{r})\\
 &=\sum_{k=1}^F\Big[-\frac{1}{2}\Big(\frac{1}{\Psi_T(\bs{r})}\nabla_k^2\Psi_T(\bs{r})\Big) + \mathcal{V}\Big].
-\end{align*}
+\end{aligned}
+\end{equation}
 where we have $F=ND$ degrees of freedom. The first term, which is the kinetic energy term, is the only wave function-dependent one, and we will in this section split it up with respect to the elements. The potential energy term, $\mathcal{V}$, is not directly dependent on the wave function and will therefore not be further touched here. 
 
 From the definition of differentiation of a logarithm, we have that
@@ -37,9 +40,9 @@ which provides the following useful relation
 \frac{1}{\Psi_T(\bs{r})}\nabla_k^2\Psi_T(\bs{r})=\nabla_k^2\ln\Psi_T(\bs{r}) + (\nabla_k\ln\Psi_T(\bs{r}))^2.
 \end{equation}
 Using the fact that the trial wave function is a product of all the elements, the term above is calculated by
-\begin{equation*}
+\begin{equation}
 \frac{1}{\Psi_T(\bs{r})}\nabla_k^2\Psi_T(\bs{r})=\sum_{i=1}^p\nabla_k^2\ln\psi_i(\bs{r}) + \Big(\sum_{i=1}^p\nabla_k\ln\psi_i(\bs{r})\Big)^2
-\end{equation*}
+\end{equation}
 such that the total kinetic energy is given by
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 -\frac{1}{2}\frac{1}{\Psi_T(\bs{r})}\nabla^2\Psi_T(\bs{r})=-\frac{1}{2}\bigg[\sum_{i=1}^p\nabla^2\ln\psi_i(\bs{r}) + \sum_{k=1}^{F}\Big(\sum_{i=1}^p\nabla_k\ln\psi_i(\bs{r})\Big)^2\bigg].
@@ -48,9 +51,9 @@ This can be found when all local derivatives $\nabla^2\ln\psi_i(\bs{r})$ and $\n
 
 \section{Parameter update}
 In gradient based optimization methods, as we use, one needs to know the gradient of the cost function with respect to all the parameters in order to update the parameters correctly. To update the specific parameter $\theta_j$, we thus need to find 
-\begin{equation*}
+\begin{equation}
 \nabla_{\theta_j} \mathcal{C}(\bs{\theta})\equiv\frac{\partial \mathcal{C}(\bs{\theta})}{\partial \theta_j},
-\end{equation*}
+\end{equation}
 where $\mathcal{C}(\bs{\theta})$ is our cost function. For our problem, a natural choice is to define the cost function as the local energy, since that is the function that we want to minimize. We therefore set
 \begin{equation}
 \mathcal{C}(\bs{\theta})=\langle E_L\rangle
@@ -60,13 +63,13 @@ since we get the expectation value of the local energy from the Metropolis sampl
 \nabla_{\theta_j} \langle E_L\rangle=2\Big(\langle E_L\nabla_{\theta_j}\ln\Psi_T\rangle - \langle E_L\rangle\langle\nabla_{\theta_j}\ln\Psi_T\rangle\Big)
 \end{equation}
 which means that we need to calculate the expectation values $\langle E_L\nabla_{\theta_j}\ln\Psi_T\rangle$ and $\langle\nabla_{\theta_j}\ln\Psi_T\rangle$ in addition to the expectation value of the local energy. Those expectation values are found from the integrals
-\begin{equation*}
+\begin{equation}
 \langle\nabla_{\theta_j}\ln\Psi_T\rangle = \int_{-\infty}^{\infty}d\bs{r}P(\bs{r})\nabla_{\theta_j}\ln\Psi_T(\bs{r})
-\end{equation*}
+\end{equation}
 and
-\begin{equation*}
+\begin{equation}
 \langle E_L\nabla_{\theta_j}\ln\Psi_T\rangle = \int_{-\infty}^{\infty}d\bs{r}P(\bs{r})E_L(\bs{r})\nabla_{\theta_j}\ln\Psi_T(\bs{r}),
-\end{equation*}
+\end{equation}
 which can be found by Monte-Carlo integration in the same way as the local energy:
 \begin{equation}
 \langle\nabla_{\theta_j}\ln\Psi_T\rangle\approx \frac{1}{M}\sum_{i=1}^M\nabla_{\theta_j}\ln\Psi_T(\bs{r}_i)
@@ -96,16 +99,17 @@ and below we will calculate this ratio squared since we are going to use that di
 \section{Derivatives}
 We will in this section go through the derivatives of the various wave function elements that are used in our work, in order to be able to compute the kinetic energy and the parameter update correctly. We will start with the elements used in a standard variational Monte-Carlo calculation, and thereafter move on to the elements inspired by Boltzmann machines. In the end, we will discuss the Hydrogen-like orbitals. 
 
-\subsection{Simple Gaussian}
+\subsection{Simple Gaussian} \label{sec:simplegaussian}
 A natural starting point is the Gaussian function, since it appears in standard variational Monte-Carlo computations of quantum dot systems. For $N$ number of particles and $NP$ free dimensions, the function is given by
-\begin{equation*}
+\begin{equation}
 \psi_{sg}(\bs{x}; \alpha)=\exp\Big(-\frac{1}{2}\omega\alpha\sum_{j=1}^Nr_j^2\Big)=\exp\Big(-\frac{1}{2}\omega\alpha\sum_{j=1}^{F}x_j^2\Big),
-\end{equation*}
+\end{equation}
 similarly to the function presented in section \eqref{sec:quantumdots}. $\omega$ is the oscillator strength and $\alpha$ is a variational parameter, which for non-interacting atoms is 1. Due to the presence of $r_i^2$, the function can easily be treated both in Cartesian and spherical coordinates, but in this thesis we will focus on the former.
 
 When changing the coordinate $x_i$ from $x_i^{\text{old}}$ to $x_i^{\text{new}}$, the probability ratio can easily be found to be 
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-\frac{|\psi_{sg}(\bs{x}_{\text{new}})|^2}{|\psi_{\text{sg}}(\bs{x}_{\text{old}})|^2}=\exp\Big(\omega\alpha\big((x_{i}^{\text{old}})^2-(x_{i}^{\text{new}})^2\big)\Big),
+\label{eq:simplegaussianprobabilityratio}
+\frac{|\psi_{sg}(\bs{x}_{\text{new}})|^2}{|\psi_{sg}(\bs{x}_{\text{old}})|^2}=\exp\Big(\omega\alpha\big((x_{i}^{\text{old}})^2-(x_{i}^{\text{new}})^2\big)\Big),
 \end{empheq}
 and henceforth the index $i$ will be reserved the changed coordinate.  The gradient of $\ln\psi_{\text{sg}}$ with respect to the coordinate $x_k$ is
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
@@ -148,131 +152,115 @@ For this element, the most important thing we can do to keep the computational c
 
 \subsection{The Padé-Jastrow factor}
 The Padé-Jastrow factor is a more complicated Jastrow factor, and was specified in equation \eqref{eq:PadeJastrow}, 
-\begin{equation*}
+\begin{equation}
 \psi_{pj}(\bs{r}; \beta) = \exp\bigg(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij}}\bigg).
-\end{equation*}
+\end{equation}
 where we want to emphasize that $a_{ij}$ is \textit{not} a variational parameter.
 
 Similarly to the simple Jastrow, we also here need to distinguish between particle indices and coordinate indices because of the radial distances $r_{ij}$. We do the same trick as presented above, and obtain the gradient 
-\begin{equation*}
+\begin{equation}
 \nabla_k\ln\psi_{pj}=\sum_{j'\neq k'=1}^N\frac{a_{k'j'}}{(1+\beta r_{k'j'})^2}\frac{x_k-x_j}{r_{k'j'}}
-\end{equation*}
+\end{equation}
 with respect to the coordinate $x_k$. By again differentiating this with respect to $x_k$, we obtain the Laplacian
-\begin{equation*}
+\begin{equation}
 \nabla^2\ln\psi_{pj}=\sum_{k=1}^{F}\sum_{j'\neq k'=1}^N\frac{a_{k'j'}}{(1+\beta r_{k'j'})^2}\bigg[1-\Big(1+2\frac{\beta r_{k'j'}}{1+\beta r_{k'j'}}\Big)\frac{(x_k-x_j)^2}{r_{k'j'}^2}\bigg]\frac{1}{r_{k'j'}}.
-\end{equation*}
+\end{equation}
 
 The last expression we need  is the one used to update the variational parameter $\beta$, which is found to be
-\begin{equation*}
+\begin{equation}
 \partial_{\beta}\ln\psi_{pj}=-\sum_{i'=1}^N\sum_{j'>i'}^N\frac{a_{ij}r_{ij}^2}{(1+\beta r_{ij})^2}.
-\end{equation*}
+\end{equation}
 
 Furthermore, we observe that some factors are found in multiple expressions. To simplify the expressions and as an beginning of the optimization, we introduce
-\begin{equation*}
+\begin{equation}
 f_{ij}=\frac{1}{1+\beta r_{ij}}\quad\quad g_{ij}=\frac{x_i-x_j}{r_{i'j'}}\quad\quad h_{ij}=\frac{r_{ij}}{1+\beta r_{ij}}.
-\end{equation*}
+\end{equation}
 The final expressions then read
-\begin{empheq}[box={\mybluebox[5pt]}]{align}
-\frac{|\psi_{pj}(\bs{r}_{\text{new}})|^2}{|\psi_{pj}(\bs{r}_{\text{old}})|^2}&=\exp\Big(2\sum_{j'=1}^Na_{i'j'}(h_{i'j'}^{\text{new}}-h_{i'j'}^{\text{old}})\Big)\notag\\
-\nabla_k\ln\psi_{pj} &=\sum_{j'\neq k'=1}^Na_{k'j'}\cdot f_{k'j'}^2\cdot g_{kj}\notag\\
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
+\begin{aligned}
+\frac{|\psi_{pj}(\bs{r}_{\text{new}})|^2}{|\psi_{pj}(\bs{r}_{\text{old}})|^2}&=\exp\Big(2\sum_{j'=1}^Na_{i'j'}(h_{i'j'}^{\text{new}}-h_{i'j'}^{\text{old}})\Big)\\
+\nabla_k\ln\psi_{pj} &=\sum_{j'\neq k'=1}^Na_{k'j'}\cdot f_{k'j'}^2\cdot g_{kj}\\
 \nabla^2\ln\psi_{pj} &= \sum_{k=1}^F\sum_{j'\neq k'=1}^N\frac{a_{k'j'}}{r_{k'j'}}f_{k'j'}^2\Big[1-(1+2\beta h_{k'j'})g_{kj}^2\Big]\\
-\nabla_{\beta}\ln\psi_{pj}&=-\sum_{l'=1}^N\sum_{j>l}^Na_{l'j'}h_{l'j'}^2\notag
+\nabla_{\beta}\ln\psi_{pj}&=-\sum_{l'=1}^N\sum_{j>l}^Na_{l'j'}h_{l'j'}^2
+\end{aligned}
 \end{empheq}
 with marked indices ($i'$) as the particle related ones and the unmarked ($i$) as the coordinate related ones. $i'$ is the moved particle. 
 
 In the same way as for the simple Jastrow, only a row and a column in the distance matrix should be updated for each step. Additionally, implementing the matrices $f_{ij}$, $g_{ij}$ and $h_{ij}$ will give a speed up in combination with vector-matrix operations. 
 
-\subsection{Slater determinant}
+\subsection{Slater determinant} \label{sec:slaterdeterminant}
 In general, the the Slater determinant contains all the single particle functions. However, in some cases all single particle functions have the same factor, and then this part can be factorized out. Therefore we will treat the Slater determinant as an ordinary wave function element in this chapter and in the code. 
 
-As discussed in section \eqref{subsec:slater}, it can be split up in a spin-up part and a spin-down part,
-\begin{equation*}
+As discussed in section \eqref{sec:slater}, it can be split up in a spin-up part and a spin-down part,
+\begin{equation}
 \psi_{sd}(\bs{r})=
-|\hat{D}_{\uparrow}(\bs{r}_{\uparrow})|\cdot |\hat{D}_{\downarrow}(\bs{r}_{\downarrow})|.
-\end{equation*}
-$r_{\uparrow}$ are the coordinates of particles with spin up (defined as the first $N_{\uparrow}$ coordinates) and $r_{\downarrow}$ are the coordinates of particles with spin down (defined as the last $N_{\downarrow}$ coordinates). 
+|\hat{D}_{\uparrow}(\bs{r}_{\uparrow})|\cdot |\hat{D}_{\downarrow}(\bs{r}_{\downarrow})|,
+\end{equation}
+where $r_{\uparrow}$ are the coordinates of particles with spin up (defined as the first $N_{\uparrow}$ coordinates) and $r_{\downarrow}$ are the coordinates of particles with spin down (defined as the last $N_{\downarrow}$ coordinates). 
 
 We can now utilize the logarithmic scale, by using that the logarithm of a product corresponds to summarize the logarithm of each factor,
-\begin{equation*}
+\begin{equation}
 \ln\psi_{sd}=\ln|\hat{D}_{\uparrow}(\bs{r}_{\uparrow})|+\ln|\hat{D}_{\downarrow}(\bs{r}_{\downarrow})|
-\end{equation*}
+\end{equation}
 such that we only need to care about one of the determinants when differentiating, dependent on whether the coordinate we differentiate with respect to is among the spin-up or the spin-down coordinates:
-\begin{equation*}
+\begin{equation}
 \nabla_k\ln\psi_{sd}=
 \begin{cases} 
 \nabla_k\ln|\hat{D}_{\uparrow}(\bs{r}_{\uparrow})| & \text{if} \quad k<N_{\uparrow}\\
 \nabla_k\ln|\hat{D}_{\downarrow}(\bs{r}_{\downarrow})| & \text{if} \quad k\geq N_{\uparrow}.
 \end{cases}
-\end{equation*}
+\end{equation}
 Before we go further, we will introduce a more general notation which cover both the cases:
-\begin{equation*}
+\begin{equation}
 \hat{D}(\bs{r})\equiv \hat{D}_{m_s}(\bs{r}_{m_s})
-\end{equation*}
-where $m_s$ is the spin projection. When summarizing, the sum is always over all relevant coordinates. 
-
-Furthermore, we have that
-\begin{equation*}
+\end{equation}
+where $m_s$ is the spin projection. When summarizing, the sum is always over all relevant coordinates. Furthermore, we have that
+\begin{equation}
 \nabla_k\ln|\hat{D}(\bs{r})|=\frac{\nabla_k|\hat{D}(\bs{r})|}{|\hat{D}(\bs{r})|}
-\end{equation*}
+\end{equation}
 and
-\begin{equation*}
-\nabla_k^2\ln|\hat{D}(\bs{r})|=\frac{\nabla_k^2\hat{D}(\bs{r})}{|\hat{D}(\bs{r})|}-\bigg(\frac{\nabla_k\hat{D}(\bs{r})}{|\hat{D}(\bs{r})|}\bigg)^2
-\end{equation*}
-
-The first derivative of a determinant is given by Jacobi's formula, which reads
 \begin{equation}
-\label{eq:jacobi}
-\frac{\nabla_i|\hat{A}|}{|\hat{A}|}=\tr(\hat{A}^{-1}\nabla_i\hat{A}),
+\nabla_k^2\ln|\hat{D}(\bs{r})|=\frac{\nabla_k^2|\hat{D}(\bs{r})|}{|\hat{D}(\bs{r})|}-\bigg(\frac{\nabla_k|\hat{D}(\bs{r})|}{|\hat{D}(\bs{r})|}\bigg)^2
 \end{equation}
-and the second derivative is then 
-\begin{align*}
-\frac{\nabla_i^2|\hat{A}|}{|\hat{A}|}&=\Big(\tr\big(\hat{A}^{-1}\nabla_i\hat{A}\big)\Big)^2+\tr\big(\hat{A}^{-1}\nabla_i^2\hat{A}\big) - \tr\big(\hat{A}^{-1}\nabla_i\hat{A}\hat{A}^{-1}\nabla_i\hat{A}\big)\\
-&=\tr\big(\hat{A}^{-1}\nabla_i^2\hat{A}\big)
-\end{align*}
-where $\tr\big(\hat{B}\big)$ is the trace of matrix $\hat{B}$, i.e, the sum of all diagonal elements. $\nabla_i\hat{A}$ means that we differentiate the matrix component-wise with respect to coordinate $i$. The traces can then be written as sums,
-\begin{equation*}
-\tr(\hat{A}^{-1}\nabla_i\hat{A})=\sum_{j}a_{ji}^{-1}\nabla_ia_{ij}.
-\end{equation*}
-and
-\begin{equation*}
-	\tr(\hat{A}^{-1}\nabla_i^2\hat{A})=\sum_{j}a_{ji}^{-1}\nabla_i^2a_{ij}.
-\end{equation*}
-where $a_{ij}$ is element $i,j$ of matrix $\hat{A}$.
+At this point, there are (at least) two possible paths to the final expressions. We can keep on using matrix operations and find the expressions of $\nabla_k|\hat{D}(\bs{r})|/|\hat{D}(\bs{r})|$ and $\nabla_k^2|\hat{D}(\bs{r})|/|\hat{D}(\bs{r})|$ using Jacobi's formula, or we can switch to element representations of the matrices. We choose the latter, because we believe that gives the simplest computations. 
 
-Using all the general matrix operations presented above, for our specific case we end up with
-\begin{equation*}
-\nabla_k\ln|\hat{D}(\bs{r})|=\sum_{j}d_{jk}^{-1}(\bs{r})\nabla_kd_{kj}(\bs{r})
-\end{equation*}
-and
-\begin{equation*}
-\nabla_k^2\ln|\hat{D}(\bs{r})|=\sum_jd_{jk}^{-1}(\bs{r})\nabla_k^2d_{kj}(\bs{r})-\Big(\sum_jd_{jk}^{-1}(\bs{r})\nabla_kd_{kj}\Big)^2
-\end{equation*}
-
-\subsubsection{Efficient calculation of Slater determinants}
-As you might already have noticed, we need to calculate the inverse of the matrices every time a particle is moved. This is a pretty heavy task for the computer, where the standard way, LU decomposition goes as $\mathcal{O}($N$^3)$ for an N$\times$N matrix. \cite{trahan_computational_2006}. 
-
-The good thing is that, by exploiting that only one row in the Slater matrix is updated for each step, we can update the inverse iteratively. 
-
-Before we start finding an algorithm for this, we will introduce the reader to some common linear algebra concepts. First of all, the inverse of a matrix is given by the \textit{comatrix} transposed over its determinant
+The determinant of an arbitrary matrix $\hat{A}$ can be expressed by its comatrix $\hat{C}$ in the following way,
 \begin{equation}
-\hat{A}^{-1}=\frac{\hat{C}^T}{|\hat{A}|}
+|\hat{A}|=\sum_{ij}a_{ij}c_{ji}
 \end{equation}
-where the comatrix is defined by the inner determinants of the matrix. \cite{weisstein_matrix_nodate} As a consequence, the determinant can be written as 
+where $a_{ij}$ are the matrix elements of $\hat{A}$ and $c_{ij}$ are the element of the comatrix. Going further, an element $c_{ij}$ can be expressed in terms of an element from the inverse of $\hat{A}$, $a_{ij}^{-1}$ \cite{morten_hjorth-jensen_computational_2019},
 \begin{equation}
-|\hat{A}|=\sum_{i,j}a_{ij}c_{ij}.
-\label{eq:detcomatrix}
+c_{ij}=a_{ij}^{-1}|\hat{A}|.
 \end{equation}
-where $c_{ij}$ is the element $i,j$ of the comatrix. As always, we are interested in the ratio between the old and the new wave functions, and since only a row in the matrix $\hat{D}$ is updated every time we move a particle, the ratio between the determinants can be expressed as
+Relating this to our particular problem, we can express 
 \begin{equation}
-R\equiv \frac{|\hat{D}(\bs{r}_{\text{new}})|}{|\hat{D}(\bs{r}_{\text{old}})|}=\frac{\sum_{j}d_{ij}(\bs{r}_{\text{new}})c_{ij}(\bs{r}_{\text{new}})}{\sum_{j}d_{ij}(\bs{r}_{\text{old}})c_{ij}(\bs{r}_{\text{old}})}
+\begin{aligned}
+\frac{\nabla_k|\hat{D}|}{|\hat{D}|}&=\frac{\nabla_k\sum_{ij}d_{ij}c_{ji}}{\sum_{ij}d_{ij}c_{ji}}=\frac{\sum_j\nabla_kd_{kj}c_{jk}}{\sum_{ij}d_{ij}c_{ji}}\\
+&=\frac{\sum_j\nabla_kd_{kj}d_{jk}^{-1}|\hat{D}|}{\sum_{ij}d_{ij}d_{ji}^{-1}|\hat{D}|}=\sum_j\nabla_kd_{kj}d_{jk}^{-1}
+\end{aligned}
+\label{eq:slaterelementshit}
 \end{equation}
-where the particle associated with the $i$'th row is moved. The $i$'th row of the comatrix is independent of the $i$'th row of the matrix itself, such that $c_{ij}^{\text{new}}=c_{ij}^{\text{old}}$. From equation \eqref{eq:detcomatrix}, we can see that $c_{ij}=|\hat{A}|a_{ji}^{-1}$, such that the ratio can be further expressed as
+where we have used the fact that the elements $\nabla_kd_{ij}$ contribute to the sum if and only if $i=k$, such that the sum over $i$ collapses. Moreover, we use that multiplying a matrix with its inverse is identity, i.e, $\sum_{ij}d_{ij}d_{ji}^{-1}=1$ and the determinants cancel. Similarly, we get 
 \begin{equation}
-R=\frac{\sum_{j}d_{ij}(\bs{r}_{\text{new}})d_{ji}^{-1}(\bs{r}_{\text{old}})}{\sum_{j}d_{ij}(\bs{r}_{\text{old}})d_{ji}^{-1}(\bs{r}_{\text{old}})}=\sum_{j}d_{ij}(\bs{r}_{\text{new}})d_{ji}^{-1}(\bs{r}_{\text{old}})
+\frac{\nabla_k^2|\hat{D}|}{|\hat{D}|}=\sum_j\nabla_k^2d_{kj}d_{jk}^{-1}
 \end{equation}
-where we have used that fact that $a_{ij}a_{ji}^{-1}=1$.
+for the Laplacian. We are then set to write up the final expressions for the gradient and Laplacian of the logarithm of the Slater determinant,
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
+\begin{aligned}
+\nabla_k\ln|\hat{D}(\bs{r})|&=\sum_{j}d_{jk}^{-1}(\bs{r})\nabla_k\phi_{j}(\bs{r}_k)\\
+\nabla_k^2\ln|\hat{D}(\bs{r})|&=\sum_jd_{jk}^{-1}(\bs{r})\nabla_k^2\phi_{j}(\bs{r}_k)-\Big(\sum_jd_{jk}^{-1}(\bs{r})\nabla_k\phi_{j}(\bs{r}_k)\Big)^2
+\end{aligned}
+\end{empheq}
+where we have used that $d_{ij}=\phi_j(\bs{r}_i)$ with $\psi_j(\bs{r}_i)$ as a single particle function found in the Slater determinant, see section \ref{sec:slater}.
 
-To calculate the inverse of matrix, $\hat{D}^{-1}$, efficiently, we need to calculate 
+\subsubsection{Efficient calculation of Slater determinants} \label{sec:efficientcalculationsofslaterdeterminant}
+As you might already have noticed, we need to calculate the inverse of the matrices every time a particle is moved. This is a pretty heavy task for the computer, where the standard way, LU decomposition goes as $\mathcal{O}(N^3)$ for an $N\times N$ matrix \cite{trahan_computational_2006}. 
+
+The good thing is that, by exploiting that only one row in the Slater matrix is updated for each step, we can update the inverse recursively. By using the same element representations as above, the ratio between the new and the old determinant can be given as
+\begin{equation}
+R\equiv \frac{|\hat{D}(\bs{r}_{\text{new}})|}{|\hat{D}(\bs{r}_{\text{old}})|}=\frac{\sum_{j}d_{ij}(\bs{r}_{\text{new}})c_{ij}(\bs{r}_{\text{new}})}{\sum_{j}d_{ij}(\bs{r}_{\text{old}})c_{ij}(\bs{r}_{\text{old}})}=\sum_{j}d_{ij}(\bs{r}_{\text{new}})d_{ji}^{-1}(\bs{r}_{\text{old}})
+\end{equation}
+which is very similar to the calculation given in equation \eqref{eq:slaterelementshit}. To calculate the inverse of matrix, $\hat{D}^{-1}$, efficiently, we need to calculate 
 \begin{equation}
 S_j=\sum_{l=1}^Nd_{il}(\bs{r}_{\text{new}})d_{lj}^{-1}(\bs{r}_{\text{old}})
 \end{equation}
@@ -284,27 +272,56 @@ while the remaining column, $i$, can simply be updated as
 \begin{equation}
 d_{ki}^{-1}(\bs{r}_{\text{new}})=d_{ki}^{-1}(\bs{r}_{\text{old}}).
 \end{equation}
-Those procedures makes the inverting go as $\mathcal{O}($N$^2)$ instead of $\mathcal{O}($N$^3)$, which is largely beneficial for large systems. \cite{morten_hjorth-jensen_computational_2019}
+Those procedures makes the inverting scale as $\mathcal{O}(N^2)$ instead of $\mathcal{O}(N^3)$, which is largely beneficial for large systems \cite{morten_hjorth-jensen_computational_2019}.
 
 We assume that we do not have any variational parameter in the Slater determinant, and obtain three expressions of the case when a particle with spin up is moved and three of the case when a particle with spin down is moved. 
 
-\begin{empheq}[box={\mybluebox[5pt]}]{align}
-&\quad\text{if}\quad k<N_{\uparrow}:\notag\\
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
+\begin{aligned}
+&\quad\text{if}\quad k<N_{\uparrow}:\\
 \frac{|\psi_{sd}(\bs{r}_{\text{new}})|^2}{|\psi_{sd}(\bs{r}_{\text{old}})|^2}&=
-\frac{|\hat{D}_{\uparrow}(\bs{r}_{\uparrow}^{\text{new}})|^2}{|\hat{D}_{\uparrow}(\bs{r}_{\uparrow}^{\text{old}})|^2}\notag\\
+\frac{|\hat{D}_{\uparrow}(\bs{r}_{\uparrow}^{\text{new}})|^2}{|\hat{D}_{\uparrow}(\bs{r}_{\uparrow}^{\text{old}})|^2}\\
 \nabla_k\ln|\hat{D}_{\uparrow}(\bs{r}_{\uparrow})|&=\sum_{j=1}^{N_{\uparrow}}\nabla_kd_{jk}(\bs{r}_{\uparrow})d_{kj}^{-1}(\bs{r}_{\uparrow})
+\end{aligned}
 \end{empheq}
 
-\begin{empheq}[box={\mybluebox[5pt]}]{align}
-&\quad\text{if}\quad k\geq N_{\uparrow}:\notag\\
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
+\begin{aligned}
+&\quad\text{if}\quad k\geq N_{\uparrow}:\\
 \frac{|\psi_{sd}(\bs{r}_{\text{new}})|^2}{|\psi_{sd}(\bs{r}_{\text{old}})|^2}&=
-\frac{|\hat{D}_{\downarrow}(\bs{r}_{\downarrow}^{\text{new}})|^2}{|\hat{D}_{\downarrow}(\bs{r}_{\downarrow}^{\text{old}})|^2}\notag\\
+\frac{|\hat{D}_{\downarrow}(\bs{r}_{\downarrow}^{\text{new}})|^2}{|\hat{D}_{\downarrow}(\bs{r}_{\downarrow}^{\text{old}})|^2}\\
 \nabla_k\ln|\hat{D}_{\downarrow}(\bs{r}_{\downarrow})|&=\sum_{j=N_{\uparrow}}^{F}\nabla_kd_{jk}(\bs{r}_{\downarrow})d_{kj}^{-1}(\bs{r}_{\downarrow})
+\end{aligned}
 \end{empheq}
 
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \nabla^2\ln|\hat{D}(\bs{r})|=\sum_{k=1}^F\bigg[\sum_{j=1}^{F}\nabla_k^2d_{jk}(\bs{r})d_{kj}^{-1}(\bs{r})-\Big(\sum_{j=1}^{F}\nabla_kd_{ik}(\bs{r})d_{ki}^{-1}(\bs{r})\Big)^2\bigg]
 \end{empheq}
+
+Since this might be a little abstract, we will end our discussion of the Slater determinant by sketching the actual algorithm for updating the Slater determinant and the related derivatives. The algorithm is given in algorithm \ref{alg:slater}.
+
+\IncMargin{1em}
+\begin{algorithm}
+	\SetAlgoLined
+	\Require{$\bs{r}$: Initial coordinates}
+	
+	SlaterMatrix=$(\phi_j(r_i))$ (Initialize Slater matrix)\;
+	SlaterMatrixDer=$(\nabla_k\phi_j(r_i))$ (Initialize gradient of Slater matrix)\;
+	SlaterMatrixSecDer=$(\nabla_k^2\phi_j(r_i))$ (Initialize Laplacian of Slater matrix)\;
+	\For{$i\leftarrow 1$ \KwTo $M$}{
+		particle=RNG (Move random particle)\;
+		$\bs{r}'=\bs{r}+...$ (Update positions)\;
+		SlaterMatrix.row(particle) = $(\phi_j(r_i))$ (Update Slater matrix)\;
+		SlaterMatrixDer.row(particle) = $(\nabla_k\phi_j(r_i))$ (Update gradient of Slater matrix)\;
+		SlaterMatrixSecDer.row(particle) = $(\nabla_k^2\phi_j(r_i))$ (Update Laplacian of Slater matrix)\;
+		
+	}
+	\KwResult{Updated parameters $\bs{\theta}_t$ after convergence}
+	\caption{Adaptive stochastic gradient descent with momentum. See sections (\ref{sec:sgd}-\ref{sec:momentum}) for details. Robust default settings for the hyper-parameters are $\eta=0.001$, $\gamma=0.01$ and $\lambda=0.1$. All the operations are element-wise.}
+	\label{alg:slater}
+\end{algorithm}\DecMargin{1em}
+
+The first thing we observe, is that the first and second derivatives of the Slater matrix is stored as dedicated matrices, which is computational beneficial but require some memory. In practice, \lstinline{slaterMatrixDer} and \lstinline{slaterMatrixSecDer} are of size $F\times P/2$, while \lstinline{slaterMatrix} is of size $P\times P/2$.
 
 \subsection{Restricted Boltzmann machine}
 Now over to the real deal; the wave function elements inspired by machine learning. The marginal distribution of the visible nodes of a restricted Boltzmann machine was presented in equation \eqref{eq:RBMWF2}. By defining the wave function as this marginal distribution, we have
@@ -322,41 +339,47 @@ The RBM-Gaussian reads
 
 The derivatives of the RBM-Gaussian are similar to those of the simple Gaussian, they are therefore just listed in equation \eqref{eq:NQSGaussian}.
 
-\begin{empheq}[box={\mybluebox[5pt]}]{align}
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \label{eq:NQSGaussian}
-\frac{|\psi_{rg}(\bs{x}_{\text{new}})|^2}{|\psi_{rg}(\bs{x}_{\text{old}})|^2}&=\exp\Big((x_i^{\text{old}}+x_i^{\text{new}}-2a_i)(x_i^{\text{old}}-x_i^{\text{new}})\Big)\notag\\
-\nabla_k\ln\psi_{\text{rg}} &= -\frac{x_k-a_k}{\sigma^2}\notag\\
+\begin{aligned}
+\frac{|\psi_{rg}(\bs{x}_{\text{new}})|^2}{|\psi_{rg}(\bs{x}_{\text{old}})|^2}&=\exp\Big((x_i^{\text{old}}+x_i^{\text{new}}-2a_i)(x_i^{\text{old}}-x_i^{\text{new}})\Big)\\
+\nabla_k\ln\psi_{\text{rg}} &= -\frac{x_k-a_k}{\sigma^2}\\
 \nabla_k^2\ln\psi_{\text{rg}}&=-\frac{1}{\sigma^2}\\
-\nabla_{\alpha_l}\ln\psi_{\text{rg}} &= \frac{x_l-a_l}{\sigma^2}\notag
+\nabla_{\alpha_l}\ln\psi_{\text{rg}} &= \frac{x_l-a_l}{\sigma^2}
+\end{aligned}
 \end{empheq}
 
 \subsubsection{RBM-product}
 The RBM product is the last part of \eqref{eq:RBMWF2}, and is thus given by
-\begin{equation*}
+\begin{equation}
 \psi_{rp}(\bs{x};\bs{b},\bs{w})=\prod_{j=1}^H\bigg[1+\exp\Big(b_j+\sum_{i=1}^{F}\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg].
-\end{equation*}
+\end{equation}
 In appendix \ref{app:rbmderive}, section \eqref{sec:derivatives}, a general Gaussian-binary RBM product on the form
-\begin{equation*}
+\begin{equation}
 \psi(\bs{x};\bs{\theta})=\prod_{j=1}^H\bigg[1+\exp\Big(f_j(\bs{x};\bs{\theta})\Big)\bigg]
-\end{equation*}
+\end{equation}
 is differentiated, which for this element corresponds to setting $f_j=b_j+\bs{w}_j^T\bs{x}/\sigma^2$. As we further claim, the only expressions that need to be calculated are $\nabla_k(f_j)$, $\nabla_k^2(f_j)$ and $\partial_{\theta_i}(f_j)$ for all the coordinates $k$ and all the parameters $\theta_i$. They can easily be found to be 
-\begin{align*}
+\begin{equation}
+\begin{aligned}
 \nabla_k(f_j)&=\frac{w_{kj}}{\sigma^2}\\
 \nabla_k^2(f_j)&=0\\
 \partial_{b_l}(f_j)&=\delta_{lj}\\
 \partial _{w_{ml}}(f_j)&=\frac{x_m}{\sigma^2}\delta_{lj}
-\end{align*}
+\end{aligned}
+\end{equation}
 for our specific function. $\delta_{lj}$ is the Kronecker delta. By reintroducing the sigmoid function and the counterpart 
-\begin{equation*}
+\begin{equation}
 n_j(x)=\frac{1}{1+\exp(-x)}\quad\wedge\quad p_j(x)=n_j(-x)=\frac{1}{1+\exp(x)}
-\end{equation*}
+\end{equation}
 we can express the required derivatives in the following fashion
-\begin{empheq}[box={\mybluebox[5pt]}]{align}
-\frac{|\psi_{rp}(\bs{x}_{\text{new}})|^2}{|\psi_{\text{rp}}(\bs{x}_{\text{old}})|^2}&=\prod_{j=1}^H\frac{p_j(\bs{x}_{\text{old}})^2}{p_j(\bs{x}_{\text{new}})^2}\notag\\
-\nabla_k\ln\psi_{rp} &=\sum_{j=1}^H\frac{w_{kj}}{\sigma^2}n_j\notag\\
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
+\begin{aligned}
+\frac{|\psi_{rp}(\bs{x}_{\text{new}})|^2}{|\psi_{\text{rp}}(\bs{x}_{\text{old}})|^2}&=\prod_{j=1}^H\frac{p_j(\bs{x}_{\text{old}})^2}{p_j(\bs{x}_{\text{new}})^2}\\
+\nabla_k\ln\psi_{rp} &=\sum_{j=1}^H\frac{w_{kj}}{\sigma^2}n_j\\
 \nabla_k^2\ln\psi_{rp} &= \sum_{j=1}^H\frac{w_{kj}^2}{\sigma^4}p_jn_j\\
-\nabla_{b_l}\ln\psi_{rp}&=n_l\notag\\
-\nabla_{w_{ml}}\ln\psi_{rp}&=\frac{x_mn_l}{\sigma^2}.\notag
+\nabla_{b_l}\ln\psi_{rp}&=n_l\\
+\nabla_{w_{ml}}\ln\psi_{rp}&=\frac{x_mn_l}{\sigma^2}.
+\end{aligned}
 \end{empheq}
 This is the same result as obtained for the gradient of the log-likelihood function presented in chapter \ref{chp:machinelearning}. In this element, there are plenty of optimization possibilities. By revealing that some sums are vector products, we can get a significant speed-up. Instead of presenting the vectorized expressions, we will present how the elements actually are implemented.
 \lstset{basicstyle=\scriptsize}
@@ -372,7 +395,7 @@ Eigen::MatrixXd out = m_positions * m_n.transpose();
 m_gradients.segment(m_numberOfHiddenNodes, out.size()) = flatten(out);
 m_gradients.head(m_numberOfHiddenNodes) = m_n;
 \end{lstlisting}
-There the linear algebra package Eigen is used for the matrix-vector operations, and \texttt{m\_gradients} consists of all the derivatives with respect to the parameters.
+There the linear algebra package Eigen is used for the matrix-vector operations, and \lstinline{m\_gradients} consists of all the derivatives with respect to the parameters.
 
 \subsection{Partly restricted Boltzmann machine}
 For the partly restricted Boltzmann machine given in equation \eqref{eq:PRBMWF}, we observe that the only difference from a standard Boltzmann machine is the factor 
@@ -380,11 +403,13 @@ For the partly restricted Boltzmann machine given in equation \eqref{eq:PRBMWF},
 \psi_{pr}=\exp\Big(\sum_{i=1}^{F}\sum_{j=1}^{F}x_ic_{ij}x_j\Big)
 \end{equation}
 which we can threaten separately. We end up with the expressions
-\begin{empheq}[box={\mybluebox[5pt]}]{align}
-\frac{|\psi_{pr}(\bs{x}_{\text{new}})|^2}{|\psi_{pr}(\bs{x}_{\text{old}})|^2}&=\exp\Big(2\sum_{j=1}^{F}c_{ij}x_j(x_i^{\text{new}}-x_i^{\text{old}})\Big)\notag\\
-\nabla_k\ln\psi_{pr} &=2\sum_{j=1}^{F}c_{kj}x_j\notag\\
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
+\begin{aligned}
+\frac{|\psi_{pr}(\bs{x}_{\text{new}})|^2}{|\psi_{pr}(\bs{x}_{\text{old}})|^2}&=\exp\Big(2\sum_{j=1}^{F}c_{ij}x_j(x_i^{\text{new}}-x_i^{\text{old}})\Big)\\
+\nabla_k\ln\psi_{pr} &=2\sum_{j=1}^{F}c_{kj}x_j\\
 \nabla_k^2\ln\psi_{pr} &= 2c_{kk}\\
-\nabla_{c_{ml}}\ln\psi_{pr}&=x_mx_l\notag
+\nabla_{c_{ml}}\ln\psi_{pr}&=x_mx_l
+\end{aligned}
 \end{empheq}
 where $x_i$ is the changed coordinated. Also here can we use vectorization to speed-up the computations. 
 
@@ -406,4 +431,4 @@ and the differentiation with respect to the variational parameter $\alpha$ is
 \partial_{\alpha}\ln\psi_{\text{hl}}=-Z\sum_{j=1}^Nr_j.
 \end{equation}
 
-For close-form expressions for higher order wave functions, please run the script \texttt{generateHydrogenOrbitals.py}.
+For close-form expressions for higher order wave functions, please run the script \lstinline{generateHydrogenOrbitals.py}.
