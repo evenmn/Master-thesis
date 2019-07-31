@@ -178,7 +178,6 @@ void Metropolis::calculateDistanceMatrixCross(const int particle) {
 		m_distanceMatrix(i, particle) = m_distanceMatrix(particle, i);
 	}
 }
-
 \end{lstlisting}
 where the function \lstinline{calculateDistanceMatrixElement(i,j)} returns element \lstinline{i,j} of the matrix, which is called from the function \lstinline{calculateDistanceMatrixCross(particle)}. The latter takes the moved particle index as input, and updates the necessary row and column of the matrix. 
 

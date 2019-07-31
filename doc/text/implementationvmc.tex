@@ -17,16 +17,44 @@ The code was developed in regards to three principal aims:
 	\begin{minipage}{0.2\textwidth}
 		\begin{itemize}
 			%\itemsep-0.6em
-			\item flexible,
 			\item fast,
+			\item flexible,
 			\item readable.
 		\end{itemize}
 	\end{minipage}
 \end{center}
 It needs to be flexible in order to support the Boltzmann machines as our trial wave function guess, and since we will try out various Jastrow factors it should be easy to add and remove wave function elements. Since quantum mechanical simulations in general are very expensive, it is important to develop efficient code to be able to study systems of some size. Lastly, we aim to write readable code such that others can reuse the code in its entirety or parts of it later. 
 
-How we work to achieve the goals will be illustrated by code mainly picked from the \lstinline{WaveFunction} class, which is the heart of the code. 
+How we work to achieve the goals will be illustrated by code mainly picked from the \lstinline{WaveFunction} class, which is the heart of the code.
 
+\section{Flexibility and legibility}
+We have done several things in order to keep the code as legible as possible. Firstly, the code was written in an object orientated scheme which makes it more intuitive to a human as discussed in chapter \ref{chp:scientificprogramming}. Actually, the Hamiltonians, optimizers, wave functions, sampling methods and even the random number generator were treated as objects, making the code more or less as object orientated as possible. This makes it also easier to define a system, since we simply can set the preferred object. Below, we define a two-dimensional quantum dot system of 6 electrons with frequency $\omega=1.0$, learning rate $\eta=0.1$, number of Metropolis cycles $M=2^{20}=1048576$ and max number of iterations set to 1000.
+
+\begin{lstlisting}[language={C++}]
+System *QD = new System();
+
+QD->setNumberOfDimensions(2);
+QD->setNumberOfParticles(6);
+QD->setNumberOfMetropolisSteps(int(pow(2, 20)));
+QD->setFrequency(1.0);
+QD->setLearningRate(0.1);
+
+QD->setBasis(new Hermite(QD));
+
+std::vector<class WaveFunction *> waveFunctionElements;
+waveFunctionElements.push_back(new Gaussian(QD));
+waveFunctionElements.push_back(new SlaterDeterminant(QD));
+waveFunctionElements.push_back(new PadeJastrow(QD));
+
+QD->setWaveFunctionElements(waveFunctionElements);
+QD->setHamiltonian(new HarmonicOscillator(QD));
+QD->runIterations(1000);
+\end{lstlisting}
+We observe that the one first needs to define an object System, and then the various settings can be connected to this object. As you might notice, we use the \textbf{lowerCamelCase} naming convention for function and variable names, which means that each word begins with a capital letter except the initial word. For classes, we use the \textbf{UpperCamelCase} to distinguish from function names. This is known to be easy to read, and apart from for example the popular \textbf{snake\_case}, we do not need delimiters between the words, which saves some space. After the naming convention is decided, we are still responsible for giving reasonable names, which is not always an easy task, as Phil Karlton points out. When one sees the name, one should know exactly what the variable/function/class is or does. More about naming conventions can be read at reference \cite{noauthor_naming_2019}. In addition, for code format we use the ClangFormat, which provides a consequent way of formating the code. 
+
+The snippet above also demonstrates how the code is made flexible when it comes to the wave function. One can simply append all the desired \textit{wave function elements} to a vector, and set the wave function using the function \lstinline{setWaveFunctionElements}. This makes it easy to compose the wave function in whatever way you want, all the elements can be combined. The reader might stubs on the use of the element \lstinline{Gaussian}, isn't the trial wave function defined by the Slater determinant multiplied with a Padé-Jastrow factor? It is, but as we will se later in section \ref{sec:factorizing}, the Gaussian part can be factorized out of the Slater determinant when using a Hermite basis. However, we will now start from the fundamental assumption that the trial wave function consists of a Slater determinant and a Jastrow factor, and take it from there. 
+
+\section{Splitting the wave function in elements}
 In a standard variational Monte Carlo computation, the trial wave function is assumed to consist of a single Slater determinant, and a Jastrow factor to take care of the repulsive interactions. Mathematically it can be expressed as
 \begin{equation}
 \Psi_T(\bs{r})=|\hat{D}(\bs{r})|J(\bs{r}_{ij})
@@ -62,7 +90,7 @@ where $sg$ stands for the simple Gaussian, $sd$ stands for the Slater determinan
 We will first try to convince the reader that the local energy and the parameter update can be calculated separately for each element, and then move on to find closed-form expressions for the required term in the calculations for all the elements.
 \fi
 
-\section{Kinetic energy computations}
+\subsection{Kinetic energy computations}
 The local energy, defined in equation \eqref{eq:localenergy}, is
 \begin{equation}
 \begin{aligned}
@@ -109,7 +137,7 @@ double System::getKineticEnergy()
 \end{lstlisting}
 The vector \lstinline{m_waveFunctionElements} contains all the wave function elements.
 
-\section{Parameter gradients}
+\subsection{Parameter gradients}
 In section \ref{sec:parameterupdate}, we presented how the parameters can be updated by minimizing the energy expectation value. We recall that the gradient of this value with respect to a parameter $\theta_j$ is given by
 \begin{equation}
 \nabla_{\theta_j} \langle E_L\rangle=2\Big(\langle E_L\nabla_{\theta_j}\ln\Psi_T\rangle - \langle E_L\rangle\langle\nabla_{\theta_j}\ln\Psi_T\rangle\Big),
@@ -136,7 +164,7 @@ where \lstinline{gradients} has the same number of rows as number of elements an
 
 This is closely related to the update of the parameters, but since that is a comprehensive part, we have moved all of it to its own section found in \ref{sec:update}.
 
-\section{Optimizations}
+\subsection{Optimizations}
 How much a wave function element can be optimized heavily depends on the specific form of the element. For instance, sometimes the previous and present $\nabla_k\ln\phi_i$ are closely related, and only differ from each other by a factor, while for some other elements they are not related at all. Those subjective optimizations will therefore be described when presenting each wave function element. 
 
 However, there are still optimizations that apply to all elements and give great speed-up. An example is when calculating the ratio between the previous and present wave functions for all wave function elements instead of the wave function itself. Firstly, this is usually cheaper to calculate than the wave function itself because we are working in the logarithm space. Secondly, the ratio is actually what we use in the sampling, so it is a natural thing to calculate. The total wave function ratio is just the product of all the wave function element ratios
@@ -205,7 +233,7 @@ It is also worth to notice that the size of the spin-up determinant is determine
 
 This section was heavily inspired by D.Nissenbaum's doctoral dissertation, see appendix I in \cite{nissenbaum_stochastic_2008}.
 
-\subsection{Factorizing out elements}
+\subsection{Factorizing out elements} \label{sec:factorizing}
 Before calculating the Slater determinant, we should try to make the elements of the Slater matrix as simple as possible to save computational time. If all there elements have the same factor, the computations will get much cheaper if the factor is factorized out of the matrix. How this is possible is easiest to see if we express the Slater determinant on a summation form,
 \begin{equation}
 \psi_{sd}(\bs{r})\propto\sum_{p}(-1)^p\hat{P}\phi_1(\bs{r}_1)\phi_2(\bs{r}_2)\hdots\phi_N(\bs{r}_N),
@@ -233,9 +261,9 @@ This is very useful when it comes to many common basises. For instance, the Herm
 \begin{equation}
 \phi_i(\bs{r})\propto H_i(\bs{r})\exp(-\frac{1}{2}\omega|\bs{r}|^2)
 \end{equation}
-where $H_i(\bs{r})$ are the Hermite polynomials and the Gaussian part fulfills the requirement of $g(\bs{r})$. Therefore, we can construct a Slater determinant containing the Hermite polynomials only, treating the Gaussian as an independent element. This is not only preferable from efficiency point of view, by doing this the variational parameter in the Gaussian is also removed from the determinant, which means that we can implement the determinant without worrying about the variational parameters. 
+where $H_i(\bs{r})$ are the Hermite polynomials and the Gaussian part fulfills the requirement of $g(\bs{r})$. Therefore, we can construct a Slater determinant containing the Hermite polynomials only, treating the Gaussian as an independent element. This is not only preferable from an efficiency point of view, by doing this the variational parameter in the Gaussian is also removed from the determinant, which means that we can implement the determinant without worrying about the variational parameters. 
 
-With this in mind, we will first treat the Gaussian element, deriving its derivative and optimization schemes. Thereafter, we will see that exactly the same is possible for the Hydrogen-like orbitals for the S-wave, which we will look at in section \ref{sec:hydrogenlike}. Moreover, in section \ref{sec:slaterdeterminant} we will discuss how the determinant can be treated efficiently. 
+With this in mind, we will first treat the Gaussian element, obtaining its derivative and optimization schemes. Thereafter, we will see that exactly the same is possible for the Hydrogen-like orbitals for the S-wave, which we will look at in section \ref{sec:hydrogenlike}. Moreover, in section \ref{sec:slaterdeterminant} we will discuss how the determinant can be treated efficiently. 
 
 \subsection{Gaussian} \label{sec:simplegaussian}
 A natural starting point is the Gaussian function, since it appears in standard variational Monte-Carlo computations of quantum dot systems. For $N$ number of particles and $F=NP$ degrees of freedom, the function is given by
@@ -255,16 +283,49 @@ and henceforth the index $i$ will be reserved the changed coordinate.  The gradi
 \end{empheq}
 and similar to $i$, $k$ will be reserved the coordinate we are differentiating with respect to. The corresponding Laplacian is
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-\nabla^2\ln\psi_{sg}=-F\omega\alpha,
+\nabla^2\ln\psi_{sg}=-\omega\alpha F,
 \end{empheq}
 and finally, we will update $\alpha$ according to
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \nabla_{\alpha}\ln\psi_{sg} = -\frac{1}{2}\omega\sum_{j=1}^Fx_j^2.
 \end{empheq}
-Since this wave function element is quite simple, there is no special optimization available that will cause a noticeable speed-up.
+Since this wave function element is quite simple, there is no special optimization available that will cause a noticeable speed-up. The implementation looks like
+\begin{lstlisting}[language=c++,caption={From \lstinline{gaussian.cpp}.}]
+double Gaussian::evaluateRatio()
+{
+	return m_probabilityRatio;
+}
+
+double Gaussian::computeGradient(const int k)
+{
+	return -m_omega * m_alpha * m_positions(k);
+}
+
+double Gaussian::computeLaplacian()
+{
+	return -m_omega * m_alpha * m_degreesOfFreedom;
+}
+
+Eigen::VectorXd Gaussian::computeParameterGradient()
+{
+	Eigen::VectorXd gradients = Eigen::VectorXd::Zero(m_maxParameters);
+	gradients(0) = -0.5 * m_omega * m_positions.cwiseAbs2().sum();
+	return gradients;
+}
+\end{lstlisting}
+where the probability ratio is calculated using
+\begin{lstlisting}[language=c++,caption={From \lstinline{gaussian.cpp}.}]
+double void Gaussian::updateProbabilityRatio(int changedCoord)
+{
+	m_probabilityRatio = exp(m_omega * m_alpha
+				* (m_positionsOld(changedCoord) * m_positionsOld(changedCoord)
+					- m_positions(changedCoord) * m_positions(changedCoord)));
+}
+\end{lstlisting}
+We see that matrix-vector operations are used when it is possible, which makes the computations very efficient.
 
 \subsection{Hydrogen-like orbitals} \label{sec:hydrogenlike}
-The Hydrogen-like orbitals were presented in \eqref{eq:hydrogenlike}, but as we discussed earlier they cause some problems for atoms of the size of Neon and larger due to complex numbers. Instead, we decided to look at hydrogen-like orbitals with solid harmonics. Even though they do not have problems with complex numbers, they are quite complicated to differentiate, and the closed form will therefore be found by symbolic differentiating on the computer. However, we will do the exercise for the simplest case, which is sufficient to find the Hydrogen and Helium ground states. This reads
+The Hydrogen-like orbitals were presented in \eqref{eq:hydrogenlike}, but as we discussed earlier they cause some problems for atoms of the size of Neon and larger due to complex numbers. Instead, we decided to look at hydrogen-like orbitals with solid harmonics. Even though they do not have problems with complex numbers, they are quite complicated to differentiate, and the closed form will therefore be found by symbolic differentiating on the computer. However, we will do the exercise for the simplest case, which is sufficient for finding the Hydrogen and Helium ground states. This reads
 \begin{equation}
 \psi_{hl}( \bs{r};\alpha)=\exp\Big(-Z\alpha\sum_{j=1}^Nr_j\Big)
 \end{equation}
@@ -393,30 +454,62 @@ We assume that we do not have any variational parameter in the Slater determinan
 \nabla^2\ln|\hat{D}(\bs{r})|=\sum_{k=1}^F\bigg[\sum_{j=1}^{F}\nabla_k^2d_{jk}(\bs{r})d_{kj}^{-1}(\bs{r})-\Big(\sum_{j=1}^{F}\nabla_kd_{ik}(\bs{r})d_{ki}^{-1}(\bs{r})\Big)^2\bigg]
 \end{empheq}
 
-Since this might be a little abstract, we will end our discussion of the Slater determinant by sketching the actual algorithm for updating the Slater determinant and the related derivatives. The algorithm is given in algorithm \ref{alg:slater}.
+Before we end this section, the actual implementation of the  will be outlined. 
 
-\IncMargin{1em}
-\begin{algorithm}
-	\SetAlgoLined
-	\Require{$\bs{r}$: Initial coordinates}
-	
-	SlaterMatrix=$(\phi_j(r_i))$ (Initialize Slater matrix)\;
-	SlaterMatrixDer=$(\nabla_k\phi_j(r_i))$ (Initialize gradient of Slater matrix)\;
-	SlaterMatrixSecDer=$(\nabla_k^2\phi_j(r_i))$ (Initialize Laplacian of Slater matrix)\;
-	\For{$i\leftarrow 1$ \KwTo $M$}{
-		particle=RNG (Move random particle)\;
-		$\bs{r}'=\bs{r}+...$ (Update positions)\;
-		SlaterMatrix.row(particle) = $(\phi_j(r_i))$ (Update Slater matrix)\;
-		SlaterMatrixDer.row(particle) = $(\nabla_k\phi_j(r_i))$ (Update gradient of Slater matrix)\;
-		SlaterMatrixSecDer.row(particle) = $(\nabla_k^2\phi_j(r_i))$ (Update Laplacian of Slater matrix)\;
-		
+\begin{lstlisting}[language=C++]
+void SlaterDeterminant::updateSlaterMatrixRow(const int row)
+{
+	for (int col = 0; col < m_numberOfParticlesHalf; col++) {
+		m_slaterMatrix(row, col) = m_system->getBasis()->basisElement(col, m_positionBlock.col(row));
 	}
-	\KwResult{Updated parameters $\bs{\theta}_t$ after convergence}
-	\caption{Adaptive stochastic gradient descent with momentum. See sections (\ref{sec:sgd}-\ref{sec:momentum}) for details. Robust default settings for the hyper-parameters are $\eta=0.001$, $\gamma=0.01$ and $\lambda=0.1$. All the operations are element-wise.}
-	\label{alg:slater}
-\end{algorithm}\DecMargin{1em}
+}
 
-The first thing we observe, is that the first and second derivatives of the Slater matrix is stored as dedicated matrices, which is computational beneficial but require some memory. In practice, \lstinline{slaterMatrixDer} and \lstinline{slaterMatrixSecDer} are of size $F\times P/2$, while \lstinline{slaterMatrix} is of size $P\times P/2$.
+void SlaterDeterminant::updateSlaterMatrixDerRow(const int row)
+{
+	int particle = int(row / m_numberOfDimensions);
+	int dimension = row % m_numberOfDimensions;
+	for (int col = 0; col < m_numberOfParticlesHalf; col++) {
+		m_slaterMatrixDer(row, col) = m_system->getBasis()->basisElementDer(col, dimension, m_positionBlock.col(particle));
+	}
+}
+
+void SlaterDeterminant::updateSlaterMatrixSecDerRow(const int row)
+{
+	int particle = int(row / m_numberOfDimensions);
+	int dimension = row % m_numberOfDimensions;
+	for (int col = 0; col < m_numberOfParticlesHalf; col++) {
+		m_slaterMatrixSecDer(row, col) = m_system->getBasis()->basisElementSecDer(col, dimension, m_positionBlock.col(particle));
+	}
+}
+
+void SlaterDeterminant::updateRatio()
+{
+	m_ratio = m_slaterMatrix.row(m_particle) * m_slaterMatrixInverse.col(m_particle);
+}
+
+void SlaterDeterminant::updateSlaterDeterminantDerivatives(int start, int end)
+{
+	for (int i = start * m_numberOfDimensions; i < end * m_numberOfDimensions; i++) {
+		int particle = int(i / m_numberOfDimensions);
+		m_determinantDerivative(i) = m_slaterMatrixDer.row(i) * m_slaterMatrixInverse.col(particle);
+		m_determinantSecondDerivative(i) = m_slaterMatrixSecDer.row(i) * m_slaterMatrixInverse.col(particle);
+	}
+}
+
+void SlaterDeterminant::updateSlaterMatrixInverse(int start, int end)
+{
+	updateRatio();
+	for (int j = start; j < end; j++) {
+		if (j != m_particle) {
+			double S = m_slaterMatrix.row(m_particle) * m_slaterMatrixInverse.col(j);
+			m_slaterMatrixInverse.col(j) -= S * m_slaterMatrixInverse.col(m_particle) / m_ratio;
+		}
+	}
+	m_slaterMatrixInverse.col(m_particle) /= m_ratio;
+}
+\end{lstlisting}
+
+The first thing we observe, is that the first and second derivatives of the Slater matrix is stored as dedicated matrices, which is computational beneficial but require some memory. In practice, \lstinline{slaterMatrixDer} and \lstinline{slaterMatrixSecDer} are of size $F\times P/2$, while \lstinline{slaterMatrix} is of size $P\times P/2$. We use vector operations when it is possible. For instance, we rather calculate the inner product between two vectors than summarize their elements multiplied. 
 
 \section{Jastrow factor}
 
@@ -443,7 +536,7 @@ Finally, the parameter update is given by
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \nabla_{\beta_{m'l'}}\ln\psi_{sj}=r_{m'l'}.
 \end{empheq}
-For this element, the most important thing we can do to keep the computational cost as low as possible is to reveal that only a row and a column of the distance matrix is changed as we change a coordinate. Updating the entire distance matrix means updating $N^2$ elements, while updating a row and a column means updating $2N$ elements, which is an essential difference for large systems. 
+For this element, the most important thing we can do to keep the computational cost as low as possible is to reveal that only a row and a column of the distance matrix is changed as we change a coordinate. Updating the entire distance matrix means updating $N^2$ elements, while updating a row and a column means updating $2N$ elements, which is an essential difference for large systems.
 
 \subsection{The Padé-Jastrow factor}
 The Padé-Jastrow factor is a more complicated Jastrow factor, and was specified in equation \eqref{eq:PadeJastrow}, 
@@ -483,10 +576,191 @@ with marked indices ($i'$) as the particle related ones and the unmarked ($i$) a
 
 In the same way as for the simple Jastrow, only a row and a column in the distance matrix should be updated for each step. Additionally, implementing the matrices $f_{ij}$, $g_{ij}$ and $h_{ij}$ will give a speed up in combination with vector-matrix operations. 
 
+\subsection{Updating the distance matrix} \label{sec:distancematrix}
+The distance matrix, which is used in the Jastrow factors, gives an illustrating example how we can avoid repeating calculations. The matrix, henceforth named $M$, contains the relative distances between all the particles, for three particles given by
+\begin{eqnarray}
+M=
+\begin{pmatrix}
+r_{11} & r_{12} & r_{13} \\
+r_{21} & r_{22} & r_{23} \\
+r_{31} & r_{32} & r_{33}
+\end{pmatrix}
+=
+\begin{pmatrix}
+0 & r_{12} & r_{13} \\
+r_{12} & 0 & r_{23} \\
+r_{13} & r_{23} & 0
+\end{pmatrix}
+\end{eqnarray}
+where $r_{ij}$ means the distance between particles $i$ and $j$. Since $r_{ij}=r_{ji}$ and $r_{ii}=0$, the matrix becomes symmetric with zeros on the diagonal, which means that we only need to calculate $N(N-1)/2$ elements instead of $N^2$. Further, we can exploit that only a particle is moved at a time, which means that only a row and a column are changed when a particle is moved. For instance, if particle 1 is moved, the upper row and the left-hand-side column in matrix $M$ need to be updated. In our program, we have implemented this in the following way
+\lstset{basicstyle=\scriptsize}
+\begin{lstlisting}[language=c++,caption={When a particle is moved, we update a row and a column in the distance matrix. The functions are parts of the Metropolis class, as the distance matrix is updated for every step in the Metropolis sampling. Taken from \lstinline{metropolis.cpp}.}]
+double Metropolis::calculateDistanceMatrixElement(const int i, const int j) 
+{
+	double dist = 0;
+	int parti   = m_numberOfDimensions*i;
+	int partj   = m_numberOfDimensions*j;
+	for(int d=0; d<m_numberOfDimensions; d++) {
+		double diff = m_positions(parti+d)-m_positions(partj+d);
+		dist += diff*diff;
+	}
+	return sqrt(dist);
+}
+
+void Metropolis::calculateDistanceMatrixCross(const int particle) {
+	for(int i=0; i<m_numberOfParticles; i++) {
+		m_distanceMatrix(particle, i) = calculateDistanceMatrixElement(particle, i);
+		m_distanceMatrix(i, particle) = m_distanceMatrix(particle, i);
+	}
+}
+\end{lstlisting}
+where the function \lstinline{calculateDistanceMatrixElement(i,j)} returns element \lstinline{i,j} of the matrix, which is called from the function \lstinline{calculateDistanceMatrixCross(particle)}. The latter takes the moved particle index as input, and updates the necessary row and column of the matrix. 
+
+For systems of non-interacting particles, the distance matrix is redundant, and should therefore not be calculated. We have solved this by giving all the wave function elements and the Hamiltonians a number which indicated whether they require the distance matrix or not, as mentioned above. If no part of the code needs the distance matrix, it is never calculated. 
+
+We also calculate the radial position, when it is required by any part of the code. The components are stored in a vector named \lstinline{radialVector}, applying the same optimization ideas as the distance matrix. 
+
 \section{Sampling} \label{sec:sampling}
 \subsection{Brute force sampling}
+\begin{lstlisting}[language=c++,caption={Taken from \lstinline{bruteforce.cpp}.}]
+bool BruteForce::acceptMove()
+{
+	int pRand = m_system->getRandomNumberGenerator()->nextInt(m_degreesOfFreedom);
+	double length = m_system->getRandomNumberGenerator()->nextDouble();
+
+	m_positionsOld = m_positions;
+	m_radialVectorOld = m_radialVector;
+	m_distanceMatrixOld = m_distanceMatrix;
+
+	m_positions(pRand) = m_positionsOld(pRand) + 10 * (length - 0.5) * m_stepLength;
+	if (m_calculateDistanceMatrix) {
+		Metropolis::calculateDistanceMatrixCross(int(pRand / m_numberOfDimensions));
+	}
+	if (m_calculateRadialVector) {
+		Metropolis::calculateRadialVectorElement(int(pRand / m_numberOfDimensions));
+	}
+	m_system->updateAllArrays(m_positions, m_radialVector, m_distanceMatrix, pRand);
+
+	double ratio = m_system->evaluateProbabilityRatio();
+	double r = m_system->getRandomNumberGenerator()->nextDouble();
+	if (ratio < r) {
+		m_positions(pRand) = m_positionsOld(pRand);
+		m_distanceMatrix = m_distanceMatrixOld;
+		m_radialVector = m_radialVectorOld;
+		m_system->resetAllArrays();
+		return false;
+	}
+	return true;
+}
+\end{lstlisting}
+
 \subsection{Importance sampling}
+As a summary, we set up the actual algorithm, known as Metropolis-Hasting's algorithm, see algorithm \eqref{alg:hastings}. We write the position update in a general form, where we allow updating all the particles at the same time. However, often one ends up moving only a particle at each time step, as this make some advantageous optimization schemes possible. These optimization opportunities will be discussed in chapter \ref{chp:WFE}.
+
+The ratio between the new and old Green's function can be expressed in the elegant form 
+\begin{equation}
+g(\bs{r}',\bs{r},\Delta t)\equiv\frac{G(\bs{r}',\bs{r},\Delta t)}{G(\bs{r},\bs{r}',\Delta t)}=\exp((\bs{r}'-\bs{r})\cdot(\bs{F}(\bs{r})-\bs{F}(\bs{r}'))/2)
+\label{eq:greensratio}
+\end{equation}
+which may be evaluated efficiently using vector operations. Also the probability ratios can be computed in an efficient way for certain trial wave functions $\Psi_T(\bs{r})$, in particular when the wave function is on an exponential form. We express the probability ratio as 
+\begin{equation}
+p(\bs{r}',\bs{r})\equiv\frac{P(\bs{r}')}{P(\bs{r})}=\frac{|\Psi_T(\bs{r}')|^2}{|\Psi_T(\bs{r})|^2},
+\end{equation}
+and in chapter \ref{chp:WFE} we find closed-form expressions of all the wave function elements of interest, including the elements based on restricted Boltzmann machines. Additionally, closed-form expressions of $\nabla\ln\Psi_T(\bs{r})$ are found, which are vital in the quantum force computations as well as the kinetic energy computations. 
+
+\IncMargin{1em}
+\begin{algorithm}
+	\SetAlgoLined
+	\Parameter{$\Delta t$: Fictive time step}
+	\Data{$\bs{r}'$: Initial particle positions}
+	\Require{$\Psi_T(\bs{r})$: Initial trial wave function guess}
+	\BlankLine
+	$\bs{F}(\bs{r}')\leftarrow2(\nabla\Psi_T(\bs{r}'))/\Psi_T(\bs{r}')$ (Initialize the quantum force) \;
+	$p(\bs{r}',\bs{r})\leftarrow1$ (Initialize the probability ratio) \;
+	$g(\bs{r}',\bs{r},\Delta t)\leftarrow1$ (Initialize Green's function ratio) \;
+	\For{$i\leftarrow 1$ \KwTo $M$}{
+		$\bs{r}\leftarrow\bs{r}'$ (Save current positions $\bs{r}'$ in a vector $\bs{r}$) \;
+		$\bs{F}(\bs{r})\leftarrow\bs{F}(\bs{r}')$ (Save the current quantum force, $\bs{F}(\bs{r}')$, in a vector $\bs{F}(\bs{r})$) \;
+		$p(\bs{r},\bs{r}')\leftarrow p(\bs{r}',\bs{r})$ (Save current probability ratio)\;
+		$g(\bs{r},\bs{r}',\Delta t)\leftarrow g(\bs{r}',\bs{r},\Delta t)$ (Save the current Green's function ratio) \;
+		\BlankLine
+		$\bs{r}'\leftarrow\bs{r}+D\Delta t\bs{F}(\bs{r}) + \bs{\xi}\sqrt{\Delta t}$ (Update position based on the Langevin equation) \;
+		$\bs{F}(\bs{r}')\leftarrow2\nabla\ln\Psi_T(\bs{r'})$ (Update the quantum force) \;
+		$p(\bs{r}',\bs{r})=|\Psi_T(\bs{r}')|^2/|\Psi_T(\bs{r})|^2$ (Update the probability ratio) \;
+		$g(\bs{r}',\bs{r},\Delta t)=G(\bs{r}',\bs{r},\Delta t)/G(\bs{r},\bs{r}',\Delta t)$ (Update the Green's function ratio) \;
+		$w\leftarrow p(\bs{r}',\bs{r}) g(\bs{r}',\bs{r},\Delta t)$ (Calculate acceptance probability) \;
+		$q\leftarrow\mathcal{U}(0,1)$ (Draw a random number between 0 and 1)\;
+		\eIf{$w<q$}{
+			$\bs{r}'\leftarrow\bs{r}$ (Reset positions)\;
+			$\bs{F}(\bs{r}')\leftarrow\bs{F}(\bs{r})$ (Reset the quantum force) \;
+			$p(\bs{r}',\bs{r})\leftarrow p(\bs{r},\bs{r}')$ (Reset the probability ratio)\;
+			$g(\bs{r}',\bs{r},\Delta t)\leftarrow g(\bs{r},\bs{r}',\Delta t)$ (Reset the Green's function ratio) \;
+		}
+		{
+			keep going\;
+		}
+	}
+	\KwResult{The optimized trial wave function.}
+	\caption{The Metropolis-Hastings algorithm. The positions are initialized randomly or was chosen by a previous sampling. The parameters are also usually initialized randomly or chosen by a parameter update. The Green's function ratio, $g$, can be evaluated efficiently using equation \eqref{eq:greensratio}, and the probability ratio $p$ can also often be found in a simple closed-form expression. The diffusion constant is $D=1/2$ in natural units. $\bs{\xi}$ is a random Gaussian variable. For more information, see section \ref{sec:importancesampling}}.
+	\label{alg:hastings}
+\end{algorithm}\DecMargin{1em}
+
+\begin{lstlisting}[language=c++,caption={Taken from \lstinline{importancesampling.cpp}.}]
+double ImportanceSampling::QuantumForce(const int i)
+{
+	double QF = 0;
+	for (auto &j : m_waveFunctionVector) {
+		QF += j->computeGradient(i);
+	}
+	return 2 * QF;
+}
+
+double ImportanceSampling::GreenFuncSum()
+{
+	double GreenSum = 0;
+	for (int i = 0; i < m_numberOfParticles; i++) {
+		double GreenFunc = 0;
+		for (int j = 0; j < m_numberOfDimensions; j++) {
+			int l = m_numberOfDimensions * i + j;
+			GreenFunc += (m_quantumForceOld(l) - m_quantumForceNew(l))
+							* (m_positions(l) - m_positionsOld(l));
+		}
+	GreenSum += exp(0.5 * GreenFunc);
+	}
+	return GreenSum;
+}
+\end{lstlisting}
 
 \section{Update of parameters} \label{sec:update}
+Since these operations are outside the sampling, we do not care so much about the efficiency. 
+
 \subsection{Gradient descent}
+Gradient descent method with momentum and monotonic adaptivity.
+\begin{lstlisting}[language=c++,caption={Taken from \lstinline{gradientdescent.cpp}.}]
+Eigen::MatrixXd GradientDescent::updateParameters()
+{
+	m_step += 1;
+	double monotonic = 1 / pow(m_step, m_monotonicExp);
+	m_v = m_gamma * m_v + m_eta * Optimization::getEnergyGradient() * monotonic;
+	return m_v;
+}
+\end{lstlisting}
+
 \subsection{ADAM optimizer}
+\begin{lstlisting}[language=c++,caption={Taken from \lstinline{adam.cpp}.}]
+Eigen::MatrixXd ADAM::updateParameters()
+{
+	m_step += 1;
+	m_g = Optimization::getEnergyGradient();
+	m_m = m_beta1 * m_m + (1 - m_beta1) * m_g;
+	m_v = m_beta2 * m_v + (1 - m_beta2) * m_g.cwiseAbs2();
+	m_mHat = m_m / (1 - pow(m_beta1, m_step));
+	m_vHat = m_v / (1 - pow(m_beta2, m_step));
+	for (int i = 0; i < m_numberOfElements; i++) {
+		for (int j = 0; j < m_maxParameters; j++) {
+			m_theta(i, j) = m_eta * m_mHat(i, j) / (sqrt(m_vHat(i, j) + m_epsilon));
+		}
+	}
+	return m_theta;
+}
+\end{lstlisting}

@@ -157,56 +157,6 @@ A(\bs{r}'|\bs{r})=\text{min }\left[1,\frac{G(\bs{r},\bs{r}',\Delta t)P(\bs{r}')}
 \end{equation}
 where the marginal probabilities are still given by equation \eqref{eq:probvmc}. 
 
-As a summary, we set up the actual algorithm, known as Metropolis-Hasting's algorithm, see algorithm \eqref{alg:hastings}. We write the position update in a general form, where we allow updating all the particles at the same time. However, often one ends up moving only a particle at each time step, as this make some advantageous optimization schemes possible. These optimization opportunities will be discussed in chapter \ref{chp:WFE}.
-
-The ratio between the new and old Green's function can be expressed in the elegant form 
-\begin{equation}
-g(\bs{r}',\bs{r},\Delta t)\equiv\frac{G(\bs{r}',\bs{r},\Delta t)}{G(\bs{r},\bs{r}',\Delta t)}=\exp((\bs{r}'-\bs{r})\cdot(\bs{F}(\bs{r})-\bs{F}(\bs{r}'))/2)
-\label{eq:greensratio}
-\end{equation}
-which may be evaluated efficiently using vector operations. Also the probability ratios can be computed in an efficient way for certain trial wave functions $\Psi_T(\bs{r})$, in particular when the wave function is on an exponential form. We express the probability ratio as 
-\begin{equation}
-p(\bs{r}',\bs{r})\equiv\frac{P(\bs{r}')}{P(\bs{r})}=\frac{|\Psi_T(\bs{r}')|^2}{|\Psi_T(\bs{r})|^2},
-\end{equation}
-and in chapter \ref{chp:WFE} we find closed-form expressions of all the wave function elements of interest, including the elements based on restricted Boltzmann machines. Additionally, closed-form expressions of $\nabla\ln\Psi_T(\bs{r})$ are found, which are vital in the quantum force computations as well as the kinetic energy computations. 
-
-\IncMargin{1em}
-\begin{algorithm}
-	\SetAlgoLined
-	\Parameter{$\Delta t$: Fictive time step}
-	\Data{$\bs{r}'$: Initial particle positions}
-	\Require{$\Psi_T(\bs{r})$: Initial trial wave function guess}
-	\BlankLine
-	$\bs{F}(\bs{r}')\leftarrow2(\nabla\Psi_T(\bs{r}'))/\Psi_T(\bs{r}')$ (Initialize the quantum force) \;
-	$p(\bs{r}',\bs{r})\leftarrow1$ (Initialize the probability ratio) \;
-	$g(\bs{r}',\bs{r},\Delta t)\leftarrow1$ (Initialize Green's function ratio) \;
-	\For{$i\leftarrow 1$ \KwTo $M$}{
-		$\bs{r}\leftarrow\bs{r}'$ (Save current positions $\bs{r}'$ in a vector $\bs{r}$) \;
-		$\bs{F}(\bs{r})\leftarrow\bs{F}(\bs{r}')$ (Save the current quantum force, $\bs{F}(\bs{r}')$, in a vector $\bs{F}(\bs{r})$) \;
-		$p(\bs{r},\bs{r}')\leftarrow p(\bs{r}',\bs{r})$ (Save current probability ratio)\;
-		$g(\bs{r},\bs{r}',\Delta t)\leftarrow g(\bs{r}',\bs{r},\Delta t)$ (Save the current Green's function ratio) \;
-		\BlankLine
-		$\bs{r}'\leftarrow\bs{r}+D\Delta t\bs{F}(\bs{r}) + \bs{\xi}\sqrt{\Delta t}$ (Update position based on the Langevin equation) \;
-		$\bs{F}(\bs{r}')\leftarrow2\nabla\ln\Psi_T(\bs{r'})$ (Update the quantum force) \;
-		$p(\bs{r}',\bs{r})=|\Psi_T(\bs{r}')|^2/|\Psi_T(\bs{r})|^2$ (Update the probability ratio) \;
-		$g(\bs{r}',\bs{r},\Delta t)=G(\bs{r}',\bs{r},\Delta t)/G(\bs{r},\bs{r}',\Delta t)$ (Update the Green's function ratio) \;
-		$w\leftarrow p(\bs{r}',\bs{r}) g(\bs{r}',\bs{r},\Delta t)$ (Calculate acceptance probability) \;
-		$q\leftarrow\mathcal{U}(0,1)$ (Draw a random number between 0 and 1)\;
-		\eIf{$w<q$}{
-			$\bs{r}'\leftarrow\bs{r}$ (Reset positions)\;
-			$\bs{F}(\bs{r}')\leftarrow\bs{F}(\bs{r})$ (Reset the quantum force) \;
-			$p(\bs{r}',\bs{r})\leftarrow p(\bs{r},\bs{r}')$ (Reset the probability ratio)\;
-			$g(\bs{r}',\bs{r},\Delta t)\leftarrow g(\bs{r},\bs{r}',\Delta t)$ (Reset the Green's function ratio) \;
-		}
-		{
-			keep going\;
-		}
-	}
-	\KwResult{The optimized trial wave function.}
-	\caption{The Metropolis-Hastings algorithm. The positions are initialized randomly or was chosen by a previous sampling. The parameters are also usually initialized randomly or chosen by a parameter update. The Green's function ratio, $g$, can be evaluated efficiently using equation \eqref{eq:greensratio}, and the probability ratio $p$ can also often be found in a simple closed-form expression. The diffusion constant is $D=1/2$ in natural units. $\bs{\xi}$ is a random Gaussian variable. For more information, see section \ref{sec:importancesampling}}.
-	\label{alg:hastings}
-\end{algorithm}\DecMargin{1em}
-
 \subsection{Gibbs sampling}
 Gibbs sampling has throughout the years gained high popularity in the machine learning community when it comes to training Boltzmann machines. There are probably many factors that contribute to this, where the performance obviously is one of them. Another relevant motivation is the absent of tuning parameters, which makes the method easier to deal with compared to many of its competitors. 
 
