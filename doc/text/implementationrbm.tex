@@ -1,0 +1,91 @@
+\chapter{Implementation: Restricted Boltzmann machines} \label{chp:rbmimplementation}
+
+\subsection{Restricted Boltzmann machine}
+Now over to the real deal; the wave function elements inspired by machine learning. The marginal distribution of the visible nodes of a restricted Boltzmann machine was presented in equation \eqref{eq:RBMWF2}. By defining the wave function as this marginal distribution, we have
+\begin{equation}
+\psi_{rbm}(\bs{x};\bs{a},\bs{b},\bs{w})=\exp\Big(-\sum_{i=1}^{F}\frac{(x_i-a_i)^2}{2\sigma^2}\Big)\prod_{j=1}^H\bigg(1+\exp\Big(b_j+\sum_{i=1}^{F}\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg),
+\end{equation}
+which contains a Gaussian part and a product part. In order to minimize the complexity of each wave function element, we decided to split it up in the code and they will therefore be presented separately below. The first part will henceforth be denoted as the RBM-Gaussian, while the last part will be denoted as the RBM-Product. 
+
+\subsubsection{RBM-Gaussian}
+The RBM-Gaussian reads
+\begin{equation}
+\psi_{rg}(\bs{x};\bs{a})=\exp(-\sum_{i=1}^{F}\frac{(x_i-a_i)^2}{2\sigma^2})
+\end{equation}
+
+
+The derivatives of the RBM-Gaussian are similar to those of the simple Gaussian, they are therefore just listed in equation \eqref{eq:NQSGaussian}.
+
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
+\label{eq:NQSGaussian}
+\begin{aligned}
+\frac{|\psi_{rg}(\bs{x}_{\text{new}})|^2}{|\psi_{rg}(\bs{x}_{\text{old}})|^2}&=\exp\Big((x_i^{\text{old}}+x_i^{\text{new}}-2a_i)(x_i^{\text{old}}-x_i^{\text{new}})\Big)\\
+\nabla_k\ln\psi_{\text{rg}} &= -\frac{x_k-a_k}{\sigma^2}\\
+\nabla_k^2\ln\psi_{\text{rg}}&=-\frac{1}{\sigma^2}\\
+\nabla_{\alpha_l}\ln\psi_{\text{rg}} &= \frac{x_l-a_l}{\sigma^2}
+\end{aligned}
+\end{empheq}
+
+\subsubsection{RBM-product}
+The RBM product is the last part of \eqref{eq:RBMWF2}, and is thus given by
+\begin{equation}
+\psi_{rp}(\bs{x};\bs{b},\bs{w})=\prod_{j=1}^H\bigg[1+\exp\Big(b_j+\sum_{i=1}^{F}\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg].
+\end{equation}
+In appendix \ref{app:rbmderive}, section \eqref{sec:derivatives}, a general Gaussian-binary RBM product on the form
+\begin{equation}
+\psi(\bs{x};\bs{\theta})=\prod_{j=1}^H\bigg[1+\exp\Big(f_j(\bs{x};\bs{\theta})\Big)\bigg]
+\end{equation}
+is differentiated, which for this element corresponds to setting $f_j=b_j+\bs{w}_j^T\bs{x}/\sigma^2$. As we further claim, the only expressions that need to be calculated are $\nabla_k(f_j)$, $\nabla_k^2(f_j)$ and $\partial_{\theta_i}(f_j)$ for all the coordinates $k$ and all the parameters $\theta_i$. They can easily be found to be 
+\begin{equation}
+\begin{aligned}
+\nabla_k(f_j)&=\frac{w_{kj}}{\sigma^2}\\
+\nabla_k^2(f_j)&=0\\
+\partial_{b_l}(f_j)&=\delta_{lj}\\
+\partial _{w_{ml}}(f_j)&=\frac{x_m}{\sigma^2}\delta_{lj}
+\end{aligned}
+\end{equation}
+for our specific function. $\delta_{lj}$ is the Kronecker delta. By reintroducing the sigmoid function and the counterpart 
+\begin{equation}
+n_j(x)=\frac{1}{1+\exp(-x)}\quad\wedge\quad p_j(x)=n_j(-x)=\frac{1}{1+\exp(x)}
+\end{equation}
+we can express the required derivatives in the following fashion
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
+\begin{aligned}
+\frac{|\psi_{rp}(\bs{x}_{\text{new}})|^2}{|\psi_{\text{rp}}(\bs{x}_{\text{old}})|^2}&=\prod_{j=1}^H\frac{p_j(\bs{x}_{\text{old}})^2}{p_j(\bs{x}_{\text{new}})^2}\\
+\nabla_k\ln\psi_{rp} &=\sum_{j=1}^H\frac{w_{kj}}{\sigma^2}n_j\\
+\nabla_k^2\ln\psi_{rp} &= \sum_{j=1}^H\frac{w_{kj}^2}{\sigma^4}p_jn_j\\
+\nabla_{b_l}\ln\psi_{rp}&=n_l\\
+\nabla_{w_{ml}}\ln\psi_{rp}&=\frac{x_mn_l}{\sigma^2}.
+\end{aligned}
+\end{empheq}
+This is the same result as obtained for the gradient of the log-likelihood function presented in chapter \ref{chp:machinelearning}. In this element, there are plenty of optimization possibilities. By revealing that some sums are vector products, we can get a significant speed-up. Instead of presenting the vectorized expressions, we will present how the elements actually are implemented.
+\lstset{basicstyle=\scriptsize}
+\begin{lstlisting}[language=c++]
+double prod =  m_pOld.prod() / m_p.prod();
+m_probabilityRatio  = prod * prod;
+
+m_gradient = double(m_W.row(k) * m_n) / m_sigmaSqrd;
+
+m_laplacian = (m_w.cwiseAbs2() * m_p.cwiseProd(m_n)).sum() / (m_sigmaSqrd*m_sigmaSqrd);
+
+Eigen::MatrixXd out = m_positions * m_n.transpose();
+m_gradients.segment(m_numberOfHiddenNodes, out.size()) = flatten(out);
+m_gradients.head(m_numberOfHiddenNodes) = m_n;
+\end{lstlisting}
+There the linear algebra package Eigen is used for the matrix-vector operations, and \lstinline{m_gradients} consists of all the derivatives with respect to the parameters.
+
+\subsection{Partly restricted Boltzmann machine}
+For the partly restricted Boltzmann machine given in equation \eqref{eq:PRBMWF}, we observe that the only difference from a standard Boltzmann machine is the factor 
+\begin{equation}
+\psi_{pr}=\exp\Big(\sum_{i=1}^{F}\sum_{j=1}^{F}x_ic_{ij}x_j\Big)
+\end{equation}
+which we can threaten separately. We end up with the expressions
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
+\begin{aligned}
+\frac{|\psi_{pr}(\bs{x}_{\text{new}})|^2}{|\psi_{pr}(\bs{x}_{\text{old}})|^2}&=\exp\Big(2\sum_{j=1}^{F}c_{ij}x_j(x_i^{\text{new}}-x_i^{\text{old}})\Big)\\
+\nabla_k\ln\psi_{pr} &=2\sum_{j=1}^{F}c_{kj}x_j\\
+\nabla_k^2\ln\psi_{pr} &= 2c_{kk}\\
+\nabla_{c_{ml}}\ln\psi_{pr}&=x_mx_l
+\end{aligned}
+\end{empheq}
+where $x_i$ is the changed coordinated. Also here can we use vectorization to speed-up the computations. 
