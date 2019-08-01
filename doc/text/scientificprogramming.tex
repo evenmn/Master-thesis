@@ -219,7 +219,7 @@ Another thing that we observe from the code example above, is that we define the
 
 We also have a third access modifier in C++, called \texttt{protected}. \texttt{protected} members of a class A are not accessible outside of A's code, but any class that inherit from A has access to the protected member. 
 
-\subsection{Virtual functions}
+\subsection{Pure virtual functions}
 In Python, we saw how a parent's function was overwritten by a function of the child. This work as long as the child's function has identical name and identical arguments as the parent's function, otherwise it all will fail.
 
 In C++, a much safer method exists based on virtual functions, where a child is \textit{forced} to have the same virtual functions as its parent. The virtual functions of the parent therefore serves as a template of its children, such that all the children have the same features. 
