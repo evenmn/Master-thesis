@@ -155,7 +155,7 @@ Eigen::MatrixXd System::getAllParameterGradients()
 \end{lstlisting}
 where \lstinline{m_gradients} has the same number of rows as number of elements and the same number of columns as the maximum number of parameters in an element. The function \lstinline{computeParameterGradient()} returns a vector with all the gradients $\nabla_{\theta_j}\ln\Phi_i(\bs{r})$ of the respective element. Even though the gradients are used to update the parameters, we will postpone the discussion of the parameter update to section \ref{sec:update}.
 
-\subsection{Optimizations}
+\subsection{Optimizations} \label{sec:optimization}
 How much a wave function element can be optimized heavily depends on the specific form of the element. For instance, sometimes the previous and present $\nabla_k\ln\Phi_i$ are closely related, and only differ from each other by a factor, while for some other elements they are not related at all. Those subjective optimizations will therefore be described when presenting each wave function element. 
 
 However, there are still optimizations that apply to all elements and give great speed-up. An example is when calculating the ratio between the previous and present wave functions squared for all wave function elements instead of the wave function itself. Firstly, this is usually cheaper to calculate than the wave function itself because we are working in the logarithm space. Secondly, the ratio is actually what we use in the sampling, so it is a natural thing to calculate. The total probability ratio is just the product of all the probability ratios
@@ -424,23 +424,32 @@ for the Laplacian. We are then set to write up the final expressions for the gra
 \nabla_k\ln|\hat{D}(\bs{r})|&=\sum_{j}d_{jk}^{-1}(\bs{r})\nabla_k\phi_{j}(\bs{r}_k)\\
 \nabla_k^2\ln|\hat{D}(\bs{r})|&=\sum_jd_{jk}^{-1}(\bs{r})\nabla_k^2\phi_{j}(\bs{r}_k)-\Big(\sum_jd_{jk}^{-1}(\bs{r})\nabla_k\phi_{j}(\bs{r}_k)\Big)^2
 \end{aligned}
+\label{eq:derivativelndet}
 \end{equation}
 where we have used that $d_{ij}=\phi_j(\bs{r}_i)$ with $\phi_j(\bs{r}_i)$ as a single particle function found in the Slater determinant, see above.
 
 \subsubsection{Efficient calculation of Slater determinants} \label{sec:efficientcalculationsofslaterdeterminant}
-As aforementioned, dealing with the Slater determinant is very computational expensive, mainly because of the requirement of the inverse Slater matrix. However, by exploiting that only one row in the Slater matrix is updated for each step, we can update the inverse recursively. By using the same element representations as above, the ratio between the new and the old determinant can be given as
+As aforementioned, dealing with the Slater determinant is very computational expensive, mainly because of the requirement of the inverse Slater matrix. However, by exploiting that only one row in the Slater matrix is updated for each step, we can update the inverse recursively. By using the same element representations as above, the ratio between the new and the old determinant can be expressed as
 \begin{equation}
 R\equiv \frac{|\hat{D}(\bs{r}_{\text{new}})|}{|\hat{D}(\bs{r}_{\text{old}})|}=\frac{\sum_{j}d_{ij}(\bs{r}_{\text{new}})c_{ij}(\bs{r}_{\text{new}})}{\sum_{j}d_{ij}(\bs{r}_{\text{old}})c_{ij}(\bs{r}_{\text{old}})}=\sum_{j}d_{ij}(\bs{r}_{\text{new}})d_{ji}^{-1}(\bs{r}_{\text{old}})
+\label{eq:slaterratio}
 \end{equation}
-which is very similar to the calculation given in equation \eqref{eq:slaterelementshit}. To calculate the inverse of the matrix, $\hat{D}^{-1}$, efficiently, we need to calculate 
+which is very similar to the calculation given in equation \eqref{eq:slaterelementshit}. To calculate the inverse matrix $\hat{D}^{-1}$ efficiently, we need to calculate
 \begin{equation}
 S_j=\sum_{l=1}^Nd_{il}(\bs{r}_{\text{new}})d_{lj}^{-1}(\bs{r}_{\text{old}})
+\label{eq:slaters}
 \end{equation}
-for all columns but the one associated with the moved particle, $i$. The $j'th$ column of $\hat{D}^{-1}$ is then given by 
+for all columns but the one associated with the moved particle, $i$. For all columns where $j\neq i$, we then find the new elements using
 \begin{equation}
 d_{kj}^{-1}(\bs{r}_{\text{new}})=d_{kj}^{-1}(\bs{r}_{\text{old}})-\frac{S_j}{R}d_{ki}^{-1}(\bs{r}_{\text{old}})
+\label{eq:slaterinverse}
 \end{equation}
-while the remaining column, $i$, is untouched. Those procedures makes the inverting scale as $\mathcal{O}(N^2)$ instead of $\mathcal{O}(N^3)$, which is largely beneficial for large systems \cite{morten_hjorth-jensen_computational_2019}.
+while the remaining column, $i$, is updated using the simple formula \cite{morten_hjorth-jensen_computational_2019}
+\begin{equation}
+d_{ki}^{-1}(\bs{r}_{\text{new}})=\frac{1}{R}d_{ki}^{-1}(\bs{r}_{\text{old}}).
+\label{eq:slaterinverse2}
+\end{equation}
+Those procedures makes the inverting scale as $\mathcal{O}(N^2)$ instead of $\mathcal{O}(N^3)$, which is largely beneficial for large systems.
 
 We assume that we do not have any variational parameter in the Slater determinant, and obtain three expressions of the case when a particle with spin up is moved and three of the case when a particle with spin down is moved. 
 
@@ -451,6 +460,7 @@ We assume that we do not have any variational parameter in the Slater determinan
 \frac{|\hat{D}_{\uparrow}(\bs{r}_{\uparrow}^{\text{new}})|^2}{|\hat{D}_{\uparrow}(\bs{r}_{\uparrow}^{\text{old}})|^2}\\
 \nabla_k\ln|\hat{D}_{\uparrow}(\bs{r}_{\uparrow})|&=\sum_{j=1}^{N_{\uparrow}}\nabla_kd_{jk}(\bs{r}_{\uparrow})d_{kj}^{-1}(\bs{r}_{\uparrow})
 \end{aligned}
+\label{eq:slaterupdateup}
 \end{empheq}
 
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
@@ -464,19 +474,14 @@ We assume that we do not have any variational parameter in the Slater determinan
 
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \nabla^2\ln|\hat{D}(\bs{r})|=\sum_{k=1}^F\bigg[\sum_{j=1}^{F}\nabla_k^2d_{jk}(\bs{r})d_{kj}^{-1}(\bs{r})-\Big(\sum_{j=1}^{F}\nabla_kd_{ik}(\bs{r})d_{ki}^{-1}(\bs{r})\Big)^2\bigg]
+\label{eq:slaterlaplacian}
 \end{empheq}
 
-Before we end this section, the actual implementation of the  will be outlined. In the code, we create a physical Slater matrix, \lstinline{m_slaterMatrix} where all the elements are stored. This matrix contains both $\hat{D}_{\uparrow}$ and $\hat{D}_{\downarrow}$, and has therefore dimensions $N\times N/2$. Furthermore, we store the gradient of the elements with respect to all the $F$ elements in a matrix \lstinline{m_slaterMatrixDer}, which naturally gets the dimensions $F\times N/2$. We also create a matrix \lstinline{m_slaterMatrixSecDer} to store all the Laplacians of the elements which also has the dimensions $F\times N/2$. In all of them, we only need to update a row when a particle is moved, which we have done like this
+We have now presented the theory behind finding the ratio between the new and the old probability and the gradients of the determinant (equation (\ref{eq:slaterupdateup}-\ref{eq:slaterlaplacian})), and we have described how we efficiently can find the inverse of the Slater matrix (equation(\ref{eq:slaterratio}-\ref{eq:slaterinverse2})). However, to make things more clear we will outline some selected parts of the Slater determinant implementation.
 
-\begin{lstlisting}[language=C++]
-void SlaterDeterminant::updateSlaterMatrixRow(const int row)
-{
-	for (int col = 0; col < m_numberOfParticlesHalf; col++) {
-		m_slaterMatrix(row, col) = m_basis->basisElement(col, 
-									m_positions.col(row));
-	}
-}
+In the code, we create a Slater matrix, \lstinline{m_slaterMatrix} where all the elements are stored. This matrix contains both $\hat{D}_{\uparrow}$ and $\hat{D}_{\downarrow}$, and has therefore dimensions $N\times N/2$. Furthermore, we store the gradient of the elements with respect to all the $F$ elements in a matrix \lstinline{m_slaterMatrixDer}, which naturally gets the dimensions $F\times N/2$. We also create a matrix \lstinline{m_slaterMatrixSecDer} to store all the Laplacians of the elements which also has the dimensions $F\times N/2$. In all of them, we only need to update a row when a particle is moved, which makes it quite efficient. The \lstinline{m_slaterMatrixDer} is updated in the following way
 
+\begin{lstlisting}[language={c++},caption={Taken from \lstinline{slaterdeterminant.cpp}.}]
 void SlaterDeterminant::updateSlaterMatrixDerRow(const int row)
 {
 	int particle = int(row / m_numberOfDimensions);
@@ -486,35 +491,65 @@ void SlaterDeterminant::updateSlaterMatrixDerRow(const int row)
 							dimension, m_positions.col(particle));
 	}
 }
+\end{lstlisting}
+where each element is taken from the \lstinline{basisElementDer} function in the \lstinline{Basis} class. This function returns just the derivative of the single particle function called for the chosen basis set. Note also that only the coordinates of the moved particle, stored in a column of the \lstinline{m_positions} matrix, is needed for the update. The update of \lstinline{m_slaterMatrix} and \lstinline{m_slaterMatrixSecDer} are very straight-forward and similar to the example above, so we will not discuss them further.
 
-void SlaterDeterminant::updateSlaterMatrixSecDerRow(const int row)
+Something that might be less intuitive, is how to update the inverse of the Slater matrix. We also store this in a dedicated matrix \lstinline{m_slaterMatrixInverse}, and we use LU decomposition only to initialize it. Thereafter, we use the formulas above to update the inverse. We implement it as
+
+\begin{lstlisting}[language={c++},caption={Taken from \lstinline{slaterdeterminant.cpp}.}]
+void SlaterDeterminant::updateRatio()
 {
-	int particle = int(row / m_numberOfDimensions);
-	int dimension = row % m_numberOfDimensions;
-	for (int col = 0; col < m_numberOfParticlesHalf; col++) {
-		m_slaterMatrixSecDer(row, col) = m_basis->basisElementSecDer(col,
-							dimension, m_positions.col(particle));
+	m_ratio = m_slaterMatrix.row(m_particle) * m_slaterMatrixInverse.col(m_particle);
+}
+
+void SlaterDeterminant::updateSlaterMatrixInverse(int start, int end)
+{
+	updateRatio();
+	for (int j = start; j < m_particle; j++) {
+		double S = m_slaterMatrix.row(m_particle) * m_slaterMatrixInverse.col(j);
+		m_slaterMatrixInverse.col(j) -= S * m_slaterMatrixInverse.col(m_particle) 
+											/ m_ratio;
+	}
+	for (int j = m_particle+1; j < end; j++) {
+		double S = m_slaterMatrix.row(m_particle) * m_slaterMatrixInverse.col(j);
+		m_slaterMatrixInverse.col(j) -= S * m_slaterMatrixInverse.col(m_particle) 
+											/ m_ratio;
+	}
+	m_slaterMatrixInverse.col(m_particle) /= m_ratio;
+}
+\end{lstlisting}
+where \lstinline{m_ratio} is a global variable also returned by the function \lstinline{evaluateRatio} (see section \ref{sec:optimization}). Note that the loops never affect the $i$'th columns, where particle $i$ is moved (in the code denoted by the global variable \lstinline{m_particle}). The arguments to the function \lstinline{updateSlaterMatrixInverse} specify which part of the matrix that should be updated, based on whether the moved particle has spin-up or spin-down.
+
+We will end our discussions of the Slater determinant by presenting the implementation of the gradient and the Laplacian of the logarithm of the determinant. These were decided to be stored in the vectors \lstinline{m_determinantDer} and \lstinline{m_determinantSecDer} for $(\nabla_k|\hat{D}(\bs{r})|)/|\hat{D}(\bs{r})|$ and $(\nabla_k^2|\hat{D}(\bs{r})|)/|\hat{D}(\bs{r})|$ respectively. These vectors are updated using vector operations in the following fashion
+\begin{lstlisting}[language={c++},caption={Taken from \lstinline{slaterdeterminant.cpp}.}]
+void SlaterDeterminant::updateSlaterDeterminantDerivatives(int start, int end)
+{
+	for (int i = start * m_numberOfDimensions; i < end * m_numberOfDimensions; i++) {
+		int particle = int(i / m_numberOfDimensions);
+		m_determinantDer(i) = m_slaterMatrixDer.row(i) 
+		    * m_slaterMatrixInverse.col(particle);
+		m_determinantSecDer(i) = m_slaterMatrixSecDer.row(i)
+			* m_slaterMatrixInverse.col(particle);
 	}
 }
 \end{lstlisting}
-
-
-The first thing we observe, is that the first and second derivatives of the Slater matrix is stored as dedicated matrices, which is computational beneficial but require some memory. In practice, \lstinline{slaterMatrixDer} and \lstinline{slaterMatrixSecDer} are of size $F\times P/2$, while \lstinline{slaterMatrix} is of size $P\times P/2$. We use vector operations when it is possible. For instance, we rather calculate the inner product between two vectors than summarize their elements multiplied. 
+We avoid a double loop by taking a inner product instead. However, we are left with one loop which can also be avoided using smart matrix operations.
 
 \section{Jastrow factor}
+The second main part of the trial wave function is the Jastrow factor, which is meant to take care of the electron-electron correlations. The optimization scheme of this element is not as complex as the Slater determinant, and this section will therefore be notably shorter than the previous. We will first discuss the two Jastrow factors given in section \ref{sec:jastrow}: the simple Jastrow and the Padé-Jastrow factor, and then we loop at how the distance matrix can be updated efficiently. 
 
 \subsection{Simple Jastrow factor}
-The Jastrow factor is introducted in order to take care of the corrolations. Recall the simple Jastrow factor from \eqref{eq:SimpleJastrow},
+Recall the simple Jastrow factor from \eqref{eq:SimpleJastrow},
 \begin{equation}
 \Phi_{sj}(\bs{r};\bs{\beta})=\exp\Big(\sum_{i=1}^N\sum_{j>i}^N\beta_{ij}r_{ij}\Big).
 \end{equation}
 with $N$ as the number of particles, $r_{ij}$ as the distance between particle $i$ and $j$ and $\beta_{ij}$ as variational parameters.
 
-This is relatively easy to work with, but one challenge is that we operate in Cartesian coordinates, while the expressed Jastrow factor obviously is easier to deal with in spherical coordinates. Since we need to differentiate this with respect to all free dimensions, we need to be attentive not confusing the particle indices with the coordinate indices. Let us define $i$ as the coordinate index and $i'$ as the index on the corresponding particle. The relationship between $i$ and $i'$ is \textit{always} $i'=i\setminus D$, where the backslash denotes integer division. The other way around, we have $i=i'+d$ where $d$ is the respective dimension of the coordinate $i$. With that notation, the probability ratio is given by
+This is relatively easy to work with, but one challenge is that we operate in Cartesian coordinates, while the expressed Jastrow factor obviously is easier to deal with in polar coordinates. Since we need to differentiate this with respect to all free dimensions, we need to be attentive not confusing the particle indices with the coordinate indices. Let us reserve $j$ as the coordinate index and $j'$ as the index of the corresponding particle. The relationship between $j$ and $j'$ is \textit{always} $j'=j\setminus D$, where the backslash denotes integer division. The other way around, we have $j=j'+d$ where $d$ is the respective dimension of the coordinate $j$. With that notation, the probability ratio is given by
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \frac{|\Phi_{sj}(\bs{r}_{\text{new}})|^2}{|\Phi_{\text{sj}}(\bs{r}_{\text{old}})|^2}=\exp\Big(2\sum_{j'=1}^N\beta_{i'j'}(r_{i'j'}^{\text{new}}-r_{i'j'}^{\text{old}})\Big)
 \end{empheq}
-The gradient reads
+where $i'$ again is the moved particle. The gradient are straight-forward to find, and reads
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \nabla_k\ln\Phi_{sj}=\sum_{j'=1}^N\frac{\beta_{k'j'}}{r_{k'j'}}(x_k-x_j)
 \end{empheq}
@@ -526,16 +561,16 @@ Finally, the parameter update is given by
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \nabla_{\beta_{m'l'}}\ln\Phi_{sj}=r_{m'l'}.
 \end{empheq}
-For this element, the most important thing we can do to keep the computational cost as low as possible is to reveal that only a row and a column of the distance matrix is changed as we change a coordinate. Updating the entire distance matrix means updating $N^2$ elements, while updating a row and a column means updating $2N$ elements, which is an essential difference for large systems.
+For this element, the most important thing we can do to keep the computational cost as low as possible is to reveal that only a row and a column of the distance matrix is changed as we change a coordinate. Updating the entire distance matrix means updating $N^2$ elements, while updating a row and a column means updating $2N$ elements, which is an essential difference for large systems. This is detailed in section \ref{sec:distancematrix}.
 
 \subsection{The Padé-Jastrow factor}
 The Padé-Jastrow factor is a more complicated Jastrow factor, and was specified in equation \eqref{eq:PadeJastrow}, 
 \begin{equation}
 \Phi_{pj}(\bs{r}; \beta) = \exp\bigg(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij}}\bigg).
 \end{equation}
-where we want to emphasize that $a_{ij}$ is \textit{not} a variational parameter.
+where we want to emphasize that $a_{ij}$ is \textit{not} a variational parameter, but rather constants dependent on the spin of particles $i$ and $j$.
 
-Similarly to the simple Jastrow, we also here need to distinguish between particle indices and coordinate indices because of the radial distances $r_{ij}$. We do the same trick as presented above, and obtain the gradient 
+Similarly to the simple Jastrow, we also here need to distinguish between particle indices and coordinate indices because of the radial distances $r_{ij}$. We do the same trick as presented for the simple Jastrow denoting $j$ as the coordinate index and $j'$ as the particle index, and obtain the gradient 
 \begin{equation}
 \nabla_k\ln\Phi_{pj}=\sum_{j'\neq k'=1}^N\frac{a_{k'j'}}{(1+\beta r_{k'j'})^2}\frac{x_k-x_j}{r_{k'j'}}
 \end{equation}
@@ -562,7 +597,7 @@ The final expressions then read
 \nabla_{\beta}\ln\Phi_{pj}&=-\sum_{l'=1}^N\sum_{j>l}^Na_{l'j'}h_{l'j'}^2
 \end{aligned}
 \end{empheq}
-with marked indices ($i'$) as the particle related ones and the unmarked ($i$) as the coordinate related ones. $i'$ is the moved particle. 
+with marked indices ($j'$) as the particle related ones and the unmarked ($j$) as the coordinate related ones. $i'$ is the moved particle. 
 
 In the same way as for the simple Jastrow, only a row and a column in the distance matrix should be updated for each step. Additionally, implementing the matrices $f_{ij}$, $g_{ij}$ and $h_{ij}$ will give a speed up in combination with vector-matrix operations. 
 
@@ -611,28 +646,32 @@ For systems of non-interacting particles, the distance matrix is redundant, and 
 We also calculate the radial position, when it is required by any part of the code. The components are stored in a vector named \lstinline{radialVector}, applying the same optimization ideas as the distance matrix. 
 
 \section{Sampling} \label{sec:sampling}
+Also when it comes to the sampling itself, there exist optimization schemes to speed-up the process. Remember that the sampling algorithm often is repeated millions of times for each iteration, so even a small impact can give a massive speed-up. 
 \subsection{Brute force sampling}
 \begin{lstlisting}[language=c++,caption={Taken from \lstinline{bruteforce.cpp}.}]
 bool BruteForce::acceptMove()
 {
-	int pRand = m_system->getRandomNumberGenerator()->nextInt(m_degreesOfFreedom);
-	double length = m_system->getRandomNumberGenerator()->nextDouble();
+	int pRand = m_RNG->nextInt(m_degreesOfFreedom);
 
 	m_positionsOld = m_positions;
 	m_radialVectorOld = m_radialVector;
 	m_distanceMatrixOld = m_distanceMatrix;
 
-	m_positions(pRand) = m_positionsOld(pRand) + 10 * (length - 0.5) * m_stepLength;
+	m_positions(pRand) = m_positionsOld(pRand) + (m_RNG->nextDouble() - 0.5)
+					* m_stepLength;
 	if (m_calculateDistanceMatrix) {
 		Metropolis::calculateDistanceMatrixCross(int(pRand / m_numberOfDimensions));
 	}
 	if (m_calculateRadialVector) {
 		Metropolis::calculateRadialVectorElement(int(pRand / m_numberOfDimensions));
 	}
-	m_system->updateAllArrays(m_positions, m_radialVector, m_distanceMatrix, pRand);
+	m_system->updateAllArrays(m_positions,
+	 						  m_radialVector,
+	 						  m_distanceMatrix, 
+	 						  pRand);
 
 	double ratio = m_system->evaluateProbabilityRatio();
-	double r = m_system->getRandomNumberGenerator()->nextDouble();
+	double r = m_RNG->nextDouble();
 	if (ratio < r) {
 		m_positions(pRand) = m_positionsOld(pRand);
 		m_distanceMatrix = m_distanceMatrixOld;
