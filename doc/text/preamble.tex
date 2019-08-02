@@ -79,6 +79,17 @@
 \lstset{literate={~} {$\sim$}{1}}
 \lstset{postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\color{red}\hookrightarrow\space}}}
 \fi
+\lstset{
+	classoffset=1, % starting new class
+	otherkeywords={Eigen},
+	morekeywords={Eigen},
+	keywordstyle=\color{red},
+	%classoffset=2, % starting new class
+	%otherkeywords={MatrixXd, MatrixXi, MatrixX3i, MatrixXf, VectorXd, VectorXi, Index},
+	%morekeywords={MatrixXd, MatrixXi, MatrixX3i, MatrixXf, VectorXd, VectorXi, Index},
+	%keywordstyle=\color{red},
+	classoffset=0,
+}
 
 %tikz
 \setcounter{secnumdepth}{4}

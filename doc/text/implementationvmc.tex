@@ -155,7 +155,7 @@ Eigen::MatrixXd System::getAllParameterGradients()
 \end{lstlisting}
 where \lstinline{m_gradients} has the same number of rows as number of elements and the same number of columns as the maximum number of parameters in an element. The function \lstinline{computeParameterGradient()} returns a vector with all the gradients $\nabla_{\theta_j}\ln\Phi_i(\bs{r})$ of the respective element. Even though the gradients are used to update the parameters, we will postpone the discussion of the parameter update to section \ref{sec:update}.
 
-\subsection{Optimizations} \label{sec:optimization}
+\subsection{Probability ratio} \label{sec:probabilityratio}
 How much a wave function element can be optimized heavily depends on the specific form of the element. For instance, sometimes the previous and present $\nabla_k\ln\Phi_i$ are closely related, and only differ from each other by a factor, while for some other elements they are not related at all. Those subjective optimizations will therefore be described when presenting each wave function element. 
 
 However, there are still optimizations that apply to all elements and give great speed-up. An example is when calculating the ratio between the previous and present wave functions squared for all wave function elements instead of the wave function itself. Firstly, this is usually cheaper to calculate than the wave function itself because we are working in the logarithm space. Secondly, the ratio is actually what we use in the sampling, so it is a natural thing to calculate. The total probability ratio is just the product of all the probability ratios
@@ -545,15 +545,15 @@ Recall the simple Jastrow factor from \eqref{eq:SimpleJastrow},
 \end{equation}
 with $N$ as the number of particles, $r_{ij}$ as the distance between particle $i$ and $j$ and $\beta_{ij}$ as variational parameters.
 
-This is relatively easy to work with, but one challenge is that we operate in Cartesian coordinates, while the expressed Jastrow factor obviously is easier to deal with in polar coordinates. Since we need to differentiate this with respect to all free dimensions, we need to be attentive not confusing the particle indices with the coordinate indices. Let us reserve $j$ as the coordinate index and $j'$ as the index of the corresponding particle. The relationship between $j$ and $j'$ is \textit{always} $j'=j\setminus D$, where the backslash denotes integer division. The other way around, we have $j=j'+d$ where $d$ is the respective dimension of the coordinate $j$. With that notation, the probability ratio is given by
+This is a quite simple element, but one challenge is that we operate in Cartesian coordinates, while the expressed Jastrow factor obviously is easier to deal with in polar coordinates. Since we need to differentiate this with respect to all degrees of freedom, we need to be attentive not confusing the particle indices with the coordinate indices. Let us reserve $j$ as the coordinate index and $j'$ as the index of the corresponding particle. The relationship between $j$ and $j'$ is \textit{always} $j'=j\setminus D$, where the backslash denotes integer division. The other way around, we have $j=j'+d$ where $d$ is the respective dimension of the coordinate $j$. With that notation, the probability ratio is given by
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \frac{|\Phi_{sj}(\bs{r}_{\text{new}})|^2}{|\Phi_{\text{sj}}(\bs{r}_{\text{old}})|^2}=\exp\Big(2\sum_{j'=1}^N\beta_{i'j'}(r_{i'j'}^{\text{new}}-r_{i'j'}^{\text{old}})\Big)
 \end{empheq}
-where $i'$ again is the moved particle. The gradient are straight-forward to find, and reads
+where $i'$ again is the moved particle. The gradient is straight-forward to find, and reads
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \nabla_k\ln\Phi_{sj}=\sum_{j'=1}^N\frac{\beta_{k'j'}}{r_{k'j'}}(x_k-x_j)
 \end{empheq}
-where $j$ is related to the same dimension as $k$. This also applies for the Laplacian,
+where $j$ is related to the same dimension as $k$. Here we use $x_j$ as a general coordinate, no matter whether it is associated with the x-direction or not. This also applies for the Laplacian,
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \nabla^2\ln\Phi_{sj}=\sum_{k=1}^{F}\sum_{j'=1}^N\frac{\beta_{k'j'}}{r_{k'j'}}\Big(1-\frac{(x_k-x_j)^2}{r_{k'j'}^2}\Big).
 \end{empheq}
@@ -563,12 +563,35 @@ Finally, the parameter update is given by
 \end{empheq}
 For this element, the most important thing we can do to keep the computational cost as low as possible is to reveal that only a row and a column of the distance matrix is changed as we change a coordinate. Updating the entire distance matrix means updating $N^2$ elements, while updating a row and a column means updating $2N$ elements, which is an essential difference for large systems. This is detailed in section \ref{sec:distancematrix}.
 
+In the implementation of the simple Jastrow, there are some possible optimization we can do. We observe that the factor $(x_k-x_j)/r_{k'j'}$ is repeated several times, which can be stored in a $F\times F$ matrix. However, most of the elements in the matrix storing distances along the principal axis, \lstinline{m_principalDistance}, are zero and only $F$ of the elements contribute. This is because the components $x_k$ and $x_j$ associated with different dimensions are automatically set to zero. 
+
+By revealing that only $2(N-1)$ of the elements are changed when a particle is moved, we can therefore perform the update very efficiently. The update of the matrix looks like
+\begin{lstlisting}[language={c++},caption={Taken from \lstinline{simplejastrow.cpp}.}]
+void SimpleJastrow::updatePrincipalDistance(int i)
+{
+	int i_d = i % m_numberOfDimensions;
+	for (int j_p = 0; j_p < m_particle; j_p++) {
+		int j = i_d + j_p * m_numberOfDimensions;
+		m_principalDistance(i, j) = (m_positions(i) - m_positions(j))
+									/ m_distanceMatrix(m_particle, j_p);
+		m_principalDistance(j, i) = -m_principalDistance(i, j_p);
+	}
+	for (int j_p = m_particle + 1; j_p < m_numberOfParticles; j_p++) {
+		int j = i_d + j_p * m_numberOfDimensions;
+		m_principalDistance(i, j) = (m_positions(i) - m_positions(j))
+									/ m_distanceMatrix(m_particle, j_p);
+		m_principalDistance(j, i) = -m_principalDistance(i, j_p);
+	}
+}
+\end{lstlisting}
+where \lstinline{i} is the changed index and \lstinline{i_d} is the dimension associated with the changed index. Similarly, the loop goes over the particles \lstinline{j_p} with the associated coordinate \lstinline{j}. Note that we split the loop in two parts to avoid calculating the distance from a particle to itself. This trick is also done in many of the other functions in the simple Jastrow class, and also in the Padé-Jastrow factor class. 
+
 \subsection{The Padé-Jastrow factor}
 The Padé-Jastrow factor is a more complicated Jastrow factor, and was specified in equation \eqref{eq:PadeJastrow}, 
 \begin{equation}
 \Phi_{pj}(\bs{r}; \beta) = \exp\bigg(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij}}\bigg).
 \end{equation}
-where we want to emphasize that $a_{ij}$ is \textit{not} a variational parameter, but rather constants dependent on the spin of particles $i$ and $j$.
+where $\beta$ is a variational parameter and the $a_{ij}$ is \textbf{not} a variational parameter, but rather constants dependent on the spin of particles $i$ and $j$.
 
 Similarly to the simple Jastrow, we also here need to distinguish between particle indices and coordinate indices because of the radial distances $r_{ij}$. We do the same trick as presented for the simple Jastrow denoting $j$ as the coordinate index and $j'$ as the particle index, and obtain the gradient 
 \begin{equation}
@@ -602,7 +625,7 @@ with marked indices ($j'$) as the particle related ones and the unmarked ($j$) a
 In the same way as for the simple Jastrow, only a row and a column in the distance matrix should be updated for each step. Additionally, implementing the matrices $f_{ij}$, $g_{ij}$ and $h_{ij}$ will give a speed up in combination with vector-matrix operations. 
 
 \subsection{Updating the distance matrix} \label{sec:distancematrix}
-The distance matrix, which is used in the Jastrow factors, gives an illustrating example how we can avoid repeating calculations. The matrix, henceforth named $M$, contains the relative distances between all the particles, for three particles given by
+The distance matrix, which is used in the Jastrow factors, gives an illustrating example on how we can avoid repeating calculations. The matrix, henceforth named $M$, contains the relative distances between all the particles, for three particles given by
 \begin{eqnarray}
 M=
 \begin{pmatrix}
@@ -617,9 +640,9 @@ r_{12} & 0 & r_{23} \\
 r_{13} & r_{23} & 0
 \end{pmatrix}
 \end{eqnarray}
-where $r_{ij}$ means the distance between particles $i$ and $j$. Since $r_{ij}=r_{ji}$ and $r_{ii}=0$, the matrix becomes symmetric with zeros on the diagonal, which means that we only need to calculate $N(N-1)/2$ elements instead of $N^2$. Further, we can exploit that only a particle is moved at a time, which means that only a row and a column are changed when a particle is moved. For instance, if particle 1 is moved, the upper row and the left-hand-side column in matrix $M$ need to be updated. In our program, we have implemented this in the following way
+where $r_{ij}$ means the distance between particles $i$ and $j$. Since $r_{ij}=r_{ji}$ and $r_{ii}=0$, the matrix becomes symmetric with zeros on the diagonal, which means that we only need to calculate $N(N-1)/2$ elements instead of $N^2$. Further, we can utilize that only a particle is moved at a time, which means that only a row and a column are changed when a particle is moved. For instance, if particle 1 is moved, the upper row and the left-hand-side column in matrix $M$ need to be updated. In our program, we have implemented this in the following way
 \lstset{basicstyle=\scriptsize}
-\begin{lstlisting}[language=c++,caption={When a particle is moved, we update a row and a column in the distance matrix. The functions are parts of the Metropolis class, as the distance matrix is updated for every step in the Metropolis sampling. Taken from \lstinline{metropolis.cpp}.}]
+\begin{lstlisting}[language=c++,caption={Taken from \lstinline{metropolis.cpp}.}]
 double Metropolis::calculateDistanceMatrixElement(const int i, const int j) 
 {
 	double dist = 0;
@@ -643,47 +666,51 @@ where the function \lstinline{calculateDistanceMatrixElement(i,j)} returns eleme
 
 For systems of non-interacting particles, the distance matrix is redundant, and should therefore not be calculated. We have solved this by giving all the wave function elements and the Hamiltonians a number which indicated whether they require the distance matrix or not, as mentioned above. If no part of the code needs the distance matrix, it is never calculated. 
 
-We also calculate the radial position, when it is required by any part of the code. The components are stored in a vector named \lstinline{radialVector}, applying the same optimization ideas as the distance matrix. 
+We also calculate the radial position globally when it is required by any part of the code. The components are stored in a vector named \lstinline{radialVector}, applying the same optimization ideas as the distance matrix. 
 
 \section{Sampling} \label{sec:sampling}
-Also when it comes to the sampling itself, there exist optimization schemes to speed-up the process. Remember that the sampling algorithm often is repeated millions of times for each iteration, so even a small impact can give a massive speed-up. 
+Also when it comes to the sampling itself, there exist optimization schemes to speed-up the process. Remember that the sampling algorithm often is repeated millions of times for each iteration, so even a small impact can give a massive speed-up. We will initially present the brute force sampling implementation in its entirety, before we move on to the importance sampling implementation. For the latter, we will discuss the optimization possibilities and connect them to the actual implementation.
+
 \subsection{Brute force sampling}
+The brute force sampling was introduced in section \ref{sec:bruteforce}, and is the most basic sampling method implemented. The sampling function \lstinline{BruteForce::acceptMove}, which returns true if the move is accepted, is implemented as
+
 \begin{lstlisting}[language=c++,caption={Taken from \lstinline{bruteforce.cpp}.}]
 bool BruteForce::acceptMove()
 {
-	int pRand = m_RNG->nextInt(m_degreesOfFreedom);
+	int i = m_RNG->nextInt(m_degreesOfFreedom);
 
 	m_positionsOld = m_positions;
 	m_radialVectorOld = m_radialVector;
 	m_distanceMatrixOld = m_distanceMatrix;
 
-	m_positions(pRand) = m_positionsOld(pRand) + (m_RNG->nextDouble() - 0.5)
-					* m_stepLength;
+	m_positions(i) += (m_RNG->nextDouble() - 0.5) * m_stepLength;
 	if (m_calculateDistanceMatrix) {
-		Metropolis::calculateDistanceMatrixCross(int(pRand / m_numberOfDimensions));
+		Metropolis::calculateDistanceMatrixCross(int(i / m_numberOfDimensions));
 	}
 	if (m_calculateRadialVector) {
-		Metropolis::calculateRadialVectorElement(int(pRand / m_numberOfDimensions));
+		Metropolis::calculateRadialVectorElement(int(i / m_numberOfDimensions));
 	}
-	m_system->updateAllArrays(m_positions,
-	 						  m_radialVector,
-	 						  m_distanceMatrix, 
-	 						  pRand);
+	m_system->updateAllArrays(m_positions, m_radialVector, m_distanceMatrix, i);
 
-	double ratio = m_system->evaluateProbabilityRatio();
-	double r = m_RNG->nextDouble();
-	if (ratio < r) {
-		m_positions(pRand) = m_positionsOld(pRand);
+	double p = m_system->evaluateProbabilityRatio();
+	if (p < m_RNG->nextDouble()) {
+		m_positions = m_positionsOld;
 		m_distanceMatrix = m_distanceMatrixOld;
 		m_radialVector = m_radialVectorOld;
 		m_system->resetAllArrays();
 		return false;
 	}
-	return true;
+return true;
 }
 \end{lstlisting}
 
+where \lstinline|i| is the changed coordinate which is drawn from the random number generator \lstinline|m_RNG|. Initially the old positions, radial vector and distance matrix are stored in case the move is rejected, and then a new move is proposed in positive or negative direction. If the radial vector or distance matrix (or both) are needed somewhere in the code, they are updated in this function, using the ideas and implementation presented in section \ref{sec:distancematrix}. The they are distributed to the wave function elements using the function \lstinline|updateAllArrays|.
+
+In the end, the probability ratio is evaluated using the function \lstinline|evaluateProbabilityRatio| presented in section \ref{sec:probabilityratio}. If this ratio is larger than a random number between 0 and 1, the move is accepted, and otherwise we set all the arrays back to the old one (also the ones in the wave function elements). 
+
 \subsection{Importance sampling}
+The importance sampling algorithm is 
+
 As a summary, we set up the actual algorithm, known as Metropolis-Hasting's algorithm, see algorithm \eqref{alg:hastings}. We write the position update in a general form, where we allow updating all the particles at the same time. However, often one ends up moving only a particle at each time step, as this make some advantageous optimization schemes possible. These optimization opportunities will be discussed in chapter \ref{chp:WFE}.
 
 The ratio between the new and old Green's function can be expressed in the elegant form 
@@ -697,6 +724,7 @@ p(\bs{r}',\bs{r})\equiv\frac{P(\bs{r}')}{P(\bs{r})}=\frac{|\Psi_T(\bs{r}')|^2}{|
 \end{equation}
 and in chapter \ref{chp:WFE} we find closed-form expressions of all the wave function elements of interest, including the elements based on restricted Boltzmann machines. Additionally, closed-form expressions of $\nabla\ln\Psi_T(\bs{r})$ are found, which are vital in the quantum force computations as well as the kinetic energy computations. 
 
+\iffalse
 \IncMargin{1em}
 \begin{algorithm}
 	\SetAlgoLined
@@ -733,6 +761,7 @@ and in chapter \ref{chp:WFE} we find closed-form expressions of all the wave fun
 	\caption{The Metropolis-Hastings algorithm. The positions are initialized randomly or was chosen by a previous sampling. The parameters are also usually initialized randomly or chosen by a parameter update. The Green's function ratio, $g$, can be evaluated efficiently using equation \eqref{eq:greensratio}, and the probability ratio $p$ can also often be found in a simple closed-form expression. The diffusion constant is $D=1/2$ in natural units. $\bs{\chi}$ is a random Gaussian variable. For more information, see section \ref{sec:importancesampling}}.
 	\label{alg:hastings}
 \end{algorithm}\DecMargin{1em}
+\fi
 
 \begin{lstlisting}[language=c++,caption={Taken from \lstinline{importancesampling.cpp}.}]
 double ImportanceSampling::QuantumForce(const int i)
@@ -761,10 +790,12 @@ double ImportanceSampling::GreenFuncSum()
 \end{lstlisting}
 
 \section{Update of parameters} \label{sec:update}
-Since these operations are outside the sampling, we do not care so much about the efficiency. 
+The parameter update is a central part of a VMC implementation, and a good VMC implementation requires a good optimization algorithm. However, since the optimization functions are called outside the sampling, they are just called a fraction number of times, compared to the function called from the sampling. Therefore, we will not put too much effort in making them efficient, but they should still be slightly thought-through. We will here discuss the gradient descent method with momentum and monotonic decaying step, and the ADAM optimizer. 
+
+The Optimizer class contains a pure virtual function \lstinline|updateParameters| which is thus forced to be included in the optimizer subclasses. This function returns the update of the new parameters, and is the function we will discuss in this section.
 
 \subsection{Gradient descent}
-Gradient descent method with momentum and monotonic adaptivity.
+Gradient descent is a simple optimization algorithm, and so is the implementation. Based on the theory presented in section \ref{sec:gd}, the implementation is really straight-forward and reads
 \begin{lstlisting}[language=c++,caption={Taken from \lstinline{gradientdescent.cpp}.}]
 Eigen::MatrixXd GradientDescent::updateParameters()
 {
@@ -774,8 +805,10 @@ Eigen::MatrixXd GradientDescent::updateParameters()
 	return m_v;
 }
 \end{lstlisting}
+where \lstinline|m_v| is the momentum vector and \lstinline|m_monotonicExp| describes how fast the rate should decrease. Further, the \lstinline|m_gamma| is the momentum parameter defining the relative size of the momentum. The function \lstinline|Optimization::getEnergyGradient| returns a matrix with the gradients of the energy expectation value with respect to all the parameters, given in equation \eqref{eq:gradientenergy}.
 
 \subsection{ADAM optimizer}
+The ADAM optimizer implementation also is very straight-forwardly based on the algorithm given in section \ref{sec:adam}. The momentum vectors were actually implemented as matrices to match the dimensions of the parameter matrix. By matrix operations we could also have made the function really fast, but since that is not the aim here, we decided to keep the loops in order to make the code legible. The implementation looks like:
 \begin{lstlisting}[language=c++,caption={Taken from \lstinline{adam.cpp}.}]
 Eigen::MatrixXd ADAM::updateParameters()
 {
@@ -793,3 +826,59 @@ Eigen::MatrixXd ADAM::updateParameters()
 	return m_theta;
 }
 \end{lstlisting}
+
+The parameter matrix, named \lstinline|m_parameters|, can then easily be updated by the code
+\begin{lstlisting}[language=c++,caption={Taken from \lstinline{system.cpp}.}]
+if (m_myRank == 0) {
+	m_sampler->computeAverages();
+	m_parameters -= m_optimization->updateParameters();
+}
+\end{lstlisting}
+where \lstinline|m_optimization| is the specified optimizer and \lstinline|m_myrank| is the \textit{rank} of the process. Parallel processing is not discussed yet, but we will describe it briefly in the following section.
+
+\section{Parallel processing}
+The code was parallelized using MPI to make it possible to study large systems. This means that the code can run multiple parallel treads and in that manner utilize the processors. Most notably, this allows us to run on computer clusters which typically .. We will not explain how MPI works in detail, nor will we detail the implementation of MPI since the commands are distribution over the entire code. The thing we present, is a sketch of the idea behind the parallelization used for our particular code.
+
+Actually, one of the things that makes VMC preferred over other many-body methods, is that the algorithm quite easy can be split into independent parts, which encourages parallelization. The entire sampling can actually be split into as many parallel processes as needed, such that the code can be run on an arbitrary number of CPUs. 
+
+We typically distinguish between wall clock time, $t_{clock}$ and CPU time $t_{cpu}$ where the former is the time measured by a clock and the latter is the total computation time from all the CPUs. The speed-up will in general not be 100\%, i.e., $t_{clock}\neq t_{cpu}/N$ with $N$ as the number of processes, mainly because all of the samplings should have the same burn-in period as if we only run one process, but also because the code that is not part of the sampling cannot be parallelized and needs to be run on a CPU. The process that takes care of this part is the main process with rank 0.
+
+\IncMargin{1em}
+\begin{algorithm}
+	\SetAlgoLined
+	MPI\_Init() (Initialize MPI)\;
+	\While{not converged}{
+		$E_L=0$\;
+		gradient$=0$\;
+		Egradient$=0$\;
+		\For{$i\leftarrow 1$ \KwTo $M$}{
+			$E_L+=(\hat{\mathcal{H}}\Psi)/\Psi$\;
+			gradient$+=\nabla_{\theta}\ln\Psi$\;
+			Egradient$+=(\hat{\mathcal{H}}\Psi)/\Psi*\nabla_{\theta}\ln\Psi$\;
+		}
+		\If{something goes wrong}{
+			MPI\_Abort() (Abort all processes)\;
+		}
+		MPI\_Barrier() (Align processes)\;
+		MPI\_Reduce($E_L$, gradients, Egradients) (Collect cumulative values)\;
+		\If{myrank==0}{
+			$\overline{E}_L = E_L/M$\;
+			$\overline{\text{gradient}}=\text{gradient}/M$\;
+			$\overline{\text{Egradient}}=\text{gradient}/M$\;
+			$G=2*(\overline{\text{Egradient}}-\overline{E}_L*\overline{\text{Egradient}})$\;
+			$\theta-=\eta G$\;
+		}
+		MPI\_Bcast($\theta$) (Broadcast parameters)\;
+	}
+	MPI\_Finalize() (Finalize MPI)\;
+	\KwResult{Optimal variational parameters $\theta$.}
+	\caption{Sketch of the parallelization.}
+	\label{alg:mpi}
+\end{algorithm}\DecMargin{1em}
+
+In algorithm \ref{alg:mpi}, we have sketch very roughly how the parallelization goes. We first run the entire sampling individually for all the $N$ processes. If something goes wrong, we call the \lstinline|MPI_Abort| function. To align the processes before we collect all the cumulative values, we use the function \lstinline|MPI_Barrier| and we use \lstinline|MPI_Reduce| for the actual collection. Thereafter, the average energies are calculated \textit{by the main process only}, and in the end the updated parameters are broadcast to all the other processes. Note that this is just a sketch where we avoid the arguments and the actual implementation of the MPI functions. This is naturally found in the code. 
+
+\section{Random number generator}
+In Monte Carlo integration, we are dependent on random numbers which we get from a random number generator (RNG). The RNG should have to main properties: It should give many independent uncorrelated random numbers and it should be fast. The former depends on the \textit{period} of the RNG, where a long period gives many independent numbers. 
+
+In this work, we have used the mersenne twister random number generator, as it has a period of $2^{19937}-1$ which is known as the Mersenne prime. This is a incredible large number, and should be more than sufficient for our purpose. We use built-in package in C++, \lstinline|std::mt19937|, which also is quite fast.
