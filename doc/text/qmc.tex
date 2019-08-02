@@ -105,7 +105,7 @@ A(\bs{r}',\bs{r})=\text{min }\left[1,\frac{T(\bs{r}|\bs{r}')P(\bs{r}')}{T(\bs{r}
 \end{equation}
 since $A$ cannot be larger than 1. We want to accept a move with probability $A(\bs{r}',\bs{r})$. One way to do that is to draw a number from a uniform distribution between 0 and 1. If this number is lower than the acceptance, the move should be accepted. Otherwise it will be rejected.
 
-\subsection{Brute-force sampling}
+\subsection{Brute-force sampling} \label{sec:bruteforce}
 In its simplest form, the move is proposed randomly both in magnitude and direction. Mathematically, we can write this as
 \begin{equation}
 \bs{r}'=\bs{r}+\Delta xd\bs{r}
@@ -211,6 +211,7 @@ However, we need to define a cost function for VMC which is minimized when the g
 since we get the expectation value of the local energy from the Metropolis sampling. Further, we use the definition of the gradient of an expectation value and obtain
 \begin{equation}
 \nabla_{\theta_j} \langle E_L\rangle=2\Big(\langle E_L\nabla_{\theta_j}\ln\Psi_T\rangle - \langle E_L\rangle\langle\nabla_{\theta_j}\ln\Psi_T\rangle\Big)
+\label{eq:gradientenergy}
 \end{equation}
 which means that we need to calculate the expectation values $\langle E_L\nabla_{\theta_j}\ln\Psi_T\rangle$ and $\langle\nabla_{\theta_j}\ln\Psi_T\rangle$ in addition to the expectation value of the local energy. Those expectation values are found from the integrals
 \begin{equation}
