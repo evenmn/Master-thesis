@@ -1,13 +1,11 @@
 \chapter{Implementation: Restricted Boltzmann machines} \label{chp:rbmimplementation}
-
-\subsection{Restricted Boltzmann machine}
 Now over to the real deal; the wave function elements inspired by machine learning. The marginal distribution of the visible nodes of a restricted Boltzmann machine was presented in equation \eqref{eq:RBMWF2}. By defining the wave function as this marginal distribution, we have
 \begin{equation}
 \psi_{rbm}(\bs{x};\bs{a},\bs{b},\bs{w})=\exp\Big(-\sum_{i=1}^{F}\frac{(x_i-a_i)^2}{2\sigma^2}\Big)\prod_{j=1}^H\bigg(1+\exp\Big(b_j+\sum_{i=1}^{F}\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg),
 \end{equation}
 which contains a Gaussian part and a product part. In order to minimize the complexity of each wave function element, we decided to split it up in the code and they will therefore be presented separately below. The first part will henceforth be denoted as the RBM-Gaussian, while the last part will be denoted as the RBM-Product. 
 
-\subsubsection{RBM-Gaussian}
+\section{RBM-Gaussian}
 The RBM-Gaussian reads
 \begin{equation}
 \psi_{rg}(\bs{x};\bs{a})=\exp(-\sum_{i=1}^{F}\frac{(x_i-a_i)^2}{2\sigma^2})
@@ -26,7 +24,7 @@ The derivatives of the RBM-Gaussian are similar to those of the simple Gaussian,
 \end{aligned}
 \end{empheq}
 
-\subsubsection{RBM-product}
+\section{RBM-product}
 The RBM product is the last part of \eqref{eq:RBMWF2}, and is thus given by
 \begin{equation}
 \psi_{rp}(\bs{x};\bs{b},\bs{w})=\prod_{j=1}^H\bigg[1+\exp\Big(b_j+\sum_{i=1}^{F}\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg].
@@ -74,7 +72,7 @@ m_gradients.head(m_numberOfHiddenNodes) = m_n;
 \end{lstlisting}
 There the linear algebra package Eigen is used for the matrix-vector operations, and \lstinline{m_gradients} consists of all the derivatives with respect to the parameters.
 
-\subsection{Partly restricted Boltzmann machine}
+\section{Partly restricted Boltzmann machine}
 For the partly restricted Boltzmann machine given in equation \eqref{eq:PRBMWF}, we observe that the only difference from a standard Boltzmann machine is the factor 
 \begin{equation}
 \psi_{pr}=\exp\Big(\sum_{i=1}^{F}\sum_{j=1}^{F}x_ic_{ij}x_j\Big)
@@ -88,4 +86,6 @@ which we can threaten separately. We end up with the expressions
 \nabla_{c_{ml}}\ln\psi_{pr}&=x_mx_l
 \end{aligned}
 \end{empheq}
-where $x_i$ is the changed coordinated. Also here can we use vectorization to speed-up the computations. 
+where $x_i$ is the changed coordinated. Also here can we use vectorization to speed-up the computations.
+
+\section{Deep restricted Boltzmann machine}
