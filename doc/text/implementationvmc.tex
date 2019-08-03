@@ -30,7 +30,7 @@ How we work to achieve the goals will be illustrated by code mainly picked from 
 \section{Flexibility and legibility}
 We have done several things in order to keep the code as legible as possible. Firstly, the code was written in an object orientated scheme which makes it more intuitive to a human as discussed in chapter \ref{chp:scientificprogramming}. Actually, the Hamiltonians, optimizers, wave functions, sampling methods and even the random number generator were treated as objects, making the code more or less as object orientated as possible. This makes it also easier to define a system, since we simply can set the preferred object. Below, we define a two-dimensional quantum dot system of 6 electrons with frequency $\omega=1.0$, learning rate $\eta=0.1$, number of Metropolis cycles $M=2^{20}=1048576$ and max number of iterations set to 1000.
 
-\begin{lstlisting}[language={C++}]
+\begin{lstlisting}[language={C++}, caption={Example on how a quantum dot system can be initialized.}, label={lst:qd}]
 System *QD = new System();
 
 QD->setNumberOfDimensions(2);
@@ -326,9 +326,8 @@ double Gaussian::computeLaplacian()
 
 Eigen::VectorXd Gaussian::computeParameterGradient()
 {
-	Eigen::VectorXd gradients = Eigen::VectorXd::Zero(m_maxParameters);
-	gradients(0) = -0.5 * m_omega * m_positions.cwiseAbs2().sum();
-	return gradients;
+	m_gradients(0) = -0.5 * m_omega * m_positions.cwiseAbs2().sum();
+	return m_gradients;
 }
 \end{lstlisting}
 where the probability ratio is calculated using

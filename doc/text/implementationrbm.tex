@@ -25,23 +25,36 @@ and is really similar to the simple Gaussian presented in section \ref{sec:simpl
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \label{eq:NQSGaussian}
 \begin{aligned}
-\frac{|\psi_{rg}(\bs{x}_{\text{new}})|^2}{|\psi_{rg}(\bs{x}_{\text{old}})|^2}&=\exp\bigg(\frac{(x_i^{\text{old}}-a_i)^2-(x_i^{\text{new}}-a_i)^2}{2\sigma^2}\bigg)\\
-\nabla_k\ln\psi_{\text{rg}} &= -\frac{x_k-a_k}{\sigma^2}\\
-\nabla_k^2\ln\psi_{\text{rg}}&=-\frac{1}{\sigma^2}\\
-\nabla_{\alpha_l}\ln\psi_{\text{rg}} &= \frac{x_l-a_l}{\sigma^2}.
+\frac{|\Phi_{rg}(\bs{x}_{\text{new}})|^2}{|\Phi_{rg}(\bs{x}_{\text{old}})|^2}&=\exp\bigg(\frac{(x_i^{\text{old}}-a_i)^2-(x_i^{\text{new}}-a_i)^2}{2\sigma^2}\bigg)\\
+\nabla_k\ln\Phi_{\text{rg}} &= -\frac{x_k-a_k}{\sigma^2}\\
+\nabla_k^2\ln\Phi_{\text{rg}}&=-\frac{1}{\sigma^2}\\
+\nabla_{\alpha_l}\ln\Phi_{\text{rg}} &= \frac{x_l-a_l}{\sigma^2}.
 \end{aligned}
 \end{empheq}
 
-An obvious optimization concerning this element, is that we can introduce a vector $\bs{v}=\bs{x}-\bs{a}$, which we deal with instead of the position vector $\bs{x}$ and the parameter vector $\bs{a}$. h
+An obvious optimization concerning this element, is that we can introduce a vector $\bs{xa}=\bs{x}-\bs{a}$, which we deal with instead of the position vector $\bs{x}$ and the parameter vector $\bs{a}$. We update the arrays using the pure virtual function \lstinline|updateArrays|, which looks like
+\begin{lstlisting}[language={c++},caption={Taken from \lstinline|rbmgaussian.cpp|.}]
+void RBMGaussian::updateArrays(const Eigen::VectorXd positions,
+							   const Eigen::VectorXd radialVector,
+							   const Eigen::MatrixXd distanceMatrix,
+							   const int i)
+{
+	m_positions = positions;
+	m_Xa = positions - m_a;
+	double expDiff = m_XaOld(i) * m_XaOld(i) - m_Xa(i) * m_Xa(i);
+	m_probabilityRatio = exp(expDiff / (2 * m_sigmaSqrd));
+}
+\end{lstlisting}
+We see that the vector \lstinline|m_Xa| is declared globally, such that it can be used also in the gradients of the element. \lstinline|i| is again the updated coordinate. 
 
 \subsection{RBM-product}
 The RBM product is the last part of \eqref{eq:RBMWF2}, and is thus given by
 \begin{equation}
-\psi_{rp}(\bs{x};\bs{b},\bs{w})=\prod_{j=1}^H\bigg[1+\exp\Big(b_j+\sum_{i=1}^{F}\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg].
+\Phi_{rp}(\bs{x};\bs{b},\bs{w})=\prod_{j=1}^H\bigg[1+\exp\Big(b_j+\sum_{i=1}^{F}\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg].
 \end{equation}
 In appendix \ref{app:rbmderive}, section \eqref{sec:derivatives}, a general Gaussian-binary RBM product on the form
 \begin{equation}
-\psi(\bs{x};\bs{\theta})=\prod_{j=1}^H\bigg[1+\exp\Big(f_j(\bs{x};\bs{\theta})\Big)\bigg]
+\Phi(\bs{x};\bs{\theta})=\prod_{j=1}^H\bigg[1+\exp\Big(f_j(\bs{x};\bs{\theta})\Big)\bigg]
 \end{equation}
 is differentiated, which for this element corresponds to setting $f_j=b_j+\bs{w}_j^T\bs{x}/\sigma^2$. As we further claim, the only expressions that need to be calculated are $\nabla_k(f_j)$, $\nabla_k^2(f_j)$ and $\partial_{\theta_i}(f_j)$ for all the coordinates $k$ and all the parameters $\theta_i$. They can easily be found to be 
 \begin{equation}
@@ -59,41 +72,51 @@ n_j(x)=\frac{1}{1+\exp(-x)}\quad\wedge\quad p_j(x)=n_j(-x)=\frac{1}{1+\exp(x)}
 we can express the required derivatives in the following fashion
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \begin{aligned}
-\frac{|\psi_{rp}(\bs{x}_{\text{new}})|^2}{|\psi_{\text{rp}}(\bs{x}_{\text{old}})|^2}&=\prod_{j=1}^H\frac{p_j(\bs{x}_{\text{old}})^2}{p_j(\bs{x}_{\text{new}})^2}\\
-\nabla_k\ln\psi_{rp} &=\sum_{j=1}^H\frac{w_{kj}}{\sigma^2}n_j\\
-\nabla_k^2\ln\psi_{rp} &= \sum_{j=1}^H\frac{w_{kj}^2}{\sigma^4}p_jn_j\\
-\nabla_{b_l}\ln\psi_{rp}&=n_l\\
-\nabla_{w_{ml}}\ln\psi_{rp}&=\frac{x_mn_l}{\sigma^2}.
+\frac{|\Phi_{rp}(\bs{x}_{\text{new}})|^2}{|\Phi_{\text{rp}}(\bs{x}_{\text{old}})|^2}&=\prod_{j=1}^H\frac{p_j(\bs{x}_{\text{old}})^2}{p_j(\bs{x}_{\text{new}})^2}\\
+\nabla_k\ln\Phi_{rp} &=\sum_{j=1}^H\frac{w_{kj}}{\sigma^2}n_j\\
+\nabla_k^2\ln\Phi_{rp} &= \sum_{j=1}^H\frac{w_{kj}^2}{\sigma^4}p_jn_j\\
+\nabla_{b_l}\ln\Phi_{rp}&=n_l\\
+\nabla_{w_{ml}}\ln\Phi_{rp}&=\frac{x_mn_l}{\sigma^2}.
 \end{aligned}
 \end{empheq}
-This is the same result as obtained for the gradient of the log-likelihood function presented in chapter \ref{chp:machinelearning}. In this element, there are plenty of optimization possibilities. By revealing that some sums are vector products, we can get a significant speed-up. Instead of presenting the vectorized expressions, we will present how the elements actually are implemented.
-\lstset{basicstyle=\scriptsize}
-\begin{lstlisting}[language=c++]
-double prod =  m_pOld.prod() / m_p.prod();
-m_probabilityRatio  = prod * prod;
+This is the same result as obtained for the gradient of the log-likelihood function presented in chapter \ref{chp:machinelearning}. In this element, there are plenty of optimization possibilities. By revealing that some sums are vector products, we can get a significant speed-up. Firstly, we will define a vector 
+\begin{equation}
+\bs{v}=\bs{b}+\frac{\bs{w}^T\bs{x}}{\sigma^2}
+\end{equation}
+which is what we above have called $\bs{f}(\bs{x};\bs{\theta})$. Thereafter, we define the vectors $\bs{n}$ and $\bs{p}$ as described above. These vectors are declared as \lstinline|m_v|, \lstinline|m_n| and \lstinline|m_p| respectively, and are initialized and updated using the function \lstinline|updateVectors| in the following way
 
-m_gradient = double(m_W.row(k) * m_n) / m_sigmaSqrd;
-
-m_laplacian = (m_w.cwiseAbs2() * m_p.cwiseProd(m_n)).sum() / (m_sigmaSqrd*m_sigmaSqrd);
-
-Eigen::MatrixXd out = m_positions * m_n.transpose();
-m_gradients.segment(m_numberOfHiddenNodes, out.size()) = flatten(out);
-m_gradients.head(m_numberOfHiddenNodes) = m_n;
+\begin{lstlisting}[language={c++},caption={Taken from \lstinline|rbmproduct.cpp|.}]
+void RBMProduct::updateVectors()
+{
+	m_v = m_b + m_W.transpose() * m_positions;
+	Eigen::VectorXd e = m_v.array().exp();
+	m_p = (e + Eigen::VectorXd::Ones(m_numberOfHiddenNodes)).cwiseInverse();
+	m_n = e.cwiseProduct(m_p);
+}
 \end{lstlisting}
-There the linear algebra package Eigen is used for the matrix-vector operations, and \lstinline{m_gradients} consists of all the derivatives with respect to the parameters.
+One can see that all the operations are vectorized, which makes the operations quite affordable. 
 
-\subsection{Partly restricted Boltzmann machine}
+\section{Partly restricted Boltzmann machine}
 For the partly restricted Boltzmann machine given in equation \eqref{eq:PRBMWF}, we observe that the only difference from a standard Boltzmann machine is the factor 
 \begin{equation}
-\psi_{pr}=\exp\Big(\sum_{i=1}^{F}\sum_{j=1}^{F}x_ic_{ij}x_j\Big)
+\Phi_{pr}=\exp\Big(\sum_{i=1}^{F}\sum_{j=1}^{F}x_ic_{ij}x_j\Big)
 \end{equation}
-which we can threaten separately. We end up with the expressions
+which we can threaten separately. To run a computation with the partly restricted Boltzmann machine, we thus need to add the elements \lstinline|RBMGaussian|, \lstinline|RBMProduct| and \lstinline|PartlyRestricted| in a similar way as in the example \ref{lst:qd}. When differentiating, we end up with the expressions
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \begin{aligned}
-\frac{|\psi_{pr}(\bs{x}_{\text{new}})|^2}{|\psi_{pr}(\bs{x}_{\text{old}})|^2}&=\exp\Big(2\sum_{j=1}^{F}c_{ij}x_j(x_i^{\text{new}}-x_i^{\text{old}})\Big)\\
-\nabla_k\ln\psi_{pr} &=2\sum_{j=1}^{F}c_{kj}x_j\\
-\nabla_k^2\ln\psi_{pr} &= 2c_{kk}\\
-\nabla_{c_{ml}}\ln\psi_{pr}&=x_mx_l
+\frac{|\Phi_{pr}(\bs{x}_{\text{new}})|^2}{|\Phi_{pr}(\bs{x}_{\text{old}})|^2}&=\exp\Big(2\sum_{j=1}^{F}c_{ij}x_j(x_i^{\text{new}}-x_i^{\text{old}})\Big)\\
+\nabla_k\ln\Phi_{pr} &=2\sum_{j=1}^{F}c_{kj}x_j\\
+\nabla_k^2\ln\Phi_{pr} &= 2c_{kk}\\
+\nabla_{c_{ml}}\ln\Phi_{pr}&=x_mx_l
 \end{aligned}
 \end{empheq}
-where $x_i$ is the changed coordinated. Also here can we use vectorization to speed-up the computations. 
+where $x_i$ is the changed coordinated. Also here can we use vectorization to speed-up the computations, most elegantly shown by the \lstinline|computeParameterGradient|,
+\begin{lstlisting}[language={c++},caption={Taken from \lstinline|partlyrestricted.cpp|.}]
+Eigen::VectorXd PartlyRestricted::computeParameterGradient()
+{
+	Eigen::MatrixXd out = m_positions * m_positions.transpose();
+	m_gradients.head(out.size()) = WaveFunction::flatten(out);
+	return m_gradients;
+}
+\end{lstlisting}
+where we use that the parameter gradient $\nabla_{c_{ml}}\ln\Phi_{pr}$ is given by the outer product between the coordinate vectors. 
