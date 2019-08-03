@@ -88,7 +88,7 @@ where $sg$ stands for the simple Gaussian, $sd$ stands for the Slater determinan
 We will first try to convince the reader that the local energy and the parameter update can be calculated separately for each element, and then move on to find closed-form expressions for the required term in the calculations for all the elements.
 \fi
 
-\subsection{Kinetic energy computations}
+\subsection{Kinetic energy computations} \label{sec:kinetic}
 The local energy, defined in equation \eqref{eq:localenergy}, is
 \begin{equation}
 \begin{aligned}
@@ -536,26 +536,26 @@ void SlaterDeterminant::updateSlaterDeterminantDerivatives(int start, int end)
 We avoid a double loop by taking a inner product instead. However, we are left with one loop which can also be avoided using smart matrix operations.
 
 \section{Jastrow factor}
-The second main part of the trial wave function is the Jastrow factor, which is meant to take care of the electron-electron correlations. The optimization scheme of this element is not as complex as the Slater determinant, and this section will therefore be notably shorter than the previous. We will first discuss the two Jastrow factors given in section \ref{sec:jastrow}: the simple Jastrow and the Padé-Jastrow factor, and then we loop at how the distance matrix can be updated efficiently. 
+The second main part of the trial wave function is the Jastrow factor, which is meant to take care of the electron-electron correlations. The optimization scheme of this element is not as complex as the Slater determinant, and this section will therefore be notably shorter than the previous. We will first discuss the two Jastrow factors given in section \ref{sec:jastrow}: the simple Jastrow and the Padé-Jastrow factor, and then we look at how the distance matrix can be updated efficiently. 
 
 \subsection{Simple Jastrow factor}
 Recall the simple Jastrow factor from \eqref{eq:SimpleJastrow},
 \begin{equation}
-\Phi_{sj}(\bs{r};\bs{\beta})=\exp\Big(\sum_{i=1}^N\sum_{j>i}^N\beta_{ij}r_{ij}\Big).
+\Phi_{sj}(\bs{r};\bs{\beta})=\exp\bigg(\sum_{i=1}^N\sum_{j>i}^N\beta_{ij}r_{ij}\bigg).
 \end{equation}
 with $N$ as the number of particles, $r_{ij}$ as the distance between particle $i$ and $j$ and $\beta_{ij}$ as variational parameters.
 
 This is a quite simple element, but one challenge is that we operate in Cartesian coordinates, while the expressed Jastrow factor obviously is easier to deal with in polar coordinates. Since we need to differentiate this with respect to all degrees of freedom, we need to be attentive not confusing the particle indices with the coordinate indices. Let us reserve $j$ as the coordinate index and $j'$ as the index of the corresponding particle. The relationship between $j$ and $j'$ is \textit{always} $j'=j\setminus D$, where the backslash denotes integer division. The other way around, we have $j=j'+d$ where $d$ is the respective dimension of the coordinate $j$. With that notation, the probability ratio is given by
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-\frac{|\Phi_{sj}(\bs{r}_{\text{new}})|^2}{|\Phi_{\text{sj}}(\bs{r}_{\text{old}})|^2}=\exp\Big(2\sum_{j'=1}^N\beta_{i'j'}(r_{i'j'}^{\text{new}}-r_{i'j'}^{\text{old}})\Big)
+\frac{|\Phi_{sj}(\bs{r}_{\text{new}})|^2}{|\Phi_{\text{sj}}(\bs{r}_{\text{old}})|^2}=\exp\bigg(2\sum_{j'=1}^N\beta_{i'j'}(r_{i'j'}^{\text{new}}-r_{i'j'}^{\text{old}})\bigg)
 \end{empheq}
 where $i'$ again is the moved particle. The gradient is straight-forward to find, and reads
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-\nabla_k\ln\Phi_{sj}=\sum_{j'=1}^N\frac{\beta_{k'j'}}{r_{k'j'}}(x_k-x_j)
+\nabla_k\ln\Phi_{sj}=\sum_{j'=1}^N\beta_{k'j'}\frac{x_k-x_j}{r_{k'j'}}
 \end{empheq}
 where $j$ is related to the same dimension as $k$. Here we use $x_j$ as a general coordinate, no matter whether it is associated with the x-direction or not. This also applies for the Laplacian,
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-\nabla^2\ln\Phi_{sj}=\sum_{k=1}^{F}\sum_{j'=1}^N\frac{\beta_{k'j'}}{r_{k'j'}}\Big(1-\frac{(x_k-x_j)^2}{r_{k'j'}^2}\Big).
+\nabla^2\ln\Phi_{sj}=\sum_{k=1}^{F}\sum_{j'=1}^N\frac{\beta_{k'j'}}{r_{k'j'}}\bigg[1-\Big(\frac{x_k-x_j}{r_{k'j'}}\Big)^2\bigg].
 \end{empheq}
 Finally, the parameter update is given by
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
@@ -563,28 +563,28 @@ Finally, the parameter update is given by
 \end{empheq}
 For this element, the most important thing we can do to keep the computational cost as low as possible is to reveal that only a row and a column of the distance matrix is changed as we change a coordinate. Updating the entire distance matrix means updating $N^2$ elements, while updating a row and a column means updating $2N$ elements, which is an essential difference for large systems. This is detailed in section \ref{sec:distancematrix}.
 
-In the implementation of the simple Jastrow, there are some possible optimization we can do. We observe that the factor $(x_k-x_j)/r_{k'j'}$ is repeated several times, which can be stored in a $F\times F$ matrix. However, most of the elements in the matrix storing distances along the principal axis, \lstinline{m_principalDistance}, are zero and only $F$ of the elements contribute. This is because the components $x_k$ and $x_j$ associated with different dimensions are automatically set to zero. 
+We also observe that the factor $(x_k-x_j)/r_{k'j'}$ is found in both the gradient and the Laplacian, so by storing this matrix we can speed-up the computations. Most naturally, the matrix has dimensions $F\times F$, but using that we only are interested in the elements where $x_k$ and $x_j$ have the same dimension and that the diagonal is zero, only $F$ of the elements need to be found. Further, the matrix is obviously anti-symmetric, so we actually only need to calculate $F/2$ of the elements. 
 
-By revealing that only $2(N-1)$ of the elements are changed when a particle is moved, we can therefore perform the update very efficiently. The update of the matrix looks like
+When one particle is moved, only the elements related to the moved particle need to be updated, which is $2(N-1)$ elements. Again, we utilize that the matrix is anti-symmetric and get the following efficient update scheme
 \begin{lstlisting}[language={c++},caption={Taken from \lstinline{simplejastrow.cpp}.}]
 void SimpleJastrow::updatePrincipalDistance(int i)
 {
-	int i_d = i % m_numberOfDimensions;
-	for (int j_p = 0; j_p < m_particle; j_p++) {
+    int i_d = i % m_numberOfDimensions;
+	for (int j_p = 0; j_p < i_p; j_p++) {
 		int j = i_d + j_p * m_numberOfDimensions;
-		m_principalDistance(i, j) = (m_positions(i) - m_positions(j))
-									/ m_distanceMatrix(m_particle, j_p);
-		m_principalDistance(j, i) = -m_principalDistance(i, j_p);
+		m_principalDistance(i, j) = (m_positions(i) - m_positions(j)) 
+										/ m_distanceMatrix(i_p, j_p);
+		m_principalDistance(j, i) = -m_principalDistance(i, j);
 	}
-	for (int j_p = m_particle + 1; j_p < m_numberOfParticles; j_p++) {
+	for (int j_p = i_p + 1; j_p < m_numberOfParticles; j_p++) {
 		int j = i_d + j_p * m_numberOfDimensions;
-		m_principalDistance(i, j) = (m_positions(i) - m_positions(j))
-									/ m_distanceMatrix(m_particle, j_p);
-		m_principalDistance(j, i) = -m_principalDistance(i, j_p);
+		m_principalDistance(i, j) = (m_positions(i) - m_positions(j)) 
+										/ m_distanceMatrix(i_p, j_p);
+		m_principalDistance(j, i) = -m_principalDistance(i, j);
 	}
 }
 \end{lstlisting}
-where \lstinline{i} is the changed index and \lstinline{i_d} is the dimension associated with the changed index. Similarly, the loop goes over the particles \lstinline{j_p} with the associated coordinate \lstinline{j}. Note that we split the loop in two parts to avoid calculating the distance from a particle to itself. This trick is also done in many of the other functions in the simple Jastrow class, and also in the Padé-Jastrow factor class. 
+where \lstinline{i_p} is the moved particle \lstinline{i_d} is the dimension the particle is moved in and \lstinline|i| thus is the coordinate index. Similarly, the loop goes over the particles \lstinline{j_p} with the associated coordinate \lstinline{j}. Note that we split the loop in two parts to avoid calculating the distance from a particle to itself. This trick is also done in many of the other functions in the simple Jastrow class, and also in the Padé-Jastrow factor class. 
 
 \subsection{The Padé-Jastrow factor}
 The Padé-Jastrow factor is a more complicated Jastrow factor, and was specified in equation \eqref{eq:PadeJastrow}, 
@@ -599,30 +599,27 @@ Similarly to the simple Jastrow, we also here need to distinguish between partic
 \end{equation}
 with respect to the coordinate $x_k$. By again differentiating this with respect to $x_k$, we obtain the Laplacian
 \begin{equation}
-\nabla^2\ln\Phi_{pj}=\sum_{k=1}^{F}\sum_{j'\neq k'=1}^N\frac{a_{k'j'}}{(1+\beta r_{k'j'})^2}\bigg[1-\Big(1+2\frac{\beta r_{k'j'}}{1+\beta r_{k'j'}}\Big)\frac{(x_k-x_j)^2}{r_{k'j'}^2}\bigg]\frac{1}{r_{k'j'}}.
+\nabla^2\ln\Phi_{pj}=\sum_{k=1}^{F}\sum_{j'\neq k'=1}^N\frac{a_{k'j'}}{(1+\beta r_{k'j'})^2}\bigg[1-\Big(1+2\frac{\beta r_{k'j'}}{1+\beta r_{k'j'}}\Big)\Big(\frac{x_k-x_j}{r_{k'j'}}\Big)^2\bigg]\frac{1}{r_{k'j'}}.
+\end{equation}
+Similar to the simple Jastrow factor, we again observe the factor $(x_k-x_j)/r_{k'j'}$ in both the gradient and the Laplacian, which can be stored as a matrix and updated in the same way as described for the simple Jastrow factor. The last expression we need  is the one used to update the variational parameter $\beta$, which is found to be
+\begin{equation}
+\nabla_{\beta}\ln\Phi_{pj}=-\sum_{i'=1}^N\sum_{j'>i'}^N\frac{a_{ij}r_{ij}^2}{(1+\beta r_{ij})^2}.
 \end{equation}
 
-The last expression we need  is the one used to update the variational parameter $\beta$, which is found to be
+In addition to the factor $g_{ij}\equiv(x_k-x_j)/r_{k'j'}$, there are multiple factors that we can store to make the computations cheaper. The factor $f_{ij}\equiv a_{ij}/(1+\beta r_{ij})^2$ is found both in the gradient, Laplacian and parameter gradient, and storing it will saving some significant computations. Lastly, the factor $h_{ij}\equiv r_{ij}/(1+\beta r_{ij})$ is found in several places and will be stored as well. As a summary, we use
 \begin{equation}
-\partial_{\beta}\ln\Phi_{pj}=-\sum_{i'=1}^N\sum_{j'>i'}^N\frac{a_{ij}r_{ij}^2}{(1+\beta r_{ij})^2}.
+f_{ij}=\frac{a_{ij}}{(1+\beta r_{ij})^2}\quad\quad g_{ij}=\frac{x_i-x_j}{r_{i'j'}}\quad\quad h_{ij}=\frac{r_{ij}}{1+\beta r_{ij}}.
 \end{equation}
-
-Furthermore, we observe that some factors are found in multiple expressions. To simplify the expressions and as an beginning of the optimization, we introduce
-\begin{equation}
-f_{ij}=\frac{1}{1+\beta r_{ij}}\quad\quad g_{ij}=\frac{x_i-x_j}{r_{i'j'}}\quad\quad h_{ij}=\frac{r_{ij}}{1+\beta r_{ij}}.
-\end{equation}
-The final expressions then read
+and obtain the simplified expressions
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \begin{aligned}
 \frac{|\Phi_{pj}(\bs{r}_{\text{new}})|^2}{|\Phi_{pj}(\bs{r}_{\text{old}})|^2}&=\exp\Big(2\sum_{j'=1}^Na_{i'j'}(h_{i'j'}^{\text{new}}-h_{i'j'}^{\text{old}})\Big)\\
-\nabla_k\ln\Phi_{pj} &=\sum_{j'\neq k'=1}^Na_{k'j'}\cdot f_{k'j'}^2\cdot g_{kj}\\
-\nabla^2\ln\Phi_{pj} &= \sum_{k=1}^F\sum_{j'\neq k'=1}^N\frac{a_{k'j'}}{r_{k'j'}}f_{k'j'}^2\Big[1-(1+2\beta h_{k'j'})g_{kj}^2\Big]\\
-\nabla_{\beta}\ln\Phi_{pj}&=-\sum_{l'=1}^N\sum_{j>l}^Na_{l'j'}h_{l'j'}^2
+\nabla_k\ln\Phi_{pj} &=\sum_{j'\neq k'=1}^Nf_{k'j'}\cdot g_{kj}\\
+\nabla^2\ln\Phi_{pj} &= \sum_{k=1}^F\sum_{j'\neq k'=1}^N\frac{f_{k'j'}}{r_{k'j'}}\Big[1-(1+2\beta h_{k'j'})g_{kj}^2\Big]\\
+\nabla_{\beta}\ln\Phi_{pj}&=-\sum_{l'=1}^N\sum_{j>l}^Na_{l'j'}h_{l'j'}^2=-\sum_{l'=1}^N\sum_{j>l}^Nf_{l'j'}r_{l'j'}^2
 \end{aligned}
 \end{empheq}
-with marked indices ($j'$) as the particle related ones and the unmarked ($j$) as the coordinate related ones. $i'$ is the moved particle. 
-
-In the same way as for the simple Jastrow, only a row and a column in the distance matrix should be updated for each step. Additionally, implementing the matrices $f_{ij}$, $g_{ij}$ and $h_{ij}$ will give a speed up in combination with vector-matrix operations. 
+with marked indices ($j'$) as the particle related ones and the unmarked ($j$) as the coordinate related ones. $i'$ is the moved particle. We now proceed further to the update of the distance matrix, which is where we can find the remaining optimization possibilities. 
 
 \subsection{Updating the distance matrix} \label{sec:distancematrix}
 The distance matrix, which is used in the Jastrow factors, gives an illustrating example on how we can avoid repeating calculations. The matrix, henceforth named $M$, contains the relative distances between all the particles, for three particles given by
@@ -703,26 +700,33 @@ bool BruteForce::acceptMove()
 return true;
 }
 \end{lstlisting}
-
 where \lstinline|i| is the changed coordinate which is drawn from the random number generator \lstinline|m_RNG|. Initially the old positions, radial vector and distance matrix are stored in case the move is rejected, and then a new move is proposed in positive or negative direction. If the radial vector or distance matrix (or both) are needed somewhere in the code, they are updated in this function, using the ideas and implementation presented in section \ref{sec:distancematrix}. The they are distributed to the wave function elements using the function \lstinline|updateAllArrays|.
 
-In the end, the probability ratio is evaluated using the function \lstinline|evaluateProbabilityRatio| presented in section \ref{sec:probabilityratio}. If this ratio is larger than a random number between 0 and 1, the move is accepted, and otherwise we set all the arrays back to the old one (also the ones in the wave function elements). 
+In the end, the probability ratio is evaluated using the function \lstinline|evaluateProbabilityRatio| presented in section \ref{sec:probabilityratio}. If this ratio is larger than a random number between 0 and 1, the move is accepted, and otherwise we set all the arrays back to the old ones (also the ones in the wave function elements). 
 
 \subsection{Importance sampling}
-The importance sampling algorithm is 
+The importance sampling implementation is very similar to the brute force sampling implementation, and we will therefore not repeat it. However, we need to calculate the quantum force and the ratio between the new and the old Green's function, which can be calculated in clever ways to keep the code efficient. 
 
-As a summary, we set up the actual algorithm, known as Metropolis-Hasting's algorithm, see algorithm \eqref{alg:hastings}. We write the position update in a general form, where we allow updating all the particles at the same time. However, often one ends up moving only a particle at each time step, as this make some advantageous optimization schemes possible. These optimization opportunities will be discussed in chapter \ref{chp:WFE}.
+We have already sen that the quantum force takes the same form as the gradient of the trial wave function, $\bs{F}(\bs{r})=2(\nabla\Psi_T(\bs{r}))/\Psi_T(\bs{r})$, and we can therefore simply reuse the function \lstinline|computeGradient|, which is a part of the local energy computations from section \ref{sec:kinetic}. We call this from the function \lstinline|ImpotanceSampling::QuantumForce|, which contains the few lines of code
 
-The ratio between the new and old Green's function can be expressed in the elegant form 
+\begin{lstlisting}[language=c++,caption={Taken from \lstinline{importancesampling.cpp}.}]
+double ImportanceSampling::QuantumForce(const int i)
+{
+	double QF = 0;
+	for (auto &j : m_waveFunctionVector) {
+		QF += j->computeGradient(i);
+	}
+	return 2 * QF;
+}
+\end{lstlisting}
+where the force in dimension \lstinline|i| is returned. 
+
+The Green's function was first presented in section \ref{sec:importancesampling}, and at first glance it might look computational expensive to evaluate. Fortunately, we only need the ratio between the old and the new function which can be found in a quite simple fashion. Actually, both the diffusion constant $D$ and the time step $\Delta t$ cancel in the exponent, and the ratio can be expressed in the elegant form
 \begin{equation}
 g(\bs{r}',\bs{r},\Delta t)\equiv\frac{G(\bs{r}',\bs{r},\Delta t)}{G(\bs{r},\bs{r}',\Delta t)}=\exp((\bs{r}'-\bs{r})\cdot(\bs{F}(\bs{r})-\bs{F}(\bs{r}'))/2)
 \label{eq:greensratio}
 \end{equation}
-which may be evaluated efficiently using vector operations. Also the probability ratios can be computed in an efficient way for certain trial wave functions $\Psi_T(\bs{r})$, in particular when the wave function is on an exponential form. We express the probability ratio as 
-\begin{equation}
-p(\bs{r}',\bs{r})\equiv\frac{P(\bs{r}')}{P(\bs{r})}=\frac{|\Psi_T(\bs{r}')|^2}{|\Psi_T(\bs{r})|^2},
-\end{equation}
-and in chapter \ref{chp:WFE} we find closed-form expressions of all the wave function elements of interest, including the elements based on restricted Boltzmann machines. Additionally, closed-form expressions of $\nabla\ln\Psi_T(\bs{r})$ are found, which are vital in the quantum force computations as well as the kinetic energy computations. 
+where $\bs{r}$ and $\bs{r}'$ differ by one element and so does $\bs{F}(\bs{r})$ and $\bs{F}(\bs{r}')$. It can therefore be evaluated 
 
 \iffalse
 \IncMargin{1em}
@@ -764,35 +768,18 @@ and in chapter \ref{chp:WFE} we find closed-form expressions of all the wave fun
 \fi
 
 \begin{lstlisting}[language=c++,caption={Taken from \lstinline{importancesampling.cpp}.}]
-double ImportanceSampling::QuantumForce(const int i)
+double ImportanceSampling::GreenRatio(const int i)
 {
-	double QF = 0;
-	for (auto &j : m_waveFunctionVector) {
-		QF += j->computeGradient(i);
-	}
-	return 2 * QF;
-}
-
-double ImportanceSampling::GreenFuncSum()
-{
-	double GreenSum = 0;
-	for (int i = 0; i < m_numberOfParticles; i++) {
-		double GreenFunc = 0;
-		for (int j = 0; j < m_numberOfDimensions; j++) {
-			int l = m_numberOfDimensions * i + j;
-			GreenFunc += (m_quantumForceOld(l) - m_quantumForceNew(l))
-							* (m_positions(l) - m_positionsOld(l));
-		}
-	GreenSum += exp(0.5 * GreenFunc);
-	}
-	return GreenSum;
+	double dQF = m_quantumForceOld(i) - m_quantumForceNew(i);
+	return exp(0.5 * dQF * m_dx) + 1;
 }
 \end{lstlisting}
+where \lstinline|dQF| is the difference between the new and the old force and \lstinline|m_dx| is the distance particle \lstinline|i| is moved. 
 
 \section{Update of parameters} \label{sec:update}
-The parameter update is a central part of a VMC implementation, and a good VMC implementation requires a good optimization algorithm. However, since the optimization functions are called outside the sampling, they are just called a fraction number of times, compared to the function called from the sampling. Therefore, we will not put too much effort in making them efficient, but they should still be slightly thought-through. We will here discuss the gradient descent method with momentum and monotonic decaying step, and the ADAM optimizer. 
+The parameter update is a central part of a VMC implementation, and a good VMC implementation requires a good optimization algorithm. Since the optimization functions are called outside the sampling, they are just called a fraction number of times, compared to the function called from the sampling. Therefore, we will not put too much effort in making them efficient, but they should still be thought-through. We will here discuss the gradient descent method with momentum and monotonic decaying step, and the ADAM optimizer. 
 
-The Optimizer class contains a pure virtual function \lstinline|updateParameters| which is thus forced to be included in the optimizer subclasses. This function returns the update of the new parameters, and is the function we will discuss in this section.
+The \lstinline|Optimizer| class contains a pure virtual function \lstinline|updateParameters| which is thus forced to be included in the optimizer subclasses. This function returns the update of the new parameters, and is the function we will discuss in this section.
 
 \subsection{Gradient descent}
 Gradient descent is a simple optimization algorithm, and so is the implementation. Based on the theory presented in section \ref{sec:gd}, the implementation is really straight-forward and reads
@@ -805,7 +792,7 @@ Eigen::MatrixXd GradientDescent::updateParameters()
 	return m_v;
 }
 \end{lstlisting}
-where \lstinline|m_v| is the momentum vector and \lstinline|m_monotonicExp| describes how fast the rate should decrease. Further, the \lstinline|m_gamma| is the momentum parameter defining the relative size of the momentum. The function \lstinline|Optimization::getEnergyGradient| returns a matrix with the gradients of the energy expectation value with respect to all the parameters, given in equation \eqref{eq:gradientenergy}.
+where \lstinline|m_v| is the momentum vector and \lstinline|m_monotonicExp| describes how fast the rate should decrease. Further, \lstinline|m_gamma| is the momentum parameter defining the relative size of the momentum. The function \lstinline|Optimization::getEnergyGradient| returns a matrix with the gradients of the energy expectation value with respect to all the parameters, given in equation \eqref{eq:gradientenergy}.
 
 \subsection{ADAM optimizer}
 The ADAM optimizer implementation also is very straight-forwardly based on the algorithm given in section \ref{sec:adam}. The momentum vectors were actually implemented as matrices to match the dimensions of the parameter matrix. By matrix operations we could also have made the function really fast, but since that is not the aim here, we decided to keep the loops in order to make the code legible. The implementation looks like:

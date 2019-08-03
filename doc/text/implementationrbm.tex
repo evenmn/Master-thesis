@@ -1,32 +1,40 @@
-\chapter{Implementation: Restricted Boltzmann machines} \label{chp:rbmimplementation}
+\chapter{Implementation: Restricted Boltzmann Machines} \label{chp:rbmimplementation}
+In the previous chapter, described common optimization procedures for a common variational Monte Carlo (VMC) implementation, and we also presented implementation examples taken from the code. In this section we will do the same, but for the restricted Boltzmann machines (RBM). As we have pointed out before, the same sampling methods and optimization algorithms can be used both for the VMC implementation and the RBM implementation, such that much of the VMC framework is reused. The already described parts of the code will naturally not be described again, and for that reason this chapter will more or less exclusively concern the RBM wave function elements.
 
-\subsection{Restricted Boltzmann machine}
-Now over to the real deal; the wave function elements inspired by machine learning. The marginal distribution of the visible nodes of a restricted Boltzmann machine was presented in equation \eqref{eq:RBMWF2}. By defining the wave function as this marginal distribution, we have
+The main goal of this work, is to reduce the physical intuition needed when doing quantum computations, and that is the task of the restricted Boltzmann machines. The idea is to use a flexible basis set based on RBMs, which need to be the elements of the Slater matrix, as first seen in section \ref{sec:slater}. Further, we proved that the Slater determinant can be split in a spin-up part and a spin-down part in section \ref{sec:slaterdeterminant}, such that the spin can be factorized out and avoided. We therefore only need the spatial part of the wave functions, and we will henceforth assume that this spatial part is defined by the marginal distribution of the visible units. 
+
+Even though we want to reduce the need of physical intuition about the system, we still need to add some intuition to get reasonable results. For instance, for quantum dot systems, we add the Hermite polynomials to the marginal distribution such that each basis function becomes unique. The RBM basis functions for quantum dots then read
 \begin{equation}
-\psi_{rbm}(\bs{x};\bs{a},\bs{b},\bs{w})=\exp\Big(-\sum_{i=1}^{F}\frac{(x_i-a_i)^2}{2\sigma^2}\Big)\prod_{j=1}^H\bigg(1+\exp\Big(b_j+\sum_{i=1}^{F}\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg),
+\phi_n(\bs{x})=H_n(\bs{x})P(\bs{x})
 \end{equation}
-which contains a Gaussian part and a product part. In order to minimize the complexity of each wave function element, we decided to split it up in the code and they will therefore be presented separately below. The first part will henceforth be denoted as the RBM-Gaussian, while the last part will be denoted as the RBM-Product. 
+where $\phi_n(\bs{x})$ are the spatial parts of RBM single particle functions, $H_n(\bs{x})$ is the Hermite polynomial of degree $n$, possible multi-dimensional and $P(\bs{x})$ is the marginal distribution of the visible nodes. In section \ref{sec:factorizing}, we saw that a Slater determinant containing single particle functions on the form $\phi_j(\bs{r}_i)=f_j(\bs{r}_i)g(\bs{r}_i)$ can be simplified by factorizing out the function $g(\bs{r}_i)$. For that reason, we can treat the marginal distributions $P(\bs{r})$ as separate elements in combination with the determinant containing Hermite polynomials. In the following section, we will describe how these elements can be treated in the code. 
 
-\subsubsection{RBM-Gaussian}
+\section{Restricted Boltzmann machines}
+Back in chapter \ref{chp:restricted}, we presented the marginal distribution of the visible units of a Gaussian-binary restricted Boltzmann machine. We will implement the distribution as a wave function, writing
+\begin{equation}
+\Phi_{rbm}(\bs{x};\bs{a},\bs{b},\bs{w})=\exp\Big(-\sum_{i=1}^{F}\frac{(x_i-a_i)^2}{2\sigma^2}\Big)\prod_{j=1}^H\bigg(1+\exp\Big(b_j+\sum_{i=1}^{F}\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg),
+\end{equation}
+where $\bs{x}$ contains all the coordinates, $\bs{a}$, $\bs{b}$ and $\bs{w}$ are variational parameters (weights), $\sigma$ is the width of the Gaussian distribution, $F$ is the number of degrees of freedom and $H$ is the number of hidden units. The wave function can naturally be split in a Gaussian part and a product, and we will henceforth work with them separately to simplify the calculations. They will also be implemented as separate wave function elements as this will reduce the complexity of the derivatives associated with each element. The first part will henceforth be denoted as the RBM-Gaussian, while the last part will be denoted as the RBM-Product. 
+
+\subsection{RBM-Gaussian}
 The RBM-Gaussian reads
 \begin{equation}
-\psi_{rg}(\bs{x};\bs{a})=\exp(-\sum_{i=1}^{F}\frac{(x_i-a_i)^2}{2\sigma^2})
+\Phi_{rg}(\bs{x};\bs{a})=\exp(-\sum_{i=1}^{F}\frac{(x_i-a_i)^2}{2\sigma^2})
 \end{equation}
-
-
-The derivatives of the RBM-Gaussian are similar to those of the simple Gaussian, they are therefore just listed in equation \eqref{eq:NQSGaussian}.
-
+and is really similar to the simple Gaussian presented in section \ref{sec:simplegaussian}. Also the gradient, Laplacian and the gradient with respect to the variational parameters become similar, and we will for that reason just list them up,
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \label{eq:NQSGaussian}
 \begin{aligned}
-\frac{|\psi_{rg}(\bs{x}_{\text{new}})|^2}{|\psi_{rg}(\bs{x}_{\text{old}})|^2}&=\exp\Big((x_i^{\text{old}}+x_i^{\text{new}}-2a_i)(x_i^{\text{old}}-x_i^{\text{new}})\Big)\\
+\frac{|\psi_{rg}(\bs{x}_{\text{new}})|^2}{|\psi_{rg}(\bs{x}_{\text{old}})|^2}&=\exp\bigg(\frac{(x_i^{\text{old}}-a_i)^2-(x_i^{\text{new}}-a_i)^2}{2\sigma^2}\bigg)\\
 \nabla_k\ln\psi_{\text{rg}} &= -\frac{x_k-a_k}{\sigma^2}\\
 \nabla_k^2\ln\psi_{\text{rg}}&=-\frac{1}{\sigma^2}\\
-\nabla_{\alpha_l}\ln\psi_{\text{rg}} &= \frac{x_l-a_l}{\sigma^2}
+\nabla_{\alpha_l}\ln\psi_{\text{rg}} &= \frac{x_l-a_l}{\sigma^2}.
 \end{aligned}
 \end{empheq}
 
-\subsubsection{RBM-product}
+An obvious optimization concerning this element, is that we can introduce a vector $\bs{v}=\bs{x}-\bs{a}$, which we deal with instead of the position vector $\bs{x}$ and the parameter vector $\bs{a}$. 
+
+\subsection{RBM-product}
 The RBM product is the last part of \eqref{eq:RBMWF2}, and is thus given by
 \begin{equation}
 \psi_{rp}(\bs{x};\bs{b},\bs{w})=\prod_{j=1}^H\bigg[1+\exp\Big(b_j+\sum_{i=1}^{F}\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg].
