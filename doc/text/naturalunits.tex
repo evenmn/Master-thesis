@@ -1,37 +1,37 @@
 \chapter{Scaling}
 
 \section{Quantum dots - Natural units}
-The Hamiltonian is in one dimension given by
+For circular quantum dots, the Hamiltonian is in one dimension given by
 \begin{equation}
 \hat{\mathcal{H}}=-\frac{\hbar^2}{2m}\frac{\partial^2}{\partial x^2}+\frac{1}{2}m\omega^2x^2
 \label{eq:HamiltonianHO}
 \end{equation}
-which has corresponding wave functions
+with $\hbar$ as the reduced Planck's constant, $m$ as the electron mass and $\omega$ as the oscillator frequency. The corresponding wave functions read
 \begin{equation}
 \psi_n(x)=\frac{1}{\sqrt{2^nn!}}\cdot\bigg(\frac{m\omega}{\pi\hbar}\bigg)^{1/4}\exp\Big(-\frac{m\omega}{2\hbar}x^2\Big)H_n\Big(\sqrt{\frac{m\omega}{\hbar}}x\Big).
 \end{equation}
-We want to get rid of $\hbar$ and $m$ in equation \eqref{eq:HamiltonianHO}, and we initially scale  $\hat{\mathcal{H}}'\equiv \hat{\mathcal{H}}/\hbar$, such that the Hamiltonian reduces to
+We want to get rid of $\hbar$ and $m$ in equation \eqref{eq:HamiltonianHO} to make it dimensionless, which can be accomplished by scaling  $\hat{\mathcal{H}}'\equiv \hat{\mathcal{H}}/\hbar$, such that the Hamiltonian reduces to
 \begin{equation}
 \hat{\mathcal{H}}'=-\frac{\hbar}{2m}\frac{\partial^2}{\partial x^2}+\frac{1}{2}\frac{m\omega^2}{\hbar}x^2.
 \end{equation}
-One can now observe that the fraction $\hbar/m$ comes in both terms, which can be taken out by introducing a characteristic length $x'\equiv x\cdot\sqrt{m/\hbar}$. The final Hamiltonian is
+Moreover, we observe that the fraction $\hbar/m$ comes in both terms, which can be avoided by introducing a characteristic length $x'\equiv x\cdot\sqrt{m/\hbar}$. The final Hamiltonian is
 \begin{equation}
 \hat{\mathcal{H}}=\frac{1}{2}\frac{\partial^2}{\partial x^2}+\frac{1}{2}\omega^2x^2
 \end{equation}
-which corresponds to setting $\hbar=m=1$. In natural units, one often sets $\omega=1$ as well by scaling $\hat{\mathcal{H}}'=\hat{\mathcal{H}}/\hbar\omega$, but since we want to keep the $\omega$-dependency, we do it slightly different. This means that the exact wave functions for the one-particle-one-dimension case is
+which corresponds to setting $\hbar=m=1$. In natural units, one often sets $\omega=1$ as well by scaling $\hat{\mathcal{H}}'=\hat{\mathcal{H}}/\hbar\omega$, but since we want to keep the $\omega$-dependency, we do it slightly different. This means that the exact wave functions for the one-particle one-dimensional case goes as
 \begin{equation}
-\psi_n(x)=\exp\Big(-\frac{\omega}{2}x^2\Big)H_n(\sqrt{\omega}x)
+\psi_n(x)\propto\exp\Big(-\frac{\omega}{2}x^2\Big)H_n(\sqrt{\omega}x)
 \end{equation}
-where we take advantage of the Metropolis algorithm and ignore the normalization constant. 
+where we omit the normalization factor with the Metropolis algorithm in mind. 
 
 \newpage
 \section{Atomic systems - Atomic units}
-The atomic Hamiltonian in its simplest form is given by 
+The atomic Hamiltonian for an electron in subshell $l$ affected by a nucleus with atomic number $Z$ reads
 \begin{equation}
-\hat{\mathcal{H}}=-\frac{\hbar^2}{2m}\frac{\partial^2}{\partial r^2}-k\frac{Ze^2}{r}+\frac{\hbar^2l(l+1)}{2mr^2}.
+\hat{\mathcal{H}}=-\frac{\hbar^2}{2m}\frac{\partial^2}{\partial r^2}-k_e\frac{Ze^2}{r}+\frac{\hbar^2l(l+1)}{2mr^2}.
 \label{eq:HamiltonianAtomic}
 \end{equation}
-The first step is to divide all terms by $\hbar^2/m$,
+where $e$ is the elementary charge and $k_e$ is Coulomb's constant. Again we want to get rid of the reduced Planck's constant $\hbar$ and the electron mass $m$ in order to make the Hamiltonian dimensionless, which we do by dividing all terms by $\hbar^2/m$,
 \begin{equation}
 \hat{\mathcal{H}}\cdot\frac{m}{\hbar^2}=-\frac{1}{2}\frac{\partial^2}{\partial r^2}+k\frac{m}{\hbar^2}\frac{Ze^2}{r}-\frac{1}{2}\frac{l(l+1)}{r^2}
 \end{equation}

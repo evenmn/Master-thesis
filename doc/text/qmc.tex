@@ -121,6 +121,7 @@ However, with this approach an unsatisfying number of moves will be rejected, wh
 Importance sampling is a more intelligent sampling method than the brute-force sampling, since the new position is based on an educated guess. To understand how it works, we need to take a quick look at diffusion processes. We start from the Fokker-Planck equation,
 \begin{equation}
 \frac{\partial P(\bs{r},t)}{\partial t}=D\nabla\left(\nabla-\bs{F}\right)P(\bs{r},t)
+\label{eq:fokkerplanck}
 \end{equation}
 which describes how a probability distribution $P(\bs{r},t)$ evolves in appearance of a drift force $\bs{F}$. In the case $\bs{F}=0$, the equation reduces to the diffusion equation with $D$ as the diffusion constant. This simplifies to $D=1/2$ in natural units. 
 
@@ -233,12 +234,36 @@ Note that the only closed-form expression needed, in addition to the local energ
 
 We want to stress that the local energy is not the only possible choice of cost function. By taking advantage of the zero-variance property of the expectation value of the local energy in the minimum, one can also minimize the variance. This requires the calculation of a few additional expectation values, but it is a fully manageable task to do. See for instance Ref.\cite{bajdich_electronic_2010} for more information.
 
-\section{Diffusion Monte Carlo}
-The second and last quantum Monte Carlo method we will discuss, is the diffusion Monte Carlo method (DMC). DMC belongs to a class of projection and Green's function approaches. Consider the time-imaginary Schrödinger equation
-\begin{eqnarray}
--\frac{\partial\Psi(\bs{r},\tau)}{\partial\tau}=(\mathcal{H}-E_T)\Psi(\bs{r},\tau)
-\end{eqnarray}
-where $\tau$ is the imaginary time and $E_T$ is an energy offset. If we first look at the equation with non-interacting particles, it contains basically only the kinetic energy term, 
+\section{Diffusion Monte Carlo} \label{sec:dmc}
+The second and last quantum Monte Carlo method we will discuss, is the diffusion Monte Carlo (DMC) method (DMC). DMC belongs to a class of projection and Green's function approaches, and provides in principle an exact solution of the Schrödinger equation. However, for fermionic systems the method is plagues by the occurrence of a sign-problem, known as the fermion sign problem, and we need to use approximations to bypass the problem. The most common fix is the fixed-node approximation, which introduces errors to the computations. The problem is also attempted to solve using shadow wave functions, most notably by Ref.\cite{calcavecchia_sign_2014}, which have many commonalities with our restricted Boltzmann machine (RBM) approach. An idea is that also the RBMs can contribute to find a solution to the problem, but we leave this for later studies. 
+
+Since the DMC is used as a reference for more or less all the produced results, it is naturally to give a brief discussion of the idea behind the method. The motion of a particle that moves in a potential $V(\bs{r})$ is described by the time-dependent Schrödinger equation,
+\begin{equation}
+i\frac{\partial\Psi(\bs{r},t)}{\partial t}=\hat{\mathcal{H}}\Psi(\bs{r},t)
+\end{equation}
+where the Hamiltonian is given by
+\begin{equation}
+\hat{\mathcal{H}}=-\frac{1}{2}\nabla^2 + V(\bs{r})
+\end{equation}
+in natural units. Further, we assume that the potential becomes infinite as $x\rightarrow \pm\infty$, such that the particle motion is confined to a finite spatial domain. The formal solution of the time-dependent Schrödinger equation is then given by an expansion of the eigenfunctions of $\hat{\mathcal{H}}$, $\phi_n(\bs{r})$,
+\begin{equation}
+\Psi(\bs{r},t)=\sum_{n=0}^{\infty}c_n\phi_n(\bs{r})e^{-\frac{E_n}{\hbar}t}
+\end{equation}
+where the coefficients can be obtained by
+\begin{equation}
+c_n=\int_{-\infty}^{\infty}d\bs{r}\phi_n(\bs{r})\Psi(\bs{r},0)
+\end{equation}
+under the assumption that the eigenfunctions are orthonormal and that the energies $E_n$ are in increasing order. The DMC method is based on the time-imaginary Schrödinger equation, which is obtained by a \textbf{shift of energy scale}, setting $V(\bs{r})\rightarrow V(\bs{r}) - E_R$ and $E_n\rightarrow E_n -E_R$, which does not change any physical quantity. By further using the \textbf{Wick rotation of time} setting $\tau=it$, we obtain the time-imaginary Schrödinger equation \cite{kosztin_introduction_1996}
+\begin{equation}
+-\frac{\partial\Psi(\bs{r},\tau)}{\partial\tau}=-\frac{1}{2}\nabla^2\Psi(\bs{r},\tau)+[V(x)-E_R]\Psi(\bs{r},\tau)
+\label{eq:timeimaginary}
+\end{equation}
+and the expansion now reads
+\begin{equation}
+\Psi(\bs{r},\tau)=\sum_{n=0}^{\infty}c_n\phi_n(\bs{r})e^{-(E_n-E_R)\tau}.
+\end{equation}
+
+The time-imaginary Schrödinger equation is similar to the Fokker-Planck equation presented in equation \eqref{eq:fokkerplanck}, which was noticed by Fermi already around 1945 \cite{metropolis_monte_1949,ceperley_quantum_1986}. Since we have solutions to the Fokker-Planck equation, the idea is to apply the same solutions to equation \ref{eq:timeimaginary}. To clarify this, consider the time-imaginary Schrödinger equation for non-interacting particles,
 \begin{equation}
 \frac{\partial\Psi(\bs{r},\tau)}{\partial\tau}=\frac{1}{2}\nabla^2\Psi(\bs{r},\tau)
 \end{equation}
@@ -246,11 +271,9 @@ which is really similar to the diffusion equation,
 \begin{equation}
 \frac{\partial\phi(\bs{r},t)}{\partial t}=D\nabla^2\phi(\bs{r},t)
 \end{equation}
-where $D$ is the diffusion constant set to $1/2$ in our calculations, no wonder why. The similarities between the imaginary time Schrödinger and the diffusion equation was noticed by Fermi already around 1945, and is what DMC is based on \cite{metropolis_monte_1949,ceperley_quantum_1986}. 
+where $D$ is the diffusion constant set to $1/2$ in our calculations, no wonder why. We end our motivation of the DMC method here, and relegate the reader to Ref.\cite{kosztin_introduction_1996} for a thorough and comprehensive explanation of the method. The last section of this chapter is about error estimation, which is very important in experimental physics, also when it comes to computer experiments. 
 
-A solution of the 
-
-\section{Variance estimation} \label{sec:variance}
+\section{Error estimation} \label{sec:variance}
 In experiments, we have two main classes of errors, systematical errors and statistical errors. The former is a result of external factors such as uncertainties in the apparatus or a person constantly takes an incorrect measurement, which is an error that is hard to estimate. The latter, however, can be found by estimating the variance of the sample mean, which we want to find accurate and efficient. Monte Carlo simulations can be treated as computer experiments, and therefore we can use the same analyzing tools as we do for real experiments. 
 
 There are several ways to estimate the variance, where the cheapest ones also are the less accurate ones. To make the most use of our data, we use resampling methods to estimate the statistical errors. Some well-known resampling algorithms are blocking, bootstrap and jackknife. We will cover the blocking method only, since that is the only one we use in our particular implementations. To save computational time, we resample the final iteration only, for the others we use the simple estimation method.

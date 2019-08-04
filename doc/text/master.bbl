@@ -1275,6 +1275,73 @@
     \field{urlyear}{2019}
   \endentry
 
+  \entry{kosztin_introduction_1996}{article}{}
+    \name{author}{3}{}{%
+      {{hash=KI}{%
+         family={Kosztin},
+         familyi={K\bibinitperiod},
+         given={Ioan},
+         giveni={I\bibinitperiod},
+      }}%
+      {{hash=FB}{%
+         family={Faber},
+         familyi={F\bibinitperiod},
+         given={Byron},
+         giveni={B\bibinitperiod},
+      }}%
+      {{hash=SK}{%
+         family={Schulten},
+         familyi={S\bibinitperiod},
+         given={Klaus},
+         giveni={K\bibinitperiod},
+      }}%
+    }
+    \keyw{Mathematical Physics, Physics - Computational Physics}
+    \strng{namehash}{KIFBSK1}
+    \strng{fullhash}{KIFBSK1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{1}
+    \field{sortinithash}{1}
+    \field{abstract}{%
+    A self-contained and tutorial presentation of the diffusion Monte Carlo
+  method for determining the ground state energy and wave function of quantum
+  systems is provided. First, the theoretical basis of the method is derived
+  and then a numerical algorithm is formulated. The algorithm is applied to
+  determine the ground state of the harmonic oscillator, the Morse oscillator,
+  the hydrogen atom, and the electronic ground state of the H2+ ion and of the
+  H2 molecule. A computer program on which the sample calculations are based is
+  available upon request.%
+    }
+    \verb{doi}
+    \verb 10.1119/1.18168
+    \endverb
+    \field{issn}{0002-9505, 1943-2909}
+    \field{note}{arXiv: physics/9702023}
+    \field{number}{5}
+    \field{pages}{633\bibrangedash 644}
+    \field{title}{Introduction to the {Diffusion} {Monte} {Carlo} {Method}}
+    \verb{url}
+    \verb http://arxiv.org/abs/physics/9702023
+    \endverb
+    \field{volume}{64}
+    \verb{file}
+    \verb arXiv\:physics/9702023 PDF:/home/evenmn/Zotero/storage/2VJHT36W/Koszt
+    \verb in et al. - 1996 - Introduction to the Diffusion Monte Carlo Method.p
+    \verb df:application/pdf;arXiv.org Snapshot:/home/evenmn/Zotero/storage/5SU
+    \verb X7S9S/9702023.html:text/html
+    \endverb
+    \field{journaltitle}{American Journal of Physics}
+    \field{annotation}{%
+    Comment: RevTeX 3.0, 14 pages, 8 EPS figures (included)%
+    }
+    \field{month}{05}
+    \field{year}{1996}
+    \field{urlday}{04}
+    \field{urlmonth}{08}
+    \field{urlyear}{2019}
+  \endentry
+
   \entry{szabo_modern_1996}{book}{}
     \name{author}{2}{}{%
       {{hash=SA}{%
@@ -2730,6 +2797,82 @@
     \field{year}{2014}
     \field{urlday}{13}
     \field{urlmonth}{03}
+    \field{urlyear}{2019}
+  \endentry
+
+  \entry{calcavecchia_sign_2014-1}{article}{}
+    \name{author}{4}{}{%
+      {{hash=CF}{%
+         family={Calcavecchia},
+         familyi={C\bibinitperiod},
+         given={Francesco},
+         giveni={F\bibinitperiod},
+      }}%
+      {{hash=PF}{%
+         family={Pederiva},
+         familyi={P\bibinitperiod},
+         given={Francesco},
+         giveni={F\bibinitperiod},
+      }}%
+      {{hash=KMH}{%
+         family={Kalos},
+         familyi={K\bibinitperiod},
+         given={Malvin\bibnamedelima H.},
+         giveni={M\bibinitperiod\bibinitdelim H\bibinitperiod},
+      }}%
+      {{hash=KTD}{%
+         family={K{\"u}hne},
+         familyi={K\bibinitperiod},
+         given={Thomas\bibnamedelima D.},
+         giveni={T\bibinitperiod\bibinitdelim D\bibinitperiod},
+      }}%
+    }
+    \keyw{Condensed Matter - Disordered Systems and Neural Networks, Condensed
+  Matter - Statistical Mechanics, Condensed Matter - Strongly Correlated
+  Electrons, Physics - Computational Physics, Quantum Physics}
+    \strng{namehash}{CF+1}
+    \strng{fullhash}{CFPFKMHKTD1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{2}
+    \field{sortinithash}{2}
+    \field{abstract}{%
+    We present a whole series of novel methods to alleviate the sign problem of
+  the Fermionic Shadow Wave Function in the context of Variational Monte Carlo.
+  The effectiveness of our new techniques is demonstrated on the example of
+  liquid 3He. We found that although the variance is substantially reduced, the
+  gain in efficiency is restricted by the increased computational cost. Yet,
+  this development not only extends the scope of the Fermionic Shadow Wave
+  Function, but also facilitates highly accurate Quantum Monte Carlo
+  simulations previously thought not feasible.%
+    }
+    \verb{doi}
+    \verb 10.1103/PhysRevE.90.053304
+    \endverb
+    \field{issn}{1539-3755, 1550-2376}
+    \field{note}{arXiv: 1404.6944}
+    \field{number}{5}
+    \field{pages}{053304}
+    \field{title}{On the {Sign} {Problem} of the {Fermionic} {Shadow} {Wave}
+  {Function}}
+    \verb{url}
+    \verb http://arxiv.org/abs/1404.6944
+    \endverb
+    \field{volume}{90}
+    \verb{file}
+    \verb arXiv\:1404.6944 PDF:/home/evenmn/Zotero/storage/L4X2WGIE/Calcavecchi
+    \verb a et al. - 2014 - On the Sign Problem of the Fermionic Shadow Wave F.
+    \verb pdf:application/pdf;arXiv.org Snapshot:/home/evenmn/Zotero/storage/F5
+    \verb E6VJAZ/1404.html:text/html
+    \endverb
+    \field{journaltitle}{Physical Review E}
+    \field{annotation}{%
+    Comment: 11 pages, 6 figures, 5 tables%
+    }
+    \field{month}{11}
+    \field{year}{2014}
+    \field{urlday}{04}
+    \field{urlmonth}{08}
     \field{urlyear}{2019}
   \endentry
 
