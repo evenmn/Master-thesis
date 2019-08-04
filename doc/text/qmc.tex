@@ -260,11 +260,11 @@ Before we go through the methods, we will give a brief introduction to some usef
 \begin{equation*}
 \langle x^n\rangle=\int dxp(x)x^n
 \end{equation*}
-where $p(x)$ is the true \textit{probability density function}. In order to make physical sense, this function needs to normalized such that the integral over all possible outcomes gives a total probability of 1. This is the zero'th moment, $\int dxp(x)=1$. The first moment is the \textit{mean} of $p(x)$, and is often denoted by the letter $\mu$
+where $p(x)$ is the true \textit{probability density function}. In order to make physical sense, this function needs to be normalized such that the integral over all possible outcomes gives a total probability of 1. This is associated with the zero'th moment, where we get $\int dxp(x)=1$. The first moment is the \textit{mean} of $p(x)$, and is often denoted by the letter $\mu$,
 \begin{equation}
-\langle x\rangle=\mu=\int dxp(x)x
+\langle x\rangle=\mu=\int dxp(x)x.
 \end{equation}
-Furthermore, we can define the \textit{central moments} given by
+Moreover, we can define the \textit{central moments} given by
 \begin{equation}
 \langle(x-\langle x\rangle)^n\rangle=\int dx(x-\langle x\rangle)^np(x),
 \end{equation}
@@ -286,7 +286,7 @@ for the sample mean assuming that $X$ is our sample containing $n$ points. Furth
 \text{var}(\overline{X})\equiv\frac{1}{n}\sum_{i=1}^n(X_i-\overline{X})^2=\frac{\sigma^2}{n}
 \label{eq:samplevariance}
 \end{equation}
-where $\sigma^2$ is the variance of the probability density function. The law of large numbers states that the estimated sample mean approaches the true sample mean as $n$ goes to infinity. This is closely related to the central limit theorem, which says that the probability distribution of $X$, $p_X(x)$, can be approximated as a normal distribution with $\mu=\overline{X}_n$ and $\sigma=\text{var}(\overline{X})$ as the number of sampling points $n$ goes to infinity. 
+where $\sigma^2$ is the variance of the probability density function. The law of large numbers states that the estimated sample mean approaches the true sample mean as $n$ goes to infinity. This is closely related to the central limit theorem, which says that the probability distribution of $X$, $p_X(x)$, can be approximated as a normal distribution $\mathcal{N}(\mu,\sigma)$ with $\mu=\overline{X}_n$ and $\sigma=\text{var}(\overline{X})$ as the number of sampling points $n$ goes to infinity. 
 
 On the other hand, if the samples are \textit{correlated}, equation \eqref{eq:samplevariance} becomes an underestimation of the \textit{sample error} $\text{err}_X^2$, and is thus more a guideline for the size of the uncertainty, more than an actual estimate of it. In that case, we need to calculate the more general \textit{covariance}, given by 
 \begin{equation}
@@ -300,7 +300,7 @@ which can be further expressed as a function of the \textit{autocovariance}, def
 \begin{equation}
 \gamma(h)=\text{cov}(X_i,X_{i+h})
 \end{equation}
-and is thus just a measure of the correlation of a part of a time series with another part of the same time series. If $h=0$, this is just the variance, $\gamma(h)=\sigma^2$. Using this, the sample error reads
+and is thus just a measure of the correlation of a part of a time series with another part of the same time series. If $h=0$, this is just the variance, $\gamma(0)=\sigma^2/n$. Using this, the sample error reads
 \begin{equation}
 \text{err}_X^2=\frac{\sigma^2}{n}+\frac{2}{n}\sum_{h=1}^{n-1}\Big(1-\frac{h}{n}\Big)\gamma(h).
 \label{eq:samplevariance2}
@@ -312,7 +312,7 @@ A problem with this definition of the sample error, is that it turns out to be v
 Above, we have described the need of a proper estimation of the uncertainty in computational simulations, where the covariance was included in
 the calculation of $\sigma^2$. A quick and easy way to get a proper estimate of the uncertainty, is by using the blocking method.
 
-When the blocking method was made popular by Flyvberg and Peterson in 1989, the method required hyper-parameters which had to be carefully adjusted for each particular data set. \cite{flyvbjerg_error_1989} In 2018, Marius Jonsson reinvented the algorithm and made it automated, with no need for external parameters. Despite this, no compromise was made on performance. The method scales as $12n+\mathcal{O}(\log_2n)$ for small data sets, but reduces to $n+\mathcal{O}(1)$ for large data sets, which makes it preferred over bootstrap and jackknife for large data sets. \cite{jonsson_standard_2018} We will now go through the idea behind the blocking method.
+When the blocking method was made popular by Flyvberg and Peterson in 1989, the method required hyper-parameters which had to be carefully adjusted for each particular data set \cite{flyvbjerg_error_1989}. In 2018, Marius Jonsson reinvented the algorithm and made it automated, with no need for external parameters. Despite this, no compromise was made on performance. The method scales as $12n+\mathcal{O}(\log_2n)$ for small data sets, but reduces to $n+\mathcal{O}(1)$ for large data sets, which makes it preferred over bootstrap and jackknife for large data sets \cite{jonsson_standard_2018}. We will now go through the idea behind the blocking method.
 
 Consider a time series $\{x_1, x_2, \hdots, x_n\}$ with $n=2^d$ data point for some integer $d>1$. For this series, an autocovariance function $\gamma(h)$ is guaranteed to exist. We arrange the data in a vector
 \begin{equation}
@@ -331,10 +331,10 @@ where $1\leq i\leq d-1$ and $1\leq k\leq n/2^i$, which are known as the \textit{
 \end{equation}
 where we define the last term as the \textit{truncation error}, $e_k$, as it is intractable. It can be shown that the sample variance of all pairs $(X_i)_k$ and $(X_j)_k$ after a while will be identical \cite{flyvbjerg_error_1989},
 \begin{equation}
-\text{var}(\overline{X}_i)=\text{var}(\overline{X}_j)
+\text{var}(\overline{X}_i)=\text{var}(\overline{X}_j),
 \label{eq:varivarj}
 \end{equation}
-with the consequence that the sample mean variance of the entire set of samples if also given by
+with the consequence that the sample mean variance of the entire set of samples is also given by
 \begin{equation}
 \text{var}(\overline{X})=\frac{\sigma_k^2}{n_k}+e_k\quad\quad\forall\quad 0\leq k\leq d-1.
 \end{equation}
