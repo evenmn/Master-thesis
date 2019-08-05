@@ -1,10 +1,11 @@
-\chapter{Quantum Many-Body Physics} \label{chp:quantum}
+\chapter{Preliminary Quantum Mechanics} \label{chp:quantum}
 \epigraph{I do not like it, and I am sorry I ever had anything to do with it.}{Erwin Schrödinger, \cite{noauthor_quantum_2005}}
 \begin{figure}[H]
 	\centering
 	\captionsetup[subfigure]{labelformat=empty}
-	\includegraphics[scale=3.0]{Images/art_quantum.jpg}
-	\caption{The first photograph of a Hydrogen atom was captured by an ultra sensitive camera in 2013. One can actually see the probability distribution $|\Psi(\bs{r})|^2$ with the naked eye. Published in Phys. rev. lett. 110, 213001 (2013), \textit{Hydrogen atoms under magnification} \cite{stodolna_hydrogen_2013}.}
+	\includegraphics[scale=1]{Images/entanglement.jpeg}
+	\caption{The first ever image of quantum entanglement, where two groups of particles are sharing the physical state $\Psi(\bs{r})$, was published in July 2019. Published in Science Advances, Vol. 5, no.7 (2019), \textit{Imaging Bell-type nonlocal behavior} \cite{moreau_imaging_2019}.}
+	\label{fig:entanglement}
 \end{figure}
 
 The quantum theory is a fundamental theory which describes the nature at the smallest scales, typically used to explain the behavior of atoms and subatomic particles. Although the theory in principle holds for systems consisting of a large number of particles as well, the calculations become both comprehensive and expensive as the system size increases, and exact computations are therefore reserved small systems. For larger systems, we in practice need to rely on approximative estimates of the observable, which also fast becomes infeasible when the system size increase.
@@ -15,29 +16,18 @@ i\hbar\frac{\partial}{\partial t}\ket{\Psi(\bs{r},t)}=\hat{\mathcal{H}}\ket{\Psi
 \end{empheq}
 which describes the state, or the wave function, $\Psi(\bs{r},t)$, of a system with Hamilton operator $\hat{\mathcal{H}}$, known as the Hamiltonian. $\hbar$ is the reduced Planck's constant and $i$ is the solution of the equation $x^2=-1$. As we later will see, the quantum mechanical system is completely specified by the wave function, so by solving the equation we will in principle know anything about the system. 
 
-Historical recap or directly to Erwin S?
+Erwin Schrödinger introduced the now-called Schrödinger equation in a 1926 paper as one of many contributions to the quantum mechanics at that time \cite{schrodinger_undulatory_1926}. Other contributors include Max Born who suggested now-standard interpretation of the probability density function as $|\Psi(\bs{r},t)|^2$ in 1926 \cite{born_zur_1926} and his companion Werner Heisenberg who formulated the matrix mechanics representation in 1925 \cite{heisenberg_uber_1925}. However, many physicists were skeptical to the new theory, including Albert Einstein and Schrödinger himself. The theory differed from the classical mechanics in the sense that it was totally based on a statistical interpretation, with some strange consequences. For instance, the theory allowed negative kinetic energies to occur with the consequence that a particle could \textit{go through} a potential wall, known as quantum tunneling. Later, Einstein also pointed out that when pairs or groups of particles are generated in ways such that the wave function of each particle cannot be described independently of the other state, they will be affected by each other even at large distances \cite{einstein_can_1935}. He called this \textit{"spooky action at a distance"}, and used the observation to argument that the quantum theory had to be incorrect. However, the observation was later proven to be correct and as late as in July 2019 the first image of quantum entanglement, as the phenomenon is called, was taken \cite{moreau_imaging_2019}. See figure \eqref{fig:entanglement}.
 
-Pioneers though the theory was wrong, Erwin, most accurate theory existing, today accepted by most of the physicists. 
+Today, there is wide agreement in the physics society on the quantum theory. Actually, the theory is the most precisely tested theory in the history of science, where computed observable of atoms agree perfectly with experiments. Most notably, quantum electrodynamical calculations of the fine structure constant $\alpha$ are found to agree with experiments within ten parts in a billion, $10^{-8}$.\bigskip
 
-In the early 20th century, some scientists claimed that there were nothing new to be discovered in physics. They though that the deviation from experimental results were caused by uncertainties in the measurements and that the theory was complete \cite{weisstein_kelvin_2007}. They could not be more wrong.
+In this chapter, will first state the postulates of quantum mechanics, and thereafter we discuss the time-independent Schrödinger equation and challenges related to solving it. As we will see, every observable in quantum mechanics is associated with an operator, and the consequence is that all obtained values are identified with standard errors which are also important to specify in order to present the accuracy of the value. In that manner, quantum mechanics is based on statistics and in section \eqref{sec:statisticalinterpretation} we discuss the statistical interpretation of the theory. The variational principle states that the ground state energy is the lowest possible energy calculated, so by minimizing the energy in a variational scheme, a ground state energy estimation can be obtained. Other things discussed are the quantum numbers, which are the values that give acceptable solutions to the Schrödinger equation, and the virial theorem which relates kinetic and potential energy. 
 
-Just a few years later in 1905, Albert Einstein published a paper advancing Max Planck's hypothesis that the energy of light is carried in discrete quantized packets to explain the photoelectric effect. This was a vital step in the development of quantum mechanics. \footnote{The same year, Einstein presented his special theory of relativity, followed by the general theory of relativity in 1915. This theory superseded a 200-year-old theory of mechanics created primarily by Isaac Newton.} The years after this discovery, immense efforts were placed on completing the theory, and contributions from an array of scientists over a period of more than 20 years were necessary to complete what today is known as the quantum theory. 
-
-Key people include Niels Bohr, who developed a model to explain the spectral lines in atoms, Max Born who suggested the now-standard interpretation of the probability density function, Werner Heisenberg who formulated the matrix mechanics of quantum mechanics, Erwin Schrödinger who formulated the wave mechanics of quantum mechanics and Paul Dirac who contributed to complete the theory. We will meet them again and again throughout this thesis.
-
-In 1929, Paul Dirac formulated something similar to what the scientists had claimed in the early 20th century, but apparently more correctly \cite{dirac_paul_adrien_maurice_quantum_1929}.
-
-\section{Preliminary quantum physics} \label{sec:elementary}
-We have already mentioned the Schrödinger equation, which describes the mechanics of a quantum mechanical system analogous to Newton's second law for classical mechanics. In this section, we discuss how the equation can be solved and the challenges related to the solutions. As we will see, every observable in quantum mechanics is associated with an operator, and the consequence is that all obtained values are identified with standard errors which are also important to specify in order to present the accuracy of the value. The fundamental quantum numbers that  We will also look at the fundamental quantum numbers which 
-
-The quantum mechanics will make up the framework for this work, but in this chapter we only discuss the theory needed for the work and this is therefore not meant as an encyclopedia to quantum mechanics. For a complete introduction to the topic, Ref. \cite{griffiths_introduction_2005} serves as an excellent read. 
-
-Before we get started, we make a few assumptions in order to simplify our problem. The most important ones are specified below with an explanation why they are valid.
+Albeit the quantum mechanics will make up the framework for this work, we will in this chapter only discuss the theory needed for the work and this is therefore not meant as an encyclopedia to quantum mechanics. For a complete introduction to the topic, Ref. \cite{griffiths_introduction_2005} serves as an excellent read. Before we get started, we make a few assumptions in order to simplify our problem. The most important ones are specified below with an explanation why they are valid.
 
 \begin{itemize}
 	\item \textbf{Point-like particles:} First, all particles involved will be assumed to be point-like, i.e, they lack spatial extension. For electrons this makes sense, since they, as far as we know, do not extent. The assumption is also applied on the nucleus in atomic systems, but it still makes sense since the distance from the nucleus to the electrons is known to be much larger than the nucleus extent.
 	
-	\item \textbf{Non-relativistic spacetime:}  Second, we operate in the non-relativistic spacetime, which is an extremely good approximation as long as we do not approach the speed of light and we do not involve strong forces. Applying classical physics, we can find that the speed of the electron in a hydrogen atom is about 1\% of the speed of light, and even though the electrons get higher speed in heavier atoms, we do not need to worry about it as we will stick to the lighter atoms. The forces acting are the weak Coulomb forces. In the quantum dots, this assumption hold even for large systems.
+	\item \textbf{Non-relativistic spacetime:}  Second, we operate in the non-relativistic spacetime, which is an extremely good approximation as long as we do not approach the speed of light and we do not involve strong forces. Applying classical physics, we can find that the speed of the electron in a hydrogen atom is about 1\% of the speed of light. Even though the electrons achieve higher velocities in heavy atoms, we do not need to worry about it as we will stick to the lighter atoms. In the quantum dots, this assumption hold even for large systems, as the velocity and density will still be sufficiently low.
 	
 	\item For specific systems we might make new assumptions and approximations. For instance, for atomic systems we will assume that the nucleus is at rest. Those approximations will be discussed consecutively. 
 \end{itemize}
@@ -50,19 +40,19 @@ Quantum mechanics is characterized by a set of fundamental axioms that make up t
 	
 	\item \textit{"To every observable in classical mechanics, there corresponds a linear, Hermitian operator in quantum mechanics."}
 	
-	\item \textit{"In any measurement of the observable associated with an operator $\hat{\mathcal{O}}$, the only values that will ever be observed are the eigenvalues $o$ which satisfy $\hat{\mathcal{O}}\Psi(\bs{r},t)=o\Psi(\bs{r},t)$."}
+	\item \textit{"In any measurement of the observable associated with an operator $\hat{O}$, the only values that will ever be observed are the eigenvalues $o$ which satisfy $\hat{O}\Psi(\bs{r},t)=o\Psi(\bs{r},t)$."}
 	
-	\item \textit{"The expectation value of the observable corresponding to operator $\hat{\mathcal{O}}$ is given by
-		$$\langle\mathcal{O}\rangle=\frac{\int d\tau\Psi^*(\bs{r},t)\hat{\mathcal{O}}\Psi(\bs{r},t)}{\int d\tau\Psi^*(\bs{r},t)\Psi(\bs{r},t)}.\textit{"}$$}
+	\item \textit{"The expectation value of the observable corresponding to operator $\hat{O}$ is given by
+		$$\langle\hat{O}\rangle=\frac{\int d\tau\Psi^*(\bs{r},t)\hat{O}\Psi(\bs{r},t)}{\int d\tau\Psi^*(\bs{r},t)\Psi(\bs{r},t)}.\textit{"}$$}
 	
 	\item \textit{"The wave function evolves in time according to the time-dependent Schrödinger equation,
 		$$\hat{\mathcal{H}}\Psi(\bs{r},t)=i\hbar\frac{\partial\Psi(\bs{r},t)}{\partial t}.\textit{"}$$}
 	
 	\item \textit{"The total wavefunction must be antisymmetric with respect to the interchange of all coordinates of one fermion with those of another. Electronic spin must be included in this set of coordinates."} 
 \end{enumerate}
-All the postulates will be used in this work, and they will be described in detail when we need it. Albeit we will look at stationary states only, even the time-dependent Schrödinger from postulate number 5 will be discussed due to the description of the diffusion Monte Carlo method in section \ref{sec:dmc}. The other will be covered in the current chapter. The formulation of the presented postulates are taken from \cite{sherrill_david_postulates_2003}.
+All the postulates will be used in this work, and they will be described in detail when we need them. Albeit we will look at stationary states only, even the time-dependent Schrödinger from postulate number 5 will be discussed due to the description of the diffusion Monte Carlo method in section \ref{sec:dmc}. The other will be covered in the current chapter. The formulation of the presented postulates are taken from \cite{sherrill_david_postulates_2003}.
 
-\section{The Schrödinger equation} \label{subsec:schrodinger}
+\section{The Schrödinger equation} \label{sec:schrodinger}
 We have already presented the time-dependent Schrödinger equation on several occasions, but as mentioned above, we will in this work study stationary systems only. If we also recall that the particles are assumed to be non-relativistic, the focus will be on solving the time-independent non-relativistic Schrödinger equation. By defining $\Psi_n(\bs{r})$ as the wave function of a state $n$ with energy $\varepsilon_n$, the equation can be expressed as
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \label{eq:Energy}
@@ -84,38 +74,67 @@ according to Ehrenfest's theorem. Further, the momentum operator is $\hat{p}=-i\
 \end{equation}
 which indicates that the momentum and the position do not \textit{commute}. In other words, the order of the operators in an equation is not arbitrary. 
 
-For systems of two or more charged particles, the potential energy can be split in an external part and an interaction part, where the latter is given by the Coulomb interaction. For two identical particles of charge $q$, the repulsive interaction gives the energy
+The potential, on the other hand, is obviously dependent on the system we want to study. For atomic systems, the potential as a function of the distance from the nucleus can be found from Coulomb's law and reads 
 \begin{equation}
-V_{\text{int}} =k_e\frac{q^2}{r_{12}}
+V(r)=\frac{1}{4\pi\epsilon_0}\frac{Ze^2}{r}
+\label{eq:atompotential}
 \end{equation}
-where $r_{12}$ is the distance between the particles and $k_e$ is Coulomb's constant. The total Hamiltonian of a system of $N$ identical particles takes the form
+where the nucleus is assumed to be at rest in the origin, $k_e=1/4\pi\epsilon_0$ is the Coulomb constant, $Z$ is the atomic number of the nucleus and $e$ is the elementary charge. For a general potential, the Hamiltonian can be expressed as 
 \begin{equation}
-\hat{\mathcal{H}}=-\sum_i^N\frac{\hbar^2}{2m}\nabla_i^2+\sum_i^{N}u_i + \sum_i^N\sum_{j>i}^Nk_e\frac{q^2}{r_{ij}}
-\label{eq:ElectronicHamiltonian}
+\hat{\mathcal{H}}=-\frac{\hbar^2}{2m}\nabla^2+V(r)
+\label{eq:oneparticlehamiltonian}
 \end{equation}
-which is the farthest we can go without specifying the external potential $u_i$. $r_{ij}$ is the relative distance between particle $i$ and $j$, defined by $r_{ij}\equiv|\bs{r}_i-\bs{r}_j|$.
+which is the farthest we can go without specifying the external potential $V(r)$.
 
 By setting up equation \eqref{eq:Energy} with respect to the energies, we obtain an integral,
 \begin{equation}
 \epsilon_n=\frac{\int d\bs{r}\psinc\hat{\mathcal{H}}\psin}{\int d\bs{r}\psinc\psin},
 \label{eq:energyintegral}
 \end{equation}
-which not necessarily is trivial to solve. For almost\footnote{Exceptions include quantum dots of two electrons in two and three dimensions, where M.Taut have presented semi-analytical energies for a few oscillator frequencies \cite{taut_two_1993,taut_two_1994}.} all many-electron systems, this becomes analytically infeasible due to the two-body interaction term.
+which not necessarily is trivial to solve. For almost\footnote{Exceptions include quantum dots of two electrons in two and three dimensions, where M.Taut has presented semi-analytical energies for a few oscillator frequencies \cite{taut_two_1993,taut_two_1994}.} all many-electron systems, this becomes analytically infeasible due to the two-body interaction term.
 
-As suggested by Max Born, we get the probability distribution function if we take the dot product between the complex conjugate wave function and the wave function itself,
+As suggested by Max Born, we get the probability density function if we take the dot product between the complex conjugate wave function and the wave function itself,
 \begin{equation}
 P(\bs{r})=\psinc\psin=|\psin|^2,
 \label{eq:pdf}
 \end{equation}
 so the denominator is basically the integral over all the probabilities. If the wave function is normalized correctly, this should always give 1. 
 
-\section{Statistical interpretation}
-In equation \eqref{eq:energyintegral}, we found the expectation value of the energy using the Hamiltonian, which is the energy operator. However, this relation applies for an arbitrary operator $\hat{O}$ related to an expectation value $\langle \hat{O}\rangle$,
+As a very brief example, we will below calculate the bounding energy of the Hydrogen atom.
+
+\subsection{The Hydrogen atom}
+We presented the one-particle Hamiltonian in equation \eqref{eq:oneparticlehamiltonian}, and the potential from the nucleus in equation \eqref{eq:atompotential}. By introducing the Bohr radius
 \begin{equation}
-\langle \hat{O}\rangle=\frac{\int d\bs{r}\psinc\hat{O}\psin}{\int d\bs{r}\psinc\psin},
+a_0=\frac{4\pi\epsilon_0\hbar^2}{m_eZe^2}
+\end{equation}
+we can set up the total Hamiltonian as
+\begin{equation}
+\hat{\mathcal{H}}\cdot\frac{k_e^2\hbar^2}{m_eZe^2}=-\frac{1}{2}a_0^2\nabla^2-\frac{1}{a_0r}
+\end{equation}
+where we have multiplied all the terms by the factor $k_e^2\hbar^2/m_eZe^2$ in order to make the equation dimensionless. We can further scale the energy as $E\leftarrow E\cdot k_e^2\hbar^2/m_eZe^2$ and the distance as $r\leftarrow a_0r$, which both are dimensionless, and obtain the Hamiltonian
+\begin{equation}
+\hat{\mathcal{H}}=-\frac{1}{2}\nabla^2-\frac{1}{r}
+\end{equation}
+where all quantities are in atomic units.
+
+The Hydrogen wave function is well-known and reads
+\begin{equation}
+\Psi(r)\propto e^{-r}
+\end{equation}
+in atomic units. The bounding energy in Hydrogen is found from the Schrödinger equation in equation \eqref{eq:Energy}, and gives
+\begin{equation}
+\hat{\mathcal{H}}\Psi(r)=\bigg(-\frac{1}{2}\nabla^2-\frac{1}{r}\bigg)\Psi(r)=-\frac{1}{2}\Psi(r)
+\end{equation}
+which indicates that $\varepsilon=-0.5$.
+
+
+\section{Statistical interpretation} \label{sec:statisticalinterpretation}
+In equation \eqref{eq:energyintegral}, we found the expectation value of the energy using the Hamiltonian, which is the energy operator. By the second postulate of quantum mechanics, every observable in the classical mechanics is associated with such a Hermitian operator $\hat{O}$ related to an expectation value $\langle \hat{O}\rangle$ is the same way,
+\begin{equation}
+\langle \hat{O}\rangle=\frac{\int d\bs{r}\psinc\hat{O}\psin}{\int d\bs{r}\psinc\psin}.
 \label{eq:generalexp}
 \end{equation}
-which is in agreement with the expected value of the classical absolutely continuous case. As a consequence, there is always an uncertainty associated with a measurement in quantum physics, such that we can only tell the probability of measuring something. The uncertainty is usually described by the variance, which for a set of independent measurements is given by
+As a consequence, there is always an uncertainty associated with a quantum mechanical calculation, such that we can only tell the probability of measuring something. The uncertainty is usually described by the variance, which for a set of independent measurements is given by
 \begin{equation}
 \sigma^2=\langle \hat{O}^2\rangle-\langle \hat{O}\rangle^2.
 \label{eq:variance}
@@ -134,7 +153,7 @@ where $\bra{\Psi}$ is called the \textit{bra} and $\ket{\Psi}$ is called the \te
 \begin{equation}
 \langle \hat{O}\rangle=\mel{\Psi}{\hat{O}}{\Psi},
 \end{equation}
-which we will henceforth assume. More information about the Dirac formalism can be found in Appendix A. 
+and will henceforth be assumed. More information about the Dirac formalism can be found in Appendix \ref{app:dirac}. 
 
 \section{The variational principle} \label{sec:variationalprinciple}
 In the equations above, the presented wave functions are assumed to be the exact eigenfunctions of the Hamiltonian. But often we do not know the exact wave functions, and we need to guess what the wave functions might be. In those cases we apply the variational principle, which states that only the exact ground state wave function is able to give the ground state energy. All other wave functions that fulfill the required properties (see section \ref{sec:wavefunction}) give higher energies, and mathematically we can express the statement as
@@ -164,9 +183,9 @@ The last number we will discuss is the \textbf{spin projection} quantum number $
 
 \section{The virial theorem} \label{sec:virial}
 The virial theorem relates the kinetic energy to the potential energy, and makes it possible to find the average kinetic energy even for complex systems. The classical statement of the theorem was formulated during the 19th century and named by Rudolf Clausius in 1870 \cite{clausius_xvi._1870}. It is in the most general form given by 
-\begin{equation}
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \langle\hat{T}\rangle=-\frac{1}{2}\sum_{i=1}^N\langle\bs{F}_i\cdot\bs{r}_i\rangle
-\end{equation}
+\end{empheq}
 where $\bs{F}_i$ represents the force on particle $i$ at position $\bs{r}_i$. If we further assume that all the sources of potential are on the form $V_i=ar^{n_i}$, we can use the relation $\bs{F}_i=-\nabla V_i$ to express the virial theorem in a simpler fashion
 \begin{equation}
 2\langle \hat{T} \rangle = \sum_{i}n_i\langle \hat{V}_{i} \rangle,
@@ -193,147 +212,3 @@ J=L+S,
 \end{equation}
 but the transition from $L$ to $S$ is rare compared to the transition from $L_c$ to $L_r$. Spin-orbit coupling. Azimuthal. Quantized.
 \fi
-
-\section{The wave function} \label{sec:wavefunction}
-By the first postulate of quantum mechanics, the wave function contains all the information specifying the state of the system. This means that all observable in classical mechanics can also be measured from the wave function, which makes finding the wave function our aim. The trial wave function needs to meet some requirements in order to be used in the variational principle, and we thus need to make an educated guess on the wave function where the requirements are fulfilled. The requirements are the following:
-
-\begin{enumerate}
-	\item \textbf{Normalizability:} The wave function needs to be normalizable in order to make physical sense. The total probability should always be 1, and a wave function that cannot be normalized will not have a finite total probability. The consequence is that the wave function goes to zero when the positions get large, $\Psi(x\rightarrow\pm\infty)\rightarrow 0$. 
-	
-	\item \textbf{Cusp condition:} The cusp condition (also called the Kato theorem) states that the wave function should have a cusp where the potential explodes. An example on this is when charged particles come close to each other. %\change{Extend this, this is actually wrong}
-	\todo[inline]{This is wrong}
-	
-	\item \textbf{Symmetry and anti-symmetry:} The wave function needs to be either symmetric or anti-symmetric under exchange of two coordinates, dependent on whether the particles are fermions or bosons. This is the statement of the sixth postulate, which will be further explained in the next section.
-\end{enumerate}
-
-\subsection{Anti-symmetry and the Pauli principle} \label{sec:symmetry}
-Assume that we have a permutation operator $\hat{P}$ which exchanges two coordinates in the wave function,
-\begin{equation}
-\hat{P}(i\rightarrow j)\Psi_n(\bs{x}_1,\hdots,\bs{x}_i,\hdots,\bs{x}_j,\hdots,\bs{x}_M)=p\Psi_n(\bs{x}_1,\hdots,\bs{x}_j,\hdots,\bs{x}_i,\hdots,\bs{x}_M),
-\end{equation}
-where $p$ is just a factor which comes from the transformation. If we again apply the $\hat{P}$ operator, we should switch the same coordinates back, and we expect to end up with the initial wave function. For that reason, $p$ must be either +1 or -1. \footnote{Actually, in two-dimensional systems we have a third possibility which gives an \textit{anyon}. The theory on this was developed by J.M. Leinaas and J. Myrheim during the 1970's \cite{leinaas_one_1977}.}
-
-The particles that have an antisymmetric (AS) wave function under exchange of two coordinates are called fermions, named after Enrico Fermi, and as discussed before they have half-integer spin. On the other hand, the particles that have a symmetric (S) wave function under exchange of two coordinates are called bosons, named after Satyendra Nath Bose, and have integer spin. 
-
-It turns out that because of their anti-symmetric wave function, two identical fermions cannot be found at the same position at the same time, known as the Pauli principle. 
-
-The probability of finding two identical particles at the same position at the same time should be zero due to the Pauli principle, so technically we need to set the wave function to zero if it happens. To deal with this, we introduce a so-called Slater determinant, which automatically sets the wave function to zero if the principle is not satisfied.
-
-\subsection{The Slater determinant} \label{sec:slater}
-For a system of many particles we can define a total wave function, which is a composition of all the single particle wave functions (SPF) and contains all the information about the system as the first postulate requires. For fermions, we need to combine the SPFs such that the Pauli principle is fulfilled at all times, which can be accomplished by a determinant. 
-
-Consider a system of two identical fermions with SPFs $\psi_1$ and $\psi_2$ at positions $\boldsymbol{r}_1$ and $\boldsymbol{r}_2$ respectively. The way we define the wavefunction of the system is then
-\begin{equation}
-\begin{aligned}
-\Psi_T(\bs{r}_1,\bs{r}_2, \sigma_1,\sigma_2)&=\frac{1}{\sqrt{2}}
-\begin{vmatrix}
-\psi_1(\boldsymbol{r}_1,\sigma_1) & \psi_2(\boldsymbol{r}_1,\sigma_2)\\
-\psi_1(\boldsymbol{r}_2,\sigma_1) & \psi_2(\boldsymbol{r}_2,\sigma_2)
-\end{vmatrix}\\
-&=\frac{1}{\sqrt{2}}\Big[\psi_1(\boldsymbol{r}_1,\sigma_1)\psi_2(\boldsymbol{r}_2,\sigma_2)-\psi_2(\boldsymbol{r}_1,\sigma_2)\psi_1(\boldsymbol{r}_2,\sigma_1)\Big],
-\end{aligned}
-\end{equation}
-which is set to zero if the particles are at the same position. The determinant yields the same no matter the size of the system.
-
-The Slater determinant is just a wave function ansatz to satisfy the Pauli principle, and we therefore need to denote it as the trial wave function. Additionally, the Slater determinant above contains the radial part only, because the single particle functions are the radial part by convention. For a general Slater determinant of $N$ particles, the spin part needs to be included as well, giving 
-\begin{equation}
-\Psi_T(\bs{r})=\frac{1}{\sqrt{N!}}
-\begin{vmatrix}
-\psi_1(\boldsymbol{r}_1) & \psi_2(\boldsymbol{r}_1) & \hdots & \psi_N(\boldsymbol{r}_1)\\
-\psi_1(\boldsymbol{r}_2) & \psi_2(\boldsymbol{r}_2) & \hdots & \psi_N(\boldsymbol{r}_2)\\
-\vdots & \vdots & \ddots & \vdots \\
-\psi_1(\boldsymbol{r}_N) & \psi_2(\boldsymbol{r}_N) & \hdots & \psi_N(\boldsymbol{r}_N)
-\end{vmatrix}
-\end{equation}
-where the $\psi$'s are the true single particle functions, which are the tensor products 
-\begin{equation}
-\psi=\phi\otimes\chi
-\end{equation}
-with $\psi$ as the spatial part and $\chi$ as the spin part. For bosonic systems, one can correspondingly construct a Slater permanent. The permanent of a matrix is similar to the determinant, but all negative signs are replaced by positive signs. 
-
-\subsection{Basis set} \label{subsec:basisset}
-To go further, we need to define a basis set, $\{\phi_1(\bs{r}),\phi_2(\bs{r}),\hdots\phi_N(\bs{r})\}$ which should be chosen carefully based on the system. For a few systems, we know the exact basis of the non-interacting case, and it is thus a natural basis to use in the Slater determinant. For other systems, the choice of basis might depend on the situation, where we typically need to weigh computational time against accuracy. Concrete examples on both cases will be presented in chapter \eqref{chp:systems}.
-
-Often, one will see that the basis is optimized by the Hartree-Fock method. Using this basis in a single Slater determinant, we obtain the Hartree-Fock energy which sometimes is quite accurate. To get an even better energy estimate, we need to add more Slater determinants, which is the task of the post Hartree-Fock methods. More about this in chapter (\ref{chp:methods},\ref{chp:othermethods}).
-
-\subsection{Jastrow factors} \label{sec:jastrow}
-From electrostatics we know that identical, charged particles will repel each other. This means that the probability of finding two particles close to each other should be low, which needs to be baked into the wave function. One way to do this is to simply multiply the wave function with the distance between the particles; the smaller distance the lower probability. However, since we are going to work in the logarithmic space, dealing with exponential function will be much easier. This is the main idea behind the simple Jastrow factor.
-
-\subsubsection{Simple Jastrow}
-The simple Jastrow factor is just an exponential function with the sum over all particle distances. In addition, each distance $r_{ij}$ is weighted by a parameter $\beta_{ij}$, and the factor becomes
-\begin{equation}
-J(\bs{r}; \bs{\beta}) = \exp\left(\sum_{i=1}^N\sum_{j>i}^N{\beta_{ij}r_{ij}}\right).
-\label{eq:SimpleJastrow}
-\end{equation}
-All the $\beta_{ij}$ are free variational parameters, which are expected to be symmetric since the distance matrix is symmetric.
-
-One problem with this Jastrow factor, is that it does not create the cusp around each particle correctly. Basically, the Jastrow factor increases faster than it should when a particle is moved away from another. To solve this, we need to introduce a more complex Jastrow factor, the Padé-Jastrow.
-
-\subsubsection{Padé-Jastrow}
-The Padé-Jastrow factor is closely related to the simple Jastrow above, but a denominator is added to make the cusp correctly. It reads
-\begin{equation}
-J(\bs{r};\beta) = \exp\bigg(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij}}\bigg).
-\label{eq:PadeJastrow}
-\end{equation}
-where $\beta$ is a variational parameter. In addition, the fractions are multiplied with constants $a_{ij}$ which depend on the particles $i$ and $j$ in the following way:
-\begin{equation}
-\label{eq:ajastrow}
-a_{ij}=
-\begin{cases} 
-e^2/(D+1) & \text{if $i,j$ are particles of same spin} \\
-e^2/(D-1) & \text{if $i,j$ are particles of opposite spin},
-\end{cases}
-\end{equation}
-for dimensions $D\in[2,3]$ where $e$ is the elementary charge. We will later use natural and atomic units, and set $e=1$, which for two dimensions gives $a_{ij}=1/3$ (same spin) or $a_{ij}=1$ (opposite spin) and for three dimensions $a_{ij}=1/4$ (same spin) and $a_{ij}=1/2$ (opposite spin) \cite{hogberget_quantum_2013,mariadason_quantum_2018}.
-
-This Jastrow factor is known to give accurate results for fermions and bosons because it gives the correct cusp condition, and it is the one we gonna use in the standard variational Monte-Carlo simulations.
-
-\section{Electron density}
-In quantum many-body computations, the electron density is frequently calculated, and there are several reasons for that. Firstly, the electron density can be found experimentally, such that the calculations can be benchmarked. Secondly, the electron density is very informative, since information about all particles can be gathered in one plot.
-
-The $P$-body electron density can be found by integrating over all particles but $P$, 
-\begin{equation}
-\label{eq:electron_density}
-\rho_i(\bs{r})=\int_{-\infty}^{\infty}d\bs{r}_P\hdots d\bs{r}_N |\Psi(\bs{r}_1,\hdots \bs{r}_N)|^2.
-\end{equation}
-where $P<N$.
-
-\subsection{One-body Density}
-The one-body density is the most applied electron density, and is sometimes simply referred to as the electron density. For the two particle case, the one-body density gives the probability of finding one particle at a relative distance $r$ to the other. For more particles, the one-body density gives the probability of finding the mass center of the remaining particles at a relative distance $r$ from one of the particles.
-
-The one-body density integral can be solved by Monte-Carlo integration. We then divide the space into bins of equal sizes at different radii and count the number of particles in each bin throughout the sampling. In practice, one often divide the space into bins where the radii are uniformly distributed, i.e, $r_i=i\cdot r_0$, see figure \eqref{fig:onebody}. In that case, one needs to divide the number of particles in each bin by its volume afterwards in order to get a correct distribution. In two dimensions, the area of bin $i$ is
-\begin{equation}
-A_i=(2i+1)\pi d^2
-\end{equation}
-and in three dimensions the volume of bin $i$ is
-\begin{equation}
-V_i=4(i(i+1)+1/3)\pi d^3.
-\end{equation}
-where $d$ is the radial width of a bin. 
-
-\begin{figure}
-	\centering
-	\label{fig:onebody}
-	\input{tikz/onebody_bins.tex}
-	\caption{This figure is meant to illustrate how the one-body density is calculated using Monte-Carlo integration. One divides the space into $n$ bins (here 5), and count the number of particles in each bin throughout the sampling. Afterwards, the bins need to be normalized.}
-\end{figure}
-
-\begin{figure}
-	\centering
-	\label{fig:twobody}
-	\input{tikz/twobody_bins.tex}
-	\caption{This figure is meant to illustrate how the two-body density is calculated using Monte-Carlo integration. One divides the space into $n$ bins (here 5), and store the position of a pair of particles in a matrix throughout the sampling. Afterwards, the bins need to be normalized.}
-\end{figure}
-
-\subsection{Two-body Density}
-The two-body density gives the probability of finding a pair of electrons at coordinates $\bs{r}_1$ and $\bs{r}_2$. 
-
-For the one-body density, we integrate over all the particles but one, which corresponds to counting number of particles in each bin when doing Monte-Carlo integration. For the two-body density, we integrate over all particles but a \textit{particle pair}, which means that we need to find the position of each particle pair in order to solve the integral by Monte-Carlo integration. See figure \eqref{fig:twobody} for an illustration of this Monte-Carlo integration.
-
-\subsection{Wigner Crystals} \label{sec:wigner}
-A Wigner crystal is a solid phase where electrons form triangular lattices to minimize the potential energy. The phenomenon occurs only when the potential energy dominates the kinetic energy, since the electrons then are almost "at rest". 
-
-To minimize the potential energy, the distances between the electrons should be maximized. To achieve this, the electrons form the triangular lattice shape, not so unlike Norwegians on the metro trying to maximize the distance to anyone else. For that reason, the electron density should approach discrete radial values, and the phenomenon should be observable in one-body density plots.
-
-
-
