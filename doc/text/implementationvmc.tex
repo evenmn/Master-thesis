@@ -822,6 +822,43 @@ if (m_myRank == 0) {
 \end{lstlisting}
 where \lstinline|m_optimization| is the specified optimizer and \lstinline|m_myrank| is the \textit{rank} of the process. Parallel processing is not discussed yet, but we will describe it briefly in the following section.
 
+\section{Electron density}
+We presented the theory behind the electron density in section \ref{sec:electrondensity}, where we saw that the $P$-body density is given by an integral over all probability density functions $|\Psi(\bs{r}_1,\hdots,\bs{r}_N)|^2$ but $P$ of them. Usually, we look at the one-body density or the two-body density, leaving out one or two particles from the integration. Further in section \ref{sec:electrondensityqmc}, we gave a brief explanation of how the one-body density can be found using Monte Carlo integration in a VMC scheme. In this section, we will discuss the technique in more detail, and of course give the actual implementation. 
+
+In our particular implementation, we decided to divide the space into annuluses\footnote{An annulus is a ring-shaped object with a region bounded by two concentric circles.} of equal width $d$, which obviously gives bins of different sizes. For an illustration of the idea behind the Monte-Carlo integration for the one-body density in two dimensions, see figure \eqref{fig:onebody}. In two dimensions, a bin $i$ has the area
+\begin{equation}
+A_i=(2i+1)\pi d^2
+\end{equation}
+and in three dimensions the volume of bin $i$ is
+\begin{equation}
+V_i=4(i(i+1)+1/3)\pi d^3.
+\end{equation}
+
+\begin{figure}
+	\centering
+	\input{tikz/onebody_bins.tex}
+	\caption{This figure is meant to illustrate how the one-body density is calculated using Monte-Carlo integration. One divides the space into $n$ bins (here 5), and count the number of particles in each bin throughout the sampling. Afterwards, the bins need to be normalized.}
+	\label{fig:onebody}
+\end{figure}
+
+The most intuitive way of finding the correct bin of a particle, is to loop through all the bins and check if the particles belongs to the particular bin.however, this is a rather inefficient method of doing it, and it can be done much smarter revealing that a particle of radius $r$ belong to the bin of index
+\begin{equation}
+i=r\setminus d + 1
+\end{equation}
+where $\setminus$ indicates integer division. 
+
+By defining a vector \lstinline|m_particlesPerBin| with the length number of bins, we can find the number of particles in each bin by a simple loop over all particles,
+\begin{lstlisting}[language=c++,caption={Taken from \lstinline{sampler.cpp}.}]
+void Sampler::computeOneBodyDensity(const Eigen::VectorXd radialVector)
+{
+	for (int i_p = 0; i_p < m_numberOfParticles; i_p++) {
+		int bin = int(radialVector(i_p) / m_radialStep) + 1;
+		m_particlesPerBin(bin)++;
+	}
+}
+\end{lstlisting}
+where $m_radialStep$ is the width of each annulus, above denoted by $d$. In the end, \lstinline|m_particlesPerBin| is printed to file, and we do the normalization when this file is read by a script, see \lstinline|plot_ob_density.py|. For the two-body density, the implementation is very similar, and it will therefore not be detailed here. 
+
 \section{Parallel processing}
 The code was parallelized using MPI to make it possible to study large systems. This means that the code can run multiple parallel treads and in that manner utilize the processors. Most notably, this allows us to run on computer clusters which typically .. We will not explain how MPI works in detail, nor will we detail the implementation of MPI since the commands are distribution over the entire code. The thing we present, is a sketch of the idea behind the parallelization used for our particular code.
 
@@ -843,7 +880,7 @@ We typically distinguish between wall clock time, $t_{clock}$ and CPU time $t_{c
 			Egradient$+=(\hat{\mathcal{H}}\Psi)/\Psi*\nabla_{\theta}\ln\Psi$\;
 		}
 		\If{something goes wrong}{
-			MPI\_Abort() (Abort all processes)\;
+			MPI\_Abort() (Terminate all processes)\;
 		}
 		MPI\_Barrier() (Align processes)\;
 		MPI\_Reduce($E_L$, gradients, Egradients) (Collect cumulative values)\;

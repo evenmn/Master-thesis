@@ -171,7 +171,7 @@ The marginal distribution of a subset of variables can then be approximated by s
 
 For a restricted Boltzmann machine, this becomes a two-step sampling process due to the latent variables, such that we use the conditional probabilities $P(\bs{r}|\bs{h})$ and $P(\bs{h}|\bs{r})$ to update the visible and hidden units respectively. For the restricted Boltzmann machine with Gaussian-binary units presented in section \ref{sec:RBM}, the conditional probability of $h_j=0$ given a set of visible nodes $\bs{x}$ is
 \begin{equation}
-P(h_j=0|\bs{x})=\frac{1}{1+\exp(b_j+\sum_{i=1}^Nx_iw_{ij}/\sigma^2)}
+P(h_j=0|\bs{x})=\frac{1}{1+\exp(+b_j+\sum_{i=1}^Nx_iw_{ij}/\sigma^2)}
 \end{equation}
 and the corresponding conditional probability of $h_j=1$ is
 \begin{equation}
@@ -233,6 +233,44 @@ and
 Note that the only closed-form expression needed, in addition to the local energy, is the expression of $\nabla_{\theta_j}\ln\Psi_T(\bs{r}_i)$. This will later be found for the various wave functions. 
 
 We want to stress that the local energy is not the only possible choice of cost function. By taking advantage of the zero-variance property of the expectation value of the local energy in the minimum, one can also minimize the variance. This requires the calculation of a few additional expectation values, but it is a fully manageable task to do. See for instance Ref.\cite{bajdich_electronic_2010} for more information.
+
+\section{Electron density} \label{sec:electrondensityqmc}
+In section \ref{sec:electrondensity}, we introduced the electron density, and looked at the integral representation,
+\begin{equation}
+\rho_P(\bs{r}_1,\hdots,\bs{r}_P)=\frac{1}{N-P}\int_{-\infty}^{\infty}d\bs{r}_{P+1}\hdots d\bs{r}_N |\Psi(\bs{r}_1,\hdots \bs{r}_N)|^2.
+\end{equation}
+Not surprisingly, also this integral will be solved using Monte Carlo integration, but in a slightly different way than the integrals above since this integral returns a distribution rather than an expectation value. First, we divide the space into bins with equal sizes or at least known sizes. Thereafter, we move the particles around and count how many times a particle is found in each bin. We want to find the relative number of particles in each bin with respect to the size of the bin, so if the bins are of different sizes we need to divide them all by their respective size. In the end, we normalize the density such that the sum of all densities become equal to 1.
+
+\iffalse
+\subsection{One-body density}
+We solve the one-body density integral by 
+The one-body density integral can be solved by Monte-Carlo integration. We then divide the space into bins of equal sizes at different radii and count the number of particles in each bin throughout the sampling. In practice, one often divide the space into bins where the radii are uniformly distributed, i.e, $r_i=i\cdot r_0$, see figure \eqref{fig:onebody}. In that case, one needs to divide the number of particles in each bin by its volume afterwards in order to get a correct distribution. In two dimensions, the area of bin $i$ is
+\begin{equation}
+A_i=(2i+1)\pi d^2
+\end{equation}
+and in three dimensions the volume of bin $i$ is
+\begin{equation}
+V_i=4(i(i+1)+1/3)\pi d^3.
+\end{equation}
+where $d$ is the radial width of a bin. 
+
+\begin{figure}
+	\centering
+	\input{tikz/onebody_bins.tex}
+	\caption{This figure is meant to illustrate how the one-body density is calculated using Monte-Carlo integration. One divides the space into $n$ bins (here 5), and count the number of particles in each bin throughout the sampling. Afterwards, the bins need to be normalized.}
+	\label{fig:onebody}
+\end{figure}
+
+\subsection{Two-body Density}
+For the one-body density, we integrate over all the particles but one, which corresponds to counting number of particles in each bin when doing Monte-Carlo integration. For the two-body density, we integrate over all particles but a \textit{particle pair}, which means that we need to find the position of each particle pair in order to solve the integral by Monte-Carlo integration. See figure \eqref{fig:twobody} for an illustration of this Monte-Carlo integration.
+
+\begin{figure}
+	\centering
+	\input{tikz/twobody_bins.tex}
+	\caption{This figure is meant to illustrate how the two-body density is calculated using Monte-Carlo integration. One divides the space into $n$ bins (here 5), and store the position of a pair of particles in a matrix throughout the sampling. Afterwards, the bins need to be normalized.}
+	\label{fig:twobody}
+\end{figure}
+\fi
 
 \section{Diffusion Monte Carlo} \label{sec:dmc}
 The second and last quantum Monte Carlo method we will discuss, is the diffusion Monte Carlo (DMC) method (DMC). DMC belongs to a class of projection and Green's function approaches, and provides in principle an exact solution of the Schrödinger equation. However, for fermionic systems the method is plagues by the occurrence of a sign-problem, known as the fermion sign problem, and we need to use approximations to bypass the problem. The most common fix is the fixed-node approximation, which introduces errors to the computations. The problem is also attempted to solve using shadow wave functions, most notably by Ref.\cite{calcavecchia_sign_2014}, which have many commonalities with our restricted Boltzmann machine (RBM) approach. An idea is that also the RBMs can contribute to find a solution to the problem, but we leave this for later studies. 

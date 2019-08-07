@@ -71,7 +71,7 @@ where $p$ is just a factor which comes from the transformation. If we again appl
 The particles that have an anti-symmetric wave function under exchange of two coordinates are called fermions, named after Enrico Fermi, and as discussed before they have half-integer spin. On the other hand, the particles that have a symmetric wave function under exchange of two coordinates are called bosons, named after Satyendra Nath Bose, and have integer spin. A consequence of the anti-symmetric wave function, is that two identical fermion cannot occupy the same state at the same time, known as the Pauli principle. This means that identical fermions even in the ground state spread over multiple states, and in the next section we will see how this principle is baked into the wave function through a Slater determinant. 
 
 \subsection{The Slater determinant} \label{sec:slater}
-For a system of many particles we can define a total wave function, which is a composition of all the single particle wave functions (SPF) and contains all the information about the system as the first postulate requires. For fermions, we need to combine the SPFs such that the Pauli principle is fulfilled at all times, which can be accomplished by a determinant. 
+For a system of many particles we can define a total wave function, which is a composition of all the single-particle wave functions (SPF) and contains all the information about the system as the first postulate requires. For fermions, we need to combine the SPFs such that the Pauli principle is fulfilled at all times, which can be accomplished by a determinant. 
 
 Consider a system of two identical fermions with SPFs $\psi_1(\bs{r},\sigma)$ and $\psi_2(\bs{r},\sigma)$ at position and spin $\boldsymbol{r}_1,\sigma_1$ and $\boldsymbol{r}_2,\sigma_2$ respectively. The way we define the wavefunction of the system is then
 \begin{equation}
@@ -98,15 +98,21 @@ where the $\psi(\bs{r},\sigma)$ is the tensor product between the radial part $\
 \begin{equation}
 \psi(\bs{r},\sigma)=\phi(\bs{r})\otimes\chi(\sigma).
 \end{equation}
-In the rest of this thesis, we will consequently use $\phi$ as the radial part of the single particle functions and $\chi$ as the spin part. In section \ref{sec:slaterdeterminant}, it is shown that the Slater determinant can be split in a spin-up part and a spin-down part such that the spin-dependency $\chi(\sigma)$ can be omitted. for that reason, we can define a basis set consisting of the spatial part only, discussed in the next section. 
+In the rest of this thesis, we will consequently use $\phi$ as the radial part of the single-particle functions and $\chi$ as the spin part. In section \ref{sec:slaterdeterminant}, it is shown that the Slater determinant can be split in a spin-up part and a spin-down part such that the spin-dependency $\chi(\sigma)$ can be omitted. for that reason, we can define a basis set consisting of the spatial parts only, discussed in the next section. 
 
-\subsection{Basis set} \label{subsec:basisset}
-To go further, we need to define a basis set, $\{\phi_1(\bs{r}),\phi_2(\bs{r}),\hdots\phi_N(\bs{r})\}$ which should be chosen carefully based on the system. For a few systems, we know the exact basis of the non-interacting case, and it is thus a natural basis to use in the Slater determinant. For other systems, the choice of basis might depend on the situation, where we typically need to weigh computational time against accuracy. Concrete examples on both cases will be presented in chapter \eqref{chp:systems}.
+\subsection{Basis set} \label{sec:basisset}
+In quantum chemistry, a basis set is a set of basis functions, which often are called the atomic orbitals.  Generally, a basis function should not be confused with a single-particle function, as a single-particle function is a linear combination of basis functions, and are often called the molecular orbitals. Commonly used atomic orbitals are Pople basis sets (in the form of x-yz G), correlation-consistent basis sets (in the form of cc-pVNZ) and Slater-type orbitals (in the form of STO-nG), where all are built on Gaussian functions. Gaussian functions are preferred as they allow efficient implementations of post-Hartree-Fock methods.
 
-Often, one will see that the basis is optimized by the Hartree-Fock method. Using this basis in a single Slater determinant, we obtain the Hartree-Fock energy which sometimes is quite accurate. To get an even better energy estimate, we need to add more Slater determinants, which is the task of the post Hartree-Fock methods.
+In our work, however, the single-particle functions are often the basis functions, as we in most of the cases do not expand our single-particle functions $\psi(\bs{r},\sigma)$ in a basis. Our single-particle functions are typically the solution of the non-interacting system, and as the Jastrow factor is supposed to deal with the interaction, we use the same functions for the interacting case as well.
+
+The standard notation is to use the Greek letter $\varphi$ for the atomic orbitals and $\psi$ for the molecular orbitals, such that single-particle functions can be obtained from an expansion of the $N$ basis functions $\{\varphi_1(\bs{r}),\varphi_2(\bs{r}),\hdots\varphi_N(\bs{r})\}$ in the manner of
+\begin{equation}
+\psi_i(\bs{r})=\sum_{j=1}^Nc_{ji}\varphi_j(\bs{r}).
+\end{equation}
+where $c_{ij}$ are the coefficients to be found. There are different approaches to obtain these coefficients, where the popular Hartree-Fock algorithm generates $c_{ij}$'s in order to find the optimal single Slater determinant. The larger basis, the more accurate results we will get. The actual functions used in this work are presented in the next chapter, \ref{chp:systems}, and linked to their respective systems. 
 
 \subsection{Jastrow factors} \label{sec:jastrow}
-From electrostatics we know that identical, charged particles will repel each other. This means that the probability of finding two particles close to each other should be low, which needs to be baked into the wave function. One way to do this is to simply multiply the wave function with the distance between the particles; the smaller distance the lower probability. However, since we are going to work in the logarithmic space, dealing with exponential function will be much easier. This is the main idea behind the simple Jastrow factor.
+From electrostatics we know that identical, charged particles will repel each other. This means that the probability of finding two particles close to each other should be low, which needs to be baked into the wave function. One way to do this is to simply multiply the wave function with the distance between the particles; the smaller distance the lower probability. However, since we are going to work in the logarithmic space, dealing with exponential functions will be much easier. This is the main idea behind the simple Jastrow factor.
 
 \subsubsection{Simple Jastrow}
 The simple Jastrow factor is just an exponential function with the sum over all particle distances. In addition, each distance $r_{ij}$ is weighted by a parameter $\beta_{ij}$, and the factor becomes
@@ -137,51 +143,34 @@ for dimensions $D\in[2,3]$ where $e$ is the elementary charge. We will later use
 
 This Jastrow factor is known to give accurate results for fermions and bosons because it gives the correct cusp condition, and it is the one we gonna use in the standard variational Monte-Carlo simulations.
 
-\section{Electron density}
+\section{Electron density} \label{sec:electrondensity}
 In quantum many-body computations, the electron density is frequently calculated, and there are several reasons for that. Firstly, the electron density can be found experimentally, such that the calculations can be benchmarked. Secondly, the electron density is very informative, since information about all particles can be gathered in one plot.
 
-The $P$-body electron density can be found by integrating over all particles but $P$, 
+The $P$-body electron density is defined by the multi-dimensional integral over the probability density function of all the particles but $P$, reading  
 \begin{equation}
 \label{eq:electron_density}
-\rho_i(\bs{r})=\int_{-\infty}^{\infty}d\bs{r}_P\hdots d\bs{r}_N |\Psi(\bs{r}_1,\hdots \bs{r}_N)|^2.
+\rho_P(\bs{r}_1,\hdots,\bs{r}_P)=\frac{1}{N-P}\int_{-\infty}^{\infty}d\bs{r}_{P+1}\hdots d\bs{r}_N |\Psi(\bs{r}_1,\hdots \bs{r}_N)|^2.
 \end{equation}
-where $P<N$.
+where $P\leq N$. This integral is in general really tricky so solve, and it can be found analytically for just a few realistic systems. For other systems, we need to solve the integral numerically, and we will in chapter \ref{chp:methods} describe how this can be done using Monte Carlo integration. 
 
-\subsection{One-body Density}
-The one-body density is the most applied electron density, and is sometimes simply referred to as the electron density. For the two particle case, the one-body density gives the probability of finding one particle at a relative distance $r$ to the other. For more particles, the one-body density gives the probability of finding the mass center of the remaining particles at a relative distance $r$ from one of the particles.
-
-The one-body density integral can be solved by Monte-Carlo integration. We then divide the space into bins of equal sizes at different radii and count the number of particles in each bin throughout the sampling. In practice, one often divide the space into bins where the radii are uniformly distributed, i.e, $r_i=i\cdot r_0$, see figure \eqref{fig:onebody}. In that case, one needs to divide the number of particles in each bin by its volume afterwards in order to get a correct distribution. In two dimensions, the area of bin $i$ is
+For non-interacting systems, the wave function is often separable with respect to the particles. In those cases one can easily find the electron density analytically, since the functions of coordinates which we do not integrate over can be factorized out of the integral,
 \begin{equation}
-A_i=(2i+1)\pi d^2
+\begin{aligned}
+\rho_P(\bs{r}_1,\hdots,\bs{r}_P)&=\int_{-\infty}^{\infty}d\bs{r}_{P+1}\hdots d\bs{r}_N |\Psi(\bs{r}_1),\hdots \Psi(\bs{r}_N)|^2\\
+&=\int_{-\infty}^{\infty}d\bs{r}_{P+1}\hdots d\bs{r}_N |\Psi(\bs{r}_1)|^2\hdots |\Psi(\bs{r}_N)|^2\\
+&=|\Psi(\bs{r}_1)|^2\hdots |\Psi(\bs{r}_P)|^2\int_{-\infty}^{\infty}d\bs{r}_{P+1}|\Psi(\bs{r}_{P+1})|^2\hdots\int_{-\infty}^{\infty}d\bs{r}_{N}|\Psi(\bs{r}_{N})|^2\\
+&=|\Psi(\bs{r}_1)|^2\hdots |\Psi(\bs{r}_P)|^2
+\end{aligned}
 \end{equation}
-and in three dimensions the volume of bin $i$ is
-\begin{equation}
-V_i=4(i(i+1)+1/3)\pi d^3.
-\end{equation}
-where $d$ is the radial width of a bin. 
+where we have assumed that the wave functions are normalized. This result has no scientific importance, but will be used to validate the implementation of the electron density in the code, see section \ref{sec:norepulsive}.
 
-\begin{figure}
-	\centering
-	\label{fig:onebody}
-	\input{tikz/onebody_bins.tex}
-	\caption{This figure is meant to illustrate how the one-body density is calculated using Monte-Carlo integration. One divides the space into $n$ bins (here 5), and count the number of particles in each bin throughout the sampling. Afterwards, the bins need to be normalized.}
-\end{figure}
+As we cannot pinpoint a particle in quantum mechanics, i.e., it is impossible to distinguish two identical particles in any way, the electron density is the same no matter which particles we decide to leave out. In equations, we always leave out the first $P$ particles, but we could also for instance have left out the $P$ last particles and so forth.
 
-\begin{figure}
-	\centering
-	\label{fig:twobody}
-	\input{tikz/twobody_bins.tex}
-	\caption{This figure is meant to illustrate how the two-body density is calculated using Monte-Carlo integration. One divides the space into $n$ bins (here 5), and store the position of a pair of particles in a matrix throughout the sampling. Afterwards, the bins need to be normalized.}
-\end{figure}
+So, what does the electron density tell us? The two most commonly used electron densities are the one-body density and the two-body density. The former is the most applied electron density, and is sometimes simply referred to as the electron density. It gives the probability of finding a particle at a relative distance $r$ from another, and give insight about how the particles are distributed in the system. The two-body density becomes a two-dimensional function, and is therefore often expressed as a matrix. It gives the probability of finding a particle pair at a certain position, 
 
-\subsection{Two-body Density}
-The two-body density gives the probability of finding a pair of electrons at coordinates $\bs{r}_1$ and $\bs{r}_2$. 
+\subsection{Wigner crystals} \label{sec:wigner}
+A Wigner crystal is a solid phase where electrons maximize the distance to each other in order to minimize the potential energy. As the interaction potential is given by Coulomb's law, the potential is minimized when the distance between the electrons are maximized. In one-dimensional systems, the electrons are thus found at discrete locations, such that they form an evenly spaced lattice. In two-dimensional systems, the Wigner crystals form triangular lattices which are known to be the configuration that maximized the distance in a limited space, and in three-dimensional systems the electrons form so-called body-centered cubics. The phenomenon occurs only when the potential energy dominates the kinetic energy, since the electrons then are almost "at rest" and external forces are not strong enough to push the electrons close to each other. 
 
-For the one-body density, we integrate over all the particles but one, which corresponds to counting number of particles in each bin when doing Monte-Carlo integration. For the two-body density, we integrate over all particles but a \textit{particle pair}, which means that we need to find the position of each particle pair in order to solve the integral by Monte-Carlo integration. See figure \eqref{fig:twobody} for an illustration of this Monte-Carlo integration.
-
-\subsection{Wigner Crystals} \label{sec:wigner}
-A Wigner crystal is a solid phase where electrons form triangular lattices to minimize the potential energy. The phenomenon occurs only when the potential energy dominates the kinetic energy, since the electrons then are almost "at rest". 
-
-To minimize the potential energy, the distances between the electrons should be maximized. To achieve this, the electrons form the triangular lattice shape, not so unlike Norwegians on the metro trying to maximize the distance to anyone else. For that reason, the electron density should approach discrete radial values, and the phenomenon should be observable in one-body density plots.
+If the concept still is unclear, imagine Norwegians waiting for the metro. In the nature of the people, the Norwegians always want to maximize the distance to each other, meaning that they form triangular lattices on the metro station. In the extreme case, this is identical to the Wigner crystals. 
 
 
