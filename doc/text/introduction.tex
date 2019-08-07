@@ -1,28 +1,29 @@
 \chapter{Introduction}
-The properties and behavior of quantum many-body systems are determined by the laws of quantum physics which have been known since the 1930s. The time-dependent Schrödinger equation describes the bounding energy of atoms and molecules, as well as the interaction between particles in a gas. In addition, it has been used to determine the energy of artificial structures like quantum dots, nanowires and ultracold condensates. [Electronic Structure Quantum Monte Carlo Michal Bajdich, Lubos Mitas] 
+The properties and behavior of quantum many-body systems are determined by the laws of quantum physics which have been known since the 1930s. The time-dependent Schrödinger equation describes the bounding energy of atoms and molecules, as well as the interaction between particles in a gas. In addition, it has been used to determine the energy of artificial structures like quantum dots, nanowires and ultracold condensates.
 
-Even though we know the laws of quantum mechanics, many challenges are encountered when calculating real-world problems. First, interesting systems often involve large number of particles, which causes expensive calculations. Second, the correct wave functions are seldomly known for a complex system, which is vital for measuring the observable correctly. Paul Dirac recognized those problems already in 1929: \cite{dirac_paul_adrien_maurice_quantum_1929}\bigskip
+Even though we know the laws of quantum mechanics, many challenges are encountered when calculating real-world problems. First, interesting systems often involve large number of particles, which causes expensive calculations. Second, the correct wave functions are seldomly known for a complex system, which is vital for measuring the observable accurately. Paul Dirac recognized those problems already in 1929: \cite{dirac_paul_adrien_maurice_quantum_1929}\bigskip
 
 
 ''\textit{The general theory of quantum mechanics is now almost complete... ...The underlying physical laws necessary for the mathematical theory of a large part of physics and the whole of chemistry are thus completely known, and the difficulty is only that the exact application of these laws leads to equations much too complicated to be soluble.}''\\ 
--Paul Dirac, \textit{Quantum Mechanics of Many-Electron Systems}, 1929 \cite{dirac_paul_adrien_maurice_quantum_1929} \bigskip
+-Paul Dirac, \textit{Quantum Mechanics of Many-Electron Systems} \bigskip
 
-The purpose of this work is to look at machine learning as an approach to solving those problems, with focus on the former. The idea is to let a so-called restricted Boltzmann machine (RBM) define a flexible trial wave function, and then use a sampling tool to fit the function.
-
-Lately, some effort has been put into this field, known as quantum machine learning. G.Carleo and M.Troyer demonstrated the link between RBMs and quantum Monte-Carlo (QMC) and named the states \textit{neural-network quantum states} (NQS). They used the technique to study the Ising model and the Heisenberg model. \cite{carleo_solving_2017} V.Flugsrud went further and investigated circular quantum dots with the same method \cite{flugsrud_vilde_moe_solving_nodate}. We will extend the work she did to larger quantum dots and double quantum dots.
+The purpose of this work is to look at machine learning as an approach to solving those problems, with focus on the former. The idea is to let a so-called restricted Boltzmann machine (RBM) define a flexible trial wave function, and then use a sampling tool to fit the function. Lately, some effort has been put into this field, known as quantum machine learning. G.Carleo and M.Troyer demonstrated the link between RBMs and quantum Monte-Carlo (QMC) and named the states \textit{neural-network quantum states} (NQS). They used the technique to study the Ising model and the Heisenberg model. \cite{carleo_solving_2017} V.Flugsrud went further and investigated circular quantum dots with the same method \cite{flugsrud_vilde_moe_solving_nodate}. We will extend the work she did to larger quantum dots and double quantum dots.
 
 \section{The many-body problem}
-
+In quantum mechanics, 
 
 Quantum dots are often called artificial atoms because of their common features to real atoms, and their popularity is increasing due to their applications in semiconductor technology. For instance, quantum dots are expected to be the next big thing in display technology due to their ability of emitting photons of specific wavelength in addition to using 30\% less energy than today's LED displays \cite{manders_8.3:_2015}. Samsung already claim that they use this technology in their displays \cite{noauthor_2019_nodate}.
 
-Another reason why we are interested in simulating quantum dots, is that there exist experiments which we can compare our results to. Due to very strong confinement in the $z$-direction, the experimental dots, made by patterning GaAs/AlGaAs heterostructures, become essentially two-dimensional. \cite{marzin_photoluminescence_1994}\cite{brunner_sharp-line_1994} For that reason, our main focus in this work is two-dimensional dots, but also dots of three dimensions will be investigated.
+Another reason why we are interested in simulating quantum dots, is that there exist experiments which we can compare our results to. Due to very strong confinement in the $z$-direction, the experimental dots, made by patterning GaAs/AlGaAs heterostructures, become essentially two-dimensional \cite{marzin_photoluminescence_1994,brunner_sharp-line_1994}. For that reason, our main focus in this work is two-dimensional dots, but also dots of three dimensions will be investigated.
 
 There are two main problems we need to solve
 \begin{enumerate}
 	\item The many-body energy expectation value is analytically infeasible
 	\item The correct many-body wave function is generally unavailable
 \end{enumerate}
+
+\section{Machine learning} \label{subsec:machinelearning}
+Branch of artificial intelligence
 
 \section{Computer experiments}
 "At the same time, advent of computer technology has
@@ -42,7 +43,6 @@ Multi scale calculations are... A field of interest is how a systems behave when
 - Introduce the wave function
 - Mention the uncertainty principle and also quantum entanglement to catch the readers interest
 
-\section{Variational Monte-Carlo}
 Some great quantum many-body methods have been developed throughout the past century. The Hartree-Fock method is one of the most successful, which sets up a mean field and is thus relatively computational cheap to work with. It works also as an input to so-called post-Hartree-Fock methods, which includes configuration interaction, coupled cluster and quantum Monte-Carlo. The two former will be discussed in the next chapter, together with the Hartree-Fock method itself, and in this chapter we will dig into the quantum Monte-Carlo methods. 
 
 VMC typically yields excellent results.
@@ -52,9 +52,6 @@ The method has been used in studies of fermionic systems since the 1970's. \cite
 History of QMC before and after the invention of electronic computers. Enrico Fermi 1930s similarities between imaginary time Schrödinger equation and stochastic processes in statistical mechanics. Metropolis VMC early 1950s. Kalos Greens's function Monte Carlo late 1950s. Ceperly and Alder 1980 homogeneous electron gas. 
 
 QMC appears to be method which has the best cost-to-performance ratio.
-
-\section{Machine learning} \label{subsec:machinelearning}
-Branch of artificial intelligence
 
 \section{The role of ethics in science}
 In science the ethics should always be prioritized. 
