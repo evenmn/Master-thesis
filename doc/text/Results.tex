@@ -176,7 +176,7 @@ Initially we look at standard quantum dots of size up to $N=56$ electrons in 2D 
 After that, we move on to some special cases where the dots have low frequency ($\omega=0.01$), the total spin projection $S=\sum_im_s$ is unlike zero, the quantum dots are in a medium or the number of electrons is large. For those systems, we will typically focus on either the ground-state energy or the one-body density dependent on what we want to investigate. For instance, we will focus on the one-body density for low frequency dots because of the search for Wigner crystals. 
 
 \subsection{Ground-state energy}
-By utilizing the symmetry of quantum dots of two electrons, M.Taut was able to obtain semi-analytical energies for some specific frequencies $\omega$. More precisely, he found the energy to be $E=3$ for the frequency $\omega=1$ and $E=2/3$ for the frequency $\omega=1/6$ for the two-dimensional case, and $E=2$ for the frequency $\omega=1/2$ and $E=1/2$ for the frequency $\omega=1/10$ for the three-dimensional case. \cite{taut_two_1993}\cite{taut_two_1994}
+By utilizing the symmetry of quantum dots of two electrons, M.Taut was able to obtain semi-analytical energies for some specific frequencies $\omega$. More precisely, he found the energy to be $E=3$ for the frequency $\omega=1$ and $E=2/3$ for the frequency $\omega=1/6$ for the two-dimensional case, and $E=2$ for the frequency $\omega=1/2$ and $E=1/2$ for the frequency $\omega=1/10$ for the three-dimensional case. \cite{taut_two_1993,taut_two_1994}
 
 For other references, we need to rely on what researchers have found before us. Since diffusion Monte-Carlo (DMC) is known to give very accurate results, we will mainly compare our results to J. Høgberget's DMC computations, which exist for closed shell quantum dots of a maximum of 56 electrons in two dimensions and a maximum of 20 particles in three dimensions. \cite{hogberget_quantum_2013}. Comparing the energy to the Hartree-Fock limit is also interesting, mainly because of the Boltzmann machines. We use A.Mariadason's computations for this for quantum dots of a maximum of 20 electrons in two dimensions, and a maximum of 8 particles in three dimensions. \cite{mariadason_quantum_2018}
 
@@ -228,8 +228,8 @@ We made effort in trying to get the deep Boltzmann machine and the partly restri
 		& 0.5 & 191.495(7) & 188.995(5) & 187.493(2) & & - & 187.325(3) & 187.0426(2) \\
 		& 1.0 & 315.364(8) & 311.468(7) & 308.989(2) & & - & 308.957(2) & 308.5627(2) \\ \hdashline \\
 		
-		42 & 0.1 & 109.892(6) & 109.892(7) & - & & - &  107.928(2) & 107.6389(2) \\ 
-		& 0.28 & 224.462(8) & 224.184(9) & - & & - & 220.224(2) & 219.8426(2) \\
+		42 & 0.1 & 109.892(6) & 109.892(7) & 108.753(6) & & - &  107.928(2) & 107.6389(2) \\ 
+		& 0.28 & 224.462(8) & 224.184(9) & 222.200(5) & & - & 220.224(2) & 219.8426(2) \\
 		& 0.5 & 337.523(8) & 333.582(9) & 331.410(3) & & - & 331.276(3) & 330.6306(2) \\
 		& 1.0 & 553.40(1) & 549.76(1) & 543.746(3) & & - & 543.738(7) & 542.9428(8) \\ \hdashline \\
 		
@@ -257,10 +257,10 @@ We made effort in trying to get the deep Boltzmann machine and the partly restri
 		
 		20 & 0.1 & 27.813(2) & 27.470(1) & 27.3382(8) & - & - & 27.3144(5) & 27.2717(2) \\ 
 		& 0.28 & 57.700(4) & 56.600(1) & - & - & - & 56.4297(5) & 56.3868(2) \\
-		& 0.5 & 87.840(4) & 85.893(1) & - & - & - & 85.7161(5) & 85.6555(2) \\
-		& 1.0 & 146.292(4) & 143.209(2) & - & - & - & 142.9560(7) & 142.8875(2) \\ \hdashline \\
+		& 0.5 & 87.840(4) & 85.893(1) & 85.7153(6) & - & - & 85.7161(5) & 85.6555(2) \\
+		& 1.0 & 146.292(4) & 143.209(2) & 142.9409(6) & - & - & 142.9560(7) & 142.8875(2) \\ \hdashline \\
 		
-		40 & 0.1 & 89.45(8) & - & - & - & - & 88.182(1) \\ 
+		40 & 0.1 & 89.45(8) & 89.618(4) & - & - & - & 88.182(1) \\ 
 		& 0.28 & 182.714(6) & 181.877(4) & - & - & - & 179.567(1) \\
 		& 0.5 & 275.262(7) & 271.030(4) & - & - & - & 269.746(1) \\
 		& 1.0 & 452.732(8) & 442.874(4) & - & - & - & 442.602(2) \\ \hline\hline
@@ -515,7 +515,7 @@ which can be verified from the energy splitting. To do this accurate, we better 
 		&& 3.0 && 333.07(6) & 53.2(5) & 138.0(5) & 141.835(9) \\ \hdashline \\
 		
 		&RBM+PJ & 0.01 && 5.6328(3) & 0.1621(4) & 1.923(2) & 3.558(2) \\
-		&& 0.5 && - & - & - & - \\
+		&& 0.5 && 85.7153(6) & 8.028(2) & 31.333(6) & 46.354(4) \\
 		&& 3.0 && 333.027(1) & 49.3(3) & 152.1(3) & 131.618(7) \\ \hdashline \\
 		
 		&VMC & 0.01 && 5.809(2) & 0.0473(2) & 1.940(7) & 3.822(7) \\
@@ -688,8 +688,8 @@ which can be verified from the energy splitting. To do this accurate, we better 
 		&20 & 0.01 && 5.6328(3) & 0.1621(4) & 1.923(2) & 3.558(2) \\
 		&& 0.1 && 27.3382(8) & 1.336(3) & 9.408(4) & 16.595(3) \\
 		&& 0.28 && 57.722(4) & 5.00(7) & 20.4(1) & 32.35(5) \\
-		&& 0.5 && EXPL & - & - & - \\
-		&& 1.0 && TIME & - & - & - \\
+		&& 0.5 && 85.7153(6) & 8.028(2) & 31.333(6) & 46.354(4) \\
+		&& 1.0 && 142.9409(6) & 17.603(3) & 54.592(7) & 70.746(5) \\
 		&& 3.0 && 333.027(1) & 49.3(3) & 152.1(3) & 131.618(7) \\ \hdashline \\
 		
 		&40 & 0.01 && - & - & - & - \\

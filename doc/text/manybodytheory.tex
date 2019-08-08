@@ -1,5 +1,6 @@
 \chapter{Many-body Quantum Mechanics} \label{chp:manybody}
-\epigraph{I do not like it, and I am sorry I ever had anything to do with it.}{Erwin Schrödinger, \cite{noauthor_quantum_2005}}
+\epigraph{We have to remember that what we observe is not nature in itself but
+	nature exposed to our method of questioning.}{Werner Heisenberg, \cite{heisenberg_across_1990}}
 \begin{figure}[H]
 	\centering
 	\captionsetup[subfigure]{labelformat=empty}
@@ -24,21 +25,21 @@ where $\hat{T}$ is the kinetic energy and $\hat{V}$ is the potential energy. Nev
 V_{\text{int}} =k_e\frac{e^2}{r_{12}}
 \end{equation}
 where $r_{12}$ is the distance between the electrons. For a general system containing $N$ electrons, the total Hamiltonian can therefore be expressed as 
-\begin{equation}
-\hat{\mathcal{H}}=-\sum_i^N\frac{\hbar^2}{2m_e}\nabla_i^2+\sum_i^{N}V_{\text{ext}}^i + \sum_i^N\sum_{j>i}^Nk_e\frac{e^2}{r_{ij}}
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
+\hat{\mathcal{H}}=-\sum_i^N\frac{\hbar^2}{2m_e}\nabla_i^2+\sum_i^{N}V_i + \sum_i^N\sum_{j>i}^Nk_e\frac{e^2}{r_{ij}}
 \label{eq:ElectronicHamiltonian}
-\end{equation}
-which is the farthest we can go without specifying the external potential $V_{\text{ext}}^i$. $r_{ij}$ is the relative distance between particle $i$ and $j$, defined by $r_{ij}\equiv|\bs{r}_i-\bs{r}_j|$. From now on, we will use atomic units setting $\hbar=m_e=k_e=e=1$, see appendix \ref{app:units}.
+\end{empheq}
+which is the farthest we can go without specifying the external potential $V_i$. $r_{ij}$ is the relative distance between particle $i$ and $j$, defined by $r_{ij}\equiv|\bs{r}_i-\bs{r}_j|$. From now on, we will use atomic units setting $\hbar=m_e=k_e=e=1$, see appendix \ref{app:units}.
 
 By putting this Hamiltonian into equation \eqref{eq:energy}, the integral can be split in three parts,
 \begin{equation}
 \begin{aligned}
-E_n&=-\sum_{i=1}^N\bigg[\mel{\Psi_n(\bs{r})}{\nabla_i^2}{\Psi_n(\bs{r})}
-+\mel{\Psi_n(\bs{r})}{V_{\text{ext}}^i}{\Psi_n(\bs{r})}
+\varepsilon_n&=-\sum_{i=1}^N\bigg[\mel{\Psi_n(\bs{r})}{\nabla_i^2}{\Psi_n(\bs{r})}
++\mel{\Psi_n(\bs{r})}{V_i}{\Psi_n(\bs{r})}
 +\sum_{j>i}^N\mel{\Psi_n(\bs{r})}{\frac{1}{r_{ij}}}{\Psi_n(\bs{r})}\bigg]
 \end{aligned}
 \end{equation}
-where the two former ones are the one-body integrals, or \textit{matrix elements}, which we in many cases easily can solve. However, the last term is very tricky 
+where the two former ones are the one-body integrals, or \textit{matrix elements}, which we in many cases easily can solve. However, the last term is very tricky to solve, and in fact there are analytical solutions available for the two-particle case only. With other words, a precise evaluation of this integral can usually only be found using numerical methods, which we will have a closer look at in chapter \ref{chp:methods} in conjunction with quantum Monte Carlo methods.
 
 \section{The wave function} \label{sec:wavefunction}
 By the first postulate of quantum mechanics presented in section, the wave function contains all the information specifying the state of the system. This means that all observable in classical mechanics can also be estimated from the wave function, which makes finding the wave function our aim. We will in this section discuss the symmetry properties of the wave function for bosonic and fermionic systems, and see how the wave function can be set up as a Slater determinant in order to meet these properties. Also Jastrow factors will be touched, as they are used in quantum Monte Carlo methods to handle the correlations. With that in mind, we approximating the wave function by a \textit{trial wave function},
@@ -54,7 +55,6 @@ The trial wave function needs to satisfy some requirements in order to be used i
 	\item \textbf{Normalizability:} The wave function needs to be normalizable in order to make physical sense. The total probability should always be 1, and a wave function that cannot be normalized will not have a finite total probability. The consequence is that the wave function goes to zero when the positions get large, $\Psi(x\rightarrow\pm\infty)\rightarrow 0$. 
 	
 	\item \textbf{Cusp condition:} The cusp condition (also called the Kato theorem) states that the wave function should have a cusp where the potential explodes. An example on this is when charged particles come close to each other. %\change{Extend this, this is actually wrong}
-	\todo[inline]{This is wrong}
 	
 	\item \textbf{Symmetry and anti-symmetry:} The wave function needs to be either symmetric or anti-symmetric under exchange of two coordinates, dependent on whether the particles are fermions or bosons. This is the statement of the sixth postulate, which will be further explained in the next section.
 \end{enumerate}
@@ -99,6 +99,8 @@ where the $\psi(\bs{r},\sigma)$ is the tensor product between the radial part $\
 \psi(\bs{r},\sigma)=\phi(\bs{r})\otimes\chi(\sigma).
 \end{equation}
 In the rest of this thesis, we will consequently use $\phi$ as the radial part of the single-particle functions and $\chi$ as the spin part. In section \ref{sec:slaterdeterminant}, it is shown that the Slater determinant can be split in a spin-up part and a spin-down part such that the spin-dependency $\chi(\sigma)$ can be omitted. for that reason, we can define a basis set consisting of the spatial parts only, discussed in the next section. 
+
+As a note, we will in the rest of this thesis use $\Psi$ as the many-particle wave function, $\psi$ are the single-particle functions and $\phi$ as the spatial part of the single-particle function. $\chi$ will be reserved the spin part of the single-particle functions, but will often be omitted as the spin-part can be factorized out. Sometimes it is appropriate to split the many-particle wave function, and we will in that case denote each part by $\Psi_i$ where $i$ is an index associated with the respective element. Lastly, the basis functions will be called $\varphi$, which we will discuss in the next section. 
 
 \subsection{Basis set} \label{sec:basisset}
 In quantum chemistry, a basis set is a set of basis functions, which often are called the atomic orbitals.  Generally, a basis function should not be confused with a single-particle function, as a single-particle function is a linear combination of basis functions, and are often called the molecular orbitals. Commonly used atomic orbitals are Pople basis sets (in the form of x-yz G), correlation-consistent basis sets (in the form of cc-pVNZ) and Slater-type orbitals (in the form of STO-nG), where all are built on Gaussian functions. Gaussian functions are preferred as they allow efficient implementations of post-Hartree-Fock methods.
@@ -147,10 +149,10 @@ This Jastrow factor is known to give accurate results for fermions and bosons be
 In quantum many-body computations, the electron density is frequently calculated, and there are several reasons for that. Firstly, the electron density can be found experimentally, such that the calculations can be benchmarked. Secondly, the electron density is very informative, since information about all particles can be gathered in one plot.
 
 The $P$-body electron density is defined by the multi-dimensional integral over the probability density function of all the particles but $P$, reading  
-\begin{equation}
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \label{eq:electron_density}
 \rho_P(\bs{r}_1,\hdots,\bs{r}_P)=\frac{1}{N-P}\int_{-\infty}^{\infty}d\bs{r}_{P+1}\hdots d\bs{r}_N |\Psi(\bs{r}_1,\hdots \bs{r}_N)|^2.
-\end{equation}
+\end{empheq}
 where $P\leq N$. This integral is in general really tricky so solve, and it can be found analytically for just a few realistic systems. For other systems, we need to solve the integral numerically, and we will in chapter \ref{chp:methods} describe how this can be done using Monte Carlo integration. 
 
 For non-interacting systems, the wave function is often separable with respect to the particles. In those cases one can easily find the electron density analytically, since the functions of coordinates which we do not integrate over can be factorized out of the integral,
