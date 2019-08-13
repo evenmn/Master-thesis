@@ -1,5 +1,5 @@
 \chapter{Implementation: Restricted Boltzmann Machines} \label{chp:rbmimplementation}
-In the previous chapter, described common optimization procedures for a common variational Monte Carlo (VMC) implementation, and we also presented implementation examples taken from the code. In this section we will do the same, but for the restricted Boltzmann machines (RBM). As we have pointed out before, the same sampling methods and optimization algorithms can be used both for the VMC implementation and the RBM implementation, such that much of the VMC framework is reused. The already described parts of the code will naturally not be described again, and for that reason this chapter will more or less exclusively concern the RBM wave function elements.
+In the previous chapter, we described common optimization procedures for a standard variational Monte Carlo (VMC) implementation, and we also presented implementation examples taken from the code. In this section we will do the same, but for the restricted Boltzmann machines (RBM). As we have pointed out before, the same sampling methods and optimization algorithms can be used both for the VMC implementation and the RBM implementation, such that much of the VMC framework is reused. The already described parts of the code will naturally not be described again, and for that reason this chapter will more or less exclusively concern the RBM wave function elements.
 
 The main goal of this work, is to reduce the physical intuition needed when doing quantum computations, and that is the task of the restricted Boltzmann machines. The idea is to use a flexible basis set based on RBMs, which need to be the elements of the Slater matrix, as first seen in section \ref{sec:slater}. Further, we proved that the Slater determinant can be split in a spin-up part and a spin-down part in section \ref{sec:slaterdeterminant}, such that the spin can be factorized out and avoided. We therefore only need the spatial part of the wave functions, and we will henceforth assume that this spatial part is defined by the marginal distribution of the visible units. 
 
@@ -14,7 +14,7 @@ Back in chapter \ref{chp:restricted}, we presented the marginal distribution of 
 \begin{equation}
 \Psi_{rbm}(\bs{x};\bs{a},\bs{b},\bs{w})=\exp\Big(-\sum_{i=1}^{F}\frac{(x_i-a_i)^2}{2\sigma^2}\Big)\prod_{j=1}^H\bigg(1+\exp\Big(b_j+\sum_{i=1}^{F}\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg),
 \end{equation}
-where $\bs{x}$ contains all the coordinates, $\bs{a}$, $\bs{b}$ and $\bs{w}$ are variational parameters (weights), $\sigma$ is the width of the Gaussian distribution, $F$ is the number of degrees of freedom and $H$ is the number of hidden units. The wave function can naturally be split in a Gaussian part and a product, and we will henceforth work with them separately to simplify the calculations. They will also be implemented as separate wave function elements as this will reduce the complexity of the derivatives associated with each element. The first part will henceforth be denoted as the RBM-Gaussian, while the last part will be denoted as the RBM-Product. 
+where $\bs{x}$ contains all the coordinates, $\bs{a}$, $\bs{b}$ and $\bs{w}$ are variational parameters (weights), $\sigma$ is the width of the Gaussian distribution, $F$ is the degrees of freedom and $H$ is the number of hidden units. The wave function can naturally be split in a Gaussian part and a product, and we will henceforth work with them separately to simplify the calculations. They will also be implemented as separate wave function elements as this will reduce the complexity of the derivatives associated with each element. The first part will henceforth be denoted by RBM-Gaussian, while the last part will be denoted by RBM-Product. 
 
 \subsection{RBM-Gaussian}
 The RBM-Gaussian reads
@@ -37,7 +37,7 @@ Further, the frequency of the quantum dots should be inversely proportional with
 \end{equation}
 for the RBMs.
 
-An obvious optimization concerning this element, is that we can introduce a vector $\bs{xa}=\bs{x}-\bs{a}$, which we deal with instead of the position vector $\bs{x}$ and the parameter vector $\bs{a}$. We update the arrays using the pure virtual function \lstinline|updateArrays|, which looks like
+An obvious optimization concerning this element, is that we can introduce a vector $\bs{xa}\equiv\bs{x}-\bs{a}$, which we deal with instead of the position vector $\bs{x}$ and the parameter vector $\bs{a}$. We update the arrays using the pure virtual function \lstinline|updateArrays|, which looks like
 \begin{lstlisting}[language={c++},caption={Taken from \lstinline|rbmgaussian.cpp|.}]
 void RBMGaussian::updateArrays(const Eigen::VectorXd positions,
 							   const Eigen::VectorXd radialVector,
@@ -106,7 +106,7 @@ For the partly restricted Boltzmann machine given in equation \eqref{eq:PRBMWF},
 \begin{equation}
 \Psi_{pr}=\exp\Big(\sum_{i=1}^{F}\sum_{j=1}^{F}x_ic_{ij}x_j\Big)
 \end{equation}
-which we can threaten separately. To run a computation with the partly restricted Boltzmann machine, we thus need to add the elements \lstinline|RBMGaussian|, \lstinline|RBMProduct| and \lstinline|PartlyRestricted| in a similar way as in the example \ref{lst:qd}. When differentiating, we end up with the expressions
+which we can threat separately. To run a computation with the partly restricted Boltzmann machine, we thus need to add the elements \lstinline|RBMGaussian|, \lstinline|RBMProduct| and \lstinline|PartlyRestricted| in a similar way as in the example \ref{lst:qd}. When differentiating, we end up with the expressions
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \begin{aligned}
 \frac{|\Psi_{pr}(\bs{x}_{\text{new}})|^2}{|\Psi_{pr}(\bs{x}_{\text{old}})|^2}&=\exp\Big(2\sum_{j=1}^{F}c_{ij}x_j(x_i^{\text{new}}-x_i^{\text{old}})\Big)\\
