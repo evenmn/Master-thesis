@@ -13,7 +13,7 @@ In the previous chapter, the quantum mechanics of single particles was discussed
 E_n=\mel{\Psi_n(\bs{r})}{\hat{\mathcal{H}}}{\Psi_n(\bs{r})}
 \label{eq:energy}
 \end{equation}
-where the Hamiltonian $\hat{\mathcal{H}}$ defines the system and $\Psi_n(\bs{r})$ defines the state $n$. What is wonderful, is that the same expression can be used for a system containing an arbitrary number of particles as long as the many-body wave function is defined. However, as noted before, the the wave function for large systems needs to store an immense amount of information and is therefore expensive or impossible to deal with. In this section we will first look at how the many-body Hamiltonian is set up, before we have an extensive discussion of how the many-body wave function is constructed.
+where the Hamiltonian $\hat{\mathcal{H}}$ defines the system and $\Psi_n(\bs{r})$ defines the state $n$. What is wonderful, is that the same expression can be used for a system containing an arbitrary number of particles as long as the many-body wave function is defined. However, as noted before, the wave function for large systems needs to store an immense amount of information and is therefore expensive or impossible to deal with. In this section we will first look at how the many-body Hamiltonian is set up, before we have an extensive discussion of how the many-body wave function is constructed.
 
 \section{The electronic Hamiltonian} \label{sec:electronichamiltonian}
 We have already seen what the one-body Hamiltonian looks like, and the many-body Hamiltonian is not very different. We recall that it can be split in a kinetic and a potential term,
@@ -29,7 +29,7 @@ where $r_{12}$ is the distance between the electrons. For a general system conta
 \hat{\mathcal{H}}=-\sum_i^N\frac{\hbar^2}{2m_e}\nabla_i^2+\sum_i^{N}V_i + \sum_i^N\sum_{j>i}^Nk_e\frac{e^2}{r_{ij}}
 \label{eq:ElectronicHamiltonian}
 \end{empheq}
-which is the farthest we can go without specifying the external potential $V_i$. $r_{ij}$ is the relative distance between particle $i$ and $j$, defined by $r_{ij}\equiv|\bs{r}_i-\bs{r}_j|$. From now on, we will use atomic units setting $\hbar=m_e=k_e=e=1$, see appendix \ref{app:units}.
+which is the farthest we can go without specifying the external potential $V_i$. $r_{ij}$ is the relative distance between particle $i$ and $j$, defined by $r_{ij}\equiv|\bs{r}_i-\bs{r}_j|$. From now on, we will use atomic units setting $\hbar=m_e=k_e=e=1$, see appendix \ref{app:units} for details.
 
 By putting this Hamiltonian into equation \eqref{eq:energy}, the integral can be split in three parts,
 \begin{equation}
@@ -42,11 +42,11 @@ By putting this Hamiltonian into equation \eqref{eq:energy}, the integral can be
 where the two former ones are the one-body integrals, or \textit{matrix elements}, which we in many cases easily can solve. However, the last term is very tricky to solve, and in fact there are analytical solutions available for the two-particle case only. With other words, a precise evaluation of this integral can usually only be found using numerical methods, which we will have a closer look at in chapter \ref{chp:methods} in conjunction with quantum Monte Carlo methods.
 
 \section{The wave function} \label{sec:wavefunction}
-By the first postulate of quantum mechanics presented in section, the wave function contains all the information specifying the state of the system. This means that all observable in classical mechanics can also be estimated from the wave function, which makes finding the wave function our aim. We will in this section discuss the symmetry properties of the wave function for bosonic and fermionic systems, and see how the wave function can be set up as a Slater determinant in order to meet these properties. Also Jastrow factors will be touched, as they are used in quantum Monte Carlo methods to handle the correlations. With that in mind, we approximating the wave function by a \textit{trial wave function},
+By the first postulate of quantum mechanics presented in section \ref{sec:postulates}, the wave function contains all the information specifying the state of the system. This means that all observable in classical mechanics can also be estimated from the wave function, which makes finding the wave function our aim. We will in this section discuss the symmetry properties of the wave function for bosonic and fermionic systems, and see how the wave function can be set up as a Slater determinant in order to meet these properties. Also Jastrow factors will be touched, as they are used in quantum Monte Carlo methods to handle the correlations. With that in mind, we approximate the wave function by a \textit{trial wave function},
 \begin{equation}
 \Psi_T(\bs{r};\bs{\theta})=|\hat{D}(\bs{r};\bs{\theta})|J(\bs{r};\bs{\theta}).
 \end{equation}
-which is an educated guess on the form of the wave function. 
+which is an educated guess of the form of the wave function. 
 Here the first part, $|\hat{D}(\bs{r};\bs{\theta})|$, is the Slater determinant and $J(\bs{r};\bs{\theta})$ is a Jastrow factor with $\theta$ as some variational parameters. Other quantum many-body methods, such as full configuration interaction and coupled cluster use a linear expansion of Slater determinants to approximate the wave function, while the Hartree-Fock method relies on one single Slater determinant (without any Jastrow factor). Nevertheless, as we will focus on quantum Monte Carlo methods, this chapter will be tailored to the method. 
 
 The trial wave function needs to satisfy some requirements in order to be used in the variational principle, and we thus need to make an educated guess on the wave function where the requirements are fulfilled. The requirements are the following:
@@ -54,7 +54,7 @@ The trial wave function needs to satisfy some requirements in order to be used i
 \begin{enumerate}
 	\item \textbf{Normalizability:} The wave function needs to be normalizable in order to make physical sense. The total probability should always be 1, and a wave function that cannot be normalized will not have a finite total probability. The consequence is that the wave function goes to zero when the positions get large, $\Psi(x\rightarrow\pm\infty)\rightarrow 0$. 
 	
-	\item \textbf{Cusp condition:} The cusp condition (also called the Kato theorem) states that the wave function should have a cusp where the potential explodes. An example on this is when charged particles come close to each other. %\change{Extend this, this is actually wrong}
+	\item \textbf{Cusp condition:} The cusp condition (also called the Kato theorem) states that the wave function should have a cusp where the potential explodes. An example on this is when electrons come close to each other, i.e., the electron-electron cusp.
 	
 	\item \textbf{Symmetry and anti-symmetry:} The wave function needs to be either symmetric or anti-symmetric under exchange of two coordinates, dependent on whether the particles are fermions or bosons. This is the statement of the sixth postulate, which will be further explained in the next section.
 \end{enumerate}
@@ -66,9 +66,9 @@ Assume that we have a permutation operator $\hat{P}$ which exchanges two coordin
 \begin{equation}
 \hat{P}(i\rightarrow j)\Psi_n(\bs{r}_1,\hdots,\bs{r}_i,\hdots,\bs{r}_j,\hdots,\bs{r}_M)=p\Psi_n(\bs{r}_1,\hdots,\bs{r}_j,\hdots,\bs{r}_i,\hdots,\bs{r}_M),
 \end{equation}
-where $p$ is just a factor which comes from the transformation. If we again apply the $\hat{P}$ operator, we should switch the same coordinates back, and we expect to end up with the initial wave function. For that reason, $p$ must be either +1 or -1. \footnote{Actually, in two-dimensional systems we have a third possibility which gives an \textit{anyon}. The theory on this was developed by J.M. Leinaas and J. Myrheim during the 1970's \cite{leinaas_one_1977}.}
+where $p$ is just a factor which comes from the transformation. If we again apply the $\hat{P}$ operator, we should switch the same coordinates back, and we expect to end up with the initial wave function. For that reason, $p$ must be either +1 or -1. \footnote{Actually, in two-dimensional systems a third possibility is allowed which gives an \textit{anyon}. The theory on this was developed by J.M. Leinaas and J. Myrheim during the 1970's \cite{leinaas_one_1977}.}
 
-The particles that have an anti-symmetric wave function under exchange of two coordinates are called fermions, named after Enrico Fermi, and as discussed before they have half-integer spin. On the other hand, the particles that have a symmetric wave function under exchange of two coordinates are called bosons, named after Satyendra Nath Bose, and have integer spin. A consequence of the anti-symmetric wave function, is that two identical fermion cannot occupy the same state at the same time, known as the Pauli principle. This means that identical fermions even in the ground state spread over multiple states, and in the next section we will see how this principle is baked into the wave function through a Slater determinant. 
+The particles that have an anti-symmetric wave function under exchange of two coordinates are called fermions, named after Enrico Fermi, and as discussed before they have half-integer spin. On the other hand, the particles that have a symmetric wave function under exchange of two coordinates are called bosons, named after Satyendra Nath Bose, and have integer spin. A consequence of the anti-symmetric wave function, is that two identical fermion cannot occupy the same state at the same time, known as the Pauli principle. This means that identical fermions even in the ground state (at zero temperature) spread over multiple states, and in the next section we will see how this principle is baked into the wave function through a Slater determinant. 
 
 \subsection{The Slater determinant} \label{sec:slater}
 For a system of many particles we can define a total wave function, which is a composition of all the single-particle wave functions (SPF) and contains all the information about the system as the first postulate requires. For fermions, we need to combine the SPFs such that the Pauli principle is fulfilled at all times, which can be accomplished by a determinant. 
@@ -84,7 +84,7 @@ Consider a system of two identical fermions with SPFs $\psi_1(\bs{r},\sigma)$ an
 &=\frac{1}{\sqrt{2}}\Big[\psi_1(\boldsymbol{r}_1,\sigma_1)\psi_2(\boldsymbol{r}_2,\sigma_2)-\psi_2(\boldsymbol{r}_1,\sigma_2)\psi_1(\boldsymbol{r}_2,\sigma_1)\Big],
 \end{aligned}
 \end{equation}
-which is set to zero if the particles are at the same position and have the same spin. If the particles, on the other hand, have different spins, they are allowed to be at the same position at the same time and the determinant will not cancel. For larger systems, the Slater determinant is constructed in the same way as above, and any pair of identical particles located in the same state will cause the determinant to collapse. A Slater determinant containing $N$ electrons reads
+which is automatically set to zero if the particles happen to be at the same position and have the same spin at the same time. If the particles, on the other hand, have different spins, they are allowed to be at the same position at the same time and the determinant will not cancel. For larger systems, the Slater determinant is constructed in the same way as above, and any pair of identical particles located in the same state will make the determinant collapse. A Slater determinant containing $N$ electrons reads
 \begin{equation}
 \Psi(\bs{r},\bs{\sigma})=\frac{1}{\sqrt{N!}}
 \begin{vmatrix}
@@ -94,16 +94,16 @@ which is set to zero if the particles are at the same position and have the same
 \psi_1(\boldsymbol{r}_N,\sigma_1) & \psi_2(\boldsymbol{r}_N,\sigma_2) & \hdots & \psi_N(\boldsymbol{r}_N,\sigma_N)
 \end{vmatrix}
 \end{equation}
-where the $\psi(\bs{r},\sigma)$ is the tensor product between the radial part $\psi(\bs{r})$ and the spin part $\chi(\sigma)$,
+where the $\psi(\bs{r},\sigma)$ is the tensor product between the radial part $\phi(\bs{r})$ and the spin part $\xi(\sigma)$,
 \begin{equation}
-\psi(\bs{r},\sigma)=\phi(\bs{r})\otimes\chi(\sigma).
+\psi(\bs{r},\sigma)=\phi(\bs{r})\otimes\xi(\sigma).
 \end{equation}
-In the rest of this thesis, we will consequently use $\phi$ as the radial part of the single-particle functions and $\chi$ as the spin part. In section \ref{sec:slaterdeterminant}, it is shown that the Slater determinant can be split in a spin-up part and a spin-down part such that the spin-dependency $\chi(\sigma)$ can be omitted. for that reason, we can define a basis set consisting of the spatial parts only, discussed in the next section. 
+In section \ref{sec:slaterdeterminant}, it is shown that the Slater determinant can be split in a spin-up part and a spin-down part such that the spin-dependency $\xi(\sigma)$ can be omitted. For that reason, we can define a basis set consisting of the spatial parts only, discussed in the next section. 
 
-As a note, we will in the rest of this thesis use $\Psi$ as the many-particle wave function, $\psi$ are the single-particle functions and $\phi$ as the spatial part of the single-particle function. $\chi$ will be reserved the spin part of the single-particle functions, but will often be omitted as the spin-part can be factorized out. Sometimes it is appropriate to split the many-particle wave function, and we will in that case denote each part by $\Psi_i$ where $i$ is an index associated with the respective element. Lastly, the basis functions will be called $\varphi$, which we will discuss in the next section. 
+As a note, we will in the rest of this thesis use $\Psi$ as the many-particle wave function, $\psi$ are the single-particle functions and $\phi$ as the spatial part of the single-particle function. $\xi$ will be reserved the spin part of the single-particle functions, but will often be omitted as the spin-part can be factorized out. Sometimes it is appropriate to split up the many-particle wave function, and we will in that case denote each part by $\Psi_i$ where $i$ is an index associated with the respective element. Lastly, the basis functions will be called $\varphi$, which we will discuss in the next section. 
 
 \subsection{Basis set} \label{sec:basisset}
-In quantum chemistry, a basis set is a set of basis functions, which often are called the atomic orbitals.  Generally, a basis function should not be confused with a single-particle function, as a single-particle function is a linear combination of basis functions, and are often called the molecular orbitals. Commonly used atomic orbitals are Pople basis sets (in the form of x-yz G), correlation-consistent basis sets (in the form of cc-pVNZ) and Slater-type orbitals (in the form of STO-nG), where all are built on Gaussian functions. Gaussian functions are preferred as they allow efficient implementations of post-Hartree-Fock methods.
+In quantum chemistry, a basis set is a set of basis functions, which often are called the atomic orbitals.  Generally, a basis function should not be confused with a single-particle function, as a single-particle function is a linear combination of basis functions, and are thus often called the molecular orbitals. Commonly used atomic orbitals are Pople basis sets (in the form of x-yz G), correlation-consistent basis sets (in the form of cc-pVNZ) and Slater-type orbitals (in the form of STO-nG), where all are built on Gaussian functions. Gaussian functions are preferred as they allow efficient implementations of post-Hartree-Fock methods.
 
 In our work, however, the single-particle functions are often the basis functions, as we in most of the cases do not expand our single-particle functions $\psi(\bs{r},\sigma)$ in a basis. Our single-particle functions are typically the solution of the non-interacting system, and as the Jastrow factor is supposed to deal with the interaction, we use the same functions for the interacting case as well.
 
@@ -114,7 +114,7 @@ The standard notation is to use the Greek letter $\varphi$ for the atomic orbita
 where $c_{ij}$ are the coefficients to be found. There are different approaches to obtain these coefficients, where the popular Hartree-Fock algorithm generates $c_{ij}$'s in order to find the optimal single Slater determinant. The larger basis, the more accurate results we will get. The actual functions used in this work are presented in the next chapter, \ref{chp:systems}, and linked to their respective systems. 
 
 \subsection{Jastrow factors} \label{sec:jastrow}
-From electrostatics we know that identical, charged particles will repel each other. This means that the probability of finding two particles close to each other should be low, which needs to be baked into the wave function. One way to do this is to simply multiply the wave function with the distance between the particles; the smaller distance the lower probability. However, since we are going to work in the logarithmic space, dealing with exponential functions will be much easier. This is the main idea behind the simple Jastrow factor.
+From electrostatics we know that identical, charged particles will repulse each other. This means that the probability of finding two particles close to each other should be low, which needs to be baked into the wave function. One way to do this is to simply multiply the wave function with the distance between the particles; the smaller distance the lower probability. However, since we are going to work in the logarithmic space, dealing with exponential functions will be much easier. This is the main idea behind the simple Jastrow factor.
 
 \subsubsection{Simple Jastrow}
 The simple Jastrow factor is just an exponential function with the sum over all particle distances. In addition, each distance $r_{ij}$ is weighted by a parameter $\beta_{ij}$, and the factor becomes
@@ -122,12 +122,10 @@ The simple Jastrow factor is just an exponential function with the sum over all 
 J(\bs{r}; \bs{\beta}) = \exp\left(\sum_{i=1}^N\sum_{j>i}^N{\beta_{ij}r_{ij}}\right).
 \label{eq:SimpleJastrow}
 \end{equation}
-All the $\beta_{ij}$ are free variational parameters, which are expected to be symmetric since the distance matrix is symmetric.
-
-One problem with this Jastrow factor, is that it does not create the cusp around each particle correctly. Basically, the Jastrow factor increases faster than it should when a particle is moved away from another. To solve this, we need to introduce a more complex Jastrow factor, the Padé-Jastrow.
+All the $\beta_{ij}$ are free variational parameters, which are expected to be symmetric since the distance matrix is symmetric. One problem with this Jastrow factor, is that it does not create the cusp around each particle correctly. Basically, the Jastrow factor increases faster than it should when a particle is moved away from another. To solve this, we need to introduce a more complex Jastrow factor, the Padé-Jastrow.
 
 \subsubsection{Padé-Jastrow}
-The Padé-Jastrow factor is closely related to the simple Jastrow above, but a denominator is added to make the cusp correctly. It reads
+The Padé-Jastrow factor is closely related to the simple Jastrow above, but a denominator is added to make the cusp correct. It reads
 \begin{equation}
 J(\bs{r};\beta) = \exp\bigg(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij}}\bigg).
 \label{eq:PadeJastrow}
@@ -155,7 +153,7 @@ The $P$-body electron density is defined by the multi-dimensional integral over 
 \end{empheq}
 where $P\leq N$. This integral is in general really tricky so solve, and it can be found analytically for just a few realistic systems. For other systems, we need to solve the integral numerically, and we will in chapter \ref{chp:methods} describe how this can be done using Monte Carlo integration. 
 
-For non-interacting systems, the wave function is often separable with respect to the particles. In those cases one can easily find the electron density analytically, since the functions of coordinates which we do not integrate over can be factorized out of the integral,
+For non-interacting systems, the wave function is often trivially separable with respect to the different particles. In those cases one can easily find the electron density analytically, since the functions of coordinates which we do not integrate over can be factorized out of the integral,
 \begin{equation}
 \begin{aligned}
 \rho_P(\bs{r}_1,\hdots,\bs{r}_P)&=\int_{-\infty}^{\infty}d\bs{r}_{P+1}\hdots d\bs{r}_N |\Psi(\bs{r}_1),\hdots \Psi(\bs{r}_N)|^2\\
@@ -171,8 +169,8 @@ As we cannot pinpoint a particle in quantum mechanics, i.e., it is impossible to
 So, what does the electron density tell us? The two most commonly used electron densities are the one-body density and the two-body density. The former is the most applied electron density, and is sometimes simply referred to as the electron density. It gives the probability of finding a particle at a relative distance $r$ from another, and give insight about how the particles are distributed in the system. The two-body density becomes a two-dimensional function, and is therefore often expressed as a matrix. It gives the probability of finding a particle pair at a certain position, 
 
 \subsection{Wigner crystals} \label{sec:wigner}
-A Wigner crystal is a solid phase where electrons maximize the distance to each other in order to minimize the potential energy. As the interaction potential is given by Coulomb's law, the potential is minimized when the distance between the electrons are maximized. In one-dimensional systems, the electrons are thus found at discrete locations, such that they form an evenly spaced lattice. In two-dimensional systems, the Wigner crystals form triangular lattices which are known to be the configuration that maximized the distance in a limited space, and in three-dimensional systems the electrons form so-called body-centered cubics. The phenomenon occurs only when the potential energy dominates the kinetic energy, since the electrons then are almost "at rest" and external forces are not strong enough to push the electrons close to each other. 
+A Wigner crystal is a solid phase where electrons maximize the distance to each other in order to minimize the potential energy. As the interaction potential is given by Coulomb's law, the potential is minimized when the distances between the electrons are maximized. In one-dimensional systems, the electrons are thus found at discrete locations, such that they form an evenly spaced lattice. In two-dimensional systems, the Wigner crystals form triangular lattices which are known to be the configuration that maximized the distance in a limited space, and in three-dimensional systems the electrons form so-called body-centered cubics. The phenomenon occurs only when the potential energy dominates the kinetic energy, since the electrons then are almost "at rest" and external forces are not strong enough to push the electrons close to each other. 
 
-If the concept still is unclear, imagine Norwegians waiting for the metro. In the nature of the people, the Norwegians always want to maximize the distance to each other, meaning that they form triangular lattices on the metro station. In the extreme case, this is identical to the Wigner crystals. 
+If the concept still is unclear, imagine Norwegians waiting for the metro. In the nature of the people, the Norwegians always want to maximize the distance to each other, meaning that they form triangular lattices on the metro station. In the extreme case, this is equivalent with the Wigner crystals. 
 
 

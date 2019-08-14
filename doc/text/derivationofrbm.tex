@@ -12,7 +12,7 @@ as discussed in chapter \ref{chp:machinelearning}. If we now denote the expressi
 \begin{equation}
 E(\bs{x},\bs{h})=\sum_{i=1}^{F}\frac{(x_i-a_i)^2}{2\sigma_i^2}-\sum_{j=1}^Hh_jf_j(\bs{x};\bs{\theta})
 \end{equation}
-where $f_j(\bs{x};\bs{\theta})$ in principle can be any function. From this expression, we obtain the joint probability distribution
+where $f_j(\bs{x};\bs{\theta})$ in principle can be any function of $\bs{x}$ and $\bs{\theta}$. From this expression, we obtain the joint probability distribution
 \begin{equation}
 \begin{aligned}
 P(\bs{x},\bs{h})&=\frac{1}{Z}\exp(-\beta E(\bs{x},\bs{h}))\\
@@ -38,7 +38,7 @@ P(\boldsymbol{x})&\propto\sum_{\{\boldsymbol{h}\}}\exp\Big(\sum_{i=1}^F \frac{(x
 &=\exp\Big(\sum_{i=1}^F \frac{(x_i - a_i)^2}{2\sigma^2}\Big) \prod_{j=1}^H \bigg[1+ \exp\Big(f_j(\bs{x};\bs{\theta})\Big)\bigg]
 \end{aligned}
 \end{equation}
-where we utilize that only one element in the product contains a certain hidden node $h_j$.
+where we utilize that only an element in the product contains a certain hidden node $h_j$.
 
 \section{Gradient of wave function and log-likelihood function} \label{sec:derivatives}
 Defining the wave function as the marginal probability, we have seen that wave function of a general Gaussian-binary restricted Boltzmann machine has the form

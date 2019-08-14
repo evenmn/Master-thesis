@@ -7,20 +7,20 @@
 	\label{fig:montecarlointegration}
 \end{figure}
 
-Since this scientific work is based on solving equations numerically on the computer, software development is a major part of the work. We will in this chapter go through the main concepts of scientific programming, and directly relate them to our code in the next chapter on implementation. As a motivation, we will provide a brief recap of some historical milestones in scientific computing.
+Since this scientific work is based on solving equations numerically on the computer, software development is a major part of the work. We will in this chapter go through the main concepts of scientific programming, and directly relate them to our code in the next chapters on implementation. As a motivation, we will provide a brief recap of some historical milestones in scientific computing.
 
 Computers have long been used for solving complex scientific problems. Actually, for a long time science was the main motivation of developing computers. Already in 1929, Egil Hylleraas used his mechanical desk calculator to calculate the ground state energy of the Helium atom, which remains a milestone in computational quantum chemistry as well as quantum chemistry in general \cite{helgaker_perspective_2000}. Later, pioneers like Alan Turing and John von Neumann contributed to the invention of the first electronic computer, which made numerical solutions of ordinary differential equations possible \cite{gustafsson_scientific_2018}. 
 
 Also on the software side, big breakthroughs have been made since the advent of the electronic computer. The programming language Fortran was released in 1957, which provided a new basis of scientific programming \cite{allen_history_1981}. Later, Ole Johan Dahl and Kristen Nygaard developed the language SIMULA, which is considered as the first object orientated language \cite{holmevik_compiling_1994}. The language that we mostly will rely on in this work, C++, is an extension of the language C which was developed in the early 1970's and is, together with Fortran, one of few languages that have survived the ravages of time. 
 
-The computer used today, included both the hardware and the software, have become possible due to heroic effort of an array of scientists, engineers and mechanics over a long period. The computers are stronger than ever, have more memory than ever, are compacter than ever and, last but not least, they are more user-friendly than ever. This has made heavy computations that was unthinkable just decades ago possible, and has contributed to the development of essentially all branches of science. Due to the user-friendliness, advanced simulations have also been available to young and curious students like the author, which we should not take for granted. 
+The computers used today, included both the hardware and the software, have become possible due to heroic effort of an array of scientists, engineers and mechanics over a long period. The computers are stronger than ever, have more memory than ever, are compacter than ever and, last but not least, they are more user-friendly than ever. This has made heavy computations that was unthinkable just decades ago possible, and has contributed to the development of essentially all branches of science. Due to the user-friendliness, advanced simulations have also been available to young and curious students like the author, which we should not take for granted. 
 
 The computer's language itself is binary, and is the lowest level. To translate commands to this language, we need a "translator", which is a language that fills the gap between the binary language and human commands. This language is categorized in levels based on how similar they are to the binary language. Low-level languages are more similar to the binary language than a high-level language. The result is that low-level languages in general are more demanding to deal with, but they are typically faster than high-level languages. In our work, we have used the low-level language C++ for the main code, but for scripting, including plotting and solving less expensive problems, the high-level language Python has been used. 
 
 In this chapter, we will explain the essentials behind scientific programming, using examples from both C++ and Python. We will begin from the very basic, so if the reader is an experienced programmer this chapter will probably be perceived as old news. Programs are often either classified as \textit{procedural programming} or \textit{object oriented programming}, based on whether the code is written in the same order as the program flow goes (procedural) or is based on objects (object-orientated).
 
 \section{Object orientated programming in Python}
-In the everyday life, we are surrounded by objects all the time which we can place in different categories. For instance, a \textit{circle} is an object with properties like area, circumference and so on, and can be placed in the class \textit{shapes}. Other members of the class shapes might be square and triangle. In object orientated programming, we create similar objects, or classes, to make the program flow more intuitive for the reader. The main class is called the parent class, while the sub-classes are called the children. The reason for this analogy, is that the sub-classes always inherit from their main class, but not the other way around. 
+In the everyday life, we are surrounded by objects all the time which can be placed in different categories. For instance, a \textit{circle} is an object with properties like area, circumference and so on, and can be placed in the class \textit{shapes}. Other members of the class shapes might be square and triangle. In object orientated programming, we create similar objects, or classes, to make the program flow more intuitive for the reader. The main class is called the parent class, while the sub-classes are called the children. The reason for this analogy, is that the sub-classes always inherit from their main class, but not the other way around. 
 
 The example with the shapes can therefore be implemented with \texttt{Shapes} being the parent, and \texttt{Circle}, \texttt{Square} and \texttt{Triangle} being its children. In the high-level language Python, this can be implemented as 
 
@@ -94,7 +94,7 @@ Suppose we did not know the value of $\pi$, what could we do to approximate its 
 \begin{equation}
 \pi=4\frac{\text{A}_{\text{circle}}}{\text{A}_{\text{square}}}
 \end{equation}
-which is derived from the ratio between the circle area and the square area. By drawing random numbers from a uniform distribution and count the number of point which are in the square and in the circle, we can approximate $\text{A}_{\text{circle}}/\text{A}_{\text{square}}$. We can do this by using the \texttt{getExtent()} function of the square class and circle class,
+which is derived from the ratio between the circle area and the square area. By drawing random numbers from a uniform distribution and count the number of points which are in the square and in the circle, we can approximate $\text{A}_{\text{circle}}/\text{A}_{\text{square}}$. We can do this by using the \texttt{getExtent()} function of the square class and circle class,
 \lstset{basicstyle=\scriptsize}
 \begin{lstlisting}[language=python]
 for i in range(1,10):					# Iteration loop
@@ -125,7 +125,7 @@ Pi:  3.141615628
 Considering the fact that $\pi=3.141592653589793...$, the obtained result is quite acceptable. However, to run the program with $M=10^9$ Monte-Carlo cycles, the program is quite slow. Is it possible to do this faster? The answer is yes, by switching entirely or partly to a low-level language.
 
 \section{Low-level programming with C++}
-Above, we looked at how inheritance can be implemented in the high-level language Python, and we observed the main weakness of high-level languages: the computational time. In this section we will repeat the implementation and example above using C++. This will, hopefully, provide a significantly speed-up. A similar class structure in C++ looks like
+Above, we looked at how inheritance can be implemented in the high-level language Python, and we observed the main weakness of high-level languages: the computational time. In this section, we will repeat the implementation and example above using C++. This will, hopefully, provide a significantly speed-up. A similar class structure in C++ looks like
 \lstset{basicstyle=\scriptsize}
 \begin{lstlisting}[language=c++]
 class Shapes {
@@ -222,12 +222,12 @@ We also have a third access modifier in C++, called \texttt{protected}. \texttt{
 \subsection{Pure virtual functions}
 In Python, we saw how a parent's function was overwritten by a function of the child. This work as long as the child's function has identical name and identical arguments as the parent's function, otherwise it all will fail.
 
-In C++, a much safer method exists based on virtual functions, where a child is \textit{forced} to have the same virtual functions as its parent. The virtual functions of the parent therefore serves as a template of its children, such that all the children have the same features. 
+In C++, a much safer method exists based on pure virtual functions, where a child is \textit{forced} to have the same virtual functions as its parent. The virtual functions of the parent therefore serves as a template of its children, such that all the children have the same features. 
 
 This is often very useful, as the children tend to have the same features. Taking it back to the \texttt{Shapes} class, all the shapes ought to have features area and circumference, which can be forced by using virtual functions, as done in the example above. 
 
 \subsection{Constructors and destructors}
-In the example above, we observe that the class \texttt{Shapes} has a function with the same name, \texttt{Shapes} and another virtual function \texttt{~Shapes}. The former one is used to create the object, and is hence named a \textit{constructor}. This function gets called automatically when the object of a class is created. Similarly, the latter one destructs an object when we are done evaluating the object. It is therefore named a \textit{destructor}, and is also called automatically when an object is deleted or goes out of scope.
+In the example above, we observe that the class \texttt{Shapes} has a function with the same name, \texttt{Shapes} and another virtual function $\sim$\texttt{Shapes}. The former one is used to create the object, and is hence named a \textit{constructor}. This function gets called automatically when the object of a class is created. Similarly, the latter one destructs an object when we are done evaluating the object. It is therefore named a \textit{destructor}, and is also called automatically when an object is deleted or goes out of scope.
 
 \subsection{Pointers}
 In the example above, we have not directly used any pointer. However, pointers are important in low-level languages, and we will here give a very brief introduction to pointers.

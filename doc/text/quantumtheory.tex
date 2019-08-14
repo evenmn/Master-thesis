@@ -16,16 +16,16 @@ i\hbar\frac{\partial}{\partial t}\ket{\Psi(\bs{r},t)}=\hat{\mathcal{H}}\ket{\Psi
 \end{empheq}
 which describes the state, or the wave function, $\Psi(\bs{r},t)$, of a system with Hamilton operator $\hat{\mathcal{H}}$, known as the Hamiltonian. $\hbar$ is the reduced Planck's constant and $i$ is the solution of the equation $x^2=-1$. As we later will see, the quantum mechanical system is completely specified by the wave function, so by solving the equation we will in principle know anything about the system. 
 
-Erwin Schrödinger introduced the now-called Schrödinger equation in a 1926 paper as one of many contributions to the quantum mechanics at that time \cite{schrodinger_undulatory_1926}. Other contributors include Max Born who suggested now-standard interpretation of the probability density function as $|\Psi(\bs{r},t)|^2$ in 1926 \cite{born_zur_1926} and his companion Werner Heisenberg who formulated the matrix mechanics representation in 1925 \cite{heisenberg_uber_1925}. However, many physicists were skeptical to the new theory, including Albert Einstein and Schrödinger himself. The theory differed from the classical mechanics in the sense that it was totally based on a statistical interpretation, with some strange consequences. For instance, the theory allowed negative kinetic energies to occur with the consequence that a particle could \textit{go through} a potential wall, known as quantum tunneling. Later, Einstein also pointed out that when pairs or groups of particles are generated in ways such that the wave function of each particle cannot be described independently of the other state, they will be affected by each other even at large distances \cite{einstein_can_1935}. He called this \textit{"spooky action at a distance"}, and used the observation to argument that the quantum theory had to be incorrect. However, the observation was later proven to be correct and as late as in July 2019 the first image of quantum entanglement, as the phenomenon is called, was taken \cite{moreau_imaging_2019}. See figure \eqref{fig:entanglement}.
+Erwin Schrödinger introduced the now-called Schrödinger equation in a 1926 paper as one of many contributions to the quantum mechanics at that time \cite{schrodinger_undulatory_1926}. Other contributors include Max Born who suggested now-standard interpretation of the probability density function as $|\Psi(\bs{r},t)|^2$ in 1926 \cite{born_zur_1926} and his companion Werner Heisenberg who formulated the matrix mechanics representation in 1925 \cite{heisenberg_uber_1925}. However, many physicists were skeptical to the new theory, including Albert Einstein and Schrödinger himself. The theory differed from the classical mechanics in the sense that it was totally based on a statistical interpretation, with some strange consequences. For instance, the theory allowed negative kinetic energies to occur with the consequence that a particle could \textit{go through} a potential wall, known as quantum tunneling. Later, Einstein also pointed out that when pairs or groups of particles are generated in ways such that the wave function of each particle cannot be described independently of the other state, they will be affected by each other even at large distances \cite{einstein_can_1935}. He called this \textit{"spooky action at a distance"}, and used the observation to argument that the quantum theory had to be incorrect. However, the observation was later proven to be correct and as late as in July 2019 the first image of quantum entanglement, as the phenomenon is called, was captured \cite{moreau_imaging_2019}. See figure \eqref{fig:entanglement}.
 
-Today, there is wide agreement in the physics society on the quantum theory. Actually, the theory is the most precisely tested theory in the history of science, where computed observable of atoms agree perfectly with experiments. Most notably, quantum electrodynamical calculations of the fine structure constant $\alpha$ are found to agree with experiments within ten parts in a billion, $10^{-8}$.\bigskip
+Today, there is wide agreement in the physics society on the quantum theory. Actually, the theory is the most precisely tested theory in the history of science, where computed observable of atoms agree perfectly with experiments. Most notably, quantum electrodynamical calculations of the fine structure constant $\alpha$ are found to agree with experiments within ten parts in a billion, $10^{-8}$ \cite{noauthor_most_nodate}.\bigskip
 
 In this chapter, will first state the postulates of quantum mechanics, and thereafter we discuss the time-independent Schrödinger equation and challenges related to solving it. As we will see, every observable in quantum mechanics is associated with an operator, and the consequence is that all obtained values are identified with standard errors which are also important to specify in order to present the accuracy of the value. In that manner, quantum mechanics is based on statistics and in section \eqref{sec:statisticalinterpretation} we discuss the statistical interpretation of the theory. The variational principle states that the ground state energy is the lowest possible energy calculated, so by minimizing the energy in a variational scheme, a ground state energy estimation can be obtained. Other things discussed are the quantum numbers, which are the values that give acceptable solutions to the Schrödinger equation, and the virial theorem which relates kinetic and potential energy. 
 
 Albeit the quantum mechanics will make up the framework for this work, we will in this chapter only discuss the theory needed for the work and this is therefore not meant as an encyclopedia to quantum mechanics. For a complete introduction to the topic, Ref. \cite{griffiths_introduction_2005} serves as an excellent read. Before we get started, we make a few assumptions in order to simplify our problem. The most important ones are specified below with an explanation why they are valid.
 
 \begin{itemize}
-	\item \textbf{Point-like particles:} First, all particles involved will be assumed to be point-like, i.e, they lack spatial extension. For electrons this makes sense, since they, as far as we know, do not extent. The assumption is also applied on the nucleus in atomic systems, but it still makes sense since the distance from the nucleus to the electrons is known to be much larger than the nucleus extent.
+	\item \textbf{Point-like particles:} First, all particles involved will be assumed to be point-like, i.e, they lack spatial extension. For electrons this makes sense, since they, as far as we know, do not extent. The assumption is also applied on the nucleus in atomic systems, but it still makes sense since the distance from the nucleus to the electrons is known to be much larger than the nucleus extension.
 	
 	\item \textbf{Non-relativistic spacetime:}  Second, we operate in the non-relativistic spacetime, which is an extremely good approximation as long as we do not approach the speed of light and we do not involve strong forces. Applying classical physics, we can find that the speed of the electron in a hydrogen atom is about 1\% of the speed of light. Even though the electrons achieve higher velocities in heavy atoms, we do not need to worry about it as we will stick to the lighter atoms. In the quantum dots, this assumption hold even for large systems, as the velocity and density will still be sufficiently low.
 	
@@ -33,7 +33,7 @@ Albeit the quantum mechanics will make up the framework for this work, we will i
 \end{itemize}
 
 \section{The postulates of Quantum Mechanics} \label{sec:postulates}
-Quantum mechanics is characterized by a set of fundamental axioms that make up the base of the theory. As we assumed that they always hold, every statement in quantum mechanics is based on them and it is therefore naturally to list them now in the beginning. They can be formulated by six postulates, in the following way:
+Quantum mechanics is characterized by a set of fundamental axioms that make up the base of the theory. As we assume that they always hold, every statement in quantum mechanics is based on them and it is therefore naturally to list them now in the beginning. They can be formulated by six postulates, in the following way:
 
 \begin{enumerate}
 	\item \textit{"The state of a quantum mechanical system is completely specified by the wave function $\Psi(\bs{r},t)$."}
@@ -50,7 +50,7 @@ Quantum mechanics is characterized by a set of fundamental axioms that make up t
 	
 	\item \textit{"The total wavefunction must be antisymmetric with respect to the interchange of all coordinates of one fermion with those of another. Electronic spin must be included in this set of coordinates."} 
 \end{enumerate}
-All the postulates will be used in this work, and they will be described in detail when we need them. Albeit we will look at stationary states only, even the time-dependent Schrödinger from postulate number 5 will be discussed due to the description of the diffusion Monte Carlo method in section \ref{sec:dmc}. The other will be covered in the current chapter. The formulation of the presented postulates are taken from \cite{sherrill_david_postulates_2003}.
+All the postulates will be used in this work, and they will be described in detail when we need them. Albeit we will look at stationary states only, even the time-dependent Schrödinger from the fifth postulate will be discussed due to the description of the diffusion Monte Carlo method in section \ref{sec:dmc}. The other will be covered in the current and the next chapter. The formulation of the presented postulates are taken from \cite{sherrill_david_postulates_2003}.
 
 \section{The Schrödinger equation} \label{sec:schrodinger}
 We have already presented the time-dependent Schrödinger equation on several occasions, but as mentioned above, we will in this work study stationary systems only. If we also recall that the particles are assumed to be non-relativistic, the focus will be on solving the time-independent non-relativistic Schrödinger equation. By defining $\Psi_n(\bs{r})$ as the wave function of a state $n$ with energy $\varepsilon_n$, the equation can be expressed as
@@ -64,7 +64,7 @@ where $\hat{\mathcal{H}}$ is the aforementioned Hamiltonian, the total energy op
 \end{equation}
 with $\hat{T}$ and $\hat{V}$ as the kinetic and potential energy operators respectively. 
 
-Again from classical mechanics, the kinetic energy for a moving particle of mass $m$ yields $T=p^2/2m$ where $p$ is the (linear) momentum, such that the kinetic energy operator can be represented as 
+Again from classical mechanics, the kinetic energy of a moving particle of mass $m$ yields $T=p^2/2m$ where $p$ is the (linear) momentum, such that the kinetic energy operator can be represented as 
 \begin{equation}
 \hat{T}=\frac{\hat{p}^2}{2m}
 \end{equation}
@@ -72,14 +72,12 @@ according to Ehrenfest's theorem. Further, the momentum operator is $\hat{p}=-i\
 \begin{equation}
 	[\hat{x},\hat{p}]=\hat{x}\hat{p}-\hat{p}\hat{x}=i\hbar
 \end{equation}
-which indicates that the momentum and the position do not \textit{commute}. In other words, the order of the operators in an equation is not arbitrary. 
-
-The potential, on the other hand, is obviously dependent on the system we want to study. For atomic systems, the potential as a function of the distance from the nucleus can be found from Coulomb's law and reads 
+which indicates that the momentum and the position do not \textit{commute}. In other words, the order of the operators in an equation is not arbitrary. The potential, on the other hand, is obviously dependent on the system we want to study. For atomic systems, the potential as a function of the distance from the nucleus can be found from Coulomb's law and reads 
 \begin{equation}
 V(r)=\frac{1}{4\pi\epsilon_0}\frac{Ze^2}{r}
 \label{eq:atompotential}
 \end{equation}
-where the nucleus is assumed to be at rest in the origin, $k_e=1/4\pi\epsilon_0$ is the Coulomb constant, $Z$ is the atomic number of the nucleus and $e$ is the elementary charge. For a general potential, the Hamiltonian can be expressed as 
+where the nucleus is assumed to be at rest at the origin, $k_e=1/4\pi\epsilon_0$ is the Coulomb constant, $Z$ is the atomic number of the nucleus and $e$ is the elementary charge. For a general potential, the Hamiltonian can be expressed as 
 \begin{equation}
 \hat{\mathcal{H}}=-\frac{\hbar^2}{2m}\nabla^2+V(r)
 \label{eq:oneparticlehamiltonian}
@@ -91,14 +89,14 @@ By setting up equation \eqref{eq:Energy} with respect to the energies, we obtain
 \epsilon_n=\frac{\int d\bs{r}\psinc\hat{\mathcal{H}}\psin}{\int d\bs{r}\psinc\psin},
 \label{eq:energyintegral}
 \end{equation}
-which not necessarily is trivial to solve. For almost\footnote{Exceptions include quantum dots of two electrons in two and three dimensions, where M.Taut has presented semi-analytical energies for a few oscillator frequencies \cite{taut_two_1993,taut_two_1994}.} all many-electron systems, this becomes analytically infeasible due to the two-body interaction term.
+which not necessarily is trivial to solve. For almost\footnote{Exceptions include quantum dots of two electrons in two and three dimensions, where M.Taut has presented semi-analytical energies for a few oscillator frequencies \cite{taut_two_1993,taut_two_1994}.} all many-electron systems, this becomes analytically infeasible due to a two-body interaction term. This will be covered in chapter \ref{chp:manybody}.
 
 As suggested by Max Born, we get the probability density function if we take the dot product between the complex conjugate wave function and the wave function itself,
 \begin{equation}
 P(\bs{r})=\psinc\psin=|\psin|^2,
 \label{eq:pdf}
 \end{equation}
-so the denominator is basically the integral over all the probabilities. If the wave function is normalized correctly, this should always give 1. 
+so the denominator in equation \eqref{eq:energyintegral} is basically the integral over all the probabilities. If the wave function is normalized correctly, this should always give 1. 
 
 As a very brief example, we will below calculate the bounding energy of the Hydrogen atom.
 
@@ -109,19 +107,19 @@ a_0=\frac{4\pi\epsilon_0\hbar^2}{m_eZe^2}
 \end{equation}
 we can set up the total Hamiltonian as
 \begin{equation}
-\hat{\mathcal{H}}\cdot\frac{k_e^2\hbar^2}{m_eZe^2}=-\frac{1}{2}a_0^2\nabla^2-\frac{1}{a_0r}
+\hat{\mathcal{H}}\cdot\frac{(4\pi\epsilon_0)^2\hbar^2}{m_eZ^2e^4}=-\frac{1}{2}a_0^2\nabla^2-\frac{a_0}{r}
 \end{equation}
-where we have multiplied all the terms by the factor $k_e^2\hbar^2/m_eZe^2$ in order to make the equation dimensionless. We can further scale the energy as $E\leftarrow E\cdot k_e^2\hbar^2/m_eZe^2$ and the distance as $r\leftarrow a_0r$, which both are dimensionless, and obtain the Hamiltonian
+where we have multiplied all the terms by the factor $(4\pi\epsilon_0)^2\hbar^2/m_eZ^2e^4$ in order to make the equation dimensionless. We can further scale the energy as $E\leftarrow E\cdot (4\pi\epsilon_0)^2\hbar^2/m_eZ^2e^4$ and the distance as $r\leftarrow r/a_0$, which both are dimensionless, and obtain the Hamiltonian
 \begin{equation}
 \hat{\mathcal{H}}=-\frac{1}{2}\nabla^2-\frac{1}{r}
 \end{equation}
 where all quantities are in atomic units.
 
-The Hydrogen wave function is well-known and reads
+The Hydrogen ground state wave function is well-known and reads
 \begin{equation}
 \Psi(r)\propto e^{-r}
 \end{equation}
-in atomic units. The bounding energy in Hydrogen is found from the Schrödinger equation in equation \eqref{eq:Energy}, and gives
+in atomic units. The binding energy in Hydrogen is found from the Schrödinger equation in equation \eqref{eq:Energy}, and gives
 \begin{equation}
 \hat{\mathcal{H}}\Psi(r)=\bigg(-\frac{1}{2}\nabla^2-\frac{1}{r}\bigg)\Psi(r)=-\frac{1}{2}\Psi(r)
 \end{equation}
@@ -140,12 +138,12 @@ As a consequence, there is always an uncertainty associated with a quantum mecha
 \label{eq:variance}
 \end{equation}
 If there is correlations between the measurements, this expression underestimates the actual sampling variance as the \textit{covariance} is not taken into account, which is detailed in section \ref{sec:variance}. If we take the square root of the variance, we obtain the standard deviation which is the quantity given as the standard error in the results. From the standard deviation, a variety of mathematical inequalities follows, where Heisenberg's uncertainty principle is the most famous. It states that the more precisely the position of some particle is determined, the less precisely its momentum can be known, and is mathematically presented as
-\begin{equation}
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \sigma_x\sigma_p\geq\frac{\hbar}{2}
-\end{equation}
+\end{empheq}
 where $\sigma_x$ is the standard deviation of the position and $\sigma_p$ is the standard deviation of the momentum.
 
-The general expected value in equation \eqref{eq:generalexp} is expressed using the Schrödinger wave mechanics picture, but it can also be written in terms of for instance the Heisenberg picture applying matrices. However, the standard formalism today in most of the branches of the quantum mechanics is the Dirac notation, which relates the Schrödinger picture and the Heisenberg picture in an elegant way. Using this, the expectation value reads
+The general expected value in equation \eqref{eq:generalexp} is expressed using the Schrödinger wave mechanics picture, but it can also be written in terms of for instance the Heisenberg picture applying matrices. However, the standard formalism today in most branches of the quantum mechanics is the Dirac notation, which relates the Schrödinger picture and the Heisenberg picture in an elegant way. Using this, the expectation value from equation \eqref{eq:generalexp} reads
 \begin{equation}
 \langle \hat{O}\rangle=\frac{\mel{\Psi}{\hat{O}}{\Psi}}{\braket{\Psi}{\Psi}}
 \end{equation}

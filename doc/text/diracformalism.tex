@@ -1,10 +1,7 @@
 \chapter{Dirac Formalism} \label{app:dirac}
-The Dirac formalism, also called braket notation, was suggested by Paul Dirac in a 1939 paper with the purpose of improving the reading ease. \cite{dirac_new_1939} The notation unites the integral representation and the matrix representation in an elegant fashion by representing all elements in the \textit{Hilbert-space}. 
+The Dirac formalism, also called braket notation, was suggested by Paul Dirac in a 1939 paper with the purpose of improving the reading ease \cite{dirac_new_1939}. The notation unites the integral representation and the matrix representation in an elegant fashion by representing all elements in the \textit{Hilbert-space}. 
 
-%\section{Properties of the Hilbert-space}
-The Hilbert-space is a linear vector space.. A column vector in the space is denoted by $\ket{\psi}$, which is called the \textit{ket}, and by taking the Hermitian conjugate of it we obtain the corresponding row vector, $(\ket{\psi})^+=\bra{\psi}$ called the \textit{bra}. 
-
-As the Hilbert-space is characterized by linearity, it requires that the sum of two element in the space is also an element in the space,
+The Hilbert-space is a complete linear vector space, which allows length, inner products and angles between vectors to be measured. A column vector in the space is denoted by $\ket{\psi}$, which is called the \textit{ket}, and by taking the Hermitian conjugate of it we obtain the corresponding row vector, $(\ket{\psi})^+=\bra{\psi}$ called the \textit{bra}. As the Hilbert-space is characterized by linearity, it requires that the sum of two element in the space is also an element in the space,
 \begin{equation}
 \ket{\psi}+\ket{\phi}=\ket{\psi+\phi}.
 \end{equation}
@@ -14,7 +11,7 @@ and that two elements always \textit{commute},
 \end{equation}
 Another important property is that an element of the space multiplied with a complex number is also an element of the space,
 \begin{equation}
-c\ket{\psi}=\ket{c\psi}\quad\quad\forall c\in\mathbb{C}.
+c\ket{\psi}=\ket{c\psi}\quad\quad\forall\quad c\in\mathbb{C}.
 \end{equation}
 
 To fully utilize the notation, orthogonality properties need to be taken into account. Assume that we have a orthogonal basis set 
@@ -66,13 +63,14 @@ The inner product is then given by
 \end{equation}
 where we have assumed that also the states $\ket{\uparrow\downarrow}$ and $\ket{\downarrow\uparrow}$ are orthonormal. From this, we can see that the normalization constant $A$ must be equal to $1/\sqrt{2}$.
 
-Further, a ket consisting of multiple single particle wave function, $\ket{\psi_1\psi_2,\hdots,\psi_n}$, is assumed to be a short-hand notation of the Slater determinant,
+Further, we also use the Dirac notation as a short-hand notation of the Slater determinant, discussed in section \ref{sec:slater}. Instead of writing out the entire determinant, it is common to write it as
 \begin{equation}
-\ket{\psi_1(\bs{r}_1)\psi_2(\bs{r}_2),\hdots,\psi_n(\bs{r}_n)}\equiv
+\ket{\psi_1\psi_2,\hdots,\psi_N}\equiv\frac{1}{\sqrt{N!}}
 \begin{vmatrix}
-\psi_1(\boldsymbol{r}_1) & \psi_2(\boldsymbol{r}_1) & \hdots & \psi_n(\boldsymbol{r}_1)\\
-\psi_1(\boldsymbol{r}_2) & \psi_2(\boldsymbol{r}_2) & \hdots & \psi_n(\boldsymbol{r}_2)\\
+\psi_1(\boldsymbol{r}_1,\sigma_1) & \psi_2(\boldsymbol{r}_1,\sigma_1) & \hdots & \psi_n(\boldsymbol{r}_1,\sigma_1)\\
+\psi_1(\boldsymbol{r}_2,\sigma_2) & \psi_2(\boldsymbol{r}_2,\sigma_2) & \hdots & \psi_N(\boldsymbol{r}_2,\sigma_2)\\
 \vdots & \vdots & \ddots & \vdots \\
-\psi_1(\boldsymbol{r}_n) & \psi_2(\boldsymbol{r}_n) & \hdots & \psi_n(\boldsymbol{r}_n)
+\psi_1(\boldsymbol{r}_N,\sigma_N) & \psi_2(\boldsymbol{r}_N,\sigma_N) & \hdots & \psi_N(\boldsymbol{r}_N,\sigma_N)
 \end{vmatrix}
 \end{equation}
+which is extensively used in for instance second quantization. 

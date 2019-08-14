@@ -1,7 +1,7 @@
 \chapter{Natural units} \label{app:units}
-In the everyday life, we usually stick to the standard SI units when measuring or expressing distance, energy, weight, time and so on. A standard unit system is important because it is common to people around the world, so that people can communicate with each other conveniently across borders with a reduced risk of misconceptions. Another point is that people gradually develop an intuition about a set of units when they are frequency used, such that they immediately observe if a number makes sense or not when it is expressed in the preferred units. As an European, I always measure length in meters so when people say they are 1.80m tall I can easily imagine their height. On the other hand, when Americans tell their height, I do not have an intuition for what 5.0 feet is. 
+In the everyday life, we usually stick to the standard SI units when measuring or expressing distances, energies, weights, time and so on. A standard unit system is important because it is common to people around the world, so that people can communicate with each other conveniently across borders with a reduced risk of misconceptions. Another point is that people gradually develop an intuition about a set of units when they are frequency used, such that they immediately observe if a number makes sense or not when it is expressed in the preferred units. As an European, I always measure length in meters so when people say they are 1.80m tall I can easily imagine their height. On the other hand, when Americans tell their height, I do not have an intuition for what 5.0 feet is. 
 
-However, in science the SI units are often not the preferred ones, especially when things get very large or very small. for instance, measuring cosmological distance in meter is very unpractical, as the distance to the Sun is $\sim1.5\cdot10^{11}$m and the distance to our closest neighbor galaxy Andromeda is $\sim 2.4\cdot10^{22}$m! Instead, we use units like the astronomical unit [a.u.] (should not be confused with atomic units) and and light years. 
+However, in science the SI units are often not the preferred ones, especially when things get very large or very small. For instance, measuring cosmological distances in meters is very unpractical, as the distance to the Sun is $\sim1.5\cdot10^{11}$m and the distance to our closest neighbor galaxy Andromeda is $\sim 2.4\cdot10^{22}$m! Instead, we use units like the astronomical unit [a.u.] (should not be confused with atomic units) and light years. 
 
 For small scales, the situation is similar. For instance, the most probable distance between the nucleus and the electron is the Bohr radius, which is $a_0\approx5.3\cdot10^{-11}$m, which again is very unpractical to work with. Instead, we define so-called natural units where $a_0=1$, and scale the other quantities after that. We will in this chapter present how the quantum dot and atomic Hamiltonian can be scaled in natural units. We will stick to Hartree atomic units, as it gives elegant expressions of the Hamiltonians.  
 
@@ -13,7 +13,7 @@ For circular quantum dots, the one-dimensional Hamiltonian in SI units reads
 \end{equation}
 with $\hbar$ as the reduced Planck's constant, $m$ as the electron mass and $\omega$ as the oscillator frequency. The corresponding wave functions read
 \begin{equation}
-\psi_n(x)=\frac{1}{\sqrt{2^nn!}}\cdot\bigg(\frac{m\omega}{\pi\hbar}\bigg)^{1/4}\exp\Big(-\frac{m\omega}{2\hbar}x^2\Big)H_n\Big(\sqrt{\frac{m\omega}{\hbar}}x\Big).
+\phi_n(x)=\frac{1}{\sqrt{2^nn!}}\cdot\bigg(\frac{m\omega}{\pi\hbar}\bigg)^{1/4}\exp\Big(-\frac{m\omega}{2\hbar}x^2\Big)H_n\Big(\sqrt{\frac{m\omega}{\hbar}}x\Big).
 \end{equation}
 We want to get rid of $\hbar$ and $m$ in equation \eqref{eq:HamiltonianHO} to make it dimensionless, which can be accomplished by scaling  $\hat{\mathcal{H}}'= \hat{\mathcal{H}}/\hbar$, such that the Hamiltonian reduces to
 \begin{equation}
@@ -25,7 +25,7 @@ Moreover, we observe that the fraction $\hbar/m$ comes in both terms, which can 
 \end{equation}
 which corresponds to setting $\hbar=m=1$. In natural units, one often sets $\omega=1$ as well by scaling $\hat{\mathcal{H}}'=\hat{\mathcal{H}}/\hbar\omega$, but since we want to keep the $\omega$-dependency, we do it slightly different. This means that the exact wave functions for the one-particle one-dimensional case goes as
 \begin{equation}
-\psi_n(x)\propto\exp\Big(-\frac{\omega}{2}x^2\Big)H_n(\sqrt{\omega}x)
+\phi_n(x)\propto\exp\Big(-\frac{\omega}{2}x^2\Big)H_n(\sqrt{\omega}x)
 \end{equation}
 where we omit the normalization factor with the Metropolis algorithm in mind. 
 
@@ -52,33 +52,3 @@ We obtain the dimensionless Hamiltonian in Atomic units by scaling  $r'=r/a_0$ a
 \hat{\mathcal{H}}=-\frac{1}{2}\nabla^2-\frac{Z}{r}+\frac{l(l+1)}{2r^2},
 \end{equation}
 which again corresponds to setting $\hbar=m_e=k_e=e=1$.
-
-\section{Comparison between natural and atomic units}
-As a summary, we will present how the observable are scaled nicely in a table, and how to convert them back to standard units.
-\begin{table} [H]
-	\caption{Comparison the natural and atomic units presented above.  \vspace{2mm}}
-	\begin{tabularx}{\textwidth}{X|XXX} \hline\hline
-		\label{tab:energies2P2D}
-		Quantity & Symbol & Natural units & Atomic units \\ \hline
-		Energy & $E$ & $1/\hbar$ & $\hbar^2/m(ke^2)^2$\\ 
-		Length & $r$ & $\sqrt{m/\hbar}$ & $m(ke^2)/\hbar^2$\\
-		Reduced Planck's constant & $\hbar$ & 1 & 1 \\
-		Elementary charge & $e$ & 1 & $\sqrt{\alpha}$ \\
-		Coulomb's constant & $k_e$ & 1 & 1 \\
-		Boltzmann's constant & $k_B$ & 1 & 1 \\
-		Electron rest mass & $m_e$ & 1 & $511 keV$ \\ \hline\hline
-	\end{tabularx}
-\end{table}
-
-By a mix of classical and quantum mechanics, Niels Bohr found the quantized energy levels and radii in an atom to be
-\begin{equation}
-E_n=-\frac{Z^2(ke^2)^2m}{2\hbar^2n^2}\approx-\frac{Z^2}{n^2}13.6\text{ eV}
-\end{equation}
-and
-\begin{equation}
-r_n=\frac{n^2\hbar^2}{Zke^2m}\approx\frac{n^2}{Z}5.29\cdot10^{-11}\text{ m}
-\end{equation}
-respectively. What we observe, is that the energy in atomic units is scaled with respect to $2\cdot E_1$ and $r_1$, which means that
-\begin{equation}
-1\text{ a.u.} = 2\cdot13.6\text{ eV}\quad\quad\text{and}\quad\quad 1 \text{ a.u.} = 5.29\cdot10^{-11}\text{ m}
-\end{equation}
