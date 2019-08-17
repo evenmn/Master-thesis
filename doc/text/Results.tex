@@ -403,7 +403,7 @@ One can observe that the kinetic energy and potential energy are dominant for hi
 
 We also see a significant difference between the methods, where the plain restricted Boltzmann machine is the one that really stands out as the interaction energy is higher and the kinetic energy amount is lower. This is not very surprising, considering that it does not have any Jastrow factor to take care of the interactions. This apparently gives a higher interaction energy and a lower kinetic energy.
 
-We do the same exercise for quantum dots of 20 electrons in two dimensions, and get the plots presented in figure \eqref{fig:energysplit20}. What we observe is that the shapes of the graphs are quite similar to the graphs for two particles, but the values are completely different. However, the potential energy dominates the kinetic energy in a, if possible, even more markedly way than for the smaller dot with two electrons. Most notably is the kinetic energy, which account for a much lower amount of the total energy for 20 particles than for two particles. This is naturally related to the increase in the interaction energy, which is naturally as we increase the number of energies. Also the numbers which the plots are based on were taken from appendix \ref{chp:energydistribution}.
+We do the same exercise for quantum dots of 20 electrons in two dimensions, and get the plots presented in figure \eqref{fig:energysplit20}. What we observe is that the shapes of the graphs are quite similar to the graphs for two particles, but the values are completely different. However, the potential energy dominates the kinetic energy in a, if possible, even more markedly way than for the smaller dot with two electrons. Most notably is the kinetic energy, which account for a much lower amount of the total energy for 20 particles than for two particles. This is naturally related to the increase in the interaction energy, which is naturally as we increase the number of energies. Also the numbers which the plots are based on were taken from appendix \ref{chp:totalresults}.
 
 \begin{figure}  
 	\centering 
@@ -521,6 +521,14 @@ In order to test the code, we also decided to run for systems with $N>56$. This 
 	\subfloat[3D, 112P]{\includegraphics[scale=0.4]{/home/evenmn/VMC/plots/int1/onebody/3D/70P/1.000000w/ADAM_MC2pow28.png}}
 	\caption{One-body density of large circular quantum dots with frequency $\omega=1.0$.}
 	\label{fig:largedotsOB}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\subfloat[RBM]{\includegraphics[scale=0.4]{/home/evenmn/VMC/plots/int1/twobody/2D/72P/1.000000w/RBM_ADAM_MC2pow28.png}}
+	\subfloat[VMC]{\includegraphics[scale=0.4]{/home/evenmn/VMC/plots/int1/twobody/2D/72P/1.000000w/VMC_ADAM_MC2pow28.png}}
+	\caption{One-body density of large two-dimensional circular quantum dots with frequency $\omega=1.0$ containing 72 particles.}
+	\label{fig:largedotsTB}
 \end{figure}
 
 \section{Double quantum dots}
