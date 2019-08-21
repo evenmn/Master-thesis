@@ -260,8 +260,8 @@ We observe that the method where less physical intuition is used, RBM, is the on
 		
 		40 & 0.1 & 89.45(8) & 89.618(4) & 89.21080(5) & & - & 88.182(1) \\ 
 		& 0.28 & 182.714(6) & 181.877(4) & - & & - & 179.567(1) \\
-		& 0.5 & 275.262(7) & 271.030(4) & - & & - & 269.746(1) \\
-		& 1.0 & 452.732(8) & 442.874(4) & - & & - & 442.602(2) \\ \hline\hline
+		& 0.5 & 275.262(7) & 271.030(4) & - & & - & 269.621(2) \\
+		& 1.0 & 452.732(8) & 442.874(4) & - & & - & 442.233(1) \\ \hline\hline
 	\end{tabularx}
 \end{table}
 \end{landscape}
@@ -369,12 +369,12 @@ We observe that the RBM plots not necessarily are symmetric, while the VMC plots
 		\captionsetup{width=0.9\hsize}
 		\subfloat[RBM, $\omega=0.1$]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.100000w/RBM_ADAM_MC2pow28.png}}}
 		\subfloat[RBM+SJ, $\omega=0.1$]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.100000w/RBMSJ_ADAM_MC2pow28.png}}}
-		\subfloat[RBM+PJ, $\omega=0.1$]{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.100000w/RBM_ADAM_MC2pow28.png}}
+		\subfloat[RBM+PJ, $\omega=0.1$]{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.100000w/RBMPJ_ADAM_MC2pow28.png}}
 		\subfloat[VMC, $\omega=0.1$]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.100000w/VMC_ADAM_MC2pow28.png}}}
 		
 		\subfloat[RBM, $\omega=0.5$]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.500000w/RBM_ADAM_MC2pow28.png}}}
 		\subfloat[RBM+SJ, $\omega=0.5$]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.500000w/RBMSJ_ADAM_MC2pow28.png}}}
-		\subfloat[RBM+PJ, $\omega=0.5$]{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.100000w/RBM_ADAM_MC2pow28.png}}
+		\subfloat[RBM+PJ, $\omega=0.5$]{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.500000w/RBMPJ_ADAM_MC2pow28.png}}
 		\subfloat[VMC, $\omega=0.5$]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.500000w/VMC_ADAM_MC2pow28.png}}}\\
 		
 		\subfloat[RBM, $\omega=1.0$]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/1.000000w/RBM_ADAM_MC2pow28.png}}}
@@ -523,13 +523,15 @@ In order to test the code, we also decided to run for systems with $N>56$. This 
 	\label{fig:largedotsOB}
 \end{figure}
 
+\iffalse
 \begin{figure}[H]
 	\centering
 	\subfloat[RBM]{\includegraphics[scale=0.4]{/home/evenmn/VMC/plots/int1/twobody/2D/72P/1.000000w/RBM_ADAM_MC2pow28.png}}
-	\subfloat[VMC]{\includegraphics[scale=0.4]{/home/evenmn/VMC/plots/int1/twobody/2D/72P/1.000000w/VMC_ADAM_MC2pow28.png}}
+	\subfloat[VMC]{\includegraphics[scale=0.4]{/home/evenmn/VMC/plots/int1/twobody/2D/72P/1.000000w/RBM_ADAM_MC2pow28.png}}
 	\caption{One-body density of large two-dimensional circular quantum dots with frequency $\omega=1.0$ containing 72 particles.}
 	\label{fig:largedotsTB}
 \end{figure}
+\fi
 
 \section{Double quantum dots}
 Double quantum dots are systems that are very interesting when it comes to testing the Boltzmann machines. Even though we know the wave functions for the non-interacting case, they are expansions that are computational expensive to work with.
