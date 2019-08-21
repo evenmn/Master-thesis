@@ -298,6 +298,33 @@ We observe a similar behavior for the other frequencies, but the difference betw
 	\label{fig:OB_interaction_20P}
 \end{figure}
 
+\begin{landscape}
+	\begin{figure} [H]%
+		\centering
+		\captionsetup[subfigure]{labelformat=empty}
+		\captionsetup{width=0.9\hsize}
+		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$\omega=0.1$}}}\hspace{0.1cm}
+		\subfloat{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/1.000000w/VMC_ADAM_MC2pow28.png}}}\hspace{-0.5cm}
+		\subfloat{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/0.500000w/VMC_ADAM_MC2pow28.png}}}\hspace{-0.5cm}
+		\subfloat{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/0.500000w/VMC_ADAM_MC2pow28.png}}\hspace{-0.5cm}
+		\subfloat{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/0.500000w/VMC_ADAM_MC2pow28.png}}}\\ [-0.5cm]
+		
+		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$\omega=0.5$}}}\hspace{0.1cm}
+		\subfloat{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/0.500000w/VMC_ADAM_MC2pow28.png}}}\hspace{-0.5cm}
+		\subfloat{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/0.500000w/VMC_ADAM_MC2pow28.png}}}\hspace{-0.5cm}
+		\subfloat{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/0.500000w/VMC_ADAM_MC2pow28.png}}\hspace{-0.5cm}
+		\subfloat{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/0.500000w/VMC_ADAM_MC2pow28.png}}}\\ [-0.5cm]
+		
+		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$\omega=1.0$}}}\hspace{0.1cm}
+		\subfloat[RBM]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/0.500000w/VMC_ADAM_MC2pow28.png}}}\hspace{-0.5cm}
+		\subfloat[RBM+SJ]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/0.500000w/VMC_ADAM_MC2pow28.png}}}\hspace{-0.5cm}
+		\subfloat[RBM+PJ]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/0.500000w/VMC_ADAM_MC2pow28.png}}}\hspace{-0.5cm}
+		\subfloat[VMC]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/0.500000w/VMC_ADAM_MC2pow28.png}}}
+		
+		\caption{One-body density plots for two-dimensional circular quantum dots containing 2 electrons with oscillator frequencies $\omega=0.1$, 0.5 and 1.0. The density plots were produced using a plain restricted Boltzmann machine (RBM), restricted Boltzmann machine with simple Jastrow factor (RBM+SJ), restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo (VMC). The  ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$.}%
+		\label{fig:OB2_interaction_2D}
+	\end{figure}
+\end{landscape}
 
 \iffalse
 \begin{figure} [H]%
@@ -339,20 +366,24 @@ We observe that the RBM plots not necessarily are symmetric, while the VMC plots
 	\begin{figure} [H]%
 		\centering
 		\captionsetup{width=0.9\hsize}
-		\subfloat[RBM, $\omega=0.1$]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.100000w/RBM_ADAM_MC2pow28.png}}}
-		\subfloat[RBM+SJ, $\omega=0.1$]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.100000w/RBMSJ_ADAM_MC2pow28.png}}}
-		\subfloat[RBM+PJ, $\omega=0.1$]{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.100000w/RBMPJ_ADAM_MC2pow28.png}}
-		\subfloat[VMC, $\omega=0.1$]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.100000w/VMC_ADAM_MC2pow28.png}}}
+		\captionsetup[subfigure]{labelformat=empty}
+		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$\omega=0.1$}}}\hspace{0.1cm}
+		\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.100000w/RBM_ADAM_MC2pow28.png}}}
+		\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.100000w/RBMSJ_ADAM_MC2pow28.png}}}
+		\subfloat{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.100000w/RBMPJ_ADAM_MC2pow28.png}}
+		\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.100000w/VMC_ADAM_MC2pow28.png}}}
 		
-		\subfloat[RBM, $\omega=0.5$]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.500000w/RBM_ADAM_MC2pow28.png}}}
-		\subfloat[RBM+SJ, $\omega=0.5$]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.500000w/RBMSJ_ADAM_MC2pow28.png}}}
-		\subfloat[RBM+PJ, $\omega=0.5$]{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.500000w/RBMPJ_ADAM_MC2pow28.png}}
-		\subfloat[VMC, $\omega=0.5$]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.500000w/VMC_ADAM_MC2pow28.png}}}\\
+		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$\omega=0.5$}}}\hspace{0.1cm}
+		\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.500000w/RBM_ADAM_MC2pow28.png}}}
+		\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.500000w/RBMSJ_ADAM_MC2pow28.png}}}
+		\subfloat{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.500000w/RBMPJ_ADAM_MC2pow28.png}}
+		\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.500000w/VMC_ADAM_MC2pow28.png}}}\\
 		
-		\subfloat[RBM, $\omega=1.0$]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/1.000000w/RBM_ADAM_MC2pow28.png}}}
-		\subfloat[RBM+SJ, $\omega=1.0$]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/1.000000w/RBMPJ_ADAM_MC2pow28.png}}}
-		\subfloat[RBM+PJ, $\omega=1.0$]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/1.000000w/RBMPJ_ADAM_MC2pow28.png}}}
-		\subfloat[VMC, $\omega=1.0$]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/1.000000w/VMC_ADAM_MC2pow28.png}}}\\
+		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$\omega=1.0$}}}\hspace{0.1cm}
+		\subfloat[RBM]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/1.000000w/RBM_ADAM_MC2pow28.png}}}
+		\subfloat[RBM+SJ]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/1.000000w/RBMPJ_ADAM_MC2pow28.png}}}
+		\subfloat[RBM+PJ]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/1.000000w/RBMPJ_ADAM_MC2pow28.png}}}
+		\subfloat[VMC]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/1.000000w/VMC_ADAM_MC2pow28.png}}}\\
 		
 		\caption{Two-body density plots for two-dimensional circular quantum dots containing up 20 electrons with oscillator frequencies $\omega=0.1$, 0.5 and 1.0. The density plots were produced using a plain restricted Boltzmann machine (RBM), restricted Boltzmann machine with simple Jastrow factor (RBM+SJ), restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo (VMC). The  ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$.}%
 		\label{fig:TB_interaction_2D}
@@ -479,7 +510,7 @@ In order to test the code, we also decided to run for systems with $N>56$. This 
 	\begin{tabularx}{\textwidth}{R{0.5cm}rR{2.3cm}R{2.3cm}R{1.3cm}rR{2.3cm}R{2.3cm}} \hline\hline
 		&\makecell{\\ $N$ \\ \phantom{=}} & \multicolumn{1}{c}{RBM} & \multicolumn{1}{c}{VMC} && $N$ & \multicolumn{1}{c}{RBM} & \multicolumn{1}{c}{VMC} \\ \hline \\
 		&72 & 1355.37(2) & 1340.520(7) && 70 & 1129.40(2) & 1108.950(4) \\
-		&90 & - & 1990.89(2) && 112 & - \\
+		&90 & 2194.12(9) & 1990.89(2) && 112 & - \\
 		&110 & - & - &&  &  \\
 		\hline \hline
 	\end{tabularx}
