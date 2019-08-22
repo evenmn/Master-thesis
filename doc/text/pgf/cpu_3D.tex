@@ -4,36 +4,36 @@
 \definecolor{color0}{rgb}{0.12156862745098,0.466666666666667,0.705882352941177}
 \definecolor{color1}{rgb}{1,0.498039215686275,0.0549019607843137}
 
-\begin{axis}[name=2D, xlabel=Number of particles, ylabel={CPU-time [s]}, grid=major, legend pos=north west] 
+\begin{axis}[name=2D, xlabel=Number of particles, grid=major, xtick=data] 
 \addplot[color=blue,mark=oplus*, dashed] coordinates { 
-	(2,6.717078)
-	(8,12.33682)
-	(20,39.74432) 
+	(2,7.69)
+	(8,20.92)
+	(20,59.67) 
 	(40,122.864) 
 	(70,462.75) }; 
-\addlegendentry{RBM};
+%\addlegendentry{RBM};
 
 \addplot[color=orange,mark=oplus*, dash dot] coordinates { 
-	(2,0)
-	(8,0)
-	(20,150.995) 
-	(40,270.505) }; 
-\addlegendentry{RBM+SJ};
+	(2,8.95)
+	(8,26.86)
+	(20,94.64) 
+	(40,270.92) }; 
+%\addlegendentry{RBM+SJ};
 
 \addplot[color=green,mark=oplus*, dotted] coordinates { 
-	(2,17.292)
-	(8,49.862)
-	(20,149.018) 
-	(40,292.870) }; 
-\addlegendentry{RBM+PJ};
+	(2,8.87)
+	(8,0)
+	(20,0) 
+	(40,293.25) }; 
+%\addlegendentry{RBM+PJ};
 
 \addplot[color=red,mark=oplus*] coordinates { 
-	(2,5.490018)
-	(8,13.35986)
-	(20,46.03914) 
-	(40,169.0882) 
+	(2,6.70)
+	(8,20.99)
+	(20,62.54) 
+	(40,185.65) 
 	(70,497.2244) };
-\addlegendentry{VMC};
+%\addlegendentry{VMC};
 \end{axis}
 
 \end{tikzpicture}
