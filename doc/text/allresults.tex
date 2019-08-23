@@ -1,4 +1,31 @@
 \chapter{Collection of Results} \label{chp:totalresults}
+This is meant as a more or less complete collection of the results obtained in this thesis. Only the pure results will be presented here, while some selected results are discussed in chapter \ref{chp:results}. 
+
+\section{CPU time} \label{sec:cputime}
+
+\begin{table}[H]
+	\caption{The CPU time (in seconds) for each iteration when simulating two-dimensional circular quantum dots of 2-90 electrons. The time was clocked for $M=2^{20}=1,048,576$ Monte Carlo cycles, and to get accurate times we took the average over at least four independent runs with thousands of iterations.}
+	\label{tab:cputime2D}
+	\begin{tabularx}{\textwidth}{lrR{1.1cm}R{1.1cm}R{1.1cm}R{1.1cm}R{1.1cm}R{1.1cm}R{1.1cm}R{1.1cm}R{1.1cm}} \hline\hline
+		\makecell{\\ \phantom{=} \\ \phantom{=}} && 2P & 6P & 12P & 20P & 30P & 42P & 56P & 72P & 90P \\ \hline \\
+		RBM && 6.05 & 11.25 & 20.53 & 38.99 & 73.72 & 130.49 & 213.47 & 360.22 & 856.84 \\
+		RBM+SJ && 7.12 & 14.07 & 28.42 & 63.27 & 122.93 & 199.60 & 349.22 & - & - \\
+		RBM+PJ && 7.26 & 13.50 & 27.68 & 57.09 & 119.17 & 212.53 & 382.13 & - & - \\
+		VMC && 5.11 & 10.51 & 20.85 & 41.20 & 76.26 & 137.39 & 230.63 & 355.81 & 544.03 \\ \hline \hline
+	\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+	\caption{The CPU time (in seconds) for each iteration when simulating three-dimensional circular quantum dots of 2-70 electrons. The time was clocked for $M=2^{20}=1,048,576$ Monte Carlo cycles, and to get accurate times we took the average over at least four independent runs with thousands of iterations.}
+	\label{tab:cputime3D}
+	\begin{tabularx}{\textwidth}{lrR{2.1cm}R{2.1cm}R{2.1cm}R{2.1cm}R{2.1cm}} \hline\hline
+		\makecell{\\ \phantom{=} \\ \phantom{=}} && 2P & 8P & 20P & 40P & 70P \\ \hline \\
+		RBM && 7.69 & 20.92 & 59.67  \\
+		RBM+SJ && 8.95 & 26.86 & 94.64 & 270.92 & - \\
+		RBM+PJ && 8.87 & & & 293.25 & - \\
+		VMC && 6.70 & 20.99 & 62.54 & 185.65 & 486.02 \\ \hline \hline
+	\end{tabularx}
+\end{table}
 
 \section{Energy distribution} \label{sec:energydistribution}
 In this appendix, we present the energy distribution between kinetic energy, external potential energy and interaction energy for single quantum dots containing up to 20 particles in two and three dimensions. These results are interesting for the validation of the virial theorem, described in section \ref{sec:virial}, but they also makes it possible to compare how the energy spread in two  and three dimensions for an equal number of particles 
