@@ -1,7 +1,10 @@
 \chapter{Collection of Results} \label{chp:totalresults}
-This is meant as a more or less complete collection of the results obtained in this thesis. Only the pure results will be presented here, while some selected results are discussed in chapter \ref{chp:results}. 
+This appendix is meant as a more or less complete collection of the results obtained in this thesis, with purpose of presenting a complementary picture of the observations. This also allows us to include the (subjective) most important results in the chapter on selected results, \ref{chp:results}, and avoid it to be too overwhelming. However, in this appendix the results will simply be listed and not commented and discussed.
+
+First the computational time will be listed, which are just the information plotted in figure \eqref{fig:cpu_time}. Thereafter we list all the obtained energies, included the distribution between interaction and kinetic energy. We also present a complete set of one-body and two-body densities. 
 
 \section{CPU time} \label{sec:cputime}
+The CPU-time was calculated for all the systems we have been looking at, i.e., two-dimensional quantum dots containing up to 90 electrons and three-dimensional quantum dots containing up to 70 particles. Only closed-shell dots were considered, and the times are obviously independent of the frequency. To find correct CPU times per iteration, all systems were run with $M=2^{20}=1,048,576$ cycles per iteration on the computer cluster Abel, every time on 8 nodes á 16 cores. We performed at least four independent runs for each system, where the average time over thousands of iterations was calculated automatically by the program. The results can be found in the tables \eqref{tab:cputime2D} and \eqref{tab:cputime3D} for two- and three dimensional quantum dots respectively. 
 
 \begin{table}[H]
 	\caption{The CPU time (in seconds) for each iteration when simulating two-dimensional circular quantum dots of 2-90 electrons. The time was clocked for $M=2^{20}=1,048,576$ Monte Carlo cycles, and to get accurate times we took the average over at least four independent runs with thousands of iterations.}
@@ -20,15 +23,17 @@ This is meant as a more or less complete collection of the results obtained in t
 	\label{tab:cputime3D}
 	\begin{tabularx}{\textwidth}{lrR{2.1cm}R{2.1cm}R{2.1cm}R{2.1cm}R{2.1cm}} \hline\hline
 		\makecell{\\ \phantom{=} \\ \phantom{=}} && 2P & 8P & 20P & 40P & 70P \\ \hline \\
-		RBM && 7.69 & 20.92 & 59.67  \\
+		RBM && 7.69 & 20.92 & 59.67 & 171.84 & 586.39 \\
 		RBM+SJ && 8.95 & 26.86 & 94.64 & 270.92 & - \\
 		RBM+PJ && 8.87 & & & 293.25 & - \\
 		VMC && 6.70 & 20.99 & 62.54 & 185.65 & 486.02 \\ \hline \hline
 	\end{tabularx}
 \end{table}
 
-\section{Energy distribution} \label{sec:energydistribution}
-In this appendix, we present the energy distribution between kinetic energy, external potential energy and interaction energy for single quantum dots containing up to 20 particles in two and three dimensions. These results are interesting for the validation of the virial theorem, described in section \ref{sec:virial}, but they also makes it possible to compare how the energy spread in two  and three dimensions for an equal number of particles 
+\section{Ground-state energy} \label{sec:energydistribution}
+In this section, we present the ground-state energy included the distribution between kinetic energy, external potential energy and interaction energy for quantum dots containing up to 20 particles in two and three dimensions and with frequencies spanning from $\omega=0.01$ to $\omega=10$. These results are interesting for the validation of the virial theorem, described in section \ref{sec:virial}, but they also makes it possible to compare how the energy spread in two  and three dimensions for an equal number of particles.
+
+We have created respective tables for each of our four methods VMC, RBM, RBM+SJ and RBM+PJ in two and three dimensions, resulting in eight tables in total. We first present VMC, RBM, RBM+SJ and RBM+PJ for two dimensions in that order, and then repeat the same order for three dimensions. 
 
 \subsection{Two dimensions}
 \begin{table}[H]
@@ -87,7 +92,7 @@ In this appendix, we present the energy distribution between kinetic energy, ext
 	\label{tab:splitfrequencyQDRBM}
 	\begin{tabularx}{\textwidth}{R{1cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{1cm}} \hline\hline
 		&\makecell{\\ \phantom{$N$} \\ \phantom{=}} & $\omega$ && \multicolumn{1}{c}{$\langle \hat{H}\rangle$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} & \\ \hline \\
-		&2 & 0.01 && 0.07954(7) & 0.00872(2) & 0.03402(9) & 0.0368(1) \\
+		&2 & 0.01 && 0.078643(5) & 0.009835(3) & 0.031930(8) & 0.03688(1) \\
 		&& 0.1 && 0.4743(1) & 0.08102(8) & 0.2082(2) & 0.1851(2) \\
 		&& 0.28 && 1.0707(2) & 0.2047(1) & 0.4678(3) & 0.3983(3) \\
 		&& 0.5 && 1.7234(2) & 0.3739(2) & 0.7611(3) & 0.5884(3)\\
@@ -114,10 +119,10 @@ In this appendix, we present the energy distribution between kinetic energy, ext
 		&& 0.28 && 26.564(3) & 2.254(2) & 9.635(3) & 14.675(4) \\
 		&& 0.5 && 40.442(3) & 4.116(2) & 14.868(4) & 21.458(4) \\
 		&& 1.0 && 67.614(3) & 8.953(3) & 25.207(6) & 33.455(5) \\
-		&& 2.0 && - & - & - & -\\
-		&& 3.0 && TIME & - & - & - \\ 
-		&& 5.0 && - & - & - & -\\
-		&& 10.0 && - & - & - & -\\
+		&& 2.0 && 115.214(5) & 20.760(6) & 43.69(1) & 50.764(7) \\
+		&& 3.0 && 158.145(6) & 33.020(8) & 59.72(1) & 65.407(9) \\ 
+		&& 5.0 && 239.527(8) & 58.22(1) & 93.92(2) & 87.39(1) \\
+		&& 10.0 && 435.36(2) & 114.61(2) & 200.13(4) & 120.62(1) \\
 		\hdashline \\
 		
 		&20 & 0.01 && 6.217(2) & 0.1236(4) & 2.244(2) & 3.849(2) \\
@@ -125,10 +130,10 @@ In this appendix, we present the energy distribution between kinetic energy, ext
 		&& 0.28 && 63.788(4) & 4.443(3) & 22.707(6) & 36.638(7) \\
 		&& 0.5 && 96.491(4) & 8.144(3) & 34.953(8) & 53.394(8) \\
 		&& 1.0 && 159.645(5) & 17.12(5) & 58.74(5) & 83.397(9) \\
-		&& 2.0 && - & - & - & -\\
+		&& 2.0 && 269.086(8) & 43.262(8) & 95.17(2) & 130.65(1) \\
 		&& 3.0 && 362.52(1) & 57.005(9) & 148.08(2) & 157.43(1) \\ 
-		&& 5.0 && - & - & - & -\\
-		&& 10.0 && - & - & - & -\\
+		&& 5.0 && 551.21(2) & 115.12(2) & 219.12(4) & 216.97(2) \\
+		&& 10.0 && 1003.71(4) & 218.87(4) & 492.87(8) & 291.97(3) \\
 		\hline \hline
 	\end{tabularx}
 \end{table} 
@@ -205,7 +210,7 @@ In this appendix, we present the energy distribution between kinetic energy, ext
 		&& 0.28 && 7.6203(2) & 0.9519(6) & 2.82(1) & 3.84(1) \\
 		&& 0.5 && 11.8074(2) & 1.7018(7) & 4.513(1) & 5.5927(9) \\
 		&& 1.0 && 20.1832(1) & 3.428(1) & 8.068(1) & 8.687(1) \\
-		&& 2.0 && - & - & - & -\\
+		&& 2.0 && 34.fkfdsgf & - & - & -\\
 		&& 3.0 && 48.9157(8) & 10.789(5) & 20.383(5) & 17.743(2) \\ 
 		&& 5.0 && - & - & - & -\\
 		&& 10.0 && - & - & - & -\\
@@ -218,8 +223,8 @@ In this appendix, we present the energy distribution between kinetic energy, ext
 		&& 1.0 && 65.7911(5) & 8.537(3) & 25.197(4) & 32.067(3) \\
 		&& 2.0 && 111.9426(5) & 17.817(3) & 46.532(4) & 47.593(3) \\
 		&& 3.0 && 154.1234(7) & 23.34(7) & 70.39(7) & 60.397(4) \\ 
-		&& 5.0 && - & - & - & -\\
-		&& 10.0 && - & - & - & -\\
+		&& 5.0 && 233.633(4) & 58.33(1) & 84.76(1) & 90.537(9) \\
+		&& 10.0 && 415.943(9) & 124.13(2) & 157.92(3) & 133.89(1) \\
 		\hdashline \\
 		
 		&20 & 0.01 && 6.210(1) & 0.1208(5) & 2.189(2) & 3.900(2) \\
@@ -229,8 +234,8 @@ In this appendix, we present the energy distribution between kinetic energy, ext
 		&& 1.0 && 156.099(1) & 16.768(6) & 58.513(8) & 80.818(6) \\
 		&& 2.0 && 262.598(1) & 34.758(6) & 108.546(9) & 119.293(7) \\
 		&& 3.0 && 359.220(2) & 37.1(7) & 171.5(7) & 150.646(8) \\ 
-		&& 5.0 && - & - & - & -\\
-		&& 10.0 && - & - & - & -\\
+		&& 5.0 && 539.13(1) & 120.09(2) & 188.45(2) & 230.58(1) \\
+		&& 10.0 && 947.33(2) & 257.67(5) & 348.35(6) & 341.31(3) \\
 		\hline \hline
 	\end{tabularx}
 \end{table} 
@@ -297,21 +302,21 @@ In this appendix, we present the energy distribution between kinetic energy, ext
 		&& 0.28 && 12.650(1) & 1.931(1) & 4.641(2) & 6.078(2) \\
 		&& 0.5 && 19.680(2) & 3.601(2) & 7.289(4) & 8.786(3) \\
 		&& 1.0 && 33.305(1) & 7.032(2) & 12.267(3) & 14.006(2) \\
-		&& 2.0 && - & - & - & -\\
+		&& 2.0 && 58.889(3) & 16.976(4) & 19.717(5) & 22.195(3) \\
 		&& 3.0 && 80.677(1) & 17(3) & 38(3) & 25.0(1) \\ 
-		&& 5.0 && - & - & - & -\\
+		&& 5.0 && 126.03(9) & 42.68(6) & 47.58(5) & 35.77(2) \\
 		&& 10.0 && - & - & - & -\\
 		\hdashline \\
 		
 		&20 & 0.01 && 5.6448(4) & 0.1624(4) & 1.955(2) & 3.527(2) \\
-		&& 0.1 && - & - & - & - \\
-		&& 0.28 && - & - & - & - \\
+		&& 0.1 && 27.9277(5) & 1.7925(5) & 9.676(2) & 16.459(2) \\
+		&& 0.28 && 57.822(1) & 5.240(1) & 20.384(4) & 32.198(3) \\
 		&& 0.5 && 87.798(5) & 9.635(5) & 32.12(1) & 46.047(9) \\
 		&& 1.0 && 147.03(1) & 1(4) & 79(5) & 66(1) \\
-		&& 2.0 && - & - & - & -\\
+		&& 2.0 && 250.159(7) & 49.76(1) & 83.69(2) & 116.71(1) \\
 		&& 3.0 && 335.440(5) & 64.59(1) & 130.27(2) & 140.578(9) \\ 
-		&& 5.0 && - & - & - & -\\
-		&& 10.0 && - & - & - & -\\
+		&& 5.0 && 524.94(2) & 121.39(3) & 225.61(5) & 177.94(2) \\
+		&& 10.0 && 1005.24(6) & 225.76(5) & 552.3(1) & 227.20(2) \\
 		\hline \hline
 	\end{tabularx}
 \end{table}
@@ -368,7 +373,7 @@ In this appendix, we present the energy distribution between kinetic energy, ext
 		&& 1.0 && 3.729827(5) & 1.2995(4) & 1.7688(5) & 0.6615(2) \\
 		&& 2.0 && 7.05785(1) & 2.7017(6) & 3.3705(6) & 0.9856(1) \\
 		&& 3.0 && 10.31271(4) & 3.5410(8) & 5.5989(9) & 1.1728(2) \\ 
-		&& 5.0 && 16.7547(1) & 6.181(1) & 9.014(1) & 1.5590(2) \\
+		&& 5.0 && 16.7170(1) & 7.012(2) & 8.072(2) & 1.632(4) \\
 		&& 10.0 && 32.44255(9) & 8.054(3) & 22.384(3) & 2.0042(2) \\
 		\hdashline \\
 		
@@ -377,7 +382,7 @@ In this appendix, we present the energy distribution between kinetic energy, ext
 		&& 0.28 && 12.2056(2) & 1.5665(7) & 4.605(1) & 6.034(1) \\
 		&& 0.5 && 18.9747(2) & 2.972(1) & 7.344(2) & 8.659(1) \\
 		&& 1.0 && 32.6820(2) & 6.266(2) & 13.390(3) & 13.026(1) \\
-		&& 2.0 && - & - & - & -\\
+		&& 2.0 && 57.4148(3) & 13.744(3) & 24.205(5) & 19.466(2) \\
 		&& 3.0 && 80.6280(3) & 18.35(2) & 38.64(2) & 23.627(2) \\ 
 		&& 5.0 && - & - & - & -\\
 		&& 10.0 && - & - & - & -\\
@@ -390,8 +395,8 @@ In this appendix, we present the energy distribution between kinetic energy, ext
 		&& 1.0 && 142.9409(6) & 17.603(3) & 54.592(7) & 70.746(5) \\
 		&& 2.0 && 242.1168(8) & 38.487(5) & 96.23(1) & 107.403(7) \\
 		&& 3.0 && 333.027(1) & 49.3(3) & 152.1(3) & 131.618(7) \\ 
-		&& 5.0 && - & - & - & -\\
-		&& 10.0 && - & - & - & -\\
+		&& 5.0 && 506.58(1) & 130.79(3) & 172.35(3) & 203.45(2) \\
+		&& 10.0 && 897.68(2) & 273.53(5) & 328.64(6) & 295.52(3) \\
 		\hline \hline
 	\end{tabularx}
 \end{table}
@@ -453,16 +458,16 @@ Collection of all one-body densities
 		\subfloat{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/0.100000w/VMC_ADAM_MC2pow28.png}}}\\ [-0.5cm]
 		
 		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$\omega=0.5$}}}\hspace{0.1cm}
-		\subfloat{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/0.500000w/RBM_ADAM_MC2pow28.png}}}\hspace{-0.5cm}
-		\subfloat{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/0.500000w/RBMSJ_ADAM_MC2pow28.png}}}\hspace{-0.5cm}
-		\subfloat{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/0.500000w/RBMPJ_ADAM_MC2pow28.png}}\hspace{-0.5cm}
+		\subfloat{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/0.500000w/RBM_ADAM_MC2pow28_smooth.png}}}\hspace{-0.5cm}
+		\subfloat{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/0.500000w/RBMSJ_ADAM_MC2pow28_smooth.png}}}\hspace{-0.5cm}
+		\subfloat{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/0.500000w/RBMPJ_ADAM_MC2pow28_smooth.png}}\hspace{-0.5cm}
 		\subfloat{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/0.500000w/VMC_ADAM_MC2pow28.png}}}\\ [-0.5cm]
 		
 		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$\omega=1.0$}}}\hspace{0.1cm}
 		\subfloat[RBM]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/1.000000w/RBM_ADAM_MC2pow28.png}}}\hspace{-0.5cm}
-		\subfloat[RBM+SJ]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/1.000000w/RBMSJ_ADAM_MC2pow28.png}}}\hspace{-0.5cm}
-		\subfloat[RBM+PJ]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/1.000000w/RBMPJ_ADAM_MC2pow28.png}}}\hspace{-0.5cm}
-		\subfloat[VMC]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/1.000000w/VMC_ADAM_MC2pow28.png}}}
+		\subfloat[RBM+SJ]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/1.000000w/RBMSJ_ADAM_MC2pow28_smooth.png}}}\hspace{-0.5cm}
+		\subfloat[RBM+PJ]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/1.000000w/RBMPJ_ADAM_MC2pow28_smooth.png}}}\hspace{-0.5cm}
+		\subfloat[VMC]{{\includegraphics[width=6cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/1.000000w/VMC_ADAM_MC2pow28_smooth.png}}}
 		
 		\caption{One-body density plots for two-dimensional circular quantum dots containing 2 electrons with oscillator frequencies $\omega=0.1$, 0.5 and 1.0. The density plots were produced using a plain restricted Boltzmann machine (RBM), restricted Boltzmann machine with simple Jastrow factor (RBM+SJ), restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo (VMC). The  ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$.}%
 		\label{fig:OB2_interaction_2D}

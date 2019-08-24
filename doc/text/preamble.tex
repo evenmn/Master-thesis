@@ -67,34 +67,6 @@
 ]{biblatex}
 \addbibresource{refs.bib}
 
-\iffalse
-%listings
-\lstset{language=c++}
-\lstset{basicstyle=\small}
-\lstset{backgroundcolor=\color{white}}
-\lstset{frame=single}
-\lstset{stringstyle=\ttfamily}
-\lstset{keywordstyle=\color{red}\bfseries}
-\lstset{commentstyle=\itshape\color{blue}}
-\lstset{showspaces=false}
-\lstset{showstringspaces=false}
-\lstset{showtabs=false}
-\lstset{breaklines}
-\lstset{literate={~} {$\sim$}{1}}
-\lstset{postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\color{red}\hookrightarrow\space}}}
-\fi
-\lstset{
-	classoffset=1, % starting new class
-	otherkeywords={Eigen, MatrixXd, MatrixXi, MatrixX3i, MatrixXf, VectorXd, VectorXi, Index},
-	morekeywords={Eigen, MatrixXd, MatrixXi, MatrixX3i, MatrixXf, VectorXd, VectorXi, Index},
-	keywordstyle=\color{red},
-	%classoffset=2, % starting new class
-	%otherkeywords={MatrixXd, MatrixXi, MatrixX3i, MatrixXf, VectorXd, VectorXi, Index},
-	%morekeywords={MatrixXd, MatrixXi, MatrixX3i, MatrixXf, VectorXd, VectorXi, Index},
-	%keywordstyle=\color{red},
-	classoffset=0,
-}
-
 %tikz
 \setcounter{secnumdepth}{4}
 \usetikzlibrary{through, shapes, calc, shapes, arrows, positioning, arrows.meta, shadows, er, spy, external} 
@@ -150,9 +122,39 @@
 \@namedef{endshadequote*}{\endshadequote}
 \makeatother
 
+%listings
+\iffalse
+\lstset{language=c++}
+\lstset{basicstyle=\small}
+\lstset{backgroundcolor=\color{white}}
+\lstset{frame=single}
+\lstset{stringstyle=\ttfamily}
+\lstset{keywordstyle=\color{red}\bfseries}
+\lstset{commentstyle=\itshape\color{blue}}
+\lstset{showspaces=false}
+\lstset{showstringspaces=false}
+\lstset{showtabs=false}
+\lstset{breaklines}
+\lstset{literate={~} {$\sim$}{1}}
+\lstset{postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\color{red}\hookrightarrow\space}}}
+\fi
+\lstset{
+	classoffset=1, % starting new class
+	otherkeywords={Eigen, MatrixXd, MatrixXi, MatrixX3i, MatrixXf, VectorXd, VectorXi, Index},
+	morekeywords={Eigen, MatrixXd, MatrixXi, MatrixX3i, MatrixXf, VectorXd, VectorXi, Index},
+	keywordstyle=\color{red},
+	%classoffset=2, % starting new class
+	%otherkeywords={MatrixXd, MatrixXi, MatrixX3i, MatrixXf, VectorXd, VectorXi, Index},
+	%morekeywords={MatrixXd, MatrixXi, MatrixX3i, MatrixXf, VectorXd, VectorXi, Index},
+	%keywordstyle=\color{red},
+	classoffset=0,
+}
+\lstset{postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\color{red}\hookrightarrow\space}}}
+\lstset{commentstyle=\itshape\color{myblue}}
+
 %specific reused text
 \newcommand{\mdate}{\today}
-\newcommand{\mtitle}{Electronic structure studies using Machine Learning}
+\newcommand{\mtitle}{Studies of Quantum Dots using Machine Learning}
 \newcommand{\mauthor}{Even Marius Nordhagen}
 \newcommand{\massignn}{.}
 
