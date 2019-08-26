@@ -25,7 +25,7 @@ The CPU-time was calculated for all the systems we have been looking at, i.e., t
 		\makecell{\\ \phantom{=} \\ \phantom{=}} && 2P & 8P & 20P & 40P & 70P \\ \hline \\
 		RBM && 7.69 & 20.92 & 59.67 & 171.84 & 586.39 \\
 		RBM+SJ && 8.95 & 26.86 & 94.64 & 270.92 & - \\
-		RBM+PJ && 8.87 & & & 293.25 & - \\
+		RBM+PJ && 8.87 & 26.36 & 91.40 & 293.25 & - \\
 		VMC && 6.70 & 20.99 & 62.54 & 185.65 & 486.02 \\ \hline \hline
 	\end{tabularx}
 \end{table}
@@ -57,10 +57,10 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		&& 0.28 && 7.6219(1) & 0.9105(4) & 2.8821(9) & 3.8292(7) \\
 		&& 0.5 && 11.8104(2) & 1.6710(7) & 4.535(1) & 5.6045(9)\\
 		&& 1.0 && 20.1918(2) & 3.405(1) & 8.046(1) & 8.741(1)\\
-		&& 2.0 && - & - & - & -\\
-		&& 3.0 && 51.072(6) & 8.71(3) & 28.24(4) & 14.11(1) \\ 
-		&& 5.0 && - & - & - & -\\
-		&& 10.0 && - & - & - & -\\
+		&& 2.0 && 34(1) & 7(1) & 13.87(7) & 13.85(7) \\
+		&& 3.0 && 48.8(1) & 12.9(1) & 17.91(9) & 18.02(6) \\ 
+		&& 5.0 && 75.3(4) & 21.4(3) & 30.0(2) & 23.9(1) \\
+		&& 10.0 && 136.7(4) & 46.1(4) & 54.9(3) & 35.8(2) \\
 		\hdashline \\
 		
 		&12 & 0.01 && 2.4972(3) & 0.05506(2) & 0.858(1) & 1.584(1)\\
@@ -70,8 +70,8 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		&& 1.0 && 65.7026(4) & 9.246(2) & 23.079(3) & 33.378(3) \\
 		&& 2.0 && 111.86(4) & 20.22(2) & 40.04(2) & 51.605(9) \\
 		&& 3.0 && 155.5235(1) & 23(1) & 63(1) & 68.4(2) \\ 
-		&& 5.0 && - & - & - & -\\
-		&& 10.0 && - & - & - & -\\
+		&& 5.0 && 232.818(2) & 56.157(9) & 88.18(1) & 88.478(9) \\
+		&& 10.0 && 414.2(1) & 118.63(5) & 166.0(3) & 129.6(2) \\
 		\hdashline \\
 		
 		&20 & 0.01 && 6.2097(8) & 0.1005(4) & 2.270(3) & 3.839(3) \\
@@ -81,7 +81,7 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		&& 1.0 && 156.102(1) & 16.86(1) & 58.14(1) & 81.098(6) \\
 		&& 2.0 && 262.0(4) & 39.3(4) & 93.57(7) & 129.05(4) \\
 		&& 3.0 && 357.1(3) & 6(15) & 194(15) & 156.751(9) \\ 
-		&& 5.0 && - & - & - & -\\
+		&& 5.0 && 542.680(7) & 127.77(2) & 177.89(2) & 237.12(2) \\
 		&& 10.0 && - & - & - & -\\
 		\hline \hline
 	\end{tabularx}
@@ -149,9 +149,9 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		&& 0.5 && 1.67636(8) & 0.3967(2) & 0.7366(3) & 0.5430(2)\\
 		&& 1.0 && 3.0213(1) & 0.8120(2) & 1.3623(4) & 0.8469(3)\\
 		&& 2.0 && 5.5254(1) & 1.6572(3) & 2.5447(5) & 1.3234(3) \\
-		&& 3.0 && 7.9409(1) & 2.2162(5) & 4.0834(7) & 1.6413(3) \\ 
-		&& 5.0 && - & - & - & -\\
-		&& 10.0 && - & - & - & -\\
+		&& 3.0 && 7.9103(2) & 2.5627(7) & 3.664(1) & 1.6840(5) \\ 
+		&& 5.0 && 12.5322(2) & 4.369(1) & 5.890(2) & 2.2838(7) \\
+		&& 10.0 && 23.7539(3) & 5.455(2) & 15.279(2) & 3.0193(6) \\
 		\hdashline \\
 		
 		&6 & 0.01 && 0.7006(3) & 0.0376(2) & 0.2467(4) & 0.4163(4) \\
@@ -171,9 +171,9 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		&& 0.5 && 41.28(1) & 4.07(1) & 16.948(5) & 20.265(4) \\
 		&& 1.0 && 70.0(2) & 7.7(2) & 33.615(9) & 28.723(4) \\
 		&& 2.0 && 114.0(9) & 18.6(9) & 45.78(5) & 49.60(3) \\
-		&& 3.0 && - & - & - & - \\ 
+		&& 3.0 && 154.521(3) & 28.050(5) & 63.84(1) & 62.634(6) \\ 
 		&& 5.0 && - & - & - & -\\
-		&& 10.0 && - & - & - & -\\
+		&& 10.0 && 415.384(7) & 108.57(2) & 181.90(3) & 124.92(1) \\
 		\hdashline \\
 		
 		&20 & 0.01 && 6.239(2) & 0.1372(6) & 2.184(2) & 3.919(3) \\
@@ -183,7 +183,7 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		&& 1.0 && 156.816(4) & 15.340(3) & 59.931(9) & 81.545(7) \\
 		&& 2.0 && 265.66(9) & 39.31(8) & 95.78(1) & 130.57(2) \\
 		&& 3.0 && 358.71(4) & 51.02(4) & 153.52(2) & 154.16(1) \\ 
-		&& 5.0 && - & - & - & -\\
+		&& 5.0 && 543.06(1) & 112.38(2) & 210.52(4) & 220.15(2) \\
 		&& 10.0 && - & - & - & -\\
 		\hline\hline
 	\end{tabularx}
@@ -264,8 +264,8 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		&& 1.0 && 32.6863(2) & 6.244(2) & 13.378(3) & 13.064(1) \\
 		&& 2.0 && 57.5(3) & 14.3(4) & 23.3(1) & 19.90(8) \\
 		&& 3.0 && 80.73(6) & 19.1(1) & 37.66(9) & 23.93(5) \\ 
-		&& 5.0 && - & - & - & -\\
-		&& 10.0 && - & - & - & -\\
+		&& 5.0 && 124.9(3) & 41.7(4) & 48.6(1) & 34.56(8) \\
+		&& 10.0 && 229.5(5) & 86.1(5) & 93.2(2) & 50.07(5) \\
 		\hdashline \\
 		
 		&20 & 0.01 && 5.809(2) & 0.0473(2) & 1.940(7) & 3.822(7) \\
@@ -275,8 +275,8 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		&& 1.0 && 142.9561(7) & 17.29(2) & 54.45(3) & 71.218(6) \\
 		&& 2.0 && 242.0320(6) & 42.246(3) & 86.317(9) & 113.469(6) \\
 		&& 3.0 && 332.6976(6) & 67.976(5) & 119.95(1) & 144.772(7) \\ 
-		&& 5.0 && - & - & - & - \\
-		&& 10.0 && - & - & - & - \\
+		&& 5.0 && 509.45(1) & 137.93(2) & 163.28(3) & 208.24(2) \\
+		&& 10.0 && 902.58(2) & 288.99(4) & 310.87(5) & 302.72(3) \\
 		\hline \hline
 	\end{tabularx}
 \end{table}
@@ -331,7 +331,7 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		&& 0.28 && 1.20475(4) & 0.3497(2) & 0.5326(3) & 0.3225(1) \\
 		&& 0.5 && 2.00371(4) & 0.6340(3) & 0.9201(4) & 0.4496(2) \\
 		&& 1.0 && 3.73543(4) & 1.2801(4) & 1.7871(5) & 0.6683(2) \\
-		&& 2.0 && - & - & - & -\\
+		&& 2.0 && 7.06343(7) & 2.7117(7) & 3.3574(9) & 0.9944(2) \\
 		&& 3.0 && 10.32289(5) & 3.5281(8) & 5.6147(9) & 1.1801(2) \\ 
 		&& 5.0 && - & - & - & -\\
 		&& 10.0 && - & - & - & -\\
@@ -341,11 +341,11 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		&& 0.1 && 5.7498(4) & 0.4107(3) & 2.113(1) & 3.226(1) \\
 		&& 0.28 && 12.2492(4) & 1.3909(6) & 4.756(2) & 6.101(1) \\
 		&& 0.5 && 19.0241(4) & 2.7417(9) & 7.579(2) & 8.704(2) \\
-		&& 1.0 && - & - & - & - \\
-		&& 2.0 && - & - & - & -\\
-		&& 3.0 && - & - & - & - \\ 
+		&& 1.0 && 32.7159(6) & 6.137(1) & 13.440(3) & 13.139(2) \\
+		&& 2.0 && 57.4473(8) & 13.451(3) & 24.361(5) & 19.636(2) \\
+		&& 3.0 && 80.6370(9) & 21.039(5) & 34.888(8) & 24.710(3) \\ 
 		&& 5.0 && - & - & - & -\\
-		&& 10.0 && - & - & - & -\\
+		&& 10.0 && 230.149(2) & 76.75(2) & 105.83(2) & 47.560(6) \\
 		\hdashline \\
 		
 		&20 & 0.01 && 5.6448(4) & 0.1624(4) & 1.955(2) & 3.527(2) \\
@@ -353,10 +353,10 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		&& 0.28 && 56.600(1) & 3.515(1) & 20.616(7) & 32.469(6) \\
 		&& 0.5 && 85.893(1) & 7.212(2) & 31.722(8) & 46.958(7) \\
 		&& 1.0 && 143.209(2) & 16.531(7) & 54.86(1) & 71.819(7) \\
-		&& 2.0 && - & - & - & -\\
+		&& 2.0 && 242.195(2) & 37.591(8) & 96.36(2) & 108.24(1) \\
 		&& 3.0 && 333.07(6) & 53.2(5) & 138.0(5) & 141.835(9) \\ 
-		&& 5.0 && - & - & - & -\\
-		&& 10.0 && - & - & - & -\\
+		&& 5.0 && 507.35(1) & 119.91(2) & 196.89(4) & 190.55(2) \\
+		&& 10.0 && 903.79(2) & 253.59(5) & 372.83(7) & 277.37(3) \\
 		\hline \hline
 	\end{tabularx}
 \end{table}
@@ -444,6 +444,30 @@ Collection of all one-body densities
 	
 	\caption{One-body density plots for two-dimensional circular quantum dots of 2, 6, 12, 20, 30 and 42 interacting electrons for the oscillator frequency $\omega=1.0$. The results were produced by standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM), restricted Boltzmann machine with simple Jastrow factor (RBM+SJ) and restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ). ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$.}
 	\label{fig:OB_interaction_2D_1p0w}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\subfloat[2P]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/1.000000w/VMC_ADAM_MC2pow28_smooth.png}}}\hspace{-0.0cm}
+	\subfloat[6P]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/1.000000w/VMC_ADAM_MC2pow28_smooth.png}}}\\
+	
+	\subfloat[12P]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/12P/1.000000w/VMC_ADAM_MC2pow28_smooth.png}}}\hspace{-0.0cm}
+	\subfloat[20P]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/20P/1.000000w/RBM_ADAM_MC2pow28_smooth.png}}}\\
+	
+	\caption{One-body density plots for two-dimensional circular quantum dots with frequency $\omega=1.0$. The plots (a)-(f) present quantum dots containing 2, 6, 12, 20, 30 and 42 electrons respectively, and were all obtained using a plain restricted Boltzmann machine. ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$.}
+	\label{fig:OB_interaction_VMC_1p0w1}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\subfloat[30P]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/30P/1.000000w/VMC_ADAM_MC2pow28_smooth.png}}}\hspace{-0.0cm}
+	\subfloat[42P]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/42P/1.000000w/VMC_ADAM_MC2pow28_smooth.png}}}
+	
+	\subfloat[56P]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/56P/1.000000w/VMC_ADAM_MC2pow28_smooth.png}}}\hspace{-0.0cm}
+	\subfloat[72P]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/72P/1.000000w/VMC_ADAM_MC2pow28_smooth.png}}}
+	
+	\caption{One-body density plots for two-dimensional circular quantum dots with frequency $\omega=1.0$. The plots (a)-(f) present quantum dots containing 2, 6, 12, 20, 30 and 42 electrons respectively, and were all obtained using a plain restricted Boltzmann machine. ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$.}
+	\label{fig:OB_interaction_VMC_1p0w2}
 \end{figure}
 
 \begin{landscape}
