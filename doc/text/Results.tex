@@ -188,10 +188,10 @@ We observe that the method where less physical intuition is used, RBM, is the on
 		& 0.5 & 12.241(1) & 11.9659(5) & 11.8074(2) & 12.2713 & 11.8104(2) & 11.78484(6) \\
 		& 1.0 & 20.716(1) & 20.4061(7) & 20.1832(2) & 20.7192 & 20.1918(2) & 20.15932(8) \\ \hdashline \\
 		
-		12 & 0.1 & 12.703(2) & 12.566(2) & 12.3416(4) & 12.9247 & 12.3196(3) & 12.26984(8) \\ 
+		12 & 0.1 & 12.703(2) & 12.5964(7) & 12.3416(4) & 12.9247 & 12.3196(3) & 12.26984(8) \\ 
 		& 0.28 & 26.389(2) & 26.083(1) & 25.7331(5) & 26.5500 & 25.7049(4) & 25.63577(9) \\
-		& 0.5 & 40.440(3) & 39.694(1) & 39.2743(6) & 40.2161 & 39.2421(5) & 39.1596(1) \\
-		& 1.0 & 67.632(3) & 66.378(2) & 65.7911(7) & 66.9113 & 65.7026(4) & 65.7001(1) \\ \hdashline
+		& 0.5 & 40.440(3) & 39.6340(7) & 39.2743(6) & 40.2161 & 39.2421(5) & 39.1596(1) \\
+		& 1.0 & 67.632(3) & 66.1898(8) & 65.7911(7) & 66.9113 & 65.7026(4) & 65.7001(1) \\ \hdashline
 	\end{tabularx}
 \end{table}
 
@@ -201,7 +201,7 @@ We observe that the method where less physical intuition is used, RBM, is the on
 		20 & 0.1 & 30.824(2) & 30.567(3) & 30.1553(9) & 31.1902 & 30.086(1) & 29.9779(1) \\ 
 		& 0.28 & 63.788(4) & 62.786(3) & 62.148(1) & 63.5390 & 62.0755(7) & 61.9268(1) \\
 		& 0.5 & 96.491(4) & 94.920(4) & 94.104(1) & 95.7328 & 94.0433(9) & 93.8752(1) \\
-		& 1.0 & 159.645(5) & 156.816(4) & 156.104(1) & 158.004 & 156.102(1) & 155.8822(1) & \phantom{=} \\ \hdashline \\
+		& 1.0 & 159.645(5) & 156.816(4) & 156.104(1) & 158.004 & 155.8900(4) & 155.8822(1) & \phantom{=} \\ \hdashline \\
 		
 		30 & 0.1 & 61.829(5) & 61.351(4) & 60.774(2) & & 60.585(1) & 60.4205(2) \\ 
 		& 0.28 & 126.958(6) & 126.067(5) & 124.437(2) & & 124.195(2) & 123.9683(2) \\
@@ -242,7 +242,7 @@ We observe that the method where less physical intuition is used, RBM, is the on
 		& 1.0 & 146.292(4) & 143.209(2) & 142.9409(6) & & 142.9560(7) & 142.8875(2) \\ \hdashline \\
 		
 		40 & 0.1 & 89.45(8) & 89.618(4) & 88.596(4) & & 88.182(1) \\ 
-		& 0.28 & 182.714(6) & 181.877(4) & - & & 179.567(1) \\
+		& 0.28 & 182.714(6) & 181.877(4) & 179.630(1) & & 179.567(1) \\
 		& 0.5 & 275.262(7) & 271.030(4) & 269.782(2) & & 269.746(1) \\
 		& 1.0 & 452.732(8) & 442.874(4) & 442.630(1) & & 442.602(2) \\ \hline\hline
 	\end{tabularx}
@@ -268,7 +268,7 @@ We will start with density profiles of the spaces for two-dimensional quantum do
 \begin{figure}
 	\centering
 	\subfloat[2P]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/1.000000w/RBM_ADAM_MC2pow28_smooth.png}}}\hspace{-0.0cm}
-	\subfloat[6P]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/1.000000w/RBM_ADAM_MC2pow28_smooth.png}}}\\
+	\subfloat[6P]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/1.000000w/RBM_ADAM_MC2pow28_smooth.png}}}\\
 	
 	\subfloat[12P]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/12P/1.000000w/RBM_ADAM_MC2pow28_smooth.png}}}\hspace{-0.0cm}
 	\subfloat[20P]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/20P/1.000000w/RBM_ADAM_MC2pow28_smooth.png}}}\\
@@ -282,7 +282,7 @@ We will start with density profiles of the spaces for two-dimensional quantum do
 
 In figure \eqref{fig:OB_interaction_23D}, we stick to frequency $\omega=1.0$ for small two- and three-dimensional quantum dots and compare the results obtained by VMC, RBM, RBM+SJ and RBM+PJ. We investigate dots of 2, 6 and 12 electrons in two dimensions and 2, 8 and 20 particles in three dimensions, which corresponds to one shell (1S), two shells (2S) and three shells (3S) respectively. For all the cases, we immediately see that the density plots are identical in two and three dimensions for the same closed shell. After all, this is not so surprising considering the fact that particles in a shell of a quantum dot should be at the same distance from the center no matter if we look at the two-, three- or even one-dimensional case. However, what is most interesting for us is to analyze the performance of the Boltzmann machines. We observe that all the methods give quite similar radial density profiles, but RBM is always the guy standing out. Apparently, the RBM tends to over-exaggerate the ripples discussed above and gives an even more wavy density plot, which can be explained by the lack of Jastrow factor to take care of correlations. Further, the RBM+SJ is more similar to the VMC and RBM+PJ, which are almost identical. This is consistent with the energy analysis in section \ref{sec:groundstateenergy}, where we found VMC and RBM+PJ to be most accurate, followed by RBM+SJ and RBM. We also observe an effect where the density plots consequently decrease close to the center, but this is an artifact caused by the fact that the number of Monte Carlo cycles is finite. 
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
 	\captionsetup[subfigure]{labelformat=empty}
 	\subfloat{\raisebox{1.5cm}{\rotatebox[origin=t]{90}{1S}}}\hspace{0.1cm}
@@ -326,12 +326,39 @@ We now move on to larger dots, containing $N=20$ and $N=42$ electrons with frequ
 \end{figure}
 
 \subsection{Two-body density}
-We have on multiple occasions discussed the electron density, and we have also mentioned the two-body density. The two-body density is interesting because of the fact that the .. , but for some reason it is hard to find papers that discuss it and thus hard to find benchmarks for the computations. However, someone needs to be the first to present the two-body density plots for quantum dots. Also here we have decided to present the plots for the two-dimensional case only, and picked frequency $\omega=1.0$.  See figure \eqref{fig:TB_interaction_2D}. Emphasize that they are made symmetric. 
+We have on multiple occasions discussed the electron density, and we have also mentioned the two-body density. The two-body density is interesting because it gives the probability of finding two particles at certain relative distances from the center of the dot. Similarly to the one-body density, we can both plot the radial two-body density profile and the actual two-body density distribution throughout the space. However, since the latter results in a higher-dimensional plot, we stick to the radial density profile. Also for this quantity it would be convenient to have references to benchmark our results to, but for some reason it is hard to find papers that discuss the two-body density for quantum dots. Nevertheless, someone needs to be the first and we will use the plots to discuss the physics and compare the various methods in the best possible way. Again we will emphasize that a negative radial distance does not make sense, so all the quadrants are the same and presented in this way to make it more illustrative and intuitive.
 
-We observe that the RBM plots not necessarily are symmetric, while the VMC plots always are symmetric. 
+Again, we will focus on the two-dimensional case, as the three-dimensional case becomes similar as for the one-body density. In figure \eqref{fig:TB_interaction_2P} we plot the two-body densities for a two-dimensional quantum dot at various frequencies containing two electrons. For frequency $\omega=1.0$, the density plots for all the methods give quite similar results, but it seems like the RBM find the electrons closer to the center than the other methods. This can be explained by the absent of a Jastrow factor. Also the RBM+SJ gives a slightly more narrow distribution than the RBM+PJ and VMC, so it is apparent that the Padé-Jastrow factor results in a more repulsive factor than the simple Jastrow factor. We known that the potential, and thus the interactions get more dominating as the frequency is decreased. For VMC and RBM+PJ we can observe this by a circle of higher density at a certain distance from the origin both for $\omega=0.5$ and $\omega=0.1$, which means that both particles are less likely to be found in the center of the dot at the same time. If one particle is close to the center, the other particle is probably far from the center. For the RBM+SJ, this behavior can only be observed for $\omega=0.1$, while the RBM is not able to reproduce this phenomenon at all. This shows that the Padé-Jastrow factor is more correct than the simple Jastrow factor, as expected. 
 
-\afterpage{
+The calculations are repeated for two-dimensional quantum dots of 20 electrons, which are presented in figure \eqref{fig:TB_interaction_20P}. For $\omega=1.0$, all the methods give approximately the same density distribution where the most likely area is located where an electron is far from the center and the other is close to the center and vice versa. However, the RBM finds the most likely configurations to be more discrete distributed than the other methods, which is even more significant for the frequency $\omega=0.5$. This is the same behavior as we saw for the two-body density, where we argued that it can be explained by the absent of a Jastrow factor. For frequency $\omega=0.1$, the same circle around the origin as we saw for the two-particle case can be observed, but it is not as notable since the scales along the axis are totally different. We also see that the RBM+PJ and VMC give a low probability of finding an electron pair at the same distance from the center at the same time. This can also be recognized from the one-body density plot in \eqref{fig:OB_interaction}, where we see that the radial density profile is quite flat. We also see that the VMC always gives symmetric two-body density plots around $r_i=r_j$, which means that the wave function is symmetric with respect to the radial distance of two particles. On the other hand, the RBM wave function is not necessary symmetric, which results in non-symmetric plots for RBM, RBM+SJ and RBM+PJ. 
+
+%\afterpage{
 \begin{landscape}
+	\begin{figure} [H]%
+		\centering
+		\captionsetup{width=0.9\hsize}
+		\captionsetup[subfigure]{labelformat=empty}
+		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$\omega=0.1$}}}\hspace{0.1cm}
+		\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/2P/0.100000w/RBM_ADAM_MC2pow28.png}}}
+		\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/2P/0.100000w/RBMSJ_ADAM_MC2pow28.png}}}
+		\subfloat{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/2P/0.100000w/RBMPJ_ADAM_MC2pow28.png}}
+		\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/2P/0.100000w/VMC_ADAM_MC2pow28.png}}}
+		
+		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$\omega=0.5$}}}\hspace{0.1cm}
+		\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/2P/0.500000w/RBM_ADAM_MC2pow28.png}}}
+		\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/2P/0.500000w/RBMSJ_ADAM_MC2pow28.png}}}
+		\subfloat{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/2P/0.500000w/RBMPJ_ADAM_MC2pow28.png}}
+		\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/2P/0.500000w/VMC_ADAM_MC2pow28.png}}}\\
+		
+		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$\omega=1.0$}}}\hspace{0.1cm}
+		\subfloat[RBM]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/2P/1.000000w/RBM_ADAM_MC2pow28.png}}}
+		\subfloat[RBM+SJ]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/2P/1.000000w/RBMSJ_ADAM_MC2pow28.png}}}
+		\subfloat[RBM+PJ]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/2P/1.000000w/RBMPJ_ADAM_MC2pow28.png}}}
+		\subfloat[VMC]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/2P/1.000000w/VMC_ADAM_MC2pow28.png}}}\\
+		
+		\caption{Two-body density plots for two-dimensional circular quantum dots containing up two electrons with oscillator frequencies $\omega=0.1$, 0.5 and 1.0. The density plots were produced using a plain restricted Boltzmann machine (RBM), restricted Boltzmann machine with simple Jastrow factor (RBM+SJ), restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo (VMC). The  ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$.}%
+		\label{fig:TB_interaction_2P}
+	\end{figure}
 	\begin{figure} [H]%
 		\centering
 		\captionsetup{width=0.9\hsize}
@@ -350,41 +377,39 @@ We observe that the RBM plots not necessarily are symmetric, while the VMC plots
 		
 		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$\omega=1.0$}}}\hspace{0.1cm}
 		\subfloat[RBM]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/1.000000w/RBM_ADAM_MC2pow28.png}}}
-		\subfloat[RBM+SJ]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/1.000000w/RBMPJ_ADAM_MC2pow28.png}}}
+		\subfloat[RBM+SJ]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/1.000000w/RBMSJ_ADAM_MC2pow28.png}}}
 		\subfloat[RBM+PJ]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/1.000000w/RBMPJ_ADAM_MC2pow28.png}}}
 		\subfloat[VMC]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/1.000000w/VMC_ADAM_MC2pow28.png}}}\\
 		
 		\caption{Two-body density plots for two-dimensional circular quantum dots containing up 20 electrons with oscillator frequencies $\omega=0.1$, 0.5 and 1.0. The density plots were produced using a plain restricted Boltzmann machine (RBM), restricted Boltzmann machine with simple Jastrow factor (RBM+SJ), restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo (VMC). The  ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$.}%
-		\label{fig:TB_interaction_2D}
+		\label{fig:TB_interaction_20P}
 	\end{figure}
 \end{landscape}
-}
+%}
+
+\begin{figure}[h]
+	\centering 
+	\captionsetup[subfigure]{labelformat=empty}
+	\subfloat[RBM]{{\input{pgf/RBM_2D.tex}}}
+	\subfloat[RBM+SJ]{{\input{pgf/RBMSJ_2D.tex}}}\\
+	\subfloat[RBM+PJ]{{\input{pgf/RBMPJ_2D.tex}}}
+	\subfloat[VMC]{{\input{pgf/VMC_2D.tex}}}
+	\caption{The kinetic-potential energy ratio $\langle\hat{T}\rangle/\langle\hat{V}\rangle$ plotted as a function of the oscillator frequency for two-dimensional circular quantum dots. The frequencies $\omega=0.01, 0.1, 0.28, 0.5, 1.0, 2.0, 3.0, 5.0, 10.0$ were run. The methods used are plain restricted Boltzmann machine (RBM), restricted Boltzmann machine with simple Jastrow factor (RBM+SJ), restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo (VMC).}
+	\label{fig:energysplitVMC2D}
+\end{figure}
 
 \subsection{Energy distribution}
-It is also interesting to investigate how the energy is distributed between kinetic energy, external energy and interaction energy for the different methods and various oscillator frequencies. This makes us able to check if the results agree with the virial theorem presented in section \ref{sec:virial}, and it is also interesting to see if the different methods have different energy distribution. In figure \eqref{fig:energysplit2}, the kinetic energy, external potential energy and interaction energy are plotted as a function of oscillator frequency for a two-dimensional quantum dot containing two electrons. The numbers are taken from the tables (\ref{tab:splitfrequencyQDVMC}-\ref{tab:splitfrequencyQDRBMPJ}) in appendix \ref{chp:totalresults}.
+It is also interesting to investigate how the energy is distributed between kinetic energy, external energy and interaction energy for the different methods and various oscillator frequencies. This makes us able to check if the results agree with the virial theorem presented in section \ref{sec:virial}, and it is also interesting to see if the different methods give different energy distribution. In figure \eqref{fig:energysplitVMC2D}, the ratio between the kinetic and potential energy as a function of oscillator frequency for two-dimensional quantum dots of various sizes is plotted. The numbers are taken from the tables (\ref{tab:splitfrequencyQDVMC}-\ref{tab:splitfrequencyQDRBMPJ}) in appendix \ref{chp:totalresults}. 
 
-\begin{figure}[H]  
-	\centering 
-	\subfloat[VMC]{{\input{pgf/VMC_2D.tex}}}
-	\caption{In figure (a), the kinetic energy over total energy, $\langle\hat{T}\rangle/\langle\hat{H}\rangle$, of two-dimensional quantum dots containing two electrons are plotted as a function of the oscillator frequency $\omega$. Similar plots for the external potential energy and interaction energy are found in figure (b) and (c) respectively. The methods used are standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM), restricted Boltzmann machine with simple Jastrow factor (RBM+SJ) and restricted Boltzmann machine with Padé-Jastrow factor.}
-	\label{fig:energysplit}
-\end{figure} 
+We see a significant trend where the ratio drops as the frequency decreases. This means that the potential energy dominates the kinetic energy at low frequencies, which is a known phenomenon already mentioned several times throughout this thesis. For all the methods, the ratio is also lower for larger dots, which is because we have more particles and thereby gradually more interaction energy. The various methods also give more or less the same ratios spanning from around 0.65 to 0.01, but some of the plots are more noisy than the others. Most notably, the RBM+SJ provides smooth curves, but this is probably just a coincidence, there is not reason why this method should behave more nicely than the others. 
 
-\begin{figure}[H]  
-	\centering 
-	\subfloat[$\langle \hat{T} \rangle$]{{\input{pgf/kinetic.tex}}}
-	\subfloat[$\langle \hat{V}_{\text{ext}} \rangle$]{{\input{pgf/external.tex}}}
-	\subfloat[$\langle \hat{V}_{\text{int}} \rangle$]{{\input{pgf/interaction.tex}}}
-	\caption{In figure (a), the kinetic energy over total energy, $\langle\hat{T}\rangle/\langle\hat{H}\rangle$, of two-dimensional quantum dots containing two electrons are plotted as a function of the oscillator frequency $\omega$. Similar plots for the external potential energy and interaction energy are found in figure (b) and (c) respectively. The methods used are standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM), restricted Boltzmann machine with simple Jastrow factor (RBM+SJ) and restricted Boltzmann machine with Padé-Jastrow factor.}
-	\label{fig:energysplit2}
-\end{figure} 
+It also looks like the ratio approaches a linear slope for higher frequencies, even though we have too few points to say anything with certainty. If we now recall the virial theorem in section \ref{sec:virial}, it states that the kinetic energy is related to the potential energies in a certain way. For the interaction quantum dot system, the virial theorem reads
+\begin{equation}
+2\langle \hat{T} \rangle=2\langle \hat{V}_{\text{ext}} \rangle-\langle \hat{V}_{\text{int}} \rangle
+\end{equation}
+which can be verified from the energy splitting. To do this accurately, we better list up the exact energies, which for a two-dimensional quantum dot with 20 electrons is given in table \eqref{tab:splitfrequencyQD20P} for some selected frequencies. For more frequencies and system sizes, please look at appendix \ref{chp:totalresults}. By doing the math, we see that the virial theorem is satisfied for high frequencies, but as the frequency decreases the theorem gets more and more off. This is the case for all the methods, and is also observed for other system sizes. 
 
-One can observe that the kinetic energy and potential energy are dominant for high frequencies, but as the frequency is decreased the interaction energy gets ever more important. At frequency $\omega=0.01$, the interaction energy actually accounts for 50\% of the energy, while the kinetic energy accounts for about 10\% of the energy. We predicted this already in section \ref{sec:wigner}.
-
-We also see a significant difference between the methods, where the plain restricted Boltzmann machine is the one that really stands out as the interaction energy is higher and the kinetic energy amount is lower. This is not very surprising, considering that it does not have any Jastrow factor to take care of the interactions. This apparently gives a higher interaction energy and a lower kinetic energy.
-
-We do the same exercise for quantum dots of 20 electrons in two dimensions, and get the plots presented in figure \eqref{fig:energysplit20}. What we observe is that the shapes of the graphs are quite similar to the graphs for two particles, but the values are completely different. However, the potential energy dominates the kinetic energy in a, if possible, even more markedly way than for the smaller dot with two electrons. Most notably is the kinetic energy, which account for a much lower amount of the total energy for 20 particles than for two particles. This is naturally related to the increase in the interaction energy, which is naturally as we increase the number of energies. Also the numbers which the plots are based on were taken from appendix \ref{chp:totalresults}.
-
+\iffalse
 \begin{figure}  
 	\centering 
 	\subfloat[$\langle \hat{T} \rangle$]{{\input{pgf/kinetic20.tex}}}
@@ -392,65 +417,80 @@ We do the same exercise for quantum dots of 20 electrons in two dimensions, and 
 	\subfloat[$\langle \hat{V}_{\text{int}} \rangle$]{{\input{pgf/interaction20.tex}}}
 	\caption{In figure (a), the kinetic energy over total energy, $\langle\hat{T}\rangle/\langle\hat{H}\rangle$, of two-dimensional quantum dots containing 20 electrons are plotted as a function of the oscillator frequency $\omega$. Similar plots for the external potential energy and interaction energy are found in figure (b) and (c) respectively. The methods used are standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM), restricted Boltzmann machine with simple Jastrow factor (RBM+SJ) and restricted Boltzmann machine with Padé-Jastrow factor.}
 	\label{fig:energysplit20}
-\end{figure} 
-
+\end{figure}
+\fi 
+\iffalse
 \begin{table}
-	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) of two-dimensional circular quantum dots at a wide range of frequencies $\omega$ and two interacting electrons. The methods used are standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM), restricted Boltzmann machine with a simple Jastrow factor (RBM+SJ) and restricted Boltzmann machine with Padé-Jastrow factor. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
-	\label{tab:splitfrequencyQD2D}
+	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) of two-dimensional circular quantum dots at a wide range of frequencies $\omega$ and 12 interacting electrons. The methods used are standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM), restricted Boltzmann machine with a simple Jastrow factor (RBM+SJ) and restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ). The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
+	\label{tab:splitfrequencyQD12P}
 	\begin{tabularx}{\textwidth}{R{0.5cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{0.3cm}} \hline\hline
 		&\makecell{\\ \phantom{$N$} \\ \phantom{=}} & $\omega$ && \multicolumn{1}{c}{$\langle \hat{H}\rangle$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} \\ \hline \\
-		&RBM & 0.01 && 0.07954(7) & 0.00872(2) & 0.03402(9) & 0.0368(1) \\
-		%&& 0.1 && 0.4743(1) & 0.08102(8) & 0.2082(2) & 0.1851(2) \\
-		%&& 0.28 && 1.0707(2) & 0.2047(1) & 0.4678(3) & 0.3983(3) \\
-		&& 0.5 && 1.7234(2) & 0.3739(2) & 0.7611(3) & 0.5884(3)\\
-		%&& 1.0 && 3.0829(2) & 0.7691(2) & 1.3926(4) & 0.9212(3)\\
-		&& 3.0 && 7.9968(4) & 2.2346(5) & 4.0201(7) & 1.7422(4) \\ \hdashline \\
+		&RBM & 0.01 && 2.5106(8) & 0.0682(2) & 0.893(1) & 1.549(1) \\
+		&& 2.0 && 115.214(5) & 20.760(6) & 43.69(1) & 50.764(7) \\
+		&& 10.0 && 435.36(2) & 114.61(2) & 200.13(4) & 120.62(1) \\
+ 		\hdashline \\
 		
-		&RBM+SJ & 0.01 && 0.075267(3) & 0.00738(2) & 0.03071(8) & 0.03718(8) \\
-		%&& 0.1 && 0.44858(6) & 0.07539(8) & 0.1990(2) & 0.1742(1) \\
-		%&& 0.28 && 1.03470(7) & 0.2163(1) & 0.4547(2) & 0.3637(2) \\
-		&& 0.5 && 1.67739(9) & 0.3913(2) & 0.7450(3) & 0.5411(2)\\
-		%&& 1.0 && 3.0259(1) & 0.7857(3) & 1.3958(4) & 0.8444(3)\\
-		&& 3.0 && 7.9409(1) & 2.2162(5) & 4.0834(7) & 1.6413(3) \\ \hdashline \\
+		&RBM+SJ & 0.01 && 2.4950(5) & 0.07(2) & 0.845(4) & 1.58(2) \\
+		&& 2.0 && 112.502(2) & 18.118(4) & 44.118(4) & 50.201(6) \\
+		&& 10.0 && 415.384(7) & 108.57(2) & 181.90(3) & 124.92(1) \\
+ 		\hdashline \\
 		
-		&RBM+PJ & 0.01 && 0.074107(8) & 0.01031(3) & 0.02703(4) & 0.03677(3) \\
-		%&& 0.1 && 0.440975(8) & 0.09223(9) & 0.1757(1) & 0.17304(9) \\
-		%&& 0.28 && 1.021668(7) & 0.2468(1) & 0.4258(2) & 0.3490(1) \\
-		&& 0.5 && 1.659637(6) & 0.4305(2) & 0.7112(2) & 0.5179(2)\\
-		%&& 1.0 && 2.999587(5) & 0.8440(3) & 1.3418(3) & 0.8238(2)\\
-		&& 3.0 && 7.87961(1) & 2.3144(5) & 3.9349(6) & 1.6303(3) \\ \hdashline \\
+		&RBM+PJ & 0.01 && 2.5019(4) & 0.0699(2) & 0.893(1) & 1.539(1) \\
+		&& 2.0 && 111.9426(5) & 17.817(3) & 46.532(4) & 47.593(3) \\
+		&& 10.0 && 415.943(9) & 124.13(2) & 157.92(3) & 133.89(1) \\ \hdashline \\
 		
-		&VMC & 0.01 && 0.074070(8) & 0.00947(3) & 0.02732(5) & 0.03728(4) \\
-		%&& 0.1 && 0.44129(1) & 0.09117(9) & 0.1789(1) & 0.17119(9) \\
-		%&& 0.28 && 1.02192(1) & 0.2477(1) & 0.4256(2) & 0.3487(1) \\
-		&& 0.5 && 1.65974(1) & 0.4346(2) & 0.7057(2) & 0.5195(2) & \\
-		%&& 1.0 && 2.99936(1) & 0.8523(3) & 1.3149(3) & 0.8321(2)\\
-		&& 3.0 && 7.881906(9) & 2.5028(5) & 3.6911(6) & 1.6880(3) \\ \hline\hline
+		&VMC & 0.01 && 2.4972(3) & 0.05506(2) & 0.858(1) & 1.584(1)\\
+		&& 2.0 && 111.8377(3) & 19.678(2) & 41.349(3) & 50.811(2) \\
+		&& 10.0 && \textcolor{red}{414.36(3)} & 116.0(2) & 168.9(3) & 129.4(1) \\
+		\hline\hline
+	\end{tabularx}
+\end{table}
+\fi
+
+\begin{table}
+	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) of two-dimensional circular quantum dots at a wide range of frequencies $\omega$ and 12 interacting electrons. The methods used are standard variational Monte-Carlo (VMC), plain restricted Boltzmann machine (RBM), restricted Boltzmann machine with a simple Jastrow factor (RBM+SJ) and restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ). The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
+	\label{tab:splitfrequencyQD20P}
+	\begin{tabularx}{\textwidth}{R{0.5cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{0.3cm}} \hline\hline
+		&\makecell{\\ \phantom{$N$} \\ \phantom{=}} & $\omega$ && \multicolumn{1}{c}{$\langle \hat{H}\rangle$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} \\ \hline \\
+		&RBM & 0.01 && 6.217(2) & 0.1236(4) & 2.244(2) & 3.849(2) \\
+		&& 2.0 && 269.086(8) & 43.262(8) & 95.17(2) & 130.65(1) \\
+		&& 10.0 && 1003.71(4) & 218.87(4) & 492.87(8) & 291.97(3) \\
+		\hdashline \\
+		
+		&RBM+SJ & 0.01 && 6.239(2) & 0.1372(6) & 2.184(2) & 3.919(3) \\
+		&& 2.0 && 265.66(9) & 39.31(8) & 95.78(1) & 130.57(2) \\
+		&& 10.0 && 952.71(2) & 237.65(4) & 392.06(7) & 323.00(3) \\
+		\hdashline \\
+		
+		&RBM+PJ & 0.01 && 6.210(1) & 0.1208(5) & 2.189(2) & 3.900(2) \\
+		&& 2.0 && 262.598(1) & 34.758(6) & 108.546(9) & 119.293(7) \\
+		&& 10.0 && 947.33(2) & 257.67(5) & 348.35(6) & 341.31(3) \\ \hdashline \\
+		
+		&VMC & 0.01 && 6.2097(8) & 0.1005(4) & 2.270(3) & 3.839(3) \\
+		&& 2.0 && 262.5339(9) & 38.402(3) & 95.681(7) & 128.451(5) \\
+		&& 10.0 && \textcolor{red}{944.1(1)} & 234.4(4) & 383.9(3) & 325.9(1) \\
+		\hline\hline
 	\end{tabularx}
 \end{table}
 
 \newpage
-If we now recall the virial theorem in section \ref{sec:virial}, it states that the kinetic energy is related to the potential energies in a certain way. For the interaction quantum dot system, the virial theorem reads
-\begin{equation}
-2\langle \hat{T} \rangle=2\langle \hat{V}_{\text{ext}} \rangle-\langle \hat{V}_{\text{int}} \rangle
-\end{equation}
-which can be verified from the energy splitting. To do this accurately, we better list up the exact energies, which for a two-dimensional quantum dot is given in table \eqref{tab:splitfrequencyQD2D} for some selected frequencies. For more frequencies and system sizes, please look at appendix \ref{chp:totalresults}. By doing the math, we see that the virial theorem is satisfied for low frequencies, but as the frequency increases the theorem gets more and more off. This is the case for all the methods.
-
 \subsection{Low frequency dots} \label{sec:lowfrequencies}
 As we pointed out in section \ref{sec:wigner}, and as shown in the previous section, the potential energy dominates the kinetic energy as low frequencies. This means that the electrons have a lower average momentum, which makes Wigner crystallization possible. As already discussed in the theory part, this phenomenon can be observed by some distinct peaks in the one-body density plots. In figure \eqref{fig:lowfreqOB}, the one-body density is plotted for low frequency dots containing 2, 6, 12 and 20 particles. 
 
 \begin{figure}[H]
 	\centering
 	\captionsetup[subfigure]{labelformat=empty}
-	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody/2D/2P/0.010000w/ADAM_MC2pow28.png}}}\hspace{-0.5cm}
-	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody/2D/2P/0.010000w/ADAM_MC2pow28.png}}}\hspace{-0.5cm}
+	\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{2P}}}\hspace{0.1cm}
+	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/0.010000w/VMC_ADAM_MC2pow28_smooth.png}}}\hspace{-0.5cm}
+	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/0.010000w/RBMPJ_ADAM_MC2pow28_smooth.png}}}\hspace{-0.5cm}
 	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody/2D/2P/0.010000w/ADAM_MC2pow28.png}}}\\ [-0.5cm]
 	
-	\subfloat[2P]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/0.010000w/VMC_ADAM_MC2pow28_smooth.png}}}\hspace{-0.5cm}
-	\subfloat[20P]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/0.010000w/VMC_ADAM_MC2pow28_smooth.png}}}\hspace{-0.5cm}
-	\subfloat[56P]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/12P/0.010000w/VMC_ADAM_MC2pow28_smooth.png}}}
+	\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{6P}}}\hspace{0.1cm}
+	\subfloat[VMC]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/0.010000w/VMC_ADAM_MC2pow28_smooth.png}}}\hspace{-0.5cm}
+	\subfloat[RBM+PJ]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/0.010000w/RBMPJ_ADAM_MC2pow28_smooth.png}}}\hspace{-0.5cm}
+	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody/2D/6P/0.010000w/ADAM_MC2pow28.png}}}
 	
-	\caption{One-body density of two-dimensional circular quantum dots. $\omega=0.01$.}
+	\caption{One-body density of two-dimensional circular quantum dots of frequency $\omega=0.01$. }
 	\label{fig:lowfreqOB}
 \end{figure}
 
@@ -498,11 +538,11 @@ In order to test the code, we also decided to run for systems with $N>56$. This 
 \begin{table}[H]
 	\caption{Energy of large circular quantum dots, $\omega=1.0$. All energies are given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
 	\label{tab:largeQD}
-	\begin{tabularx}{\textwidth}{R{0.5cm}rR{2.3cm}R{2.3cm}R{1.3cm}rR{2.3cm}R{2.3cm}} \hline\hline
-		&\makecell{\\ $N$ \\ \phantom{=}} & \multicolumn{1}{c}{RBM} & \multicolumn{1}{c}{VMC} && $N$ & \multicolumn{1}{c}{RBM} & \multicolumn{1}{c}{VMC} \\ \hline \\
-		&72 & 1355.37(2) & 1340.520(7) && 70 & 1129.40(2) & 1108.950(4) \\
-		&90 & 2194.12(9) & 1990.89(2) && 112 & - \\
-		&110 & - & - &&  &  \\
+	\begin{tabularx}{\textwidth}{R{1.6cm}R{2cm}R{2cm}R{3cm}R{3cm}} \hline\hline
+		& \makecell{\\ \phantom{$N$} \\ \phantom{=}} & $N$ & RBM & VMC \\ \hline \\
+		& 2D & 72 & 1355.37(2) & 1340.520(7) \\
+		&& 90 & 2194.12(9) & 1990.89(2) \\
+		& 3D & 70 & 1129.40(2) & 1108.950(4) \\
 		\hline \hline
 	\end{tabularx}
 \end{table}

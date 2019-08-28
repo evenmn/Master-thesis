@@ -14,11 +14,13 @@ tick pos=both,
 x grid style={white!69.01960784313725!black},
 xlabel={\(\displaystyle \omega\)},
 xmajorgrids,
+width=8cm,
+height=5cm,
 xmin=-0.4895, xmax=10.4995,
 xtick style={color=black},
 y grid style={white!69.01960784313725!black},
-ylabel style={rotate=-90.0},
-ylabel={\(\displaystyle \frac{\langle\hat{T}\rangle}{\langle\hat{V}\rangle}\)},
+%ylabel style={rotate=-90.0},
+%ylabel={\(\displaystyle \frac{\langle\hat{T}\rangle}{\langle\hat{V}\rangle}\)},
 ymajorgrids,
 ymin=-0.0181106792133164, ymax=0.742249292125904,
 ytick style={color=black}
@@ -35,7 +37,7 @@ table {%
 5 0.707687475246849
 10 0.67481056582395
 };
-\addlegendentry{2P}
+%\addlegendentry{2P}
 \addplot [semithick, color1]
 table {%
 0.01 0.0407722122838402
@@ -43,12 +45,12 @@ table {%
 0.28 0.135666711367395
 0.5 0.164801025691602
 1 0.202835527491511
-2 nan
-3 0.359031450041748
-5 nan
-10 nan
+2 0.28369079862382
+3 0.326016767506851
+5 0.384115256741781
+10 0.472868887927304
 };
-\addlegendentry{6P}
+%\addlegendentry{6P}
 \addplot [semithick, color2]
 table {%
 0.01 0.0225470925470925
@@ -59,9 +61,9 @@ table {%
 2 0.220633968028807
 3 0.175038051750381
 5 0.317885405699147
-10 nan
+10 0.38887026483406
 };
-\addlegendentry{12P}
+%\addlegendentry{12P}
 \addplot [semithick, color3]
 table {%
 0.01 0.0164511376657391
@@ -72,7 +74,7 @@ table {%
 2 0.176534004132603
 3 0.0171061522276487
 5 0.307872099467483
-10 nan
+10 0.330233868695407
 };
 \addlegendentry{20P}
 \end{axis}

@@ -37,7 +37,7 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 
 \subsection{Two dimensions}
 \begin{table}[H]
-	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) of two-dimensional circular quantum dots at a wide range of frequencies $\omega$. A standard variational Monte-Carlo wave function is used. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
+	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) of two-dimensional circular quantum dots for a wide range of frequencies $\omega$. A standard variational Monte-Carlo wave function is used. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
 	\label{tab:splitfrequencyQDVMC}
 	\begin{tabularx}{\textwidth}{R{1cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{1cm}} \hline\hline
 		&\makecell{\\ \phantom{$N$} \\ \phantom{=}} & $\omega$ && \multicolumn{1}{c}{$\langle \hat{H}\rangle$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} & \\ \hline \\
@@ -55,12 +55,12 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		&6 & 0.01 && 0.6982(1) & 0.02735(7) & 0.2427(3) & 0.4281(3) \\
 		&& 0.1 && 3.5695(1) & 0.3201(3) & 1.2934(6) & 1.9560(5) \\
 		&& 0.28 && 7.6219(1) & 0.9105(4) & 2.8821(9) & 3.8292(7) \\
-		&& 0.5 && 11.8104(2) & 1.6710(7) & 4.535(1) & 5.6045(9)\\
-		&& 1.0 && 20.1918(2) & 3.405(1) & 8.046(1) & 8.741(1)\\
-		&& 2.0 && 34(1) & 7(1) & 13.87(7) & 13.85(7) \\
-		&& 3.0 && 48.8(1) & 12.9(1) & 17.91(9) & 18.02(6) \\ 
-		&& 5.0 && 75.3(4) & 21.4(3) & 30.0(2) & 23.9(1) \\
-		&& 10.0 && 136.7(4) & 46.1(4) & 54.9(3) & 35.8(2) \\
+		&& 0.5 && 11.8104(2) & 1.6710(7) & 4.535(1) & 5.6045(9) \\
+		&& 1.0 && 20.1918(2) & 3.405(1) & 8.046(1) & 8.741(1) \\
+		&& 2.0 && 35.0734(3) & 7.751(2) & 13.846(3) & 13.476(2) \\
+		&& 3.0 && 48.8728(4) & 12.016(2) & 19.682(4) & 17.175(2) \\ 
+		&& 5.0 && 74.9356(5) & 20.796(4) & 31.043(6) & 23.097(3) \\
+		&& 10.0 && 136.1522(7) & 43.712(9) & 58.20(1) & 34.240(5) \\
 		\hdashline \\
 		
 		&12 & 0.01 && 2.4972(3) & 0.05506(2) & 0.858(1) & 1.584(1)\\
@@ -68,27 +68,27 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		&& 0.28 && 25.7049(4) & 2.090(1) & 9.355(2) & 14.260(2) \\
 		&& 0.5 && 39.2421(5) & 3.939(2) & 14.564(3) & 20.739(3) \\
 		&& 1.0 && 65.7026(4) & 9.246(2) & 23.079(3) & 33.378(3) \\
-		&& 2.0 && 111.86(4) & 20.22(2) & 40.04(2) & 51.605(9) \\
-		&& 3.0 && 155.5235(1) & 23(1) & 63(1) & 68.4(2) \\ 
+		&& 2.0 && 111.8377(3) & 19.678(2) & 41.349(3) & 50.811(2) \\
+		&& 3.0 && 154.206(1) & 29.701(6) & 60.74(1) & 63.763(7) \\ 
 		&& 5.0 && 232.818(2) & 56.157(9) & 88.18(1) & 88.478(9) \\
-		&& 10.0 && 414.2(1) & 118.63(5) & 166.0(3) & 129.6(2) \\
+		&& 10.0 && 415.056(4) & 112.99(2) & 173.91(3) & 128.15(1) \\
 		\hdashline \\
 		
 		&20 & 0.01 && 6.2097(8) & 0.1005(4) & 2.270(3) & 3.839(3) \\
 		&& 0.1 && 30.086(1) & 1.243(1) & 10.587(4) & 18.257(4) \\
 		&& 0.28 && 62.0755(7) & 3.902(2) & 22.228(5) & 35.946(4) \\
 		&& 0.5 && 94.0433(9) & 7.823(3) & 33.938(6) & 52.282(5) \\
-		&& 1.0 && 156.102(1) & 16.86(1) & 58.14(1) & 81.098(6) \\
-		&& 2.0 && 262.0(4) & 39.3(4) & 93.57(7) & 129.05(4) \\
-		&& 3.0 && 357.1(3) & 6(15) & 194(15) & 156.751(9) \\ 
+		&& 1.0 && 155.8900(4) & 17.921(2) & 54.076(3) & 83.893(3) \\
+		&& 2.0 && 262.5339(9) & 38.402(3) & 95.681(7) & 128.451(5) \\
+		&& 3.0 && 358.927(1) & 61.017(5) & 133.99(1) & 163.924(7) \\ 
 		&& 5.0 && 542.680(7) & 127.77(2) & 177.89(2) & 237.12(2) \\
-		&& 10.0 && - & - & - & -\\
+		&& 10.0 && \textcolor{red}{944.1(1)} & 234.4(4) & 383.9(3) & 325.9(1) \\
 		\hline \hline
 	\end{tabularx}
 \end{table} 
 
 \begin{table}[H]
-	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) of two-dimensional circular quantum dots at a wide range of frequencies $\omega$. A plain restricted Boltzmann machine wave function is used. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
+	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) of two-dimensional circular quantum dots for a wide range of frequencies $\omega$. A plain restricted Boltzmann machine wave function is used. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
 	\label{tab:splitfrequencyQDRBM}
 	\begin{tabularx}{\textwidth}{R{1cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{1cm}} \hline\hline
 		&\makecell{\\ \phantom{$N$} \\ \phantom{=}} & $\omega$ && \multicolumn{1}{c}{$\langle \hat{H}\rangle$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} & \\ \hline \\
@@ -100,7 +100,7 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		&& 2.0 && 5.5936(3) & 1.6377(4) & 2.5507(5) & 1.4051(4) \\
 		&& 3.0 && 7.9968(4) & 2.2346(5) & 4.0201(7) & 1.7422(4) \\ 
 		&& 5.0 && 12.6070(4) & 3.8768(7) & 6.4292(9) & 2.3010(4) \\
-		&& 10.0 && 23.6589(5) & 5.054(2) & 15.592(2) & 3.0129(6) \\
+		&& 10.0 && 23.7748(7) & 9.063(3) & 11.132(4) & 3.580(1) \\
 		\hdashline \\
 		
 		&6 & 0.01 && 0.7072(5) & 0.033(2) & 0.2660(4) & 0.4080(6) \\
@@ -108,10 +108,10 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		&& 0.28 && 7.9273(9) & 0.8684(6) & 3.009(1) & 4.050(2) \\
 		&& 0.5 && 12.241(1) & 1.611(1) & 4.709(2) & 5.921(2)\\
 		&& 1.0 && 20.716(1) & 3.391(1) & 7.914(3) & 9.411(2)\\
-		&& 2.0 && - & - & - & -\\
+		&& 2.0 && 36.383(5) & 8.311(7) & 13.705(8) & 14.367(6) \\
 		&& 3.0 && 49.415(1) & 10.309(3) & 21.456(4) & 17.649(2) \\ 
-		&& 5.0 && - & - & - & -\\
-		&& 10.0 && - & - & - & -\\
+		&& 5.0 && 76.801(6) & 23.50(1) & 27.33(1) & 25.967(7) \\
+		&& 10.0 && 137.338(4) & 45.25(1) & 55.75(1) & 36.336(6) \\
 		\hdashline \\
 		
 		&12 & 0.01 && 2.5106(8) & 0.0682(2) & 0.893(1) & 1.549(1) \\
@@ -133,13 +133,13 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		&& 2.0 && 269.086(8) & 43.262(8) & 95.17(2) & 130.65(1) \\
 		&& 3.0 && 362.52(1) & 57.005(9) & 148.08(2) & 157.43(1) \\ 
 		&& 5.0 && 551.21(2) & 115.12(2) & 219.12(4) & 216.97(2) \\
-		&& 10.0 && 1003.71(4) & 218.87(4) & 492.87(8) & 291.97(3) \\
+		&& 10.0 && \textcolor{red}{1003.71(4)} & 218.87(4) & 492.87(8) & 291.97(3) \\
 		\hline \hline
 	\end{tabularx}
 \end{table} 
 
 \begin{table}[H]
-	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) of two-dimensional circular quantum dots at a wide range of frequencies $\omega$. A restricted Boltzmann machine wave function with a simple Jastrow factor is used. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
+	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) of two-dimensional circular quantum dots for a wide range of frequencies $\omega$. A restricted Boltzmann machine wave function with a simple Jastrow factor is used. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
 	\label{tab:splitfrequencyQDRBMSJ}
 	\begin{tabularx}{\textwidth}{R{1cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{1cm}} \hline\hline
 		&\makecell{\\ \phantom{$N$} \\ \phantom{=}} & $\omega$ && \multicolumn{1}{c}{$\langle \hat{H}\rangle$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} & \\ \hline \\
@@ -151,7 +151,7 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		&& 2.0 && 5.5254(1) & 1.6572(3) & 2.5447(5) & 1.3234(3) \\
 		&& 3.0 && 7.9103(2) & 2.5627(7) & 3.664(1) & 1.6840(5) \\ 
 		&& 5.0 && 12.5322(2) & 4.369(1) & 5.890(2) & 2.2838(7) \\
-		&& 10.0 && 23.7539(3) & 5.455(2) & 15.279(2) & 3.0193(6) \\
+		&& 10.0 && 23.6773(3) & 9.062(3) & 11.208(3) & 3.408(1) \\
 		\hdashline \\
 		
 		&6 & 0.01 && 0.7006(3) & 0.0376(2) & 0.2467(4) & 0.4163(4) \\
@@ -159,20 +159,20 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		&& 0.28 && 7.7347(4) & 0.7603(4) & 3.000(1) & 3.974(1) \\
 		&& 0.5 && 11.9392(5) & 1.4801(5) & 4.678(1) & 5.781(1) \\
 		&& 1.0 && - & - & - & - \\
-		&& 2.0 && - & - & - & -\\
-		&& 3.0 && - & - & - & - \\ 
-		&& 5.0 && - & - & - & -\\
-		&& 10.0 && - & - & - & -\\
+		&& 2.0 && 35.2446(8) & 7.098(2) & 14.587(3) & 13.560(2) \\
+		&& 3.0 && 49.050(1) & 11.164(3) & 20.6469(5) & 17.240(3) \\ 
+		&& 5.0 && 75.116(1) & 19.661(5) & 32.283(7) & 23.172(3) \\
+		&& 10.0 && 136.331(2) & 41.65(1) & 60.53(1) & 34.152(5) \\
 		\hdashline \\
 		
 		&12 & 0.01 && 2.4950(5) & 0.07(2) & 0.845(4) & 1.58(2) \\
-		&& 0.1 && 13.11(6) & 0.29(5) & 4.8(1) & 8.1(2) \\
-		&& 0.28 && 26.340(2) & 1.917(2) & 10.006(4) & 14.417(4) \\
-		&& 0.5 && 41.28(1) & 4.07(1) & 16.948(5) & 20.265(4) \\
-		&& 1.0 && 70.0(2) & 7.7(2) & 33.615(9) & 28.723(4) \\
-		&& 2.0 && 114.0(9) & 18.6(9) & 45.78(5) & 49.60(3) \\
+		&& 0.1 && 12.5964(7) & 0.4520(4) & 4.644(1) & 7.500(1) \\
+		&& 0.28 && \textcolor{red}{26.340(2)} & 1.917(2) & 10.006(4) & 14.417(4) \\
+		&& 0.5 && 39.6340(7) & 3.4852(5) & 14.948(2) & 21.201(2) \\
+		&& 1.0 && 66.1898(8) & 7.8777(8) & 25.822(2) & 32.490(2) \\
+		&& 2.0 && 112.502(2) & 18.118(4) & 44.118(4) & 50.201(6) \\
 		&& 3.0 && 154.521(3) & 28.050(5) & 63.84(1) & 62.634(6) \\ 
-		&& 5.0 && - & - & - & -\\
+		&& 5.0 && 234.110(6) & 52.86(1) & 94.50(2) & 86.75(1) \\
 		&& 10.0 && 415.384(7) & 108.57(2) & 181.90(3) & 124.92(1) \\
 		\hdashline \\
 		
@@ -182,15 +182,15 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		&& 0.5 && 94.755(3) & 6.709(2) & 34.845(7) & 53.200(6) \\
 		&& 1.0 && 156.816(4) & 15.340(3) & 59.931(9) & 81.545(7) \\
 		&& 2.0 && 265.66(9) & 39.31(8) & 95.78(1) & 130.57(2) \\
-		&& 3.0 && 358.71(4) & 51.02(4) & 153.52(2) & 154.16(1) \\ 
+		&& 3.0 && 360.630(6) & 58.36(1) & 141.54(2) & 160.72(2) \\ 
 		&& 5.0 && 543.06(1) & 112.38(2) & 210.52(4) & 220.15(2) \\
-		&& 10.0 && - & - & - & -\\
+		&& 10.0 && 952.71(2) & 237.65(4) & 392.06(7) & 323.00(3) \\
 		\hline\hline
 	\end{tabularx}
 \end{table}
 
 \begin{table}[H]
-	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) of two-dimensional circular quantum dots at a wide range of frequencies $\omega$. A restricted Boltzmann machine with Padé-Jastrow wave function is used. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
+	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) of two-dimensional circular quantum dots for a wide range of frequencies $\omega$. A restricted Boltzmann machine with Padé-Jastrow wave function is used. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
 	\label{tab:splitfrequencyQDRBMPJ}
 	\begin{tabularx}{\textwidth}{R{1cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{1cm}} \hline\hline
 		&\makecell{\\ \phantom{$N$} \\ \phantom{=}} & $\omega$ && \multicolumn{1}{c}{$\langle \hat{H}\rangle$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} & \\ \hline \\
@@ -202,7 +202,7 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		&& 2.0 && 5.49475(1) & 1.7234(4) & 2.4657(4) & 1.3057(3) \\
 		&& 3.0 && 7.87961(1) & 2.3144(5) & 3.9349(6) & 1.6413(3) \\
 		&& 5.0 && 12.49832(1) & 3.9569(7) & 6.3068(8) & 2.2347(4) \\
-		&& 10.0 && 23.65070(5) & 5.384(2) & 15.265(2) & 3.0010(6) \\
+		&& 10.0 && 23.65275(7) & 9.228(3) & 11.059(3) & 3.366(1) \\
 		\hdashline \\
 		
 		&6 & 0.01 && 0.6932(5) & 0.031(2) & 0.260(2) & 0.401(1) \\
@@ -210,10 +210,10 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		&& 0.28 && 7.6203(2) & 0.9519(6) & 2.82(1) & 3.84(1) \\
 		&& 0.5 && 11.8074(2) & 1.7018(7) & 4.513(1) & 5.5927(9) \\
 		&& 1.0 && 20.1832(1) & 3.428(1) & 8.068(1) & 8.687(1) \\
-		&& 2.0 && 34.fkfdsgf & - & - & -\\
+		&& 2.0 && 35.0872(3) & 7.670(2) & 14.139(3) & 13.279(2) \\
 		&& 3.0 && 48.9157(8) & 10.789(5) & 20.383(5) & 17.743(2) \\ 
-		&& 5.0 && - & - & - & -\\
-		&& 10.0 && - & - & - & -\\
+		&& 5.0 && 74.9545(5) & 20.402(5) & 31.744(7) & 22.809(3) \\
+		&& 10.0 && 136.1738(8) & 42.66(1) & 59.71(1) & 33.799(5) \\
 		\hdashline \\
 		
 		&12 & 0.01 && 2.5019(4) & 0.0699(2) & 0.893(1) & 1.539(1) \\
@@ -233,7 +233,7 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		&& 0.5 && 94.127(1) & 8.249(3) & 33.543(5) & 52.335(4) \\
 		&& 1.0 && 156.099(1) & 16.768(6) & 58.513(8) & 80.818(6) \\
 		&& 2.0 && 262.598(1) & 34.758(6) & 108.546(9) & 119.293(7) \\
-		&& 3.0 && 359.220(2) & 37.1(7) & 171.5(7) & 150.646(8) \\ 
+		&& 3.0 && \textcolor{red}{359.220(2)} & 37.1(7) & 171.5(7) & 150.646(8) \\ 
 		&& 5.0 && 539.13(1) & 120.09(2) & 188.45(2) & 230.58(1) \\
 		&& 10.0 && 947.33(2) & 257.67(5) & 348.35(6) & 341.31(3) \\
 		\hline \hline
@@ -242,7 +242,7 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 
 \subsection{Three dimensions}
 \begin{table}[H]
-	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) of three-dimensional circular quantum dots at a wide range of frequencies $\omega$. A standard variational Monte-Carlo wave function is used. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
+	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) of three-dimensional circular quantum dots for a wide range of frequencies $\omega$. A standard variational Monte-Carlo wave function is used. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
 	\label{tab:splitfrequencyQDVMC3D}
 	\begin{tabularx}{\textwidth}{R{1cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{1cm}} \hline\hline
 		&\makecell{\\ \phantom{$N$} \\ \phantom{=}} & $\omega$ && \multicolumn{1}{c}{$\langle \hat{H}\rangle$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} & \\ \hline \\
@@ -257,18 +257,18 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		&& 10.0 && 32.449053(8) & 14.586(2) & 15.470(2) & 2.3933(2) \\
 		\hdashline \\
 		
-		&8 & 0.01 && 1.1490(4) & 0.02339(8) & 0.427(1) & 0.6985(9) \\
+		&8 & 0.01 && 1.12283(7) & 0.04384(7) & 0.3832(2) & 0.6958(2) \\
 		&& 0.1 && 5.7126(1) & 0.4930(4) & 2.085(1) & 3.1342(9) \\
 		&& 0.28 && 12.2050(2) & 1.5332(7) & 4.630(2) & 6.041(1) \\
-		&& 0.5 && 19.03(2) & 3.14(3) & 6.62(2) & 9.27(3) \\
+		&& 0.5 && 18.96747(8) & 3.2098(4) & 6.7892(8) & 8.9647(6) \\
 		&& 1.0 && 32.6863(2) & 6.244(2) & 13.378(3) & 13.064(1) \\
-		&& 2.0 && 57.5(3) & 14.3(4) & 23.3(1) & 19.90(8) \\
-		&& 3.0 && 80.73(6) & 19.1(1) & 37.66(9) & 23.93(5) \\ 
-		&& 5.0 && 124.9(3) & 41.7(4) & 48.6(1) & 34.56(8) \\
-		&& 10.0 && 229.5(5) & 86.1(5) & 93.2(2) & 50.07(5) \\
+		&& 2.0 && \textcolor{red}{57.41(2)} & 15.35(4) & 21.47(3) & 20.59(2) \\
+		&& 3.0 && 80.6193(3) & 22.281(5) & 33.286(7) & 25.052(3) \\ 
+		&& 5.0 && 124.9024(4) & 38.713(8) & 52.89(1) & 33.300(4) \\
+		&& 10.0 && 230.1668(7) & 81.03(2) & 100.56(2) & 48.573(6) \\
 		\hdashline \\
 		
-		&20 & 0.01 && 5.809(2) & 0.0473(2) & 1.940(7) & 3.822(7) \\
+		&20 & 0.01 && 5.6428(3) & 0.1621(4) & 1.923(2) & 3.558(2) \\
 		&& 0.1 && 27.3152(5) & 1.247(1) & 9.392(3) & 16.676(3) \\
 		&& 0.28 && 56.4386(5) & 3.991(2) & 20.125(5) & 32.322(4) \\
 		&& 0.5 && 85.7197(6) & 7.868(2) & 31.383(6) & 46.469(5) \\
@@ -282,13 +282,13 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 \end{table}
 
 \begin{table}[H]
-	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) of three-dimensional circular quantum dots at a wide range of frequencies $\omega$. A plain restricted Boltzmann machine wave function is used. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
+	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) of three-dimensional circular quantum dots for a wide range of frequencies $\omega$. A plain restricted Boltzmann machine wave function is used. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
 	\label{tab:splitfrequencyQDRBM3D}
 	\begin{tabularx}{\textwidth}{R{1cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{1cm}} \hline\hline
 		&\makecell{\\ \phantom{$N$} \\ \phantom{=}} & $\omega$ && \multicolumn{1}{c}{$\langle \hat{H}\rangle$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} & \\ \hline \\
 		&2 & 0.01 && 0.85193(5) & 0.014853(4) & 0.03141(9) & 0.03893(1) \\
 		&& 0.1 && 0.5177(1) & 0.1249(1) & 0.2065(2) & 0.1863(2) \\
-		&& 0.28 && 1.2261(1) & 0.35(2) & 0.53(2) & 0.3488(6) \\
+		&& 0.28 && \textcolor{red}{1.2261(1)} & 0.35(2) & 0.53(2) & 0.3488(6) \\
 		&& 0.5 && 2.0269(1) & 0.6595(3) & 0.8778(4) & 0.4896(2) \\
 		&& 1.0 && 3.7574(1) & 1.3224(5) & 1.7215(5) & 0.7136(2) \\
 		&& 2.0 && 7.0870(1) & 2.7338(6) & 3.3183(7) & 1.0350(2) \\
@@ -303,16 +303,16 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		&& 0.5 && 19.680(2) & 3.601(2) & 7.289(4) & 8.786(3) \\
 		&& 1.0 && 33.305(1) & 7.032(2) & 12.267(3) & 14.006(2) \\
 		&& 2.0 && 58.889(3) & 16.976(4) & 19.717(5) & 22.195(3) \\
-		&& 3.0 && 80.677(1) & 17(3) & 38(3) & 25.0(1) \\ 
+		&& 3.0 && 81.648(3) & 23.987(6) & 31.157(8) & 26.504(4) \\ 
 		&& 5.0 && 126.03(9) & 42.68(6) & 47.58(5) & 35.77(2) \\
-		&& 10.0 && - & - & - & -\\
+		&& 10.0 && 231.410(6) & 85.62(2) & 95.00(2) & 50.789(7) \\
 		\hdashline \\
 		
 		&20 & 0.01 && 5.6448(4) & 0.1624(4) & 1.955(2) & 3.527(2) \\
 		&& 0.1 && 27.9277(5) & 1.7925(5) & 9.676(2) & 16.459(2) \\
 		&& 0.28 && 57.822(1) & 5.240(1) & 20.384(4) & 32.198(3) \\
 		&& 0.5 && 87.798(5) & 9.635(5) & 32.12(1) & 46.047(9) \\
-		&& 1.0 && 147.03(1) & 1(4) & 79(5) & 66(1) \\
+		&& 1.0 && \textcolor{red}{147.03(1)} & 1(4) & 79(5) & 66(1) \\
 		&& 2.0 && 250.159(7) & 49.76(1) & 83.69(2) & 116.71(1) \\
 		&& 3.0 && 335.440(5) & 64.59(1) & 130.27(2) & 140.578(9) \\ 
 		&& 5.0 && 524.94(2) & 121.39(3) & 225.61(5) & 177.94(2) \\
@@ -322,7 +322,7 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 \end{table}
 
 \begin{table}[H]
-	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) of three-dimensional circular quantum dots at a wide range of frequencies $\omega$. A restricted Boltzmann machine with a simple Jastrow factor is used. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
+	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) of three-dimensional circular quantum dots for a wide range of frequencies $\omega$. A restricted Boltzmann machine with a simple Jastrow factor is used. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
 	\label{tab:splitfrequencyQDRBMSJ3D}
 	\begin{tabularx}{\textwidth}{R{1cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{1cm}} \hline\hline
 		&\makecell{\\ \phantom{$N$} \\ \phantom{=}} & $\omega$ && \multicolumn{1}{c}{$\langle \hat{H}\rangle$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} \\ \hline \\
@@ -333,8 +333,8 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		&& 1.0 && 3.73543(4) & 1.2801(4) & 1.7871(5) & 0.6683(2) \\
 		&& 2.0 && 7.06343(7) & 2.7117(7) & 3.3574(9) & 0.9944(2) \\
 		&& 3.0 && 10.32289(5) & 3.5281(8) & 5.6147(9) & 1.1801(2) \\ 
-		&& 5.0 && - & - & - & -\\
-		&& 10.0 && - & - & - & -\\
+		&& 5.0 && 16.7155(1) & 7.035(2) & 8.035(2) & 1.6462(4) \\
+		&& 10.0 && 32.6045(9) & 14.568(4) & 15.613(5) & 2.4238(6) \\
 		\hdashline \\
 		
 		&8 & 0.01 && 1.1371(5) & 0.02(1) & 0.388(6) & 0.73(2) \\
@@ -344,7 +344,7 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		&& 1.0 && 32.7159(6) & 6.137(1) & 13.440(3) & 13.139(2) \\
 		&& 2.0 && 57.4473(8) & 13.451(3) & 24.361(5) & 19.636(2) \\
 		&& 3.0 && 80.6370(9) & 21.039(5) & 34.888(8) & 24.710(3) \\ 
-		&& 5.0 && - & - & - & -\\
+		&& 5.0 && 124.955(1) & 37.126(9) & 54.81(1) & 33.020(5) \\
 		&& 10.0 && 230.149(2) & 76.75(2) & 105.83(2) & 47.560(6) \\
 		\hdashline \\
 		
@@ -362,7 +362,7 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 \end{table}
 
 \begin{table}[H]
-	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) of three-dimensional circular quantum dots at a wide range of frequencies $\omega$. A restricted Boltzmann machine with Padé-Jastrow wave function is used. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
+	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) of three-dimensional circular quantum dots for a wide range of frequencies $\omega$. A restricted Boltzmann machine with Padé-Jastrow wave function is used. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
 	\label{tab:splitfrequencyQDRBMPJ3D}
 	\begin{tabularx}{\textwidth}{R{1cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{1cm}} \hline\hline
 		&\makecell{\\ \phantom{$N$} \\ \phantom{=}} & $\omega$ && \multicolumn{1}{c}{$\langle \hat{H}\rangle$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} & \\ \hline \\
@@ -452,7 +452,7 @@ Collection of all one-body densities
 	\subfloat[6P]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/1.000000w/VMC_ADAM_MC2pow28_smooth.png}}}\\
 	
 	\subfloat[12P]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/12P/1.000000w/VMC_ADAM_MC2pow28_smooth.png}}}\hspace{-0.0cm}
-	\subfloat[20P]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/20P/1.000000w/RBM_ADAM_MC2pow28_smooth.png}}}\\
+	\subfloat[20P]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/20P/1.000000w/VMC_ADAM_MC2pow28_smooth.png}}}\\
 	
 	\caption{One-body density plots for two-dimensional circular quantum dots with frequency $\omega=1.0$. The plots (a)-(f) present quantum dots containing 2, 6, 12, 20, 30 and 42 electrons respectively, and were all obtained using a plain restricted Boltzmann machine. ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$.}
 	\label{fig:OB_interaction_VMC_1p0w1}

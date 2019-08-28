@@ -1,0 +1,82 @@
+% This file was created by tikzplotlib v0.8.1.
+\begin{tikzpicture}
+
+\definecolor{color0}{rgb}{0.12156862745098,0.466666666666667,0.705882352941177}
+\definecolor{color1}{rgb}{1,0.498039215686275,0.0549019607843137}
+\definecolor{color2}{rgb}{0.172549019607843,0.627450980392157,0.172549019607843}
+\definecolor{color3}{rgb}{0.83921568627451,0.152941176470588,0.156862745098039}
+
+\begin{axis}[
+legend cell align={left},
+legend style={at={(0.97,0.03)}, anchor=south east, draw=white!80.0!black},
+tick align=outside,
+tick pos=both,
+x grid style={white!69.01960784313725!black},
+xlabel={\(\displaystyle \omega\)},
+xmajorgrids,
+width=8cm,
+height=5cm,
+xmin=-0.4895, xmax=10.4995,
+xtick style={color=black},
+y grid style={white!69.01960784313725!black},
+ylabel style={rotate=-90.0},
+ylabel={\(\displaystyle \frac{\langle\hat{T}\rangle}{\langle\hat{V}\rangle}\)},
+ymajorgrids,
+ymin=-0.011155128448522, ymax=0.670716886119897,
+ytick style={color=black}
+]
+\addplot [semithick, color0]
+table {%
+0.01 0.161598746081505
+0.1 0.264466364626943
+0.28 0.318533815178111
+0.5 0.350256285086649
+1 0.389730328777244
+2 0.456965583072599
+3 0.415049675406191
+5 0.463255868407188
+10 0.639722703639515
+};
+%\addlegendentry{2P}
+\addplot [semithick, color1]
+table {%
+0.01 0.0468986384266263
+0.1 0.108489101409675
+0.28 0.142927927927928
+0.5 0.168400011874487
+1 0.204595643091614
+2 0.279743234371581
+3 0.28298274143629
+5 0.373984932084395
+10 0.456212770963223
+};
+%\addlegendentry{6P}
+\addplot [semithick, color2]
+table {%
+0.01 0.0287417763157895
+0.1 0.0689267491135519
+0.28 0.103510351035104
+0.5 0.121754035137837
+1 0.149081447331657
+2 0.189290836653386
+3 0.178458103634153
+5 0.332749562171629
+10 0.425379527774922
+};
+\addlegendentry{12P}
+\addplot [semithick, color3]
+table {%
+0.01 0.0198390540318607
+0.1 0.0550696242390316
+0.28 0.0812272164373049
+0.5 0.0960548685344326
+1 0.120346512979882
+2 0.152555093728466
+3 0.115165173554848
+5 0.286590458917023
+10 0.373618884667807
+};
+%\addlegendentry{20P}
+\end{axis}
+
+\end{tikzpicture}
