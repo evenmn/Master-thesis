@@ -263,21 +263,43 @@ Another quantity of particular interest is the one-body density. For all the sys
 
 We have computed the one-body density in two different ways: by dividing the space into annuluses and obtaining the radial density profile, as discussed in section \ref{sec:electrondensityimplementation}, and by dividing the space into a grid of equally sized bins and obtaining the density profile throughout the space. The former is computational beneficial as the density typically is stored in $n$ bins compared to $n^2$ bins for the second method, but the latter is obviously able to store more information. The second method is thereby able to give more informative plots, but when we want to compare the various wave function choices a radial density profile is more convenient. In other words, there are pros and cons associated with both methods, and we will therefore present both to give an as comprehensive description of the results as possible. 
 
-We will start with density profiles of the spaces for two-dimensional quantum dots of frequency $\omega=1.0$. In figure \eqref{fig:OB_interaction_1p0w}, dots of sizes $N=2$, 6, 12, 20, 30 and 40 are presented, produced with a restricted Boltzmann machine. To maximize the amount of information in the plot, we have included a contour plot and a shadow plot in addition to a 3D plot of the density. What we observe is that the density gets a wave form, with more tops as the number of particles increase. Actually, the density plots behave like a water ripple if one sees it from the smallest to the largest dots, as J.Høgberget also points out \cite{hogberget_quantum_2013}. The shapes of the densities are more or less consistent with what he found. 
+We will start with density profiles of the spaces for two-dimensional quantum dots of frequency $\omega=1.0$. In figure \eqref{fig:OB_interaction_1p0w1} and \eqref{fig:OB_interaction_1p0w2}, dots of sizes $N=2$, 6, 12, 20, 30 and 40 are presented, produced with RBM and VMC. To maximize the amount of information in the plot, we have included a contour plot and a shadow plot in addition to a 3D plot of the density. What we observe is that the density gets a wave shape, with more peaks as the number of particles increases. The RBM provides sharper and more distinct peaks than the VMC, but at least the extrema seems to be located at the same radii.  Actually, the density plots behave like a water ripple if one sees it from the smallest to the largest dots, as J.Høgberget also points out \cite{hogberget_quantum_2013}. The shapes of the densities are more or less consistent with what he found. 
 
 \begin{figure}
 	\centering
-	\subfloat[2P]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/1.000000w/RBM_ADAM_MC2pow28_smooth.png}}}\hspace{-0.0cm}
-	\subfloat[6P]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/1.000000w/RBM_ADAM_MC2pow28_smooth.png}}}\\
+	\captionsetup[subfigure]{labelformat=empty}
+	\subfloat{\raisebox{2.5cm}{\rotatebox[origin=t]{90}{2P}}}\hspace{0.1cm}
+	\subfloat{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/1.000000w/VMC_ADAM_MC2pow28_smooth.png}}}\hspace{-0.0cm}
+	\subfloat{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/1.000000w/RBM_ADAM_MC2pow28_smooth.png}}}\\
 	
-	\subfloat[12P]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/12P/1.000000w/RBM_ADAM_MC2pow28_smooth.png}}}\hspace{-0.0cm}
-	\subfloat[20P]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/20P/1.000000w/RBM_ADAM_MC2pow28_smooth.png}}}\\
+	\subfloat{\raisebox{2.5cm}{\rotatebox[origin=t]{90}{6P}}}\hspace{0.05cm}
+	\subfloat{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/1.000000w/VMC_ADAM_MC2pow28_smooth.png}}}\hspace{-0.0cm}
+	\subfloat{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/1.000000w/RBM_ADAM_MC2pow28_smooth.png}}}\\
 	
-	\subfloat[30P]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/30P/1.000000w/RBM_ADAM_MC2pow28_smooth.png}}}\hspace{-0.0cm}
-	\subfloat[42P]{{\includegraphics[width=8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/42P/1.000000w/RBM_ADAM_MC2pow28_smooth.png}}}
+	\subfloat{\raisebox{2.5cm}{\rotatebox[origin=t]{90}{12P}}}\hspace{0.1cm}
+	\subfloat[VMC]{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/12P/1.000000w/VMC_ADAM_MC2pow28_smooth.png}}}\hspace{-0.0cm}
+	\subfloat[RBM]{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/12P/1.000000w/RBM_ADAM_MC2pow28_smooth.png}}}
 	
-	\caption{One-body density plots for two-dimensional circular quantum dots with frequency $\omega=1.0$. The plots (a)-(f) present quantum dots containing 2, 6, 12, 20, 30 and 42 electrons respectively, and were all obtained using a plain restricted Boltzmann machine. ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$.}
-	\label{fig:OB_interaction_1p0w}
+	\caption{One-body density plots for two-dimensional circular quantum dots with frequency $\omega=1.0$. The plots present quantum dots containing 2, 6 and 12 electrons, and were all obtained using standard variational Monte Carlo (VMC) and a plain restricted Boltzmann machine (RBM). ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$.}
+	\label{fig:OB_interaction_1p0w1}
+\end{figure}
+\begin{figure}
+	\centering
+	\captionsetup[subfigure]{labelformat=empty}
+	\subfloat{\raisebox{2.5cm}{\rotatebox[origin=t]{90}{20P}}}\hspace{0.1cm}
+	\subfloat{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/20P/1.000000w/VMC_ADAM_MC2pow28_smooth.png}}}\hspace{-0.0cm}
+	\subfloat{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/20P/1.000000w/RBM_ADAM_MC2pow28_smooth.png}}}\\
+	
+	\subfloat{\raisebox{2.5cm}{\rotatebox[origin=t]{90}{30P}}}\hspace{0.1cm}
+	\subfloat{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/30P/1.000000w/VMC_ADAM_MC2pow28_smooth.png}}}\hspace{-0.0cm}
+	\subfloat{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/30P/1.000000w/RBM_ADAM_MC2pow28_smooth.png}}}\\
+	
+	\subfloat{\raisebox{2.5cm}{\rotatebox[origin=t]{90}{42P}}}\hspace{0.1cm}
+	\subfloat[VMC]{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/42P/1.000000w/VMC_ADAM_MC2pow28_smooth.png}}}\hspace{-0.0cm}
+	\subfloat[RBM]{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/42P/1.000000w/RBM_ADAM_MC2pow28_smooth.png}}}
+	
+	\caption{One-body density plots for two-dimensional circular quantum dots with frequency $\omega=1.0$. The plots present quantum dots containing 20, 30 and 42 electrons, and were all obtained using standard variational Monte Carlo (VMC) and a plain restricted Boltzmann machine (RBM). ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$.}
+	\label{fig:OB_interaction_1p0w2}
 \end{figure}
 
 In figure \eqref{fig:OB_interaction_23D}, we stick to frequency $\omega=1.0$ for small two- and three-dimensional quantum dots and compare the results obtained by VMC, RBM, RBM+SJ and RBM+PJ. We investigate dots of 2, 6 and 12 electrons in two dimensions and 2, 8 and 20 particles in three dimensions, which corresponds to one shell (1S), two shells (2S) and three shells (3S) respectively. For all the cases, we immediately see that the density plots are identical in two and three dimensions for the same closed shell. After all, this is not so surprising considering the fact that particles in a shell of a quantum dot should be at the same distance from the center no matter if we look at the two-, three- or even one-dimensional case. However, what is most interesting for us is to analyze the performance of the Boltzmann machines. We observe that all the methods give quite similar radial density profiles, but RBM is always the guy standing out. Apparently, the RBM tends to over-exaggerate the ripples discussed above and gives an even more wavy density plot, which can be explained by the lack of Jastrow factor to take care of correlations. Further, the RBM+SJ is more similar to the VMC and RBM+PJ, which are almost identical. This is consistent with the energy analysis in section \ref{sec:groundstateenergy}, where we found VMC and RBM+PJ to be most accurate, followed by RBM+SJ and RBM. We also observe an effect where the density plots consequently decrease close to the center, but this is an artifact caused by the fact that the number of Monte Carlo cycles is finite. 
@@ -387,7 +409,7 @@ The calculations are repeated for two-dimensional quantum dots of 20 electrons, 
 \end{landscape}
 %}
 
-\begin{figure}[h]
+\begin{figure}
 	\centering 
 	\captionsetup[subfigure]{labelformat=empty}
 	\subfloat[RBM]{{\input{pgf/RBM_2D.tex}}}
@@ -454,7 +476,7 @@ which can be verified from the energy splitting. To do this accurately, we bette
 		&\makecell{\\ \phantom{$N$} \\ \phantom{=}} & $\omega$ && \multicolumn{1}{c}{$\langle \hat{H}\rangle$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} \\ \hline \\
 		&RBM & 0.01 && 6.217(2) & 0.1236(4) & 2.244(2) & 3.849(2) \\
 		&& 2.0 && 269.086(8) & 43.262(8) & 95.17(2) & 130.65(1) \\
-		&& 10.0 && 1003.71(4) & 218.87(4) & 492.87(8) & 291.97(3) \\
+		&& 10.0 && 961.03(4) & 260.2(1) & 364.8(1) & 336.06(7) \\
 		\hdashline \\
 		
 		&RBM+SJ & 0.01 && 6.239(2) & 0.1372(6) & 2.184(2) & 3.919(3) \\
@@ -468,7 +490,7 @@ which can be verified from the energy splitting. To do this accurately, we bette
 		
 		&VMC & 0.01 && 6.2097(8) & 0.1005(4) & 2.270(3) & 3.839(3) \\
 		&& 2.0 && 262.5339(9) & 38.402(3) & 95.681(7) & 128.451(5) \\
-		&& 10.0 && \textcolor{red}{944.1(1)} & 234.4(4) & 383.9(3) & 325.9(1) \\
+		&& 10.0 && 945.596(8) & 231.56(4) & 389.26(7) & 324.77(3) \\
 		\hline\hline
 	\end{tabularx}
 \end{table}
