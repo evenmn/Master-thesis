@@ -1,59 +1,87 @@
-\begin{tikzpicture} [scale=0.9]
-	\begin{axis}[name=2D, xlabel=Number of particles, ylabel={CPU-time [s]}, grid=major, legend pos=north west] 
-	  \addplot[color=blue,mark=oplus*, dashed] coordinates { 
-	  	 (2,5.141258)
-	  	 (6,9.239086)
-		 (12,15.17534) 
-		 (20,29.92524) 
-		 (30,60.01942) 
-		 (42,105.3550) 
-		 (56,186.3048)
-		 (72,309.9558) }; 
-	  \addlegendentry{RBM};
-	  
-	  \addplot[color=orange,mark=oplus*, dash dot] coordinates { 
-	  	(12,19.79258) 
-	  	(20,49.38614) 
-	  	(30,103.70718) 
-	  	(42,194.3012) 
-	  	(56,361.7808) }; 
-	  \addlegendentry{RBM+SJ};
-	  
-	  \addplot[color=green,mark=oplus*, dotted] coordinates { 
-	  	(2,13.70556)
-	  	(6,26.81268)
-	  	(12,49.86926)
-	  	(20,52.58098) 
-	  	(30,108.3858) 
-	  	(42,196.3522) }; 
-	  \addlegendentry{RBM+PJ};
-	  
-	  \addplot[color=red,mark=oplus*] coordinates { 
-	  	(2,4.7485)
-	  	(6,8.551862)
-	  	(12,16.69836) 
-	  	(20,34.40414) 
-	  	(30,68.92126) 
-	  	(42,125.4514) 
-	  	(56,214.0844)
-	  	(72,353.5306) }; 
-	  \addlegendentry{VMC};
-	 \end{axis} 
-	 \begin{axis}[name=3D, at=(2D.right of south east), anchor=left of south west, xlabel=Number of particles, grid=major, legend pos=north west] 
-	 \addplot[color=blue,mark=oplus*, dashed] coordinates { 
-	 	(2,6.717078)
-	 	(8,12.33682)
-	 	(20,39.74432) 
-	 	(40,122.864) 
-	 	(70,462.75) }; 
-	 \addlegendentry{RBM};
-	 
-	 \addplot[color=red,mark=oplus*] coordinates { 
-	 	(2,5.490018)
-	 	(8,13.35986)
-	 	(20,46.03914) 
-	 	(40,169.0882) 
-	 	(70,497.2244) };
-	 \addlegendentry{VMC};
-   \end{axis} 
+% This file was created by matplotlib2tikz v0.7.4.
+\begin{tikzpicture}[scale=0.9]
+
+\definecolor{color0}{rgb}{0.12156862745098,0.466666666666667,0.705882352941177}
+\definecolor{color1}{rgb}{1,0.498039215686275,0.0549019607843137}
+
+\begin{axis}[name=2D, xlabel=Number of particles, ylabel={CPU-time [s]}, grid=major, 
+legend cell align={left},
+legend style={at={(1.55,1.05)}, anchor=south east, draw=white!80.0!black},
+legend columns = 6, xtick=data] 
+\addplot[color=blue,mark=oplus*, dashed] coordinates { 
+	(2,6.05)
+	(6,11.25)
+	(12,20.53) 
+	(20,38.99) 
+	(30,73.73) 
+	(42,130.49) 
+	(56,213.47)
+	(72,360.22)
+	(90,856.84) }; 
+\addlegendentry{RBM};
+
+\addplot[color=orange,mark=oplus*, dash dot] coordinates { 
+	(2,7.12) 
+	(6,14.07) 
+	(12,28.42) 
+	(20,63.27) 
+	(30,122.93) 
+	(42,199.60)
+	(56,349.22)}; 
+\addlegendentry{RBM+SJ};
+
+\addplot[color=green,mark=oplus*, dotted] coordinates { 
+	(2,7.26)
+	(6,13.50)
+	(12,27.68)
+	(20,57.09) 
+	(30,119.17) 
+	(42,212.53) 
+	(56,382.13) }; 
+\addlegendentry{RBM+PJ};
+
+\addplot[color=red,mark=oplus*] coordinates { 
+	(2,5.11)
+	(6,10.51)
+	(12,20.85) 
+	(20,41.20) 
+	(30,76.26) 
+	(42,137.39) 
+	(56,230.63)
+	(72,355.81)
+	(90,544.03) }; 
+\addlegendentry{VMC};
+\end{axis}
+
+\begin{axis}[name=2D, xshift=7.9cm, xlabel=Number of particles, grid=major, xtick=data] 
+\addplot[color=blue,mark=oplus*, dashed] coordinates { 
+	(2,7.69)
+	(8,20.92)
+	(20,59.67) 
+	(40,171.84) 
+	(70,586.39) }; 
+%\addlegendentry{RBM};
+
+\addplot[color=orange,mark=oplus*, dash dot] coordinates { 
+	(2,8.95)
+	(8,26.86)
+	(20,94.64) 
+	(40,270.92) }; 
+%\addlegendentry{RBM+SJ};
+
+\addplot[color=green,mark=oplus*, dotted] coordinates { 
+	(2,8.87)
+	(8,26.36)
+	(20,91.40) 
+	(40,293.25) }; 
+%\addlegendentry{RBM+PJ};
+
+\addplot[color=red,mark=oplus*] coordinates { 
+	(2,6.70)
+	(8,20.99)
+	(20,62.54) 
+	(40,185.65) 
+	(70,486.02) };
+%\addlegendentry{VMC};
+\end{axis}
 \end{tikzpicture}

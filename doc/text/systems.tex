@@ -13,9 +13,7 @@ In quantum physics, as in classical physics, there are many different systems wi
 We will in this chapter give explicit expressions of the quantum dot systems and the atomic system. This includes defining the potential and thereby the Hamiltonian, and thereafter we present an appropriate set of single-particle functions. Also double quantum dots will be covered, as one can find analytical solutions by an expansion of single quantum dot functions.
 
 \section{Quantum dots} \label{sec:quantumdots}
-Quantum dots are very small particles, and consist of fermions or bosons hold together by an external potential which is not created by a nucleus. Similar to atoms, these dots have discrete electronic states with a well-defined shell structure, and are therefore often called artificial atoms. 
-
-In this thesis we will study circular quantum dots with electrons affected by a harmonic oscillator potential. For an electron $i$, the potential reads
+Quantum dots are very small particles, and consist of fermions or bosons hold together by an external potential which is not created by a nucleus. Similar to atoms, these dots have discrete electronic states with a well-defined shell structure, and are therefore often called artificial atoms. In this thesis we will study circular quantum dots with electrons affected by a harmonic oscillator potential. For an electron $i$, the potential reads
 \begin{equation}
 V_i(r)=\frac{1}{2}m\omega^2r_i^2,
 \end{equation}
@@ -104,7 +102,7 @@ where our targets, $\hat{C}$, are just the eigenvectors of the $\hat{h}$-matrix.
 with $\hat{\mathcal{H}}_{\text{+}}=(1/2)\omega\sum_{i=1}^N\Big((1/4)b^2-b|x_i|\Big)$ as the extension. The former integrals are just the harmonic oscillator energies, presented in \eqref{eq:HOenergies}, while the latter integrals are trivial to calculate. However, since we need to calculate a relatively large number of matrix elements, we decided to do it using numerical integration on the computer. The script doing this is given the creative name \lstinline|doublewell_functions.py|, found on \url{http://www.github.com/evenmn/VMC/scripts}.
 
 \section{Atoms} \label{sec:atomic}
-We will also investigate real atoms, where we freeze out the nucleonic degrees of freedom known as the Born-Oppenheimer approximation. The electrons will in fact affect the nucleus, but due to the mass difference this effect will be negligible.
+Although we will focus on quantum dots in this work, atoms are relevant as they behave similar to quantum dots and can be studied with the same code framework with few modifications. When defining the atomic Hamiltonian, one often freezes out the nucleonic degrees of freedom known as the Born-Oppenheimer approximation. The electrons will in fact affect the nucleus, but due to the mass difference this effect is negligible.
 
 We again have Coulomb interaction between the electrons and the nucleus, and since we assume the latter to be at rest at the origin, the external potential affecting particle $i$ is
 \begin{equation}
@@ -120,7 +118,7 @@ which also is discussed in Appendix B. For the non-interacting case, the energy 
 E_n=-\frac{Z^2}{2n^2},
 \label{eq:bohrformula}
 \end{equation}
-which means that to find the energy of an atom, we need to summarize the energy of all the electrons. 
+which means that to find the binding energy of an atom, we need to summarize the energy of all the electrons. 
 
 Also for this system, we need to specify a basis set to use. For atoms where the electrons do not interact, the wave functions are given by the \textit{Hydrogen-like orbitals}, which in spherical coordinates can be split in a radial part and an angular part,
 \begin{equation}
