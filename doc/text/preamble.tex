@@ -81,7 +81,12 @@
 
 \tikzexternalize[prefix=figures/]
 
-%empheq blue box
+%empheq color box
+\definecolor{background}{rgb}{0.898,0.898,0.898}
+\definecolor{color0}{rgb}{0.203921568627451,0.541176470588235,0.741176470588235}
+\definecolor{color1}{rgb}{0.650980392156863,0.0235294117647059,0.156862745098039}
+\definecolor{color2}{rgb}{0.47843137254902,0.407843137254902,0.650980392156863}
+\definecolor{color3}{rgb}{0.274509803921569,0.470588235294118,0.129411764705882}
 \definecolor{myblue}{rgb}{.8, .8, 1}
 \newlength\mytemplen
 \newsavebox\mytempbox
@@ -151,6 +156,11 @@
 }
 \lstset{postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\color{red}\hookrightarrow\space}}}
 \lstset{commentstyle=\itshape\color{myblue}}
+
+%chapter heading
+\titleformat{\chapter}[display]
+{ \normalsize \huge  \color{black}}
+{\normalsize \color{color0} \MakeUppercase { \chaptertitlename } \hspace{1 ex} { \fontsize{60}{60}\selectfont \color{color0} \sffamily  \thechapter }} {10 pt}{\huge} 
 
 %specific reused text
 \newcommand{\mdate}{\today}

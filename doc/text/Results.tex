@@ -58,8 +58,7 @@ We want our calculations to converge fast and to be stable, and that is what the
 
 \begin{figure}
 	\centering 
-	\subfloat[2D, $\omega=1.0$]{{\input{pgf/convergence2D.tex}}}
-	\subfloat[3D, $\omega=0.5$]{{\input{pgf/convergence3D.tex}}}
+	\subfloat{{\input{pgf/convergence2D.tex}}}
 	\caption{Energy convergence for circular quantum dots where we use the optimization tools gradient descent (GD), stochastic gradient descent with 10 batches (SGD) and the ADAM optimizer. The plot in (a) shows a two-dimensional quantum dot of frequency $\omega=1.0$ containing two interacting electrons with exact energy $E=3.0$. The plot in (b) shows a three-dimensional quantum dot of frequency $\omega=0.5$ containing two interacting electrons with exact energy $E=2.0$. To obtain the graphs, we use VMC detailed in the introductory words of this chapter, the learning rate was set to $\eta=0.5$ and the number of Metropolis steps used for each iteration was $M=2^{24}=16,777,216$. All energies are given in units of $\hbar$ (Hartree units).}
 	\label{fig:convergenceoptimization}
 \end{figure} 
@@ -104,7 +103,7 @@ We will also focus on the electron density throughout this chapter, and comparin
 
 \begin{figure}[h]
 	\centering
-	\subfloat[VMC]{{\includegraphics[width=\textwidth/3]{/home/evenmn/VMC/plots/int0/onebody2/2D/2P/1.000000w/VMC_GD_MC2pow30_notsmooth.png} }}
+	\subfloat[VMC]{{\includegraphics[width=\textwidth/3]{/home/evenmn/VMC/plots/int0/onebody2/2D/2P/1.000000w/VMC_GD_MC2pow30_blue_small.png} }}
 	\subfloat[2D]{{\includegraphics[width=\textwidth/3]{/home/evenmn/VMC/plots/int0/onebody/2D/2P/GD_MC2pow30_w1p0.png}}}\hspace{-0.5cm}
 	\subfloat[3D]{{\includegraphics[width=\textwidth/3]{/home/evenmn/VMC/plots/int0/onebody/3D/2P/GD_MC2pow30_w1p0.png} }}
 	\caption{One-body density for two-dimensional (a) and three-dimensional (b) quantum dots with frequency $\omega=1.0$ containing two non-interacting electrons. Both the methods used were detailed in the introductory words of this chapter and the exact solution was found from the definition of one-body density found in equation \eqref{eq:electron_density}.}
@@ -115,7 +114,7 @@ Also the two-body density is interesting to investigate as it might provides inf
 
 \begin{figure}
 	\centering
-	\subfloat[VMC]{{\includegraphics[width=7cm]{/home/evenmn/VMC/plots/int0/twobody/VMC/2D/2P/1.000000w/VMC_GD_MC2pow28.png} }}
+	\subfloat[VMC]{{\includegraphics[width=7cm]{/home/evenmn/VMC/plots/int0/twobody/VMC/2D/2P/1.000000w/VMC_GD_MC2pow30.png} }}
 	\subfloat[Exact]{{\includegraphics[width=7cm]{/home/evenmn/VMC/plots/int0/twobody/VMC/2D/2P/1.000000w/exact.png}}}
 	\caption{Two-body density for a two-dimensional quantum dot with frequency $\omega=1.0$ containing two non-interacting electrons. We use VMC for the simulation (a) and compare it to the exact solution was found from the definition of two-body density found in equation \eqref{eq:electron_density}. VMC was detailed in the introductory words of this chapter.}%
 	\label{fig:TB_nointeraction}
@@ -275,16 +274,16 @@ We will start with density profiles of the spaces for two-dimensional quantum do
 	\centering
 	\captionsetup[subfigure]{labelformat=empty}
 	\subfloat{\raisebox{2.5cm}{\rotatebox[origin=t]{90}{2P}}}\hspace{0.1cm}
-	\subfloat{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/1.000000w/VMC_ADAM_MC2pow28_smooth.png}}}\hspace{-0.0cm}
-	\subfloat{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/1.000000w/RBM_ADAM_MC2pow28_smooth.png}}}\\
+	\subfloat{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/1.000000w/VMC_ADAM_MC2pow28_smooth_blue.png}}}\hspace{-0.0cm}
+	\subfloat{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/1.000000w/RBM_ADAM_MC2pow28_smooth_blue.png}}}\\
 	
 	\subfloat{\raisebox{2.5cm}{\rotatebox[origin=t]{90}{6P}}}\hspace{0.05cm}
-	\subfloat{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/1.000000w/VMC_ADAM_MC2pow28_smooth.png}}}\hspace{-0.0cm}
-	\subfloat{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/1.000000w/RBM_ADAM_MC2pow28_smooth.png}}}\\
+	\subfloat{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/1.000000w/VMC_ADAM_MC2pow28_smooth_blue.png}}}\hspace{-0.0cm}
+	\subfloat{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/1.000000w/RBM_ADAM_MC2pow28_smooth_blue.png}}}\\
 	
 	\subfloat{\raisebox{2.5cm}{\rotatebox[origin=t]{90}{12P}}}\hspace{0.1cm}
-	\subfloat[VMC]{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/12P/1.000000w/VMC_ADAM_MC2pow28_smooth.png}}}\hspace{-0.0cm}
-	\subfloat[RBM]{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/12P/1.000000w/RBM_ADAM_MC2pow28_smooth.png}}}
+	\subfloat[VMC]{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/12P/1.000000w/VMC_ADAM_MC2pow28_smooth_blue.png}}}\hspace{-0.0cm}
+	\subfloat[RBM]{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/12P/1.000000w/RBM_ADAM_MC2pow28_smooth_blue.png}}}
 	
 	\caption{One-body density plots for two-dimensional circular quantum dots with frequency $\omega=1.0$. The plots present quantum dots containing 2, 6 and 12 electrons, and were all obtained using VMC and RBM, detailed in the introductory words of this chapter. ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. The plots are noise-reduced using a Savitzky-Golay filter.}
 	\label{fig:OB_interaction_1p0w1}
@@ -293,16 +292,16 @@ We will start with density profiles of the spaces for two-dimensional quantum do
 	\centering
 	\captionsetup[subfigure]{labelformat=empty}
 	\subfloat{\raisebox{2.5cm}{\rotatebox[origin=t]{90}{20P}}}\hspace{0.1cm}
-	\subfloat{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/20P/1.000000w/VMC_ADAM_MC2pow28_smooth.png}}}\hspace{-0.0cm}
-	\subfloat{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/20P/1.000000w/RBM_ADAM_MC2pow28_smooth.png}}}\\
+	\subfloat{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/20P/1.000000w/VMC_ADAM_MC2pow28_smooth_blue.png}}}\hspace{-0.0cm}
+	\subfloat{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/20P/1.000000w/RBM_ADAM_MC2pow28_smooth_blue.png}}}\\
 	
 	\subfloat{\raisebox{2.5cm}{\rotatebox[origin=t]{90}{30P}}}\hspace{0.1cm}
-	\subfloat{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/30P/1.000000w/VMC_ADAM_MC2pow28_smooth.png}}}\hspace{-0.0cm}
-	\subfloat{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/30P/1.000000w/RBM_ADAM_MC2pow28_smooth.png}}}\\
+	\subfloat{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/30P/1.000000w/VMC_ADAM_MC2pow28_smooth_blue.png}}}\hspace{-0.0cm}
+	\subfloat{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/30P/1.000000w/RBM_ADAM_MC2pow28_smooth_blue.png}}}\\
 	
 	\subfloat{\raisebox{2.5cm}{\rotatebox[origin=t]{90}{42P}}}\hspace{0.1cm}
-	\subfloat[VMC]{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/42P/1.000000w/VMC_ADAM_MC2pow28_smooth.png}}}\hspace{-0.0cm}
-	\subfloat[RBM]{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/42P/1.000000w/RBM_ADAM_MC2pow28_smooth.png}}}
+	\subfloat[VMC]{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/42P/1.000000w/VMC_ADAM_MC2pow28_smooth_blue.png}}}\hspace{-0.0cm}
+	\subfloat[RBM]{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/42P/1.000000w/RBM_ADAM_MC2pow28_smooth_blue.png}}}
 	
 	\caption{One-body density plots for two-dimensional circular quantum dots with frequency $\omega=1.0$. The plots present quantum dots containing 20, 30 and 42 electrons, and were all obtained using VMC and RBM, detailed in the introductory words of this chapter. ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. The plots are noise-reduced using a Savitzky-Golay filter.}
 	\label{fig:OB_interaction_1p0w2}
@@ -314,17 +313,17 @@ In figure \eqref{fig:OB_interaction_23D}, we stick to frequency $\omega=1.0$ for
 	\centering
 	\captionsetup[subfigure]{labelformat=empty}
 	\subfloat{\raisebox{1.5cm}{\rotatebox[origin=t]{90}{1S}}}\hspace{0.1cm}
-	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/1.000000w/VMC_ADAM_MC2pow28_smooth.png}}}\hspace{-0.5cm}
+	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/1.000000w/VMC_ADAM_MC2pow28_smooth_blue_small.png}}}\hspace{-0.0cm}
 	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody/2D/2P/1.000000w/ADAM_MC2pow28.png}}}\hspace{-0.5cm}
-	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody/3D/2P/1.000000w/ADAM_MC2pow28.png}}}\\ [-0.5cm]
+	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody/3D/2P/1.000000w/ADAM_MC2pow28.png}}}\\ [-0.2cm]
 	
 	\subfloat{\raisebox{1.5cm}{\rotatebox[origin=t]{90}{2S}}}\hspace{0.1cm}
-	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/1.000000w/VMC_ADAM_MC2pow28_smooth.png}}}\hspace{-0.5cm}
+	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/1.000000w/VMC_ADAM_MC2pow28_smooth_blue_small.png}}}\hspace{-0.0cm}
 	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody/2D/6P/1.000000w/ADAM_MC2pow28.png}}}\hspace{-0.5cm}
-	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody/3D/8P/1.000000w/ADAM_MC2pow28.png}}}\\ [-0.5cm]
+	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody/3D/8P/1.000000w/ADAM_MC2pow28.png}}}\\ [-0.2cm]
 	
 	\subfloat{\raisebox{1.5cm}{\rotatebox[origin=t]{90}{3S}}}\hspace{0.1cm}
-	\subfloat[VMC, 2D]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/12P/1.000000w/VMC_ADAM_MC2pow28_smooth.png}}}\hspace{-0.5cm}
+	\subfloat[VMC, 2D]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/12P/1.000000w/VMC_ADAM_MC2pow28_smooth_blue_small.png}}}\hspace{-0.0cm}
 	\subfloat[2D]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody/2D/12P/1.000000w/ADAM_MC2pow28.png}}}\hspace{-0.5cm}
 	\subfloat[3D]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody/3D/20P/1.000000w/ADAM_MC2pow28.png}}}
 	
@@ -499,13 +498,13 @@ As we pointed out in section \ref{sec:wigner}, and as shown in the previous sect
 	\centering
 	\captionsetup[subfigure]{labelformat=empty}
 	\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{2P}}}\hspace{0.1cm}
-	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/0.010000w/VMC_ADAM_MC2pow28_smooth.png}}}\hspace{-0.5cm}
-	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/0.010000w/RBMPJ_ADAM_MC2pow28_smooth.png}}}\hspace{-0.5cm}
+	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/0.010000w/VMC_ADAM_MC2pow28_smooth_blue_small.png}}}\hspace{-0.5cm}
+	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/0.010000w/RBMPJ_ADAM_MC2pow28_smooth_blue_small.png}}}\hspace{-0.5cm}
 	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody/2D/2P/0.010000w/ADAM_MC2pow28.png}}}\\ [-0.5cm]
 	
 	\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{6P}}}\hspace{0.1cm}
-	\subfloat[VMC]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/0.010000w/VMC_ADAM_MC2pow28_smooth.png}}}\hspace{-0.5cm}
-	\subfloat[RBM+PJ]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/0.010000w/RBMPJ_ADAM_MC2pow28_smooth.png}}}\hspace{-0.5cm}
+	\subfloat[VMC]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/0.010000w/VMC_ADAM_MC2pow28_smooth_blue_small.png}}}\hspace{-0.5cm}
+	\subfloat[RBM+PJ]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/0.010000w/RBMPJ_ADAM_MC2pow28_smooth_blue_small.png}}}\hspace{-0.5cm}
 	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody/2D/6P/0.010000w/ADAM_MC2pow28.png}}}
 	
 	\caption{One-body density of two-dimensional circular quantum dots of frequency $\omega=0.01$. VMC and RBM+PJ were detailed in the introductory words to this chapter. The surface plots are noise-reduced using a Savitzky-Golay filter.}
@@ -634,13 +633,14 @@ for atoms and molecules. Our obtained energy distribution agrees with it, and we
 \begin{table}
 	\caption{Energy of neutral atoms of atomic number $Z$. The expected energies were produced by VMC, detailed in the introductory words of this chapter. $a$ is reference to \cite{bergeson_measurement_1998}, $b$ is to \cite{kramida_compilation_1997} and $c$ is to \cite{hogberget_quantum_2013}. The energy is in atomic units.}
 	\label{tab:atomswinteraction}
-	\begin{tabularx}{\textwidth}{lrrR{2cm}R{2cm}R{2cm}R{2cm}R{2cm}} \hline\hline
-		Atom & $Z$ & \makecell{\\ \phantom{=}} & \multicolumn{1}{c}{$\langle\hat{H}\rangle$} & \multicolumn{1}{c}{$\langle\hat{T}\rangle$} & \multicolumn{1}{c}{$\langle\hat{V}_{\text{ext}}\rangle$} & \multicolumn{1}{c}{$\langle\hat{V}_{\text{int}}\rangle$} & 
-		\multicolumn{1}{c}{Expt.} \\ \hline \\
+	\begin{tabularx}{\textwidth}{lrrR{2cm}R{1.9cm}:R{1.8cm}R{1.8cm}R{1.8cm}R{1.8cm}} \hline\hline
+		Atom & $Z$ & \makecell{\\ \phantom{=}} & 
+		\multicolumn{1}{c}{Expt.} & \multicolumn{1}{c}{$\langle\hat{H}\rangle$} & \multicolumn{1}{c}{$\langle\hat{T}\rangle$} & \multicolumn{1}{c}{$\langle\hat{V}_{\text{ext}}\rangle$} & \multicolumn{1}{c}{$\langle\hat{V}_{\text{int}}\rangle$} & \multicolumn{1}{c}{$\langle\hat{T}\rangle/\langle\hat{V}\rangle $} \\ \hline \\
 		
-		He & 2 && -2.8535(1) & 3.268(1) & -7.228(2) & 1.1065(3) & $-2.903694^a$ \\
-		Be & 4 && -14.4992(5) & 15.465(6) & -34.987(7) & 5.023(1) & $-14.6674^b$ \\
-		Ne & 10 && - & - & - & - & $-128.9383^c$ \\ \hline\hline
+		He & 2 && $-2.903694^a$ & -2.8719(3) & 2.813(3) & -6.696(4) & 1.010(7) & -0.495 \\
+		Be & 4 && $-14.6674^b$ & -14.4992(5) & 15.465(6) & -34.987(7) & 5.023(1) & -0.516 \\
+		Ne & 10 && $-128.9383^c$ & -128.09(1) & 133.4(2) & -318.4(2) & 56.94(5) & -0.510 \\ 
+		Mg & 12 && $-200.054^c$ & -196.81(4) & 251.9(2) & -557.0(2) & 108.23(6) \\ \hline\hline
 	\end{tabularx}
 \end{table}
 
@@ -648,8 +648,10 @@ Further, we look at the one-body densities, which are done in figure \ref{fig:at
 \begin{figure}
 	\centering
 	\captionsetup[subfigure]{labelformat=empty}
-	\subfloat[He]{\includegraphics[width=\textwidth/2]{/home/evenmn/VMC/plots/int1/atoms/He/ADAM_MC2pow28.png}}
-	\subfloat[Be]{\includegraphics[width=\textwidth/2]{/home/evenmn/VMC/plots/int1/atoms/Be/ADAM_MC2pow28.png}}
+	\subfloat[Helium]{\includegraphics[width=\textwidth/2]{/home/evenmn/VMC/plots/int1/atoms/He/ADAM_MC2pow28.png}}
+	\subfloat[Beryllium]{\includegraphics[width=\textwidth/2]{/home/evenmn/VMC/plots/int1/atoms/Be/ADAM_MC2pow28.png}}\\
+	\subfloat[Neon]{\includegraphics[width=\textwidth/2]{/home/evenmn/VMC/plots/int1/atoms/Ne/ADAM_MC2pow28.png}}
+	\subfloat[Magnesium]{\includegraphics[width=\textwidth/2]{/home/evenmn/VMC/plots/int1/atoms/Mg/ADAM_MC2pow28.png}}
 	\label{fig:atomsonebody}
-	\caption{Radial one-body density plots obtained for the Helium atom (left-hand side) and the Beryllium atom (right-hand side). VMC was used, which is detailed in the introductory words to this chapter. The number of Monte Carlo cycles used was $M=2^{28}=268,435,456$.}
+	\caption{Radial one-body density plots obtained for the Helium atom (upper left), the Beryllium atom (upper right), the Neon atom (lower left) and the Magnesium atom (lower right). VMC was used, which is detailed in the introductory words to this chapter. The number of Monte Carlo cycles used was $M=2^{28}=268,435,456$.}
 \end{figure}

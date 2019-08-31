@@ -1,21 +1,22 @@
 % This file was created by matplotlib2tikz v0.7.4.
 \begin{tikzpicture}
 
-\definecolor{color0}{rgb}{0.75,0.75,0}
-\definecolor{color1}{rgb}{0,0.75,0.75}
-
 \begin{axis}[
+%axis background/.style={fill=white!89.80392156862746!black},
+axis line style={black},
 tick align=outside,
 tick pos=left,
-x grid style={white!69.01960784313725!black},
-xlabel={$r/a_0$},
+tick align=outside,
+tick pos=left,
+x grid style={black},
+xlabel={$r$},
 xmajorgrids,
 xmin=-4.5, xmax=4.5,
 xtick={-4, -2, 0, 2, 4},
 xticklabels={4, 2, 0, 2, 4},
 ytick={0.5, 1.5, 2.5, 3.5},
 xtick style={color=black},
-y grid style={white!69.01960784313725!black},
+y grid style={black},
 ylabel={$E/\hbar$},
 ymajorgrids,
 ymin=-0.2, ymax=5,
@@ -1024,7 +1025,7 @@ table {%
 3.99199199199199 0.5
 4 0.5
 };
-\addplot [semithick, red]
+\addplot [semithick, color0]
 table {%
 -4 0.500134185051161
 -3.99199199199199 0.500138548409832
@@ -3030,7 +3031,7 @@ table {%
 3.99199199199199 1.5
 4 1.5
 };
-\addplot [semithick, green!50.0!black]
+\addplot [semithick, color1]
 table {%
 -4 1.49892651959071
 -3.99199199199199 1.4988938317149
@@ -5036,7 +5037,7 @@ table {%
 3.99199199199199 2.5
 4 2.5
 };
-\addplot [semithick, color0]
+\addplot [semithick, color2]
 table {%
 -4 2.50415973658599
 -3.99199199199199 2.50427726652609
@@ -7042,7 +7043,7 @@ table {%
 3.99199199199199 3.5
 4 3.5
 };
-\addplot [semithick, color1]
+\addplot [semithick, color3]
 table {%
 -4 3.48754762725226
 -3.99199199199199 3.48722508365227
@@ -8045,7 +8046,7 @@ table {%
 3.99199199199199 3.51277491634773
 4 3.51245237274774
 };
-\addplot [thick, blue]
+\addplot [thick, black]
 table {%
 -4 16
 -3.99199199199199 15.9360000641282
@@ -9045,7 +9046,7 @@ table {%
 3.96796796796797 15.7447697948198
 3.97597597597598 15.8083849615381
 3.98398398398398 15.8721283846409
-3.99199199199199 15.9360000641282
+3.99199199199199 15.936000064128
 4 16
 };
 \node at (axis cs:-4,0.6)[
