@@ -3,8 +3,9 @@
 
 \begin{axis}[name=2D, xlabel=Number of particles, ylabel={CPU-time [s]}, grid=major, 
 legend cell align={left},
-legend style={at={(1.68,1.05)}, anchor=south east, draw=white!80.0!black},
+legend style={at={(1.68,1.10)}, anchor=south east, draw=white!80.0!black},
 legend columns = 6, 
+clip=false,
 xtick=data] 
 \addplot[color=color0,mark=oplus*, dashed] coordinates { 
 	(2,6.05)
@@ -49,9 +50,16 @@ xtick=data]
 	(72,355.81)
 	(90,544.03) }; 
 \addlegendentry{VMC};
+
+\node[] at (axis cs: 44,978) {2D};
 \end{axis}
 
-\begin{axis}[name=2D, xshift=7.9cm, xlabel=Number of particles, grid=major, xtick=data] 
+\begin{axis}[name=2D, 
+xshift=7.9cm, 
+xlabel=Number of particles, 
+grid=major, 
+clip=false,
+xtick=data] 
 \addplot[color=color0,mark=oplus*, dashed] coordinates { 
 	(2,7.69)
 	(8,20.92)
@@ -81,5 +89,7 @@ xtick=data]
 	(40,185.65) 
 	(70,486.02) };
 %\addlegendentry{VMC};
+
+\node[] at (axis cs: 35,670) {3D};
 \end{axis}
 \end{tikzpicture}
