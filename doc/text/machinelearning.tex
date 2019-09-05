@@ -2,8 +2,8 @@
 \epigraph{People worry that computers will get too smart and take over the world, but the real problem is that they're too stupid and they've already taken over the world.}{Pedro Domingos, \cite{domingos_master_2015}}
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.25]{Images/brain.png}
-	\caption{Artificial neural networks are inspired by neural networks in the brain.\\ © Copyright trzcacak.rs.}
+	\copyrightbox[l]{\includegraphics[scale=0.25]{Images/brain.png}}{© Copyright trzcacak.rs}
+	\caption{Artificial neural networks are inspired by neural networks in the brain.}
 \end{figure}
 
 The use of the term \textit{machine learning} has exploded over the past years, and sometimes it sounds like it is a totally new field. However, the truth is that many of the methods are relatively old, where for instance \textit{linear regression} was known early in the 19th century \cite{legendre_nouvelles_1805, gauss_theoria_1809}. Those methods have just recently been taken under the machine learning umbrella, which is one of the reasons why the term is used more frequently than before. Another important contributor to the booming popularity is the dramatically improvement of a majority of the machine learning algorithms. Some important milestones were discussed in the introduction. 
@@ -447,10 +447,6 @@ Exactly the same idea lies behind the momentum used in optimization algorithms; 
 \end{empheq}
 where $\gamma$ is the momentum parameter, which is just another hyper-parameter usually initialized to a small number. $\bs{m}_t$ is the momentum vector, and can be initialized as the zero vector.
 
-The optimization algorithm can be modified further in unlimited ways. A common improvement is to add higher order momentum, another is to make the learning rate adaptive. We have implemented the most basic version of this, with monotonic adaptivity. Many algorithms, such as the conjugate gradient method, also make use of the Hessian as discussed in the introduction, but that is another level of complexity. 
-
-We will end this section with setting up the algorithm of a stochastic gradient descent optimization with momentum and monotonic adaptivity. The algorithm is found in algorithm \eqref{alg:asgd}.
-
 \IncMargin{1em}
 \begin{algorithm}
 	\SetAlgoLined
@@ -472,6 +468,10 @@ We will end this section with setting up the algorithm of a stochastic gradient 
 	\caption{Adaptive stochastic gradient descent with momentum. See sections (\ref{sec:sgd}-\ref{sec:momentum}) for details. Robust default settings for the hyper-parameters are $\eta=0.001$, $\gamma=0.01$ and $\lambda=0.1$. All the operations are element-wise.}
 	\label{alg:asgd}
 \end{algorithm}\DecMargin{1em}
+
+The optimization algorithm can be modified further in unlimited ways. A common improvement is to add higher order momentum, another is to make the learning rate adaptive. We have implemented the most basic version of this, with monotonic adaptivity. Many algorithms, such as the conjugate gradient method, also make use of the Hessian as discussed in the introduction, but that is another level of complexity. 
+
+We will end this section with setting up the algorithm of a stochastic gradient descent optimization with momentum and monotonic adaptivity. The algorithm is found in algorithm \eqref{alg:asgd}.
 
 \subsection{ADAM} \label{sec:adam}
 ADAM is a first-order stochastic optimization method which is widely used in machine learning. It was discovered by D.P. Kingma and J. Ba, and published in a 2014 paper. The article has already more than 25000 citations \cite{kingma_adam:_2014}! So what makes this method so popular? 
