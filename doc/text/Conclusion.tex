@@ -1,5 +1,11 @@
 \chapter{Conclusion and future work} \label{sec:conclusion}
-The idea behind the simple Jastrow factor, was that it is not optimized with respect to the interactions and thus represents an attempt of reducing the physical intuition used. It turned out that the simple Jastrow did not work very well compare to the Padé-Jastrow factor and when it more expensive as well, there is actually no point of using the simple Jastrow factor. 
+We have seen that the plain RBM is able to produce reasonable ground state energy estimates, and when we add more intuition in the form of Jastrow factors of different complexities the energy drop further towards the DMC energy. When adding a Padé-Jastrow factor to the RBM, we obtain a ground state energy and a statistical error that is lower than the VMC energy for the smallest dots, which indicates that the method is able to provide a more correct wave function than standard VMC. However, for larger quantum dots the RBM+PJ gives a slightly higher energy than the VMC, but we suspect this is a consequence of very many variational parameters as we consequently set the number of hidden nodes equal to the number of electrons in the dot. We did this because we found this number of hidden nodes to give the best results for small quantum dots \cite{nordhagen_computational_2018}, but it could be different for larger dots. Carleo and Troyer operates with a hidden variable density $\alpha=H/N$ which they set to an integer number and thus end up with more variational parameters than we do \cite{carleo_solving_2017}. A conclusion is that the number of hidden nodes might not be optimal, and thus some more investigation is needed. We also saw that all the methods more or less gave the same ratio between kinetic and potential energy for all system sizes and all frequencies, which is surprising as the total energies differ.
+
+We also had a thorough discussion of the electron density provided by the various methods, which revealed some significant differences between the methods that cannot be seen just from the ground state energy. This announces that energy estimates is not necessary the best way to compare a RBM to standard VMC, other observable are potentially more crucial. RBM+SJ is a good example on this, as it provided energy estimates similar to the VMC, but the two-body density plots exploited that the correlations were fairly weaker. We believe that the Padé-Jastrow factor is more correct than the simple Jastrow factor as it provides a lower energy and in constructed to model the electron-electron cusp correctly. As the simple Jastrow factor is more or less as computationally expensive as the Padé-Jastrow factor, we see no reason to choose RBM+SJ in front of RBM+PJ. 
+
+The idea behind the simple Jastrow factor, was that it is not optimized with respect to the interactions and thus represents an attempt of reducing the physical intuition used. It turned out that the simple Jastrow did not work very well compare to the Padé-Jastrow factor and when it more expensive as well, there is actually no point of using the simple Jastrow factor.
+
+If we go back to the goals presented in the introduction, we can see that most of them are met. However, we did not have time or manage to study atoms using Boltzmann machines as it is not obvious to me how to do that. 
 
 See if machine learning is able to describe the three-body interaction, with nuclear physics applications. 
 
@@ -8,7 +14,5 @@ Run linear algebra operations on GPU, we only tried CPU.
 In-medium
 
 Multi-quantum dot to compare to experiments
-
-If we go back to the goals presented in the introduction, we can see that most of them are met. However, we did not have time or manage to study atoms using Boltzmann machines as it is not obvious to me how to do that. 
 
 Better to look at densities to reveal differences. 

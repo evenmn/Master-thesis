@@ -184,11 +184,13 @@ The virial theorem relates the kinetic energy to the potential energy, and makes
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \langle\hat{T}\rangle=-\frac{1}{2}\sum_{i=1}^N\langle\bs{F}_i\cdot\bs{r}_i\rangle
 \end{empheq}
-where $\bs{F}_i$ represents the force on particle $i$ at position $\bs{r}_i$. If we further assume that all the sources of potential are in the form of $V_i=ar^{n_i}$, we can use the relation $\bs{F}_i=-\nabla V_i$ to express the virial theorem in a simpler fashion
+where $\bs{F}_i$ represents the force on particle $i$ at position $\bs{r}_i$. The quantum mechanical version was proven by Vladimir Fock in a 1930 paper \cite{fock_bemerkung_1930}, where the force is represented with $d\langle p\rangle/dt$. For potential sources in the form of $V_i=ar^{n_i}$, we can use Ehrenfest's theorem to express the virial theorem in a simpler fashion,
 \begin{equation}
-2\langle \hat{T} \rangle = \sum_{i}n_i\langle \hat{V}_{i} \rangle,
+2\langle \hat{T} \rangle = \sum_{i}n_i\langle \hat{V}_{i} \rangle.
 \end{equation}
-which by Vladimir Fock was proven to be true for quantum mechanics in a 1930 paper \cite{fock_bemerkung_1930}. The assumption raised above holds for our situation as the interaction energy goes as $r^{-1}$. We will also later see that the potential used in quantum dots goes as $r^2$ and the potential used in atoms goes as $r^{-1}$ as well.
+The same expression can be found in classical physics as well using the relation $\bs{F}=-\nabla V$.
+
+The assumption raised above holds for our situation as the interaction energy goes as $r^{-1}$. We will also later see that the potential used in quantum dots goes as $r^2$ and the potential used in atoms goes as $r^{-1}$ as well.
 
 The expectation value is in principle the time average of the operator. However, if the ergodic hypothesis holds for the system, i.e., the ensemble average is equal to the time average \cite{flyvbjerg_error_1989}, an ensemble average can also be taken.
 
