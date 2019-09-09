@@ -160,7 +160,7 @@ Lastly, we will look at atoms with non-interacting electrons in order to validat
 \section{Quantum dots}
 We now move on to the more interesting case with repulsive interaction, where we no longer have analytical results, apart from a few semi-analytical energies and wave functions  for the two- and three-dimensional single quantum dots. We will for this system calculate the ground state energy, the one-body density and the two-body density. 
 
-The simulations are dependent on an array of parameters and factors, and in order to achieve good results these parameters need to be reasonable. Firstly, the simulations are very sensitive about the learning rate, which need to be small to avoid the quantum force to explode, but still large enough for the system to converge in an acceptable number of iterations. Appropriate learning rates were found to be between $\eta=0.5$ and 0.00001 dependent on the system, where large systems and/or systems with low frequency needed the smallest learning rates. To get low statistical error, we always try to keep the acceptance ratio higher than 0.99. This is controlled by the step length, which again is very dependent on the frequency of the oscillator where high frequency dots are more narrow, and therefore need a lower step length. Also the initial particle configurations and initial parameters are crucial to make the simulations converge rapidly. Lastly, the statistical error naturally also depends on the number of Monte Carlo cycles, where a high number of cycles is preferred. We have applied an adaptive step number, which means that the number cycles per iteration is increased for the last iterations. Firstly, this makes the final energy more accurate due to better statistics. Secondly, we get less noisy electron density plots by using this technique. All results below are produced using $2^{20}=1,048,576$ number of steps per iteration until the energy has converged. Then we run 10 more iterations with the number of steps increased to $2^{24}=16,777,216$ and for the very last iteration we run $2^{28}=268,435,456$ steps. This technique also provides smooth electron density plots.
+The simulations are dependent on an array of parameters and factors, and in order to achieve good results these parameters need to be reasonable. Firstly, the simulations are very sensitive about the learning rate, which need to be small to avoid the quantum force to explode, but still large enough for the system to converge in an acceptable number of iterations. Appropriate learning rates were found to be between $\eta=0.5$ and 0.00001 dependent on the system, where large systems and/or systems with low frequency needed the smallest learning rates. To get good statistics, we always try to keep the acceptance ratio around 0.99. This is controlled by the step length, which again is very dependent on the frequency of the oscillator where high frequency dots are more narrow, and therefore need a lower step length. Also the initial particle configurations and initial parameters are crucial to make the simulations converge rapidly. Lastly, the statistical error naturally also depends on the number of Monte Carlo cycles, where a high number of cycles is preferred. We have applied an adaptive step number, which means that the number cycles per iteration is increased for the last iterations. Firstly, this makes the final energy more accurate due to better statistics. Secondly, we get less noisy electron density plots by using this technique. All results below are produced using $2^{20}=1,048,576$ number of steps per iteration until the energy has converged. Then we run 10 more iterations with the number of steps increased to $2^{24}=16,777,216$ and for the very last iteration we run $2^{28}=268,435,456$ steps. This technique also provides smooth electron density plots.
 
 Initially, we look at two-dimensional quantum dots with up to $N=56$ electrons and three-dimensional quantum dots with up to $N=40$ electrons and frequencies spanning from  $\omega=0.1$ to $\omega=1.0$. For those systems, we will compute the ground state energy, the one-body density and the two-body density. After that, we move on to some special cases where the dots have low frequency ($\omega=0.01$) and large dots ($N>$56) to test how far we can go. For those systems, we will typically focus on either the ground-state energy or the one-body density dependent on what we want to investigate. For instance, we will focus on the one-body density for low frequency dots because of the search for Wigner crystals. We also have a thorough discussion of how the energy is distributed between kinetic and potential energy, and compare this to the virial theorem.
 
@@ -203,20 +203,20 @@ For other references, we need to rely on what researchers have found before us. 
 				& 0.5 & 96.491(4) & 94.920(4) & 94.104(1) & 95.7328 & 94.0433(9) & 93.8752(1) \\
 				& 1.0 & 159.645(5) & 156.816(4) & 156.104(1) & 158.004 & 155.8900(4) & 155.8822(1) & \phantom{=} \\ \hdashline \\
 				
-				30 & 0.1 & 61.829(5) & 61.351(4) & 60.774(2) & & 60.585(1) & 60.4205(2) \\ 
+				30 & 0.1 & 61.829(5) & 61.198(2) & 60.774(2) & & 60.585(1) & 60.4205(2) \\ 
 				& 0.28 & 126.958(6) & 126.067(5) & 124.437(2) & & 124.195(2) & 123.9683(2) \\
 				& 0.5 & 191.495(7) & 188.995(5) & 187.488(2) & & 187.325(3) & 187.0426(2) \\
-				& 1.0 & 315.364(8) & 311.468(7) & 308.989(2) & & 308.576(1) & 308.5627(2) \\ \hdashline \\
+				& 1.0 & 315.364(8) & 309.997(6) & 308.989(2) & & 308.576(1) & 308.5627(2) \\ \hdashline \\
 				
 				42 & 0.1 & 109.892(6) & 109.48(2) & 108.753(6) & &  107.928(2) & 107.6389(2) \\ 
 				& 0.28 & 224.462(8) & 224.184(9) & 222.200(5) & & 220.224(2) & 219.8426(2) \\
 				& 0.5 & 337.523(8) & 333.582(9) & 331.410(3) & & 331.276(3) & 330.6306(2) \\
-				& 1.0 & 553.40(1) & 547.55(2) & 543.746(3) & & 542.977(2) & 542.9428(8) \\ \hdashline \\
+				& 1.0 & 553.40(1) & 545.817(9) & 543.746(3) & & 542.977(2) & 542.9428(8) \\ \hdashline \\
 				
 				56 & 0.1 & - & 179.59(1) & - & & 176.774(3) & 175.9553(7) \\ 
 				& 0.28 & 364.85(1) & 364.165(9) & 359.83(2) & & 359.63(1) & 358.145(2) \\
 				& 0.5 & 547.46(1) & 545.74(1) & 538.810(7) & & 538.686(9) & 537.353(2) \\
-				& 1.0 & 894.12(2) & 885.32(3) & 881.010(5) & & 879.514(3) & 879.3986(6) \\ \hline\hline
+				& 1.0 & 894.12(2) & 882.93(1) & 881.010(5) & & 879.514(3) & 879.3986(6) \\ \hline\hline
 			\end{tabularx}
 		\end{table}
 		
@@ -262,7 +262,7 @@ We also see that all the methods are able to obtain energies closer to the refer
 
 Efforts was made to reproduce the results using a partly restricted Boltzmann machine and a deep belief network, but due to convergence problems and fluctuations, the methods were not investigated further. 
 
-\subsection{One-body density}
+\subsection{One-body density} \label{sec:onebodyresults}
 Another quantity of particular interest is the one-body density. For all the systems presented in tables \eqref{tab:quantumdotswinteraction2D1} and \eqref{tab:quantumdotswinteraction3D1} we have also calculated the one-body density. However, since those plots would occupy tens of pages, we will not present all of them here. Instead, we select a few illustrative plots that might be interesting for the reader and give a representative picture of the density. The total collection of one-body density plots can be found in section \ref{sec:onebody} in appendix \ref{chp:totalresults}. 
 
 \begin{figure}
@@ -332,7 +332,7 @@ In figure \eqref{fig:OB_interaction_23D}, we stick to frequency $\omega=1.0$ for
 \end{figure}
 }
 
-We now move on to larger dots, containing $N=20$ and $N=42$ electrons with frequencies $\omega=0.1$ and $\omega=0.5$ in addition to the above-studied frequency $\omega=1.0$ to see if we can observe something interesting. In figure \eqref{fig:OB_interaction} we plot the radial density profile to again compare all the methods. What we see, is that the ripples discussed above are conserved for lower frequencies, and they possibly become more significant as the frequency drops. Also the density distribution gets broader as the frequency drops, since the force pushing the electrons towards the center of the dot gets weaker. Moreover, all the methods VMC, RBM+PJ and RBM+SJ appear to give quite similar density plots, but for lower frequencies the difference gets more and more visible. In particular, the peaks for frequency $\omega=0.1$ do no longer match for the various methods. Especially RBM and RBM+SJ differ from VMC and RBM+PJ, which is again a clear indication that the final result really depends on way the methods account for the correlations. RBM+SJ tends to slightly over-exaggerate the oscillations in the density plots, and RBM takes the over-exaggerations to the next level. This trend was also observed in the plots in figures (\ref{fig:OB_interaction_1p0w1}, \ref{fig:OB_interaction_1p0w2}, \ref{fig:OB_interaction_23D}), and physically, this means that the method is capable of finding the most likely places to find the electrons, but fails to determine the actual density there.
+We now move on to larger dots, containing $N=20$ and $N=42$ electrons with frequencies $\omega=0.1$ and $\omega=0.5$ in addition to the above-studied frequency $\omega=1.0$ to see if we can observe something interesting. In figure \eqref{fig:OB_interaction} we plot the radial density profile to again compare all the methods. What we see, is that the ripples discussed above are conserved for lower frequencies, and they possibly become more significant as the frequency drops. Also the density distribution gets broader as the frequency drops, since the force pushing the electrons towards the center of the dot gets weaker. Moreover, all the methods VMC, RBM+PJ and RBM+SJ appear to give quite similar density plots, but for lower frequencies the difference gets more and more visible. In particular, the peaks for frequency $\omega=0.1$ do no longer match for the various methods. Especially RBM and RBM+SJ differ from VMC and RBM+PJ, which is again a clear indication that the final result really depends on way the methods account for the correlations. RBM+SJ tends to slightly over-exaggerate the oscillations in the density plots, and RBM takes the over-exaggerations to the next level. This trend was also observed in the plots in figures (\ref{fig:OB_interaction_1p0w1}, \ref{fig:OB_interaction_1p0w2}, \ref{fig:OB_interaction_23D}), and physically, this means that the method is capable of finding the most likely places to find the electrons, but fails to determine the actual density there. We have also seen that the one-body density is shape-invariant for the frequencies $\omega=0.28$, 0.5 and 1.0 except for their radial extent. For that reason, 
 
 \begin{figure}
 	\centering
@@ -423,19 +423,21 @@ electrons at the same radius is not the most likely case anymore. This is becaus
 \end{figure}
 \fi
 
-\subsection{Energy distribution}
-It is also interesting to investigate how the energy is distributed between kinetic energy, external energy and interaction energy for the different methods and various oscillator frequencies. This makes us able to check if the results agree with the virial theorem presented in section \ref{sec:virial}, and it is also interesting to see if the different methods give different energy distributions. In figure \eqref{fig:energydistribution}, the ratio between the kinetic and potential energy is plotted as a function of oscillator frequency for two-dimensional quantum dots of various sizes. The numbers are taken from the tables (\ref{tab:splitfrequencyQDVMC}-\ref{tab:splitfrequencyQDRBMPJ}) in appendix \ref{chp:totalresults}. 
+\subsection{Energy distribution} \label{sec:energydistributions}
+If we now recall the general Hamiltonian presented in chapter \ref{chp:manybody}, the total energy is just the sum of the kinetic, potential and interaction energy. As our methods attempt to solve the Schrödinger equation directly, it is trivial to find the distribution between the various energy sources, which in general is interesting when we want to find the most important contributor to the energy. Additionally, we can use those results to verify the virial theorem presented in section \ref{sec:virial}, and it is also interesting to see if the different methods give different energy distributions. In figure \eqref{fig:energydistribution} we plot the ratio between the kinetic and potential energy as a function of oscillator frequency for two-dimensional quantum dots with up to 20 particles. The plots are based on the numbers in the tables (\ref{tab:splitfrequencyQDVMC}-\ref{tab:splitfrequencyQDRBMPJ}) in appendix \ref{chp:totalresults}. 
 
 \input{pgf/energy_distribution.tex}
 
-Firstly, the graphs are very similar for the various methods, which means that they all provide the same distribution between kinetic and potential energy, although they do not provide the same energy. This is an exciting observation, and means that the obtained kinetic and potential energy are both different for the various methods when the total energy is different. Physically, this indicates that the electron configurations are fundamentally different for the different methods, which is the only factor that can cause a change in potential energy. We see a significant trend where the ratio drops as the frequency drops, implying that the potential energy dominates the kinetic energy at low frequencies, which is a known phenomenon already mentioned several times throughout this thesis. For all the methods the ratio is also lower for larger dots, which is a results of gradually more interaction energy as the number of particles increases.
+Firstly, the graphs are very similar for the various methods, which means that they all give the same distribution between kinetic and potential energy, although they do not provide the same energy. This is an exciting observation, and means that the obtained kinetic and potential energy are both different for the various methods when the total energy is different. Physically, this indicates that the electron configurations are fundamentally different for the different methods, which is the only factor that can cause a change in potential energy. We see a significant trend where the ratio drops as the frequency drops, implying that the potential energy dominates the kinetic energy at low frequencies, which is a known phenomenon already mentioned several times throughout this thesis. For all the methods the ratio is also lower for larger dots, which is a results of gradually more interaction energy as the number of particles increases.
 
-If we now recall the virial theorem in section \ref{sec:virial}, it states that the kinetic energy is related to the potential energies in a certain way. For the interacting quantum dots, the virial theorem reads
+If we now recall the virial theorem presented in section \ref{sec:virial}, it states that the kinetic energy is related to the potential energies in a certain way. For the interacting quantum dots, the virial theorem reads
 \begin{equation}
 2\langle \hat{T} \rangle=2\langle \hat{V}_{\text{ext}} \rangle-\langle \hat{V}_{\text{int}} \rangle
 \end{equation}
+which can be verified from the 
+
 which in principle can be verified from figure \eqref{fig:energydistribution}. However, 
-to do this accurately we better list up the exact energies, which for a two-dimensional quantum dot with 20 electrons is given in table \eqref{tab:splitfrequencyQD20P} for some selected frequencies. \textcolor{red}{By doing the math, we see that the virial theorem is satisfied for high frequencies, but as the frequency decreases the theorem gets more and more off. This is the case for all the methods, and is also observed for other system sizes.}
+to do this accurately we will list up the energy distributions for some selected systems.  which for a two-dimensional quantum dot with 20 electrons is given in table \eqref{tab:splitfrequencyQD20P} for some selected frequencies. \textcolor{red}{By doing the math, we see that the virial theorem is satisfied for high frequencies, but as the frequency decreases the theorem gets more and more off. This is the case for all the methods, and is also observed for other system sizes.}
 
 For high frequencies the trap becomes narrow which results in a stronger external force pushing the electrons towards each other. It is therefore natural that both the kinetic energy, external potential energy and interaction energy get larger as the frequency is increased. It is also interesting to see how small the kinetic energy actually is when the frequency is low. We will study this more thoroughly in the next section. For more frequencies and system sizes, please look at appendix \ref{chp:totalresults}.
 
@@ -505,8 +507,54 @@ For high frequencies the trap becomes narrow which results in a stronger externa
 
 \newpage
 \subsection{Low frequency dots} \label{sec:lowfrequencies}
-As we pointed out in section \ref{sec:wigner}, and as shown in the previous section, the potential energy dominates the kinetic energy at low frequencies. This means that the electrons have a lower average momentum, which makes Wigner crystallization possible. As already discussed in the theory part, this phenomenon can be observed by some distinct peaks in the one-body density plots. In figure \eqref{fig:lowfreqOB}, the one-body density is plotted for low frequency dots containing 2, 6, 12 and 20 particles. 
+In section \ref{sec:onebodyresults}, we found the one-body density to be shape-invariant for large frequencies from around $\omega=0.28$. However, when we further decreased the frequency down to $\omega=0.1$ the density plots changed significantly and we got other extrema and so on. The aim of this section is to investigate the transitions between the various shapes with frequencies down to $\omega=0.01$. We start with looking at quantum dots with two electrons, where the one-body density for the frequencies $\omega=0.28$, 0.1 and 0.01 can be found in figure \eqref{fig:lowfreq2P} produced by RBM+PJ and VMC. Those methods were selected as they hitherto have shown the most promising results and we want to see if the RBM+PJ can reveal effects that the VMC is not able to capture.
 
+\begin{figure}
+	\centering
+	\captionsetup[subfigure]{labelformat=empty}
+	\subfloat{\raisebox{1.5cm}{\rotatebox[origin=t]{90}{RBM+PJ}}}\hspace{0.1cm}
+	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/0.280000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{-0.cm}
+	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/0.100000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{-0.cm}
+	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/0.010000w/RBMPJ_ADAM_MC2pow28_smooth_blue_small.png}}}\\ [-0.cm]
+	
+	\subfloat{\raisebox{1.5cm}{\rotatebox[origin=t]{90}{VMC}}}\hspace{0.1cm}
+	\subfloat[$\omega=0.28$]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/0.280000w/VMC_ADAM_MC1048576.png}}}\hspace{-0.cm}
+	\subfloat[$\omega=0.1$]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/0.100000w/VMC_ADAM_MC1048576.png}}}\hspace{-0.cm}
+	\subfloat[$\omega=0.01$]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/0.010000w/VMC_ADAM_MC2pow28_smooth_blue_small.png}}}
+	
+	\caption{One-body density of two-dimensional circular quantum dots of frequency $\omega=0.01$. The surface plots are noise-reduced using a Savitzky-Golay filter, and for abbreviations see the text.}
+	\label{fig:lowfreq2P}
+\end{figure}
+
+We see that the two methods obtain very similar density plots, where they agree that a ridge around center of the dot should be more distinct as the frequency drops. If we go back to figure \eqref{fig:energydistribution}, we saw that the kinetic energy was negligible for the lowest energies, and the effect is therefore an indication of the Wigner crystallization effect discussed in section \ref{sec:wigner}. Intuitively, the two electrons will repel each other and seldomly be located at the same place when their kinetic energy is low. RBM+PJ possibly provides a sharper plot for $\omega=0.01$, which is closer to the DMC results found in Ref.\cite{hogberget_quantum_2013} and thus perhaps more correct. Additionally, the ground-state energy obtained by RBM+PJ is lower than the energy obtained by VMC, with $E=0.074107(8)$ vs $E=0.074070(8)$ respectively. We repeat the exercise for quantum dots with six electrons, and obtain the plots in figure \eqref{fig:lowfreq6P}.
+
+\begin{figure}[H]
+	\centering
+	\captionsetup[subfigure]{labelformat=empty}
+	\subfloat{\raisebox{1.5cm}{\rotatebox[origin=t]{90}{RBM+PJ}}}\hspace{0.1cm}
+	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/0.280000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{-0.cm}
+	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/0.100000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{-0.cm}
+	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/0.010000w/RBMPJ_ADAM_MC2pow28_smooth_blue_small}}}\\ [-0.cm]
+	
+	\subfloat{\raisebox{1.5cm}{\rotatebox[origin=t]{90}{VMC}}}\hspace{0.1cm}
+	\subfloat[$\omega=0.28$]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/0.280000w/VMC_ADAM_MC1048576.png}}}\hspace{-0.cm}
+	\subfloat[$\omega=0.1$]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/0.100000w/VMC_ADAM_MC1048576.png}}}\hspace{-0.cm}
+	\subfloat[$\omega=0.01$]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/0.010000w/VMC_ADAM_MC2pow28_smooth}}}
+	
+	\caption{One-body density of two-dimensional circular quantum dots of frequency $\omega=0.01$. The surface plots are noise-reduced using a Savitzky-Golay filter, and for abbreviations see the text.}
+	\label{fig:lowfreq6P}
+\end{figure}
+
+From figure \eqref{fig:energydistribution} we also observe that the  As we discussed already in section \ref{sec:wigner}, we expect the interactions to be important when the 
+
+Above, we have seen intimations to some change in the electron density as the oscillator frequency gets low, where the one-body density apparently is shape-invariant for high frequencies including $\omega=0.28$.  down to a certain frequency around . In particular, we can see that the density plots for $\omega=0.1$ in figure \eqref{fig:OB_interaction} differ from the others, 
+
+and in this section we will take a closer look at this phenomenon by looking at decreasing frequencies around the transition point and down to $\omega=0.01$. 
+
+
+
+As we pointed out in section \ref{sec:wigner}, and as shown in the previous section, the potential energy dominates the kinetic energy at low frequencies. This means that the electrons have a lower average momentum, which makes Wigner crystallization possible. As already discussed in the theory part, this phenomenon can be observed by some distinct peaks in the one-body density plots. In figure \eqref{fig:lowfreqOB}, the one-body density is plotted for low frequency dots containing 2, 6, 12 and 20 particles. 
+\iffalse
 \begin{figure}[H]
 	\centering
 	\captionsetup[subfigure]{labelformat=empty}
@@ -516,12 +564,23 @@ As we pointed out in section \ref{sec:wigner}, and as shown in the previous sect
 	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody/2D/2P/0.010000w/ADAM_MC1048576.png}}}\\ [-0.5cm]
 	
 	\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{6P}}}\hspace{0.1cm}
-	\subfloat[VMC]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/0.010000w/VMC_ADAM_MC2pow28_smooth_blue_small.png}}}\hspace{-0.5cm}
+	\subfloat[VMC]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/0.010000w/VMC_ADAM_MC2pow28_smooth.png}}}\hspace{-0.5cm}
 	\subfloat[RBM+PJ]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/0.010000w/RBMPJ_ADAM_MC2pow28_smooth_blue_small.png}}}\hspace{-0.5cm}
 	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody/2D/6P/0.010000w/ADAM_MC1048576.png}}}
 	
 	\caption{One-body density of two-dimensional circular quantum dots of frequency $\omega=0.01$. The surface plots are noise-reduced using a Savitzky-Golay filter, and for abbreviations see the text.}
 	\label{fig:lowfreqOB}
+\end{figure}
+\fi
+
+\begin{figure}[H]
+	\centering
+	\captionsetup[subfigure]{labelformat=empty}
+	\subfloat{{\includegraphics[width=\textwidth/2]{/home/evenmn/VMC/plots/int1/onebody/2D/2P/0.010000w/ADAM_MC1048576.png}}}
+	\subfloat{{\includegraphics[width=\textwidth/2]{/home/evenmn/VMC/plots/int1/onebody/2D/6P/0.010000w/ADAM_MC1048576.png}}}
+	
+	\caption{One-body density of two-dimensional circular quantum dots of frequency $\omega=0.01$. The surface plots are noise-reduced using a Savitzky-Golay filter, and for abbreviations see the text.}
+	\label{fig:lowfreq}
 \end{figure}
 
 For two particles, we can see that the one-body density has a peak at a distance from origin, and a local minimum in origin. This means that the probability of finding the two electrons close to each other is low, which is as expected due to the low momentum. 
@@ -633,7 +692,7 @@ What we observe, is that the Boltzmann machine with a Padé-Jastrow factor outpe
 
 \newpage
 \section{Atoms}
-The next systems we will address are the real atomic systems, which have been investigated by physicists since the childhood of quantum mechanics. This section is added just to show the flexibility of the implemented code, which can easily be expanded to new systems. We use the simple Hydrogen-like orbitals in our calculations, detailed in section \ref{sec:atomic}. In table \ref{tab:atomswinteraction} we present the ground state energy of the four smallest closed-shell atoms Helium, Beryllium, Neon and Magnesium, including an overview of how the energy is distributed and the ratio between kinetic and potential energy. We also compare the obtained results to experimental values. What we see, is that the total energy is similar, but slightly higher than our reference, which is as expected as we use a simple basis. 
+The next systems we will address are the real atomic systems, which have been investigated by physicists since the childhood of quantum mechanics. This section is added just to show the flexibility of the implemented code, which can easily be expanded to new systems. We use the simple Hydrogen-like orbitals in our calculations, detailed in section \ref{sec:atomic}. In table \ref{tab:atomswinteraction} we present the ground state energy of the four smallest closed-shell atoms Helium, Beryllium, Neon and Magnesium, including an overview of how the energy is distributed and the ratio between kinetic and potential energy. We also compare the obtained results to experimental values. What we see, is that the total energy is similar, but slightly higher than our reference, which is as expected as we use a simple basis.
 
 If we once again recall the virial theorem first introduced in section \ref{sec:virial}, it reads
 \begin{equation}
