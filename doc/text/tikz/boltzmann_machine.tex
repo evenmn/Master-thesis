@@ -14,30 +14,30 @@
 \node[input] at (2,7/2) (b) {$1$};
 
 % Define paths
-\path[draw,-] (s1) -- (s2);
-\path[draw,-] (s2) -- (s3);
-\path[draw,-] (s3) -- (s4);
-\path[draw,-] (s4) -- (s5);
-\path[draw,-] (s5) -- (s6);
-\path[draw,-] (s6) -- (s1)  node[midway,above] {$w_{16}$};
+\path[draw,thick,-] (s1) -- (s2);
+\path[draw,thick,-] (s2) -- (s3);
+\path[draw,thick,-] (s3) -- (s4);
+\path[draw,thick,-] (s4) -- (s5);
+\path[draw,thick,-] (s5) -- (s6);
+\path[draw,thick,-] (s6) -- (s1)  node[midway,above] {$w_{16}$};
 
-\path[draw,-] (s1) -- (s4);
-\path[draw,-] (s2) -- (s5);
-\path[draw,-] (s3) -- (s6);
+\path[draw,thick,-] (s1) -- (s4);
+\path[draw,thick,-] (s2) -- (s5);
+\path[draw,thick,-] (s3) -- (s6);
 
-\path[draw,-] (s1) -- (s5);
-\path[draw,-] (s6) -- (s4);
-\path[draw,-] (s5) -- (s3);
-\path[draw,-] (s4) -- (s2);
-\path[draw,-] (s3) -- (s1);
-\path[draw,-] (s2) -- (s6);
+\path[draw,thick,-] (s1) -- (s5);
+\path[draw,thick,-] (s6) -- (s4);
+\path[draw,thick,-] (s5) -- (s3);
+\path[draw,thick,-] (s4) -- (s2);
+\path[draw,thick,-] (s3) -- (s1);
+\path[draw,thick,-] (s2) -- (s6);
 
-\draw[color0,-] (b) to [out=315,in=90] (s6);
-\draw[color0,-] (b) to [out=225,in=90] (s1);
-\draw[color0,-] (b) to [out=337.5,in=90] (s5);
-\draw[color0,-] (b) to [out=202.5,in=90] (s2);
-\draw[color0,-] (b) to [out=0,in=0] (s4);
-\draw[color0,-] (b) to [out=180,in=180] (s3) node[] at (-1,0) {$b_3$};
+\draw[color0,thick,-] (b) to [out=315,in=90] (s6);
+\draw[color0,thick,-] (b) to [out=225,in=90] (s1);
+\draw[color0,thick,-] (b) to [out=337.5,in=90] (s5);
+\draw[color0,thick,-] (b) to [out=202.5,in=90] (s2);
+\draw[color0,thick,-] (b) to [out=0,in=0,distance=3cm] (s4);
+\draw[color0,thick,-] (b) to [out=180,in=180,distance=3cm] (s3) node[] at (-1.5,0) {$b_3$};
 
 
 % Add some text

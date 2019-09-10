@@ -8,18 +8,18 @@ legend style={at={(0.5,0.91)}, anchor=north, draw=white!80.0!black},
 axis line style={black},
 tick align=outside,
 tick pos=left,
-x grid style={black},
+%x grid style={black},
 xlabel={$x$},
 xmajorgrids,
 xmin=-3.2, xmax=3.2,
 xtick style={color=black},
-y grid style={black},
+%y grid style={black},
 ylabel={$V_i^{\text{DW}}(x)$},
 ymajorgrids,
 ymin=0, ymax=8,
 ytick style={color=black}
 ]
-\addplot [semithick, color0]
+\addplot [thick, color0]
 table {%
 -3 8
 -2.99399399399399 7.95202409616824
@@ -1023,7 +1023,7 @@ table {%
 3 8
 };
 \addlegendentry{$a=1$}
-\addplot [semithick, color1]
+\addplot [thick, color1]
 table {%
 -3 64
 -2.99399399399399 63.4252965745565
@@ -2027,7 +2027,7 @@ table {%
 3 64
 };
 \addlegendentry{$a=2$}
-\addplot [semithick, color2]
+\addplot [thick, color2]
 table {%
 -3 676
 -2.99399399399399 667.610629499215
