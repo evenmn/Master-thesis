@@ -57,7 +57,7 @@ The first thing we observe, is that all the three optimization tools manage to c
 
 \newpage
 \section{No repulsive interaction} \label{sec:norepulsive}
-We start with the non-interacting case in order to validate the implemented code. For this case, we know the exact energy and the exact electron density for both single quantum dots, double quantum dots and atoms, which makes it a good test for all the systems. The physical significance is though limited as such systems do not appear in the real world. We will start with the single quantum dot, and then move on to double quantum dots and atoms. 
+We start with the non-interacting case in order to validate the implemented code. For this case, we know the exact energy and the exact electron density for both single quantum dots, double quantum dots and atoms, which makes it a good test for all the systems. The physical significance is though limited as such systems do not appear in the real world. We will start with the single quantum dot, and then move on to atoms. 
 
 \subsection{Quantum dots}
 Quantum dots is the system we will keep most of the attention on, and for that reason we will also validate the implemented quantum dot code thoroughly. As we use the harmonic oscillator potential to describe the attraction in the circular quantum dots, the system has well-known analytical results for the most common observable. The quantum dot has analytical ground state energies given by equation \eqref{eq:HOenergies} and a number of particles given by the magic numbers in equation \eqref{eq:HOclosedshell}. For some selected number of electrons and for frequencies $\omega=0.5$ and $\omega=1.0$, we compare our obtained energies to the analytical energies in table \eqref{tab:quantumdotswointeraction}. We observe that both the standard VMC, with $\alpha=1$, and standard RBM, with all parameters set to zero, are able to reproduce the analytical expression. This is as expected, since the exact wave functions are found when the parameters have these particular values.
@@ -90,12 +90,12 @@ We will also focus on the electron density throughout the results, and comparing
 \begin{figure}
 	\centering
 	\captionsetup[subfigure]{labelformat=empty}
-	\subfloat[2D]{\includegraphics[width=\textwidth/2]{/home/evenmn/VMC/plots/int0/onebody/2D/2P/GD_MC2pow30_w1p0.png}}
-	\subfloat[3D]{\includegraphics[width=\textwidth/2]{/home/evenmn/VMC/plots/int0/onebody/3D/2P/GD_MC2pow30_w1p0.png}}\\
+	\subfloat[2D]{\includegraphics[width=7cm]{/home/evenmn/VMC/plots/int0/onebody/2D/2P/GD_MC2pow30_w1p0.png}}
+	\subfloat[3D]{\includegraphics[width=7cm]{/home/evenmn/VMC/plots/int0/onebody/3D/2P/GD_MC2pow30_w1p0.png}}\\
 	
-	\subfloat[VMC]{\includegraphics[width=\textwidth/2]{/home/evenmn/VMC/plots/int0/onebody2/2D/2P/1.000000w/VMC_GD_MC2pow30_blue_small.png}}
-	\subfloat[RBM]{\includegraphics[width=\textwidth/2]{/home/evenmn/VMC/plots/int0/onebody2/2D/2P/1.000000w/RBM_ADAM_MC268435456.png}}
-	\caption{The one-body density for a quantum dot of frequency $\omega=1.0$ with two non-interacting electrons. The left-hand side plot gives the spatial one-body distribution for the two-dimensional case produced with VMC, while the other plots present the radial density profiles of two-dimensional (left) and three-dimensional (middle) dots produced using VMC and RBM and compared to the analytical case. The exact solution was found from the definition of one-body density found in equation \eqref{eq:electron_density}. For abbreviations see the text.}
+	\subfloat[VMC]{\includegraphics[width=7cm]{/home/evenmn/VMC/plots/int0/onebody2/2D/2P/1.000000w/VMC_GD_MC2pow30_blue_small.png}}
+	\subfloat[RBM]{\includegraphics[width=7cm]{/home/evenmn/VMC/plots/int0/onebody2/2D/2P/1.000000w/RBM_ADAM_MC268435456.png}}
+	\caption{The one-body density for a quantum dot of frequency $\omega=1.0$ with two non-interacting electrons. The upper plots give the radial density profiles of two-dimensional (left) and three-dimensional (right) dots produced using VMC and RBM and compared to the analytical case, while the lower present the spatial one-body distribution for the two-dimensional case produced with VMC (left) and RBM (right). The exact solution was found from the definition of one-body density found in equation \eqref{eq:electron_density}. For abbreviations see the text.}
 	\label{fig:OB_nointeraction}
 \end{figure}
 
@@ -139,7 +139,7 @@ The VMC reproduces the energies perfectly, while the RBM does not...
 \subsection{Atoms}
 Lastly, we will look at atoms with non-interacting electrons in order to validate our code. The analytical energy of those atoms is given by the Bohr formula presented in equation \eqref{eq:bohrformula}. In table \eqref{tab:atomswointeraction}, the lowest closed-shell atoms He, Be and Ne are listed with their exact energy and the obtained energy from the code. In addition, we added calculations of the Hydrogen ground-state energy as another simple test. We see that all energies are reproduced to machine precision, with the variational parameter $\alpha=1.0$. This gives the exact wave function, and is a good indication. 
 
-\begin{table}
+\begin{table}[H]
 	\caption{Energy of neutral atoms with atomic number $Z$ and non-interacting atoms surrounding it. The energy is given in units of $\hbar$, and the variance is zero to machine precision for all listed results. For abbreviations see the text.}
 	\label{tab:atomswointeraction}
 	\begin{tabularx}{\textwidth}{R{3.5cm}lrrR{2.5cm}R{2.5cm}} \hline\hline
@@ -151,8 +151,6 @@ Lastly, we will look at atoms with non-interacting electrons in order to validat
 		& Ne & 10 && -200.0 & -200 \\ \hline\hline
 	\end{tabularx}
 \end{table}
-
-\textcolor{red}{Might add one-body densities to fill the page?}
 
 \cleardoublepage
 \section{Quantum dots}
@@ -355,7 +353,7 @@ We now move on to larger dots, containing $N=20$ and $N=42$ electrons with frequ
 \subsection{Two-body density}
 We have on multiple occasions in this thesis discussed the electron density, and we have also mentioned the two-body density. The two-body density is interesting because it gives the probability of finding two particles at certain relative distances from the center of the dot. Unlike the one-body density, this density therefore gives the information of how the particles distribute pairwise, and it is therefore very informative when we want to study the interactions between electrons. Similarly to the one-body density, we can both plot the radial two-body density profile and the actual two-body density distribution throughout the space. However, since the latter results in a higher-dimensional object, we stick to the radial density profile. Also for this quantity it would be convenient to have references to benchmark our results to, but for some reason it is hard to find papers that discuss the two-body density for quantum dots. Nevertheless, someone needs to be the first and we will use the plots to discuss the physics and compare the various methods in the best possible way. Again, we will emphasize that a negative radial distance does not make sense, so all the quadrants are the same and presented in this way to make it more illustrative and intuitive.We will focus on the two-dimensional case, as the three-dimensional case becomes similar in the same way as for the one-body density. 
 
-In figure \eqref{fig:TB_interaction_2P} we plot the two-body density for a two-dimensional quantum dot with two electrons at various frequencies. For frequency $\omega=1.0$, the density plots for all the methods give quite similar results, but the RBM provides a higher two-body density in the middle of the quantum dot, compared to the other methods. This can be seen from the magnitude of the density at the center, but also the density itself is narrower than for it fellow methods, making it more compact. This can be explained by the absent of a Jastrow factor. Also the RBM+SJ gives a slightly more narrow distribution than the RBM+PJ and VMC, so it is apparent that the Padé-Jastrow factor results in a more repulsive factor than the simple Jastrow factor. This can also be seen at the density at origin, which is low for RBM+PJ and VMC, but high for RBM and VMC. We know that the potential, and thus the interactions get more dominating as the frequency drops. For VMC and RBM+PJ, we can observe this by a significant circle of higher density at a certain distance from the origin both for $\omega=0.5$ and $\omega=0.1$, which physically means that both particles are less likely to be found in the center of the dot at the same time. If one particle is close to the center, the other particle is probably far from the center, if one particle is in the center the other is far from the center and vice versa. For the RBM+SJ, this behavior can only be observed for $\omega=0.1$, while the RBM is not able to reproduce this phenomenon at all. This indicates that the RBM is not able to model the correlations correctly, and and it needs a Jastrow factor to account for them. The resolutions of the plots gets lower when we decrease the frequency, as the particles spread over a larger area and therefore more bins.
+In figure \eqref{fig:TB_interaction_2P} we plot the two-body density for a two-dimensional quantum dot with two electrons at various frequencies. For frequency $\omega=1.0$, the density plots for all the methods give quite similar results, but the RBM provides a higher two-body density in the middle of the quantum dot, compared to the other methods. This can be seen from the magnitude of the density at the center, but also the density itself is narrower than for its fellow methods, making it more compact. This can be explained by the absent of a Jastrow factor. Also the RBM+SJ gives a slightly more narrow distribution than the RBM+PJ and VMC, so it is apparent that the Padé-Jastrow factor results in a more repulsive factor than the simple Jastrow factor. This can also be seen at the density at origin, which is low for RBM+PJ and VMC, but high for RBM and VMC. We know that the potential, and thus the interactions get more dominating as the frequency drops. For VMC and RBM+PJ, we can observe this by a significant circle of higher density at a certain distance from the origin both for $\omega=0.5$ and $\omega=0.1$, which physically means that both particles are less likely to be found in the center of the dot at the same time. If one particle is close to the center, the other particle is probably far from the center, if one particle is in the center the other is far from the center and vice versa. For the RBM+SJ, this behavior can only be observed for $\omega=0.1$, while the RBM is not able to reproduce this phenomenon at all. This indicates that the RBM is not able to model the correlations correctly, and and it needs a Jastrow factor to account for them. The resolutions of the plots gets lower when we decrease the frequency, as the particles spread over a larger area and therefore more bins.
 
 The calculations are repeated for two-dimensional quantum dots of frequency $\omega=0.5$ and an even number of closed shells (6, 20 and 42 particles), which are presented in figure \eqref{fig:TB_interaction_20P}. The first thing we observe, is that the RBM kind of manages to obtain the correct peaks, but they are all circular unlike the density plots from the VMC, and they are also more distinct and higher than for VMC. This is the same effect we saw in the one-body density plots, which we argued was caused by the different approaches to model the correlations. If we now keep our attention on the VMC plots, it is apparent that two particles will not be observed in the middle of the dot at the same time as the density there is almost zero. For 6 particles, a particle pair is most likely to be found at the same radius around $r=2$, which matches the one-body density plot. When we move on to 20 particles, the most probably place is not ambiguous anymore, but an electron pair is likely to be found at the same radius at around $r=1$, which matches the highest peak in the one-body density plot. However, the density is also high along both axis, which means that if one of the electrons move to the center of the dot, the other will also be moves towards the center. This is probably a consequence of the the interactions. For 42 electrons, finding two 
 
@@ -531,7 +529,7 @@ We see that the two methods obtain very similar density plots, where they agree 
 	\captionsetup[subfigure]{labelformat=empty}
 	\subfloat{\raisebox{1.5cm}{\rotatebox[origin=t]{90}{RBM+PJ}}}\hspace{0.1cm}
 	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/0.280000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{-0.cm}
-	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/0.100000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{-0.cm}
+	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/0.100000w/RBMPJ_ADAM_MC2pow28_smooth_2.png}}}\hspace{-0.cm}
 	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/0.010000w/RBMPJ_ADAM_MC2pow28_smooth_blue_small}}}\\ [-0.cm]
 	
 	\subfloat{\raisebox{1.5cm}{\rotatebox[origin=t]{90}{VMC}}}\hspace{0.1cm}
@@ -545,7 +543,7 @@ We see that the two methods obtain very similar density plots, where they agree 
 
 We observe the same tendency as for the dots with two electrons, where we get an additional peak in the density plot as the frequency decreases. Again the RBM+PJ gives a more distinct peak than the VMC, which is closer to the DMC one-body density plot found from Ref.\cite{hogberget_quantum_2013}. This substantiates the presence of Wigner crystallization, where the configuration of lowest potential energy is found with an electron in the center of the dot and the remaining five electrons surrounding with the same distance to each other and to the center. In order to give a more qualitative comparison of the various methods, we also present the radial one-body density profile of the quantum dots of frequency $\omega=0.01$ with two and six electrons, see figure \eqref{fig:lowfreq}. 
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
 	\captionsetup[subfigure]{labelformat=empty}
 	\subfloat{{\includegraphics[width=\textwidth/2]{/home/evenmn/VMC/plots/int1/onebody/2D/2P/0.010000w/ADAM_MC1048576.png}}}
@@ -582,6 +580,7 @@ We find both the RBM+PJ and VMC to reproduce the reference energy in all the cas
 \end{table}
 \fi
 
+\newpage
 \subsection{Large dots}
 In order to test the code, we also decided to run for systems with $N>56$. This has no scientific significance, other than testing how far a VMC code can go. One thing is that the computations get extremely expensive as the number of particle increases, but also the standard error is assumed to increase due to.. This means that we cannot just crack up the wall clock time and wait when studying large systems, at some point the standard error gets insufficiently large and we need to further increase the number of Monte Carlo cycles. The learning rate also needs to be decreased as the system sizes increase, which requires more iterations.  We look at weakly interacting particles, so we will not get any relativistic effects even when adding many particles.
 
@@ -602,8 +601,8 @@ In order to test the code, we also decided to run for systems with $N>56$. This 
 	\captionsetup[subfigure]{labelformat=empty}
 	\subfloat{\includegraphics[scale=0.4]{/home/evenmn/VMC/plots/int1/onebody/2D/72P/1.000000w/ADAM_MC1048576.png}}
 	\subfloat{\includegraphics[scale=0.4]{/home/evenmn/VMC/plots/int1/onebody/2D/90P/1.000000w/ADAM_MC2pow28.png}}\\
-	\subfloat[72P]{\includegraphics[scale=0.4]{/home/evenmn/VMC/plots/int1/onebody2/2D/72P/1.000000w/VMC_ADAM_MC2pow28_blue.png}}
-	\subfloat[90P]{\includegraphics[scale=0.4]{/home/evenmn/VMC/plots/int1/onebody2/2D/72P/1.000000w/VMC_ADAM_MC2pow28_smooth_blue_masked.png}}
+	\subfloat[VMC, 72P]{\includegraphics[scale=0.4]{/home/evenmn/VMC/plots/int1/onebody2/2D/72P/1.000000w/VMC_ADAM_MC2pow28_blue.png}}
+	\subfloat[RBM, 72P]{\includegraphics[scale=0.4]{/home/evenmn/VMC/plots/int1/onebody2/2D/72P/1.000000w/VMC_ADAM_MC2pow28_smooth_blue_masked.png}}
 	\caption{One-body density of large circular quantum dots with frequency $\omega=1.0$. The methods were detailed in the introductory words to this chapter, and the surface plots were noise-reduced using a Savitzky-Golay filter, and for abbreviations see the text.}
 	\label{fig:largedotsOB}
 \end{figure}
@@ -618,6 +617,7 @@ In order to test the code, we also decided to run for systems with $N>56$. This 
 \end{figure}
 \fi
 
+\iffalse
 \section{Double quantum dots}
 Double quantum dots are systems that are very interesting when it comes to testing the Boltzmann machines. Even though we know the wave functions for the non-interacting case, they are expansions that are computational expensive to work with.
 
@@ -650,6 +650,7 @@ For the interacting case, we will use Alocias Mariadason's VMC calculations with
 	\end{tabularx}
 \end{table}
 What we observe, is that the Boltzmann machine with a Padé-Jastrow factor outperforms a Hermite expansion of 10 functions, which is surprising. The reason might be that the Boltzmann machine consists of a sum over all hidden nodes, which makes it behave similar to an expansion. However, the Boltzmann machine was then again beat by the Hermite expansion with a Hartree-Fock basis. 
+\fi
 
 \newpage
 \section{Atoms}

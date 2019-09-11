@@ -196,7 +196,7 @@ So, how can we avoid non-singular values in our matrix $\bs{X}^T\bs{X}$? We can 
 \bs{\theta}=(\bs{X}^T\bs{X}+\lambda\bs{I})^{-1}\bs{X}^T\bs{y}
 \label{eq:ridgetheta}
 \end{equation}
-where $\bs{I}$ is the identity matrix. The penalty $\lambda$ is also a \textit{hyper parameter}, which is a parameter that is specified before the training begins, in contrast to the estimators which are determined throughout training. This method is called Ridge regression, and has a cost function given by 
+where $\bs{I}$ is the identity matrix. The penalty $\lambda$ is also a \textit{hyper-parameter}, which is a parameter that is specified before the training begins, in contrast to the estimators which are determined throughout training. This method is called Ridge regression, and has a cost function given by 
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 	\mathcal{C}(\bs{\theta})=\sum_{i=1}^{n}\Big(y_i-\sum_{j=0}^pX_{ij}\theta_j\Big)^2+\lambda\sum_{j=1}^p|\theta_j|^2\qquad\text{Ridge}
 	\label{eq:ridge}
@@ -212,14 +212,14 @@ For LASSO regression, we cannot set $\partial\mathcal{C}(\bs{\theta})/\partial\t
 \begin{equation}
 \theta_j^+=\theta_j-\eta \frac{\partial\mathcal{C}(\bs{\theta})}{\partial\theta_j},
 \end{equation}
-where $\theta_j^+$ is the updated version of $\theta_j$ and $\mathcal{C}(\bs{\theta})$ is an arbitrary cost function. Here we are introduced to a new hyperparameter, $\eta$, known as the \textit{learning rate}, which controls how much the estimators should be changed for each iteration. It has to be specified carefully, where a too large $\eta$ will make the cost function diverge and a too small $\eta$ will make the training too slow. Typically, to choose an $\eta$ in the range 0.01-0.0001 is a good choice. For ordinary least squares, the vectorized parameter update can be written as
+where $\theta_j^+$ is the updated version of $\theta_j$ and $\mathcal{C}(\bs{\theta})$ is an arbitrary cost function. Here we are introduced to a new hyper-parameter, $\eta$, known as the \textit{learning rate}, which controls how much the estimators should be changed for each iteration. It has to be specified carefully, where a too large $\eta$ will make the cost function diverge and a too small $\eta$ will make the training too slow. Typically, to choose an $\eta$ in the range 0.01-0.0001 is a good choice. For ordinary least squares, the vectorized parameter update can be written as
 \begin{equation}
 \bs{\theta}^+=\bs{\theta}-\eta\bs{X}^T(\bs{y}-\bs{X}\bs{\theta}).
 \label{eq:olsupdate}
 \end{equation}
 
 \section{Logistic regression}
-Up to this point, we have discussed regression with continuous outputs. But what do we do if we want a discrete output, for example in the form of classification? This is what logistic regression is all about, where the name comes form the logistic function (sigmoid function) which is used to fire or not fire the neurons. As for the linear regression, we also need a cost function in logistic regression, which we will motivate in the following.
+So far we have discussed polynomial regression and linear regression, which consist of models giving continuous outputs. But what do we do if we want discrete outputs, for example in the form of classification? This is what logistic regression is all about, where the name comes form the logistic function (sigmoid function) which is used to fire or not fire the neurons. As for the linear regression, we also need a cost function in logistic regression, which we will motivate in the following.
 
 Consider a system that can take two possible energies $\varepsilon_0$ and $\varepsilon_1$. From elementary statistical mechanics, we know that the probability of finding a system in a state of a certain energy is given by the Boltzmann distribution, such that
 \begin{align}
@@ -240,53 +240,50 @@ where $k_B$ is Boltzmann's constant and $T$ is the system temperature. The proba
 P(y_i=1)&=1-P(y_i=0)\\
 &=\frac{1}{1+\exp(-(\varepsilon_0-\varepsilon_1)/k_BT)}.
 \end{align}
-
+Notice that the only thing we need is the energy difference between the two states rather than the energy itself. This is often the case in physics, where we for instance have no absolute potential energy. If we now assume that the energy difference can be written as a function of the coordinates that specify the state $i$ stored in the row vector $\bs{X}_i$, and a column vector with parameters, $\bs{w}$, known as the \textit{weights}, the difference can be written as
 \begin{figure}
 	\centering
 	\input{tikz/singlelayer_perceptron.tex}
-	\caption{Logistic regression model with $n$ inputs. Each input $X_i^j$ is multiplied with a weight $w_j$, and the contribution from all elements is summarized. The output is obtained after the sum is activated by an activation function.}
+	\caption{Logistic regression model with $n$ inputs. Each input $X_{ij}$ is multiplied with a weight $w_j$, and the contributions from all units are summarized. The output is obtained after the sum is activated by an activation function.}
 	\label{fig:single_perceptron}
 \end{figure}
-
-Notice that the only thing we need is the difference in energy between those two systems, not the energy itself. This is often the case in physics. If we now assume that the difference in energy can be written as a function of the coordinates that specify the state $i$, $\bs{X}_i$ and a matrix of parameters, $\bs{w}$, known as the \textit{weights}, the difference can be written as
 \begin{equation}
-\varepsilon_1-\varepsilon_0=\bs{X}_i^T\bs{w}\equiv\tilde{y}_i,
+\varepsilon_1-\varepsilon_0=\bs{X}_i\bs{w}\equiv\tilde{y}_i,
 \end{equation}
 giving the conditional probability
 \begin{equation}
-P(\bs{X}_i,y_i|\bs{w})=\big(f(\bs{X}_i^T\bs{w})\big)^{y_i}\big(1-f(\bs{X}_i^T\bs{w})\big)^{1-y_i}.
+P(\bs{X}_i,y_i|\bs{w})=\big(f(\bs{X}_i\bs{w})\big)^{y_i}\big(1-f(\bs{X}_i\bs{w})\big)^{1-y_i}.
 \end{equation}
-where $\bs{w}$ needs to be \textit{a priori} known. If we have a set of multiple states stored in a  $\mathcal{D}=\{(\bs{X}_i,y_i)\}$, the joint probability yields
+If we have a set of multiple states stored in a  $\mathcal{D}=\{(\bs{X}_i,y_i)\}$, the joint probability yields
 \begin{equation}
-P(\mathcal{D}|\bs{w})=\prod_{i=1}^n\big(f(\bs{X}_i^T\bs{w})\big)^{y_i}\big(1-f(\bs{X}_i^T\bs{w})\big)^{1-y_i}
+P(\mathcal{D}|\bs{w})=\prod_{i=1}^n\big(f(\bs{X}_i\bs{w})\big)^{y_i}\big(1-f(\bs{X}_i\bs{w})\big)^{1-y_i}
 \end{equation}
 which is known as the \textit{likelihood}. The \textit{log-likelihood} function is simply the log of the likelihood, and is given by 
 \begin{equation}
-l(\bs{w})=\sum_{i=1}^n\bigg[y_i\log f(\bs{X}_i^T\bs{w})+(1-y_i)\log(1-f(\bs{X}_i^T\bs{w}))\bigg].
+l(\bs{w})=\sum_{i=1}^n\bigg[y_i\log f(\bs{X}_i\bs{w})+(1-y_i)\log(1-f(\bs{X}_i\bs{w}))\bigg].
 \end{equation}
-
-As in linear regression, we want to find a cost function which we can minimize in order to fit the model to the data set. Since the log-likelihood function is maximized where the highest probability is, a natural choice is to set the cost function as the negative log-likelihood function,
+As in linear regression, we want to find a cost function which we can minimize in order to fit the model to the data set. Since the log-likelihood function is at its maximum at the highest probability, a natural choice is to set the cost function to the negative log-likelihood function,
 \begin{equation}
-\mathcal{C}(\bs{w})=-l(\bs{w})=-\sum_{i=1}^n\Big[y_i\log f(\bs{X}_i^T\bs{w})+(1-y_i)\log(1-f(\bs{X}_i^T\bs{w}))\Big],
+\mathcal{C}(\bs{w})=-l(\bs{w})=-\sum_{i=1}^n\Big[y_i\log f(\bs{X}_i\bs{w})+(1-y_i)\log(1-f(\bs{X}_i\bs{w}))\Big],
 \end{equation}
-which is the \textit{cross entropy}. To clarify things, we will try to illustrate how this works. In figure (\ref{fig:single_perceptron}), we have a input set $\bs{X}_i$ where each element is multiplied with a parameter from $\bs{w}$ and summarized. This corresponds to the inner product $\bs{X}_i^T\bs{w}$. Further, the sum (or the inner product) is \textit{activated} by an \textit{activation function}, which we above have assumed to be the sigmoid function. The output is then given by
+which is the \textit{cross entropy}. To clarify things, we will try to illustrate how this works. In figure (\ref{fig:single_perceptron}), we have an input set $\bs{X}_i$ where each unit is multiplied with a parameter from $\bs{w}$ and summarized. This corresponds to the inner product $\bs{X}_i\bs{w}$. Further, the sum (or the inner product) is \textit{activated} by an \textit{activation function}, which we above have assumed to be the sigmoid function. The output is then given by
 \begin{eqnarray}
-z_i=f(\bs{X}_i^T\bs{w}).
+a_i=f(\bs{X}_i\bs{w}).
 \end{eqnarray}
-where we have assumed that the bias node is included in the $\bs{X}$'s and the bias weight is included in the $\bs{w}$'s. The bias node is added in order to shift the activation function to the left or right, and works in the same way as a constant term in a function. 
+where the bias node is included in the $\bs{X}_i$'s and the bias weights are included in the $\bs{w}$'s. The bias node is added in order to shift the activation function to the left or right, and works in the same way as a constant term in a function. 
 
 The output from the activation is used further in the cost function to calculate the cost. As for LASSO regression, the cost function is then minimized in an iterative scheme, where for example the gradient descent method gives the weight update
 \begin{empheq}[box={\mybluebox[5pt]}]{align}
-\bs{w}^+= \bs{w} - \eta\bs{X}^T[\bs{y}-f(\bs{X}^T\bs{w})].
+\bs{w}^+= \bs{w} - \eta\bs{X}[\bs{y}-f(\bs{X}\bs{w})].
 \end{empheq}
-which is extremely similar, not to say identical to the estimator update for ordinary least square presented in equation \eqref{eq:olsupdate}.
+where $\bs{X}$ is a matrix containing all the column vectors $\bs{X}_i$. This expression is extremely similar, not to say identical to the estimator update for ordinary least square presented in equation \eqref{eq:olsupdate}. The difference is that we now denote the parameters by $\bs{w}$ instead of $\bs{\theta}$ to prepare for the neural networks, but they are basically the same thing. 
 
 \section{Neural networks} \label{sec:neural_network}
-Now we know enough to dive into the field of artificial neural networks. Neural networks can give either continuous or discrete outputs, and is therefore a competitor to both linear and logistic regression. The big strength of neural networks is that one can add multiple \textit{layers}, which potentially makes the model extremely flexible. According to \textbf{the universal approximation theorem}, a neural network with only one hidden layer can approximate any continuous function \cite{hornik_multilayer_1989}. However, often multiple layers are used since this tends to give fewer units in total, and is known to give better results. Neural networks of more than one layer are called \textit{deep} networks, and as more layers are added the network gets \textit{deeper}.
+Now we know enough to dive into the field of artificial neural networks. Neural networks can give either continuous or discrete outputs, and are therefore competitors to both linear and logistic regression. The big strength of neural networks is that one can add multiple \textit{layers}, which potentially makes the model extremely flexible. According to \textbf{the universal approximation theorem}, a neural network with only one hidden layer with a finite number of units can approximate any continuous function \cite{hornik_multilayer_1989}. However, often multiple layers are used since those networks are in general known to be easier to train and work better for complex systems. Neural networks of more than one layer are called \textit{deep} networks, and as more layers are added the network gets \textit{deeper}.
 
-In figure \eqref{fig:neural_network}, a multi-layer neural network is illustrated. It has some similarities with the logistic regression model in figure \eqref{fig:single_perceptron}, but a hidden layer and multiple outputs are added. We have also dropped the representation of the weights (apart from a few labeled ones), but each line corresponds to a weight. Each node represents a neuron in the brain.
+In figure \eqref{fig:neural_network} we have illustrated a deep neural network with an unspecified number of layers and five hidden units in each layer. It has some similarities with the logistic regression model in figure \eqref{fig:single_perceptron}, but with multiple hidden layers and multiple outputs, this model is more complex. We decided to drop the representation of the weights (apart from some selected labeled ones), but each line corresponds to a weight.
 
-Without a hidden layer, we have seen that the update of weights is quite straight forward. For a neural network consisting of multiple layers, the question is: how do we update the weights when we do not know the values of the hidden units? And how do we know which layer causing the error? This will be explained in section \ref{sec:backward}, where backward propagation, the most popular technique for weight update in a neural network, is discussed. Before that, we will generalize the forward phase presented in logistic regression.
+Without a hidden layer, we have seen that the update of weights is quite straight forward. For a neural network consisting of multiple layers, the question is: \textit{How do we update the weights when we do not know the values of the hidden units?} This will be explained in section \ref{sec:backward}, where backward propagation, the most popular technique for weight update in a neural network, is discussed. Before that, we will generalize the forward phase presented in logistic regression.
 
 \begin{figure}
 	\centering
@@ -298,9 +295,9 @@ Without a hidden layer, we have seen that the update of weights is quite straigh
 \subsection{Forward phase}
 In the previous section, we saw how the output is found for a single perceptron. For a neural network, the net output to the first layer is similar, and given by
 \begin{equation*}
-z_j^{(1)}=\sum_{i=1}^{N_0}x_iw_{ij}^{(1)}=\bs{x}^T\bs{w}_j^{(1)}
+z_j^{(1)}=\sum_{i=1}^{N_0}x_iw_{ij}^{(1)}=\bs{X}\bs{w}_j^{(1)}
 \end{equation*}
-where $N_0$ is the number of units in layer 0 (the input layer) and we again have assumed that the bias node is included in the input vector $\bs{x}$ and the first set of bias weights are included in the first weight matrix $\bs{w}^{(1)}$. The same applies for the other layers as well. If we let the activation function, $f(x)$, act on the net output, we get the real output given by
+where $N_0$ is the number of units in layer 0 (the input layer), $\bs{X}$ is the input vector which is assumed to be a row vector and $\bs{w}_j^{(1)}$ is the $i$'th column of the $\bs{w}$-matrix associated with the first layer. We have again assumed that the bias node is included in $\bs{X}$ and the first set of bias weights are included in $\bs{w}^{(1)}$. The same applies for the other layers as well. If we let the activation function, $f(x)$, act on the net output, we get the real output given by
 \begin{equation*}
 a_j^{(1)}=f(z_j^{(1)})=f\Big(\sum_{i=1}^{N_0}x_iw_{ij}^{(1)}\Big).
 \end{equation*}
@@ -318,19 +315,20 @@ where layer $l-1$ has $N_{l-1}$ units and we need to be aware that $a_j^{(0)}=x_
 a_j^{(l)}=f\Big(\sum_{i=1}^{N_{l-1}}a_i^{(l-1)}w_{ij}^{(l)}\Big)
 \label{eq:output}
 \end{empheq}
-which is the only formula needed for the forward phase. The activation function $f(x)$ is not explicitly defined, because it is often expedient having the chance to experiment with multiple activation functions. 
+which is the only formula needed for the forward phase. In practice, the operation is always implemented in a vectorized fashion, reading $\bs{a}^{(l)}=f(\bs{a}^{(l-1)}\bs{w}^{(l)})$. The activation function $f(x)$ is not explicitly defined, because it is often expedient having the chance to experiment with multiple activation functions. 
 
 \subsection{Activation function}
-Until now, we have mentioned the sigmoid function as the only activation function. However, there are plenty of other activation functions that one can use. In fact, the sigmoid function has lost its popularity, and is today superseded by the more modern functions based on \textit{rectified linear units} (ReLU). Some popular choices are the \textit{leaky} ReLU and \textit{exponential linear units} (ELU), which are linear for positive numbers. The pure linear activation function is still widely used, especially on the output layer. 
+The task of the activation function is to the define the output from an unit given an input. There are several reason to do this, where the most important include filter the intensity of the output and make the output non-linear. Without an activation function all of our layers would simply stack one affine transformation after another, resulting in a composition of transformations equal to a such transformation. With other words, the deep networks would have lost their clout without the activation functions. 
 
-In figure (\ref{fig:activation_functions}), standard RELU, leaky RELU and ELU are plotted along with the sigmoid function.
+Yet, we have only discussed the sigmoid activation function, but there plenty of other activation functions available. In fact, the sigmoid function has lost its popularity, and is today superseded by the more modern functions based on \textit{rectified linear units} (ReLU). Some popular choices are the \textit{leaky} ReLU and \textit{exponential linear units} (ELU), which are linear for positive numbers. The pure linear activation function is still widely used, especially on the output layer. In figure (\ref{fig:activation_functions}), standard RELU, leaky RELU and ELU are plotted along with the sigmoid function.
 
 \begin{figure}
 	\centering
-	\subfloat[Sigmoid]{{\includegraphics[width=4cm]{Images/sigmoid.png}}}
-	\subfloat[ReLU]{{\includegraphics[width=4cm]{Images/ReLU.png}}}
-	\subfloat[Leaky ReLU]{{\includegraphics[width=4cm]{Images/LeakyReLU.png}}}
-	\subfloat[ELU]{{\includegraphics[width=4cm]{Images/ELU.png}}}
+	\subfloat{{\includegraphics[width=7cm]{Images/sigmoid.png}}}
+	\subfloat{{\includegraphics[width=7cm]{Images/ReLU.png}}}\\
+	
+	\subfloat{{\includegraphics[width=7cm]{Images/LeakyReLU.png}}}
+	\subfloat{{\includegraphics[width=7cm]{Images/ELU.png}}}
 	\caption{Some well-known activation functions. The sigmoid function stands out from the others since it maps between 0 and 1, and it is not linear for positive numbers.}%
 	\label{fig:activation_functions}%
 \end{figure}
@@ -339,9 +337,7 @@ In figure (\ref{fig:activation_functions}), standard RELU, leaky RELU and ELU ar
 \subsection{Backward propagation} \label{sec:backward}
 Backward propagation is the most robust technique for updating the weights in a neural network, and is actually again based on the weight update presented for linear and logistic regression. The algorithm for this was presented 1986, which made the deep neural networks able to solve relatively complicated problems for the first time \cite{rumelhart_learning_1986}. To update the weights, one starts with the outputs and updates the weights layer-wise until one gets to the inputs, hence the name backward propagation. 
 
-As observed above, a node is dependent on all the units in the previous layers, and so are the weights. This means that the units are dependent on a large number of parameters, which makes the training scheme quite complex. Nevertheless, there is possible to generalize this to express the updating formulas on a relatively simple form.
-
-From the linear and logistic regression, we know that we need the derivative of the cost function in order to implement the weight update regime. Again, we define the cost function as the mean square error,
+As observed above, a node is dependent on all the units in the previous layers, and so are the weights. This means that the units are dependent on a large number of parameters, which makes the training scheme quite complex. Nevertheless, it is possible to generalize this to express the updating formulas on a relatively simple form, like the forward phase. From the linear and logistic regression, we know that we need the derivative of the cost function in order to implement the weight update regime. Again, we define the cost function as the mean square error,
 \begin{equation}
 \mathcal{C}(\bs{w})=\frac{1}{2}\sum_{i=1}^{N_L}(y_i-a_i^{(L)})^2
 \end{equation}
@@ -349,7 +345,7 @@ where we have $L+1$ layers ($L$ is the last layer) and $N_L$ output units. The d
 \begin{equation}
 \frac{\partial\mathcal{C}(\bs{w})}{\partial w_{jk}^{(L)}}=\frac{\partial\mathcal{C}(\bs{w})}{\partial a_j^{(L)}}\frac{\partial a_j^{(L)}}{\partial z_j^{(L)}}\frac{\partial z_j^{(L)}}{\partial w_{jk}^{(L)}}.
 \end{equation}
-where $z_j^{(L)}$ and $a_j^{(L)}$ are found from equations \eqref{eq:netoutput} and \eqref{eq:output} respectively. If we start with the first factor, it can easily be found to be 
+where $z_j^{(L)}$ and $a_j^{(L)}$ are found from equations \eqref{eq:netoutput} and \eqref{eq:output} respectively. If we start with the first factor, it can easily be obtained as
 \begin{equation}
 \frac{\partial\mathcal{C}(\bs{w})}{\partial a_j^{(L)}}=-(y_j-a_j^{(L)})
 \end{equation}
@@ -393,9 +389,9 @@ w_{ij}^{(l)+}=w_{ij}^{(l)}-\eta\frac{\partial\mathcal{C}(\bs{w})}{\partial w_{ij
 where other optimization methods will be discussed in the following section.
 
 \section{Optimization algorithms} \label{sec:optimizationalgorithms}
-We have above discussed the gradient descent optimization algorithm, which is among the most basic optimization methods available. That method is based on the gradient, which is the slope of the cost function, but many methods are also in need of the Hessian matrix, which gives the curvature of the cost function. We will barely scratch the surface of this field, limiting us to the gradient methods. 
+We have above discussed the gradient descent optimization algorithm, which is among the most basic optimization methods available. That method is based on the gradient, which is the slope of the cost function, but many other methods are also in need of the Hessian matrix, which gives the curvature of the cost function. We will barely scratch the surface of this field, limiting us to the gradient methods. 
 
-To have the method fresh in mind, we will start with reintroducing the gradient descent method before we move on the its stochastic brother. We will then have a look at how momentum can be added, and finally we examine the stochastic and momentum based ADAM optimizer. Given a cost function $\mathcal{C}(\bs{\theta})$, the gradient with respect to a parameter $\theta$ can be found from
+To have the method fresh in mind, we will start with reintroducing the gradient descent method before we move on the its stochastic brother. We will then take a look at how momentum can be added, and finally we examine the stochastic and momentum based ADAM optimizer. Given a cost function $\mathcal{C}(\bs{\theta})$, the gradient with respect to a parameter $\theta$ can be found from
 \begin{equation}
 \nabla_{\theta} \mathcal{C}(\bs{\theta})\equiv\frac{\partial \mathcal{C}(\bs{\theta})}{\partial \bs{\theta}},
 \end{equation}
@@ -413,18 +409,12 @@ The idea is to find the direction where the cost function $\mathcal{C}(\bs{\thet
 \begin{equation}
 \nabla_{\theta} \mathcal{C}(\bs{\theta}_t)<\varepsilon.
 \end{equation}
-where $\varepsilon$ is a tolerance. More robust methods are based on comparing the value of the cost function for several past iterations. 
-
-In cases where the cost function is not strictly decreasing, we will have both local and global minima. Often, it is hard to say whether we are stuck in a local or global minimum, and this is where the stochasticity enters the game.
+where $\varepsilon$ is a tolerance. More robust methods are based on comparing the value of the cost function for several past iterations. In cases where the cost function is not strictly decreasing, we will have both local and global minima. Often, it is hard to say whether we are stuck in a local or global minimum, and this is where the stochasticity enters the game.
 
 \subsection{Stochastic gradient descent}\label{sec:sgd}
 Stochastic gradient descent is closely related to the gradient descent method, but the method uses randomly selected batches to evaluate the gradients, hence the stochasticity. By introducing this randomness, the parameters will not always be updated in order to minimize the energy, which makes us less likely to be stuck in a local minimum.
 
-In practice, one splits the data set in $n$ batches, and select one of them to be used in the parameter update. Our hope is that this batch is representative for the entire data set, such that the new parameters provide a lower cost function. If that is the case, we have reduced the cost of an iteration significantly, since we only need to care about a batch. After each batch in the data set has had an opportunity to update the internal parameters, we say that we have went through an \textit{epoch}.
-
-We are not guaranteed that updating the parameters with respect to a batch gives a lower cost function, and when it is not, we need to run more batches in order to minimize the cost function. Since each iteration is faster than for standard gradient descent, this is acceptable. As long as the batch is slightly representative for the entire data set, the cost function will be minimized in the end.
-
-Mathematically, the method can be expressed as 
+In practice, one splits the data set in $n$ batches, and select one of them to be used in the parameter update. Our hope is that this batch is representative for the entire data set, such that the new parameters provide a lower cost function. If that is the case, we have reduced the cost of an iteration significantly, since we only need to care about a batch. We are not guaranteed that updating the parameters with respect to a batch gives a lower cost function, and when it is not, we need to run more batches in order to minimize the cost function. Since each iteration is faster than for standard gradient descent, this is acceptable. As long as the batch is slightly representative for the entire data set, the cost function will be minimized in the end. After each batch in the data set has had an opportunity to update the internal parameters, we say that we have went through an \textit{epoch}. Mathematically, the method can be expressed as 
 \begin{empheq}[box={\mybluebox[5pt]}]{align}
 \label{eq:SGD}
 \bs{\theta}_t=\bs{\theta}_{t-1} - \eta\nabla_{\theta} \mathcal{C}_i(\bs{\theta}_{t-1})
@@ -432,7 +422,7 @@ Mathematically, the method can be expressed as
 where we use the $i$'th batch in the parameter update. Standard gradient descent is actually just a special case of this, where we only have one batch ($i$ includes the whole data set). If we still get stuck in local minima after adding the stochasticity, it might be a good idea to add momentum as well.
 
 \subsection{Adding momentum} \label{sec:momentum}
-If we go back to an introductory mechanics course, you might remember that momentum is a quantity that maintains the motion of a body. Imagine a ball that rolls down a steep hill, but then there is a local minimum that it needs to escape to keep rolling. If it has enough momentum, it will be able to escape.
+If we you now recall what you learned in your introductory mechanics course, you might remember that momentum is a quantity that maintains the motion of a body. Imagine a ball that rolls down a steep hill, but then there is a local minimum that it needs to escape to keep rolling. If it has enough momentum, it will be able to escape.
 
 Exactly the same idea lies behind the momentum used in optimization algorithms; the momentum will try to maintain the motion towards the global minimum, which makes the system less likely to be stuck in a local minimum. Momentum can be added to most optimization algorithms, also gradient descent and stochastic gradient descent. The way we do it is to save the direction we were moving during the previous iteration, and use it as a contribution to the next gradient update. A typical implementation of the first-order momentum applied on gradient descent looks like
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
@@ -441,7 +431,7 @@ Exactly the same idea lies behind the momentum used in optimization algorithms; 
 \bs{\theta}_t&=\bs{\theta}_{t-1}-\bs{m}_t
 \end{aligned}
 \end{empheq}
-where $\gamma$ is the momentum parameter, which is just another hyper-parameter usually initialized to a small number. $\bs{m}_t$ is the momentum vector, and can be initialized as the zero vector.
+where $\gamma$ is the momentum parameter, which is just another hyper-parameter usually initialized to a small number. $\bs{m}_t$ is the momentum vector, and can be initialized as the zero vector, corresponding to no initial momentum.
 
 \IncMargin{1em}
 \begin{algorithm}
@@ -458,16 +448,14 @@ where $\gamma$ is the momentum parameter, which is just another hyper-parameter 
 		$t\leftarrow t+1$ (Increase time for each iteration)\;
 		$\bs{g}_t\leftarrow \nabla_{\theta}\mathcal{C}_t(\bs{\theta}_{t-1})$ (Get gradients from a given batch at time $t$)\;
 		$\bs{m}_t\leftarrow \gamma\bs{m}_{t-1}+\eta\cdot\bs{g}_t$ (Update first momentum estimate)\;
-		$\bs{\theta}_t=\bs{\theta}_{t-1}-\eta\cdot\bs{m}_t/\lambda^t$ (Update parameters)\;
+		$\bs{\theta}_t=\bs{\theta}_{t-1}-\eta\cdot\bs{m}_t/\lambda^t$ (Update parameters with monotonic, adaptive step)\;
 	}
-	\KwResult{Updated parameters $\bs{\theta}_t$ after convergence}
+	\KwResult{Converged parameters $\bs{\theta}_t$.}
 	\caption{Adaptive stochastic gradient descent with momentum. See sections (\ref{sec:sgd}-\ref{sec:momentum}) for details. Robust default settings for the hyper-parameters are $\eta=0.001$, $\gamma=0.01$ and $\lambda=0.1$. All the operations are element-wise.}
 	\label{alg:asgd}
 \end{algorithm}\DecMargin{1em}
 
-The optimization algorithm can be modified further in unlimited ways. A common improvement is to add higher order momentum, another is to make the learning rate adaptive. We have implemented the most basic version of this, with monotonic adaptivity. Many algorithms, such as the conjugate gradient method, also make use of the Hessian as discussed in the introduction, but that is another level of complexity. 
-
-We will end this section with setting up the algorithm of a stochastic gradient descent optimization with momentum and monotonic adaptivity. The algorithm is found in algorithm \eqref{alg:asgd}.
+The optimization algorithm can be modified further in unlimited ways. A common improvement is to add higher order momentum, another is to make the learning rate adaptive. We have implemented the most basic version of this, with monotonic adaptivity. Many algorithms, such as the conjugate gradient method, also make use of the Hessian as discussed in the introductory word to this section, but that is another level of complexity. We will end this section with setting up the algorithm of a stochastic gradient descent optimization with momentum and monotonic adaptivity. The algorithm is found in algorithm \ref{alg:asgd}.
 
 \subsection{ADAM} \label{sec:adam}
 ADAM is a first-order stochastic optimization method which is widely used in machine learning. It was discovered by D.P. Kingma and J. Ba, and published in a 2014 paper. The article has already more than 25000 citations \cite{kingma_adam:_2014}! So what makes this method so popular? 
@@ -483,9 +471,7 @@ The main reason why it is widely used, is obviously that it provides good perfor
 \bs{\theta}_t&=\bs{\theta}_{t-1}-\eta\hat{\bs{m}}_t/(\sqrt{\hat{\bs{v}}_t}+\bs{\varepsilon})
 \end{aligned}
 \end{empheq}
-where $\bs{m}_t$ is the biased first momentum estimate of the parameter vector $\bs{\theta}$ and $\bs{v}_t$ is the biased second raw moment estimate. The momentum parameters need to be in the range $\gamma_1,\gamma_2\in[0,1)$, and are often set to values close to 1. This makes the optimization adaptive: as time goes, the factors $1-\gamma_1^t$ and $1-\gamma_2^t$ approach 1 from below. $\eta$ corresponds to the learning rate, and should be a small number. Finally, the parameter $\varepsilon$ is added to avoid division by zero. 
-
-We can set up the algorithm in a similar manner to the adaptive stochastic gradient descent algorithm from above, which gives the algorithm \eqref{alg:adam}.
+where $\bs{m}_t$ is the biased first momentum estimate of the parameter vector $\bs{\theta}$ and $\bs{v}_t$ is the biased second raw moment estimate. The momentum parameters need to be in the range $\gamma_1,\gamma_2\in[0,1)$, and are often set to values close to 1. This makes the optimization adaptive, as the time goes the factors $1-\gamma_1^t$ and $1-\gamma_2^t$ approach 1 from below. $\eta$ is the learning rate, and should be a small number. Finally, the parameter $\varepsilon$ is added to avoid division by zero. We can set up the algorithm in a way similar to the adaptive stochastic gradient descent algorithm presented above, which gives the algorithm \ref{alg:adam}.
 
 \IncMargin{1em}
 \begin{algorithm}
@@ -508,7 +494,7 @@ We can set up the algorithm in a similar manner to the adaptive stochastic gradi
 		$\hat{\bs{v}}_t\leftarrow\bs{v}_t/(1-\gamma_2^t)$ (Bias-corrected second momentum estimate) \;
 		$\bs{\theta}_t\leftarrow\bs{\theta}_{t-1}-\eta\cdot\hat{\bs{m}}_t/(\sqrt{\hat{\bs{v}}_t}+\bs{\varepsilon})$ (Update parameters) \;
 	}
-	\KwResult{Updated parameters $\bs{\theta}_t$ after convergence}
+	\KwResult{Converged parameters $\bs{\theta}_t$.}
 	\caption{ADAM optimizer. Robust default settings for the hyper-parameters are $\eta=0.001$, $\gamma=0.01$ and $\lambda=0.1$. All the operations are element-wise, and for in-depth information see the original paper, \cite{kingma_adam:_2014}.}
 	\label{alg:adam}
 \end{algorithm}\DecMargin{1em}

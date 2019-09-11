@@ -98,7 +98,7 @@ Unrestricted Boltzmann machines, or simply Boltzmann machines, are energy-based,
 \begin{figure}
 	\centering
 	\input{tikz/boltzmann_machine.tex}
-	\caption{Unrestricted Boltzmann machine. Black lines are connections between all the units, where for instance the line between $s_1$ and $s_6$ is related to the weight $w_{16}$. The blue lines are related to the bias weights, and, for instance, the line going from the bias unit to $s_3$ is related to $b_3$.}
+	\caption{Unrestricted Boltzmann machine. Black lines are connections between all the units, where for instance the line between $s_1$ and $s_6$ is related to the weight $w_{16}$. The blue lines are related to the bias weights, and for instance, the line going from the bias unit to $s_3$ is related to $b_3$.}
 	\label{fig:boltzmann_machine}
 \end{figure}
 
@@ -131,7 +131,7 @@ which is called binary-binary units or Bernoulli-Bernoulli units. $F$ is the num
 \begin{figure}
 	\centering
 	\input{tikz/restricted_boltzmann_machine.tex}
-	\caption{Restricted Boltzmann machine. Black lines represent the inter-layer connections, where for instance the line between $x_1$ and $h_1$ is related to the weight $w_{11}$. The blue lines are related to the input bias weights, and, for instance, the line going from the bias unit to $x_3$ is called $a_3$. Similarly, the green lines are connections between the hidden units and the bias, and, for instance, the line going from the bias unit to $h_3$ is called $b_3$.}
+	\caption{Restricted Boltzmann machine. Black lines represent the inter-layer connections, where for instance the line between $x_1$ and $h_1$ is related to the weight $w_{11}$. The red lines are related to the input bias weights, and for instance, the line going from the bias unit to $x_3$ is called $a_3$. Similarly, the blue lines are connections between the hidden units and the bias, and for instance, the line going from the bias unit to $h_3$ is denoted by $b_3$.}
 	\label{fig:restricted_boltzmann_machine}
 \end{figure}
 
@@ -181,7 +181,7 @@ One can also imagine a partly restricted architecture, where we have intern conn
 \begin{figure} [H]
 	\centering
 	\input{tikz/partly_restricted_boltzmann_machine.tex}
-	\caption{Partly restricted Boltzmann machine. Black lines represent inter-layer connections, where for instance the line between $x_1$ and $h_1$ is related to the weight $w_{11}$. The blue lines are related to the input bias weights, and, for instance, the line going from the bias unit to $x_3$ is related to $a_3$. Similarly, the green lines are related to the hidden units bias weights, and, for instance, the line going from the bias unit to $h_3$ is related to $b_3$. Finally, the red lines are the intra-layer connections related to the intra-layer weights. The weight between unit $x_1$ and $x_2$ is called $c_{12}$. }
+	\caption{Partly restricted Boltzmann machine. Black lines represent inter-layer connections, where for instance the line between $x_1$ and $h_1$ is related to the weight $w_{11}$. The red lines are related to the input bias weights, and for instance, the line going from the bias unit to $x_3$ is related to $a_3$. Similarly, the blue lines are related to the hidden units bias weights, and for instance, the line going from the bias unit to $h_3$ is related to $b_3$. Finally, the purple lines are the intra-layer connections related to the intra-layer weights. The weight between unit $x_1$ and $x_2$ is called $c_{12}$. }
 	\label{fig:partly_restricted_boltzmann_machine}
 \end{figure}
 
@@ -203,12 +203,12 @@ In chapter \ref{chp:rbmimplementation}, we utilize that this marginal distributi
 \frac{\partial\ln P(\bs{x}|\bs{a},\bs{b},\bs{c},\bs{w})}{\partial \bs{c}}=\bs{x}\bs{x}^T.
 \end{equation}
 
-\section{Deep Boltzmann Machines}
+\section{Deep Boltzmann machines}
 We can also construct deep Boltzmann machines, also known as deep belief networks, where we just stack single-layer Boltzmann machines. There are many ways to construct those networks, where the number of layers, unit types, number of units and the degree of restriction can be chosen as the constructor wants. The number of combinations is endless, but in order to make use of the dept, all the layer should have different configurations. Otherwise, the deep network can be reduced to a shallower network. In figure \eqref{fig:deep_restricted_boltzmann_machine}, a restricted Boltzmann machine of two hidden layers is illustrated. We have chosen three hidden units in each layer, and three visible units. It should be trivial to imagine how the network can be expanded to more layers. 
 \begin{figure} [H]
 	\centering
 	\input{tikz/deep_boltzmann_machine.tex}
-	\caption{Deep restricted Boltzmann machine. Black lines represent the inter-layer connections, where for instance the line between $x_1$ and $h_1$ is related to the weight $w_{11}$. The blue lines are related to the input bias weights, and, for instance, the line going from the bias unit to $x_3$ is related to $a_3$. Similarly, the green lines are related to the hidden units bias weights, and, for instance, the line going from the bias unit to $h_3$ is related to $b_3$.}
+	\caption{Deep restricted Boltzmann machine. Black lines represent the inter-layer connections, where for instance the line between $x_1$ and $h_1$ is related to the weight $w_{11}$. The purple lines are related to the input bias weights, and for instance, the line going from the bias unit to $x_3$ is related to $a_3$. The red lines are related to the left-hand side hidden units bias weights, the line going from the bias unit to $h_3^1$ is related to $b_3^1$. The same applies for the right-hand side bias weights.}
 	\label{fig:deep_restricted_boltzmann_machine}
 \end{figure}
 
