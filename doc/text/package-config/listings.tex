@@ -1,9 +1,9 @@
-\definecolor{listingsstringcolor}{rgb}{0,0.5,0}
-\definecolor{listingskeywordcolor}{rgb}{0.5,0.5,0.0}
+\definecolor{listingsstringcolor}{rgb}{0.274509803921569,0.470588235294118,0.129411764705882}
+\definecolor{listingskeywordcolor}{rgb}{0.203921568627451,0.541176470588235,0.741176470588235}
 \definecolor{listingsbasiccolor}{rgb}{0.0,0.0,0.0}
 % \definecolor{listingskeywordcolor}{rgb}{0.0,0.0,0.7}
 \definecolor{listingsnumbercolor}{rgb}{0.0,0.0,1.0}
-\definecolor{listingscommentcolor}{rgb}{0.4,0.4,0.4}
+\definecolor{listingscommentcolor}{rgb}{0.47843137254902,0.407843137254902,0.650980392156863}
 \definecolor{listingsbackgroundcolor}{rgb}{0.975,0.975,0.975}
 \definecolor{listingsrulecolor}{rgb}{0.86,0.86,0.86}
 \definecolor{listingsidentifiercolor}{rgb}{0.0,0.0,0.0}
@@ -11,6 +11,10 @@
 \definecolor{listingsmembercolor}{rgb}{0.5,0.0,0.0}
 \definecolor{listingsdirectivecolor}{rgb}{0.0,0.0,0.5}
 % \definecolor{listingsvariablecolor}{rgb}{0.5,0.0,0.5}
+\definecolor{color0}{rgb}{0.203921568627451,0.541176470588235,0.741176470588235}
+\definecolor{color1}{rgb}{0.650980392156863,0.0235294117647059,0.156862745098039}
+\definecolor{color2}{rgb}{0.47843137254902,0.407843137254902,0.650980392156863}
+\definecolor{color3}{rgb}{0.274509803921569,0.470588235294118,0.129411764705882}
 
 \RequirePackage{iftex}
 
@@ -24,6 +28,7 @@
     breakatwhitespace=true,         % sets if automatic breaks should only happen at whitespace
     breaklines=true,                 % sets automatic line breaking
   %   numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+    postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\color{color1}\hookrightarrow\space}},
     numbersep=5pt,                   % how far the line-numbers are from the code
     frame=lrtb,                    % adds a frame around the code
     framexleftmargin=7pt,
@@ -48,6 +53,19 @@
     keywordstyle=[3]{\color{listingsmembercolor}\footnotesize\listingsfont},
     keywordstyle=[4]{\color{listingsdirectivecolor}\footnotesize\listingsfont},
 }
+
+\lstset{
+	classoffset=1, % starting new class
+	otherkeywords={Eigen, MatrixXd, MatrixXi, MatrixX3i, MatrixXf, VectorXd, VectorXi, Index},
+	morekeywords={Eigen, MatrixXd, MatrixXi, MatrixX3i, MatrixXf, VectorXd, VectorXi, Index},
+	keywordstyle=\color{listingskeywordcolor},
+	%classoffset=2, % starting new class
+	%otherkeywords={MatrixXd, MatrixXi, MatrixX3i, MatrixXf, VectorXd, VectorXi, Index},
+	%morekeywords={MatrixXd, MatrixXi, MatrixX3i, MatrixXf, VectorXd, VectorXi, Index},
+	%keywordstyle=\color{red},
+	classoffset=0,
+}
+
 \input{package-config/listings-std.tex}
 \input{package-config/listings-python-std.tex}
 \input{package-config/listings-qmake.tex}

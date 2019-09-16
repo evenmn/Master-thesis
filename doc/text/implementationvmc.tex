@@ -8,27 +8,14 @@
 \end{figure}
 \fi
 
-In this chapter de will describe the implemented variational Monte Carlo (VMC) code, which was developed from scratch in C++. As the code itself is around 7000 significant\footnote{Significant lines of code in this sense means lines that are not blank or commented. Counted by the cloc program \cite{aldanial_cloc_2019}.} lines of code, we will just go through selected and often not obvious parts. As often said, \textit{good planning is half the battle}, which largely relates to writing VMC code. The code was rewritten and restructured several times before we ended on the final version. As a starting point, we used Morten Ledum's VMC framework \cite{ledum_simple_2016}, which was meant as an example implementation in the course \textit{FYS4411 - Computational Physics II: Quantum Mechanical Systems}. The entire source code can be found on the authors github, \cite{nordhagen_general_2019}.
+In this chapter de will describe the implemented variational Monte Carlo (VMC) code, which was developed from scratch in C++. As the code itself is around 7000 significant\footnote{Significant lines of code in this sense means lines that are not blank or commented. Counted by the cloc program \cite{aldanial_cloc_2019}.} lines of code, we will just go through selected and often not obvious parts. As often said, \textit{good planning is half the battle}, which largely relates to writing VMC code. The code was rewritten and restructured several times before we ended on the final version. As a starting point, we used Morten Ledum's VMC framework \cite{ledum_simple_2016}, which was meant as an example implementation in the course \textit{FYS4411 - Computational Physics II: Quantum Mechanical Systems}. The entire source code can be found on the authors GitHub account, \url{github.com/evenmn/VMC}.
+
+The code was developed with focus on three main goals: it should be efficient, flexible and readable. It needs to be flexible in order to support the Boltzmann machines as our trial wave function guess, and since we will try out various Jastrow factors it should be easy to add and remove wave function elements. Since quantum mechanical simulations in general are very expensive, it is important to develop efficient code to be able to study systems of some size. Lastly, we aim to write readable code such that others can reuse the code in its entirety or parts of it later.  How we work to achieve the goals will be illustrated by code mainly picked from the \lstinline{WaveFunction} class, which is the heart of the code.
 
 For all matrix operations, the open source template library for linear algebra Eigen was used throughout the code. Eigen provides an elegant interface, with support for all the needed matrix and vector operations. In addition, Eigen is built on the standard software libraries for numerical linear algebra, BLAS and LAPACK, which are incredibly fast. These contribute greatly to the performance of the code. 
 
-The code was developed with focus on three principal aims:
-\begin{center}
-	\begin{minipage}{0.2\textwidth}
-		\begin{itemize}
-			%\itemsep-0.6em
-			\item efficiency,
-			\item flexibility,
-			\item readability.
-		\end{itemize}
-	\end{minipage}
-\end{center}
-It needs to be flexible in order to support the Boltzmann machines as our trial wave function guess, and since we will try out various Jastrow factors it should be easy to add and remove wave function elements. Since quantum mechanical simulations in general are very expensive, it is important to develop efficient code to be able to study systems of some size. Lastly, we aim to write readable code such that others can reuse the code in its entirety or parts of it later. 
-
-How we work to achieve the goals will be illustrated by code mainly picked from the \lstinline{WaveFunction} class, which is the heart of the code.
-
-\section{Flexibility and legibility}
-We have done several things in order to keep the code as legible as possible. Firstly, the code was written in an object orientated scheme which makes it more intuitive to a human as discussed in chapter \ref{chp:scientificprogramming}. Actually, the Hamiltonians, optimizers, wave functions, sampling methods and even the random number generator were treated as objects, making the code more or less as object orientated as possible. This makes it also easier to define a system, since we simply can set the preferred object. Below, we define a two-dimensional quantum dot system of 6 electrons with frequency $\omega=1.0$, learning rate $\eta=0.1$, number of Metropolis cycles $M=2^{20}=1048576$ and max number of iterations set to 1000.
+\section{Flexibility and readability}
+We have done several things in order to keep the code as readable as possible. Firstly, the code was written in an object orientated scheme which makes it more intuitive to a human as discussed in chapter \ref{chp:scientificprogramming}. Actually, the Hamiltonians, optimizers, wave functions, sampling methods and even the random number generator were treated as objects, making the code more or less as object orientated as possible. This makes it also easier to define a system, since we simply can set the preferred object. Below, we define a two-dimensional quantum dot system of 6 electrons with frequency $\omega=1.0$, learning rate $\eta=0.1$, number of Metropolis cycles $M=2^{20}=1048576$ and max number of iterations set to 1000.
 
 \begin{lstlisting}[language={C++}, caption={Example on how a quantum dot system can be initialized.}, label={lst:qd}]
 System *QD = new System();
@@ -48,12 +35,12 @@ QD->setWaveFunctionElement(new PadeJastrow(QD));
 
 QD->runIterations(1000);
 \end{lstlisting}
-We observe that one first needs to define an object System, and then the various settings can be connected to this object. As you might notice, we use the \textbf{lowerCamelCase} naming convention for function and variable names, which means that each word begins with a capital letter except the initial word. For classes, we use the \textbf{UpperCamelCase} to distinguish from function names. This is known to be easy to read, and apart from for example the popular \textbf{snake\_case}, we do not need delimiters between the words, which saves some space. After the naming convention is decided, we are still responsible for giving reasonable names, which is not always an easy task, as Phil Karlton points out. When one sees the name, one should know exactly what the variable/function/class is or does. More about naming conventions can be read in reference \cite{noauthor_naming_2019}. In addition, as a code format we use the ClangFormat, which provides a consequent way of formating the code. 
+We observe that one first needs to define an object to represent the system, and then the various settings can be connected to this object. As you might notice, we use the \textbf{lowerCamelCase} naming convention for function and variable names, which means that each word begins with a capital letter except the initial word. For classes, we use the \textbf{UpperCamelCase} to distinguish from function names. This is known to be easy to read, and apart from for example the popular \textbf{snake\_case}, we do not need delimiters between the words, which saves some space. After the naming convention is decided, we are still responsible for giving reasonable names, which is not always an easy task, as Phil Karlton points out. When one sees the name, one should know exactly what the variable/function/class is or does. More about naming conventions can be read in reference \cite{noauthor_naming_2019}. In addition, as a code format we use the ClangFormat, which provides a consequent way of formating the code. 
 
 The snippet above also demonstrates how the code is made flexible when it comes to the wave function. One can simply construct a wave function consisting of various elements by calling the \lstinline{setWaveFunctionElement} multiple times. This creates a wave function vector, \lstinline{m_waveFunctionVector}, in the background containing all the elements, which makes it easy to compose the wave function in whatever way you want, all the elements can be combined. The reader might stubs on the use of the element \lstinline{Gaussian}, isn't the trial wave function defined by the Slater determinant multiplied with a Padé-Jastrow factor? It is, but as we will see later in section \ref{sec:factorizing}, the Gaussian part can be factorized out of the Slater determinant when using a Hermite basis. However, we will now start from the fundamental assumption that the trial wave function consists of a Slater determinant and a Jastrow factor, and take it from there. 
 
 \section{Splitting the wave function in elements}
-In a standard VMC computation, the trial wave function is assumed to consist of a single Slater determinant, and a Jastrow factor to take care of the repulsive interactions. Mathematically it can be expressed as
+In a standard VMC calculation, the trial wave function is assumed to consist of a single Slater determinant, and a Jastrow factor to take care of the repulsive interactions. Mathematically it can be expressed as
 \begin{equation}
 \Psi_T(\bs{r})=|\hat{D}(\bs{r})|J(\bs{r}_{ij})
 \end{equation}
@@ -93,10 +80,10 @@ The local energy, defined in equation \eqref{eq:localenergy}, is
 \begin{equation}
 \begin{aligned}
 E_L &=\frac{1}{\Psi_T(\bs{r})}\hat{\mathcal{H}}\Psi_T(\bs{r})\\
-&=\sum_{k=1}^F\Big[-\frac{1}{2}\Big(\frac{1}{\Psi_T(\bs{r})}\nabla_k^2\Psi_T(\bs{r})\Big) + \mathcal{V}\Big].
+&=\sum_{k=1}^F\Big[-\frac{1}{2}\Big(\frac{1}{\Psi_T(\bs{r})}\nabla_k^2\Psi_T(\bs{r})\Big) + V\Big].
 \end{aligned}
 \end{equation}
-where we have $F=ND$ degrees of freedom. The first term, which is the kinetic energy term, is the only wave function-dependent one, and we will in this section split it up with respect to the elements. The potential energy term, $\mathcal{V}$, is not directly dependent on the wave function and will therefore not be further touched here. 
+where we have $F=ND$ degrees of freedom. The first term, which is the kinetic energy term, is the only wave function-dependent one, and we will in this section split it up with respect to the elements. The potential energy term, $V$, is not directly dependent on the wave function and will therefore not be further touched here. 
 
 From the definition of differentiation of a logarithm, we have that
 \begin{equation}
@@ -106,7 +93,7 @@ which provides the following useful relation
 \begin{equation}
 \frac{1}{\Psi_T(\bs{r})}\nabla_k^2\Psi_T(\bs{r})=\nabla_k^2\ln\Psi_T(\bs{r}) + (\nabla_k\ln\Psi_T(\bs{r}))^2.
 \end{equation}
-Using the fact that the trial wave function is a product of all the elements, the term above is calculated by
+By using the fact that the trial wave function is a product of all the elements, the term above is calculated by
 \begin{equation}
 \frac{1}{\Psi_T(\bs{r})}\nabla_k^2\Psi_T(\bs{r})=\sum_{i=1}^p\nabla_k^2\ln\Psi_i(\bs{r}) + \Big(\sum_{i=1}^p\nabla_k\ln\Psi_i(\bs{r})\Big)^2
 \end{equation}
@@ -117,7 +104,7 @@ such that the total kinetic energy is given by
 \end{empheq}
 This can be found when all local derivatives $\nabla^2\ln\Psi_i(\bs{r})$ and $\nabla_k\ln\Psi_i(\bs{r})$ are given. By assuming that the former is returned by a function \lstinline{computeLaplacian()} and the latter is returned by a function \lstinline{computeGradient(k)}, we compute the kinetic energy using the following function
 \lstset{basicstyle=\scriptsize}
-\begin{lstlisting}[language=c++,caption={From \lstinline{system.cpp}.}]
+\begin{lstlisting}[language=c++]
 double System::getKineticEnergy()
 {
 	double kineticEnergy = 0;
@@ -134,17 +121,17 @@ double System::getKineticEnergy()
 	return -0.5 * kineticEnergy;
 }
 \end{lstlisting}
-Note that some of the variables that are declared globally, here the vector \lstinline{m_waveFunctionElements} and the integer \lstinline{m_degreesOfFreedom} are denoted by an \lstinline{m_} to distinguish them from the variables declared locally. 
+Note that some of the variables are declared globally, here the vector \lstinline{m_waveFunctionElements} and the integer \lstinline{m_degreesOfFreedom} are denoted by an \lstinline{m_} to distinguish them from the variables declared locally. 
 
 \subsection{Parameter gradients}
 In section \ref{sec:parameterupdate}, we presented how the parameters can be updated by minimizing the energy expectation value. We recall that the only closed-form expression needed in addition to the local energy is $\nabla_{\theta_j}\ln\Psi_T(\bs{r}_i)$, which needs to be found. By applying equation \eqref{eq:elementproduct}, we find that
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \nabla_{\theta_j}\ln\Psi_T(\bs{r})=\sum_{i=1}^p\nabla_{\theta_j}\ln\Psi_i(\bs{r})=\nabla_{\theta_j}\ln\Psi_{\theta_j}(\bs{r}),
 \end{empheq}
-where $\Psi_{\theta_j}$ is the only element which contains parameter $\theta_j$. With this in mind, we need to find closed-form expressions of $\nabla_{\theta_j}\ln\Psi_{\theta_j}(\bs{r})$ for all wave function elements $\Psi_{\theta_j}(\bs{r})$ that are associated with a variational parameter $\theta_{j}$.
+where $\Psi_{\theta_j}$ is the only element which contains the parameter $\theta_j$. With this in mind, we need to find closed-form expressions of $\nabla_{\theta_j}\ln\Psi_{\theta_j}(\bs{r})$ for all wave function elements $\Psi_{\theta_j}(\bs{r})$ that are associated with a variational parameter $\theta_{j}$.
 
 In the code, we store all the parameters in a \textit{parameter matrix} where each element has its own row of parameters. Similarly, we create a \textit{gradient matrix} of the same dimensions to store the gradient $\nabla_{\theta_j}\ln\Psi_i(\bs{r})$ for each variational parameter. The implementation to get all the gradients are straight-forward, and given by
-\begin{lstlisting}[language=c++,caption={From \lstinline{system.cpp}.}]
+\begin{lstlisting}[language=c++]
 Eigen::MatrixXd System::getAllParameterGradients()
 {
 	for (int i = 0; i < m_numberOfElements; i++) {
@@ -156,14 +143,12 @@ Eigen::MatrixXd System::getAllParameterGradients()
 where \lstinline{m_gradients} has the same number of rows as number of elements and the same number of columns as the maximum number of parameters in an element. The function \lstinline{computeParameterGradient()} returns a vector with all the gradients $\nabla_{\theta_j}\ln\Psi_i(\bs{r})$ of the respective element. Even though the gradients are used to update the parameters, we will postpone the discussion of the parameter update to section \ref{sec:update}.
 
 \subsection{Probability ratio} \label{sec:probabilityratio}
-How much a wave function element can be optimized heavily depends on the specific form of the element. For instance, sometimes the previous and present $\nabla_k\ln\Psi_i$ are closely related, and only differ from each other by a factor, while for some other elements they are not related at all. Those subjective optimizations will therefore be described when presenting each wave function element. 
-
-However, there are still optimizations that apply to all elements and give great speed-up. An example is when calculating the ratio between the previous and present wave functions squared for all wave function elements instead of the wave function itself. Firstly, this is usually cheaper to calculate than the wave function itself because we are working in the logarithm space. Secondly, the ratio is actually what we use in the sampling, so it is a natural thing to calculate. The total probability ratio is just the product of all the probability ratios
+In the two previous sections, we have seen how the derivatives of the wave function elements can be used in order to obtain the local energy and the parameter update. However, we also need the evaluation of the wave function elements themselves to decide whether or not a move should be accepted. If we go back to equation \eqref{eq:acceptance}, we see that what is actually needed is the ratio between the present and the previous probability, $P(\bs{r}_{\text{new}})/P(\bs{r}_{\text{old}})$. Further, we can write this as the product of the probability ratios of all the wave function elements, 
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-	\frac{P(\bs{r}_{\text{new}})}{P(\bs{r}_{\text{old}})}=\frac{|\Psi_T(\bs{r}_{\text{new}})|^2}{|\Psi_T(\bs{r}_{\text{old}})|^2}=\prod_{i=1}^p\frac{|\Psi_i(\bs{r}_{\text{new}})|^2}{|\Psi_i(\bs{r}_{\text{old}})|^2},
+\frac{P(\bs{r}_{\text{new}})}{P(\bs{r}_{\text{old}})}=\frac{|\Psi_T(\bs{r}_{\text{new}})|^2}{|\Psi_T(\bs{r}_{\text{old}})|^2}=\prod_{i=1}^p\frac{|\Psi_i(\bs{r}_{\text{new}})|^2}{|\Psi_i(\bs{r}_{\text{old}})|^2},
 \end{empheq}
-and below we will calculate this ratio for all the elements since we are going to use that directly in the sampling. We name the function returning the ratio for a particular element \lstinline{evaluateRatio()}, and we obtain the total probability ratio in the following way
-\begin{lstlisting}[language=c++,caption={From \lstinline{system.cpp}.}]
+again utilizing equation \eqref{eq:elementproduct}. Finding closed-form expressions for those ratios is not only beneficial because it is needed in the actual implementation, as we work in the log-space those ratios often take clean forms which are cheap to evaluate. Below, we will calculate those ratios for all the elements since we are going to use that directly in the sampling. We name the function returning the ratio for a particular element \lstinline{evaluateRatio()}, and we obtain the total probability ratio in the following way
+\begin{lstlisting}[language=c++]
 double System::evaluateProbabilityRatio()
 {
 	double ratio = 1;
@@ -177,9 +162,9 @@ double System::evaluateProbabilityRatio()
 With this, we have introduced the four central functions of the wave function elements: \lstinline{computeLaplacian()}, \lstinline{computeGradient(k)}, \lstinline{computeParameterGradient()} and \lstinline{evaluateRatio()}. We will now proceed further and see how the trial wave function is split in various elements, and then find closed-form expressions to be used in these four functions for each element. Initially, the Slater determinant will be evaluated. 
 
 \section{Slater determinant}
-As we have seen above, the Slater determinant is the fundamental part of the trial wave function, in addition to the Jastrow factor. The main problem with the Slater determinant, is that it is very expensive to deal with as the number of particles increases. To find the gradient of the Slater determinant, as requested by equation \eqref{eq:splittedkineticenergy}, we need to compute the inverse of the Slater matrix, which by standard LU decomposition scales as $\sim\mathcal{O}(N^3)$ for an $N\times N$ matrix \cite{trahan_computational_2006}. Fortunately, there exist algorithms that let us obtain the inverse of the matrix by recursive relations, scaling as $\sim\mathcal{O}(N^2)$. This will be detailed in section \ref{sec:efficientcalculationsofslaterdeterminant}.
+As we have seen above, the Slater determinant is the fundamental part of the trial wave function, together with the Jastrow factor. The main problem with the Slater determinant, is that it is very expensive to deal with as the number of particles increases. To find the gradient of the Slater determinant, as requested by equation \eqref{eq:splittedkineticenergy}, we need to compute the inverse of the Slater matrix, which by standard LU decomposition scales as $\sim\mathcal{O}(N^3)$ for an $N\times N$ matrix \cite{trahan_computational_2006}. Fortunately, there exist algorithms that let us obtain the inverse of the matrix by recursive relations, scaling as $\sim\mathcal{O}(N^2)$. This will be detailed in section \ref{sec:efficientcalculationsofslaterdeterminant}.
 
-Additionally, the Slater determinant can be split in a spin-up part and a spin-down part, which reduces the Slater matrix to two $N/2\times N/2$ matrices. Also factorizing common functions from the Slater determinant will give some speed-up. In this section, we will mostly discuss the various methods to make the update of the Slater matrix more efficient. 
+Additionally, the Slater determinant can be split in a spin-up part and a spin-down part, which reduces the Slater matrix to two $N/2\times N/2$ matrices. Also factorizing out common functions from the Slater determinant will give some speed-up. In this section, we will mostly discuss the various methods to make the update of the Slater matrix more efficient. 
 
 The Slater determinant was first introduced in section \ref{sec:slater}, and looks like
 \begin{equation}

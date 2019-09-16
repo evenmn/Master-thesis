@@ -203,20 +203,20 @@ by again using the approach detailed in appendix \ref{app:rbmderive}. In chapter
 which also is written on a vectorized form.
 
 \section{Deep Boltzmann machines}
-We can also construct deep Boltzmann machines, also known as deep belief networks, where we just stack single-layer Boltzmann machines. There are many ways to construct those networks, where the number of layers, unit types, number of units and the degree of restriction can be chosen as the programmer wants. The number of combinations is endless, but in order to make use of the dept, all the layer should have different configurations. Otherwise, the deep network can be reduced to a shallower network. In figure \eqref{fig:deep_restricted_boltzmann_machine}, a restricted Boltzmann machine of two hidden layers is illustrated. We have chosen three hidden units in each layer, and three visible units. It should be trivial to imagine how the network can be expanded to more layers. As the main focus so far has been restricted Boltzmann machines, also the deep networks will be assumed to be restricted, although both partly restricted and unrestricted can be constructed. The system energy of a deep restricted Boltzmann machine of $L$ layers can be expressed as
+We can also construct deep Boltzmann machines, also known as deep belief networks, where we simply stack single-layer Boltzmann machines. There are many ways to construct those networks, where the number of layers, unit types, number of units and the degree of restriction can be chosen as the programmer wants. The number of combinations is endless, but in order to make use of the dept, all the layer should have different configurations. Otherwise, the deep network can be reduced to a shallower network. In figure \eqref{fig:deep_restricted_boltzmann_machine}, a restricted Boltzmann machine of two hidden layers is illustrated. We have chosen three hidden units in each layer, and three visible units. It should be trivial to imagine how the network can be expanded to more layers. As the main focus so far has been on restricted Boltzmann machines, also the deep networks will be assumed to be restricted, although both partly restricted and unrestricted can be constructed. The system energy of a deep restricted Boltzmann machine of $L$ layers can be expressed as
 \begin{figure}
 	\centering
 	\input{tikz/deep_boltzmann_machine.tex}
-	\caption{Deep restricted Boltzmann machine. Black lines represent the inter-layer connections, where for instance the line between $x_1$ and $h_1$ is related to the weight $w_{11}$. The purple lines are related to the input bias weights, and for instance, the line going from the bias unit to $x_3$ is related to $a_3$. The red lines are related to the left-hand side hidden units bias weights, the line going from the bias unit to $h_3^1$ is related to $b_3^1$. The same applies for the right-hand side bias weights.}
+	\caption{Deep restricted Boltzmann machine. Black lines represent the inter-layer connections, where for instance the line between $x_1^{(1)}$ and $h_1^{(1)}$ is related to the weight $w_{11}^{(1)}$ and similar for the other layer. The purple lines are related to the input bias weights, and for instance, the line going from the bias unit to $x_3$ is related to $a_3$. The red lines are related to the left-hand side hidden units bias weights, the line going from the bias unit to $h_3^{(1)}$ is related to $b_3^{(1)}$. The same applies for the right-hand side bias weights.}
 	\label{fig:deep_restricted_boltzmann_machine}
 \end{figure}
 \begin{equation}
-E(\bs{x},\bs{h})= \sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2} - \sum_{l=1}^L\sum_{j=1}^{H_L}h_j^lb_j^l-\sum_{l=1}^L\sum_{i=1}^F\sum_{j=i}^{H_L} \frac{x_iw_{ij}^lh_j^l}{\sigma_i^2}
+E(\bs{x},\bs{h})= \sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2} - \sum_{l=1}^L\sum_{j=1}^{H_L}h_j^{(l)}b_j^{(l)}-\sum_{l=1}^L\sum_{i=1}^F\sum_{j=i}^{H_L} \frac{x_iw_{ij}^{(l)}h_j^{(l)}}{\sigma_i^2}
 \label{eq:deepgaussianbinary}
 \end{equation}
 where $H_L$ is the number of hidden units in layer $L$. The marginal probability distribution of the visible units read
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-P(\bs{x})\propto\exp\Big(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2}\Big)\prod_{l=1}^L\prod_{j=1}^{H_L}\bigg(1+\exp\Big(b_j^l+\sum_{i=1}^F\frac{w_{ij}^lx_i}{\sigma^2}\Big)\bigg).
+P(\bs{x})\propto\exp\Big(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2}\Big)\prod_{l=1}^L\prod_{j=1}^{H_L}\bigg(1+\exp\Big(b_j^{(l)}+\sum_{i=1}^F\frac{w_{ij}^{(l)}x_i}{\sigma^2}\Big)\bigg).
 \label{eq:DRBMWF}
 \end{empheq}
 which again can be obtained from the general expressions in appendix \ref{app:rbmderive}.

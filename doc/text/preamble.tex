@@ -42,6 +42,14 @@
 %\usepackage{mathpazo}
 %\usepackage{eulervm}
 
+% Colors
+\definecolor{background}{rgb}{0.898,0.898,0.898}
+\definecolor{color0}{rgb}{0.203921568627451,0.541176470588235,0.741176470588235}
+\definecolor{color1}{rgb}{0.650980392156863,0.0235294117647059,0.156862745098039}
+\definecolor{color2}{rgb}{0.47843137254902,0.407843137254902,0.650980392156863}
+\definecolor{color3}{rgb}{0.274509803921569,0.470588235294118,0.129411764705882}
+\definecolor{myblue}{rgb}{.8157, .9255, 1}
+
 % Algorithm2e
 \usepackage[linesnumbered,
 			lined,
@@ -76,19 +84,13 @@
 \tikzstyle{learned}=[text=red]
 
 \tikzset{basic/.style={draw,fill=blue!20,text width=1em,text badly centered}}
-\tikzset{input/.style={basic,circle}}
+\tikzset{input/.style={basic,circle,fill=myblue}}
 \tikzset{weights/.style={basic,rectangle}}
 \tikzset{functions/.style={basic,circle,fill=blue!10}}
 
 \tikzexternalize[prefix=figures/]
 
 %empheq color box
-\definecolor{background}{rgb}{0.898,0.898,0.898}
-\definecolor{color0}{rgb}{0.203921568627451,0.541176470588235,0.741176470588235}
-\definecolor{color1}{rgb}{0.650980392156863,0.0235294117647059,0.156862745098039}
-\definecolor{color2}{rgb}{0.47843137254902,0.407843137254902,0.650980392156863}
-\definecolor{color3}{rgb}{0.274509803921569,0.470588235294118,0.129411764705882}
-\definecolor{myblue}{rgb}{.8, .8, 1}
 \newlength\mytemplen
 \newsavebox\mytempbox
 
@@ -127,36 +129,6 @@
 \@namedef{shadequote*}{\@rightfalse\shadequote@i}
 \@namedef{endshadequote*}{\endshadequote}
 \makeatother
-
-%listings
-\iffalse
-\lstset{language=c++}
-\lstset{basicstyle=\small}
-\lstset{backgroundcolor=\color{white}}
-\lstset{frame=single}
-\lstset{stringstyle=\ttfamily}
-\lstset{keywordstyle=\color{red}\bfseries}
-\lstset{commentstyle=\itshape\color{blue}}
-\lstset{showspaces=false}
-\lstset{showstringspaces=false}
-\lstset{showtabs=false}
-\lstset{breaklines}
-\lstset{literate={~} {$\sim$}{1}}
-\lstset{postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\color{red}\hookrightarrow\space}}}
-\fi
-\lstset{
-	classoffset=1, % starting new class
-	otherkeywords={Eigen, MatrixXd, MatrixXi, MatrixX3i, MatrixXf, VectorXd, VectorXi, Index},
-	morekeywords={Eigen, MatrixXd, MatrixXi, MatrixX3i, MatrixXf, VectorXd, VectorXi, Index},
-	keywordstyle=\color{red},
-	%classoffset=2, % starting new class
-	%otherkeywords={MatrixXd, MatrixXi, MatrixX3i, MatrixXf, VectorXd, VectorXi, Index},
-	%morekeywords={MatrixXd, MatrixXi, MatrixX3i, MatrixXf, VectorXd, VectorXi, Index},
-	%keywordstyle=\color{red},
-	classoffset=0,
-}
-\lstset{postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\color{red}\hookrightarrow\space}}}
-\lstset{commentstyle=\itshape\color{myblue}}
 
 %chapter heading
 \titleformat{\chapter}[display]
