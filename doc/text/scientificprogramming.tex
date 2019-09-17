@@ -91,9 +91,9 @@ As we can see, the area of the circle and the square were calculated successfull
 Up to this point, we have talked a lot about Monte Carlo simulations without giving an illustrating example on what it is. Methods where we draw numbers randomly from a function to reveal properties of the function are in general categorized as Monte Carlo simulations, in that manner the name might sound more complicated than it is. 
 
 Suppose we did not know the value of $\pi$, what could we do to approximate its value? There are many ways to do this, where the most intuitive might be to measure the ratio between the diameter and the circumference in a circle. It is not possible to do this very accurate manually. A more accurate and robust solution would be to use Monte Carlo simulations, where we for instance can take the starting point on the relation
-\begin{equation}
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \pi=4\frac{\text{A}_{\text{circle}}}{\text{A}_{\text{square}}}
-\end{equation}
+\end{empheq}
 which is derived from the ratio between the circle area and the square area. By drawing random numbers from a uniform distribution and count the number of points which are in the square and in the circle, we can approximate $\text{A}_{\text{circle}}/\text{A}_{\text{square}}$. We can do this by using the \texttt{getExtent()} function of the square class and circle class,
 \lstset{basicstyle=\scriptsize}
 \begin{lstlisting}[language=python]

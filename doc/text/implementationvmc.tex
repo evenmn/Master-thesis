@@ -40,60 +40,33 @@ We observe that one first needs to define an object to represent the system, and
 The snippet above also demonstrates how the code is made flexible when it comes to the wave function. One can simply construct a wave function consisting of various elements by calling the \lstinline{setWaveFunctionElement} multiple times. This creates a wave function vector, \lstinline{m_waveFunctionVector}, in the background containing all the elements, which makes it easy to compose the wave function in whatever way you want, all the elements can be combined. The reader might stubs on the use of the element \lstinline{Gaussian}, isn't the trial wave function defined by the Slater determinant multiplied with a Padé-Jastrow factor? It is, but as we will see later in section \ref{sec:factorizing}, the Gaussian part can be factorized out of the Slater determinant when using a Hermite basis. However, we will now start from the fundamental assumption that the trial wave function consists of a Slater determinant and a Jastrow factor, and take it from there. 
 
 \section{Splitting the wave function in elements}
-In a standard VMC calculation, the trial wave function is assumed to consist of a single Slater determinant, and a Jastrow factor to take care of the repulsive interactions. Mathematically it can be expressed as
+In a standard VMC calculation, the trial wave function, $\Psi_T(\bs{r})$, is assumed to consist of a single Slater determinant and a Jastrow factor to take care of the repulsive interactions. Mathematically it can be expressed as
 \begin{equation}
 \Psi_T(\bs{r})=|\hat{D}(\bs{r})|J(\bs{r}_{ij})
 \end{equation}
-where the Slater determinant is the determinant of the matrix $\hat{D}(\bs{r})$, henceforth the Slater matrix. 
-To convince the reader that the Slater determinant and the Jastrow factor can be treated separately, we will consider a general trial wave function consisting of $p$ \textit{wave function elements} $\{\Psi_1, \Psi_2\hdots\Psi_p\}$,
+where $\bs{r}$ is the set of coordinates of all the particles and $\bs{r}_{ij}$ are the distances between all the particles. $J(\bs{r}_{ij})$ is an arbitrary Jastrow factor, while the Slater determinant is the determinant of the matrix $\hat{D}(\bs{r})$, henceforth the Slater matrix. To convince the reader that the Slater determinant and the Jastrow factor can be treated separately, we will consider a general trial wave function consisting of $p$ wave function elements $\{\Psi_1, \Psi_2\hdots\Psi_p\}$,
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \Psi_T(\bs{r}) = \prod_{i=1}^p\Psi_i(\bs{r}),
 \label{eq:elementproduct}
 \end{empheq}
-where $\bs{r}$ contains all the positions at a certain time. In order to treat each such element independently, we need to assume that a parameter $\theta_j$ only appears in an element.
-
-\iffalse
-In chapter \eqref{chp:quantum} we presented the basic principles behind a many-body trial wave function, including the Slater determinant and the well-known Padé-Jastrow factor. Further in chapter \eqref{chp:systems}, the common basis functions of the quantum dot and atomic systems were given, and in the previous chapter, \eqref{chp:machinelearning}, we explained how to create wave functions using Boltzmann machines. This means that all wave function elements used in this thesis already are presented, and in this chapter we collect them, together with their derivatives and various optimizations. The calculations below are based on two main assumptions:
-\begin{enumerate}
-	\item For each time step, we change one position coordinate only, i.e, move a particle along one of the principal axis.
-	\item A variational parameter $\theta_i$ appears in only one of the wave function elements.
-\end{enumerate}
-The first assumption is useful when updating position dependent arrays. Typically, we only need to update an element in a vector or a row in a matrix when this assumption is raised, which is hugely beneficial with respect to the computational time. The last assumption makes all wave function elements independent, which obviously makes life easier. 
-
-In this work, the trial wave function $\Psi_T$ is a product of all the $p$ wave function elements $\{\psi_1, \psi_2\hdots\psi_p\}$ that are involved in a calculation,
-\begin{empheq}[box={\mybluebox[5pt]}]{equation}
-\Psi_T(\bs{r}) = \prod_{i=1}^p\psi_i(\bs{r}),
-\end{empheq}
-where $\bs{r}$ contains all the positions at a certain time. 
-
-As a practical example, consider a quantum dot of six interacting electrons. In that case, a Slater determinant needs to be included in order to ensure that the wave function is anti-symmetric, but since the Gaussian function appears in all the single particle function, this can be factorized out. We can therefore split the Slater determinant up in a simple Gaussian element and a determinant consisting of the Hermite polynomials. In addition, a Jastrow factor is required to take care of the correlations, so the trial wave function should consist of a total of three elements for this particular system:
-\begin{equation*}
-\Psi_T(\bs{r})=\psi_{sg}(\bs{r})\psi_{sd}(\bs{r})\psi_{jf}(\bs{r})
-\end{equation*}
-where $sg$ stands for the simple Gaussian, $sd$ stands for the Slater determinant and $jf$ stands for an arbitrary Jastrow factor. 
-
-We will first try to convince the reader that the local energy and the parameter update can be calculated separately for each element, and then move on to find closed-form expressions for the required term in the calculations for all the elements.
-\fi
+where $\Psi_i(\bs{r})$ in principle can be any function of the coordinates $\bs{r}$. However, we will later see that the parameter update simplifies if we restrict each variational parameter $\theta_j$ to appear in an element only. Before that, we will look at how the kinetic energy can be expressed in terms of independent factors.
 
 \subsection{Kinetic energy computations} \label{sec:kinetic}
-The local energy, defined in equation \eqref{eq:localenergy}, is
+The local energy computation is the heart of the VMC code, and the aim for an efficient and flexible code starts here. It was first defined in equation \eqref{eq:localenergy}, and by inserting a general Hamiltonian $\hat{\mathcal{H}}=-1/2\nabla^2+V$ with $V$ covering all the potential energy, we obtain
 \begin{equation}
-\begin{aligned}
-E_L &=\frac{1}{\Psi_T(\bs{r})}\hat{\mathcal{H}}\Psi_T(\bs{r})\\
-&=\sum_{k=1}^F\Big[-\frac{1}{2}\Big(\frac{1}{\Psi_T(\bs{r})}\nabla_k^2\Psi_T(\bs{r})\Big) + V\Big].
-\end{aligned}
+E_L=\sum_{k=1}^F\Big[-\frac{1}{2}\Big(\frac{1}{\Psi_T(\bs{r})}\nabla_k^2\Psi_T(\bs{r})\Big) + V\Big],
 \end{equation}
-where we have $F=ND$ degrees of freedom. The first term, which is the kinetic energy term, is the only wave function-dependent one, and we will in this section split it up with respect to the elements. The potential energy term, $V$, is not directly dependent on the wave function and will therefore not be further touched here. 
+where we have $F=ND$ degrees of freedom. As always, $N$ is the number of particles and $D$ is the number of dimensions. The first term, which is the kinetic energy term, is the only wave function-dependent one, and we will in this section split it up with respect to the elements. The potential energy term, $V$, is not directly dependent on the wave function and will therefore not be further touched here. 
 
-From the definition of differentiation of a logarithm, we have that
+From the definition of the derivative of a logarithm, we have that
 \begin{equation}
 \frac{1}{\Psi_T(\bs{r})}\nabla_k\Psi_T(\bs{r})=\nabla_k\ln\Psi_T(\bs{r}),
 \end{equation}
-which provides the following useful relation 
+which can be used to prove the following relation 
 \begin{equation}
 \frac{1}{\Psi_T(\bs{r})}\nabla_k^2\Psi_T(\bs{r})=\nabla_k^2\ln\Psi_T(\bs{r}) + (\nabla_k\ln\Psi_T(\bs{r}))^2.
 \end{equation}
-By using the fact that the trial wave function is a product of all the elements, the term above is calculated by
+Expressing the kinetic energy in terms of this relation is useful because most of the elements can be easily treated in the log-space. By using the fact that the trial wave function is a product of all the elements, the term above is calculated by
 \begin{equation}
 \frac{1}{\Psi_T(\bs{r})}\nabla_k^2\Psi_T(\bs{r})=\sum_{i=1}^p\nabla_k^2\ln\Psi_i(\bs{r}) + \Big(\sum_{i=1}^p\nabla_k\ln\Psi_i(\bs{r})\Big)^2
 \end{equation}
@@ -128,9 +101,9 @@ In section \ref{sec:parameterupdate}, we presented how the parameters can be upd
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \nabla_{\theta_j}\ln\Psi_T(\bs{r})=\sum_{i=1}^p\nabla_{\theta_j}\ln\Psi_i(\bs{r})=\nabla_{\theta_j}\ln\Psi_{\theta_j}(\bs{r}),
 \end{empheq}
-where $\Psi_{\theta_j}$ is the only element which contains the parameter $\theta_j$. With this in mind, we need to find closed-form expressions of $\nabla_{\theta_j}\ln\Psi_{\theta_j}(\bs{r})$ for all wave function elements $\Psi_{\theta_j}(\bs{r})$ that are associated with a variational parameter $\theta_{j}$.
+where $\Psi_{\theta_j}(\bs{r})$ is the only element which contains the parameter $\theta_j$. With this in mind, we need to find closed-form expressions of $\nabla_{\theta_j}\ln\Psi_{\theta_j}(\bs{r})$ for all wave function elements $\Psi_{\theta_j}(\bs{r})$ that are associated with a variational parameter $\theta_{j}$.
 
-In the code, we store all the parameters in a \textit{parameter matrix} where each element has its own row of parameters. Similarly, we create a \textit{gradient matrix} of the same dimensions to store the gradient $\nabla_{\theta_j}\ln\Psi_i(\bs{r})$ for each variational parameter. The implementation to get all the gradients are straight-forward, and given by
+In the code, we store all the parameters in a \textit{parameter matrix} where each element has its own row of parameters. Similarly, we create a \textit{gradient matrix} of the same dimensions to store the gradients $\nabla_{\theta_j}\ln\Psi_{\theta_j}(\bs{r})$ for each variational parameter. The function which collect all the gradients is implemented straight-forwardly, and is given by
 \begin{lstlisting}[language=c++]
 Eigen::MatrixXd System::getAllParameterGradients()
 {
@@ -140,7 +113,7 @@ Eigen::MatrixXd System::getAllParameterGradients()
 	return m_gradients;
 }
 \end{lstlisting}
-where \lstinline{m_gradients} has the same number of rows as number of elements and the same number of columns as the maximum number of parameters in an element. The function \lstinline{computeParameterGradient()} returns a vector with all the gradients $\nabla_{\theta_j}\ln\Psi_i(\bs{r})$ of the respective element. Even though the gradients are used to update the parameters, we will postpone the discussion of the parameter update to section \ref{sec:update}.
+where \lstinline{m_gradients} has the same number of rows as the number of elements and the same number of columns as the maximum number of parameters in an element $i$. The function \lstinline{computeParameterGradient()} returns a vector with all the gradients $\nabla_{\theta_j}\ln\Psi_i(\bs{r})$ of the respective element. Even though the gradients are used to update the parameters, we will postpone the discussion of the parameter update to section \ref{sec:update}.
 
 \subsection{Probability ratio} \label{sec:probabilityratio}
 In the two previous sections, we have seen how the derivatives of the wave function elements can be used in order to obtain the local energy and the parameter update. However, we also need the evaluation of the wave function elements themselves to decide whether or not a move should be accepted. If we go back to equation \eqref{eq:acceptance}, we see that what is actually needed is the ratio between the present and the previous probability, $P(\bs{r}_{\text{new}})/P(\bs{r}_{\text{old}})$. Further, we can write this as the product of the probability ratios of all the wave function elements, 
@@ -159,65 +132,63 @@ double System::evaluateProbabilityRatio()
 }
 \end{lstlisting}
 
-With this, we have introduced the four central functions of the wave function elements: \lstinline{computeLaplacian()}, \lstinline{computeGradient(k)}, \lstinline{computeParameterGradient()} and \lstinline{evaluateRatio()}. We will now proceed further and see how the trial wave function is split in various elements, and then find closed-form expressions to be used in these four functions for each element. Initially, the Slater determinant will be evaluated. 
+With this, we have introduced the four central functions of the wave function elements: \lstinline{computeLaplacian()}, \lstinline{computeGradient(k)}, \lstinline{computeParameterGradient()} and \lstinline{evaluateRatio()}. In the following, we will evaluate the Slater determinant and see how it can be split further in more elements. 
 
 \section{Slater determinant}
-As we have seen above, the Slater determinant is the fundamental part of the trial wave function, together with the Jastrow factor. The main problem with the Slater determinant, is that it is very expensive to deal with as the number of particles increases. To find the gradient of the Slater determinant, as requested by equation \eqref{eq:splittedkineticenergy}, we need to compute the inverse of the Slater matrix, which by standard LU decomposition scales as $\sim\mathcal{O}(N^3)$ for an $N\times N$ matrix \cite{trahan_computational_2006}. Fortunately, there exist algorithms that let us obtain the inverse of the matrix by recursive relations, scaling as $\sim\mathcal{O}(N^2)$. This will be detailed in section \ref{sec:efficientcalculationsofslaterdeterminant}.
+As we have seen above, the Slater determinant is the fundamental part of the trial wave function, together with the Jastrow factor. The main problem with the Slater determinant, is that it is very expensive to deal with as the number of particles increases. To find the gradient of the Slater determinant, as requested by equation \eqref{eq:splittedkineticenergy}, we need to compute the inverse of the Slater matrix, which by standard LU decomposition scales as $\sim N^3$ for an $N\times N$ matrix \cite{trahan_computational_2006}. Fortunately, there exist algorithms that let us obtain the inverse of the matrix by recursive relations, scaling as $\sim N^2$. This will be detailed in section \ref{sec:efficientcalculationsofslaterdeterminant}.
 
-Additionally, the Slater determinant can be split in a spin-up part and a spin-down part, which reduces the Slater matrix to two $N/2\times N/2$ matrices. Also factorizing out common functions from the Slater determinant will give some speed-up. In this section, we will mostly discuss the various methods to make the update of the Slater matrix more efficient. 
-
-The Slater determinant was first introduced in section \ref{sec:slater}, and looks like
+Additionally, the Slater determinant can be split in a spin-up part and a spin-down part, which reduces the Slater matrix to two $N/2\times N/2$ matrices. Also factorizing out common functions from the Slater determinant will give some speed-up. In this section, we will mostly discuss the various methods to make the update of the Slater matrix more efficient. Before we proceed further, we will reintroduce the Slater determinant from section \ref{sec:slater},
 \begin{equation}
 \Psi_{sd}(\bs{r},\bs{\sigma})=|\hat{D}(\bs{r},\bs{\sigma})|\propto
 \begin{vmatrix}
-\psi_1(\boldsymbol{r}_1,\sigma_1) & \psi_2(\boldsymbol{r}_1,\sigma_2) & \hdots & \psi_N(\boldsymbol{r}_1,\sigma_N)\\
-\psi_1(\boldsymbol{r}_2,\sigma_1) & \psi_2(\boldsymbol{r}_2,\sigma_2) & \hdots & \psi_N(\boldsymbol{r}_2,\sigma_N)\\
+\phi_1(\boldsymbol{r}_1,\sigma_1) & \phi_2(\boldsymbol{r}_1,\sigma_2) & \hdots & \phi_N(\boldsymbol{r}_1,\sigma_N)\\
+\phi_1(\boldsymbol{r}_2,\sigma_1) & \phi_2(\boldsymbol{r}_2,\sigma_2) & \hdots & \phi_N(\boldsymbol{r}_2,\sigma_N)\\
 \vdots & \vdots & \ddots & \vdots \\
-\psi_1(\boldsymbol{r}_N,\sigma_1) & \psi_2(\boldsymbol{r}_N,\sigma_2) & \hdots & \psi_N(\boldsymbol{r}_N,\sigma_N)
+\phi_1(\boldsymbol{r}_N,\sigma_1) & \phi_2(\boldsymbol{r}_N,\sigma_2) & \hdots & \phi_N(\boldsymbol{r}_N,\sigma_N),
 \end{vmatrix}
 \label{eq:generalslater}
 \end{equation}
-where $\psi_j(\bs{r}_i,\sigma_j)$ is the single particle function occupying spot $i,j$ in the matrix.
+as it is the starting point of our optimizations. We also recall that $\sigma_i$ is the spin, and $\phi_j(\bs{r}_i,\sigma_j)$ is the single-particle function occupying the matrix element $D_{ij}$.
 
 \subsection{Splitting up the Slater determinant} \label{sec:splittingofslater}
 In order to reduce the computational cost of the Slater determinant, we will split it up in a spin-up part and a spin-down part. In real life, we cannot immediately tell if an electron has spin-up or spin-down, but since we in the program need to know which particles that have spin-up and spin-down, we simply decide that the first $N_{\uparrow}$ particle have spin up and the remaining particles have spin down. 
 
 In addition to reduce the computational cost, splitting up the Slater determinant also makes it possible to factorize out the spin-part from the spin-orbitals. Only the spatial part of the single particle functions contribute to the energies, such that we with advantage can get rid of the spin parts. Recall that the spin-orbitals can be written as 
 \begin{equation}
-\psi(\bs{r},\sigma)=\Psi(\bs{r})\otimes\chi(\sigma) 
+\psi(\bs{r},\sigma)=\phi(\bs{r})\otimes\chi(\sigma) 
 \end{equation}
 where only the spatial part, $\Psi(\bs{r})$, is dependent on the coordinates. As we in the ground state have double degeneracy, the spatial part will be the same for pairwise spin-up and spin-down particles, and we arrange them as
 \begin{equation}
 \psi_j(\bs{r}_i,\sigma_i)=
 \begin{cases}
-\Psi_j(\bs{r}_i)\chi_{\uparrow}(\sigma_i)\quad\quad&\text{if } j<N_{\uparrow}\\
-\Psi_j(\bs{r}_i)\chi_{\downarrow}(\sigma_i)\quad\quad&\text{if } j\geq N_{\uparrow}.
+\phi_j(\bs{r}_i)\chi_{\uparrow}(\sigma_i)\quad\quad&\text{if } j<N_{\uparrow}\\
+\phi_j(\bs{r}_i)\chi_{\downarrow}(\sigma_i)\quad\quad&\text{if } j\geq N_{\uparrow}.
 \end{cases}
 \end{equation}
-Since the first $N_{\uparrow}$ particles have spin up, $\sigma_i=\uparrow\quad\forall\quad i\in\{1,2,...,N_{\uparrow}\}$ and the remaining have spin down, we can now set up the Slater determinant in equation \eqref{eq:generalslater} where each single particle function is split in a spatial part and a spin part,
-\begin{equation}
+Since the first $N_{\uparrow}$ particles have spin up, $\sigma_i=\,\uparrow\quad\forall\quad i\in\{1,2,...,N_{\uparrow}\}$ and the remaining have spin down, we can now set up the Slater determinant in equation \eqref{eq:generalslater} where each single particle function is split in a spatial part and a spin part,
+\begin{equation*}
 \Psi_{sd}(\boldsymbol{r},\bs{\sigma})\propto
 \begin{vmatrix}
-\Psi_1(\boldsymbol{r}_1)\chi_{\uparrow}(\uparrow) & \hdots & \Psi_{N_{\uparrow}}(\boldsymbol{r}_1)\chi_{\uparrow}(\uparrow) & \Psi_{1}(\boldsymbol{r}_1)\chi_{\downarrow}(\uparrow) & \hdots & \Psi_{N_{\downarrow}}(\boldsymbol{r}_1)\chi_{\downarrow}(\uparrow)\\
+\phi_1(\boldsymbol{r}_1)\chi_{\uparrow}(\uparrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_1)\chi_{\uparrow}(\uparrow) & \phi_{1}(\boldsymbol{r}_1)\chi_{\downarrow}(\uparrow) & \hdots & \phi_{N_{\downarrow}}(\boldsymbol{r}_1)\chi_{\downarrow}(\uparrow)\\
 \vdots & & \vdots & \vdots & & \vdots \\
-\Psi_1(\boldsymbol{r}_{N_{\uparrow}})\chi_{\uparrow}(\uparrow) & \hdots & \Psi_{N_{\uparrow}}(\boldsymbol{r}_{N_{\uparrow}})\chi_{\uparrow}(\uparrow) & \Psi_{1}(\boldsymbol{r}_{N_{\uparrow}})\chi_{\downarrow}(\uparrow) & \hdots & \Psi_{N_{\downarrow}}(\boldsymbol{r}_{N_{\uparrow}})\chi_{\downarrow}(\uparrow)\\
-\Psi_1(\boldsymbol{r}_{N_{\uparrow}+1})\chi_{\uparrow}(\downarrow) & \hdots & \Psi_{N_{\uparrow}}(\boldsymbol{r}_{N_{\uparrow}+1})\chi_{\uparrow}(\downarrow) & \Psi_{1}(\boldsymbol{r}_{N_{\uparrow}+1})\chi_{\downarrow}(\downarrow) & \hdots & \Psi_{N_{\downarrow}}(\boldsymbol{r}_{N_{\uparrow}+1})\chi_{\downarrow}(\downarrow)\\
+\phi_1(\boldsymbol{r}_{N_{\uparrow}})\chi_{\uparrow}(\uparrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_{N_{\uparrow}})\chi_{\uparrow}(\uparrow) & \phi_{1}(\boldsymbol{r}_{N_{\uparrow}})\chi_{\downarrow}(\uparrow) & \hdots & \phi_{N_{\downarrow}}(\boldsymbol{r}_{N_{\uparrow}})\chi_{\downarrow}(\uparrow)\\
+\phi_1(\boldsymbol{r}_{N_{\uparrow}+1})\chi_{\uparrow}(\downarrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_{N_{\uparrow}+1})\chi_{\uparrow}(\downarrow) & \phi_{1}(\boldsymbol{r}_{N_{\uparrow}+1})\chi_{\downarrow}(\downarrow) & \hdots & \phi_{N_{\downarrow}}(\boldsymbol{r}_{N_{\uparrow}+1})\chi_{\downarrow}(\downarrow)\\
 \vdots & & \vdots & \vdots & & \vdots \\
-\Psi_1(\boldsymbol{r}_N)\chi_{\uparrow}(\downarrow) & \hdots & \Psi_{N_{\uparrow}}(\boldsymbol{r}_N)\chi_{\uparrow}(\downarrow) & \Psi_{1}(\boldsymbol{r}_N)\chi_{\downarrow}(\downarrow) & \hdots & \Psi_{N_{\downarrow}}(\boldsymbol{r}_N)\chi_{\downarrow}(\downarrow)\\
+\phi_1(\boldsymbol{r}_N)\chi_{\uparrow}(\downarrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_N)\chi_{\uparrow}(\downarrow) & \phi_{1}(\boldsymbol{r}_N)\chi_{\downarrow}(\downarrow) & \hdots & \phi_{N_{\downarrow}}(\boldsymbol{r}_N)\chi_{\downarrow}(\downarrow)\\
 \end{vmatrix}.
-\end{equation}
+\end{equation*}
 We observe that the the spin-up particles sometimes occupy spin-down states, which they are not allowed to. Therefore, half of the elements become zero and the determinant can be further expressed as
-\begin{equation}
+\begin{equation*}
 \Psi_{sd}(\boldsymbol{r},\bs{\sigma})\propto
 \begin{vmatrix}
-\Psi_1(\boldsymbol{r}_1)\chi_{\uparrow}(\uparrow) & \hdots & \Psi_{N_{\uparrow}}(\boldsymbol{r}_1)\chi_{\uparrow}(\uparrow) & 0 & \hdots & 0\\
+\phi_1(\boldsymbol{r}_1)\chi_{\uparrow}(\uparrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_1)\chi_{\uparrow}(\uparrow) & 0 & \hdots & 0\\
 \vdots & & \vdots & \vdots & & \vdots \\
-\Psi_1(\boldsymbol{r}_{N_{\uparrow}})\chi_{\uparrow}(\uparrow) & \hdots & \Psi_{N_{\uparrow}}(\boldsymbol{r}_{N_{\uparrow}})\chi_{\uparrow}(\uparrow) & 0 & \hdots & 0\\
-0 & \hdots & 0 & \Psi_{N_{\uparrow}+1}(\boldsymbol{r}_{N_{\uparrow}+1})\chi_{\downarrow}(\downarrow) & \hdots & \Psi_{N}(\boldsymbol{r}_{N_{\uparrow}+1})\chi_{\downarrow}(\downarrow)\\
+\phi_1(\boldsymbol{r}_{N_{\uparrow}})\chi_{\uparrow}(\uparrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_{N_{\uparrow}})\chi_{\uparrow}(\uparrow) & 0 & \hdots & 0\\
+0 & \hdots & 0 & \phi_{1}(\boldsymbol{r}_{N_{\uparrow}+1})\chi_{\downarrow}(\downarrow) & \hdots & \phi_{N_{\downarrow}}(\boldsymbol{r}_{N_{\uparrow}+1})\chi_{\downarrow}(\downarrow)\\
 \vdots & & \vdots & \vdots & & \vdots \\
-0 & \hdots & 0 & \Psi_{N_{\uparrow}+1}(\boldsymbol{r}_N)\chi_{\downarrow}(\downarrow) & \hdots & \Psi_{N}(\boldsymbol{r}_N)\chi_{\downarrow}(\downarrow)\\
+0 & \hdots & 0 & \phi_{1}(\boldsymbol{r}_N)\chi_{\downarrow}(\downarrow) & \hdots & \phi_{N_{\downarrow}}(\boldsymbol{r}_N)\chi_{\downarrow}(\downarrow)\\
 \end{vmatrix}
-\end{equation}
+\end{equation*}
 where the Slater matrix now is block diagonal! For a general block diagonal matrix, the determinant is given by the product of the determinant of each block
 \begin{equation}
 \Psi_{sd}(\boldsymbol{r},\bs{\sigma})\propto|\hat{D}_{\uparrow}(\bs{r}_{\uparrow},\sigma_{\uparrow})|\cdot |\hat{D}_{\downarrow}(\bs{r}_{\downarrow},\sigma_{\downarrow})|
@@ -230,7 +201,7 @@ and omitted in the future study since the energy is independent of spin. We are 
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \Psi_{sd}(\boldsymbol{r})\propto|\hat{D}_{\uparrow}(\bs{r}_{\uparrow})|\cdot |\hat{D}_{\downarrow}(\bs{r}_{\downarrow})|
 \end{empheq}
-which is independent of spin, i.e, the matrices now consist of the spatial functions $\Psi_j(\bs{r}_i)$ as the elements. 
+which is independent of spin, i.e, the matrices now consist of the spatial functions $\phi_j(\bs{r}_i)$ as the elements. 
 
 It is also worth to notice that the size of the spin-up matrix is determined by the number of spin-up particles, and it is similar for the spin-down matrix. This means that the we can change the total spin $S$ by adjusting the relative sizes of the determinants. In the implementation, however, we stick to the magic quantum numbers, where $N_{\uparrow}=N_{\downarrow}$. Otherwise, we need to add a spin term to the Hamiltonian.
 
@@ -239,12 +210,12 @@ This section was heavily inspired by Daniel Nissenbaum's doctoral dissertation, 
 \subsection{Factorizing out elements} \label{sec:factorizing}
 We have now seen how the Slater determinant can be split up in a spin-up part and a spin-down part. Before we evaluate these determinants, we should try to make the elements of the Slater matrices as simple as possible to save computational time. If all the elements have the same factor, the computations will get much cheaper if the factor is factorized out of the matrix. How this is possible is easiest to see if we express the Slater determinant on a summation form,
 \begin{equation}
-\Psi_{sd}(\bs{r})\propto\sum_{p}(-1)^p\hat{P}\Psi_1(\bs{r}_1)\Psi_2(\bs{r}_2)\hdots\Psi_N(\bs{r}_N),
+\Psi_{sd}(\bs{r})\propto\sum_{p}(-1)^p\hat{P}\phi_1(\bs{r}_1)\phi_2(\bs{r}_2)\hdots\phi_N(\bs{r}_N),
 \label{eq:slatersum}
 \end{equation}
 where the $\hat{P}$ is the permutation operator, permuting coordinates pairwise and the sum runs over all the possible permutations. If all the (spatial) single particle functions $\Psi_j(\bs{r})_i$ can be split in two functions $f_j(\bs{r}_i)$ and $g(\bs{r}_i)$ where the latter is common for all the single particle functions,
 \begin{equation}
-\Psi_j(\bs{r}_i)=f_j(\bs{r}_i)g(\bs{r}_i)
+\phi_j(\bs{r}_i)=f_j(\bs{r}_i)g(\bs{r}_i)
 \end{equation}
 the Slater determinant can be rewritten as
 \begin{equation}
@@ -256,13 +227,13 @@ the Slater determinant can be rewritten as
 f_1(\boldsymbol{r}_1) & f_2(\boldsymbol{r}_1) & \hdots & f_N(\boldsymbol{r}_1)\\
 f_1(\boldsymbol{r}_2) & f_2(\boldsymbol{r}_2) & \hdots & f_N(\boldsymbol{r}_2)\\
 \vdots & \vdots & \ddots & \vdots \\
-f_1(\boldsymbol{r}_N) & f_2(\boldsymbol{r}_N) & \hdots & f_N(\boldsymbol{r}_N)
+f_1(\boldsymbol{r}_N) & f_2(\boldsymbol{r}_N) & \hdots & f_N(\boldsymbol{r}_N).
 \end{vmatrix}
 \end{aligned}
 \end{equation}
 This is very useful when it comes to many common basises. For instance, the Hermite basis is given by 
 \begin{equation}
-\Psi_j(\bs{r}_i)\propto H_j(\bs{r}_i)\exp(-\frac{1}{2}\omega|\bs{r}_i|^2)
+\phi_j(\bs{r}_i)\propto H_j(\bs{r}_i)\exp(-\frac{1}{2}\omega|\bs{r}_i|^2)
 \end{equation}
 where $H_j(\bs{r}_i)$ are the Hermite polynomials and the Gaussian part fulfills the requirement of $g(\bs{r}_i)$. Therefore, we can construct a Slater determinant containing the Hermite polynomials only, treating the Gaussian as an independent element. This is not only preferable from an efficiency point of view, by doing this the variational parameter in the Gaussian is also removed from the determinant, which means that we can implement the determinant without worrying about the variational parameters. 
 

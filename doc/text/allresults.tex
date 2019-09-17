@@ -10,7 +10,7 @@ The CPU-time was calculated for all the systems we have been looking at, i.e., t
 	\caption{The CPU time (in seconds) for each iteration when simulating two-dimensional circular quantum dots of 2-90 electrons. The time was clocked for $M=2^{20}=1,048,576$ Monte Carlo cycles, and to get accurate times we took the average over at least four independent runs with thousands of iterations.}
 	\label{tab:cputime2D}
 	\begin{tabularx}{\textwidth}{lrR{1.1cm}R{1.1cm}R{1.1cm}R{1.1cm}R{1.1cm}R{1.1cm}R{1.1cm}R{1.1cm}R{1.1cm}} \hline\hline
-		\makecell{\\ \phantom{=} \\ \phantom{=}} && 2P & 6P & 12P & 20P & 30P & 42P & 56P & 72P & 90P \\ \hline \\
+		\makecell{\\ \phantom{=}} && 2P & 6P & 12P & 20P & 30P & 42P & 56P & 72P & 90P \\ \hline \\
 		RBM && 6.05 & 11.25 & 20.53 & 38.99 & 73.72 & 130.49 & 213.47 & 360.22 & 856.84 \\
 		RBM+SJ && 7.12 & 14.07 & 28.42 & 63.27 & 122.93 & 199.60 & 349.22 & - & - \\
 		RBM+PJ && 7.26 & 13.50 & 27.68 & 57.09 & 119.17 & 212.53 & 382.13 & - & - \\
@@ -22,7 +22,7 @@ The CPU-time was calculated for all the systems we have been looking at, i.e., t
 	\caption{The CPU time (in seconds) for each iteration when simulating three-dimensional circular quantum dots of 2-70 electrons. The time was clocked for $M=2^{20}=1,048,576$ Monte Carlo cycles, and to get accurate times we took the average over at least four independent runs with thousands of iterations.}
 	\label{tab:cputime3D}
 	\begin{tabularx}{\textwidth}{lrR{2.1cm}R{2.1cm}R{2.1cm}R{2.1cm}R{2.1cm}} \hline\hline
-		\makecell{\\ \phantom{=} \\ \phantom{=}} && 2P & 8P & 20P & 40P & 70P \\ \hline \\
+		\makecell{\\ \phantom{=}} && 2P & 8P & 20P & 40P & 70P \\ \hline \\
 		RBM && 7.69 & 20.92 & 59.67 & 171.84 & 586.39 \\
 		RBM+SJ && 8.95 & 26.86 & 94.64 & 270.92 & - \\
 		RBM+PJ && 8.87 & 26.36 & 91.40 & 293.25 & - \\
@@ -473,7 +473,7 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		\subfloat[RBM+PJ]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{-0.0cm}
 		\subfloat[VMC]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/1.000000w/VMC_ADAM_MC1048576.png}}}
 		
-		\caption{Spatial one-body density plots for two-dimensional circular quantum dots with two interacting electrons for the oscillator frequencies $\omega=0.1$, 0.5, 1.0. ADAM optimizer was used and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. The methods are detailed in the introductory words to chapter \ref{chp:results}.}
+		\caption{Spatial one-body density plots for two-dimensional circular quantum dots with two interacting electrons for the oscillator frequencies $\omega=0.1$, 0.5, 1.0. The graph on the $yz$-plane represent the cross section through $x=0$. ADAM optimizer was used and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. The methods are detailed in the introductory words to chapter \ref{chp:results}.}
 		\label{fig:OB2_interaction_2P}
 	\end{figure}
 	\begin{figure} [H]%
@@ -481,7 +481,7 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		\captionsetup[subfigure]{labelformat=empty}
 		\captionsetup{width=0.9\hsize}
 		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$\omega=0.1$}}}\hspace{0.cm}
-		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/0.100000w/RBM_ADAM_MC1048576_nooverwrite.png}}}\hspace{-0.0cm}
+		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/0.100000w/RBM_ADAM_MC1048576.png}}}\hspace{-0.0cm}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/0.100000w/RBMSJ_ADAM_MC1048576.png}}}\hspace{-0.0cm}
 		\subfloat{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/0.100000w/RBMPJ_ADAM_MC1048576.png}}\hspace{-0.0cm}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/0.100000w/VMC_ADAM_MC1048576.png}}}\\ [-0.3cm]
@@ -498,7 +498,7 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		\subfloat[RBM+PJ]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{-0.0cm}
 		\subfloat[VMC]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/1.000000w/VMC_ADAM_MC1048576.png}}}
 		
-		\caption{Spatial one-body density plots for two-dimensional circular quantum dots with six interacting electrons for the oscillator frequencies $\omega=0.1$, 0.5, 1.0. ADAM optimizer was used and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. The methods are detailed in the introductory words to chapter \ref{chp:results}.}%
+		\caption{Spatial one-body density plots for two-dimensional circular quantum dots with six interacting electrons for the oscillator frequencies $\omega=0.1$, 0.5, 1.0. The graph on the $yz$-plane represent the cross section through $x=0$. ADAM optimizer was used and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. The methods are detailed in the introductory words to chapter \ref{chp:results}.}%
 		\label{fig:OB2_interaction_6P}
 	\end{figure}
 	\begin{figure} [H]%
@@ -523,7 +523,7 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		\subfloat[RBM+PJ]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/12P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{-0.0cm}
 		\subfloat[VMC]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/12P/1.000000w/VMC_ADAM_MC1048576.png}}}
 		
-		\caption{Spatial one-body density plots for two-dimensional circular quantum dots with 12 interacting electrons for the oscillator frequencies $\omega=0.1$, 0.5, 1.0. ADAM optimizer was used and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. The methods are detailed in the introductory words to chapter \ref{chp:results}.}%
+		\caption{Spatial one-body density plots for two-dimensional circular quantum dots with 12 interacting electrons for the oscillator frequencies $\omega=0.1$, 0.5, 1.0. The graph on the $yz$-plane represent the cross section through $x=0$. ADAM optimizer was used and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. The methods are detailed in the introductory words to chapter \ref{chp:results}.}%
 		\label{fig:OB2_interaction_12P}
 	\end{figure}
 	\begin{figure} [H]%
@@ -548,7 +548,7 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		\subfloat[RBM+PJ]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/20P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{-0.0cm}
 		\subfloat[VMC]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/20P/1.000000w/VMC_ADAM_MC1048576.png}}}
 		
-		\caption{Spatial one-body density plots for two-dimensional circular quantum dots with 20 interacting electrons for the oscillator frequencies $\omega=0.1$, 0.5, 1.0. ADAM optimizer was used and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. The methods are detailed in the introductory words to chapter \ref{chp:results}.}%
+		\caption{Spatial one-body density plots for two-dimensional circular quantum dots with 20 interacting electrons for the oscillator frequencies $\omega=0.1$, 0.5, 1.0. The graph on the $yz$-plane represent the cross section through $x=0$. ADAM optimizer was used and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. The methods are detailed in the introductory words to chapter \ref{chp:results}.}%
 		\label{fig:OB2_interaction_20P}
 	\end{figure}
 	\begin{figure} [H]%
@@ -573,7 +573,7 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		\subfloat[RBM+PJ]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/56P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{-0.0cm}
 		\subfloat[VMC]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/56P/1.000000w/VMC_ADAM_MC1048576.png}}}
 		
-		\caption{Spatial one-body density plots for two-dimensional circular quantum dots with 30, 42 and 56 interacting electrons for the oscillator frequency $\omega=1.0$. ADAM optimizer was used and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. The methods are detailed in the introductory words to chapter \ref{chp:results}.}%
+		\caption{Spatial one-body density plots for two-dimensional circular quantum dots with 30, 42 and 56 interacting electrons for the oscillator frequency $\omega=1.0$. The graph on the $yz$-plane represent the cross section through $x=0$. ADAM optimizer was used and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. The methods are detailed in the introductory words to chapter \ref{chp:results}.}%
 		\label{fig:OB2_interaction_large}
 	\end{figure}
 \end{landscape}

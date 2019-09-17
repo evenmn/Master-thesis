@@ -53,19 +53,19 @@ We will henceforth no longer specify the arguments $\bs{x}$ and $\bs{\theta}$ of
 p_j\equiv \frac{1}{1+\exp(+f_j)}\quad\wedge\quad n_j\equiv \frac{1}{1+\exp(-f_j)},
 \end{equation}
 where the last one is the sigmoid function, we find the gradient and Laplacian of $\ln\Psi_{rp}$ to be
-\begin{equation}
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \nabla_k\ln\Psi_{rp}=\sum_{j=1}^Hn_j\nabla_k(f_j)
-\end{equation}
+\end{empheq}
 and
-\begin{equation}
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \nabla_k^2\ln\Psi_{rp}=\sum_{j=1}^Hn_j\big[\nabla_k^2(f_j)+p_j\big(\nabla_k(f_j)\big)^2\big]
-\end{equation}
+\end{empheq}
 respectively. Those expressions can be used to find the kinetic energy directly, as the kinetic energy contribution from this specific element is just the sum over the gradients and Laplacians, $T=\sum_{k=1}^F[\nabla_k^2\ln\Psi_{rp}+(\nabla_k\ln\Psi_{rp})^2]$. An arbitrary parameter $\theta_i$ can be updated according to the log-likelihood function which turns out to be just the derivative of the log-likelihood function
-\begin{equation}
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \frac{\partial}{\partial \theta_i}\ln \Psi_{rp}=\sum_{j=1}^Hn_j\frac{\partial}{\partial\theta_i}(f_j)
-\end{equation}
+\end{empheq}
 and the ratio between the new and the old wave function elements can be found by the product
-\begin{equation}
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \frac{\Psi_{rp}^{\text{new}}}{\Psi_{rp}^{\text{old}}}=\prod_{j=1}^H\frac{p_j^{\text{old}}}{p_j^{\text{new}}}.
-\end{equation}
+\end{empheq}
 As a conclusion, what we actually need to calculate to find respective expressions for each wave function element is $\nabla_k(f_j)$, $\nabla_k^2(f_j)$ and $\partial_{\theta_i}(f_j)$, which is naturally simpler than differentiating the entire wave function element. This applies to all elements on the form presented in equation \eqref{eq:GBRBM}, including general Gaussian-binary restricted Boltzmann machines and deep Boltzmann machines as long as all the units are Gaussian-binary.

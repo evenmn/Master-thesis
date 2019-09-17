@@ -7,10 +7,10 @@
 \end{figure}
 
 Quantum Monte Carlo methods (QMC) is a bunch of \textit{ab initio} methods that attempt to solve the Schrödinger equation using stochastic Monte Carlo integration. \textit{Ab initio} reads "from first principles", which implies that the methods constitute a fundamental approach to the problem. They all seek to evaluate the multi-dimensional integral arising from the Schrödinger equation,
-\begin{equation}
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
 E_0= \mel{\Psi_0}{\hat{\mathcal{H}}}{\Psi_0}= \frac{\int d\bs{r}\Psi_0(\bs{r})^*\hat{\mathcal{H}}\Psi_0(\bs{r})}{\int d\bs{r}\Psi_0(\bs{r})^*\Psi_0(\bs{r})},
 \label{eq:schrodingergroundstate}
-\end{equation}
+\end{empheq}
 which provides the ground state energy expectation value for the exact ground state wave function $\Psi_0$. As aforementioned, this integral is analytically infeasible for more or less all interesting systems, rising the need of numerical methods like QMC.
 
 In Monte Carlo integration, we use random numbers to evaluate integrals numerically. Typically, we want to estimate an expectation value $\langle\hat{O}\rangle$ by approximating the definition integral with a dense sum,
@@ -56,9 +56,10 @@ P(\bs{r})=\frac{|\Psi_T(\bs{r})|^2}{\int d\bs{r}|\Psi_T(\bs{r})|^2}
 \label{eq:probvmc}
 \end{equation}
 where the wave function not necessarily is normalized. Since the energy expectation value now is in the form of a general expectation value, we can use the approximation set up by Monte Carlo integration in equation \eqref{eq:montecarlointegration}, yielding 
-\begin{equation}
-E \approx \frac{1}{M}\sum_{i=1}^ME_L(\bs{r}_i). \label{eq:energysum}
-\end{equation}
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
+E \approx \frac{1}{M}\sum_{i=1}^ME_L(\bs{r}_i). 
+\label{eq:energysum}
+\end{empheq}
 where the local energies $E_L(\bs{r}_i)$ are still evaluated with particle configurations $\bs{r}_i$ drawn from $P(\bs{r})$. In this manner, the obtained energy is guaranteed to approach the exact energy as the number of Monte Carlo cycles, $M$, increases. Actually, the standard error goes as $\mathcal{O}(1/\sqrt{M})$, making the method pretty accurate for large $M$'s. In the limit $M\rightarrow\infty$, the error goes to zero,
 \begin{equation}
 \langle E_L\rangle=\lim_{M\to\infty} \frac{1}{M}\sum_{i=1}^ME_L(\bs{r}_i),
@@ -90,10 +91,10 @@ which is actually a restatement of Bayes' theorem presented in section \ref{sec:
 P(\bs{r}'|\bs{r})=T(\bs{r}'|\bs{r})A(\bs{r}',\bs{r}).
 \end{equation}
 In order to satisfy the detailed balance, we need to choose $A(\bs{r}',\bs{r})$ such that
-\begin{equation}
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
 A(\bs{r}',\bs{r})=\text{min }\left[1,\frac{T(\bs{r}|\bs{r}')P(\bs{r}')}{T(\bs{r}'|\bs{r})P(\bs{r})}\right],
 \label{eq:acceptance}
-\end{equation}
+\end{empheq}
 where we limit $A$ to maximum 1 as the probability should not exceed 1. We want to accept a move with probability $A(\bs{r}',\bs{r})$. One way to do that is to draw a number from a uniform distribution between 0 and 1. If this number is lower than the acceptance, the move should be accepted and rejected otherwise.
 
 \subsection{Brute-force sampling} \label{sec:bruteforce}
@@ -102,9 +103,9 @@ In its simplest form, the move is proposed randomly both in magnitude and direct
 \bs{r}'=\bs{r}+\Delta xd\bs{r}
 \end{equation}
 where $\Delta x$ is the step length and $d\bs{r}$ has a random magnitude and direction (typically which particle to move). We obtain the naïve acceptance probability when requiring $T(\bs{r}'|\bs{r})=T(\bs{r}|\bs{r}')$, such that the it simplifies to
-\begin{equation}
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
 A(\bs{r}',\bs{r})=\text{min }\left[1,\frac{P(\bs{r}')}{P(\bs{r})}\right].
-\end{equation}
+\end{empheq}
 
 However, with this approach an unsatisfying number of moves will be rejected, which results in a significant waste of computing power. A better method is \textbf{importance sampling}, since the particles are moved according to the quantum force. 
 
@@ -144,9 +145,9 @@ The remaining part concerns how to decide if a proposed move should be accepted 
 G(\bs{r}',\bs{r},\Delta t)\propto\exp\Big(-\big(\bs{r}'-\bs{r}-D\Delta t\bs{F}(\bs{r})\big)^2/4D\Delta t\Big)
 \end{equation}
 which is categorized as a Green's function. In general, the essential property of any Green's function is that it provides a way to describe the response of an arbitrary differential equation solution. For our particular case, it correspond to $\mathcal{N}(\bs{r}'|\bs{r}+D\Delta t \bs{F}(\bs{r}),2D\Delta t)$ which is the normal distribution centered around $\bs{\mu}=\bs{r}+D\Delta t \bs{F}(\bs{r})$ with variance $\sigma=2D\Delta t$. By using this, the acceptance probability of the importance sampling can finally be written as
-\begin{equation}
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
 A(\bs{r}'|\bs{r})=\text{min }\left[1,\frac{G(\bs{r},\bs{r}',\Delta t)P(\bs{r}')}{G(\bs{r}',\bs{r}, \Delta t)P(\bs{r})}\right],
-\end{equation}
+\end{empheq}
 where the marginal probabilities are still given by equation \eqref{eq:probvmc}. 
 
 \subsection{Gibbs sampling}
@@ -246,10 +247,10 @@ where the coefficients can be obtained by
 c_n=\int_{-\infty}^{\infty}d\bs{r}\phi_n(\bs{r})\Psi(\bs{r},0)
 \end{equation}
 under the assumption that the eigenfunctions are orthonormal and that the energies $E_n$ are sorted in increasing order. The DMC method is based on the time-imaginary Schrödinger equation, which is obtained by a \textbf{shift of energy scale}, setting $V(\bs{r})\rightarrow V(\bs{r}) - E_R$ and $E_n\rightarrow E_n -E_R$, which does not change any physical quantity. By further using the \textbf{Wick rotation of time} setting $\tau=it$, we obtain the time-imaginary Schrödinger equation \cite{kosztin_introduction_1996}
-\begin{equation}
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
 -\frac{\partial\Psi(\bs{r},\tau)}{\partial\tau}=-\frac{1}{2}\nabla^2\Psi(\bs{r},\tau)+[V(x)-E_R]\Psi(\bs{r},\tau)
 \label{eq:timeimaginary}
-\end{equation}
+\end{empheq}
 which gives the expansion
 \begin{equation}
 \Psi(\bs{r},\tau)=\sum_{n=0}^{\infty}c_n\phi_n(\bs{r})e^{-(E_n-E_R)\tau}.
@@ -291,9 +292,9 @@ which is centered around the mean. With $n=0$ and $n=1$, this is easy to find, b
 which was already stated in chapter \ref{chp:quantum}. The \textit{standard deviation} is defined as the square-root of the variance, $\sigma$, and will be presented as the measure of the uncertainty in the last digit of numerical results. By using the expressions above, we can calculate the mean and the variance of a probability density function $p(x)$, but what do we do if we have a set of data drawn from an unknown $p(x)$?
 
 If the probability density function is unavailable, we cannot find the exact sample mean and sample mean variance. However, we can make an estimate, writing
-\begin{equation}
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \langle X\rangle\approx \frac{1}{n}\sum_{i=1}^n X_i\equiv\overline{X},
-\end{equation}
+\end{empheq}
 for the sample mean assuming that $X$ is our sample containing $n$ points. Further, the variance of the sample mean, assuming that the measurements are \textit{independent}, can be found from
 \begin{equation}
 \text{var}(\overline{X})\equiv\frac{1}{n}\sum_{i=1}^n(X_i-\overline{X})^2=\frac{\sigma^2}{n}
@@ -314,10 +315,10 @@ with an ability to be further expressed as a function of the \textit{autocovaria
 \gamma(h)=\text{cov}(X_i,X_{i+h})
 \end{equation}
 and is thus just a measure of the correlation of a section of a time series with another section of the same time series. If $h=0$, this is just the variance $\gamma(0)=\sigma^2/n$ and the sample error simplifies to
-\begin{equation}
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \text{err}_X^2=\frac{\sigma^2}{n}+\frac{2}{n}\sum_{h=1}^{n-1}\Big(1-\frac{h}{n}\Big)\gamma(h).
 \label{eq:samplevariance2}
-\end{equation}
+\end{empheq}
 
 A problem with this definition of the sample error, is that it turns out to be very expensive to calculate as the number of samples gets large. We are in need of a cheaper method, which is the task of the resampling methods. We will in the following discuss the blocking algorithm, which is the resampling method of choice in this work. 
 
@@ -348,9 +349,9 @@ where we define the last term as the \textit{truncation error}, $e_k$, as it is 
 \label{eq:varivarj}
 \end{equation}
 with the consequence that the sample mean variance of the entire set of samples is also given by
-\begin{equation}
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \text{var}(\overline{X})=\frac{\sigma_k^2}{n_k}+e_k\quad\quad\forall\quad k\in\{0,1,...,d-1\}.
-\end{equation}
+\end{empheq}
 In the original (manual) blocking method, we had to know exactly where to stop the procedure in order to satisfy equation \eqref{eq:varivarj}. If we do not continue long enough, the sample variance has not converged, while if we keep on going for too long, the standard error of $\text{var}(\hat{\sigma}_k^2/n_k)$ get very large. If one plots the sample variance as a function of the iterations, one will see that the curve forms a plateau before it gets very noisy, but with Jonsson's automated method, we do not need to worry about this. 
 
 \iffalse
