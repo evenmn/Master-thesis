@@ -7,10 +7,10 @@ First the computational time will be listed, which are just the information plot
 The CPU-time was calculated for all the systems we have been looking at, i.e., two-dimensional quantum dots containing up to 90 electrons and three-dimensional quantum dots containing up to 70 particles. Only closed-shell dots were considered, and the times are obviously independent of the frequency. To find correct CPU times per iteration, all systems were run with $M=2^{20}=1,048,576$ cycles per iteration on the computer cluster Abel, every time on 8 nodes á 16 cores. We performed at least four independent runs for each system, where the average time over thousands of iterations was calculated automatically by the program. The results can be found in the tables \eqref{tab:cputime2D} and \eqref{tab:cputime3D} for two- and three dimensional quantum dots respectively. 
 
 \begin{table}[H]
-	\caption{The CPU time (in seconds) for each iteration when simulating two-dimensional circular quantum dots of 2-90 electrons. The time was clocked for $M=2^{20}=1,048,576$ Monte Carlo cycles, and to get accurate times we took the average over at least four independent runs with thousands of iterations.}
+	\caption{The CPU time (in seconds) for each iteration when simulating two-dimensional circular quantum dots with $N=2-90$ electrons. The time was clocked for $M=2^{20}=1,048,576$ Monte Carlo cycles, and to get accurate times we took the average over at least four independent runs with thousands of iterations.}
 	\label{tab:cputime2D}
-	\begin{tabularx}{\textwidth}{lrR{1.1cm}R{1.1cm}R{1.1cm}R{1.1cm}R{1.1cm}R{1.1cm}R{1.1cm}R{1.1cm}R{1.1cm}} \hline\hline
-		\makecell{\\ \phantom{=}} && 2P & 6P & 12P & 20P & 30P & 42P & 56P & 72P & 90P \\ \hline \\
+	\begin{tabularx}{\textwidth}{lR{0.4cm}R{1.1cm}R{1.1cm}R{1.1cm}R{1.1cm}R{1.1cm}R{1.1cm}R{1.1cm}R{1.1cm}R{1.1cm}} \hline\hline
+		\makecell{\\ \phantom{=}} & $N$ & 2 & 6 & 12 & 20 & 30 & 42 & 56 & 72 & 90 \\ \hline \\
 		RBM && 6.05 & 11.25 & 20.53 & 38.99 & 73.72 & 130.49 & 213.47 & 360.22 & 856.84 \\
 		RBM+SJ && 7.12 & 14.07 & 28.42 & 63.27 & 122.93 & 199.60 & 349.22 & - & - \\
 		RBM+PJ && 7.26 & 13.50 & 27.68 & 57.09 & 119.17 & 212.53 & 382.13 & - & - \\
@@ -19,10 +19,10 @@ The CPU-time was calculated for all the systems we have been looking at, i.e., t
 \end{table}
 
 \begin{table}[H]
-	\caption{The CPU time (in seconds) for each iteration when simulating three-dimensional circular quantum dots of 2-70 electrons. The time was clocked for $M=2^{20}=1,048,576$ Monte Carlo cycles, and to get accurate times we took the average over at least four independent runs with thousands of iterations.}
+	\caption{The CPU time (in seconds) for each iteration when simulating three-dimensional circular quantum dots with $N=2-70$ electrons. The time was clocked for $M=2^{20}=1,048,576$ Monte Carlo cycles, and to get accurate times we took the average over at least four independent runs with thousands of iterations.}
 	\label{tab:cputime3D}
 	\begin{tabularx}{\textwidth}{lrR{2.1cm}R{2.1cm}R{2.1cm}R{2.1cm}R{2.1cm}} \hline\hline
-		\makecell{\\ \phantom{=}} && 2P & 8P & 20P & 40P & 70P \\ \hline \\
+		\makecell{\\ \phantom{=}} & $N$ & 2 & 8 & 20 & 40 & 70 \\ \hline \\
 		RBM && 7.69 & 20.92 & 59.67 & 171.84 & 586.39 \\
 		RBM+SJ && 8.95 & 26.86 & 94.64 & 270.92 & - \\
 		RBM+PJ && 8.87 & 26.36 & 91.40 & 293.25 & - \\
@@ -31,16 +31,16 @@ The CPU-time was calculated for all the systems we have been looking at, i.e., t
 \end{table}
 
 \section{Ground-state energy} \label{sec:energydistribution}
-In this section, we present the ground-state energy included the distribution between kinetic energy, external potential energy and interaction energy for quantum dots containing up to 20 particles in two and three dimensions and with frequencies spanning from $\omega=0.01$ to $\omega=10$. These results are interesting for the validation of the virial theorem, described in section \ref{sec:virial}, but they also makes it possible to compare how the energy spread in two  and three dimensions for an equal number of particles.
+In this section, we present the ground-state energy included the distribution between kinetic energy, external potential energy and interaction energy for quantum dots containing up to $N=20$ particles in two and three dimensions and with frequencies spanning from $\omega=0.01$ to $\omega=10$. These results are interesting for the validation of the virial theorem, described in section \ref{sec:virial}, but they also makes it possible to compare how the energy spread in two  and three dimensions for an equal number of particles.
 
 We have created respective tables for each of our four methods VMC, RBM, RBM+SJ and RBM+PJ in two and three dimensions, resulting in eight tables in total. We first present VMC, RBM, RBM+SJ and RBM+PJ for two dimensions in that order, and then repeat the same order for three dimensions. 
 
 \subsection{Two dimensions}
 \begin{table}[H]
-	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) of two-dimensional circular quantum dots for a wide range of frequencies $\omega$ using RBM. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
+	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) of two-dimensional circular quantum dots for a wide range of frequencies $\omega$ and electron numbers $N$ calculated using RBM. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
 	\label{tab:splitfrequencyQDRBM}
 	\begin{tabularx}{\textwidth}{R{1cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{1cm}} \hline\hline
-		&\makecell{\\ \phantom{$N$}} & $\omega$ && \multicolumn{1}{c}{$\langle \hat{H}\rangle$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} & \\ \hline \\
+		\makecell{\\ \phantom{$N$}} & $N$ & $\omega$ && \multicolumn{1}{c}{$\langle \hat{H}\rangle$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} & \\ \hline \\
 		&2 & 0.01 && 0.078643(5) & 0.009835(3) & 0.031930(8) & 0.03688(1) \\
 		&& 0.1 && 0.4743(1) & 0.08102(8) & 0.2082(2) & 0.1851(2) \\
 		&& 0.28 && 1.07050(4) & 0.20869(2) & 0.47103(7) & 0.39078(7) \\
@@ -88,10 +88,10 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 \end{table} 
 
 \begin{table}[H]
-	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) of two-dimensional circular quantum dots for a wide range of frequencies $\omega$ using RBM+SJ. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
+	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) of two-dimensional circular quantum dots for a wide range of frequencies $\omega$ and electron numbers $N$ calculated using RBM+SJ. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
 	\label{tab:splitfrequencyQDRBMSJ}
 	\begin{tabularx}{\textwidth}{R{1cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{1cm}} \hline\hline
-		&\makecell{\\ \phantom{$N$}} & $\omega$ && \multicolumn{1}{c}{$\langle \hat{H}\rangle$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} & \\ \hline \\
+		\makecell{\\ \phantom{$N$}} & $N$ & $\omega$ && \multicolumn{1}{c}{$\langle \hat{H}\rangle$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} & \\ \hline \\
 		&2 & 0.01 && 0.074940(4) & 0.007688(2) & 0.029945(7) & 0.037307(8) \\
 		&& 0.1 && 0.44856(1) & 0.07620(2) & 0.19318(4) & 0.17918(4) \\
 		&& 0.28 && 1.03470(7) & 0.2163(1) & 0.4547(2) & 0.3637(2) \\
@@ -139,10 +139,10 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 \end{table}
 
 \begin{table}[H]
-	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) of two-dimensional circular quantum dots for a wide range of frequencies $\omega$ using RBM+PJ. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
+	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) of two-dimensional circular quantum dots for a wide range of frequencies $\omega$ and electron numbers $N$ calculated using RBM+PJ. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
 	\label{tab:splitfrequencyQDRBMPJ}
 	\begin{tabularx}{\textwidth}{R{1cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{1cm}} \hline\hline
-		&\makecell{\\ \phantom{$N$}} & $\omega$ && \multicolumn{1}{c}{$\langle \hat{H}\rangle$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} & \\ \hline \\
+		\makecell{\\ \phantom{$N$}} & $N$ & $\omega$ && \multicolumn{1}{c}{$\langle \hat{H}\rangle$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} & \\ \hline \\
 		&2 & 0.01 && 0.074107(8) & 0.01031(3) & 0.02703(4) & 0.03677(3) \\
 		&& 0.1 && 0.440975(8) & 0.09223(9) & 0.1757(1) & 0.17304(9) \\
 		&& 0.28 && 1.021668(7) & 0.2468(1) & 0.4258(2) & 0.3490(1) \\
@@ -189,10 +189,10 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 	\end{tabularx}
 \end{table} 
 \begin{table}[H]
-	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) of two-dimensional circular quantum dots for a wide range of frequencies $\omega$ using VMC. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
+	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) of two-dimensional circular quantum dots for a wide range of frequencies $\omega$ and electron numbers $N$ calculated using VMC. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
 	\label{tab:splitfrequencyQDVMC}
 	\begin{tabularx}{\textwidth}{R{1cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{1cm}} \hline\hline
-		&\makecell{\\ \phantom{$N$}} & $\omega$ && \multicolumn{1}{c}{$\langle \hat{H}\rangle$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} & \\ \hline \\
+		\makecell{\\ \phantom{$N$}} & $N$ & $\omega$ && \multicolumn{1}{c}{$\langle \hat{H}\rangle$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} & \\ \hline \\
 		&2 & 0.01 && 0.074070(8) & 0.00947(3) & 0.02732(5) & 0.03728(4) \\
 		&& 0.1 && 0.44129(1) & 0.09117(9) & 0.1789(1) & 0.17119(9) \\
 		&& 0.28 && 1.02192(1) & 0.2477(1) & 0.4256(2) & 0.3487(1) \\
@@ -241,10 +241,10 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 
 \subsection{Three dimensions}
 \begin{table}[H]
-	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) of three-dimensional circular quantum dots for a wide range of frequencies $\omega$ using RBM. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
+	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) of three-dimensional circular quantum dots for a wide range of frequencies $\omega$ and electron numbers $N$ calculated using RBM. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
 	\label{tab:splitfrequencyQDRBM3D}
 	\begin{tabularx}{\textwidth}{R{1cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{1cm}} \hline\hline
-		&\makecell{\\ \phantom{$N$}} & $\omega$ && \multicolumn{1}{c}{$\langle \hat{H}\rangle$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} & \\ \hline \\
+		\makecell{\\ \phantom{$N$}} & $N$ & $\omega$ && \multicolumn{1}{c}{$\langle \hat{H}\rangle$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} & \\ \hline \\
 		&2 & 0.01 && 0.85193(5) & 0.014853(4) & 0.03141(9) & 0.03893(1) \\
 		&& 0.1 && 0.5177(1) & 0.1249(1) & 0.2065(2) & 0.1863(2) \\
 		&& 0.28 && 1.22565(3) & 0.36111(4) & 0.51675(7) & 0.34779(4) \\
@@ -281,10 +281,10 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 \end{table}
 
 \begin{table}[H]
-	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) of three-dimensional circular quantum dots for a wide range of frequencies $\omega$ using RBM+SJ. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
+	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) of three-dimensional circular quantum dots for a wide range of frequencies $\omega$ and electron numbers $N$ calculated using RBM+SJ. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
 	\label{tab:splitfrequencyQDRBMSJ3D}
 	\begin{tabularx}{\textwidth}{R{1cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{1cm}} \hline\hline
-		&\makecell{\\ \phantom{$N$}} & $\omega$ && \multicolumn{1}{c}{$\langle \hat{H}\rangle$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} \\ \hline \\
+		\makecell{\\ \phantom{$N$}} & $N$ & $\omega$ && \multicolumn{1}{c}{$\langle \hat{H}\rangle$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} \\ \hline \\
 		&2 & 0.01 && 0.07994(2) & 0.01069(3) & 0.03190(8) & 0.03735(8) \\
 		&& 0.1 && 0.50214(3) & 0.1178(1) & 0.2177(2) & 0.1666(1) \\
 		&& 0.28 && 1.20475(4) & 0.3497(2) & 0.5326(3) & 0.3225(1) \\
@@ -321,10 +321,10 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 \end{table}
 
 \begin{table}[H]
-	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) of three-dimensional circular quantum dots for a wide range of frequencies $\omega$ using RBM+PJ. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
+	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) of three-dimensional circular quantum dots for a wide range of frequencies $\omega$ and electron numbers $N$ calculated using RBM+PJ. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
 	\label{tab:splitfrequencyQDRBMPJ3D}
 	\begin{tabularx}{\textwidth}{R{1cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{1cm}} \hline\hline
-		&\makecell{\\ \phantom{$N$}} & $\omega$ && \multicolumn{1}{c}{$\langle \hat{H}\rangle$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} & \\ \hline \\
+		\makecell{\\ \phantom{$N$}} & $N$ & $\omega$ && \multicolumn{1}{c}{$\langle \hat{H}\rangle$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} & \\ \hline \\
 		&2 & 0.01 && 0.079312(6) & 0.01283(4) & 0.02987(6) & 0.03661(4) \\
 		&& 0.1 && 0.500080(6) & 0.1271(1) & 0.2085(2) & 0.1644(1) \\
 		&& 0.28 && 1.201710(6) & 0.3624(2) & 0.5253(3) & 0.3140(1) \\
@@ -360,10 +360,10 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 	\end{tabularx}
 \end{table}
 \begin{table}[H]
-	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) of three-dimensional circular quantum dots for a wide range of frequencies $\omega$ using VMC. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
+	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) of three-dimensional circular quantum dots for a wide range of frequencies $\omega$ and electron numbers $N$ calculated using VMC. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit.}
 	\label{tab:splitfrequencyQDVMC3D}
 	\begin{tabularx}{\textwidth}{R{1cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{1cm}} \hline\hline
-		&\makecell{\\ \phantom{$N$}} & $\omega$ && \multicolumn{1}{c}{$\langle \hat{H}\rangle$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} & \\ \hline \\
+		\makecell{\\ \phantom{$N$}} & $N$ & $\omega$ && \multicolumn{1}{c}{$\langle \hat{H}\rangle$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} & \\ \hline \\
 		&2 & 0.01 && 0.079284(6) & 0.01221(4) & 0.039757(6) & 0.036319(4) \\
 		&& 0.1 && 0.500083(7) & 0.1263(1) & 0.2082(2) & 0.1656(1) \\
 		&& 0.28 && 1.201752(6) & 0.3606(2) & 0.5272(3) & 0.3140(1) \\
@@ -405,19 +405,19 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		\centering
 		\captionsetup[subfigure]{labelformat=empty}
 		\captionsetup{width=0.9\hsize}
-		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{2P}}}\hspace{0.1cm}
+		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$N=2$}}}\hspace{0.1cm}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody/2D/2P/0.100000w/ADAM_MC1048576.png}}}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody/2D/2P/0.280000w/ADAM_MC1048576.png}}}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody/2D/2P/0.500000w/ADAM_MC1048576.png}}}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody/2D/2P/1.000000w/ADAM_MC1048576.png}}}\\ [-0.5cm]
 		
-		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{6P}}}\hspace{0.1cm}
+		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$N=6$}}}\hspace{0.1cm}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody/2D/6P/0.100000w/ADAM_MC1048576.png}}}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody/2D/6P/0.280000w/ADAM_MC1048576.png}}}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody/2D/6P/0.500000w/ADAM_MC1048576.png}}}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody/2D/6P/1.000000w/ADAM_MC1048576.png}}}\\ [-0.5cm]
 		
-		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{12P}}}\hspace{0.1cm}
+		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$N=12$}}}\hspace{0.1cm}
 		\subfloat[$\omega=0.1$]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody/2D/12P/0.100000w/ADAM_MC1048576.png}}}
 		\subfloat[$\omega=0.28$]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody/2D/12P/0.280000w/ADAM_MC1048576.png}}}
 		\subfloat[$\omega=0.5$]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody/2D/12P/0.500000w/ADAM_MC1048576.png}}}
@@ -430,25 +430,25 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		\centering
 		\captionsetup[subfigure]{labelformat=empty}
 		\captionsetup{width=0.9\hsize}
-		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{20P}}}\hspace{0.1cm}
+		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$N=20$}}}\hspace{0.1cm}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody/2D/20P/0.100000w/ADAM_MC1048576.png}}}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody/2D/20P/0.280000w/ADAM_MC1048576.png}}}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody/2D/20P/0.500000w/ADAM_MC1048576.png}}}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody/2D/20P/1.000000w/ADAM_MC1048576.png}}}\\ [-0.5cm]
 		
-		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{30P}}}\hspace{0.1cm}
+		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$N=30$}}}\hspace{0.1cm}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody/2D/30P/0.100000w/ADAM_MC1048576.png}}}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody/2D/30P/0.280000w/ADAM_MC1048576.png}}}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody/2D/30P/0.500000w/ADAM_MC1048576.png}}}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody/2D/30P/1.000000w/ADAM_MC1048576.png}}}\\ [-0.5cm]
 		
-		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{42P}}}\hspace{0.1cm}
+		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$N=42$}}}\hspace{0.1cm}
 		\subfloat[$\omega=0.1$]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody/2D/42P/0.100000w/ADAM_MC1048576.png}}}
 		\subfloat[$\omega=0.28$]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody/2D/42P/0.280000w/ADAM_MC1048576.png}}}
 		\subfloat[$\omega=0.5$]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody/2D/42P/0.500000w/ADAM_MC1048576.png}}}
 		\subfloat[$\omega=1.0$]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody/2D/42P/1.000000w/ADAM_MC1048576.png}}}
 		
-		\caption{Radial one-body density plots for two-dimensional circular quantum dots with 2, 6, 12, 20, 30 and 42 interacting electrons for the oscillator frequencies $\omega=0.1$, 0.28, 0.5, 1.0. ADAM optimizer was used and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. The methods are detailed in the introductory words to chapter \ref{chp:results}.}
+		\caption{Radial one-body density plots for two-dimensional circular quantum dots with $N=2$, 6, 12, 20, 30 and 42 interacting electrons for the oscillator frequencies $\omega=0.1$, 0.28, 0.5, 1.0. ADAM optimizer was used and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. The methods are detailed in the introductory words to chapter \ref{chp:results}.}
 		\label{fig:OB_interaction_2D_2}
 	\end{figure}
 	\begin{figure} [H]%
@@ -473,7 +473,7 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		\subfloat[RBM+PJ]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{-0.0cm}
 		\subfloat[VMC]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/1.000000w/VMC_ADAM_MC1048576.png}}}
 		
-		\caption{Spatial one-body density plots for two-dimensional circular quantum dots with two interacting electrons for the oscillator frequencies $\omega=0.1$, 0.5, 1.0. The graph on the $yz$-plane represent the cross section through $x=0$. ADAM optimizer was used and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. The methods are detailed in the introductory words to chapter \ref{chp:results}.}
+		\caption{Spatial one-body density plots for two-dimensional circular quantum dots with $N=2$ interacting electrons for the oscillator frequencies $\omega=0.1$, 0.5, 1.0. The graph on the $yz$-plane represent the cross section through $x=0$. ADAM optimizer was used and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. The methods are detailed in the introductory words to chapter \ref{chp:results}.}
 		\label{fig:OB2_interaction_2P}
 	\end{figure}
 	\begin{figure} [H]%
@@ -498,7 +498,7 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		\subfloat[RBM+PJ]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{-0.0cm}
 		\subfloat[VMC]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/1.000000w/VMC_ADAM_MC1048576.png}}}
 		
-		\caption{Spatial one-body density plots for two-dimensional circular quantum dots with six interacting electrons for the oscillator frequencies $\omega=0.1$, 0.5, 1.0. The graph on the $yz$-plane represent the cross section through $x=0$. ADAM optimizer was used and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. The methods are detailed in the introductory words to chapter \ref{chp:results}.}%
+		\caption{Spatial one-body density plots for two-dimensional circular quantum dots with $N=6$ interacting electrons for the oscillator frequencies $\omega=0.1$, 0.5, 1.0. The graph on the $yz$-plane represent the cross section through $x=0$. ADAM optimizer was used and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. The methods are detailed in the introductory words to chapter \ref{chp:results}.}%
 		\label{fig:OB2_interaction_6P}
 	\end{figure}
 	\begin{figure} [H]%
@@ -523,7 +523,7 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		\subfloat[RBM+PJ]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/12P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{-0.0cm}
 		\subfloat[VMC]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/12P/1.000000w/VMC_ADAM_MC1048576.png}}}
 		
-		\caption{Spatial one-body density plots for two-dimensional circular quantum dots with 12 interacting electrons for the oscillator frequencies $\omega=0.1$, 0.5, 1.0. The graph on the $yz$-plane represent the cross section through $x=0$. ADAM optimizer was used and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. The methods are detailed in the introductory words to chapter \ref{chp:results}.}%
+		\caption{Spatial one-body density plots for two-dimensional circular quantum dots with $N=12$ interacting electrons for the oscillator frequencies $\omega=0.1$, 0.5, 1.0. The graph on the $yz$-plane represent the cross section through $x=0$. ADAM optimizer was used and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. The methods are detailed in the introductory words to chapter \ref{chp:results}.}%
 		\label{fig:OB2_interaction_12P}
 	\end{figure}
 	\begin{figure} [H]%
@@ -548,32 +548,32 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		\subfloat[RBM+PJ]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/20P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{-0.0cm}
 		\subfloat[VMC]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/20P/1.000000w/VMC_ADAM_MC1048576.png}}}
 		
-		\caption{Spatial one-body density plots for two-dimensional circular quantum dots with 20 interacting electrons for the oscillator frequencies $\omega=0.1$, 0.5, 1.0. The graph on the $yz$-plane represent the cross section through $x=0$. ADAM optimizer was used and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. The methods are detailed in the introductory words to chapter \ref{chp:results}.}%
+		\caption{Spatial one-body density plots for two-dimensional circular quantum dots with $N=20$ interacting electrons for the oscillator frequencies $\omega=0.1$, 0.5, 1.0. The graph on the $yz$-plane represent the cross section through $x=0$. ADAM optimizer was used and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. The methods are detailed in the introductory words to chapter \ref{chp:results}.}%
 		\label{fig:OB2_interaction_20P}
 	\end{figure}
 	\begin{figure} [H]%
 		\centering
 		\captionsetup[subfigure]{labelformat=empty}
 		\captionsetup{width=0.9\hsize}
-		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{30P}}}\hspace{0.1cm}
+		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$N=30$}}}\hspace{0.1cm}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/30P/1.000000w/RBM_ADAM_MC1048576.png}}}\hspace{-0.0cm}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/30P/1.000000w/RBMSJ_ADAM_MC1048576.png}}}\hspace{-0.0cm}
 		\subfloat{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/30P/1.000000w/RBMPJ_ADAM_MC1048576.png}}\hspace{-0.0cm}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/30P/1.000000w/VMC_ADAM_MC1048576.png}}}\\ [-0.3cm]
 		
-		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{42P}}}\hspace{0.1cm}
+		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$N=42$}}}\hspace{0.1cm}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/42P/1.000000w/RBM_ADAM_MC1048576.png}}}\hspace{-0.0cm}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/42P/1.000000w/RBMSJ_ADAM_MC1048576.png}}}\hspace{-0.0cm}
 		\subfloat{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/42P/1.000000w/RBMPJ_ADAM_MC1048576.png}}\hspace{-0.0cm}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/42P/1.000000w/VMC_ADAM_MC1048576.png}}}\\ [-0.3cm]
 		
-		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{56P}}}\hspace{0.1cm}
-		\subfloat[RBM]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/56P/1.000000w/VMC_ADAM_MC1048576.png}}}\hspace{-0.0cm}
+		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$N=56$}}}\hspace{0.1cm}
+		\subfloat[RBM]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/56P/1.000000w/RBM_ADAM_MC1048576.png}}}\hspace{-0.0cm}
 		\subfloat[RBM+SJ]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/56P/1.000000w/RBMSJ_ADAM_MC1048576.png}}}\hspace{-0.0cm}
 		\subfloat[RBM+PJ]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/56P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{-0.0cm}
 		\subfloat[VMC]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/56P/1.000000w/VMC_ADAM_MC1048576.png}}}
 		
-		\caption{Spatial one-body density plots for two-dimensional circular quantum dots with 30, 42 and 56 interacting electrons for the oscillator frequency $\omega=1.0$. The graph on the $yz$-plane represent the cross section through $x=0$. ADAM optimizer was used and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. The methods are detailed in the introductory words to chapter \ref{chp:results}.}%
+		\caption{Spatial one-body density plots for two-dimensional circular quantum dots with $N=30$, 42 and 56 interacting electrons for the oscillator frequency $\omega=1.0$. The graph on the $yz$-plane represent the cross section through $x=0$. ADAM optimizer was used and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. The methods are detailed in the introductory words to chapter \ref{chp:results}.}%
 		\label{fig:OB2_interaction_large}
 	\end{figure}
 \end{landscape}
@@ -582,19 +582,19 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 	\begin{figure}[H]
 		\centering
 		\captionsetup[subfigure]{labelformat=empty}
-		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{2P}}}\hspace{0.1cm}
+		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$N=2$}}}\hspace{0.1cm}
 		\subfloat{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/2P/0.100000w/RBM_ADAM_MC1048576.png}}
 		\subfloat{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/2P/0.100000w/RBMSJ_ADAM_MC1048576.png}}
 		\subfloat{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/2P/0.100000w/RBMPJ_ADAM_MC1048576.png}}
 		\subfloat{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/2P/0.100000w/VMC_ADAM_MC1048576.png}}\\
 		
-		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{6P}}}\hspace{0.1cm}
+		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$N=6$}}}\hspace{0.1cm}
 		\subfloat{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/6P/0.100000w/RBM_ADAM_MC1048576.png}}
 		\subfloat{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/6P/0.100000w/RBMSJ_ADAM_MC1048576.png}}
 		\subfloat{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/6P/0.100000w/RBMPJ_ADAM_MC1048576.png}}
 		\subfloat{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/6P/0.100000w/VMC_ADAM_MC1048576.png}}\\
 		
-		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{12P}}}\hspace{0.1cm}
+		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$N=12$}}}\hspace{0.1cm}
 		\subfloat[RBM]{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/12P/0.100000w/RBM_ADAM_MC1048576.png}}
 		\subfloat[RBM+SJ]{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/12P/0.100000w/RBMSJ_ADAM_MC1048576.png}}
 		\subfloat[RBM+PJ]{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/12P/0.100000w/RBMPJ_ADAM_MC1048576.png}}
@@ -605,44 +605,44 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		\centering
 		\captionsetup{width=0.9\hsize}
 		\captionsetup[subfigure]{labelformat=empty}
-		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{20P}}}\hspace{0.1cm}
+		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$N=20$}}}\hspace{0.1cm}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.100000w/RBM_ADAM_MC1048576.png}}}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.100000w/RBMSJ_ADAM_MC1048576.png}}}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.100000w/RBMPJ_ADAM_MC1048576.png}}}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.100000w/VMC_ADAM_MC1048576.png}}}
 		
-		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{30P}}}\hspace{0.1cm}
+		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$N=30$}}}\hspace{0.1cm}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/30P/0.100000w/RBM_ADAM_MC1048576.png}}}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/30P/0.100000w/RBMSJ_ADAM_MC1048576.png}}}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/30P/0.100000w/RBMPJ_ADAM_MC1048576.png}}}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/30P/0.100000w/VMC_ADAM_MC1048576.png}}}\\
 		
-		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{42P}}}\hspace{0.1cm}
+		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$N=42$}}}\hspace{0.1cm}
 		\subfloat[RBM]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/0.100000w/RBM_ADAM_MC1048576.png}}}
 		\subfloat[RBM+SJ]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/0.100000w/RBMSJ_ADAM_MC1048576.png}}}
 		\subfloat[RBM+PJ]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/0.100000w/RBMPJ_ADAM_MC1048576.png}}}
 		\subfloat[VMC]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/0.100000w/VMC_ADAM_MC1048576.png}}}
 		
-		\caption{Two-body densities for two-dimensional circular quantum dots containing up to 42 electrons with oscillator frequency $\omega=0.1$. The density plots were produced using a plain restricted Boltzmann machine (RBM), restricted Boltzmann machine with simple Jastrow factor (RBM+SJ), restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo (VMC). The  ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$.}%
+		\caption{Two-body densities for two-dimensional circular quantum dots containing up to $N=42$ electrons with oscillator frequency $\omega=0.1$. The density plots were produced using a plain restricted Boltzmann machine (RBM), restricted Boltzmann machine with simple Jastrow factor (RBM+SJ), restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo (VMC). The  ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$.}%
 		\label{fig:TB_2D_0p1w}
 	\end{figure}
 	
 	\begin{figure}
 		\centering
 		\captionsetup[subfigure]{labelformat=empty}
-		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{2P}}}\hspace{0.1cm}
+		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$N=2$}}}\hspace{0.1cm}
 		\subfloat{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/2P/0.500000w/RBM_ADAM_MC1048576.png}}
 		\subfloat{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/2P/0.500000w/RBMSJ_ADAM_MC1048576.png}}
 		\subfloat{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/2P/0.500000w/RBMPJ_ADAM_MC1048576.png}}
 		\subfloat{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/2P/0.500000w/VMC_ADAM_MC1048576.png}}\\
 		
-		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{6P}}}\hspace{0.1cm}
+		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$N=6$}}}\hspace{0.1cm}
 		\subfloat{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/6P/0.500000w/RBM_ADAM_MC1048576.png}}
 		\subfloat{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/6P/0.500000w/RBMSJ_ADAM_MC1048576.png}}
 		\subfloat{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/6P/0.500000w/RBMPJ_ADAM_MC1048576.png}}
 		\subfloat{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/6P/0.500000w/VMC_ADAM_MC1048576.png}}\\
 		
-		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{12P}}}\hspace{0.1cm}
+		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$N=12$}}}\hspace{0.1cm}
 		\subfloat[RBM]{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/12P/0.500000w/RBM_ADAM_MC1048576.png}}
 		\subfloat[RBM+SJ]{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/12P/0.500000w/RBMSJ_ADAM_MC1048576.png}}
 		\subfloat[RBM+PJ]{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/12P/0.500000w/RBMPJ_ADAM_MC1048576.png}}
@@ -654,43 +654,43 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		\centering
 		\captionsetup{width=0.9\hsize}
 		\captionsetup[subfigure]{labelformat=empty}
-		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{20P}}}\hspace{0.1cm}
+		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$N=20$}}}\hspace{0.1cm}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.500000w/RBM_ADAM_MC1048576.png}}}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.500000w/RBMSJ_ADAM_MC1048576.png}}}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.500000w/RBMPJ_ADAM_MC1048576.png}}}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/0.500000w/VMC_ADAM_MC1048576.png}}}
 		
-		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{30P}}}\hspace{0.1cm}
+		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$N=30$}}}\hspace{0.1cm}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/30P/0.500000w/RBM_ADAM_MC1048576.png}}}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/30P/0.500000w/RBMSJ_ADAM_MC1048576.png}}}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/30P/0.500000w/RBMPJ_ADAM_MC1048576.png}}}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/30P/0.500000w/VMC_ADAM_MC1048576.png}}}\\
 		
-		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{42P}}}\hspace{0.1cm}
+		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$N=42$}}}\hspace{0.1cm}
 		\subfloat[RBM]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/0.500000w/RBM_ADAM_MC1048576.png}}}
 		\subfloat[RBM+SJ]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/0.500000w/RBMSJ_ADAM_MC1048576.png}}}
 		\subfloat[RBM+PJ]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/0.500000w/RBMPJ_ADAM_MC1048576.png}}}
 		\subfloat[VMC]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/0.500000w/VMC_ADAM_MC1048576.png}}}
 		
-		\caption{Two-body densities for two-dimensional circular quantum dots containing up to 42 electrons with oscillator frequency $\omega=0.5$. The density plots were produced using a plain restricted Boltzmann machine (RBM), restricted Boltzmann machine with simple Jastrow factor (RBM+SJ), restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo (VMC). The  ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$.}%
+		\caption{Two-body densities for two-dimensional circular quantum dots containing up to $N=42$ electrons with oscillator frequency $\omega=0.5$. The density plots were produced using a plain restricted Boltzmann machine (RBM), restricted Boltzmann machine with simple Jastrow factor (RBM+SJ), restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo (VMC). The  ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$.}%
 		\label{fig:TB_2D_0p5w}
 	\end{figure}
 	\begin{figure}
 		\centering
 		\captionsetup[subfigure]{labelformat=empty}
-		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{2P}}}\hspace{0.1cm}
+		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$N=2$}}}\hspace{0.1cm}
 		\subfloat{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/2P/1.000000w/RBM_ADAM_MC1048576.png}}
 		\subfloat{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/2P/1.000000w/RBMSJ_ADAM_MC1048576.png}}
 		\subfloat{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/2P/1.000000w/RBMPJ_ADAM_MC1048576.png}}
 		\subfloat{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/2P/1.000000w/VMC_ADAM_MC1048576.png}}\\
 		
-		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{6P}}}\hspace{0.1cm}
+		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$N=6$}}}\hspace{0.1cm}
 		\subfloat{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/6P/1.000000w/RBM_ADAM_MC1048576.png}}
 		\subfloat{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/6P/1.000000w/RBMSJ_ADAM_MC1048576.png}}
 		\subfloat{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/6P/1.000000w/RBMPJ_ADAM_MC1048576.png}}
 		\subfloat{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/6P/1.000000w/VMC_ADAM_MC1048576.png}}\\
 		
-		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{12P}}}\hspace{0.1cm}
+		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$N=12$}}}\hspace{0.1cm}
 		\subfloat[RBM]{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/12P/1.000000w/RBM_ADAM_MC1048576.png}}
 		\subfloat[RBM+SJ]{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/12P/1.000000w/RBMSJ_ADAM_MC1048576.png}}
 		\subfloat[RBM+PJ]{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/12P/1.000000w/RBMPJ_ADAM_MC1048576.png}}
@@ -700,25 +700,25 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		\centering
 		\captionsetup{width=0.9\hsize}
 		\captionsetup[subfigure]{labelformat=empty}
-		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{20P}}}\hspace{0.1cm}
+		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$N=20$}}}\hspace{0.1cm}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/1.000000w/RBM_ADAM_MC1048576.png}}}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/1.000000w/RBMSJ_ADAM_MC1048576.png}}}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/20P/1.000000w/VMC_ADAM_MC1048576.png}}}
 		
-		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{30P}}}\hspace{0.1cm}
+		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$N=30$}}}\hspace{0.1cm}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/30P/1.000000w/RBM_ADAM_MC1048576.png}}}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/30P/1.000000w/RBMSJ_ADAM_MC1048576.png}}}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/30P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}
 		\subfloat{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/30P/1.000000w/VMC_ADAM_MC1048576.png}}}\\
 		
-		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{42P}}}\hspace{0.1cm}
+		\subfloat{\raisebox{2cm}{\rotatebox[origin=t]{90}{$N=42$}}}\hspace{0.1cm}
 		\subfloat[RBM]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/1.000000w/RBM_ADAM_MC1048576.png}}}
 		\subfloat[RBM+SJ]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/1.000000w/RBMSJ_ADAM_MC1048576.png}}}
 		\subfloat[RBM+PJ]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}
 		\subfloat[VMC]{{\includegraphics[width=5.7cm]{/home/evenmn/VMC/plots/int1/twobody/2D/42P/1.000000w/VMC_ADAM_MC1048576.png}}}
 		
-		\caption{Two-body densities for two-dimensional circular quantum dots containing up to 42 electrons with oscillator frequency $\omega=1.0$. The density plots were produced using a plain restricted Boltzmann machine (RBM), restricted Boltzmann machine with simple Jastrow factor (RBM+SJ), restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo (VMC). The  ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$.}%
+		\caption{Two-body densities for two-dimensional circular quantum dots containing up to $N=42$ electrons with oscillator frequency $\omega=1.0$. The density plots were produced using a plain restricted Boltzmann machine (RBM), restricted Boltzmann machine with simple Jastrow factor (RBM+SJ), restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo (VMC). The ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$.}%
 		\label{fig:TB_2D_1p0w}
 	\end{figure}
 \end{landscape}

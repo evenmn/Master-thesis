@@ -38,7 +38,7 @@ Further, the frequency of the quantum dots should be inversely proportional with
 for the RBMs.
 
 An obvious optimization concerning this element, is that we can introduce a vector $\bs{xa}\equiv\bs{x}-\bs{a}$, which we deal with instead of the position vector $\bs{x}$ and the parameter vector $\bs{a}$. We update the arrays using the pure virtual function \lstinline|updateArrays|, which looks like
-\begin{lstlisting}[language={c++},caption={Taken from \lstinline|rbmgaussian.cpp|.}]
+\begin{lstlisting}
 void RBMGaussian::updateArrays(const Eigen::VectorXd positions,
 							   const Eigen::VectorXd radialVector,
 							   const Eigen::MatrixXd distanceMatrix,
@@ -90,7 +90,7 @@ This is the same result as obtained for the gradient of the log-likelihood funct
 \end{equation}
 which is what we above have called $\bs{f}(\bs{x};\bs{\theta})$. Thereafter, we define the vectors $\bs{n}$ and $\bs{p}$ as described above. These vectors are declared as \lstinline|m_v|, \lstinline|m_n| and \lstinline|m_p| respectively, and are initialized and updated using the function \lstinline|updateVectors| in the following way
 
-\begin{lstlisting}[language={c++},caption={Taken from \lstinline|rbmproduct.cpp|.}]
+\begin{lstlisting}
 void RBMProduct::updateVectors()
 {
 	m_v = m_b + m_W.transpose() * m_positions;
@@ -116,7 +116,7 @@ which we can threat separately. To run a computation with the partly restricted 
 \end{aligned}
 \end{empheq}
 where $x_i$ is the changed coordinated. Also here can we use vectorization to speed-up the computations, most elegantly shown by the \lstinline|computeParameterGradient|,
-\begin{lstlisting}[language={c++},caption={Taken from \lstinline|partlyrestricted.cpp|.}]
+\begin{lstlisting}
 Eigen::VectorXd PartlyRestricted::computeParameterGradient()
 {
 	Eigen::MatrixXd out = m_positions * m_positions.transpose();

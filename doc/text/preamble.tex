@@ -14,7 +14,6 @@
 \usepackage{afterpage}	% avoid undesired blank page
 \usepackage{color}
 \usepackage{array} 		% For column alignment
-%\usepackage[pdftex,dvipsnames]{xcolor}
 \usepackage{pgfplots}	% Plotting directly in latex
 \usepackage{listings}
 \usepackage{hyperref}
@@ -28,7 +27,6 @@
 \usepackage{fancybox}	% Oval equation box
 \usepackage{enumitem}	% Itemize settings
 \usepackage{subfig}		% Sub figures
-%\usepackage{subfloat}	% Figures side by side
 \usepackage{empheq}		% Beautiful boxes
 \usepackage{multirow}	% Multirow in table
 \usepackage{multicol}	% Multicolumn in table
@@ -61,14 +59,6 @@
 \SetKwInOut{Require}{Require}
 \SetKwInOut{Data}{Data}
 
-% Change margins on each page
-%\usepackage[right=2cm, 
-%           left=3cm, 
-%           top=2.5cm, 
-%           bottom=2cm,
-%]{geometry}	
-%\setlength{\oddsidemargin}{0.5cm}
-
 %biblatex
 \usepackage[backend=bibtex,
 			sorting=nty,
@@ -84,7 +74,7 @@
 \tikzstyle{learned}=[text=red]
 
 \tikzset{basic/.style={draw,fill=blue!20,text width=1em,text badly centered}}
-\tikzset{input/.style={basic,circle,fill=myblue}}
+\tikzset{input/.style={basic,circle}}
 \tikzset{weights/.style={basic,rectangle}}
 \tikzset{functions/.style={basic,circle,fill=blue!10}}
 
