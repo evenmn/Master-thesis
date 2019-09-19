@@ -202,7 +202,7 @@ For other references, we need to rely on what researchers have found before us. 
 				\hline \\
 				
 				30 & 0.1 & 61.829(5) & 61.198(2) & 60.774(2) & & 60.585(1) & 60.4205(2) \\ 
-				& 0.28 & 126.958(6) & 126.067(5) & 124.437(2) & & 124.195(2) & 123.9683(2) \\
+				& 0.28 & 126.958(6) & 125.431(2) & 124.437(2) & & 124.195(2) & 123.9683(2) \\
 				& 0.5 & 191.495(7) & 188.995(5) & 187.488(2) & & 187.325(3) & 187.0426(2) \\
 				& 1.0 & 315.364(8) & 309.997(6) & 308.989(2) & & 308.576(1) & 308.5627(2) \\ \hline \\
 				
@@ -295,7 +295,7 @@ Another quantity of particular interest is the one-body density. For all the sys
 	\subfloat{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/30P/1.000000w/VMC_ADAM_MC2pow28_smooth_blue.png}}}\\
 	
 	\subfloat{\raisebox{2.5cm}{\rotatebox[origin=t]{90}{$N=42$}}}\hspace{0.1cm}
-	\subfloat[RBM]{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/42P/1.000000w/RBM_ADAM_MC2pow28_smooth_blue.png}}}\hspace{-0.0cm}
+	\subfloat[RBM]{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/42P/1.000000w/RBM_ADAM_MC1048576.png}}}\hspace{-0.0cm}
 	\subfloat[VMC]{{\includegraphics[width=7.8cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/42P/1.000000w/VMC_ADAM_MC2pow28_smooth_blue.png}}}
 	
 	\caption{One-body density plots for two-dimensional circular quantum dots with frequency $\omega=1.0$. The plots present quantum dots containing 20, 30 and 42 electrons, and were all obtained using RBM and VMC, detailed in the introductory words of this chapter. ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. The plots are noise-reduced using a Savitzky-Golay filter, and for abbreviations see the text.}
@@ -434,12 +434,8 @@ If we now recall the virial theorem presented in section \ref{sec:virial}, it st
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 2\langle \hat{T} \rangle=2\langle \hat{V}_{\text{ext}} \rangle-\langle \hat{V}_{\text{int}} \rangle
 \end{empheq}
-which can be verified from the 
-
 which in principle can be verified from figure \eqref{fig:energydistribution}. However, 
-to do this accurately we will list up the energy distributions for some selected systems.  which for a two-dimensional quantum dot with 20 electrons is given in table \eqref{tab:splitfrequencyQD20P} for some selected frequencies. \textcolor{red}{By doing the math, we see that the virial theorem is satisfied for high frequencies, but as the frequency decreases the theorem gets more and more off. This is the case for all the methods, and is also observed for other system sizes.}
-
-For high frequencies the trap becomes narrow which results in a stronger external force pushing the electrons towards each other. It is therefore natural that both the kinetic energy, external potential energy and interaction energy get larger as the frequency is increased. It is also interesting to see how small the kinetic energy actually is when the frequency is low. We will study this more thoroughly in the next section. For more frequencies and system sizes, please look at appendix \ref{chp:totalresults}.
+to do this accurately we will list up the energy distributions for some selected systems. For a two-dimensional quantum dot with $N=20$ electrons the energy distribution is given in table \eqref{tab:splitfrequencyQD20P} for some selected frequencies. By doing the math, we see that the virial theorem is satisfied for high frequencies, but as the frequency decreases the theorem gets more and more off. This is the case for all the methods, and is also observed for other system sizes. For high frequencies the trap becomes narrow which results in a stronger external force pushing the electrons towards each other. It is therefore natural that both the kinetic energy, external potential energy and interaction energy get larger as the frequency is increased. It is also interesting to see how small the kinetic energy actually is when the frequency is low. We will study this more thoroughly in the next section. For more frequencies and system sizes, please look at appendix \ref{chp:totalresults}.
 
 \iffalse
 \begin{figure}  
@@ -509,7 +505,23 @@ For high frequencies the trap becomes narrow which results in a stronger externa
 
 \newpage
 \subsection{Low frequency dots} \label{sec:lowfrequencies}
-In section \ref{sec:onebodyresults}, we found the one-body density to be shape-invariant for large frequencies from around $\omega=0.28$. However, when we further decreased the frequency down to $\omega=0.1$ the density plots changed significantly and we got other extrema and so on. The aim of this section is to investigate the transitions between the various shapes with frequencies down to $\omega=0.01$. We start with looking at quantum dots with two electrons, where the one-body density for the frequencies $\omega=0.28$, 0.1 and 0.01 can be found in figure \eqref{fig:lowfreq2P} produced by RBM+PJ and VMC. Those methods were selected as they hitherto have shown the most promising results and we want to see if the RBM+PJ can reveal effects that the VMC is not able to capture.
+In section \ref{sec:onebodyresults}, we found the one-body density to be shape-invariant for large frequency dot with $\omega\geq0.28$. However, when we further decreased the frequency down to $\omega=0.1$ the density plots changed significantly and we got other extrema and so on. The aim of this section is to investigate the transitions between the various shapes with frequencies down to $\omega=0.01$. We start with looking at quantum dots with frequency $\omega=0.1$, and compare the RBM results to the VMC results. For $N=2$, 6 and 12 electrons the plots are found in figure \eqref{fig:lowfreqRBM}. What we observe, is that the density plots are completely different. While VMC provides a single peak with some fluctuations on the top, RBM gives several peaks for all the numbers of electrons. Actually, the numbers of peaks apparently is equal to the number of electrons, which indicates that the RBM finds the electrons to be localized at some fixed spots. The two methods model the correlations in completely different ways, and as the correlations become important for low frequencies it was expected that the results would also be different. Further, we fix the number of electrons to be $N=2$, and vary the frequency from $\omega=0.28$ to $\omega=0.01$ with figures produced by VMC and RBM+PJ found in figure \eqref{fig:lowfreq2P}. Those methods were selected as they hitherto have shown the most promising results and we want to see if the RBM+PJ can reveal effects that the VMC is not able to capture.
+\begin{figure}
+	\centering
+	\captionsetup[subfigure]{labelformat=empty}
+	\subfloat{\raisebox{1.5cm}{\rotatebox[origin=t]{90}{RBM}}}\hspace{0.1cm}
+	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/0.100000w/RBM_ADAM_MC1048576.png}}}\hspace{-0.cm}
+	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/0.100000w/RBM_ADAM_MC1048576.png}}}\hspace{-0.cm}
+	\subfloat{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/12P/0.100000w/RBM_ADAM_MC1048576.png}}}\\ [-0.cm]
+	
+	\subfloat{\raisebox{1.5cm}{\rotatebox[origin=t]{90}{VMC}}}\hspace{0.1cm}
+	\subfloat[$N=2$]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/0.100000w/VMC_ADAM_MC1048576.png}}}\hspace{-0.cm}
+	\subfloat[$N=6$]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/0.100000w/VMC_ADAM_MC1048576.png}}}\hspace{-0.cm}
+	\subfloat[$N=12$]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/12P/0.100000w/VMC_ADAM_MC1048576.png}}}
+	
+	\caption{One-body density of two-dimensional circular quantum dots of frequency $\omega=0.1$ with $N=2$, 6 and 12 electrons. The graph on the $yz$-plane represent the cross section through $x=0$. The surface plots are noise-reduced using a Savitzky-Golay filter, and for abbreviations see the text.}
+	\label{fig:lowfreqRBM}
+\end{figure}
 
 \begin{figure}
 	\centering
@@ -547,17 +559,19 @@ We see that the two methods obtain very similar density plots, where they agree 
 	\label{fig:lowfreq6P}
 \end{figure}
 
-We observe the same tendency as for the dots with two electrons, where we get an additional peak in the density plot as the frequency decreases. Again the RBM+PJ gives a more distinct peak than the VMC, which is closer to the DMC one-body density plot found from Ref.\cite{hogberget_quantum_2013}. This substantiates the presence of Wigner crystallization, where the configuration of lowest potential energy is found with an electron in the center of the dot and the remaining five electrons surrounding with the same distance to each other and to the center. In order to give a more qualitative comparison of the various methods, we also present the radial one-body density profile of the quantum dots of frequency $\omega=0.01$ with two and six electrons, see figure \eqref{fig:lowfreq}. 
+We observe the same tendency as for the dots with two electrons, where we get an additional peak in the density plot as the frequency decreases. Again the RBM+PJ gives a more distinct peak than the VMC, which is closer to the DMC one-body density plot found from Ref.\cite{hogberget_quantum_2013}. This substantiates the presence of Wigner crystallization, where the configuration of lowest potential energy is found with an electron in the center of the dot and the remaining five electrons surrounding with the same distance to each other and to the center. \iffalse In order to give a more qualitative comparison of the various methods, we also present the radial one-body density profile of the quantum dots of frequency $\omega=0.01$ with two and six electrons, see figure \eqref{fig:lowfreq}. \fi
 
+\iffalse
 \begin{figure}[H]
 	\centering
 	\captionsetup[subfigure]{labelformat=empty}
 	\subfloat{{\includegraphics[width=\textwidth/2]{/home/evenmn/VMC/plots/int1/onebody/2D/2P/0.010000w/ADAM_MC1048576.png}}}
-	\subfloat{{\includegraphics[width=\textwidth/2]{/home/evenmn/VMC/plots/int1/onebody/2D/6P/0.010000w/ADAM_MC1048576.png}}}
+	\subfloat{{\includegraphics[width=\textwidth/2]{/home/evenmn/VMC/plots/int1/onebody/2D/6P/0.010000w/ADAM_MC10485762.png}}}
 	
 	\caption{One-body density of two-dimensional circular quantum dots of frequency $\omega=0.01$. The graph on the $yz$-plane represent the cross section through $x=0$. The surface plots are noise-reduced using a Savitzky-Golay filter, and for abbreviations see the text.}
 	\label{fig:lowfreq}
 \end{figure}
+\fi
 
 \iffalse
 \subsection{$S\neq0$}

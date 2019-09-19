@@ -74,9 +74,9 @@
 \tikzstyle{learned}=[text=red]
 
 \tikzset{basic/.style={draw,fill=blue!20,text width=1em,text badly centered}}
-\tikzset{input/.style={basic,circle}}
-\tikzset{weights/.style={basic,rectangle}}
-\tikzset{functions/.style={basic,circle,fill=blue!10}}
+\tikzset{input/.style={basic,circle,fill=myblue}}
+\tikzset{weights/.style={basic,rectangle,fill=myblue!90}}
+\tikzset{functions/.style={basic,circle,fill=myblue!80}}
 
 \tikzexternalize[prefix=figures/]
 
@@ -109,7 +109,6 @@
 \newcommand*\openquote{\makebox(25,-5){\scalebox{5}{``}}}
 \newcommand*\closequote{\makebox(25,-22){\scalebox{5}{''}}}
 \colorlet{shadecolor}{myblue}
-
 \makeatletter
 \newif\if@right
 \def\shadequote{\@righttrue\shadequote@i}
@@ -122,7 +121,7 @@
 
 %chapter heading
 \titleformat{\chapter}[display]
-{\normalsize \huge \color{black}}
+{\normalsize \rmfamily \huge \color{black}}
 {\normalsize \color{color0} \MakeUppercase { \chaptertitlename } \hspace{1 ex} { \fontsize{60}{60}\selectfont \color{color0} \sffamily \thechapter }} {10 pt}{\huge} 
 
 %specific reused text
