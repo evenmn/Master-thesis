@@ -206,12 +206,12 @@ For other references, we need to rely on what researchers have found before us. 
 				& 0.5 & 191.495(7) & 188.995(5) & 187.488(2) & & 187.325(3) & 187.0426(2) \\
 				& 1.0 & 315.364(8) & 309.997(6) & 308.989(2) & & 308.576(1) & 308.5627(2) \\ \hline \\
 				
-				42 & 0.1 & 109.892(6) & 109.48(2) & 108.753(6) & &  107.928(2) & 107.6389(2) \\ 
+				42 & 0.1 & 109.892(6) & 109.48(2) & 108.183(1) & &  107.928(2) & 107.6389(2) \\ 
 				& 0.28 & 224.462(8) & 224.184(9) & 222.200(5) & & 220.224(2) & 219.8426(2) \\
 				& 0.5 & 337.523(8) & 333.582(9) & 331.410(3) & & 331.276(3) & 330.6306(2) \\
 				& 1.0 & 553.40(1) & 545.817(9) & 543.746(3) & & 542.977(2) & 542.9428(8) \\ \hline \\
 				
-				56 & 0.1 & - & 179.59(1) & - & & 176.774(3) & 175.9553(7) \\ 
+				56 & 0.1 & - & 179.59(1) & 178.501(5) & & 176.774(3) & 175.9553(7) \\ 
 				& 0.28 & 364.85(1) & 364.165(9) & 359.83(2) & & 359.63(1) & 358.145(2) \\
 				& 0.5 & 547.46(1) & 545.74(1) & 538.810(7) & & 538.686(9) & 537.353(2) \\
 				& 1.0 & 894.12(2) & 882.93(1) & 881.010(5) & & 879.514(3) & 879.3986(6) \\ \hline\hline
@@ -327,7 +327,7 @@ In figure \eqref{fig:OB_interaction_23D}, we stick to frequency $\omega=1.0$ for
 	\subfloat[2D]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody/2D/12P/1.000000w/ADAM_MC1048576.png}}}\hspace{-0.5cm}
 	\subfloat[3D]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody/3D/20P/1.000000w/ADAM_MC1048576.png}}}
 	
-	\caption{One-body density plot for small circular quantum dots with frequency $\omega=1.0$. We look at the three lowest shells $S=1$, 2 and 3 corresponding to 2, 6 and 12 particles in two dimensions and 2, 8 and 20 particles in three dimensions. In the first column, the density profile for the space are presented for the two-dimensional dots using VMC where the graph on the $yz$-plane represent the cross section through $x=0$. In the second column the corresponding radial density profiles are obtained using the same methods as in figure \eqref{fig:cpu_time}. On the right-hand side, the radial density profiles for the three-dimensional dots are given using the same methods. ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. The surface plots are noise-reduced using a Savitzky-Golay filter, and for abbreviations see the text.}
+	\caption{One-body density plot for small circular quantum dots with frequency $\omega=1.0$. We look at the three lowest shells $S=1$, 2 and 3 corresponding to 2, 6 and 12 particles in two dimensions and 2, 8 and 20 particles in three dimensions. In the first column, the density profile for the space are presented for the two-dimensional dots using VMC where the graph on the $yz$-plane represents the cross section through $x=0$. In the second column the corresponding radial density profiles are obtained using the same methods as in figure \eqref{fig:cpu_time}. On the right-hand side, the radial density profiles for the three-dimensional dots are given using the same methods. ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. The surface plots are noise-reduced using a Savitzky-Golay filter, and for abbreviations see the text.}
 	\label{fig:OB_interaction_23D}
 \end{figure}
 }
@@ -519,7 +519,7 @@ In section \ref{sec:onebodyresults}, we found the one-body density to be shape-i
 	\subfloat[$N=6$]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/6P/0.100000w/VMC_ADAM_MC1048576.png}}}\hspace{-0.cm}
 	\subfloat[$N=12$]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/12P/0.100000w/VMC_ADAM_MC1048576.png}}}
 	
-	\caption{One-body density of two-dimensional circular quantum dots of frequency $\omega=0.1$ with $N=2$, 6 and 12 electrons. The graph on the $yz$-plane represent the cross section through $x=0$. The surface plots are noise-reduced using a Savitzky-Golay filter, and for abbreviations see the text.}
+	\caption{One-body density of two-dimensional circular quantum dots of frequency $\omega=0.1$ with $N=2$, 6 and 12 electrons. The graph on the $yz$-plane represents the cross section through $x=0$. The surface plots are noise-reduced using a Savitzky-Golay filter, and for abbreviations see the text.}
 	\label{fig:lowfreqRBM}
 \end{figure}
 
@@ -536,7 +536,7 @@ In section \ref{sec:onebodyresults}, we found the one-body density to be shape-i
 	\subfloat[$\omega=0.1$]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/0.100000w/VMC_ADAM_MC1048576.png}}}\hspace{-0.cm}
 	\subfloat[$\omega=0.01$]{{\includegraphics[width=5.1cm]{/home/evenmn/VMC/plots/int1/onebody2/2D/2P/0.010000w/VMC_ADAM_MC2pow28_smooth_blue_small.png}}}
 	
-	\caption{One-body density of two-dimensional circular quantum dots of frequencies $\omega=0.28$, 0.1 and 0.01 with $N=2$ electrons. The graph on the $yz$-plane represent the cross section through $x=0$. The surface plots are noise-reduced using a Savitzky-Golay filter, and for abbreviations see the text.}
+	\caption{One-body density of two-dimensional circular quantum dots of frequencies $\omega=0.28$, 0.1 and 0.01 with $N=2$ electrons. The graph on the $yz$-plane represents the cross section through $x=0$. The surface plots are noise-reduced using a Savitzky-Golay filter, and for abbreviations see the text.}
 	\label{fig:lowfreq2P}
 \end{figure}
 
@@ -568,7 +568,7 @@ We observe the same tendency as for the dots with two electrons, where we get an
 	\subfloat{{\includegraphics[width=\textwidth/2]{/home/evenmn/VMC/plots/int1/onebody/2D/2P/0.010000w/ADAM_MC1048576.png}}}
 	\subfloat{{\includegraphics[width=\textwidth/2]{/home/evenmn/VMC/plots/int1/onebody/2D/6P/0.010000w/ADAM_MC10485762.png}}}
 	
-	\caption{One-body density of two-dimensional circular quantum dots of frequency $\omega=0.01$. The graph on the $yz$-plane represent the cross section through $x=0$. The surface plots are noise-reduced using a Savitzky-Golay filter, and for abbreviations see the text.}
+	\caption{One-body density of two-dimensional circular quantum dots of frequency $\omega=0.01$. The graph on the $yz$-plane represents the cross section through $x=0$. The surface plots are noise-reduced using a Savitzky-Golay filter, and for abbreviations see the text.}
 	\label{fig:lowfreq}
 \end{figure}
 \fi
@@ -623,7 +623,7 @@ In order to test the code, we also decided to run for systems with $N>56$. This 
 	\subfloat{\includegraphics[scale=0.4]{/home/evenmn/VMC/plots/int1/onebody/2D/90P/1.000000w/ADAM_MC2pow28.png}}\\
 	\subfloat[VMC, 72P]{\includegraphics[scale=0.4]{/home/evenmn/VMC/plots/int1/onebody2/2D/72P/1.000000w/VMC_ADAM_MC2pow28_blue.png}}
 	\subfloat[RBM, 72P]{\includegraphics[scale=0.4]{/home/evenmn/VMC/plots/int1/onebody2/2D/72P/1.000000w/VMC_ADAM_MC2pow28_smooth_blue_masked.png}}
-	\caption{One-body density of large circular quantum dots with frequency $\omega=1.0$. The graph on the $yz$-plane represent the cross section through $x=0$. The methods were detailed in the introductory words to this chapter, and the surface plots were noise-reduced using a Savitzky-Golay filter, and for abbreviations see the text.}
+	\caption{One-body density of large circular quantum dots with frequency $\omega=1.0$. The graph on the $yz$-plane represents the cross section through $x=0$. The methods were detailed in the introductory words to this chapter, and the surface plots were noise-reduced using a Savitzky-Golay filter, and for abbreviations see the text.}
 	\label{fig:largedotsOB}
 \end{figure}
 

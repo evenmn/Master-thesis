@@ -155,40 +155,40 @@ as it is the starting point of our optimizations. We also recall that $\sigma_i$
 \subsection{Splitting up the Slater determinant} \label{sec:splittingofslater}
 In order to reduce the computational cost of the Slater determinant, we will split it up in a spin-up part and a spin-down part. The splitting was explained thoroughly by Daniel Nissenbaum in his doctoral dissertation, appendix I in \cite{nissenbaum_stochastic_2008}, and this section is heavily inspired by it. In real life, we cannot immediately tell if an electron has spin-up or spin-down, but since we in the code need to know which particles that have spin-up and spin-down, we simply decide that the first $N_{\uparrow}$ particles have spin up and the remaining particles have spin down. 
 
-In addition to reduce the computational cost, splitting up the Slater determinant also makes it possible to factorize out the spin-part from the single-particle functions. Only the spatial part of the single particle functions contribute to the energies, such that we with advantage can get rid of the spin parts. Recall that the single-particle functions $\psi(\bs{r},\sigma)$, can be written as a tensor product between the spatial part $\phi(\bs{r})$ and the spin part $\chi(\sigma)$, 
+In addition to reduce the computational cost, splitting up the Slater determinant also makes it possible to factorize out the spin-part from the single-particle functions. Only the spatial part of the single particle functions contribute to the energies, such that we with advantage can get rid of the spin parts. Recall that the single-particle functions $\psi(\bs{r},\sigma)$, can be written as a tensor product between the spatial part $\phi(\bs{r})$ and the spin part $\xi(\sigma)$, 
 \begin{equation}
-\psi(\bs{r},\sigma)=\phi(\bs{r})\otimes\chi(\sigma) 
+\psi(\bs{r},\sigma)=\phi(\bs{r})\otimes\xi(\sigma) 
 \end{equation}
 where only the spatial part is dependent on the coordinates. As we in the ground state have double degeneracy, the spatial part will be the same for pairwise spin-up and spin-down particles, and we arrange them as
 \begin{equation}
 \psi_j(\bs{r}_i,\sigma_i)=
 \begin{cases}
-\phi_j(\bs{r}_i)\chi_{\uparrow}(\sigma_i)\quad\quad&\text{if } j<N_{\uparrow}\\
-\phi_j(\bs{r}_i)\chi_{\downarrow}(\sigma_i)\quad\quad&\text{if } j\geq N_{\uparrow}.
+\phi_j(\bs{r}_i)\xi_{\uparrow}(\sigma_i)\quad\quad&\text{if } j<N_{\uparrow}\\
+\phi_j(\bs{r}_i)\xi_{\downarrow}(\sigma_i)\quad\quad&\text{if } j\geq N_{\uparrow}.
 \end{cases}
 \end{equation}
 Since the first $N_{\uparrow}$ particles have spin up, $\sigma_i=\,\uparrow\quad\forall\quad i\in\{1,2,...,N_{\uparrow}\}$, and the remaining have spin down, we can now set up the Slater determinant in equation \eqref{eq:generalslater} where each single particle function is split in a spatial part and a spin part,
 \begin{equation*}
 \Psi_{sd}(\boldsymbol{r},\bs{\sigma})\propto
 \begin{vmatrix}
-\phi_1(\boldsymbol{r}_1)\chi_{\uparrow}(\uparrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_1)\chi_{\uparrow}(\uparrow) & \phi_{1}(\boldsymbol{r}_1)\chi_{\downarrow}(\uparrow) & \hdots & \phi_{N_{\downarrow}}(\boldsymbol{r}_1)\chi_{\downarrow}(\uparrow)\\
+\phi_1(\boldsymbol{r}_1)\xi_{\uparrow}(\uparrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_1)\xi_{\uparrow}(\uparrow) & \phi_{1}(\boldsymbol{r}_1)\xi_{\downarrow}(\uparrow) & \hdots & \phi_{N_{\downarrow}}(\boldsymbol{r}_1)\xi_{\downarrow}(\uparrow)\\
 \vdots & & \vdots & \vdots & & \vdots \\
-\phi_1(\boldsymbol{r}_{N_{\uparrow}})\chi_{\uparrow}(\uparrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_{N_{\uparrow}})\chi_{\uparrow}(\uparrow) & \phi_{1}(\boldsymbol{r}_{N_{\uparrow}})\chi_{\downarrow}(\uparrow) & \hdots & \phi_{N_{\downarrow}}(\boldsymbol{r}_{N_{\uparrow}})\chi_{\downarrow}(\uparrow)\\
-\phi_1(\boldsymbol{r}_{N_{\uparrow}+1})\chi_{\uparrow}(\downarrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_{N_{\uparrow}+1})\chi_{\uparrow}(\downarrow) & \phi_{1}(\boldsymbol{r}_{N_{\uparrow}+1})\chi_{\downarrow}(\downarrow) & \hdots & \phi_{N_{\downarrow}}(\boldsymbol{r}_{N_{\uparrow}+1})\chi_{\downarrow}(\downarrow)\\
+\phi_1(\boldsymbol{r}_{N_{\uparrow}})\xi_{\uparrow}(\uparrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_{N_{\uparrow}})\xi_{\uparrow}(\uparrow) & \phi_{1}(\boldsymbol{r}_{N_{\uparrow}})\xi_{\downarrow}(\uparrow) & \hdots & \phi_{N_{\downarrow}}(\boldsymbol{r}_{N_{\uparrow}})\xi_{\downarrow}(\uparrow)\\
+\phi_1(\boldsymbol{r}_{N_{\uparrow}+1})\xi_{\uparrow}(\downarrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_{N_{\uparrow}+1})\xi_{\uparrow}(\downarrow) & \phi_{1}(\boldsymbol{r}_{N_{\uparrow}+1})\xi_{\downarrow}(\downarrow) & \hdots & \phi_{N_{\downarrow}}(\boldsymbol{r}_{N_{\uparrow}+1})\xi_{\downarrow}(\downarrow)\\
 \vdots & & \vdots & \vdots & & \vdots \\
-\phi_1(\boldsymbol{r}_N)\chi_{\uparrow}(\downarrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_N)\chi_{\uparrow}(\downarrow) & \phi_{1}(\boldsymbol{r}_N)\chi_{\downarrow}(\downarrow) & \hdots & \phi_{N_{\downarrow}}(\boldsymbol{r}_N)\chi_{\downarrow}(\downarrow)\\
+\phi_1(\boldsymbol{r}_N)\xi_{\uparrow}(\downarrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_N)\xi_{\uparrow}(\downarrow) & \phi_{1}(\boldsymbol{r}_N)\xi_{\downarrow}(\downarrow) & \hdots & \phi_{N_{\downarrow}}(\boldsymbol{r}_N)\xi_{\downarrow}(\downarrow)\\
 \end{vmatrix}.
 \end{equation*}
 We observe that the the spin-up particles sometimes occupy spin-down states, which they are not allowed to. Therefore, half of the elements become zero and the determinant can be further expressed as
 \begin{equation*}
 \Psi_{sd}(\boldsymbol{r},\bs{\sigma})\propto
 \begin{vmatrix}
-\phi_1(\boldsymbol{r}_1)\chi_{\uparrow}(\uparrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_1)\chi_{\uparrow}(\uparrow) & 0 & \hdots & 0\\
+\phi_1(\boldsymbol{r}_1)\xi_{\uparrow}(\uparrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_1)\xi_{\uparrow}(\uparrow) & 0 & \hdots & 0\\
 \vdots & & \vdots & \vdots & & \vdots \\
-\phi_1(\boldsymbol{r}_{N_{\uparrow}})\chi_{\uparrow}(\uparrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_{N_{\uparrow}})\chi_{\uparrow}(\uparrow) & 0 & \hdots & 0\\
-0 & \hdots & 0 & \phi_{1}(\boldsymbol{r}_{N_{\uparrow}+1})\chi_{\downarrow}(\downarrow) & \hdots & \phi_{N_{\downarrow}}(\boldsymbol{r}_{N_{\uparrow}+1})\chi_{\downarrow}(\downarrow)\\
+\phi_1(\boldsymbol{r}_{N_{\uparrow}})\xi_{\uparrow}(\uparrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_{N_{\uparrow}})\xi_{\uparrow}(\uparrow) & 0 & \hdots & 0\\
+0 & \hdots & 0 & \phi_{1}(\boldsymbol{r}_{N_{\uparrow}+1})\xi_{\downarrow}(\downarrow) & \hdots & \phi_{N_{\downarrow}}(\boldsymbol{r}_{N_{\uparrow}+1})\xi_{\downarrow}(\downarrow)\\
 \vdots & & \vdots & \vdots & & \vdots \\
-0 & \hdots & 0 & \phi_{1}(\boldsymbol{r}_N)\chi_{\downarrow}(\downarrow) & \hdots & \phi_{N_{\downarrow}}(\boldsymbol{r}_N)\chi_{\downarrow}(\downarrow)\\
+0 & \hdots & 0 & \phi_{1}(\boldsymbol{r}_N)\xi_{\downarrow}(\downarrow) & \hdots & \phi_{N_{\downarrow}}(\boldsymbol{r}_N)\xi_{\downarrow}(\downarrow)\\
 \end{vmatrix}
 \end{equation*}
 where the Slater matrix now is block diagonal! For a general block diagonal matrix, the determinant is given by the product of the determinant of each block
@@ -197,7 +197,7 @@ where the Slater matrix now is block diagonal! For a general block diagonal matr
 \end{equation}
 which can be seen by writing the total matrix as a product over all the block diagonal matrix. $\hat{D}_{\uparrow}$ is the matrix containing all spin-up states and $\hat{D}_{\downarrow}$ is the matrix containing all spin-down states. Since all elements in the respective matrices contain the same spin function, it can be factorized out,
 \begin{equation}
-\Psi_{sd}(\boldsymbol{r},\bs{\sigma})\propto|\hat{D}_{\uparrow}(\bs{r}_{\uparrow})|\{\chi_{\uparrow}(\sigma_1^{\uparrow})\chi_{\uparrow}(\sigma_2^{\uparrow})\hdots\chi_{\uparrow}(\sigma_{N_{\uparrow}}^{\uparrow})\}\cdot |\hat{D}_{\downarrow}(\bs{r}_{\downarrow})|\{\chi_{\downarrow}(\sigma_{N_{\uparrow+1}}^{\downarrow})\hdots\chi_{\downarrow}(\sigma_{N-1}^{\downarrow})\chi_{\downarrow}(\sigma_{N}^{\downarrow})\}
+\Psi_{sd}(\boldsymbol{r},\bs{\sigma})\propto|\hat{D}_{\uparrow}(\bs{r}_{\uparrow})|\{\xi_{\uparrow}(\sigma_1^{\uparrow})\xi_{\uparrow}(\sigma_2^{\uparrow})\hdots\xi_{\uparrow}(\sigma_{N_{\uparrow}}^{\uparrow})\}\cdot |\hat{D}_{\downarrow}(\bs{r}_{\downarrow})|\{\xi_{\downarrow}(\sigma_{N_{\uparrow+1}}^{\downarrow})\hdots\xi_{\downarrow}(\sigma_{N-1}^{\downarrow})\xi_{\downarrow}(\sigma_{N}^{\downarrow})\}
 \end{equation}
 and omitted in the future study. We are then left with the Slater determinant
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
