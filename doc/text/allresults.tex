@@ -1,10 +1,10 @@
 \chapter{Collection of Results} \label{chp:totalresults}
-This appendix is meant as a more or less complete collection of the results obtained in this thesis, with purpose of presenting a complementary picture of the observations. This also allows us to include the (subjective) most important results in the chapter on selected results, \ref{chp:results}, and avoid it to be too overwhelming. However, in this appendix the results will simply be listed and not commented and discussed.
+This appendix is meant as a more or less complete collection of the results obtained in this thesis, with the purpose of presenting a complementary picture of the observations. This also allows us to include the (subjective) most important results in the chapter on selected results, \ref{chp:results}, and avoid it to be too overwhelming. However, in this appendix, the results will simply be listed and not commented on and discussed.
 
-First the computational time will be listed, which are just the information plotted in figure \eqref{fig:cpu_time}. Thereafter we list all the obtained energies, included the distribution between interaction and kinetic energy. We also present a complete set of one-body and two-body densities. 
+First, the computational time will be listed, which is just the information plotted in figure \eqref{fig:cpu_time}. After that, we list all the obtained energies, included the distribution between interaction and kinetic energy. We also present a complete set of one-body and two-body densities. 
 
 \section{CPU time} \label{sec:cputime}
-The CPU-time was calculated for all the systems we have been looking at, i.e., two-dimensional quantum dots containing up to 90 electrons and three-dimensional quantum dots containing up to 70 particles. Only closed-shell dots were considered, and the times are obviously independent of the frequency. To find correct CPU times per iteration, all systems were run with $M=2^{20}=1,048,576$ cycles per iteration on the computer cluster Abel, every time on 8 nodes á 16 cores. We performed at least four independent runs for each system, where the average time over thousands of iterations was calculated automatically by the program. The results can be found in the tables \eqref{tab:cputime2D} and \eqref{tab:cputime3D} for two- and three dimensional quantum dots respectively. 
+The CPU-time was calculated for all the systems we have been looking at, i.e., two-dimensional quantum dots containing up to 90 electrons and three-dimensional quantum dots containing up to 70 particles. Only closed-shell dots were considered, and the times are obviously independent of the frequency. To make a precise estimation of the CPU-time per iteration, all simulations were run with $M=2^{20}=1,048,576$ cycles per iteration on the computer cluster Abel, every time on 8 nodes á 16 cores. We performed at least four independent runs for each system, where the average time over thousands of iterations was calculated automatically by the program. The results can be found in the tables \eqref{tab:cputime2D} and \eqref{tab:cputime3D} for two- and three dimensional quantum dots respectively. 
 
 \begin{table}[H]
 	\caption{The CPU time (in seconds) for each iteration when simulating two-dimensional circular quantum dots with $N=2-90$ electrons. The time was clocked for $M=2^{20}=1,048,576$ Monte Carlo cycles, and to get accurate times we took the average over at least four independent runs with thousands of iterations.}
@@ -31,9 +31,9 @@ The CPU-time was calculated for all the systems we have been looking at, i.e., t
 \end{table}
 
 \section{Ground-state energy} \label{sec:energydistribution}
-In this section, we present the ground-state energy included the distribution between kinetic energy, external potential energy and interaction energy for quantum dots containing up to $N=20$ particles in two and three dimensions and with frequencies spanning from $\omega=0.01$ to $\omega=10$. These results are interesting for the validation of the virial theorem, described in section \ref{sec:virial}, but they also makes it possible to compare how the energy spread in two  and three dimensions for an equal number of particles.
+In this section, we present the ground-state energy included the distribution between kinetic energy, external potential energy and interaction energy for quantum dots containing up to $N=20$ particles in two and three dimensions and with frequencies spanning from $\omega=0.01$ to $\omega=10$. These results are interesting for the validation of the virial theorem, described in section \ref{sec:virial}, but they also make it possible to compare how the energy spread in two and three dimensions for an equal number of particles.
 
-We have created respective tables for each of our four methods VMC, RBM, RBM+SJ and RBM+PJ in two and three dimensions, resulting in eight tables in total. We first present VMC, RBM, RBM+SJ and RBM+PJ for two dimensions in that order, and then repeat the same order for three dimensions. 
+We have created respective tables for each of our four methods VMC, RBM, RBM+SJ, and RBM+PJ in two and three dimensions, resulting in eight tables in total. We first present VMC, RBM, RBM+SJ, and RBM+PJ for two dimensions in that order, and then repeat the same order for three dimensions. 
 
 \subsection{Two dimensions}
 \begin{table}[H]
@@ -47,8 +47,8 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ 
 		&& 0.5 && 1.72293(7) & 0.38006(6) & 0.75598(1) & 0.5869(1)\\
 		&& 1.0 && 3.0803(2) & 0.7919(2) & 1.3657(4) & 0.9227(3)\\
 		&& 2.0 && 5.5936(3) & 1.6377(4) & 2.5507(5) & 1.4051(4) \\
-		&& 3.0 && 7.9968(4) & 2.2346(5) & 4.0201(7) & 1.7422(4) \\ 
-		&& 5.0 && 12.6070(4) & 3.8768(7) & 6.4292(9) & 2.3010(4) \\
+		&& 3.0 && 7.9859(2) & 2.5215(3) & 3.6733(4) & 1.7910(2) \\ 
+		&& 5.0 && 12.6141(2) & 4.2752(4) & 5.9493(6) & 2.3896(3) \\
 		&& 10.0 && 23.7748(7) & 9.063(3) & 11.132(4) & 3.580(1) \\
 		\hdashline \\
 		

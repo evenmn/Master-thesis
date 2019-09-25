@@ -1,29 +1,30 @@
 % This file was created by tikzplotlib v0.8.1.
 \begin{tikzpicture}
 
-\definecolor{color0}{rgb}{0.12156862745098,0.466666666666667,0.705882352941177}
-\definecolor{color1}{rgb}{1,0.498039215686275,0.0549019607843137}
-\definecolor{color2}{rgb}{0.172549019607843,0.627450980392157,0.172549019607843}
-\definecolor{color3}{rgb}{0.83921568627451,0.152941176470588,0.156862745098039}
+\definecolor{color0}{rgb}{0.203921568627451,0.541176470588235,0.741176470588235}
+\definecolor{color1}{rgb}{0.650980392156863,0.0235294117647059,0.156862745098039}
+\definecolor{color2}{rgb}{0.47843137254902,0.407843137254902,0.650980392156863}
+\definecolor{color3}{rgb}{0.274509803921569,0.470588235294118,0.129411764705882}
 
 \begin{axis}[
+axis background/.style={fill=white!93.33333333333333!black},
+axis line style={white!73.72549019607844!black},
 legend cell align={left},
-legend style={at={(0.97,0.03)}, anchor=south east, draw=white!80.0!black},
-tick align=outside,
+legend style={at={(0.97,0.03)}, anchor=south east, draw=white!80.0!black, fill=white!93.33333333333333!black},
 tick pos=both,
-x grid style={white!69.01960784313725!black},
+x grid style={white!69.80392156862744!black},
 xlabel={\(\displaystyle \omega\)},
 xmajorgrids,
 xmin=-0.4895, xmax=10.4995,
 xtick style={color=black},
-y grid style={white!69.01960784313725!black},
+y grid style={white!69.80392156862744!black},
 ylabel style={rotate=-90.0},
 ylabel={\(\displaystyle \frac{\langle\hat{T}\rangle}{\langle\hat{V}\rangle}\)},
 ymajorgrids,
 ymin=-0.00950153433365221, ymax=0.645814840406007,
 ytick style={color=black}
 ]
-\addplot [semithick, color0]
+\addplot [thick, color0]
 table {%
 0.01 0.14292980671414
 0.1 0.206000508517671
@@ -31,12 +32,12 @@ table {%
 0.5 0.277065579844387
 1 0.345784185233727
 2 0.41399969664796
-3 0.387796539576211
-5 0.444067718952601
+3 0.461449773987519
+5 0.512681528738802
 10 0.616027732463295
 };
 \addlegendentry{2P}
-\addplot [semithick, color1]
+\addplot [thick, color1]
 table {%
 0.01 0.0489614243323442
 0.1 0.0953652097389264
@@ -49,7 +50,7 @@ table {%
 10 0.491388484677367
 };
 \addlegendentry{6P}
-\addplot [semithick, color2]
+\addplot [thick, color2]
 table {%
 0.01 0.0279279279279279
 0.1 0.0663141106354403
@@ -62,7 +63,7 @@ table {%
 10 0.357318784099766
 };
 \addlegendentry{12P}
-\addplot [semithick, color3]
+\addplot [thick, color3]
 table {%
 0.01 0.0202855736090596
 0.1 0.0558188176084186
