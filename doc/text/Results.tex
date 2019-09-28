@@ -147,7 +147,7 @@ The VMC reproduces the energies perfectly, while the RBM does not...
 
 \newpage
 \subsection{Atoms}
-Lastly, we will look at atoms with non-interacting electrons in order to validate our code. The analytical energy of those atoms is given by the Bohr formula presented in equation \eqref{eq:bohrformula}. In table \eqref{tab:atomswointeraction}, the lowest closed-shell atoms He, Be and Ne are listed with their exact energy and the obtained energy from the code. Besides, we add calculations of the Hydrogen ground-state energy as another simple test. We see that all energies are reproduced to machine precision, with the variational parameter $\alpha=1.0$.
+Lastly, we will look at atoms with non-interacting electrons in order to validate our code. The analytical energy of those atoms is given by the Bohr formula presented in equation \eqref{eq:bohrformula}. In table \eqref{tab:atomswointeraction}, the lowest closed-shell atoms Helium, Beryllium and Neon are listed with their exact energy and the obtained energy using VMC with hydrogen-like orbitals. Besides, we add calculations of the Hydrogen ground-state energy as another simple test. What distinguish the implementation of atoms from the implementation of quantum dots, is that we are forced to include variational parameters in the Slater determinant for the atoms with more than two electrons. However, as all the energies are reproduced to machine-precision with the variational parameter $\alpha=1.0$, we have a clear indication that also this part works as it should.
 
 \begin{table}[H]
 	\caption{Energy of neutral atoms with atomic number $Z$ and non-interacting electrons. The energy is given in atomic units, see appendix \ref{app:units}. The variance is zero to machine-precision for all listed results. For abbreviations see the text.}
@@ -162,13 +162,13 @@ Lastly, we will look at atoms with non-interacting electrons in order to validat
 	\end{tabularx}
 \end{table}
 
-For completeness reasons, we also present the radial one-body density for Helium in figure \eqref{fig:helium_nointeraction}. We see that the produced density curve is more or less identical to the exact density curve, found from the definition in section \eqref{eq:electron_density}.
+For completeness reasons, we also present the radial one-body density for Helium in figure \eqref{fig:helium_nointeraction}. The density is multiplied with $r^2$ in order to reveal the structure, and later in section \ref{sec:atomsresults} to compare the obtained density to other references. We see that the produced density curve is more or less identical to the exact density curve, found from the definition in section \eqref{eq:electron_density}.
 
 \begin{figure}[H]
 	\centering
 	\captionsetup[subfigure]{labelformat=empty}
 	\subfloat{\includegraphics[width=9cm]{/home/evenmn/VMC/plots/int0/onebody/helium.png}}
-	\caption{Radial one-body density plots for the non-interacting Helium atom produced using VMC. For abbreviations see the text.}
+	\caption{Radial one-body density plots for the non-interacting Helium atom produced using VMC. The density was multiplied with $r^2$ in order to reveal the structures. For abbreviations see the text.}
 	\label{fig:helium_nointeraction}
 \end{figure}
 
@@ -437,6 +437,7 @@ The calculations are repeated for two-dimensional quantum dots of frequency $\om
 \end{figure}
 \fi
 
+\newpage
 \subsection{Energy distribution} \label{sec:energydistributions}
 If we now recall the general Hamiltonian presented in chapter \ref{chp:manybody}, the total energy is just the sum of the kinetic, potential, and interaction energy. As our methods attempt to solve the Schrödinger equation directly, it is trivial to find the distribution between the various energy sources, which in general is interesting when we want to find the most important contributor to the energy. Additionally, we can use those results to verify the virial theorem presented in section \ref{sec:virial}, and it is also interesting to see if the different methods give different energy distributions. In figure \eqref{fig:energydistribution}, we plot the ratio between the kinetic and potential energy as a function of oscillator frequency for two-dimensional quantum dots with up to $N=20$ electrons. The plots are based on the numbers in the tables (\ref{tab:splitfrequencyQDVMC}-\ref{tab:splitfrequencyQDRBMPJ}) in appendix \ref{chp:totalresults}. 
 
@@ -448,7 +449,9 @@ If we now recall the virial theorem presented in section \ref{sec:virial}, it st
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 2\langle \hat{T} \rangle=2\langle \hat{V}_{\text{ext}} \rangle-\langle \hat{V}_{\text{int}} \rangle,
 \end{empheq}
-which in principle can be verified from figure \eqref{fig:energydistribution}. However, to do this accurately, we will list up the energy distributions for some selected systems. For a two-dimensional quantum dot with $N=20$ electrons the energy distribution is given in table \eqref{tab:splitfrequencyQD20P} for some selected frequencies. By doing the math, we see that the virial theorem is satisfied for high frequencies, but as the frequency decreases, the theorem gets more and more off. This is the case for all the methods and is also observed for other system sizes. For high frequencies, the trap becomes narrow which results in a stronger external force pushing the electrons towards each other. It is therefore natural that both the kinetic energy, external potential energy, and interaction energy get larger as the frequency is increased. It is also interesting to see how small the kinetic energy is when the frequency is low. We will study this more thoroughly in the next section. For more frequencies and system sizes, please look at appendix \ref{chp:totalresults}.
+which in principle can be verified from figure \eqref{fig:energydistribution}. However, to do this accurately, we will list up the energy distributions for some selected systems. For a two-dimensional quantum dot with $N=20$ electrons the energy distribution is given in table \eqref{tab:splitfrequencyQD20P} for some selected frequencies. By doing the math, we see that the virial theorem is not satisfied! To see why, we need to go back to the conditions of the virial theorem. They say that the... 
+
+By doing the math, we see that the virial theorem is satisfied for high frequencies, but as the frequency decreases, the theorem gets more and more off. This is the case for all the methods and is also observed for other system sizes. For high frequencies, the trap becomes narrow which results in a stronger external force pushing the electrons towards each other. It is therefore natural that both the kinetic energy, external potential energy, and interaction energy get larger as the frequency is increased. It is also interesting to see how small the kinetic energy is when the frequency is low. We will study this more thoroughly in the next section. For more frequencies and system sizes, please look at appendix \ref{chp:totalresults}.
 
 \iffalse
 \begin{figure}  
@@ -686,16 +689,10 @@ What we observe, is that the Boltzmann machine with a Padé-Jastrow factor outpe
 \fi
 
 \newpage
-\section{Atoms}
+\section{Atoms}\label{sec:atomsresults}
 The next systems we will address are the real atomic systems, which have been investigated by physicists since the childhood of quantum mechanics. This section is added to show the flexibility of the implemented code, which can easily be expanded to new systems. We use the simple hydrogen-like orbitals in our calculations, detailed in section \ref{sec:atomic}. In table \ref{tab:atomswinteraction} we present the ground state energy of the four smallest closed-shell atoms Helium, Beryllium, Neon, and Magnesium, including an overview of how the energy is distributed and the ratio between kinetic and potential energy. We also compare the obtained results to experimental values. What we see is that the total energy is similar but slightly higher than our reference, which is as expected as we use a simple basis.
 
-If we once again recall the virial theorem first introduced in section \ref{sec:virial}, it reads
-\begin{empheq}[box={\mybluebox[5pt]}]{equation}
-2\langle\hat{T}\rangle = -(\langle\hat{V}_{\text{ext}}\rangle + \langle\hat{V}_{\text{int}}\rangle)
-\end{empheq}
-for atoms and molecules. Taking the ratio between the kinetic and potential energy should therefore give $\langle\hat{T}\rangle/\langle\hat{V}\rangle=-0.5$, which is almost what we obtain. We therefore have a reason to believe that the energies are calculated correctly. 
-
-\begin{table}
+\begin{table}[H]
 	\caption{Energy of neutral atoms of atomic number $Z$ produced by VMC. We present the total energy ($\langle\hat{H}\rangle$), the external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$), the interaction energy ($\langle\hat{V}_{\text{int}}\rangle$), the kinetic-potential energy ratio ($\langle\hat{T}\rangle/\langle\hat{V}\rangle$) and experimental values (Expr.). The latter were taken from \citet{degroote_faddeev_2013}, table 4.4. The energy is given in atomic units, and the numbers in parenthesis is the statistical error. For abbreviations see the text.}
 	\label{tab:atomswinteraction}
 	\begin{tabularx}{\textwidth}{lrrR{2cm}R{1.9cm}|R{1.7cm}R{1.7cm}R{1.7cm}R{1.7cm}} \hline\hline
@@ -708,6 +705,12 @@ for atoms and molecules. Taking the ratio between the kinetic and potential ener
 		Mg & 12 && -200.054 & -196.81(4) & 251.9(2) & -557.0(2) & 108.23(6) & -0.379 \\ \hline\hline
 	\end{tabularx}
 \end{table}
+
+If we once again recall the virial theorem first introduced in section \ref{sec:virial}, it reads
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
+2\langle\hat{T}\rangle = -(\langle\hat{V}_{\text{ext}}\rangle + \langle\hat{V}_{\text{int}}\rangle)
+\end{empheq}
+for atoms and molecules. Taking the ratio between the kinetic and potential energy should therefore give $\langle\hat{T}\rangle/\langle\hat{V}\rangle=-0.5$, which is almost what we obtain. We therefore have a reason to believe that the energies are calculated correctly. 
 \begin{figure}
 	\centering
 	\captionsetup[subfigure]{labelformat=empty}
