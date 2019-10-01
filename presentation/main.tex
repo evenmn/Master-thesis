@@ -1,0 +1,184 @@
+\documentclass{beamer}
+\input{preliminares.tex}
+\input{preamble.tex}
+
+\author{Even Marius Nordhagen} 
+\institute[UiO] { University of Oslo \\ 
+                  \medskip
+                  \textit{evenmn@fys.uio.no}
+                }
+\date{\today} 
+\title{Studies of Quantum Dots using Machine Learning}
+
+\begin{document}
+
+\begin{frame}
+\titlepage 
+\end{frame}
+
+\mframe{\frametitle{Outline}
+\begin{itemize}
+	\item Quantum mechanics
+	\item Machine learning
+	\item Our approach
+	\item Results
+\end{itemize}
+}
+
+\mframe{\frametitle{Quantum Mechanics}
+
+\begin{equation*}
+	i\hbar\frac{\partial}{\partial t}\ket{\Psi(\bs{r},t)}=\hat{\mathcal{H}}\ket{\Psi(\bs{r},t)}
+\end{equation*}
+
+}
+
+\mframe{\frametitle{The time-independent Schrödinger equation}
+	
+	\begin{equation}
+	E_n=\frac{\int d\bs{r}\psinc\hat{\mathcal{H}}\psin}{\int d\bs{r}\psinc\psin}
+	\end{equation}
+	
+}
+
+
+\mframe{\frametitle{Harmonic oscillator}
+
+\begin{equation}
+\hat{\mathcal{H}} = \sum_{i=1}^{N} \bigg(-\frac{1}{2} \nabla_i^2 + \frac{1}{2} \omega^2r_i ^2\bigg)
+\end{equation}
+
+}
+
+\mframe{\frametitle{Quantum dots}
+	
+	Many-body problem
+	
+	\begin{equation}
+	\hat{\mathcal{H}} = \sum_{i=1}^{N} \Big(-\frac{1}{2} \nabla_i^2 + \frac{1}{2} \omega^2r_i ^2\Big) + \sum_{i<j} \frac{1}{r_{ij}}
+	\end{equation}
+	
+}
+
+
+\mframe{\frametitle{Variational Monte Carlo}
+
+\begin{equation}
+\begin{aligned}
+E_0 < E &= \frac{\int d\bs{r}\Psi_0(\bs{r})^*\hat{\mathcal{H}}\Psi_0(\bs{r})}{\int d\bs{r}\Psi_0(\bs{r})^*\Psi_0(\bs{r})}\\
+&= \int d\bs{r} E_L(\bs{r})P(\bs{r})\\
+& \approx \frac{1}{M}\sum_{i=1}^ME_L(\bs{r}_i)
+\end{aligned}
+\end{equation}
+
+}
+
+
+\mframe{\frametitle{Slide 4}
+
+something, something something
+
+}
+
+
+\mframe{\frametitle{Slide 5}
+
+something, something something
+
+}
+
+
+\mframe{\frametitle{Slide 6}
+
+something, something something
+
+}
+
+
+\mframe{\frametitle{Slide 7}
+
+something, something something
+
+}
+
+
+\mframe{\frametitle{Slide 8}
+
+something, something something
+
+}
+
+
+\mframe{\frametitle{Slide 9}
+
+something, something something
+
+}
+
+\mframe{\frametitle{Slide 10}
+
+something, something something
+
+}
+
+\mframe{\frametitle{Slide 11}
+
+something, something something
+
+}
+
+\mframe{\frametitle{Slide 12}
+
+something, something something
+
+}
+
+\mframe{\frametitle{Slide 13}
+
+something, something something
+
+}
+
+\mframe{\frametitle{Slide 14}
+
+something, something something
+
+}
+
+\mframe{\frametitle{Slide 15}
+
+something, something something
+
+}
+
+\mframe{\frametitle{Slide 16}
+
+something, something something
+
+}
+
+\mframe{\frametitle{Slide 17}
+
+something, something something
+
+}
+
+\mframe{\frametitle{Slide 18}
+
+something, something something
+
+}
+
+\mframe{\frametitle{Slide 20}
+
+something, something something
+
+}
+
+\mframe{\frametitle{Slide 21}
+
+something, something something
+
+}
+
+\end{document}
