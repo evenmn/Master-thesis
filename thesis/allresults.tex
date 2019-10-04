@@ -9,8 +9,8 @@ The CPU-time was calculated for all the systems we have been looking at, i.e., t
 \begin{table}[H]
 	\caption{The CPU time (in seconds) for each iteration when simulating two-dimensional circular quantum dots with $N=2-90$ electrons. The time was clocked for $M=2^{20}=1,048,576$ Monte Carlo cycles, and to get accurate times we took the average over at least four independent runs with thousands of iterations.}
 	\label{tab:cputime2D}
-	\begin{tabularx}{\textwidth}{lR{0.4cm}R{1.1cm}R{1.1cm}R{1.1cm}R{1.1cm}R{1.1cm}R{1.1cm}R{1.1cm}R{1.1cm}R{1.1cm}} \hline\hline
-		\makecell{\\ \phantom{=}} & $N$ & 2 & 6 & 12 & 20 & 30 & 42 & 56 & 72 & 90 \\ \hline \\
+	\begin{tabularx}{\textwidth}{lR{0.3cm}R{0.9cm}R{1.1cm}R{1.1cm}R{1.1cm}R{1.1cm}R{1.1cm}R{1.1cm}R{1.1cm}R{1.1cm}} \hline\hline
+		$N\rightarrow$ & \makecell{\\ \phantom{=}} & 2 & 6 & 12 & 20 & 30 & 42 & 56 & 72 & 90 \\ \hline \\
 		RBM && 6.05 & 11.25 & 20.53 & 38.99 & 73.72 & 130.49 & 213.47 & 360.22 & 856.84 \\
 		RBM+SJ && 7.12 & 14.07 & 28.42 & 63.27 & 122.93 & 199.60 & 349.22 & - & - \\
 		RBM+PJ && 7.26 & 13.50 & 27.68 & 57.09 & 119.17 & 212.53 & 382.13 & - & - \\
@@ -22,7 +22,7 @@ The CPU-time was calculated for all the systems we have been looking at, i.e., t
 	\caption{The CPU time (in seconds) for each iteration when simulating three-dimensional circular quantum dots with $N=2-70$ electrons. The time was clocked for $M=2^{20}=1,048,576$ Monte Carlo cycles, and to get accurate times we took the average over at least four independent runs with thousands of iterations.}
 	\label{tab:cputime3D}
 	\begin{tabularx}{\textwidth}{lrR{2.1cm}R{2.1cm}R{2.1cm}R{2.1cm}R{2.1cm}} \hline\hline
-		\makecell{\\ \phantom{=}} & $N$ & 2 & 8 & 20 & 40 & 70 \\ \hline \\
+		$N\rightarrow$ & \makecell{\\ \phantom{=}} & 2 & 8 & 20 & 40 & 70 \\ \hline \\
 		RBM && 7.69 & 20.92 & 59.67 & 171.84 & 586.39 \\
 		RBM+SJ && 8.95 & 26.86 & 94.64 & 270.92 & - \\
 		RBM+PJ && 8.87 & 26.36 & 91.40 & 293.25 & - \\
