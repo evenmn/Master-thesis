@@ -29,6 +29,7 @@
 		\item Restricted Boltzmann Machines
 	\end{itemize}
 	\item Results
+	\item Conclusion
 	\item (Code)
 \end{itemize}
 }
@@ -64,6 +65,11 @@ which gives the energy of state $n$.
 &= \langle\hat{T}\rangle + \langle\hat{V}\rangle
 \end{aligned}
 \end{equation}
+
+\begin{figure}
+	\centering
+	\input{../pgf/HO_1P.tex}
+\end{figure}
 
 }
 
@@ -205,15 +211,50 @@ J(\bs{r};\beta) = \exp\bigg(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta 
 	\end{center}
 }
 
-
+\iffalse
 \mframe{\frametitle{Ground State Energy}
-
-\begin{tabularx}{\textwidth}{lR{1.5cm}R{1.6cm}R{1.6cm}R{1.5cm}R{1.3cm}} \hline\hline
-	\label{tab:cputimefit}
-	\makecell{$\omega$ \\ \phantom{=}} & RBM & RBM+SJ & RBM+PJ & HF\footnote{Produced by the HF code developed by \citeauthor{mariadason_quantum_2018}} & Exact\footnote{\citeauthor{taut_two_1993}, \citetitle{taut_two_1993}, \citeyear{taut_two_1993}}} \\ \hline \\
+	\begin{tabularx}{\textwidth}{lR{1.5cm}R{1.6cm}R{1.6cm}R{1.5cm}R{1.3cm}} \hline\hline
+		\label{tab:cputimefit}
+		\makecell{$\omega$ \\ \phantom{=}} & RBM & RBM+SJ & RBM+PJ & HF\footnote{Produced by the HF code developed by \citeauthor{mariadason_quantum_2018}} & Exact\footnote{\citeauthor{taut_two_1993}, \citetitle{taut_two_1993}, \citeyear{taut_two_1993}}} \\ \hline \\
 	1/6 & 0.7036(1) & 0.67684(7) & 0.66715(6) & 0.768675 & 2/3 \\ 
 	1 & 3.0803(2) & 3.02108(5) & 2.999587(5) & 3.1690 & 3 \\ \hline\hline
 \end{tabularx}
+}
+\fi
+
+\mframe{\frametitle{Computational Cost}
+	\begin{figure}
+		\centering 
+		\input{../pgf/cpu_2D.tex}
+	\end{figure} 
+}
+
+\mframe{
+	\begin{center}
+		Conclusion
+	\end{center}
+}
+
+\mframe{\frametitle{Retrospect}
+	\begin{itemize}
+		\item RBM is able to account for most of the correlations
+		\item RBM+PJ implies to give a lower ground state energy and model the correlations better than a traditional VMC
+		\item RBM+SJ is both more expensive and less accurate than its fellow methods, and we see no reason to choose it
+	\end{itemize}
+}
+
+\mframe{\frametitle{Future Work}
+	\begin{itemize}
+		\item Repeat the exercise using spherical coordinates - interactions are easier to model in spherical coordinates
+		\item Check the ability of modeling the three-body correlations, considering nuclear systems
+		\item Reduce the computational cost
+	\end{itemize}
+}
+
+\mframe{
+	\begin{center}
+		Thank you!
+	\end{center}
 }
 
 \end{document}

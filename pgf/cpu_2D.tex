@@ -1,11 +1,8 @@
 % This file was created by matplotlib2tikz v0.7.4.
 \begin{tikzpicture}[scale=0.9]
 
-\definecolor{color0}{rgb}{0.12156862745098,0.466666666666667,0.705882352941177}
-\definecolor{color1}{rgb}{1,0.498039215686275,0.0549019607843137}
-
-\begin{axis}[name=2D, xlabel=Number of particles, ylabel={CPU-time [s]}, grid=major, legend pos=north west, xtick=data] 
-\addplot[color=blue,mark=oplus*, dashed] coordinates { 
+\begin{axis}[name=2D, xlabel=$N$, ylabel={CPU-time [s]}, grid=major, legend pos=north west, xtick=data] 
+\addplot[color=color0,mark=oplus*, dashed] coordinates { 
 	(2,6.05)
 	(6,11.25)
 	(12,20.53) 
@@ -17,7 +14,7 @@
 	(90,856.84) }; 
 \addlegendentry{RBM};
 
-\addplot[color=orange,mark=oplus*, dash dot] coordinates { 
+\addplot[color=color1,mark=oplus*, dash dot] coordinates { 
 	(2,7.12) 
 	(6,14.07) 
 	(12,28.42) 
@@ -27,7 +24,7 @@
 	(56,349.22)}; 
 \addlegendentry{RBM+SJ};
 
-\addplot[color=green,mark=oplus*, dotted] coordinates { 
+\addplot[color=color2,mark=oplus*, dotted] coordinates { 
 	(2,7.26)
 	(6,13.50)
 	(12,27.68)
@@ -37,7 +34,7 @@
 	(56,382.13) }; 
 \addlegendentry{RBM+PJ};
 
-\addplot[color=red,mark=oplus*] coordinates { 
+\addplot[color=color3,mark=oplus*] coordinates { 
 	(2,5.11)
 	(6,10.51)
 	(12,20.85) 
