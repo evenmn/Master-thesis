@@ -36,8 +36,7 @@
 \usepackage{framed}
 \usepackage{xargs} 
 \usepackage{copyrightbox}
-%\usepackage{libertine}
-%\usepackage{mathpazo}
+\usepackage{mathpazo}
 %\usepackage{eulervm}
 
 
@@ -119,6 +118,17 @@
 \@namedef{shadequote*}{\@rightfalse\shadequote@i}
 \@namedef{endshadequote*}{\endshadequote}
 \makeatother
+
+% ngg symbol
+\newcommand{\ngg}[1]{%
+	\begin{tikzpicture}[scale=#1]%
+	\draw (2ex,4ex) -- (8ex,8ex);%
+	\draw (2ex,12ex) -- (8ex,8ex);%
+	\draw (6ex,4ex) -- (12ex,8ex);%
+	\draw (6ex,12ex) -- (12ex,8ex);%
+	\draw (5ex,3ex) -- (9ex,13ex);%
+	\end{tikzpicture}%
+}
 
 %chapter heading
 \titleformat{\chapter}[display]

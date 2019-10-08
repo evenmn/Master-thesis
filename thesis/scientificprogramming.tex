@@ -29,41 +29,40 @@ The example with the shapes can therefore be implemented with \texttt{Shapes} be
 import numpy as np
 
 class Shapes:
-def __init__(self, r):
-self.r = r
+	def __init__(self, r):
+		self.r = r
 
-def getArea(self):
-raise NotImplementedError("Class {} has no instance 'getArea'."
-.format(self.__class__.__name__))
+	def getArea(self):
+		raise NotImplementedError("Class {} has no instance 'getArea'.".format(self.__class__.__name__))
 
 
 class Circle(Shapes):
-def getArea(self):
-return np.pi*self.r**2
+	def getArea(self):
+		return np.pi*self.r**2
 
-def getCircumference(self):
-return 2*np.pi*self.r
+	def getCircumference(self):
+		return 2*np.pi*self.r
 
-def getExtent(self, x, y):
-if np.linalg.norm([x,y]) < self.r:
-return True
-return False
+	def getExtent(self, x, y):
+		if np.linalg.norm([x,y]) < self.r:
+			return True
+		return False
 
 class Square(Shapes):
-def getArea(self):
-return 4*self.r**2
+	def getArea(self):
+		return 4*self.r**2
 
-def getCircumference(self):
-return 8*self.r
+	def getCircumference(self):
+		return 8*self.r
 
-def getExtent(self, x, y):
-if abs(x) < self.r and abs(y) < self.r:
-return True
-return False
+	def getExtent(self, x, y):
+		if abs(x) < self.r and abs(y) < self.r:
+			return True
+	return False
 
 class Triangle(Shapes):
-def getCircumference(self):
-return 6*self.r
+	def getCircumference(self):
+		return 6*self.r
 \end{lstlisting}
 where we give the children the properties area, circumference and extent. The length \texttt{r} means the radius of a circle, half the side length of a square and also half a side length of the equilateral triangle, see figure \eqref{fig:montecarlointegration}. We can implement a circle, square and triangle of \texttt{r}=1, respectively named "circ", "squr" and "tria" by these three lines
 \lstset{basicstyle=\scriptsize}
@@ -98,17 +97,17 @@ which is derived from the ratio between the circle area and the square area. By 
 \lstset{basicstyle=\scriptsize}
 \begin{lstlisting}[language=python]
 for i in range(1,10):                    # Iteration loop
-M = 10**i
-A_square = 0
-A_circle = 0
-for _ in range(int(M)):                # Monte Carlo loop
-x = np.random.uniform(-1,1)
-y = np.random.uniform(-1,1)
-if circ.getExtent(x,y):
-A_circle += 1
-if squr.getExtent(x,y):
-A_square += 1
-print("Pi: ", 4 * A_circle/A_square)
+	M = 10**i
+	A_square = 0
+	A_circle = 0
+	for _ in range(int(M)):                # Monte Carlo loop
+		x = np.random.uniform(-1,1)
+		y = np.random.uniform(-1,1)
+		if circ.getExtent(x,y):
+			A_circle += 1
+		if squr.getExtent(x,y):
+			A_square += 1
+		print("Pi: ", 4 * A_circle/A_square)
 \end{lstlisting}
 which gives a output similar to
 \begin{lstlisting}
@@ -129,57 +128,58 @@ Above, we looked at how inheritance can be implemented in the high-level languag
 \lstset{basicstyle=\scriptsize}
 \begin{lstlisting}[language=c++]
 class Shapes {
-public:
-Shapes();
-virtual double getArea() = 0;
-virtual double getCircumference() = 0;
-virtual bool getExtent(double x, double y) = 0;
-virtual ~Shapes();
+	public:
+		Shapes();
+		virtual double getArea() = 0;
+		virtual double getCircumference() = 0;
+		virtual bool getExtent(double x, double y) = 0;
+		virtual ~Shapes();
 };
 
 class Circle : public Shapes {
-public:
-Circle(double r);
-double getArea() {
-return M_PI * m_r * m_r;
-}
-double getCircumference() {
-return 2 * M_PI * m_r;
-}
-bool getExtent(double x, double y) {
-if(sqrt(x*x+y*y) < m_r) {
-return true;
-}
-return false;
-}
-private:
-double m_r = 1;
+	public:
+		Circle(double r);
+		double getArea() {
+			return M_PI * m_r * m_r;
+		}
+		double getCircumference() {
+			return 2 * M_PI * m_r;
+		}
+		bool getExtent(double x, double y) {
+			if(sqrt(x*x+y*y) < m_r) {
+				return true;
+			}
+			return false;
+		}
+	private:
+		double m_r = 1;
 };
 
 Circle::Circle(double r) : Shapes() {
-m_r = r;
+	m_r = r;
 }
 
 class Square: public Shapes {
-public:
-Square(double r);
-double getArea() {
-return 4 * m_r * m_r;
-}
-double getCircumference() {
-return 8 * m_r;
-}
-bool getExtent(double x, double y) {
-if(fabs(x) < m_r && fabs(y) < m_r) {
-return true;
-}
-return false;
-}
-private:
-double m_r = 1;
+	public:
+		Square(double r);
+		double getArea() {
+			return 4 * m_r * m_r;
+		}
+		double getCircumference() {
+			return 8 * m_r;
+		}
+		bool getExtent(double x, double y) {
+			if(fabs(x) < m_r && fabs(y) < m_r) {
+				return true;
+			}
+			return false;
+		}
+	private:
+		double m_r = 1;
 };
+
 Square::Square(double r) : Shapes() {
-m_r = r;
+	m_r = r;
 }
 \end{lstlisting}
 which looks quite different from the implementation in Python. We will go thoroughly through the different part of the code. One of the first thing we observe, is that we here need to \textit{declare} all the variables, which means that we need to specify what kind of variable it is. In the following we will have a look at some standard \textit{data types}.

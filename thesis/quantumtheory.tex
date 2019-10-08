@@ -178,22 +178,23 @@ We also have a \textbf{magnetic} quantum number $m_l$, which has the range $-l,-
 The \textbf{spin} quantum number $s$ gives the spin of a particle, which can just be seen as a particle's property. Particles are often divided into two groups depending on the spin because of their different behavior: \textbf{bosons} have integer spin, while \textbf{fermions} have half-integer spin. Electrons and protons have spin $s=1/2$, which makes them fermions.
 
 \subsection*{Spin projection}
-The last number we will discuss is the \textbf{spin projection} quantum number $m_s$. It has the range $-s,-s+1,\hdots,s-1,s$, and is therefore related to the spin quantum number in the same way as the magnetic number $m_l$ is related to the angular number $l$. Electrons can for that reason take the values $m_s=+1/2$ or $m_s=-1/2$, such that there are two groups of electrons. The consequences will be discussed in the section \eqref{sec:wavefunction}.
+The last number we will discuss is the \textbf{spin projection} quantum number $m_s$. It has the range $-s,-s+1,\hdots,s-1,s$, and is therefore related to the spin quantum number in the same way as the magnetic number $m_l$ is related to the angular number $l$. Electrons can for that reason take the values $m_s=+1/2$ or $m_s=-1/2$, such that there are two groups of electrons. The consequences will be discussed in the section \ref{sec:wavefunction}.
 
 \section{The virial theorem} \label{sec:virial}
-The virial theorem relates the kinetic energy to the potential energy, and makes it possible to find the average kinetic energy even for complex systems. The classical statement of the theorem was formulated during the 19th century and named by Rudolf Clausius in 1870 \cite{clausius_xvi._1870}. It is in the most general form given by 
+The virial theorem relates the kinetic energy to the potential energy, and makes it possible to find the (time) average of the kinetic energy even for complex systems. The classical statement of the theorem was formulated during the 19th century and named by \citet{clausius_xvi._1870} in 1870. It is in the most general form given by 
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-\langle\hat{T}\rangle=-\frac{1}{2}\sum_{i=1}^N\langle\bs{F}_i\cdot\bs{r}_i\rangle
+\langle\hat{T}\rangle=-\frac{1}{2}\sum_{i=1}^N\langle\bs{F}_i\cdot\bs{r}_i\rangle_t,
 \end{empheq}
-where $\bs{F}_i$ represents the force on particle $i$ at position $\bs{r}_i$. The quantum mechanical version was proven by Vladimir Fock in a 1930 paper \cite{fock_bemerkung_1930}, where the force is represented with $d\langle p\rangle/dt$. For potential sources in the form of $V_i=ar^{n_i}$, we can use Ehrenfest's theorem to express the virial theorem in a simpler fashion,
+where $\bs{F}_i$ represents the force on particle $i$ at position $\bs{r}_i$. The quantum mechanical version was proven by \citet{fock_bemerkung_1930} in a 1930 paper, where the expectation value of the force is represented with $d\langle p\rangle/dt$. For potential sources in the form of $V_i=ar^{n_i}$, we can use Ehrenfest's theorem to express the virial theorem in a simpler fashion,
 \begin{equation}
 2\langle \hat{T} \rangle = \sum_{i}n_i\langle \hat{V}_{i} \rangle.
+\label{eq:simplevirial}
 \end{equation}
-The same expression can be found in classical physics as well using the relation $\bs{F}=-\nabla V$.
+The same expression can be found in classical physics as well, using the relation $\bs{F}=-\nabla V$. The virial theorem requires that the system is in a bound state. An example on a system that does not fulfill the requirements, is a comet that has enough kinetic energy to escape a planet's gravitational field. 
 
-The assumption raised above holds for our situation as the interaction energy goes as $r^{-1}$. We will also later see that the potential used in quantum dots goes as $r^2$ and the potential used in atoms goes as $r^{-1}$ as well.
+On the other hand, the Hydrogen atom, discussed in section \ref{sec:hydrogen}, satisfies the virial theorem as the potential is in the form of $V(r)\propto r^{-1}$ and the electron is bounded. For that particular case, the virial theorem reads $2\langle\hat{T}\rangle=-\langle\hat{V}\rangle$, which means that $\langle\hat{H}\rangle=\langle\hat{V}\rangle/2$. However, if we add another electron and get a Hydrogen anion, the simplified virial theorem in equation \eqref{eq:simplevirial} breaks down because of the interaction.
 
-The expectation value is, in principle, the time average of the operator. However, if the ergodic hypothesis holds for the system, i.e., the ensemble average is equal to the time average \cite{flyvbjerg_error_1989}, an ensemble average can also be taken.
+It is also important to emphasize that the expectation value discussed above is, in principle, the time average of the operator. However, if the ergodic hypothesis holds for the system, i.e., the ensemble average is equal to the time average, an ensemble average can also be taken \cite{flyvbjerg_error_1989}.
 
 \iffalse
 \subsubsection*{Angular Momentum and Spin}

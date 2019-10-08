@@ -58,7 +58,7 @@ The first thing we observe is that all three optimization tools manage to conver
 	\label{fig:convergence42}
 \end{figure} 
 
-Further, we compare the energy convergence of the various methods in figure \eqref{fig:convergence42}. VMC and RBM+PJ apparently give the lowest energy, followed by the RBM+SJ and RBM. Also the error (amount of noise) seems to be in the same order, which will be discussed more in section \ref{sec:quantumdotresults}. While VMC, RBM+SJ and RBM+PJ all immediately converge and stabilize, RBM first converges to a value before it after more than 1000 iterations converges further to a new value. This illustrates that it can be hard to decide whether or not the RBM has converged, and an intelligent system is needed in order to see if the simulation can be stopped or not. In practice, we often turn of the convergence check and let the simulation run the maximum number of iterations. It is apparent that the RBM is harder to train than the other methods, which is a result of the absence of a Jastrow factor.
+Further, we compare the energy convergence of the various methods in figure \eqref{fig:convergence42}. VMC and RBM+PJ apparently give the lowest energy, followed by the RBM+SJ and RBM. Also the scale of the fluctuations (noise) seems to be in the same order, agreeing with the zero-variance property \cite{giuseppe_carleo_neural-network_2017}. While VMC, RBM+SJ and RBM+PJ all immediately converge and stabilize, RBM first converges to a value before it after more than 1000 iterations converges further to a new value. This illustrates that it can be hard to decide whether or not the RBM has converged, and an intelligent system is needed in order to see if the simulation can be stopped or not. In practice, we often turn of the convergence check and let the simulation run the maximum number of iterations. It is apparent that the RBM is harder to train than the other methods, which is a result of the absence of a Jastrow factor.
 
 \section{No repulsive interaction} \label{sec:norepulsive}
 We start with the non-interacting case in order to validate the implemented code. For this case, we know the exact energy and the exact electron density for both quantum dots and atoms, which makes it a good test for the implementation. The physical significance is though limited as such systems do not appear in the real world. We will start with the quantum dot, and then move on to atoms. 
@@ -443,52 +443,7 @@ If we now recall the general Hamiltonian presented in chapter \ref{chp:manybody}
 
 \input{../pgf/energy_distribution.tex}
 
-Firstly, the graphs are very similar for all the methods, which means that they all give the same distribution between kinetic and potential energy, although they do not provide the same energy. This is an interesting observation and means that the obtained kinetic and potential energy are both different for the various methods when the total energy is different. Physically, this indicates that the electron configurations are fundamentally different for the different methods, which is the only factor that can cause a change in potential energy. This is already observed in the one-body density plots. We see a significant trend where the ratio drops as the frequency drops, implying that the potential energy dominates the kinetic energy at low frequencies, which is a known phenomenon already mentioned several times throughout this thesis. For all the methods, the ratio is also lower for larger dots, which is a result of gradually more interaction energy as the number of particles increases.
-
-If we now recall the virial theorem presented in section \ref{sec:virial}, it states that the kinetic energy is related to the potential energies in a certain way. For the interacting quantum dots, the virial theorem reads
-\begin{empheq}[box={\mybluebox[5pt]}]{equation}
-2\langle \hat{T} \rangle=2\langle \hat{V}_{\text{ext}} \rangle-\langle \hat{V}_{\text{int}} \rangle,
-\end{empheq}
-which in principle can be verified from figure \eqref{fig:energydistribution}. However, to do this accurately, we will list up the energy distributions for some selected systems. For a two-dimensional quantum dot with $N=20$ electrons the energy distribution is given in table \eqref{tab:splitfrequencyQD20P} for some selected frequencies. By doing the math, we see that the virial theorem is not satisfied! The virial theorem requires that the particles are in bound states, and does not work if the kinetic energy is much larger than the potential energy. At low frequencies, the interaction energy is large, and the virial theorem is therefore not satisfied. At higher frequencies, the trap becomes narrow which results in a stronger external force pushing the electrons towards each other. It is therefore natural that both the kinetic energy, external potential energy, and interaction energy get larger as the frequency is increased. We see that the virial theorem then is more correct, but still not very accurate. It is also interesting to see how small the kinetic energy is when the frequency is low. We will study this more thoroughly in the next section. For more frequencies and system sizes, please look at appendix \ref{chp:totalresults}.
-
-\iffalse
-\begin{figure}  
-	\centering 
-	\subfloat[$\langle \hat{T} \rangle$]{{\input{pgf/kinetic20.tex}}}
-	\subfloat[$\langle \hat{V}_{\text{ext}} \rangle$]{{\input{pgf/external20.tex}}}
-	\subfloat[$\langle \hat{V}_{\text{int}} \rangle$]{{\input{pgf/interaction20.tex}}}
-	\caption{In figure (a), the kinetic energy over total energy, $\langle\hat{T}\rangle/\langle\hat{H}\rangle$, of two-dimensional quantum dots containing 20 electrons are plotted as a function of the oscillator frequency $\omega$. Similar plots for the external potential energy and interaction energy are found in figure (b) and (c) respectively. The methods used were detailed in the introductory words of this chapter.}
-	\label{fig:energysplit20}
-\end{figure}
-\fi 
-\iffalse
-\begin{table}
-	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) of two-dimensional circular quantum dots at a wide range of frequencies $\omega$ and $N=12$ interacting electrons. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit. For abbreviations see the text.}
-	\label{tab:splitfrequencyQD12P}
-	\begin{tabularx}{\textwidth}{R{0.5cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{0.3cm}} \hline\hline
-		&\makecell{\\ \phantom{$N$} \\ \phantom{=}} & $\omega$ && \multicolumn{1}{c}{$\langle \hat{H}\rangle$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} \\ \hline \\
-		&RBM & 0.01 && 2.5106(8) & 0.0682(2) & 0.893(1) & 1.549(1) \\
-		&& 2.0 && 115.214(5) & 20.760(6) & 43.69(1) & 50.764(7) \\
-		&& 10.0 && 435.36(2) & 114.61(2) & 200.13(4) & 120.62(1) \\
-		\hline \\
-		
-		&RBM+SJ & 0.01 && 2.4950(5) & 0.07(2) & 0.845(4) & 1.58(2) \\
-		&& 2.0 && 112.502(2) & 18.118(4) & 44.118(4) & 50.201(6) \\
-		&& 10.0 && 415.384(7) & 108.57(2) & 181.90(3) & 124.92(1) \\
-		\hline \\
-		
-		&RBM+PJ & 0.01 && 2.5019(4) & 0.0699(2) & 0.893(1) & 1.539(1) \\
-		&& 2.0 && 111.9426(5) & 17.817(3) & 46.532(4) & 47.593(3) \\
-		&& 10.0 && 415.943(9) & 124.13(2) & 157.92(3) & 133.89(1) \\ 
-		\hline \\
-		
-		&VMC & 0.01 && 2.4972(3) & 0.05506(2) & 0.858(1) & 1.584(1)\\
-		&& 2.0 && 111.8377(3) & 19.678(2) & 41.349(3) & 50.811(2) \\
-		&& 10.0 && \textcolor{red}{414.36(3)} & 116.0(2) & 168.9(3) & 129.4(1) \\
-		\hline\hline
-	\end{tabularx}
-\end{table}
-\fi
+Firstly, the graphs are very similar for all the methods, which means that they all give the same distribution between kinetic and potential energy, although they do not provide the same energy. This is an interesting observation and means that the obtained kinetic and potential energy are both different for the various methods when the total energy is different. Physically, this indicates that the electron configurations are fundamentally different for the different methods, which is the only factor that can cause a change in potential energy. This is already observed in the one-body density plots. Further, we see a significant trend where the ratio drops as the frequency is decreased, implying that the potential energy dominates the kinetic energy at low frequencies, which is a known phenomenon already mentioned several times throughout this thesis. For all the methods, the ratio is also lower for larger dots, which is a result of gradually more interaction energy as the number of particles increases.
 
 \begin{table}
 	\caption{This table shows how the total energy ($\langle\hat{H}\rangle$) is distributed between kinetic energy ($\langle\hat{T}\rangle$), external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$) and interaction energy ($\langle\hat{V}_{\text{int}}\rangle$) for two-dimensional quantum dots with $N=12$ electrons and at a wide range of frequencies $\omega$. The energy is given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit. For abbreviations see the text.}
@@ -516,6 +471,22 @@ which in principle can be verified from figure \eqref{fig:energydistribution}. H
 		\hline\hline
 	\end{tabularx}
 \end{table}
+
+If we now recall the virial theorem presented in section \ref{sec:virial}, it states that the kinetic energy is related to the potential energies in a certain way.  For the interacting quantum dots, the virial theorem reads
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
+2\langle \hat{T} \rangle=2\langle \hat{V}_{\text{ext}} \rangle-\langle \hat{V}_{\text{int}} \rangle,
+\end{empheq}
+which in principle can be verified from figure \eqref{fig:energydistribution}. However, to do this accurately, we will list up the energy distributions for some selected systems. For a two-dimensional quantum dot with $N=20$ electrons the energy distribution is given in table \eqref{tab:splitfrequencyQD20P} for some selected frequencies. By doing the math, we see that the virial theorem is not satisfied for any of the methods or frequencies! For the lowest frequency, the theorem is far from correct, but as the frequency increases the error decreases. To estimate the accuracy of the theorem, we introduce a ratio
+\begin{equation}
+R=\frac{2\langle\hat{T}\rangle}{2\langle\hat{V}_{\text{ext}}\rangle-\langle\hat{V}_{\text{int}}\rangle}
+\end{equation}
+which naturally is $R_{\text{exact}}=1$ if the virial theorem is satisfied. To estimate the error, we calculate the absolute error $E_{\omega}=||R_{\omega}-1||$. Take, for example, VMC, we get $E_{\omega=0.01}=0.713$, $E_{\omega=2}=0.221$ and $E_{\omega=10}=0.021$, which shows that the virial theorem gradually gets more accurate as the potential energy gets more important. To see why this is the case, we need to go back to the conditions of the theorem. 
+
+Another interesting thing is how the energy is distributed for the various methods. Most notably, we see that VMC and RBM+PJ provide different distributions between the different methods, albeit the total energy is more or less identical. 
+
+For more frequencies and system sizes, please look at appendix \ref{chp:totalresults}.
+
+The virial theorem requires that the particles are in bound states, and does not work if the kinetic energy is much larger than the potential energy. At low frequencies, the interaction energy is large, and the virial theorem is therefore not satisfied. At higher frequencies, the trap becomes narrow which results in a stronger external force pushing the electrons towards each other. It is therefore natural that both the kinetic energy, external potential energy, and interaction energy get larger as the frequency is increased. We see that the virial theorem then is more correct, but still not very accurate. It is also interesting to see how small the kinetic energy is when the frequency is low. We will study this more thoroughly in the next section. For more frequencies and system sizes, please look at appendix \ref{chp:totalresults}.
 
 \newpage
 \subsection{Low frequency dots} \label{sec:lowfrequencies}

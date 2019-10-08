@@ -42,9 +42,9 @@ By putting this Hamiltonian into equation \eqref{eq:energy}, the integral can be
 where the two former ones are the one-body integrals, or \textit{matrix elements}, which we in many cases easily can solve. However, the last term is very tricky to solve, and in fact there are analytical solutions available for the two-particle case only. With other words, a precise evaluation of this integral can usually only be found using numerical methods, which we will have a closer look at in chapter \ref{chp:methods} in conjunction with quantum Monte Carlo methods.
 
 \section{The wave function} \label{sec:wavefunction}
-By the first postulate of quantum mechanics presented in section \ref{sec:postulates}, the wave function contains all the information specifying the state of the system. This means that all observable in classical mechanics can also be estimated from the wave function, which makes finding the wave function our aim. We will in this section discuss the symmetry properties of the wave function for bosonic and fermionic systems, and see how the wave function can be set up as a Slater determinant in order to meet these properties. Also, Jastrow factors will be touched, as they are used in quantum Monte Carlo methods to handle the correlations. With that in mind, we approximate the wave function by a \textit{trial wave function},
+By the first postulate of quantum mechanics presented in section \ref{sec:postulates}, the wave function contains all the information specifying the state of the system. This means that all observable in classical mechanics can also be estimated from the wave function, which makes finding the wave function our aim. We will in this section discuss the symmetry properties of the wave function for bosonic and fermionic systems, and see how the wave function can be set up as a Slater determinant in order to meet these properties. Also, Jastrow factors will be touched, as they are used in quantum Monte Carlo methods to handle the correlations. With that in mind, we approximate the \textit{trial} wave function by a Slater-Jastrow function,
 \begin{equation}
-\Psi_T(\bs{r};\bs{\theta})=|\hat{D}(\bs{r};\bs{\theta})|J(\bs{r};\bs{\theta}).
+\Psi_T(\bs{r};\bs{\theta})=|\hat{D}(\bs{r};\bs{\theta})|J(\bs{r};\bs{\theta}),
 \end{equation}
 which is an educated guess of the form of the wave function. 
 Here the first part, $|\hat{D}(\bs{r};\bs{\theta})|$, is the Slater determinant and $J(\bs{r};\bs{\theta})$ is a Jastrow factor with $\theta$ as some variational parameters. Other quantum many-body methods, such as full configuration interaction and coupled cluster use a linear expansion of Slater determinants to approximate the wave function, while the Hartree-Fock method relies on one single Slater determinant (without any Jastrow factor). Nevertheless, as we will focus on quantum Monte Carlo methods, this chapter will be tailored to the method. 
@@ -100,7 +100,7 @@ where the $\psi(\bs{r},\sigma)$ is the tensor product between the radial part $\
 \end{equation}
 In section \ref{sec:slaterdeterminant}, it is shown that the Slater determinant can be split in a spin-up part and a spin-down part such that the spin-dependency $\xi(\sigma)$ can be omitted. For that reason, we can define a basis set consisting of the spatial parts only, discussed in the next section. 
 
-As a note, we will in the rest of this thesis use $\Psi$ as the many-particle wave function, $\psi$ are the single-particle functions, and $\phi$ is the spatial part of the single-particle function. $\xi$ will be reserved the spin part of the single-particle functions, but will often be omitted as the spin-part can be factorized out. Sometimes it is appropriate to split up the many-particle wave function, and we will, in that case, denote each part by $\Psi_i$ where $i$ is an index associated with the particular element. Lastly, the basis functions will be called $\varphi$, which we will discuss in the next section. 
+As a note, we will in the rest of this thesis use $\Psi$ as the many-particle wave function, $\psi$ are the single-particle functions, and $\phi$ is the spatial part of the single-particle function. $\xi$ will be reserved the spin part of the single-particle functions, but will often be omitted as the spin-part can be factorized out. Sometimes it is appropriate to split up the many-particle wave function, and we will, in that case, denote each part by $\Psi_i$ where $i$ is an index associated with the particular element. Lastly, the basis functions will be denoted by $\varphi$, which we will discuss in the next section. 
 
 \subsection{Basis set} \label{sec:basisset}
 In quantum chemistry, a basis set is a set of basis functions, which often are called the atomic orbitals.  Generally, a basis function should not be confused with a single-particle function, as a single-particle function is a linear combination of basis functions, and are thus often called the molecular orbitals. Commonly used atomic orbitals are Pople basis sets (in the form of x-yz G), correlation-consistent basis sets (in the form of cc-pVNZ) and Slater-type orbitals (in the form of STO-nG), where all are built on Gaussian functions. Gaussian functions are preferred as they allow efficient implementations of post-Hartree-Fock methods.
@@ -136,8 +136,8 @@ where $\beta$ is a variational parameter. In addition, the fractions are multipl
 a_{ij}=
 \begin{cases} 
 e^2/(D+1) & \text{if $i,j$ are particles of same spin} \\
-e^2/(D-1) & \text{if $i,j$ are particles of opposite spin},
-\end{cases}
+e^2/(D-1) & \text{if $i,j$ are particles of opposite spin}
+\end{cases},
 \end{equation}
 for dimensions $D\in[2,3]$ where $e$ is the elementary charge. We will later use natural and atomic units, and set $e=1$, which for two dimensions gives $a_{ij}=1/3$ (same spin) or $a_{ij}=1$ (opposite spin) and for three dimensions $a_{ij}=1/4$ (same spin) and $a_{ij}=1/2$ (opposite spin) \cite{hogberget_quantum_2013,mariadason_quantum_2018}.
 
