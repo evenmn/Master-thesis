@@ -15,7 +15,7 @@ We developed the code with a focus on three main goals: it should be efficient, 
 For all matrix operations, we use the open-source template library for linear algebra Eigen throughout the code. Eigen provides an elegant interface, with support for all the needed matrix and vector operations. Additionally, Eigen is built on the standard software libraries for numerical linear algebra, BLAS, and LAPACK, which are incredibly fast. These contribute significantly to the performance of the code. 
 
 \section{Flexibility and readability}
-We have done several things in order to keep the code as readable as possible. Firstly, the code was written in an object-orientated scheme which makes it more intuitive to a human as discussed in chapter \ref{chp:scientificprogramming}. The Hamiltonians, optimizers, wave functions, sampling methods, and even the random number generator were treated as objects, making the code more or less as object-orientated as possible. An object-oriented code makes it also makes it straight-forward to define a system since we can specify the preferred object. Below, we define a two-dimensional quantum dot system of $N=6$ electrons with frequency $\omega=1.0$, learning rate $\eta=0.1$, number of Metropolis cycles $M=2^{20}=1048576$ and max number of iterations set to 1000.
+We have done several things in order to keep the code as readable as possible. Firstly, the code was written in an object-orientated scheme which makes it more intuitive to a human as discussed in chapter \ref{chp:scientificprogramming}. The Hamiltonians, optimizers, wave functions, sampling methods, and even the random number generator were treated as objects, making the code more or less as object-orientated as possible. An object-oriented code makes it also makes it straight-forward to define a system since we can specify the preferred object. Below, we define a two-dimensional quantum dot system of $N=6$ electrons with frequency $\omega=1.0$, learning rate $\eta=0.1$, number of Metropolis cycles $M=2^{20}=1,048,576$ and max number of iterations set to 1000.
 
 \begin{lstlisting}[language={C++}, caption={Example on how a quantum dot system can be initialized.}, label={lst:qd}]
 System *QD = new System();
@@ -153,7 +153,7 @@ Additionally, the Slater determinant can be split in a spin-up part and a spin-d
 as it is the starting point of our optimizations. We also recall that $\sigma_i$ is the spin and $\phi_j(\bs{r}_i,\sigma_j)$ is the single-particle function occupying the matrix element $D_{ij}$.
 
 \subsection{Splitting up the Slater determinant} \label{sec:splittingofslater}
-In order to reduce the computational cost of the Slater determinant, we will split it up in a spin-up part and a spin-down part. The splitting was explained thoroughly by Daniel Nissenbaum in his doctoral dissertation, appendix I in \cite{nissenbaum_stochastic_2008}, and this section is heavily inspired by it. In real life, we cannot immediately tell if an electron has spin-up or spin-down, but since we in the code need to know which particles that have spin-up and spin-down, we simply decide that the first $N_{\uparrow}$ particles have spin up and the remaining particles have spin down. 
+In order to reduce the computational cost of the Slater determinant, we will split it up in a spin-up part and a spin-down part. The splitting was explained thoroughly by \citet{nissenbaum_stochastic_2008}, appendix I, and this section is heavily inspired by it. In real life, we cannot immediately tell if an electron has spin-up or spin-down, but since we in the code need to know which particles that have spin-up and spin-down, we simply decide that the first $N_{\uparrow}$ particles have spin up and the remaining particles have spin down. 
 
 In addition to reduce the computational cost, splitting up the Slater determinant also makes it possible to factorize out the spin-part from the single-particle functions. Only the spatial part of the single particle functions contribute to the energies, such that we with advantage can get rid of the spin parts. Recall that the single-particle functions $\psi(\bs{r},\sigma)$, can be written as a tensor product between the spatial part $\phi(\bs{r})$ and the spin part $\xi(\sigma)$, 
 \begin{equation}
@@ -314,7 +314,7 @@ For closed-form expressions for higher-order wave functions, please run the scri
 \fi
 
 \subsection{The determinant} \label{sec:slaterdeterminant}
-As discussed in section \ref{sec:splittingofslater}, the Slater determinant can be split in a spin-up part and a spin-down part, and further the common functions can be factorized out as shown in section \ref{sec:factorizing}. This means that the remaining determinant is not the full Slater determinant, and to distinguish it from the real Slater determinant, $\Psi_{\text{sd}}(\bs{r})$, we will denote the element by $det$, $\Psi_{\text{det}}(\bs{r})$. This determinant can of course still be splitted like the Slater determinant, 
+As discussed in section \ref{sec:splittingofslater}, the Slater determinant can be split in a spin-up part and a spin-down part, and further the common functions can be factorized out as shown in section \ref{sec:factorizing}. This means that the remaining determinant is not the full Slater determinant, and to distinguish it from the real Slater determinant, $\Psi_{\text{sd}}(\bs{r})$, we will denote the element by "det", $\Psi_{\text{det}}(\bs{r})$. This determinant can of course still be splitted like the Slater determinant, 
 \begin{equation}
 \Psi_{\text{det}}(\bs{r})=
 |\hat{D}_{\uparrow}(\bs{r}_{\uparrow})|\cdot |\hat{D}_{\downarrow}(\bs{r}_{\downarrow})|,
@@ -323,11 +323,11 @@ where $r_{\uparrow}$ are the coordinates of particles with spin up (defined as t
 
 We can now exploit the logarithmic scale, by using that the logarithm of a product corresponds to summarize the logarithm of each factor,
 \begin{equation}
-\ln\Psi_{\text{det}}=\ln|\hat{D}_{\uparrow}(\bs{r}_{\uparrow})|+\ln|\hat{D}_{\downarrow}(\bs{r}_{\downarrow})|
+\ln\Psi_{\text{det}}(\bs{r})=\ln|\hat{D}_{\uparrow}(\bs{r}_{\uparrow})|+\ln|\hat{D}_{\downarrow}(\bs{r}_{\downarrow})|
 \end{equation}
 such that we only need to care about one of the determinants when differentiating, dependent on whether the coordinate we differentiate with respect to is among the spin-up or the spin-down coordinates,
 \begin{equation}
-\nabla_k\ln\Psi_{\text{det}}=
+\nabla_k\ln\Psi_{\text{det}}(\bs{r})=
 \begin{cases} 
 \nabla_k\ln|\hat{D}_{\uparrow}(\bs{r}_{\uparrow})| & \text{if} \quad k<N_{\uparrow}\\
 \nabla_k\ln|\hat{D}_{\downarrow}(\bs{r}_{\downarrow})| & \text{if} \quad k\geq N_{\uparrow}.

@@ -188,25 +188,25 @@ which looks quite different from the implementation in Python. We will go thorou
 In low-level languages, we need to specify the data types manually, giving us more control and flexibility. The most fundamental data types are \texttt{int} representing an integer number, \texttt{float} representing a floating number, \texttt{bool} representing a Boolean number and a \texttt{char} representing a character. Often, these four data types are not sufficient for the task we want to implement, and we need to introduce more data types. An especially common error is \textit{overflow}, meaning that the number computed is out of the range of our data type. To avoid this, we can switch to data types of longer range, replacing \texttt{int} with a \texttt{long long int} (or just a \texttt{long long}), and replacing \texttt{float} with a \texttt{double}.
 
 \begin{table}
-	\caption{Built-in data types in C++, with their memory occupation and range. Parenthesis () means that the the extension is optional. Numbers are taken from \cite{noauthor_c++_2017}.}
+	\caption{Built-in data types in C++, with their memory occupation and range in a 64-bit processor, taken from \cite{noauthor_c++_2017}. Extensions in the parameters are optional.}
 	\label{tab:datatypes}
 	\begin{tabularx}{\textwidth}{R{0.5cm}L{7cm}R{1.5cm}R{5cm}R{0.3cm}} \hline\hline
 		&\makecell{\\ Data types \\ \phantom{=}} & Size [bytes] & Range & \\ \hline \\
+		&(\texttt{signed}) \texttt{char} & 1 & $-2^7$ to $2^{7}-1$ & \\ 
 		&(\texttt{signed}) \texttt{short} (\texttt{int}) & 2 & $-2^{15}$ to $2^{15}-1$ & \\
 		&(\texttt{signed}) \texttt{int} / \texttt{long} (\texttt{int}) & 4 & $-2^{31}$ to $2^{31}-1$ & \\ 
-		&(\texttt{signed}) \texttt{long long} (\texttt{int}) & 8 & $-2^{63}$ to $2^{63}-1$ & \\
+		&(\texttt{signed}) \texttt{long long} (\texttt{int}) & 8 & $-2^{63}$ to $2^{63}-1$ & \\ \\
+		&\texttt{unsigned char} & 1 & 0 to $2^{8}$ & \\ 
 		&\texttt{unsigned short} (\texttt{int}) & 2 & 0 to $2^{16}$ & \\
 		&\texttt{unsigned int} / \texttt{unsigned long} (\texttt{int}) & 4 & 0 to $2^{32}$ & \\ 
-		&\texttt{unsigned long long} (\texttt{int}) & 8 & 0 to $2^{64}$ & \\
+		&\texttt{unsigned long long} (\texttt{int}) & 8 & 0 to $2^{64}$ & \\ \\
 		&\texttt{float} & 4 & $\sim$ $\pm$3.4E38 ($\sim$ 7 digits) & \\
 		&(\texttt{long}) \texttt{double} & 8 & $\sim$ $\pm$1.7E308 ($\sim$ 15 digits) & \\
-		&(\texttt{signed}) \texttt{char} & 1 & $-2^7$ to $2^{7}-1$ & \\ 
-		&\texttt{unsigned char} & 1 & 0 to $2^{8}$ & \\ 
 		\hline\hline
 	\end{tabularx}
 \end{table} 
 
-Some languages also deal with \texttt{long int} and \texttt{long double}, but in C++ an \texttt{int} and a \texttt{long int} is the same. Additionally, a \texttt{long double} is the same as a \texttt{double}. As lack of memory seldom is a problem on modern computers, it is common to declare all floating numbers as \texttt{double}s. In table \eqref{tab:datatypes}, the most common data types are listed with their range and memory occupation in C++. For integers, it is also possible to "move" the range from its zero-centered default to only include positive numbers. This is done by declaring a \texttt{unsigned int} or \texttt{unsigned long}. Using unsigned data types doubles the range in the positive direction, but should not be done if one, by any chance, can get negative numbers, as one then will get \textit{underflow}.  
+Some languages also deal with \texttt{long int} and \texttt{long double}, but in C++ an \texttt{int} and a \texttt{long int} is the same. Additionally, a \texttt{long double} is the same as a \texttt{double}. As lack of memory seldom is a problem on modern computers, it is common to declare all floating numbers as \texttt{double}s. In table \eqref{tab:datatypes}, the most common data types are listed with their range and memory occupation in C++. For integers, it is also possible to "move" the range from its zero-centered default to only include positive numbers. This is done by declaring an \texttt{unsigned} data type. By using unsigned data types, the range doubles in the positive direction, but it should not be done if one, by any chance, can get negative numbers, as one then will get \textit{underflow}.  
 
 \subsection{Access modifiers}
 Another thing that we observe from the code example above, is that we define the functions as \texttt{private} or \texttt{public}, which are called access modifiers. The access modifiers specify how much access the environment should have to the function: \texttt{private} means that the function can only be called from the particular class, while \texttt{public} means that also sub-classes (children) and other classes have access to the function. We also have a third access modifier in C++, called \texttt{protected}. \texttt{protected} members of a class A are not accessible outside of A's code, but any class that inherits from A has access to the protected member. 
@@ -232,28 +232,28 @@ variable=*address.
 We can now call the class above from the \texttt{main} function. We start defining the children \texttt{circ} and \texttt{squr}, and use the \texttt{getExtent()} function to approximate the area ratio between them. The code looks like 
 \begin{lstlisting}[language=c++]
 int main() {   
-class Shapes* circ = new Circle(1);
-class Shapes* squr = new Square(1);
+	class Shapes* circ = new Circle(1);
+	class Shapes* squr = new Square(1);
 
-for(int i=1; i<10; i++) {
-int M = int(pow(10,i));
-long A_square = 0;
-long A_circle = 0;
-for(int m=0; i<M; i++) {
-double x = uniform(gen);
-double y = uniform(gen);
-if(circ->getExtent(x, y)) {
-A_circle ++;
-}
-if(squr->getExtent(x, y)) {
-A_square ++;
-}
-}
-std::cout << std::fixed;
-std::cout << std::setprecision(10);
-std::cout << "Pi: " << 4 * double(A_circle)/A_square << std::endl;
-}
-return 0;
+	for(int i=1; i<10; i++) {
+		int M = int(pow(10,i));
+		long long A_square = 0;
+		long long A_circle = 0;
+		for(int m=0; i<M; i++) {
+			double x = uniform(gen);
+			double y = uniform(gen);
+			if(circ->getExtent(x, y)) {
+				A_circle ++;
+			}
+			if(squr->getExtent(x, y)) {
+				A_square ++;
+			}
+		}
+		std::cout << std::fixed;
+		std::cout << std::setprecision(10);
+		std::cout << "Pi: " << 4 * double(A_circle)/A_square << std::endl;
+	}
+	return 0;
 }
 \end{lstlisting}
 which gives about the same output as the Python script, but is much faster. 

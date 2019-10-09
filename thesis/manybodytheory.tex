@@ -26,7 +26,7 @@ V_{\text{int}} =k_e\frac{e^2}{r_{12}}
 \end{equation}
 where $r_{12}$ is the distance between the electrons. For a general system containing $N$ electrons, the total Hamiltonian can therefore be expressed as 
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-\hat{\mathcal{H}}=-\sum_i^N\frac{\hbar^2}{2m_e}\nabla_i^2+\sum_i^{N}V_i + \sum_i^N\sum_{j>i}^Nk_e\frac{e^2}{r_{ij}}
+\hat{\mathcal{H}}=-\sum_{i=1}^N\frac{\hbar^2}{2m_e}\nabla_i^2+\sum_{i=1}^{N}V_i + \sum_{i=1}^N\sum_{j>i}^Nk_e\frac{e^2}{r_{ij}}
 \label{eq:ElectronicHamiltonian}
 \end{empheq}
 which is the farthest we can go without specifying the external potential $V_i$. $r_{ij}$ is the relative distance between particle $i$ and $j$, defined by $r_{ij}\equiv|\bs{r}_i-\bs{r}_j|$. From now on, we will use atomic units setting $\hbar=m_e=k_e=e=1$, see appendix \ref{app:units} for details.
@@ -34,7 +34,7 @@ which is the farthest we can go without specifying the external potential $V_i$.
 By putting this Hamiltonian into equation \eqref{eq:energy}, the integral can be split in three parts,
 \begin{equation}
 \begin{aligned}
-\varepsilon_n&=-\sum_{i=1}^N\bigg[\mel{\Psi_n(\bs{r})}{\nabla_i^2}{\Psi_n(\bs{r})}
+\varepsilon_n&=\sum_{i=1}^N\bigg[-\frac{1}{2}\mel{\Psi_n(\bs{r})}{\nabla_i^2}{\Psi_n(\bs{r})}
 +\mel{\Psi_n(\bs{r})}{V_i}{\Psi_n(\bs{r})}
 +\sum_{j>i}^N\mel{\Psi_n(\bs{r})}{\frac{1}{r_{ij}}}{\Psi_n(\bs{r})}\bigg]
 \end{aligned}
@@ -135,11 +135,11 @@ where $\beta$ is a variational parameter. In addition, the fractions are multipl
 \label{eq:ajastrow}
 a_{ij}=
 \begin{cases} 
-e^2/(D+1) & \text{if $i,j$ are particles of same spin} \\
-e^2/(D-1) & \text{if $i,j$ are particles of opposite spin}
+e^2/(d+1) & \text{if $i,j$ are particles of same spin} \\
+e^2/(d-1) & \text{if $i,j$ are particles of opposite spin}
 \end{cases},
 \end{equation}
-for dimensions $D\in[2,3]$ where $e$ is the elementary charge. We will later use natural and atomic units, and set $e=1$, which for two dimensions gives $a_{ij}=1/3$ (same spin) or $a_{ij}=1$ (opposite spin) and for three dimensions $a_{ij}=1/4$ (same spin) and $a_{ij}=1/2$ (opposite spin) \cite{hogberget_quantum_2013,mariadason_quantum_2018}.
+for dimensions $d\in[2,3]$ where $e$ is the elementary charge. We will later use natural and atomic units, and set $e=1$, which for two dimensions gives $a_{ij}=1/3$ (same spin) or $a_{ij}=1$ (opposite spin) and for three dimensions $a_{ij}=1/4$ (same spin) and $a_{ij}=1/2$ (opposite spin) \cite{hogberget_quantum_2013,mariadason_quantum_2018}.
 
 This Jastrow factor is known to give accurate results for fermions and bosons because it gives the right cusp condition, and it is the one we are going to use in the standard variational Monte-Carlo simulations.
 

@@ -472,25 +472,19 @@ Firstly, the graphs are very similar for all the methods, which means that they 
 	\end{tabularx}
 \end{table}
 
-If we now recall the virial theorem presented in section \ref{sec:virial}, it states that the kinetic energy is related to the potential energies in a certain way.  For the interacting quantum dots, the virial theorem reads
+If we further recall the virial theorem presented in section \ref{sec:virial}, it states that the kinetic energy is related to the potential energies in a certain way. If we assume that the interaction potential goes as $V_{\text{int}}\propto r^{-1}$, we can write the virial theorem as
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 2\langle \hat{T} \rangle=2\langle \hat{V}_{\text{ext}} \rangle-\langle \hat{V}_{\text{int}} \rangle,
+\label{eq:modifiedvirial}
 \end{empheq}
-which in principle can be verified from figure \eqref{fig:energydistribution}. However, to do this accurately, we will list up the energy distributions for some selected systems. For a two-dimensional quantum dot with $N=20$ electrons the energy distribution is given in table \eqref{tab:splitfrequencyQD20P} for some selected frequencies. By doing the math, we see that the virial theorem is not satisfied for any of the methods or frequencies! For the lowest frequency, the theorem is far from correct, but as the frequency increases the error decreases. To estimate the accuracy of the theorem, we introduce a ratio
+according to equation \eqref{eq:simplevirial}. We could try to verify this formula from figure \eqref{fig:energydistribution}, but in order to do this accurately, we will list up the energy distributions for some selected systems. For a two-dimensional quantum dot with $N=20$ electrons the energy distribution is given in table \eqref{tab:splitfrequencyQD20P} for some selected frequencies. By doing the math, we see that the virial theorem is not satisfied for any of the methods or frequencies! For the lowest frequency, the theorem is far from correct, but as the frequency increases the error decreases. To estimate the accuracy of the theorem, we introduce a ratio
 \begin{equation}
 R=\frac{2\langle\hat{T}\rangle}{2\langle\hat{V}_{\text{ext}}\rangle-\langle\hat{V}_{\text{int}}\rangle}
 \end{equation}
-which naturally is $R_{\text{exact}}=1$ if the virial theorem is satisfied. To estimate the error, we calculate the absolute error $E_{\omega}=||R_{\omega}-1||$. Take, for example, VMC, we get $E_{\omega=0.01}=0.713$, $E_{\omega=2}=0.221$ and $E_{\omega=10}=0.021$, which shows that the virial theorem gradually gets more accurate as the potential energy gets more important. To see why this is the case, we need to go back to the conditions of the theorem. 
+which naturally is $R_{\text{exact}}=1$ if our version of the virial theorem is satisfied. To estimate the error, we calculate the absolute error $E_{\omega}=||R_{\omega}-1||$. Take, for example VMC, we get $E_{\omega=0.01}=0.713$, $E_{\omega=2}=0.221$ and $E_{\omega=10}=0.021$, which shows that equation \eqref{eq:modifiedvirial} gradually gets more accurate as the potential energy gets more important. To see why this is the case, we need to go back to the original virial theorem given in equation \eqref{eq:virialtheorem}. By inserting the interaction energy, we see that our modified virial theorem is inaccurate, and breaks down when the interaction energy dominates. However, it should be quite accurate when the interaction energy is not so important, which is consistent with our results. 
 
-Another interesting thing is how the energy is distributed for the various methods. Most notably, we see that VMC and RBM+PJ provide different distributions between the different methods, albeit the total energy is more or less identical. 
+Another interesting thing is how the energy is distributed for the various methods. Most notably, we see that VMC and RBM+PJ provide different distributions between the different methods, albeit the total energy is more or less identical. Physically, this means that the RBM+PJ finds another configuration than VMC to minimize the energy, which is exciting as the former method is supposed to be more flexible than the latter. For more frequencies and system sizes, please look at appendix \ref{chp:totalresults}.
 
-For more frequencies and system sizes, please look at appendix \ref{chp:totalresults}.
-
-The virial theorem requires that the particles are in bound states, and does not work if the kinetic energy is much larger than the potential energy. At low frequencies, the interaction energy is large, and the virial theorem is therefore not satisfied. At higher frequencies, the trap becomes narrow which results in a stronger external force pushing the electrons towards each other. It is therefore natural that both the kinetic energy, external potential energy, and interaction energy get larger as the frequency is increased. We see that the virial theorem then is more correct, but still not very accurate. It is also interesting to see how small the kinetic energy is when the frequency is low. We will study this more thoroughly in the next section. For more frequencies and system sizes, please look at appendix \ref{chp:totalresults}.
-
-\newpage
-\subsection{Low frequency dots} \label{sec:lowfrequencies}
-In section \ref{sec:onebodyresults}, we found the one-body density to be shape-invariant for high-frequency dot with $\omega\geq0.28$. However, when we further decreased the frequency down to $\omega=0.1$, the density profiles changed significantly, and we got other extrema and so on. This section aims to investigate the transitions between the various shapes with frequencies down to $\omega=0.01$. We start by looking at quantum dots with frequency $\omega=0.1$ and compare the RBM results to the VMC results. In figure \eqref{fig:lowfreqRBM}, we present the radial density profiles for $N=2$, 6 and 12. What we observe is that the density plots are completely different. While VMC provides a single peak with some bumps on the top, RBM gives several peaks for all the numbers of electrons. The numbers of peaks apparently is equal to the number of electrons, which indicates that the RBM finds the electrons to be localized at some fixed spots. The two methods model the correlations in completely different ways, and as the correlations become more important for low frequencies, it was expected that the results would also be different. Further, we fix the number of electrons to be $N=2$, and vary the frequency from $\omega=0.28$ down to $\omega=0.01$ with density profiles produced by VMC and RBM+PJ found in figure \eqref{fig:lowfreq2P}. Those methods were selected as they hitherto have shown the most promising results and we want to see if the RBM+PJ can reveal effects that the VMC is not able to capture.
 \begin{figure}
 	\centering
 	\captionsetup[subfigure]{labelformat=empty}
@@ -504,9 +498,12 @@ In section \ref{sec:onebodyresults}, we found the one-body density to be shape-i
 	\subfloat[$N=6$]{{\includegraphics[width=5.1cm]{../plots/int1/onebody2/2D/6P/0.100000w/VMC_ADAM_MC1048576.png}}}\hspace{-0.cm}
 	\subfloat[$N=12$]{{\includegraphics[width=5.1cm]{../plots/int1/onebody2/2D/12P/0.100000w/VMC_ADAM_MC1048576.png}}}
 	
-	\caption{One-body density of two-dimensional circular quantum dots of frequency $\omega=0.1$ with $N=2$, 6 and 12 electrons. The graph on the $yz$-plane represents the cross-section through $x=0$. The surface plots are noise-reduced using a Savitzky-Golay filter, and for abbreviations see the text.}
+	\caption{One-body density of two-dimensional circular quantum dots with frequency $\omega=0.1$ with $N=2$, 6 and 12 electrons, where the surface plot and the contour plot on the $xy$-plane illustrate the density and the graph on the $yz$-plane represents the cross-section through $x=0$. The surface plots are noise-reduced using a Savitzky-Golay filter, and for abbreviations see the text.}
 	\label{fig:lowfreqRBM}
 \end{figure}
+
+\subsection{Low frequency dots} \label{sec:lowfrequencies}
+In section \ref{sec:onebodyresults}, we found the one-body density to be shape-invariant for high-frequency dot with $\omega\geq0.28$. However, when we further decreased the frequency down to $\omega=0.1$, the density profiles changed significantly, and we got other extrema and so on. This section aims to investigate the transitions between the various shapes with frequencies down to $\omega=0.01$. We start by looking at quantum dots with frequency $\omega=0.1$, and in figure \eqref{fig:lowfreqRBM} we compare the radial density profiles for $N=2$, 6 and 12 produced by RBM to the results produced by VMC. What we observe is that the density plots are completely different. While VMC provides a single peak with some bumps on the top, RBM gives several peaks for all the numbers of electrons. The numbers of peaks apparently is equal to the number of electrons, which indicates that the RBM finds the electrons to be localized at some fixed spots. The two methods model the correlations in completely different ways, and as the correlations become more important for low frequencies, it was expected that the results would also be different. However, the obtained ground state energies by the two methods are not so different for the same systems, indicating that the electron density plots are better at reveal differences between the methods than the energy itself. 
 
 \begin{figure}
 	\centering
@@ -521,11 +518,11 @@ In section \ref{sec:onebodyresults}, we found the one-body density to be shape-i
 	\subfloat[$\omega=0.1$]{{\includegraphics[width=5.1cm]{../plots/int1/onebody2/2D/2P/0.100000w/VMC_ADAM_MC1048576.png}}}\hspace{-0.cm}
 	\subfloat[$\omega=0.01$]{{\includegraphics[width=5.1cm]{../plots/int1/onebody2/2D/2P/0.010000w/VMC_ADAM_MC2pow28_smooth_blue_small.png}}}
 	
-	\caption{One-body density of two-dimensional circular quantum dots of frequencies $\omega=0.28$, 0.1 and 0.01 with $N=2$ electrons. The graph on the $yz$-plane represents the cross-section through $x=0$. The surface plots are noise-reduced using a Savitzky-Golay filter, and for abbreviations see the text.}
+	\caption{One-body density of two-dimensional circular quantum dots with $N=2$ electrons and frequencies $\omega=0.28$, 0.1 and 0.01, where the surface plot and the contour plot on the $xy$-plane illustrate the density and the graph on the $yz$-plane represents the cross-section through $x=0$. The surface plots are noise-reduced using a Savitzky-Golay filter, and for abbreviations see the text.}
 	\label{fig:lowfreq2P}
 \end{figure}
 
-We see that the two methods obtain very similar density plots, where they agree that a ridge around the center of the dot should be more distinct as the frequency drops. If we go back to figure \eqref{fig:energydistribution}, we saw that the kinetic energy was negligible for the lowest energies, and the effect is, therefore, an indication of the Wigner crystallization effect discussed in section \ref{sec:wigner}. As in the classical limit, the two electrons will repel each other and seldom be located at the same place when their kinetic energy is low. RBM+PJ possibly provides a sharper plot for $\omega=0.01$, which is closer to the DMC results found in \citet{hogberget_quantum_2013} and thus perhaps more correct. Additionally, the ground state energy obtained by RBM+PJ is lower than the energy obtained by VMC, with $E=0.074107(8)$ vs $E=0.074070(8)$ respectively. We repeat the exercise for quantum dots with six electrons, and obtain the plots in figure \eqref{fig:lowfreq6P}.
+Further, we fix the number of electrons to be $N=2$, and vary the frequency from $\omega=0.28$ down to $\omega=0.01$ with density profiles produced by VMC and RBM+PJ found in figure \eqref{fig:lowfreq2P}. Those methods were selected as they hitherto have shown the most promising results and we want to see if the RBM+PJ can reveal effects that the VMC is not able to capture. We see that the two methods obtain very similar density plots, where they agree that a ridge around the center of the dot should be more distinct as the frequency drops. If we go back to figure \eqref{fig:energydistribution}, we saw that the kinetic energy was negligible for the lowest energies, and the effect is, therefore, an indication of the Wigner localization effect discussed in section \ref{sec:wigner}. As in the classical limit, the two electrons will repel each other and seldom be located at the same place when their kinetic energy is low. RBM+PJ possibly provides a sharper ridge for $\omega=0.01$, which is closer to the DMC results found from \citet{hogberget_quantum_2013} and thus perhaps more correct. However, the energy provided by RBM+PJ and VMC are more or less identical (0.074107 and 0.074070 respectively), which means that the potential difference does not give effect to the energy.
 
 \begin{figure}
 	\centering
@@ -540,13 +537,12 @@ We see that the two methods obtain very similar density plots, where they agree 
 	\subfloat[$\omega=0.1$]{{\includegraphics[width=5.1cm]{../plots/int1/onebody2/2D/6P/0.100000w/VMC_ADAM_MC1048576.png}}}\hspace{-0.cm}
 	\subfloat[$\omega=0.01$]{{\includegraphics[width=5.1cm]{../plots/int1/onebody2/2D/6P/0.010000w/VMC_ADAM_MC2pow28_smooth}}}
 	
-	\caption{One-body density of two-dimensional circular quantum dots of frequencies $\omega=0.28$, 0.1 and 0.01 with $N=6$ electrons. The surface plots are noise-reduced using a Savitzky-Golay filter, and for abbreviations see the text.}
+	\caption{One-body density of two-dimensional circular quantum dots with $N=6$ electrons and frequencies $\omega=0.28$, 0.1 and 0.01, where the surface plot and the contour plot on the $xy$-plane illustrate the density and the graph on the $yz$-plane represents the cross-section through $x=0$. The surface plots are noise-reduced using a Savitzky-Golay filter, and for abbreviations see the text.}
 	\label{fig:lowfreq6P}
 \end{figure}
 
-We observe the same tendency as for the dots with two electrons, where we get an additional peak in the density plot as the frequency decreases. Again the RBM+PJ gives a more distinct peak than the VMC, which is closer to the DMC one-body density plot found from \citet{hogberget_quantum_2013}. This substantiates the presence of Wigner crystallization, which is when the electrons minimize the potential energy. For this particular case, the configuration of the lowest potential energy is found with an electron in the center of the dot and the remaining five electrons surrounding. \iffalse In order to give a more qualitative comparison of the various methods, we also present the radial one-body density profile of the quantum dots of frequency $\omega=0.01$ with two and six electrons, see figure \eqref{fig:lowfreq}. \fi
+We repeat the exercise for quantum dots with $N=6$ electrons, and obtain the plots in figure \eqref{fig:lowfreq6P}. We observe the same tendency as for the dots with two electrons, where we get an additional peak in the density plot as the frequency decreases. Again the RBM+PJ gives a more distinct peak than the VMC, which is closer to the DMC one-body density plot found from \citet{hogberget_quantum_2013}. This substantiates the presence of Wigner crystallization, which is when the electrons minimize the potential energy. For this particular case, the configuration of the lowest potential energy is found with an electron in the center of the dot and the remaining five electrons surrounding, like in the classical limit. In order to give a more qualitative comparison of the various methods, we also present the radial one-body density profile of the quantum dots of frequency $\omega=0.01$ with two and six electrons, see figure \eqref{fig:lowfreq}.
 
-\iffalse
 \begin{figure}[H]
 	\centering
 	\captionsetup[subfigure]{labelformat=empty}
@@ -556,7 +552,6 @@ We observe the same tendency as for the dots with two electrons, where we get an
 	\caption{One-body density of two-dimensional circular quantum dots of frequency $\omega=0.01$. The graph on the $yz$-plane represents the cross-section through $x=0$. The surface plots are noise-reduced using a Savitzky-Golay filter, and for abbreviations see the text.}
 	\label{fig:lowfreq}
 \end{figure}
-\fi
 
 \iffalse
 \subsection{$S\neq0$}
@@ -590,7 +585,7 @@ We find both the RBM+PJ and VMC to reproduce the reference energy in all the cas
 In order to test the code, we also decided to run for systems with $N>56$. This has no scientific significance, other than testing how far a VMC code can go. One thing is that the computations get extremely expensive as the number of particles increases, but also the standard error is assumed to increase due to.. This means that we cannot just crack up the wall clock time and wait when studying large systems; at some point, the standard error gets insufficiently large, and we need to increase the number of Monte Carlo cycles further. The learning rate also needs to be decreased as the system sizes increase, which requires more iterations.  We look at weakly interacting particles, so we will not get any relativistic effects even when adding many particles.
 
 \begin{table}[H]
-	\caption{Energy of large circular quantum dots, $\omega=1.0$. All energies are given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit. For abbreviations see the text.}
+	\caption{Energy of large quantum dots with $N=72$ and 90, and $\omega=1.0$. All energies are given in units of $\hbar$, and the numbers in parenthesis are the statistical uncertainties in the last digit. For abbreviations see the text.}
 	\label{tab:largeQD}
 	\begin{tabularx}{\textwidth}{R{1.6cm}R{2cm}R{2cm}R{3cm}R{3cm}} \hline\hline
 		& \makecell{\\ \phantom{$N$}} & $N$ & RBM & VMC \\ \hline \\
@@ -604,11 +599,9 @@ In order to test the code, we also decided to run for systems with $N>56$. This 
 \begin{figure}[H]
 	\centering
 	\captionsetup[subfigure]{labelformat=empty}
-	\subfloat{\includegraphics[scale=0.4]{../plots/int1/onebody/2D/72P/1.000000w/ADAM_MC1048576.png}}
-	\subfloat{\includegraphics[scale=0.4]{../plots/int1/onebody/2D/90P/1.000000w/ADAM_MC2pow28.png}}\\
-	%\subfloat[VMC, 72P]{\includegraphics[scale=0.4]{../plots/int1/onebody2/2D/72P/1.000000w/VMC_ADAM_MC2pow28_blue.png}}
-	%\subfloat[RBM, 72P]{\includegraphics[scale=0.4]{../plots/int1/onebody2/2D/72P/1.000000w/VMC_ADAM_MC2pow28_smooth_blue_masked.png}}
-	\caption{One-body density of large circular quantum dots with frequency $\omega=1.0$. The graph on the $yz$-plane represents the cross-section through $x=0$. The methods were detailed in the introductory words to this chapter, and the surface plots were noise-reduced using a Savitzky-Golay filter, and for abbreviations see the text.}
+	\subfloat[$N=72$]{\includegraphics[width=8cm]{../plots/int1/onebody/2D/72P/1.000000w/ADAM_MC1048576.png}}\hspace{-0.5cm}
+	\subfloat[$N=90$]{\includegraphics[width=8cm]{../plots/int1/onebody/2D/90P/1.000000w/ADAM_MC1048576.png}}\\
+	\caption{Radial one-body density profile of large quantum dots with $N=72$ and 90, and frequency $\omega=1.0$ produced with RBM and VMC. The methods were detailed in the introductory words to this chapter, and for abbreviations see the text.}
 	\label{fig:largedotsOB}
 \end{figure}
 
@@ -662,7 +655,7 @@ What we observe, is that the Boltzmann machine with a Padé-Jastrow factor outpe
 The next systems we will address are the real atomic systems, which have been investigated by physicists since the childhood of quantum mechanics. This section is added to show the flexibility of the implemented code, which can easily be expanded to new systems. We use the simple hydrogen-like orbitals in our calculations, detailed in section \ref{sec:atomic}. In table \ref{tab:atomswinteraction} we present the ground state energy of the four smallest closed-shell atoms Helium, Beryllium, Neon, and Magnesium, including an overview of how the energy is distributed and the ratio between kinetic and potential energy. We also compare the obtained results to experimental values. What we see is that the total energy is similar but slightly higher than our reference, which is as expected as we use a simple basis.
 
 \begin{table}[H]
-	\caption{Energy of neutral atoms of atomic number $Z$ produced by VMC. We present the total energy ($\langle\hat{H}\rangle$), the external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$), the interaction energy ($\langle\hat{V}_{\text{int}}\rangle$), the kinetic-potential energy ratio ($\langle\hat{T}\rangle/\langle\hat{V}\rangle$) and experimental values (Expr.). The latter were taken from \citet{degroote_faddeev_2013}, table 4.4. The energy is given in atomic units, and the numbers in parenthesis is the statistical error. For abbreviations see the text.}
+	\caption{Ground state energy of neutral atoms with atomic number $Z$ produced by VMC. We present the total energy ($\langle\hat{H}\rangle$), the external potential energy ($\langle\hat{V}_{\text{ext}}\rangle$), the interaction energy ($\langle\hat{V}_{\text{int}}\rangle$), the kinetic-potential energy ratio ($\langle\hat{T}\rangle/\langle\hat{V}\rangle$) and experimental values (Expr.). The latter were taken from \citet{degroote_faddeev_2013}, table 4.4. The energy is given in atomic units, and the numbers in parenthesis is the statistical error. For abbreviations see the text.}
 	\label{tab:atomswinteraction}
 	\begin{tabularx}{\textwidth}{lrrR{2cm}R{1.9cm}|R{1.7cm}R{1.7cm}R{1.7cm}R{1.7cm}} \hline\hline
 		Atom & $Z$ & \makecell{\\ \phantom{=} \\ \phantom{=}} & 
@@ -678,8 +671,9 @@ The next systems we will address are the real atomic systems, which have been in
 If we once again recall the virial theorem first introduced in section \ref{sec:virial}, it reads
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 2\langle\hat{T}\rangle = -(\langle\hat{V}_{\text{ext}}\rangle + \langle\hat{V}_{\text{int}}\rangle)
+\label{eq:virialratio}
 \end{empheq}
-for atoms and molecules. Taking the ratio between the kinetic and potential energy should therefore give $\langle\hat{T}\rangle/\langle\hat{V}\rangle=-0.5$, which is almost what we obtain. We therefore have a reason to believe that the energies are calculated correctly. 
+for atoms and molecules under the assumption that $V_{\text{int}}\propto r^{-1}$. For quantum dots, we found this assumption to be inaccurate, and our modified virial theorem broke down for strongly interacting systems. To see if the same happens fro atoms, we again introduce the ratio between the kinetic and potential energy, $R=\langle\hat{T}\rangle/\langle\hat{V}\rangle$, which for this system should be $R=-0.5$ in order to fulfill equation \eqref{eq:virialratio}. In the last column of table \ref{tab:atomswinteraction}, this ratio is presented for the various atoms, and for Helium, Beryllium and Neon we see that the ratio actually is close to -0.5. However, for Magnesium, the value is off, which could either be a result of too strong attraction force from the nucleus or some errors in the calculations. We believe that it is the latter, as we get an accurate result with Neon, and perhaps the model has just not converged. 
 \begin{figure}
 	\centering
 	\captionsetup[subfigure]{labelformat=empty}
@@ -687,7 +681,7 @@ for atoms and molecules. Taking the ratio between the kinetic and potential ener
 	\subfloat[Beryllium]{\includegraphics[width=\textwidth/2]{../plots/int1/atoms/Be/ADAM_MC2pow28.png}}\\
 	\subfloat[Neon]{\includegraphics[width=\textwidth/2]{../plots/int1/atoms/Ne/ADAM_MC2pow28.png}}
 	\subfloat[Magnesium]{\includegraphics[width=\textwidth/2]{../plots/int1/atoms/Mg/ADAM_MC2pow28.png}}
-	\caption{Radial one-body density plots obtained for the Helium atom (upper left), the Beryllium atom (upper right), the Neon atom (lower left) and the Magnesium atom (lower right). VMC was used, which is detailed in the text. The number of Monte Carlo cycles used was $M=2^{28}=268,435,456$.}
+	\caption{Radial one-body density plots obtained for the Helium atom (upper left), the Beryllium atom (upper right), the Neon atom (lower left) and the Magnesium atom (lower right). VMC was used, which is detailed in the text. The number of Monte Carlo cycles used was $M=2^{28}=268,435,456$ and the ADAM optimizer was used.}
 	\label{fig:atomsonebody}
 \end{figure}
-Further, we look at the one-body densities, which are presented in figure \eqref{fig:atomsonebody} for our four atoms. To reveal details, they are multiplied with $r^2$ as for example \citet{hogberget_quantum_2013} has done before us. We observe that the densities also are similar to his DMC results, which again substantiates that our framework and electron density computations work as they should.
+Further, we look at the radial one-body density profiles, which are presented in figure \eqref{fig:atomsonebody} for our four atoms. To reveal details, they are multiplied with $r^2$ as for example \citet{hogberget_quantum_2013} has done before us. We observe that the densities mostly are similar to his DMC results, which again substantiates that our framework and electron density computations work as they should. However, for Magnesium, the density plot is slightly different, which probably is related to the potential bug discussed above. 
