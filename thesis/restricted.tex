@@ -73,7 +73,7 @@ and
 \begin{equation}
 P(\bs{x}|\bs{h})=\frac{P(\bs{x},\bs{h})}{P(\bs{h})}=\frac{\exp(-E(\bs{x},\bs{h}))}{\sum_{\bs{x}}\exp(-E(\bs{x},\bs{h}))}.
 \end{equation}
-The conditional probabilities are especially important in Gibbs sampling, where we want to update the $\bs{x}$'s given a $\bs{h}$ and vice versa. 
+The conditional probabilities are especially important in Gibbs sampling, where we want to update the visible units $\bs{x}$ given the hidden units $\bs{h}$ and \textit{vice versa}. 
 
 \subsection{Maximum log-likelihood estimate}
 Now suppose that the energy function also is a function of some parameters $\bs{\theta}$. We have already expressed the log-likelihood function, 
@@ -87,8 +87,7 @@ and by maximizing this we find the maximum log-likelihood estimate. This estimat
 &=-\sum_{\bs{h}}P(\bs{h}|\bs{x})\frac{\partial E(\bs{x},\bs{h})}{\partial\bs{\theta}}+\sum_{\bs{x},\bs{h}}P(\bs{x},\bs{h})\frac{\partial E(\bs{x},\bs{h})}{\partial\bs{\theta}}=0.
 \end{aligned}
 \end{equation}
-
-Similar to neural networks presented in chapter \ref{chp:machinelearning}, we cannot find a closed-form expression for this, and we need to solve it iteratively. 
+Similarly to the neural networks presented in chapter \ref{chp:machinelearning}, we cannot find a closed-form expression for this, and we need to solve it iteratively. 
 
 \section{Unrestricted Boltzmann machines}
 Unrestricted Boltzmann machines, or merely Boltzmann machines, are energy-based, generative neural networks based on the more primitive Hopfield network. They consist of a set of units, and similarly to the feed-forward neural networks presented in section \ref{sec:neural_network}, a weight matrix is connecting the units. However, in a standard unrestricted Boltzmann machine, we only have one layer where all the units connect to all other units, and a bias unit is commonly added to work as a constant term. In figure \eqref{fig:boltzmann_machine}, we illustrate a plain Boltzmann machine consisting of $N=6$ units and one bias unit. 
@@ -100,9 +99,9 @@ Unrestricted Boltzmann machines, or merely Boltzmann machines, are energy-based,
 	\label{fig:boltzmann_machine}
 \end{figure}
 
-By multiplying each unit with all the other units and the weight connecting them, one obtains the system energy. For the simplest case, the energy reads
+By multiplying each unit with all the other units and the weight connecting them, one obtains the system energy, which should not be confused with the physical energy of a quantum state. For the simplest case, the energy reads
 \begin{equation}
-E(\bs{s})=- \sum_{i=1}^Ns_ib_i-\sum_{i=1}^N\sum_{j=i}^N s_iw_{ij}s_j 
+E(\bs{s})=- \sum_{i=1}^Ns_ib_i-\sum_{i=1}^N\sum_{j=i}^N s_iw_{ij}s_j,
 \label{eq:unrestrictedboltzmannmachine}
 \end{equation}
 where $\bs{s}$ are the units and $w_{ij}$ is the weight connecting the units $s_i$ and $s_j$. The bias unit is fixed to 1, as always, and the weight between the bias unit and the unit $s_i$ is denoted by $b_i$. In its most simple form, the units can only take binary values, and we, therefore, call it a binary-unit Boltzmann machine. The energy formula is then identical to the system energy of Hopfield networks, but what distinguishes a Boltzmann machine from a Hopfield network is that the units are \textit{stochastic}. By stochastic, we mean that their values are randomly determined, introducing some randomness to the system. Also, the energy of an Ising model takes the same form as equation \eqref{eq:unrestrictedboltzmannmachine}. Other architectures are also available, and for the restricted Boltzmann machine we will look at the Gaussian-binary unit model.
@@ -117,7 +116,7 @@ where $Z$ again is the partition function. The PDF contains weights, which can b
 A Boltzmann machine is also a Markov random field, as the stochastic processes satisfy the Markov property. Loosely speaking, this means that all the probabilities of going from one state to another are known, making it possible to predict the future of the process based solely on its present state. The property is also determined by "memorylessness", meaning that the next state of the system depends only on the current state and not on the sequence of events that preceded it \cite{fischer_training_2014}. The Markov chain is an essential part of the sampling methods that will we discuss in chapter \ref{chp:methods}.
 
 \section{Restricted Boltzmann machines} \label{sec:RBM}
-When there is an unrestricted guy, a restricted guy must exist as well. What the term restricted means in this context, is that we ignore all the connections between units in the same layer, and keep only the inter-layer ones. In a restricted boltzmann machine (RBM), only the units in the first layer are the observable, while the units in the next layer are latent or hidden. In the same manner as in equation \eqref{eq:unrestrictedboltzmannmachine}, we can look at the linear case and multiply each unit with the corresponding weight, but now we need to distinguish between a visible unit $x_i$ and a hidden unit $h_j$. For the same reason, we divide all the bias weights into a group connected to the visible units, $a_i$, and a group connected to the hidden units, $b_j$. The system energy then reads
+When there is an unrestricted guy, a restricted guy must exist as well. What the term restricted means in this context, is that we ignore all the connections between units in the same layer, and keep only the inter-layer ones. In a restricted Boltzmann machine (RBM), only the units in the first layer are the observable, while the units in the next layer are latent or hidden. In the same manner as in equation \eqref{eq:unrestrictedboltzmannmachine}, we can look at the linear case and multiply each unit with the corresponding weight, but now we need to distinguish between a visible unit $x_i$ and a hidden unit $h_j$. For the same reason, we divide all the bias weights into a group connected to the visible units, $a_i$, and a group connected to the hidden units, $b_j$. The system energy then reads
 \begin{equation}
 E(\bs{x},\bs{h})=- \sum_{i=1}^Fx_ia_i- \sum_{j=1}^Hh_jb_j-\sum_{i=1}^F\sum_{j=i}^H x_iw_{ij}h_j,
 \label{eq:binarybinary}
@@ -132,7 +131,7 @@ which is called a binary-binary unit or Bernoulli-Bernoulli unit RBM. $H$ is the
 \end{figure}
 
 \subsection{Gaussian-binary units}
-So far, we have discussed the linear models only, but as for feed-forward neural networks, we need non-linear models to solve non-linear problems. A natural next step is the model with Gaussian-binary units, which has a Gaussian mapping between the visible unit bias and the visible units and possibly also between the two layers. The energy expression of an architecture with Gaussian mapping between the visible units and the bias only has the form
+So far, we have discussed the linear models only, but as for feed-forward neural networks, we need non-linear models to solve non-linear problems. A natural next step is the model with Gaussian-binary units, which has a Gaussian mapping between the visible unit bias and the visible units and possibly also between the two layers. The energy expression of an architecture with Gaussian mapping between the visible units and the bias only takes the form
 \begin{equation}
 E(\bs{x},\bs{h})= \sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2} - \sum_{j=1}^Hh_jb_j-\sum_{i=1}^F\sum_{j=i}^H \frac{x_iw_{ij}h_j}{\sigma_i^2},
 \label{eq:gaussianbinary}
@@ -142,12 +141,12 @@ where $\sigma_i$ is the width of the Gaussian distribution, which can take an ar
 P(\bs{x},\bs{h})\propto\exp\Big(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2}\Big)\prod_{j=1}^H\exp\Big(h_jb_j+\sum_{i=1}^F\frac{h_jw_{ij}x_i}{\sigma^2}\Big),
 \label{eq:RBMWF1}
 \end{equation}
-where the first factor (the exponential function) is actually the definition of a Gaussian function and the product has a complexity proportional to the number of hidden nodes. Generative sampling algorithms, as Gibbs sampling, use this distribution directly, while other sampling tools, as Metropolis sampling, need the marginal distribution. To find the marginal distribution of the visible units, we just need to take the sum over $h=0$ and $h=1$ as the hidden units are binary. The final expression is given by
+where the first factor (the exponential function) is actually the definition of a Gaussian function and the product has a complexity proportional to the number of hidden nodes. Generative sampling algorithms, as Gibbs sampling, use this distribution directly, while other sampling tools, like Metropolis sampling, need the marginal distribution. To find the marginal distribution of the visible units, we just need to take the sum over $h=0$ and $h=1$ as the hidden units are binary. The final expression is given by
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 P(\bs{x})\propto\exp\Big(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2}\Big)\prod_{j=1}^H\bigg(1+\exp\Big(b_j+\sum_{i=1}^F\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg),
 \label{eq:RBMWF2}
 \end{empheq}
-were the transition from equation \eqref{eq:RBMWF1} is shown thoroughly in appendix \ref{app:rbmderive}. Since the visible units take continuous values, we need to integrate to find the marginal distribution of the hidden units, but since we never will use that distribution in this work, we will ignore the marginal distributions of the hidden units.
+were the transition from equation \eqref{eq:gaussianbinary} is shown thoroughly in appendix \ref{app:rbmderive}. Since the visible units take continuous values, we need to integrate to find the marginal distribution of the hidden units, but since we never will use that distribution in this work, we will ignore the marginal distributions of the hidden units.
 
 The conditional distributions are important in Gibbs sampling as they are used to determine the value of the hidden and visible nodes and update the weights. The distribution of $h$ given $x$ is used to update the hidden units and reads
 \begin{equation}
@@ -160,7 +159,7 @@ P(\bs{x}|\bs{h})=\mathcal{N}(\bs{x};\bs{a}+\bs{w}^T\bs{h},\sigma^2),
 \end{equation}
 with the width of the Gaussian distribution determining the variance. Note that the mean is $\bs{\mu}=\bs{a}+\bs{w}^T\bs{h}$, which is the vector obtained when going backwards in the restricted Boltzmann machine (multiplying the hidden units with the weights).
 
-In Metropolis sampling, we only use the marginal distribution of the visible units use the weights to the hidden units are additional variational parameters. For completeness reasons, we will discuss the Gibbs sampling, but we will in practice stick to the Metropolis sampling. More about the different sampling tools can be found in chapter \ref{chp:methods}. We also need the gradient of the log-likelihood function in order to train the network. The likelihood function is defined as the probability of $\bs{x}$ given a set of parameters $\bs{\theta}$, which relate to our problem as $P(\bs{x}|\bs{a},\bs{b},\bs{w})$. We therefore get three maximum log-likelihood estimates,
+In Metropolis sampling, we only use the marginal distribution of the visible units, so the weights to the hidden units are additional variational parameters. For completeness reasons, we will discuss the Gibbs sampling, but we will in practice stick to the Metropolis sampling. More about the different sampling tools can be found in chapter \ref{chp:methods}. We also need the gradient of the log-likelihood function in order to train the network. The likelihood function is defined as the probability of $\bs{x}$ given a set of parameters $\bs{\theta}$, which relate to our problem as $P(\bs{x}|\bs{a},\bs{b},\bs{w})$. We therefore get three maximum log-likelihood estimates,
 \begin{equation}
 \begin{aligned}
 \frac{\partial\ln P(\bs{x}|\bs{a},\bs{b},\bs{w})}{\partial\bs{a}}&=\frac{\bs{x}-\bs{a}}{\sigma^2}\\
@@ -169,13 +168,13 @@ In Metropolis sampling, we only use the marginal distribution of the visible uni
 \end{aligned}
 \label{eq:loglikelihood}
 \end{equation}
-where we have defined a vector $\bs{n}$ as the logistic function
+where we have defined a vector $\bs{n}$ as the (element-wise) logistic function
 \begin{equation}
 \bs{n}(\bs{v})\equiv\frac{1}{1+\exp(-\bs{v})}
 \end{equation}
-where again $\bs{v}$ is a vector containing all the elements in the last exponent in equation \eqref{eq:RBMWF2},
+with $\bs{v}$ as the vector containing all the elements in the last exponent in equation \eqref{eq:RBMWF2},
 \begin{equation}
-\bs{v}\equiv\bs{b}+\frac{\bs{w}\bs{x}}{\sigma^2}.
+\bs{v}\equiv\bs{b}+\frac{\bs{w}^T\bs{x}}{\sigma^2}.
 \end{equation}
 We decided to set up the vectorized expressions as that is what we will use in practice. In addition to $\bs{n}$, we will later introduce the its counterpart, $\bs{p}(\bs{v})=\bs{n}(-\bs{v})$, and the names make sense as $\bs{n}$ has a negative expression in the exponent, while $\bs{p}$ has a positive expression in the exponent. The expressions in equation \eqref{eq:loglikelihood} will later be used to maximize the likelihood with respect to the respective set of parameters. 
 

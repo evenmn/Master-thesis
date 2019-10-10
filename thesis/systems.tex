@@ -101,19 +101,19 @@ where our targets, $\hat{C}$, are just the eigenvectors of the $\hat{h}$-matrix.
 \begin{equation}
 \hat{h}_{\nu\lambda}=\mel{\phi_{\nu}^{\text{HO}}(x)}{\hat{\mathcal{H}}_{\text{HO}}}{\phi_{\lambda}^{\text{HO}}(x)}+\mel{\phi_{\nu}^{\text{HO}}(x)}{\hat{\mathcal{H}}_{\text{+}}}{\phi_{\lambda}^{\text{HO}}(x)}
 \end{equation}
-with $\hat{\mathcal{H}}_{\text{+}}=(1/2)\omega\sum_{i=1}^N\Big((1/4)b^2-b|x_i|\Big)$ as the contribution from the double-dot. The former integrals are just the harmonic oscillator energies, presented in \eqref{eq:HOenergies}, while the latter integrals are trivial to calculate. However, since we need to calculate a relatively large number of matrix elements, we decided to do it using numerical integration on the computer. The script doing this is given the creative name \lstinline|doublewell_functions.py|, found on \url{http://www.github.com/evenmn/VMC/scripts}.
+with $\hat{\mathcal{H}}_{\text{+}}=(1/2)\omega\sum_{i=1}^N\Big((1/4)b^2-b|x_i|\Big)$ as the contribution from the double-dot. The former integrals are just the harmonic oscillator energies, presented in \eqref{eq:HOenergies}, while the latter integrals are trivial to calculate. However, since we need to calculate a relatively large number of matrix elements, we decided to do it using numerical integration on the computer. The script doing this is given the creative name \lstinline|doublewell_functions.py|.
 
 \section{Atoms} \label{sec:atomic}
 Although we will focus on quantum dots in this work, atoms are relevant as they behave similar to quantum dots and can be studied with the same code framework with few modifications. When defining the atomic Hamiltonian, one often freezes out the nucleonic degrees of freedom known as the Born-Oppenheimer approximation. The electrons will in fact affect the nucleus, but due to the mass difference this effect is negligible. We again have Coulomb interaction between the electrons and the nucleus, and since we assume the latter to be at rest at the origin, the external potential affecting particle $i$ is
 \begin{equation}
 V_i(r)=- \frac{1}{2} k_e\frac{Ze^2}{r_i},
 \end{equation}
-where $Z$ is the atomic number (number of protons in the nucleus). The total Hamiltonian is given in atomic units, 
+where $Z$ is the atomic number (number of protons in the nucleus). The total Hamiltonian,
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \label{eq:AtomicHamiltonian}
 \hat{\mathcal{H}} = \sum_{i=1}^{N} \Big(-\frac{1}{2} \nabla_i^2 - \frac{Z}{r_i}\Big) + \sum_{i<j} \frac{1}{r_{ij}},
 \end{empheq}
-which also is discussed in Appendix B. For the non-interacting case, the energy of a particle in shell $n$ is given by the Bohr formula
+is given in atomic units which also is discussed in Appendix B. For the non-interacting case, the energy of a particle in shell $n$ is given by the Bohr formula
 \begin{equation}
 E_n=-\frac{Z^2}{2n^2},
 \label{eq:bohrformula}
@@ -154,10 +154,10 @@ The real solid harmonics do not alter any physical quantities that are degenerat
 Alternatively, one can use a Hartree-Fock basis based on Gaussian functions, as discussed in section \ref{sec:basisset}. More or less all electronic structure studies of atoms nowadays use these expansions, as they provide very precise results and high performance due to the evaluation properties of the Gaussian functions. Even though the Gaussian functions do not have the correct shape, an expansion can be fitted pretty well, as demonstrated by \citet{hehre_selfconsistent_1969}.
 
 \begin{table}
-	\caption{Degeneracy and naming conversations for $l=0$, 1, 2, 3 and 4.  \vspace{2mm}}
+	\caption{Degeneracy and naming conversations for $l=0$, 1, 2, 3, 4.  \vspace{2mm}}
 	\begin{tabularx}{\textwidth}{R{0.3cm}XXXX} \hline\hline
 		\label{tab:subshells}
-		\makecell{\\ \phantom{=}} & Subshell label & $l$ & Max electrons & Name \\ \hline \\
+		\makecell{\phantom{=}} & Subshell label & $l$ & Max electrons & Name \\ \hline \\
 		& $s$ & 0 & 2 & sharp\\ 
 		& $p$ & 1 & 6 & principal\\
 		& $d$ & 2 & 10 & diffuse \\

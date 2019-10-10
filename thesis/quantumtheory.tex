@@ -57,7 +57,7 @@ All the postulates will be used in this work, and they will be described in deta
 We have already presented the time-dependent Schrödinger equation on several occasions, but as mentioned above, we will in this work study stationary systems only. If we also recall that the particles are assumed to be non-relativistic, the focus will be on solving the time-independent non-relativistic Schrödinger equation. By defining $\Psi_n(\bs{r})$ as the wave function of a state $n$ with energy $\varepsilon_n$, the equation can be expressed as
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \label{eq:Energy}
-\hat{\mathcal{H}}\psin=\epsilon_n\psin
+\hat{\mathcal{H}}\psin=E_n\psin
 \end{empheq}
 where $\hat{\mathcal{H}}$ is the aforementioned Hamiltonian, the total energy operator. By analogy with the classical mechanics, the total mechanical energy is the kinetic and potential energy summarized,
 \begin{equation}
@@ -87,7 +87,7 @@ which is the farthest we can go without specifying the external potential $V(r)$
 
 By setting up equation \eqref{eq:Energy} with respect to the energies, we obtain an integral,
 \begin{equation}
-\epsilon_n=\frac{\int d\bs{r}\psinc\hat{\mathcal{H}}\psin}{\int d\bs{r}\psinc\psin},
+E_n=\frac{\int d\bs{r}\psinc\hat{\mathcal{H}}\psin}{\int d\bs{r}\psinc\psin},
 \label{eq:energyintegral}
 \end{equation}
 which not necessarily is trivial to solve. For almost\footnote{Exceptions include quantum dots of two electrons in two and three dimensions, where Taut has presented semi-analytical energies for a few oscillator frequencies \cite{taut_two_1993,taut_two_1994}.} all many-electron systems, this becomes analytically infeasible due to a two-body interaction term. This will be covered in chapter \ref{chp:manybody}.
@@ -124,7 +124,7 @@ in atomic units. The binding energy in Hydrogen is found from the Schrödinger e
 \begin{equation}
 \hat{\mathcal{H}}\Psi(r)=\bigg(-\frac{1}{2}\nabla^2-\frac{1}{r}\bigg)\Psi(r)=-\frac{1}{2}\Psi(r)
 \end{equation}
-which indicates that $\varepsilon=-0.5$.
+which indicates that $E_0=-0.5$.
 
 
 \section{Statistical interpretation} \label{sec:statisticalinterpretation}
@@ -157,7 +157,7 @@ and will henceforth be assumed. More information about the Dirac formalism can b
 \section{The variational principle} \label{sec:variationalprinciple}
 In the equations above, the presented wave functions are assumed to be the exact eigenfunctions of the Hamiltonian. However, often we do not know the exact wave functions, and we need to guess what the wave functions might be. In those cases, we apply the variational principle, which states that only the exact ground-state wave function can give the ground state energy. All other wave functions that fulfill the required properties (see section \ref{sec:wavefunction}) give higher energies, and mathematically we can express the statement as
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-\varepsilon_0\leq\mel{\Psi}{\hat{\mathcal{H}}}{\Psi}
+E_0\leq\mel{\Psi}{\hat{\mathcal{H}}}{\Psi}
 \label{eq:variationalprinciple}
 \end{empheq}
 where $\Psi$ is an arbitrary wave function. The variational method is a way of finding approximations to the energy ground state, which is based on the variational principle. Most notably, the variational Monte Carlo method is named after the principle and attempts to solve the integrals directly by varying a trial wave function. The variational principle ensures that the obtained energy never goes below the ground state energy, as further described in chapter \ref{chp:methods}. Other methods that apply the variational method are the famous Hartree-Fock method and the infamous coupled cluster method.
@@ -166,7 +166,7 @@ where $\Psi$ is an arbitrary wave function. The variational method is a way of f
 Unlike in classical mechanics, all the observable in quantum mechanics are discrete or \textit{quantized}, which means that the $n$ associated with $\varepsilon_n$ above cannot take any number. $n$ can only take positive integers and is named the principal quantum number. We also have other quantum numbers identified with the angular momentum and spin as described below.
 
 \subsection*{Principal}
-The \textbf{principal} quantum number describes the electron shell, and can take the numbers $n\in[1,2,3,\hdots)$. As $n$ increases, the electron excites to a higher shell such that also the energy increases. In general, $\varepsilon_1<\varepsilon_2<\varepsilon_3\hdots$ as long as all other quantum numbers are fixed. The electron shells can again be split up in subshells, requiring more quantum numbers.
+The \textbf{principal} quantum number describes the electron shell, and can take the numbers $n\in[1,2,3,\hdots)$. As $n$ increases, the electron excites to a higher shell such that also the energy increases. In general, $E_1<E_2<E_3\hdots$ as long as all other quantum numbers are fixed. The electron shells can again be split up in subshells, requiring more quantum numbers.
 
 \subsection*{Angular}
 An electron shell can possibly have more than one subshell, described by the \textbf{angular} quantum number $l$. $l$ can take the values $0,1,\hdots n-1$, such that the degeneracy of subshells in a shell is simply $n$. In atoms, the angular quantum number describes the shape of the shell, where $l=0$ gives a spherical shape, $l=1$ gives a polar shape while $l=2$ gives a cloverleaf shape. 
