@@ -1,11 +1,10 @@
 \chapter{Collection of Results} \label{chp:totalresults}
-This appendix is meant as a more or less complete collection of the results obtained throughout our work, with the purpose of presenting a complementary picture of the observations. This also allows us to include the (subjective) most important results in the chapter on selected results, \ref{chp:results}, and which avoids it from being too overwhelming. However, in this appendix, the results will simply be listed and not commented on and discussed. All the raw data can be found at \cite{nordhagen_even_marius_2019_3477946}, including energy files, electron density files, files presenting the parameters and weights and the raw slurm files from Abel. The plots can be found at \url{https://github.com/evenmn/Master-thesis/}, together with all files used to create this thesis (\TeX\, files).
+In this appendix, we present a more or less complete collection of the results obtained through our work, including energies, one-body density profiles and two-body density results. It is meant as a complementary part to substitute the selected results in chapter \ref{chp:results}, where the (subjective) most important results are presented and discussed. For that reason, the discussion above covers most of the results also in this appendix, and they will not be discussed further. The raw files, containing direct energies and standard errors from the Abel computer cluster, can be found in Ref. \cite{nordhagen_even_marius_2019_3477946}. A complete collection of the plots in this appendix can be found on \url{https://github.com/evenmn/Master-thesis/plots/}. 
 
-First, the computational time will be listed, which is just the information plotted in figure \eqref{fig:cpu_time}. After that, we list all the obtained energies for quantum dots with up to $N=20$ electrons in two and three dimensions, included the distribution between potential and kinetic energy. We also present a complete set of the radial and spatial one-body densities and the radial two-body densities. 
+First, the computational time for two- and three-dimensional quantum dots will be listed, which is just the information plotted in figure \eqref{fig:cpu_time}. After that, we list all the obtained energies for quantum dots with up to $N=20$ electrons in two and three dimensions, included the distribution between potential and kinetic energy. Lastly, we present a complete set of the radial and spatial one-body densities and the radial two-body densities. 
 
-\newpage
 \section{CPU time} \label{sec:cputime}
-The CPU-time was calculated for all the systems we have been looking at, i.e., two-dimensional quantum dots containing up to 90 electrons and three-dimensional quantum dots containing up to 70 particles. Only closed-shell dots were considered, and the times are obviously independent of the frequency. To make a precise estimation of the CPU-time per iteration, all simulations were run with $M=2^{20}=1,048,576$ cycles per iteration on the computer cluster Abel, every time on 8 nodes á 16 cores. We performed at least four independent runs for each system, where the average time over thousands of iterations was calculated automatically by the program. The results can be found in the tables \eqref{tab:cputime2D} and \eqref{tab:cputime3D} for two- and three dimensional quantum dots respectively. 
+The CPU-time per iteration was calculated for all the systems we have been looking at, i.e., two-dimensional quantum dots containing up to $N=90$ electrons and three-dimensional quantum dots containing up to $N=70$ electrons. As we only consider closed-shell dots, the $N$'s in the tables do only include the magic numbers. Also, we assume that the CPU-time per iteration is independent of the frequency, such that the times are obtained using a variety of different oscillator frequencies. To make precise estimations of the CPU-time per iteration, all simulations were run with $M=2^{20}=1,048,576$ cycles per iteration on the computer cluster Abel. As not the entire code can be parallelized, and as the processes need to communicate, the parallelism is not 100\% efficient and we also need the same number of cores for all the simulations in order to get comparable times. We decided to use 8 nodes á 16 cores. To get good statistics, we performed at least four independent runs for each system, where the average time over thousands of iterations was calculated automatically by the program. The results can be found in the tables \eqref{tab:cputime2D} and \eqref{tab:cputime3D} for two- and three dimensional quantum dots respectively. 
 
 \begin{table}[H]
 	\caption{The CPU time (in seconds) for each iteration when simulating two-dimensional circular quantum dots with $N=2-90$ electrons. The time was clocked for $M=2^{20}=1,048,576$ Monte Carlo cycles, and to get accurate times we took the average over at least four independent runs with thousands of iterations.}
@@ -31,11 +30,10 @@ The CPU-time was calculated for all the systems we have been looking at, i.e., t
 	\end{tabularx}
 \end{table}
 
-\newpage
 \section{Ground state energy} \label{sec:energydistribution}
-In this section, we present the ground state energy included the distribution between kinetic energy, external potential energy and interaction energy for quantum dots containing up to $N=20$ particles in two and three dimensions and with frequencies spanning from $\omega=0.01$ to $\omega=10$. These results are interesting for the validation of the virial theorem, described in section \ref{sec:virial}, but they also make it possible to compare how the energy spread in two and three dimensions for an equal number of particles.
+In this section, we present the ground state energy for two- and three-dimensional quantum dots with up to $N=20$ electrons with frequencies spanning from $\omega=0.01$ to $\omega=10$. We also list the distribution between kinetic energy, external potential energy and internal potential energy, like we did in table \eqref{tab:splitfrequencyQD20P}. This serves as another dimension of comparison for the various methods, at the same time as we can verify the virial theorem, described in section \ref{sec:virial}. In addition, one can also compare the energy of dots with the same number of electrons, but in different dimensions (for $N=2$ and $N=20$).
 
-We have created respective tables for each of our four methods VMC, RBM, RBM+SJ, and RBM+PJ in two and three dimensions, resulting in eight tables in total. We first present VMC, RBM, RBM+SJ, and RBM+PJ for two dimensions in that order, and then repeat the same order for three dimensions.
+We have created respective tables for each of our four methods variational Monte Carlo with a Slater-Jastrow trial wave function (VMC), a Slater determinant with single-particle functions specified by a restricted Boltzmann machine (RBM), an RBM with a simple Jastrow factor (RBM+SJ), and an RBM with the Padé-Jastrow factor(RBM+PJ) in two and three dimensions, resulting in eight tables in total. We first present the energy of the two-dimensional dots, starting from the RBM and then RBM+SJ, RBM+PJ and VMC (\ref{tab:splitfrequencyQDRBM}-\ref{tab:splitfrequencyQDVMC}), and then the three-dimensional dots in the same order (\ref{tab:splitfrequencyQDRBM3D}-\ref{tab:splitfrequencyQDVMC3D}).
 
 \subsection{Two dimensions}
 \begin{table}[H]
@@ -401,8 +399,13 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ,
 	\end{tabularx}
 \end{table}
 
+\newpage
+\section{One-body density plots} \label{sec:onebody}
+The one-body density gives the probability of finding a particle at a certain position in the space. We have both calculated the radial one-body density profile and the actual one-body density profile throughout the space. The former contains all the information about the density as long as the distribution is symmetric around the origin, and is a compact and informative way of comparing the various methods. However, sometimes the densities are not symmetric around the origin, and then only the spatial profile contains all the information about the density. 
+
+The density profile becomes identical for two- and three-dimensional quantum dots, and we will for that reason focus on the two-dimensional ones. In figure \eqref{fig:OB_interaction_2D_2}, we present the radial profile for quantum dots with $N=2-42$ electrons and frequencies $\omega=0.1$, 0.28, 0.5 and 1.0 produced with RBM, RBM+SJ, RBM+PJ and VMC. Further, in figures (\ref{fig:OB2_interaction_2P}-\ref{fig:OB2_interaction_20P}), we present the corresponding spatial density profiles, but the frequency $\omega=0.28$ is omitted because of layout challenges. Lastly, the spatial one-body density profile of large quantum dots with $N=30$, 42 and 56, and frequency $\omega=1.0$ is presented in figure \eqref{fig:OB2_interaction_large}. 
+
 \begin{landscape}
-	\section{One-body density plots} \label{sec:onebody}
 	\begin{figure}[H]
 		\centering
 		\captionsetup[subfigure]{labelformat=empty}
@@ -450,7 +453,7 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ,
 		\subfloat[$\omega=0.5$]{{\includegraphics[width=5.7cm]{../plots/int1/onebody/2D/42P/0.500000w/ADAM_MC1048576.png}}}
 		\subfloat[$\omega=1.0$]{{\includegraphics[width=5.7cm]{../plots/int1/onebody/2D/42P/1.000000w/ADAM_MC1048576.png}}}
 		
-		\caption{Radial one-body density plots for two-dimensional circular quantum dots with $N=2$, 6, 12, 20, 30 and 42 interacting electrons for the oscillator frequencies $\omega=0.1$, 0.28, 0.5, 1.0. ADAM optimizer was used and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. The methods are detailed in the introductory words to chapter \ref{chp:results}.}
+		\caption{Radial one-body density plots for two-dimensional circular quantum dots with $N=2$, 6, 12, 20, 30 and 42 interacting electrons for the oscillator frequencies $\omega=0.1$, 0.28, 0.5, 1.0. ADAM optimizer was used and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. For abbreviations see the text.}
 		\label{fig:OB_interaction_2D_2}
 	\end{figure}
 	\begin{figure} [H]%
@@ -475,7 +478,7 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ,
 		\subfloat[RBM+PJ]{{\includegraphics[width=5.7cm]{../plots/int1/onebody2/2D/2P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{-0.0cm}
 		\subfloat[VMC]{{\includegraphics[width=5.7cm]{../plots/int1/onebody2/2D/2P/1.000000w/VMC_ADAM_MC1048576.png}}}
 		
-		\caption{Spatial one-body density plots for two-dimensional circular quantum dots with $N=2$ interacting electrons for the oscillator frequencies $\omega=0.1$, 0.5, 1.0. The graph on the $yz$-plane represent the cross section through $x=0$. ADAM optimizer was used and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. The methods are detailed in the introductory words to chapter \ref{chp:results}.}
+		\caption{Spatial one-body density plots for two-dimensional circular quantum dots with $N=2$ interacting electrons for the oscillator frequencies $\omega=0.1$, 0.5, 1.0. The graph on the $yz$-plane represent the cross section through $x=0$. ADAM optimizer was used and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. For abbreviations see the text.}
 		\label{fig:OB2_interaction_2P}
 	\end{figure}
 	\begin{figure} [H]%
@@ -500,7 +503,7 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ,
 		\subfloat[RBM+PJ]{{\includegraphics[width=5.7cm]{../plots/int1/onebody2/2D/6P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{-0.0cm}
 		\subfloat[VMC]{{\includegraphics[width=5.7cm]{../plots/int1/onebody2/2D/6P/1.000000w/VMC_ADAM_MC1048576.png}}}
 		
-		\caption{Spatial one-body density plots for two-dimensional circular quantum dots with $N=6$ interacting electrons for the oscillator frequencies $\omega=0.1$, 0.5, 1.0. The graph on the $yz$-plane represent the cross section through $x=0$. ADAM optimizer was used and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. The methods are detailed in the introductory words to chapter \ref{chp:results}.}%
+		\caption{Spatial one-body density plots for two-dimensional circular quantum dots with $N=6$ interacting electrons for the oscillator frequencies $\omega=0.1$, 0.5, 1.0. The graph on the $yz$-plane represent the cross section through $x=0$. ADAM optimizer was used and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. For abbreviations see the text.}%
 		\label{fig:OB2_interaction_6P}
 	\end{figure}
 	\begin{figure} [H]%
@@ -525,7 +528,7 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ,
 		\subfloat[RBM+PJ]{{\includegraphics[width=5.7cm]{../plots/int1/onebody2/2D/12P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{-0.0cm}
 		\subfloat[VMC]{{\includegraphics[width=5.7cm]{../plots/int1/onebody2/2D/12P/1.000000w/VMC_ADAM_MC1048576.png}}}
 		
-		\caption{Spatial one-body density plots for two-dimensional circular quantum dots with $N=12$ interacting electrons for the oscillator frequencies $\omega=0.1$, 0.5, 1.0. The graph on the $yz$-plane represent the cross section through $x=0$. ADAM optimizer was used and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. The methods are detailed in the introductory words to chapter \ref{chp:results}.}%
+		\caption{Spatial one-body density plots for two-dimensional circular quantum dots with $N=12$ interacting electrons for the oscillator frequencies $\omega=0.1$, 0.5, 1.0. The graph on the $yz$-plane represent the cross section through $x=0$. ADAM optimizer was used and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. For abbreviations see the text.}%
 		\label{fig:OB2_interaction_12P}
 	\end{figure}
 	\begin{figure} [H]%
@@ -550,7 +553,7 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ,
 		\subfloat[RBM+PJ]{{\includegraphics[width=5.7cm]{../plots/int1/onebody2/2D/20P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{-0.0cm}
 		\subfloat[VMC]{{\includegraphics[width=5.7cm]{../plots/int1/onebody2/2D/20P/1.000000w/VMC_ADAM_MC1048576.png}}}
 		
-		\caption{Spatial one-body density plots for two-dimensional circular quantum dots with $N=20$ interacting electrons for the oscillator frequencies $\omega=0.1$, 0.5, 1.0. The graph on the $yz$-plane represent the cross section through $x=0$. ADAM optimizer was used and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. The methods are detailed in the introductory words to chapter \ref{chp:results}.}%
+		\caption{Spatial one-body density plots for two-dimensional circular quantum dots with $N=20$ interacting electrons for the oscillator frequencies $\omega=0.1$, 0.5, 1.0. The graph on the $yz$-plane represent the cross section through $x=0$. ADAM optimizer was used and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. For abbreviations see the text.}%
 		\label{fig:OB2_interaction_20P}
 	\end{figure}
 	\begin{figure} [H]%
@@ -575,14 +578,18 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ,
 		\subfloat[RBM+PJ]{{\includegraphics[width=5.7cm]{../plots/int1/onebody2/2D/56P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{-0.0cm}
 		\subfloat[VMC]{{\includegraphics[width=5.7cm]{../plots/int1/onebody2/2D/56P/1.000000w/VMC_ADAM_MC1048576.png}}}
 		
-		\caption{Spatial one-body density plots for two-dimensional circular quantum dots with $N=30$, 42 and 56 interacting electrons for the oscillator frequency $\omega=1.0$. The graph on the $yz$-plane represent the cross section through $x=0$. ADAM optimizer was used and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. The methods are detailed in the introductory words to chapter \ref{chp:results}.}%
+		\caption{Spatial one-body density plots for two-dimensional circular quantum dots with $N=30$, 42 and 56 interacting electrons for the oscillator frequency $\omega=1.0$. The graph on the $yz$-plane represent the cross section through $x=0$. ADAM optimizer was used and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. For abbreviations see the text.}%
 		\label{fig:OB2_interaction_large}
 	\end{figure}
 \end{landscape}
 
-\cleartoevenpage
+\newpage
+\section{Two-body density plots} \label{sec:twobody}
+The two-body density gives the probability of finding a particle at a certain position in the space, given the position of another particle. Similarly to the one-body density, it is possible to calculate both the radial two-body density profile and the actual two-body density profile throughout the space. However, since it is hard to visualize the actual density throughout the space, as it turns out to be a multi-dimensional monster, we keep our focus on the radial profile. The density becomes identical in two- and three-dimensional quantum dots, and we therefore focus on the two-dimensional case. 
+
+In figure (\ref{fig:TB_2D_0p1w}-\ref{fig:TB_2D_1p0w}), we present the two-body density for quantum dots with $N=2$, 6, 12, 20, 30 and 42 electrons and the frequencies $\omega=0.1$, 0.5 and 1.0 respectively. 
+
 \begin{landscape}
-	\section{Two-body density plots} \label{sec:twobody}
 	\begin{figure}[H]
 		\centering
 		\captionsetup[subfigure]{labelformat=empty}
@@ -627,7 +634,7 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ,
 		\subfloat[RBM+PJ]{{\includegraphics[width=5.7cm]{../plots/int1/twobody/2D/42P/0.100000w/RBMPJ_ADAM_MC1048576.png}}}
 		\subfloat[VMC]{{\includegraphics[width=5.7cm]{../plots/int1/twobody/2D/42P/0.100000w/VMC_ADAM_MC1048576.png}}}
 		
-		\caption{Two-body densities for two-dimensional circular quantum dots containing up to $N=42$ electrons with oscillator frequency $\omega=0.1$. The density plots were produced using a plain restricted Boltzmann machine (RBM), restricted Boltzmann machine with simple Jastrow factor (RBM+SJ), restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo (VMC). The  ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$.}%
+		\caption{Two-body densities for two-dimensional circular quantum dots containing up to $N=42$ electrons with oscillator frequency $\omega=0.1$. The  ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. For abbreviations see the text.}%
 		\label{fig:TB_2D_0p1w}
 	\end{figure}
 	
@@ -676,7 +683,7 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ,
 		\subfloat[RBM+PJ]{{\includegraphics[width=5.7cm]{../plots/int1/twobody/2D/42P/0.500000w/RBMPJ_ADAM_MC1048576.png}}}
 		\subfloat[VMC]{{\includegraphics[width=5.7cm]{../plots/int1/twobody/2D/42P/0.500000w/VMC_ADAM_MC1048576.png}}}
 		
-		\caption{Two-body densities for two-dimensional circular quantum dots containing up to $N=42$ electrons with oscillator frequency $\omega=0.5$. The density plots were produced using a plain restricted Boltzmann machine (RBM), restricted Boltzmann machine with simple Jastrow factor (RBM+SJ), restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo (VMC). The  ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$.}%
+		\caption{Two-body densities for two-dimensional circular quantum dots containing up to $N=42$ electrons with oscillator frequency $\omega=0.5$. The  ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. For abbreviations see the text.}%
 		\label{fig:TB_2D_0p5w}
 	\end{figure}
 	\begin{figure}
@@ -722,7 +729,7 @@ We have created respective tables for each of our four methods VMC, RBM, RBM+SJ,
 		\subfloat[RBM+PJ]{{\includegraphics[width=5.7cm]{../plots/int1/twobody/2D/42P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}
 		\subfloat[VMC]{{\includegraphics[width=5.7cm]{../plots/int1/twobody/2D/42P/1.000000w/VMC_ADAM_MC1048576.png}}}
 		
-		\caption{Two-body densities for two-dimensional circular quantum dots containing up to $N=42$ electrons with oscillator frequency $\omega=1.0$. The density plots were produced using a plain restricted Boltzmann machine (RBM), restricted Boltzmann machine with simple Jastrow factor (RBM+SJ), restricted Boltzmann machine with Padé-Jastrow factor (RBM+PJ) and standard variational Monte-Carlo (VMC). The ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$.}%
+		\caption{Two-body densities for two-dimensional circular quantum dots containing up to $N=42$ electrons with oscillator frequency $\omega=1.0$. The ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. For abbreviations see the text.}%
 		\label{fig:TB_2D_1p0w}
 	\end{figure}
 \end{landscape}
