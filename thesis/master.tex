@@ -4,30 +4,34 @@
     \input{frontpage.tex}
     \input{introduction.tex}
     
-    \part{Fundamental Theory}
-    \input{quantumtheory.tex}
+    \part{Quantum Theory} \label{part:quantumtheory}
+    \input{preliminaryquantum.tex}
     \input{manybodytheory.tex}
     \input{systems.tex}
-    \input{machinelearning.tex}
     
-    \part{Advanced Theory}
-    \input{restricted.tex}
+    \part{Machine Learning Theory} \label{part:machinelearningtheory}
+    \input{supervisedlearning.tex}
+    \input{boltzmann.tex}
+    
+    \part{Methods} \label{part:methods}
     \input{qmc.tex}
     
-    \part{Implementation}
+    \part{Implementation} \label{part:implementation}
     \input{scientificprogramming.tex}
     \input{implementationvmc.tex}
     \input{implementationrbm.tex}
     
-    \part{Results and Conclusion}
-    \input{Results.tex}
-    \input{Conclusion.tex}
+    \part{Results and Discussion} \label{part:results}
+    \input{results.tex}
+    
+    \part{Conclusion} \label{part:conclusion}
+    \input{retrospect.tex}
     
     \appendix
     \input{diracformalism.tex}
     \input{naturalunits.tex}
     \input{derivationofrbm.tex}
-    \input{allresults.tex}
+    \input{collectionofresults.tex}
     \newpage
     \nocite{*}
     \printbibliography

@@ -2,7 +2,7 @@
 %\epigraph{Great quote.}{Author}
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.6]{../Images/random_walk2.png}
+	\includegraphics[scale=0.6]{../Images/randomwalk.eps}
 	\caption{Random walker on a two-dimensional grid, 1000 moves.}
 \end{figure}
 
@@ -229,25 +229,25 @@ Not surprisingly, also this integral will be solved using Monte Carlo integratio
 \section{Diffusion Monte Carlo} \label{sec:dmc}
 The second and last quantum Monte Carlo method we will discuss is the diffusion Monte Carlo (DMC) method. DMC belongs to a class of projection and Green's function approaches and provides in principle an exact solution of the Schrödinger equation. However, for fermionic systems, the method is plagued by the occurrence of a sign-problem, known as the fermion sign problem, and we need to use approximations to bypass the problem. The most common fix is the fixed-node approximation, which introduces errors to the computations. The problem is also attempted to solve using shadow wave functions, for instance, by \citet{calcavecchia_sign_2014}, which have many commonalities with our restricted Boltzmann machine (RBM) approach. The idea is that the RBMs can also contribute to solve the sign problem, but we leave this for later studies. 
 
-Since the DMC method is used as a reference for more or less all the produced results, it is naturally to give a brief discussion of the idea behind the method. By the fifth postulate of quantum mechanics discussed in section \ref{sec:postulates}, the motion of a particle that moves in a potential $V(\bs{r})$ is described by the time-dependent Schrödinger equation,
+Since the DMC method is used as a reference for more or less all the produced results, it is natural to give a brief discussion of the idea behind the method. By the fifth postulate of quantum mechanics discussed in section \ref{sec:postulates}, the motion of a particle that moves in a potential $V(\bs{r})$ is described by the time-dependent Schrödinger equation,
 \begin{equation}
 i\frac{\partial\Psi(\bs{r},t)}{\partial t}=\hat{\mathcal{H}}\Psi(\bs{r},t)
 \end{equation}
-where the Hamiltonian is given by
+with $t$ as the time and $i$ as the solution of $x^2=-1$. In natural units, the Hamiltonian is given by
 \begin{equation}
-\hat{\mathcal{H}}=-\frac{1}{2}\nabla^2 + V(\bs{r})
+\hat{\mathcal{H}}=-\frac{1}{2}\nabla^2 + V(\bs{r}).
 \end{equation}
-in natural units. Further, we assume that the potential becomes infinite as $x\rightarrow \pm\infty$, such that the particle motion is confined to a finite spatial domain. The formal solution of the time-dependent Schrödinger equation is then given by an expansion of the eigenfunctions of $\hat{\mathcal{H}}$, $\phi_n(\bs{r})$,
+Further, we assume that the potential becomes infinite as $x\rightarrow \pm\infty$, such that the particle motion is confined to a finite spatial domain. The formal solution of the time-dependent Schrödinger equation is then given by an expansion of the eigenfunctions of $\hat{\mathcal{H}}$, $\phi_n(\bs{r})$,
 \begin{equation}
-\Psi(\bs{r},t)=\sum_{n=0}^{\infty}c_n\phi_n(\bs{r})e^{-\frac{E_n}{\hbar}t}
+\Psi(\bs{r},t)=\sum_{n=0}^{\infty}c_n\phi_n(\bs{r})e^{-E_nt/\hbar}
 \end{equation}
-where the coefficients can be obtained by
+with $\hbar$ as the reduced Planck's constant and where the coefficients can be obtained by
 \begin{equation}
 c_n=\int_{-\infty}^{\infty}d\bs{r}\phi_n(\bs{r})\Psi(\bs{r},0)
 \end{equation}
 under the assumption that the eigenfunctions are orthonormal and that the energies $E_n$ are sorted in increasing order. The DMC method is based on the time-imaginary Schrödinger equation, which is obtained by a \textbf{shift of energy scale}, setting $V(\bs{r})\rightarrow V(\bs{r}) - E_R$ and $E_n\rightarrow E_n -E_R$, which does not change any physical quantity. By further using the \textbf{Wick rotation of time} setting $\tau=it$, we obtain the time-imaginary Schrödinger equation \cite{kosztin_introduction_1996}
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
--\frac{\partial\Psi(\bs{r},\tau)}{\partial\tau}=-\frac{1}{2}\nabla^2\Psi(\bs{r},\tau)+[V(x)-E_R]\Psi(\bs{r},\tau)
+-\frac{\partial\Psi(\bs{r},\tau)}{\partial\tau}=-\frac{1}{2}\nabla^2\Psi(\bs{r},\tau)+[V(\bs{r})-E_R]\Psi(\bs{r},\tau)
 \label{eq:timeimaginary}
 \end{empheq}
 which gives the expansion
@@ -255,7 +255,7 @@ which gives the expansion
 \Psi(\bs{r},\tau)=\sum_{n=0}^{\infty}c_n\phi_n(\bs{r})e^{-(E_n-E_R)\tau}.
 \end{equation}
 
-The time-imaginary Schrödinger equation is similar to the Fokker-Planck equation presented in equation \eqref{eq:fokkerplanck}, which was noticed by Fermi already around 1945 \cite{metropolis_monte_1949,ceperley_quantum_1986}. Since we have analytical solutions of the Fokker-Planck equation, the idea is to apply the same solutions to equation \ref{eq:timeimaginary}. To clarify this, consider the time-imaginary Schrödinger equation for non-interacting particles,
+The time-imaginary Schrödinger equation is similar to the Fokker-Planck equation presented in equation \eqref{eq:fokkerplanck}, which was noticed by Fermi already around 1945 \cite{metropolis_monte_1949,ceperley_quantum_1986}. Since we have analytical solutions of the Fokker-Planck equation, the idea is to apply the same solutions to equation \eqref{eq:timeimaginary}. To clarify this, consider the time-imaginary Schrödinger equation for non-interacting particles,
 \begin{equation}
 \frac{\partial\Psi(\bs{r},\tau)}{\partial\tau}=\frac{1}{2}\nabla^2\Psi(\bs{r},\tau)
 \end{equation}
@@ -329,7 +329,7 @@ When the blocking method was made accessible by \citet{flyvbjerg_error_1989} in 
 
 Consider a time series $\{x_1, x_2, \hdots, x_n\}$ with $n=2^d$ data point for some integer $d>1$. For this series, an autocovariance function $\gamma(h)$ is guaranteed to exist. We arrange the data in a vector
 \begin{equation}
-X=(x_i,x_2,\hdots,x_n),
+X=(x_1,x_2,\hdots,x_n),
 \end{equation}
 which we assume to be asymptotically uncorrelated. The idea is to take the mean of subsequent pair of elements from $X$, and form a new vector $X_1$. We then repeat the operation on $X_1$ and form a new vector $X_2$ and so on. This is the reason why we require $n=2^d$. If $k$ denotes an element in vector $X_i$, we can write the procedure recursively as
 \begin{equation}
