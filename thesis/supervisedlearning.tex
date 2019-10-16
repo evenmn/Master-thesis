@@ -17,7 +17,7 @@ Unlike traditional algorithms, machine learning algorithms are not explicitly to
 \end{shadequote}
 
 % Why Machine Learning?
-In our search for a technique to solve quantum mechanical problems where less physical intuition is needed, machine learning appears as a natural tool. First, machine learning algorithms are able to provide impressive results, even with absence of rules specifying what the network should do. This was, for instance, demonstrated by \citet{silver2017mastering} who developed a chess engine which learned how to play by playing against itself thousands of times. Second, the fundamental goal of machine learning is to fit a model in order to minimize a cost function, which is exactly what we do in the popular variational Monte Carlo (VMC) method with the wave function as the model and with the energy as the cost function. However, in traditional VMC, the trial wave function is tailored to each particular system, which naturally requires a significant amount of physical intuition. With the trial wave function defined by a restricted Boltzmann machine (RBM), we attempt to find a model so flexible that it can approach the true wave function even with lack of physical intuition. This is important because the study of many urgent systems is out of reach for the existing methods due to lack of information about the wave function. Examples include bosonic systems, where expressions for the two-body correlations in general are unavailable, and nuclear systems, where the three-body correlations are crucial.
+In our search for a technique to solve quantum mechanical problems where less physical intuition is needed, machine learning appears as a natural tool. First, machine learning algorithms are able to provide impressive results, even with absence of rules specifying what the network should do. This was, for instance, demonstrated by \citet{silver2017mastering} who developed a chess engine which learned the rules by playing against itself thousands of times. Second, the fundamental goal of machine learning is to fit a model in order to minimize a cost function, which is exactly what we do in the popular variational Monte Carlo (VMC) method with the wave function as the model and with the energy as the cost function. However, in traditional VMC, the trial wave function is tailored to each particular system, which naturally requires a significant amount of physical intuition. With the trial wave function defined by a restricted Boltzmann machine (RBM), we attempt to find a model so flexible that it can approach the true wave function even with lack of physical intuition. This is important because the study of many urgent systems is out of reach for the existing methods due to lack of information about the wave function. Examples include bosonic systems, where expressions for the two-body correlations in general are unavailable, and nuclear systems, where the three-body correlations are crucial.
 
 % How do we use Machine Learning?
 We typically classify the machine learning methods as either supervised or unsupervised, based on the way we define the cost function. Supervised models are provided with \textit{targets}, which are outputs that the model should obtain with a certain input data set. We then define the cost function as the error between the output from the model and the targets, and the model is trained until it is able to reproduce the targets. On the other hand, unsupervised models are not provided with targets, and the cost function thus needs to be defined in another way. In our work, we aim to construct a robust method for the study of the ground state of complex systems, and as targets for those systems usually are unavailable, we will use unsupervised algorithms. For RBMs, the cost function is traditionally defined by a system energy which we want to minimize. As there are many common concepts in supervised and unsupervised learning, we will in this chapter stick to supervised learning where we introduce essential concepts like artificial neurons, weights and optimization schemes. The Boltzmann machines, which are the models that we actually use in the work, are discussed in chapter \ref{chp:restricted}.
@@ -104,15 +104,15 @@ which is nothing else than a second-order polynomial with some noise. The data p
 
 Furthermore, we use equation \eqref{eq:polynomialestimators} to find the best fitting first-, second- and sixth-order polynomials, and obtain the functions presented in table \eqref{tab:example} with the respective training and prediction errors. The polynomials are also plotted in figure (\ref{fig:polynomials} b) together with the actual data points.
 
-\begin{figure}[H]
+\begin{figure}
 	\centering
-	\subfloat[Data set]{{\includegraphics[width=8cm]{../Images/datapoints.png}}}
-	\subfloat[Data set with fitted polynomials]{{\includegraphics[width=8cm]{../Images/datacurve.png} }}
+	\subfloat[Data set]{{\includegraphics[width=8cm]{../Images/datapoints.eps}}}
+	\subfloat[Data set with fitted polynomials]{{\includegraphics[width=8cm]{../Images/datacurve.eps} }}
 	\caption{Figure (a) presents the data points given in equation \eqref{eq:datapoints}, while the figure (b) illustrates how a first-, second- and sixth order polynomial can be fitted to the training set in the best possible way.}%
 	\label{fig:polynomials}
 \end{figure}
 
-\begin{table}[H]
+\begin{table}
 	\caption{Best fitting polynomials of first-, second- and sixth-order degree to the data set in equation \eqref{eq:datapoints}. $f(x)$ gives the actual form of the polynomial, the training error is the MSE of the training data set and the prediction error is the MSE of the validation data set.}
 	\label{tab:example}
 	\begin{tabularx}{\textwidth}{llR{6.5cm}R{3cm}R{3cm}} \hline\hline
