@@ -8,260 +8,255 @@
 
 Quantum Monte Carlo methods (QMC) is a bunch of \textit{ab initio} methods that attempt to solve the Schrödinger equation using stochastic Monte Carlo integration. \textit{Ab initio} reads "from first principles", which implies that the methods constitute a fundamental approach to the problem. They all seek to evaluate the multi-dimensional integral arising from the Schrödinger equation,
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-E_0= \mel{\Psi_0}{\hat{\mathcal{H}}}{\Psi_0}= \frac{\int d\bs{r}\Psi_0(\bs{r})^*\hat{\mathcal{H}}\Psi_0(\bs{r})}{\int d\bs{r}\Psi_0(\bs{r})^*\Psi_0(\bs{r})},
+E_0= \mel{\Psi_0}{\hat{\mathcal{H}}}{\Psi_0}= \frac{\int d\bs{R}\Psi_0(\bs{R})^*\hat{\mathcal{H}}\Psi_0(\bs{R})}{\int d\bs{R}\Psi_0(\bs{R})^*\Psi_0(\bs{R})},
 \label{eq:schrodingergroundstate}
 \end{empheq}
-which provides the ground state energy expectation value for the exact ground state wave function $\Psi_0$. As aforementioned, this integral is analytically infeasible for more or less all interesting systems, rising the need of numerical methods like QMC.
+which provides the ground state energy expectation value for the exact ground state wave function $\Psi_0(\bs{R})$ with $\bs{R}=\{(\bs{r}_1,\sigma_1),(\bs{r}_2,\sigma_2),\hdots,(\bs{r}_N,\sigma_N)\}$ as the collective coordinates and spin of the $N$ particles. As aforementioned, this integral is analytically infeasible for more or less all interesting systems, rising the need of numerical methods like QMC. As we will stick to ground state calculations, the wave function $\Psi(\bs{R})$ implies the many-body ground state wave function from this point.
 
 In Monte Carlo integration, we use random numbers to evaluate integrals numerically. Typically, we want to estimate an expectation value $\langle\hat{O}\rangle$ by approximating the definition integral with a dense sum,
 \begin{equation}
-\langle \hat{O}\rangle\equiv\int_{-\infty}^{\infty}d\bs{r}P(\bs{r})\hat{O}(\bs{r})\approx\frac{1}{M}\sum_{i=1}^M\hat{O}(\bs{r}_i)
+\langle \hat{O}\rangle\equiv\int_{-\infty}^{\infty}d\bs{x}P(\bs{x})\hat{O}(\bs{x})\approx\frac{1}{M}\sum_{i=1}^M\hat{O}(\bs{x}_i)
 \label{eq:montecarlointegration}
 \end{equation}
-where $M$ is the number of \textit{Monte Carlo cycles} and the coordinates $\bs{r}_i$ are drawn randomly from the probability density function $P(\bs{r})$. A great advantage of the QMC methods, is that we obtain approximative ground state wave functions when solving equation \eqref{eq:schrodingergroundstate}, which by the fourth postulate of quantum mechanics allows estimations of the ground state expectation values associated with other operators as well. 
+where $M$ is the number of \textit{Monte Carlo cycles} and the coordinates $\bs{x}_i$ are drawn randomly from the probability density function $P(\bs{x})$. A great advantage of the QMC methods, is that we obtain approximative ground state wave functions when solving equation \eqref{eq:schrodingergroundstate}, which by the fourth postulate of quantum mechanics allows estimations of the ground state expectation values associated with other operators as well. 
 
 Two widely popular QMC methods are the variational Monte Carlo method (VMC) and the diffusion Monte Carlo method (DMC), where the former is arguably the simplest of all the QMC methods. It attempts to solve the integrals in equation \eqref{eq:schrodingergroundstate} directly by varying parameters, with the support of the variational principle presented in section \ref{sec:variationalprinciple}. This makes VMC a comparably computationally cheap method, but the performance is usually not in the league of the best methods. DMC, on the other hand, is computationally expensive, but is also potentially numerically exact, making it a preferred method when high accuracy is needed. At first glance, it might seems like a tradeoff where VMC is used when computational time is more important than the accuracy and DMC is used when the opposite is true. However, DMC requires a wave function input which is close to the exact wave function, forcing us first to run VMC to obtain this wave function before the DMC machinery can be started.
 
-As VMC is our main focus in this work, it will be explained thoroughly in this chapter together with standard sampling techniques. After that, we will briefly explain the idea behind the DMC method, but since this method is not implemented, it will not be our main priority. To reveal the uncertainty of our results, we will also discuss some methods to estimate the errors, in particular, the blocking method.
+As VMC is our main focus in this work, it will be explained thoroughly in this chapter. After that, we will briefly explain the idea behind the DMC method, but since this method is not implemented, it will not be our main priority. To reveal the uncertainty of our results, we will also discuss some methods to estimate the errors, in particular, the blocking method.
 
 \section{Variational Monte Carlo} \label{sec:vmc}
-The variational Monte Carlo method (hereafter the VMC method) is today widely used when it comes to the study of ground-state properties of quantum many-body systems. It makes use of Markov chain Monte Carlo methods, often abbreviated MCMC, where the particles are assumed to be moving in Markov chains controlled by Monte Carlo simulations. Going back to the variational principle in equation \eqref{eq:variationalprinciple}, one observes that by choosing an approved wave function, one gets an energy larger or equal to the ground state energy.
+The variational Monte Carlo method (hereafter the VMC method) is today widely used when it comes to the study of ground state properties of quantum many-body systems. It makes use of Markov chain Monte Carlo methods, often abbreviated MCMC, where the particles are assumed to be moving in Markov chains controlled by Monte Carlo simulations. Going back to the variational principle in equation \eqref{eq:variationalprinciple}, one observes that by choosing an approved wave function, one gets an energy larger or equal to the ground state energy.
 
-Before we present the mathematical framework of the method, we will restate the two big problems in many-body physics, mentioned in the introduction:
+Before we present the mathematical framework of the method, we will restate the two big challenges in many-body physics, mentioned in the introduction:
 \begin{enumerate}
-	\item The many-body energy expectation value is analytically infeasible for most systems.
 	\item The correct many-body wave function is generally unavailable.
+	\item The many-body energy expectation value is analytically infeasible for most systems.
 \end{enumerate}
-In this section, we will look at how the VMC method approaches those problems including the essential expressions and some 
+In this section, we will look at how the VMC method approaches those challenges. We start with the discussing the trial wave function, and write up our trial wave function ansatz. Then, we define the local energy and explain how it is used to solve the energy integral using Monte Carlo integration. In the end, we will mention some common extensions to the VMC method. 
 
-\subsection{Approaching the first problem}
-Let us first address the first problem, which is one of the reasons why computers are needed in many-body quantum physics. In chapter \ref{chp:quantum}, we saw that the two-body interaction term makes the integral impossible to solve for many particles, such that we need to rely on numerical methods. 
-
-In VMC, we start with a trial wave function guess $\Psi_T(\bs{r};\bs{\theta})$ where the parameters $\bs{\theta}$ are varied to minimize the energy. According to the variational principle, the obtained energy will always be higher or equal to the true ground state energy, where the equality is the case if and only if the wave function is the exact ground state wave function. Denoting the exact ground state energy by $E_0$ and the obtained energy as $E$, we can summarize this by
-\begin{equation}
-E_0 \leq E = \frac{\int d\bs{r}\Psi_T(\bs{r})^*\hat{\mathcal{H}}\Psi_T(\bs{r})}{\int d\bs{r}\Psi_T(\bs{r})^*\Psi_T(\bs{r})}.
-\end{equation}
-Furthermore, the integral can be written in the form of a general expectation value
-\begin{equation}
-E = \int d\bs{r} E_L(\bs{r})P(\bs{r})
-\end{equation}
-defining the local energy as
-\begin{equation}
-E_L(\bs{r})\equiv\frac{1}{\Psi_T(\bs{r})}\hat{\mathcal{H}}\Psi_T(\bs{r})
-\label{eq:localenergy}.
-\end{equation}
-$P(\bs{r})$ is called the probability density function (PDF) and was first introduced in equation \eqref{eq:pdf}. In a more general scheme the PDF reads
-\begin{equation}
-P(\bs{r})=\frac{|\Psi_T(\bs{r})|^2}{\int d\bs{r}|\Psi_T(\bs{r})|^2}
-\label{eq:probvmc}
-\end{equation}
-where the wave function not necessarily is normalized. Since the energy expectation value now is in the form of a general expectation value, we can use the approximation set up by Monte Carlo integration in equation \eqref{eq:montecarlointegration}, yielding 
+\subsection{The trial wave function} \label{sec:trial}
+The trial wave function was mentioned in section \ref{sec:cusp}, but what is actually the trial wave function? In VMC, we start from a wave function ansatz, which is our ground state wave function guess. This function is equipped with variational parameters, and in order to estimate the wave function accurately, the trial wave function needs to be able to approach the correct wave function as we vary the parameters. However, as the many-body wave function is NP-hard to calculate \cite{troyer_computational_2005}, we will only be able to approximate it and for that reason the wave function is by many considered as the root of all evil in many-body physics. For fermionic systems, the standard trial wave function used in VMC, given a set of variational parameters $\bs{\theta}$, is the Slater-Jastrow wave function, 
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-E \approx \frac{1}{M}\sum_{i=1}^ME_L(\bs{r}_i). 
-\label{eq:energysum}
+\Psi_T(\bs{R};\bs{\theta})=|\hat{D}(\bs{R};\bs{\theta})|J(\bs{R};\bs{\theta})
 \end{empheq}
-where the local energies $E_L(\bs{r}_i)$ are still evaluated with particle configurations $\bs{r}_i$ drawn from $P(\bs{r})$. In this manner, the obtained energy is guaranteed to approach the exact energy as the number of Monte Carlo cycles, $M$, increases. Actually, the standard error goes as $\mathcal{O}(1/\sqrt{M})$, making the method pretty accurate for large $M$'s. In the limit $M\rightarrow\infty$, the error goes to zero,
+where $|\hat{D}(\bs{R};\bs{\theta})|$ is a Slater determinant used to bake in the anti-symmetry discussed in section \ref{sec:symmetry} and $J(\bs{R};\bs{\theta})$ is a Jastrow factor used to model the electron-electron correlations. Recall that the general Slater determinant has the form
 \begin{equation}
-\langle E_L\rangle=\lim_{M\to\infty} \frac{1}{M}\sum_{i=1}^ME_L(\bs{r}_i),
+|\hat{D}(\bs{R};\bs{\theta})|=\frac{1}{\sqrt{N!}}
+\begin{vmatrix}
+\psi_1(\boldsymbol{r}_1,\sigma_1;\bs{\theta}) & \psi_2(\boldsymbol{r}_1,\sigma_1;\bs{\theta}) & \hdots & \psi_N(\boldsymbol{r}_1,\sigma_1;\bs{\theta})\\
+\psi_1(\boldsymbol{r}_2,\sigma_2;\bs{\theta}) & \psi_2(\boldsymbol{r}_2,\sigma_2;\bs{\theta}) & \hdots & \psi_N(\boldsymbol{r}_2,\sigma_2;\bs{\theta})\\
+\vdots & \vdots & \ddots & \vdots \\
+\psi_1(\boldsymbol{r}_N,\sigma_N;\bs{\theta}) & \psi_2(\boldsymbol{r}_N,\sigma_N;\bs{\theta}) & \hdots & \psi_N(\boldsymbol{r}_N,\sigma_N;\bs{\theta})
+\end{vmatrix}
 \end{equation}
-indicating the desire of a large number of cycles. This is associated with a zero-variance property governing the VMC method, stating that the variance in the true ground state should be zero \cite{giuseppe_carleo_neural-network_2017, deb_variational_2014}. Various sampling regimes were described in section \ref{sec:metropolis}.
-
-\subsection{Approaching the second problem}
-So far, so good, but how do we estimate the many-body wave function? This is the second problem stated above, which by many is considered as the root of all evil in many-body physics. This question was answered already in the introductory words to this chapter, where we claimed that the wave function is estimated as we estimate the ground-state energy. This is a fundamental part of the theory where the wave function is optimized in order to minimize the energy, and for that reason, a precise wave function estimate is essential to obtain precise estimates of the observable.
+where the single-particle function $\psi(\bs{r},\sigma;\bs{\theta})$ can be split up in a spatial part, $\phi(\bs{r};\bs{\theta})$ and a spin part, $\xi(\sigma)$, 
+\begin{equation}
+\psi(\bs{r},\sigma;\bs{\theta})=\phi(\bs{r};\bs{\theta})\otimes\xi(\sigma).
+\end{equation}
+\iffalse
+This question was answered already in the introductory words to this chapter, where we claimed that the wave function is estimated as we estimate the ground state energy. This is a fundamental part of the theory where the wave function is optimized in order to minimize the energy, and for that reason, a precise wave function estimate is essential to obtain precise estimates of the observable.
 Consequently, the trial wave function converges towards the correct wave function as the energy converges towards the minimum. The convergence of the model is dependent on the initial trial wave function guess, which hopefully is close to the exact wave function. The parameters $\bs{\theta}$ are then updated to minimize $\langle E_L\rangle$, such that the energy gets lower for each \textit{iteration}.
 
 As a notice, the term \textit{iterations} should not be confused with the term \textit{cycles}. For each iteration, we run $M$ Monte Carlo cycles and then update the parameters. The parameter update is discussed in section \ref{sec:parameterupdate}.
 
-\subsection{Common extensions}
-This finalizes the essential theory behind the VMC method. However, a sampling algorithm is needed to draw samples randomly from $P(\bs{r})$, and in section \ref{sec:metropolis} some popular sampling techniques are described. Before we jump into this field, we will discuss some natural extensions and improvements to the VMC method.
+\subsection{Splitting up the Slater determinant} \label{sec:splittingofslater}
+In order to reduce the computational cost of the Slater determinant, we will split it up in a spin-up part and a spin-down part. The splitting was explained thoroughly by \citet{nissenbaum_stochastic_2008}, appendix I, and this section is heavily inspired by it. In real life, we cannot immediately tell if an electron has spin-up or spin-down, but since we in the code need to know which particles that have spin-up and spin-down, we simply decide that the first $N_{\uparrow}$ particles have spin up and the remaining particles have spin down. 
 
-Initially, the particle configuration $\bs{r}$ might not be representative for a configuration in equilibrium, making the first cycles a poor estimate of the expectation value. An easy fix to this problem is to basically ignore the first sampling period, known as the \textit{burn-in period}. With this in mind, we can implement an equilibration fraction describing the fraction of the total number of cycles that are used in the burn-in period. When running multiple parallel processes, the burn-in period should be the same for all the processes.
-
-We also have a technique called \textit{thinning}, which means picking every $n$'th sample in the chain and ignore the rest. This is shown to give a more or less identical expectation value and makes the program less memory-requiring, but due to worse statistics, this should be avoided as long as there is no lack of memory. 
-
-\section{The Metropolis algorithm} \label{sec:metropolis}
-Metropolis sampling is a Markov chain Monte Carlo method, which generates a Markov chain using a proposal density for new steps, and the method also rejects unsatisfying moves. In its most simple form, a particle is moved in a random direction, which was the original method invented by \citet{metropolis_equation_1953} back in 1953. Later, the method was improved by \citet{hastings_monte_1970}, giving rise to the more general Metropolis-Hastings algorithm. The genius of the Metropolis algorithms is that the acceptance of a move is not based on the probabilities themselves, but rather the ratio between the new and the old probabilities. In that way, we avoid calculating the normalizing factor, which is often computationally intractable.
-
-We will first discuss Markov chains in general, before we connect them to the original Metropolis algorithm, henceforth called \textit{brute-force sampling}, and then the Metropolis-Hastings algorithm, also called \textit{importance sampling}. If we denote the current state by $\bs{r}$, and the proposed state by $\bs{r}'$, we have a transition rule $P(\bs{r}'|\bs{r})$ for going from $\bs{r}$ to $\bs{r}'$ and a transition rule $P(\bs{r}|\bs{r}')$ for going the opposite way. If we then assume that the rules satisfy \textit{ergodicity} and \textit{detailed balance}, we have the following relationship:
+In addition to reduce the computational cost, splitting up the Slater determinant also makes it possible to factorize out the spin-part from the single-particle functions. Only the spatial part of the single particle functions contribute to the energies, such that we with advantage can get rid of the spin parts. Recall that the single-particle functions $\psi(\bs{r},\sigma)$, can be written as a tensor product between the spatial part $\phi(\bs{r})$ and the spin part $\xi(\sigma)$, 
 \begin{equation}
-P(\bs{r}'|\bs{r})P(\bs{r})=P(\bs{r}|\bs{r}')P(\bs{r}'),
+\psi(\bs{r},\sigma)=\phi(\bs{r})\otimes\xi(\sigma) 
 \end{equation}
-which is actually a restatement of Bayes' theorem presented in section \ref{sec:bayes}. The next step is to rewrite the transition rules in terms of a proposal distribution $T(\bs{r}'|\bs{r})$ and an acceptance probability $A(\bs{r}',\bs{r})$,
-\begin{equation}
-P(\bs{r}'|\bs{r})=T(\bs{r}'|\bs{r})A(\bs{r}',\bs{r}).
-\end{equation}
-In order to satisfy the detailed balance, we need to choose $A(\bs{r}',\bs{r})$ such that
-\begin{empheq}[box={\mybluebox[5pt]}]{equation}
-A(\bs{r}',\bs{r})=\text{min }\left[1,\frac{T(\bs{r}|\bs{r}')P(\bs{r}')}{T(\bs{r}'|\bs{r})P(\bs{r})}\right],
-\label{eq:acceptance}
-\end{empheq}
-where we limit $A$ to maximum 1 as the probability should not exceed 1. We want to accept a move with probability $A(\bs{r}',\bs{r})$. One way to do that is to draw a number from a uniform distribution between 0 and 1. If this number is lower than the acceptance, the move should be accepted and rejected otherwise.
-
-\subsection{Brute-force sampling} \label{sec:bruteforce}
-In its simplest form, the move is proposed randomly both in magnitude and direction. Mathematically, we can write this as
-\begin{equation}
-\bs{r}'=\bs{r}+\Delta xd\bs{r}
-\end{equation}
-where $\Delta x$ is the step length and $d\bs{r}$ has a random magnitude and direction (typically which particle to move). We obtain the naïve acceptance probability when requiring $T(\bs{r}'|\bs{r})=T(\bs{r}|\bs{r}')$, such that the it simplifies to
-\begin{empheq}[box={\mybluebox[5pt]}]{equation}
-A(\bs{r}',\bs{r})=\text{min }\left[1,\frac{P(\bs{r}')}{P(\bs{r})}\right].
-\end{empheq}
-However, with this approach, an unsatisfying number of moves will be rejected as the particles can be moved in all directions, which results in a significant waste of computing power. A better method is \textbf{importance sampling}, since the particles are moved according to the quantum force. 
-
-\subsection{Importance sampling} \label{sec:importancesampling}
-Importance sampling is a more intelligent sampling method than the brute-force sampling, since the new position is based on an educated guess. To understand how it works, we need to take a quick look at diffusion processes. We start from the Fokker-Planck equation,
-\begin{equation}
-\frac{\partial P(\bs{r},t)}{\partial t}=D\nabla\left(\nabla-\bs{F}\right)P(\bs{r},t)
-\label{eq:fokkerplanck}
-\end{equation}
-which describes how a probability distribution $P(\bs{r},t)$ evolves in appearance of a drift force $\bs{F}$. In the case $\bs{F}=\bs{0}$, the equation reduces to the diffusion equation with $D$ as the diffusion constant. This simplifies to $D=1/2$ in natural units. 
-
-The Langevin equation states that a diffusion particle tends to move parallel to the drift force in the coordinate space, with $\bs{\eta}$ introducing some random noise. The equation reads
-\begin{equation}
-\frac{\partial \bs{r}(t)}{\partial t}=D\bs{F}(\bs{r}(t))+\bs{\eta}.
-\label{eq:langevin}
-\end{equation}
-Given a position $\bs{r}$, the new position $\bs{r}'$ can be be found by applying forward-Euler on the Langevin equation, obtaining
-\begin{equation}
-\bs{r}'=\bs{r}+D\Delta t\bs{F}(\bs{r}) + \bs{\xi}\sqrt{\Delta t}
-\end{equation}
-where $\Delta t$ is a fictive time step and $\bs{\xi}$ is a Gaussian random variable. Further, we want to find an expression of the drift force $\bs{F}$ which makes the system converge to a stationary state. A stationary state is found when the probability density function, $P(\bs{r})$, is constant in time, i.e., when the left-hand side of the Fokker-Planck equation is zero. In that case, we can rewrite the equation as
-\begin{equation}
-\nabla^2P(\bs{r})=P(\bs{r})\nabla\bs{F}(\bs{r})+\bs{F}(\bs{r})\nabla P(\bs{r}).
-\end{equation}
-where the parenthesis are written out and we have moved the term that is independent of the force $\bs{F}$ to the left-hand side. Moreover, we assume that the drift force takes the form $\bs{F}(\bs{r})=g(\bs{r})\nabla P(\bs{r})$ based on the fact that the force should point in the direction of the steepest slope. We can then go ahead and write
-\begin{equation}
-\nabla^2 P(\bs{r})\big(1-P(\bs{r})g(\bs{r})\big)=\nabla\big(g(\bs{r})P(\bs{r})\big)\nabla P(\bs{r})
-\end{equation}
-where the quantity $\nabla^2 P(\bs{r})$ is factorized out from two of the terms. The equation is satisfied when $g(\bs{r})=1/P(\bs{r})$, such that the drift force evolves to the well-known form
-\begin{equation}
-\bs{F}(\bs{r})=\frac{\nabla P(\bs{r})}{P(\bs{r})}=2\frac{\nabla\Psi_T(\bs{r})}{\Psi_T(\bs{r})}=2\nabla\ln\Psi_T(\bs{r}),
-\end{equation}
-which is also known as the \textit{quantum force}. 
-
-The remaining part concerns the acceptance of the moves. For this, we need to find the sampling distributions $T(\bs{r}'|\bs{r})$ from equation \eqref{eq:acceptance}, which are just the solutions of the Fokker-Planck equation. The solutions read
-\begin{equation}
-G(\bs{r}',\bs{r},\Delta t)\propto\exp\Big(-\big(\bs{r}'-\bs{r}-D\Delta t\bs{F}(\bs{r})\big)^2/4D\Delta t\Big),
-\end{equation}
-which is categorized as a Green's function. In general, the essential property of any Green's function is that it provides a way to describe the response of an arbitrary differential equation solution. For our particular case, it correspond to $\mathcal{N}(\bs{r}'|\bs{r}+D\Delta t \bs{F}(\bs{r}),2D\Delta t)$ which is the normal distribution with mean $\bs{\mu}=\bs{r}+D\Delta t \bs{F}(\bs{r})$ and variance $\sigma=2D\Delta t$. By using this, the acceptance probability of the importance sampling can finally be written as
-\begin{empheq}[box={\mybluebox[5pt]}]{equation}
-A(\bs{r}'|\bs{r})=\text{min }\left[1,\frac{G(\bs{r},\bs{r}',\Delta t)P(\bs{r}')}{G(\bs{r}',\bs{r}, \Delta t)P(\bs{r})}\right],
-\end{empheq}
-where the marginal probabilities are still given by equation \eqref{eq:probvmc}. 
-
-\subsection{Gibbs sampling}
-Gibbs sampling has, throughout the years, gained high popularity in the machine learning community when it comes to training Boltzmann machines. There are probably many factors that contribute to this, where the performance is one of them. Another proper motivation is the absent of tuning parameters, which makes the method more comfortable to deal with compared to many of its competitors. The method is an instance of the Metropolis-Hastings algorithm and is therefore classified as another Markov chain Monte Carlo method. It differs from the Metropolis methods discussed above by the fact that all the moves are accepted, such that we do not waste computational time on rejected moves. Nevertheless, we should not use this argument alone to motivate the use of Gibbs sampling, as the algorithm usually and preferably rejects less than 1\% of the moves in importance sampling.
-
-We will in the following briefly describe the mathematical foundation of the method, before we, for the sake of clarity, connect it to the restricted Boltzmann machines. The method is built on the concept that, given a multivariate distribution, it is simpler to sample from a conditional distribution than to marginalize by integrating over a joint distribution. This is the reason why we do not need the marginal distributions in Gibbs sampling, but rather the conditional distributions. In the most general, Gibbs sampling proposes a rule for going from a sample $\bs{x}^{(i)}=(x_1^{(i)},x_2^{(i)},\hdots,x_n^{(i)})$ to another sample $\bs{x}^{(i+1)}=(x_1^{(i+1)},x_2^{(i+1)},\hdots,x_n^{(i+1)})$, similar to the Metropolis algorithm. However, in Gibbs sampling the transition from $x_j^{(i)}$ to $x_j^{(i+1)}$ is performed according to the conditional distribution specified by
-\begin{equation}
-P\big(x_j^{(i+1)}|x_1^{(i+1)},\hdots,x_{j-1}^{(i+1)},x_{j+1}^{(i)},\hdots,x_n^{(i)}\big).
-\end{equation}
-The marginal distribution of a subset of variables can then be approximated by simply considering the samples for that subset of variables, ignoring the rest. 
-
-For a restricted Boltzmann machine, this becomes a two-step sampling process as we have two layers, such that we use the conditional probabilities $P(\bs{r}|\bs{h})$ and $P(\bs{h}|\bs{r})$ to update the visible and hidden units respectively. For the restricted Boltzmann machine with Gaussian-binary units presented in section \ref{sec:RBM}, the conditional probability of $h_j=0$ given a set of visible nodes $\bs{x}$ is
-\begin{equation}
-P(h_j=0|\bs{x})=\frac{1}{1+\exp(+b_j+\sum_{i=1}^Nx_iw_{ij}/\sigma^2)}
-\end{equation}
-and the corresponding conditional probability of $h_j=1$ is
-\begin{equation}
-P(h_j=1|\bs{x})=\frac{1}{1+\exp(-b_j-\sum_{i=1}^Nx_iw_{ij}/\sigma^2)},
-\end{equation}
-which is by the way again our friend the sigmoid function. Note that $P(h_j=0|\bs{x})+P(h_j=1|\bs{x})=1$, indicating that a hidden node $h_j$ can only take 0 or 1, hence binary. When updating the hidden node, one typically calculate the sigmoid $P(h_j=1|\bs{x})$ and set $h_j$ to 1 if this probability is larger than 1/2, and set it to 0 otherwise. 
-
-For the update of the visible nodes, we see from equation \eqref{eq:normal} that the visible nodes are chosen after the normal distribution,
-\begin{equation}
-P(x_i|\bs{h})=\mathcal{N}\Big(a_i+\sum_{j=1}^Hw_{ij}h_j,\sigma^2\Big),
-\end{equation}
-which introduces some stochasticity to the system. By going back and forth in the Boltzmann machine multiple times (a round trip corresponds to an iteration), the hope is that the expectation values can be approximated by averaging over all the iterations. 
-
-As pointed out earlier, the Gibbs sampling will not be implemented in this work, but we describe it for completeness purposes. The reason for this is that the method has not shown promising results for our specific problem, and we will instead rely on Metropolis sampling. We have already tested the Gibbs sampling in another similar project on small quantum dots \cite{nordhagen_computational_2018}, and so have others like \citet{flugsrud_vilde_moe_solving_nodate}. The results are matching and show poor performance compared to the Metropolis-Hastings algorithm.
-
-However, the Gibbs sampling method should not be underestimated. \citet{carleo_solving_2017} showed its importance when solving the Ising model using a restricted Boltzmann machine and Gibbs sampling, and in traditional Boltzmann machines, the Gibbs sampling is the preferred tool.
-
-\iffalse
-\subsection{Similarities between Gibbs and Metropolis sampling}
-Based on the previous section, it might be hard to recognize the similarities between Gibbs sampling and the Metropolis sampling methods. However, the connection between them is crucial for several reasons. Firstly, this can lead us to the link between standard restricted Boltzmann machines and standard VMC, as Boltzmann machines often are based on Gibbs sampling and VMC often is based on the Metropolis samplings. We need to exploit this link to take full advantage of the Boltzmann machines. Secondly, this might clarify why the Gibbs sampling does not serve our purpose.
-
-In chapter \ref{chp:systems}, we presented the relation between a quantum system and expressions of the Hamiltonian, which is the energy operator. In section \ref{sec:unsupervised}, we described how Boltzmann machines are defined and how one can find the energy of a Boltzmann machine. Further, we looked at the updating schemes, which for both cases corresponds to minimizing the cost function and maximizing the log-likelihood function. 
-
-All in all, there are many similarities between the two methods. They are fundamentally related through Markov random fields, ...
 \fi
+$\otimes$ denotes the tensor product, ... which will be omitted in the following. We also drop the $\bs{\theta}$ argument of the single-particle functions. As we in the ground state have double degeneracy, the spatial part will be the same for pairwise spin-up and spin-down particles, and we arrange them as
+\begin{equation}
+\psi_j(\bs{r}_i,\sigma_i)=
+\begin{cases}
+\phi_j(\bs{r}_i)\xi_{\uparrow}(\sigma_i)\quad\quad&\text{if } j<N_{\uparrow}\\
+\phi_j(\bs{r}_i)\xi_{\downarrow}(\sigma_i)\quad\quad&\text{if } j\geq N_{\uparrow}.
+\end{cases}
+\end{equation}
+Since the first $N_{\uparrow}$ particles have spin up, $\sigma_i=\,\uparrow\quad\forall\quad i\in\{1,2,...,N_{\uparrow}\}$, and the remaining have spin down, we can now set up the Slater determinant in equation \eqref{eq:generalslater} where each single particle function is split in a spatial part and a spin part,
+\begin{equation*}
+|\hat{D}(\bs{R})|\propto
+\begin{vmatrix}
+\phi_1(\boldsymbol{r}_1)\xi_{\uparrow}(\uparrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_1)\xi_{\uparrow}(\uparrow) & \phi_{1}(\boldsymbol{r}_1)\xi_{\downarrow}(\uparrow) & \hdots & \phi_{N_{\downarrow}}(\boldsymbol{r}_1)\xi_{\downarrow}(\uparrow)\\
+\vdots & & \vdots & \vdots & & \vdots \\
+\phi_1(\boldsymbol{r}_{N_{\uparrow}})\xi_{\uparrow}(\uparrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_{N_{\uparrow}})\xi_{\uparrow}(\uparrow) & \phi_{1}(\boldsymbol{r}_{N_{\uparrow}})\xi_{\downarrow}(\uparrow) & \hdots & \phi_{N_{\downarrow}}(\boldsymbol{r}_{N_{\uparrow}})\xi_{\downarrow}(\uparrow)\\
+\phi_1(\boldsymbol{r}_{N_{\uparrow}+1})\xi_{\uparrow}(\downarrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_{N_{\uparrow}+1})\xi_{\uparrow}(\downarrow) & \phi_{1}(\boldsymbol{r}_{N_{\uparrow}+1})\xi_{\downarrow}(\downarrow) & \hdots & \phi_{N_{\downarrow}}(\boldsymbol{r}_{N_{\uparrow}+1})\xi_{\downarrow}(\downarrow)\\
+\vdots & & \vdots & \vdots & & \vdots \\
+\phi_1(\boldsymbol{r}_N)\xi_{\uparrow}(\downarrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_N)\xi_{\uparrow}(\downarrow) & \phi_{1}(\boldsymbol{r}_N)\xi_{\downarrow}(\downarrow) & \hdots & \phi_{N_{\downarrow}}(\boldsymbol{r}_N)\xi_{\downarrow}(\downarrow)\\
+\end{vmatrix}.
+\end{equation*}
+We observe that the the spin-up particles sometimes occupy spin-down states, which they are not allowed to. Therefore, half of the elements become zero and the determinant can be further expressed as
+\begin{equation*}
+|\hat{D}(\bs{R})|\propto
+\begin{vmatrix}
+\phi_1(\boldsymbol{r}_1)\xi_{\uparrow}(\uparrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_1)\xi_{\uparrow}(\uparrow) & 0 & \hdots & 0\\
+\vdots & & \vdots & \vdots & & \vdots \\
+\phi_1(\boldsymbol{r}_{N_{\uparrow}})\xi_{\uparrow}(\uparrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_{N_{\uparrow}})\xi_{\uparrow}(\uparrow) & 0 & \hdots & 0\\
+0 & \hdots & 0 & \phi_{1}(\boldsymbol{r}_{N_{\uparrow}+1})\xi_{\downarrow}(\downarrow) & \hdots & \phi_{N_{\downarrow}}(\boldsymbol{r}_{N_{\uparrow}+1})\xi_{\downarrow}(\downarrow)\\
+\vdots & & \vdots & \vdots & & \vdots \\
+0 & \hdots & 0 & \phi_{1}(\boldsymbol{r}_N)\xi_{\downarrow}(\downarrow) & \hdots & \phi_{N_{\downarrow}}(\boldsymbol{r}_N)\xi_{\downarrow}(\downarrow)\\
+\end{vmatrix}
+\end{equation*}
+where the Slater matrix now is block diagonal! For a general block diagonal matrix, the determinant is given by the product of the determinant of each block
+\begin{equation}
+|\hat{D}(\bs{R})|\propto|\hat{D}_{\uparrow}(\bs{R}_{\uparrow})|\cdot |\hat{D}_{\downarrow}(\bs{R}_{\downarrow})|
+\end{equation}
+which can be seen by writing the total matrix as a product over all the block diagonal matrix. $\hat{D}_{\uparrow}$ is the matrix containing all spin-up states with collective coordinates $\bs{R}_{\uparrow}$ and $\hat{D}_{\downarrow}$ is the matrix containing all spin-down states with collective coordinates $\bs{R}_{\downarrow}$. Since all elements in the respective matrices contain the same spin function, it can be factorized out,
+\begin{equation}
+\begin{aligned}
+|\hat{D}(\bs{R})|\propto&|\hat{D}_{\uparrow}(\bs{r}_1, \bs{r}_2,\hdots,\bs{r}_{N_{\uparrow}})|\{\xi_{\uparrow}(\sigma_1^{\uparrow})\xi_{\uparrow}(\sigma_2^{\uparrow})\hdots\xi_{\uparrow}(\sigma_{N_{\uparrow}}^{\uparrow})\} \\ \times&|\hat{D}_{\downarrow}(\bs{r}_{N_{\uparrow}+1}, \hdots,\bs{r}_{N-1},\bs{r}_{N})|\{\xi_{\downarrow}(\sigma_{N_{\uparrow}+1}^{\downarrow})\hdots\xi_{\downarrow}(\sigma_{N-1}^{\downarrow})\xi_{\downarrow}(\sigma_{N}^{\downarrow})\}
+\end{aligned}
+\end{equation}
+and omitted in the future study. We are then left with the Slater determinant
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
+|\hat{D}(\bs{R})|\propto|\hat{D}_{\uparrow}(\bs{R}_{\uparrow})|\cdot |\hat{D}_{\downarrow}(\bs{R}_{\downarrow})|
+\end{empheq}
+which is independent of spin, i.e., the matrices now consist of the spatial functions $\phi_j(\bs{r}_i)$ as the elements,
+\begin{equation}
+|\hat{D}_{\sigma}(\bs{R})|\propto
+\begin{vmatrix}
+\phi_1(\boldsymbol{r}_1) & \phi_2(\boldsymbol{r}_1) & \hdots & \phi_{N}(\boldsymbol{r}_1)\\
+\phi_1(\boldsymbol{r}_2) & \phi_2(\boldsymbol{r}_2) & \hdots & \phi_{N}(\boldsymbol{r}_2)\\
+\vdots & \vdots & & \vdots \\
+\phi_1(\boldsymbol{r}_{N}) & \phi_2(\boldsymbol{r}_{N}) & \hdots & \phi_{N}(\boldsymbol{r}_{N})
+\end{vmatrix}.
+\end{equation}
 
-\section{Parameter update} \label{sec:parameterupdate}
-Above we have discussed the sampling in detail, which is a central part of the VMC method. Another important part is the \textit{variation} of the parameters, which we need in order to find an approximative wave function. In section \ref{sec:optimizationalgorithms}, we discussed various gradient-based optimization algorithms for iterative minimization of the cost function $\mathcal{C}(\bs{\theta})$ in machine learning, and the same methods can be used in VMC.
+It is also worth to notice that the number of spin-up particles determines the size of the spin-up matrix, and the same applies to the spin-down matrix. In other words, we can change the total spin $S$ by adjusting the relative sizes of the determinants. In the implementation, however, we stick to the magic quantum numbers, where $N_{\uparrow}=N_{\downarrow}$. Otherwise, we need to include a spin-dependent contribution in the Hamiltonian.
+
+\subsubsection{The Jastrow factor} \label{sec:jastrow}
+The second factor in our trial wave function is the Jastrow factor, which is added in order to get the correct electron-electron cusp. There are many different Jastrow factors, but the \textit{de facto} most used is the Padé-Jastrow factor. In general, this factor is based on the Padé approximant which is an expansion used to approximate functions. In this work, we will omit the higher-order terms in the expansion and stick to the relatively simple factor,
+\begin{equation}
+J(\bs{R};\beta) = \exp\bigg(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij}}\bigg),
+\label{eq:PadeJastrow}
+\end{equation}
+which henceforth will be called just the Padé-Jastrow factor. $\beta$ is the only variational parameter, while $a_{ij}$ are coefficients determined in order to model the cusp correctly. The latter is dependent on whether an electrons pair has the same or opposite spins and depend on the particles $i$ and $j$ in the following way:
+\begin{equation}
+\label{eq:ajastrow}
+a_{ij}=
+\begin{cases} 
+e^2/(d+1) & \text{if $i,j$ are particles of same spin} \\
+e^2/(d-1) & \text{if $i,j$ are particles of opposite spin}
+\end{cases},
+\end{equation}
+for dimensions $d\in[2,3]$ where $e$ is the elementary charge. We will later use natural and atomic units, and set $e=1$, which for two dimensions gives $a_{ij}=1/3$ (same spin) or $a_{ij}=1$ (opposite spin) and for three dimensions $a_{ij}=1/4$ (same spin) and $a_{ij}=1/2$ (opposite spin) \cite{hogberget_quantum_2013,mariadason_quantum_2018}.
+
+\subsection{The local energy}
+Let us first address the first problem, governing the solution of the energy integral, which is one of the reasons why computers are required in many-body quantum physics. In chapter \ref{chp:quantum}, we saw that the two-body interaction term makes the integral impossible to solve for many particles, such that we need to rely on numerical methods. 
+
+In VMC, we start with a \textit{trial wave function} guess $\Psi_T(\bs{R};\bs{\theta})$ where the parameters $\bs{\theta}$ are varied to minimize the energy. We now assume that the energy is not dependent  According to the variational principle, the obtained energy will always be higher or equal to the true ground state energy, where the equality is the case if and only if the wave function is the exact ground state wave function. Denoting the exact ground state energy by $E_0$ and the obtained energy as $E$, we can summarize this by
+\begin{equation}
+E_0 \leq E = \frac{\int d\bs{R}\Psi_T(\bs{R})^*\hat{\mathcal{H}}\Psi_T(\bs{R})}{\int d\bs{R}\Psi_T(\bs{R})^*\Psi_T(\bs{R})}.
+\end{equation}
+Furthermore, the integral can be written in the form of a general expectation value
+\begin{equation}
+E = \int d\bs{R} E_L(\bs{R})P(\bs{R})
+\end{equation}
+defining the local energy as
+\begin{equation}
+E_L(\bs{R})\equiv\frac{1}{\Psi_T(\bs{R})}\hat{\mathcal{H}}\Psi_T(\bs{R})
+\label{eq:localenergy}.
+\end{equation}
+$P(\bs{R})$ is called the probability density function (PDF) and was first introduced in equation \eqref{eq:pdf}. In a more general scheme the PDF reads
+\begin{equation}
+P(\bs{R})=\frac{|\Psi_T(\bs{R})|^2}{\int d\bs{R}|\Psi_T(\bs{R})|^2}
+\label{eq:probvmc}
+\end{equation}
+where the wave function not necessarily is normalized. Since the energy expectation value now is in the form of a general expectation value, we can use the approximation set up by Monte Carlo integration in equation \eqref{eq:montecarlointegration}, yielding 
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
+E \approx \frac{1}{M}\sum_{i=1}^ME_L(\bs{R}_i). 
+\label{eq:energysum}
+\end{empheq}
+where the local energies $E_L(\bs{R}_i)$ are still evaluated with particle configurations $\bs{R}_i$ drawn from $P(\bs{R})$. In this manner, the obtained energy is guaranteed to approach the exact energy as the number of Monte Carlo cycles, $M$, increases. Actually, the standard error goes as $\mathcal{O}(1/\sqrt{M})$, making the method pretty accurate for large $M$'s. In the limit $M\rightarrow\infty$, the error goes to zero,
+\begin{equation}
+\langle E_L\rangle=\lim_{M\to\infty} \frac{1}{M}\sum_{i=1}^ME_L(\bs{R}_i),
+\end{equation}
+indicating the desire of a large number of cycles. This is associated with a zero-variance property governing the VMC method, stating that the variance in the true ground state should be zero \cite{giuseppe_carleo_neural-network_2017, deb_variational_2014}. Various sampling regimes are described in chapter \ref{chp:metropolis}.
+
+\subsection{Parameter update} \label{sec:parameterupdate}
+Above we have discussed the sampling in detail, which is a central part of the VMC method. Another important part is the update of the parameters, which we need in order to find an approximative wave function. In section \ref{sec:optimizationalgorithms}, we discussed various gradient-based optimization algorithms for iterative minimization of the cost function $\mathcal{C}(\bs{\theta})$ in machine learning, and the same methods can be used in VMC.
 
 However, we need to define a cost function for VMC which is minimized when the ground state energy is obtained. According to the variational principle, the ground state energy is the lowest energy we can obtain, so an obvious cost function is the energy expectation value. We therefore set
 \begin{equation}
 \mathcal{C}(\bs{\theta})=\langle E_L\rangle
 \end{equation}
 since we get the expectation value of the local energy from the Metropolis sampling. Further, we use the definition of the gradient of an expectation value from \citet{morten_hjorth-jensen_computational_2019} and obtain
-\begin{equation}
+\begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \nabla_{\theta_j} \langle E_L\rangle=2\Big(\langle E_L\nabla_{\theta_j}\ln\Psi_T\rangle - \langle E_L\rangle\langle\nabla_{\theta_j}\ln\Psi_T\rangle\Big)
 \label{eq:gradientenergy}
-\end{equation}
+\end{empheq}
 which means that we need to calculate the expectation values $\langle E_L\nabla_{\theta_j}\ln\Psi_T\rangle$ and $\langle\nabla_{\theta_j}\ln\Psi_T\rangle$ in addition to the expectation value of the local energy. Those expectation values are found from the integrals
 \begin{equation}
-\langle\nabla_{\theta_j}\ln\Psi_T\rangle = \int_{-\infty}^{\infty}d\bs{r}\nabla_{\theta_j}\ln\Psi_T(\bs{r})P(\bs{r})
+\langle\nabla_{\theta_j}\ln\Psi_T\rangle = \int_{-\infty}^{\infty}d\bs{R}\nabla_{\theta_j}\ln\Psi_T(\bs{R})P(\bs{R})
 \end{equation}
 and
 \begin{equation}
-\langle E_L\nabla_{\theta_j}\ln\Psi_T\rangle = \int_{-\infty}^{\infty}d\bs{r}E_L(\bs{r})\nabla_{\theta_j}\ln\Psi_T(\bs{r})P(\bs{r}),
+\langle E_L\nabla_{\theta_j}\ln\Psi_T\rangle = \int_{-\infty}^{\infty}d\bs{R}E_L(\bs{R})\nabla_{\theta_j}\ln\Psi_T(\bs{R})P(\bs{R}),
 \end{equation}
 which can be found by Monte Carlo integration in the same way as the local energy:
 \begin{equation}
-\langle\nabla_{\theta_j}\ln\Psi_T\rangle\approx \frac{1}{M}\sum_{i=1}^M\nabla_{\theta_j}\ln\Psi_T(\bs{r}_i)
+\langle\nabla_{\theta_j}\ln\Psi_T\rangle\approx \frac{1}{M}\sum_{i=1}^M\nabla_{\theta_j}\ln\Psi_T(\bs{R}_i)
 \end{equation}
 and
 \begin{equation}
-\langle E_L\nabla_{\theta_j}\ln\Psi_T\rangle\approx \frac{1}{M}\sum_{i=1}^ME_L(\bs{r}_i)\nabla_{\theta_j}\ln\Psi_T(\bs{r}_i).
+\langle E_L\nabla_{\theta_j}\ln\Psi_T\rangle\approx \frac{1}{M}\sum_{i=1}^ME_L(\bs{R}_i)\nabla_{\theta_j}\ln\Psi_T(\bs{R}_i).
 \end{equation}
-Note that the only closed-form expression needed, in addition to the local energy, is the expression of $\nabla_{\theta_j}\ln\Psi_T(\bs{r}_i)$. This will later be found for the various wave functions. 
+Note that the only closed-form expression needed, in addition to the local energy, is the expression of $\nabla_{\theta_j}\ln\Psi_T(\bs{R}_i)$. This will later be found for the various wave functions. 
 
 We want to stress that the local energy is not the only possible choice of cost function. By taking advantage of the zero-variance property of the expectation value of the local energy in the minimum, one can also minimize the variance. Variance minimization requires the calculation of a few additional expectation values, but it is a fully manageable task to do. See for instance \citet{bajdich_electronic_2010} for more information.
 
-\section{Electron density} \label{sec:electrondensityqmc}
+\subsection{Estimate the electron density} \label{sec:electrondensityqmc}
 In section \ref{sec:electrondensity}, we introduced the electron density and defined the $P$-body density as an integral over all particles but $P$,
 \begin{equation}
 \rho_P(\bs{r}_1,\hdots,\bs{r}_P)=N\int_{-\infty}^{\infty}d\bs{r}_{P+1}\hdots d\bs{r}_N |\Psi(\bs{r}_1,\hdots \bs{r}_N)|^2.
 \end{equation}
 Not surprisingly, also this integral will be solved using Monte Carlo integration, but in a slightly different way than the integrals above since this integral returns a distribution rather than an expected value. First, we divide the space into bins which either have equal sizes or known sizes. After that, we sample the particles and count the number of times a particle occurs in each bin. We want to find the relative number of particles in each bin concerning the size of the bin, so if the bins are of different sizes, we need to standardize them all by dividing by their respective sizes. In the end, we normalize the density such that the sum of all densities becomes equal to $N$. This method and the particular implementation is detailed in section \ref{sec:electrondensityimplementation}.
 
-\section{Diffusion Monte Carlo} \label{sec:dmc}
-The second and last quantum Monte Carlo method we will discuss is the diffusion Monte Carlo (DMC) method. DMC belongs to a class of projection and Green's function approaches and provides in principle an exact solution of the Schrödinger equation. However, for fermionic systems, the method is plagued by the occurrence of a sign-problem, known as the fermion sign problem, and we need to use approximations to bypass the problem. The most common fix is the fixed-node approximation, which introduces errors to the computations. The problem is also attempted to solve using shadow wave functions, for instance, by \citet{calcavecchia_sign_2014}, which have many commonalities with our restricted Boltzmann machine (RBM) approach. The idea is that the RBMs can also contribute to solve the sign problem, but we leave this for later studies. 
+\subsection{Common extensions}
+This finalizes the essential theory behind the VMC method. However, a sampling algorithm is needed to draw samples randomly from $P(\bs{R})$, and in chapter \ref{chp:metropolis} some popular sampling techniques are described. Before we jump into this field, we will discuss some natural extensions and improvements to the VMC method.
 
-Since the DMC method is used as a reference for more or less all the produced results, it is natural to give a brief discussion of the idea behind the method. By the fifth postulate of quantum mechanics discussed in section \ref{sec:postulates}, the motion of a particle that moves in a potential $V(\bs{r})$ is described by the time-dependent Schrödinger equation,
+Initially, the particle configuration $\bs{r}$ might not be representative for a configuration in equilibrium, making the first cycles a poor estimate of the expectation value. An easy fix to this problem is to basically ignore the first sampling period, known as the \textit{burn-in period}. With this in mind, we can implement an equilibration fraction describing the fraction of the total number of cycles that are used in the burn-in period. When running multiple parallel processes, the burn-in period should be the same for all the processes.
+
+We also have a technique called \textit{thinning}, which means picking every $n$'th sample in the chain and ignore the rest. This is shown to give a more or less identical expectation value and makes the program less memory-requiring, but due to worse statistics, this should be avoided as long as there is no lack of memory. 
+
+\section{Diffusion Monte Carlo} \label{sec:dmc}
+The second and last quantum Monte Carlo method we will discuss is the diffusion Monte Carlo (DMC) method. DMC belongs to a class of projection and Green's function approaches and provides in principle an exact solution of the Schrödinger equation. However, for fermionic systems, the method is plagued by the occurrence of a sign-problem, known as the fermion sign problem \cite{troyer_computational_2005}, and we need to use approximations to bypass the problem. The most common fix is the fixed-node approximation, which introduces errors to the computations. The problem is also attempted to solve using shadow wave functions, for instance, by \citet{calcavecchia_sign_2014}, which have many commonalities with our restricted Boltzmann machine (RBM) approach. The idea is that the RBMs can also contribute to solve the sign problem, but we leave this for later studies. 
+
+Since the DMC method is used as a reference for more or less all the produced results, it is natural to give a brief discussion of the idea behind the method. By the fifth postulate of quantum mechanics discussed in section \ref{sec:postulates}, the motion of a particle that moves in a potential $V(\bs{R})$ is described by the time-dependent Schrödinger equation,
 \begin{equation}
-i\frac{\partial\Psi(\bs{r},t)}{\partial t}=\hat{\mathcal{H}}\Psi(\bs{r},t)
+i\frac{\partial\Psi(\bs{R},t)}{\partial t}=\hat{\mathcal{H}}\Psi(\bs{R},t)
 \end{equation}
 with $t$ as the time and $i$ as the solution of $x^2=-1$. In natural units, the Hamiltonian is given by
 \begin{equation}
-\hat{\mathcal{H}}=-\frac{1}{2}\nabla^2 + V(\bs{r}).
+\hat{\mathcal{H}}=-\frac{1}{2}\nabla^2 + V(\bs{R}).
 \end{equation}
 Further, we assume that the potential becomes infinite as $x\rightarrow \pm\infty$, such that the particle motion is confined to a finite spatial domain. The formal solution of the time-dependent Schrödinger equation is then given by an expansion of the eigenfunctions of $\hat{\mathcal{H}}$, $\phi_n(\bs{r})$,
 \begin{equation}
-\Psi(\bs{r},t)=\sum_{n=0}^{\infty}c_n\phi_n(\bs{r})e^{-E_nt/\hbar}
+\Psi(\bs{R},t)=\sum_{n=0}^{\infty}c_n\phi_n(\bs{R})e^{-E_nt/\hbar}
 \end{equation}
 with $\hbar$ as the reduced Planck's constant and where the coefficients can be obtained by
 \begin{equation}
-c_n=\int_{-\infty}^{\infty}d\bs{r}\phi_n(\bs{r})\Psi(\bs{r},0)
+c_n=\int_{-\infty}^{\infty}d\bs{R}\phi_n(\bs{R})\Psi(\bs{R},0)
 \end{equation}
-under the assumption that the eigenfunctions are orthonormal and that the energies $E_n$ are sorted in increasing order. The DMC method is based on the time-imaginary Schrödinger equation, which is obtained by a \textbf{shift of energy scale}, setting $V(\bs{r})\rightarrow V(\bs{r}) - E_R$ and $E_n\rightarrow E_n -E_R$, which does not change any physical quantity. By further using the \textbf{Wick rotation of time} setting $\tau=it$, we obtain the time-imaginary Schrödinger equation \cite{kosztin_introduction_1996}
+under the assumption that the eigenfunctions are orthonormal and that the energies $E_n$ are sorted in increasing order. The DMC method is based on the time-imaginary Schrödinger equation, which is obtained by a \textbf{shift of energy scale}, setting $V(\bs{R})\rightarrow V(\bs{R}) - E_R$ and $E_n\rightarrow E_n -E_R$, which does not change any physical quantity. By further using the \textbf{Wick rotation of time} setting $\tau=it$, we obtain the time-imaginary Schrödinger equation \cite{kosztin_introduction_1996}
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
--\frac{\partial\Psi(\bs{r},\tau)}{\partial\tau}=-\frac{1}{2}\nabla^2\Psi(\bs{r},\tau)+[V(\bs{r})-E_R]\Psi(\bs{r},\tau)
+-\frac{\partial\Psi(\bs{R},\tau)}{\partial\tau}=-\frac{1}{2}\nabla^2\Psi(\bs{R},\tau)+[V(\bs{r})-E_R]\Psi(\bs{R},\tau)
 \label{eq:timeimaginary}
 \end{empheq}
 which gives the expansion
 \begin{equation}
-\Psi(\bs{r},\tau)=\sum_{n=0}^{\infty}c_n\phi_n(\bs{r})e^{-(E_n-E_R)\tau}.
+\Psi(\bs{R},\tau)=\sum_{n=0}^{\infty}c_n\phi_n(\bs{R})e^{-(E_n-E_R)\tau}.
 \end{equation}
 
 The time-imaginary Schrödinger equation is similar to the Fokker-Planck equation presented in equation \eqref{eq:fokkerplanck}, which was noticed by Fermi already around 1945 \cite{metropolis_monte_1949,ceperley_quantum_1986}. Since we have analytical solutions of the Fokker-Planck equation, the idea is to apply the same solutions to equation \eqref{eq:timeimaginary}. To clarify this, consider the time-imaginary Schrödinger equation for non-interacting particles,
 \begin{equation}
-\frac{\partial\Psi(\bs{r},\tau)}{\partial\tau}=\frac{1}{2}\nabla^2\Psi(\bs{r},\tau)
+\frac{\partial\Psi(\bs{R},\tau)}{\partial\tau}=\frac{1}{2}\nabla^2\Psi(\bs{R},\tau)
 \end{equation}
 which is really similar to the diffusion equation,
 \begin{equation}
-\frac{\partial\phi(\bs{r},t)}{\partial t}=D\nabla^2\phi(\bs{r},t)
+\frac{\partial\phi(\bs{R},t)}{\partial t}=D\nabla^2\phi(\bs{R},t)
 \end{equation}
 where $D$ is the diffusion constant set to $1/2$ in our calculations, no wonder why. We end our motivation of the DMC method here, and relegate the reader to \citet{kosztin_introduction_1996} for a thorough and comprehensive explanation of the method. The last section of this chapter is about error estimation, which is very important in experimental physics, also when it comes to computer experiments. 
 
@@ -270,7 +265,7 @@ In experiments, we have two main classes of errors; systematical errors and stat
 
 There are many ways to estimate the variance, where the cheapest ones ignore correlation effects between the measurements. More accurate standard error estimations can be performed by resampling methods like blocking, bootstrap, or jackknife. We will cover the blocking method only since we stick to that method in our particular implementations. To save computational time, we resample the final iteration only; for the others, we use the simple estimation method.
 
-\subsection{Basic concepts of statistics}
+\subsection{Central concepts of statistics}
 Before we go through the methods, we will give a brief introduction to some useful statistical quantities. We start with the \textit{moments}, which are given by
 \begin{equation*}
 \langle x^n\rangle=\int dxp(x)x^n
@@ -293,7 +288,7 @@ which was already stated in chapter \ref{chp:quantum}. The \textit{standard devi
 If the probability density function is unavailable, we cannot find the exact sample mean and sample mean variance. However, we can make an estimate, writing
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \langle X\rangle\approx \frac{1}{n}\sum_{i=1}^n X_i\equiv\overline{X},
-hadow\end{empheq}
+\end{empheq}
 for the sample mean assuming that $X$ is our sample containing $n$ points. Further, the variance of the sample mean, assuming that the measurements are \textit{independent}, can be found from
 \begin{equation}
 \text{var}(\overline{X})\equiv\frac{1}{n}\sum_{i=1}^n(X_i-\overline{X})^2=\frac{\sigma^2}{n}

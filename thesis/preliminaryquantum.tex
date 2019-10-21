@@ -5,7 +5,7 @@
 	\captionsetup[subfigure]{labelformat=empty}
 	\tikzsetnextfilename{quantum_entanglement}
 	\copyrightbox[l]{\includegraphics[scale=1]{../Images/entanglement.jpeg}}{Science Advances, Vol. 5, no.7 (2019)}
-	\caption{The first ever image of quantum entanglement, where two groups of particles are sharing the physical state $\Psi(\bs{r})$, was published by \citet{moreau_imaging_2019} under the title \textit{Imaging Bell-type nonlocal behavior} in July 2019.}
+	\caption{The first ever image of quantum entanglement, where two groups of particles are sharing the physical state $\Psi(\bs{x})$, was published by \citet{moreau_imaging_2019} under the title \textit{Imaging Bell-type nonlocal behavior} in July 2019.}
 	\label{fig:entanglement}
 \end{figure}
 
@@ -13,11 +13,11 @@ The quantum theory is a fundamental theory that describes nature at the smallest
 
 In the most general form, the theory is based on the time-dependent Schrödinger equation,
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-i\hbar\frac{\partial}{\partial t}\ket{\Psi(\bs{r},t)}=\hat{\mathcal{H}}\ket{\Psi(\bs{r},t)}
+i\hbar\frac{\partial}{\partial t}\ket{\Psi(\bs{x},t)}=\hat{\mathcal{H}}\ket{\Psi(\bs{x},t)}
 \end{empheq}
-which describes the state, or the wave function, $\Psi(\bs{r},t)$, of a system with Hamilton operator $\hat{\mathcal{H}}$, known as the Hamiltonian. $\hbar$ is the reduced Planck's constant and $i$ is the solution of the equation $x^2=-1$. As we later will see, the quantum mechanical system is completely specified by the wave function, so by solving the equation we will in principle know anything about the system. 
+which describes the state, or the wave function, $\Psi(\bs{x},t)$, of a system with Hamilton operator $\hat{\mathcal{H}}$, known as the Hamiltonian. $\bs{x}=(\bs{r},\sigma)$ specifies the coordinates and the spin of a particle, $\hbar$ is the reduced Planck's constant and $i$ is the solution of the equation $x^2=-1$. As we later will see, the quantum mechanical system is completely specified by the wave function, so by solving the equation we will in principle know anything about the system. 
 
-\citet{schrodinger_undulatory_1926} introduced the now-called Schrödinger equation in a 1926 paper as one of many contributions to the quantum mechanics at that time. Other contributors include \citet{born_zur_1926} who suggested now-standard interpretation of the probability density function as $|\Psi(\bs{r},t)|^2$ in 1926 and his companion \citet{heisenberg_uber_1925}, who formulated the matrix mechanics representation in 1925. However, many physicists were skeptical about the new theory, including Albert Einstein and Schrödinger himself. The theory differed from the classical mechanics in the sense that it was based on a statistical interpretation, with some strange consequences. For instance, the theory allowed negative kinetic energies to occur with the consequence that a particle could \textit{go through} a potential wall, known as quantum tunneling. Later, Einstein \cite{einstein_can_1935} also pointed out that when pairs or groups of particles are generated in ways such that the wave function of each particle cannot be described independently of the other state, they will be affected by each other even at large distances. He called this \textit{"spooky action at a distance"}, and used the observation to argument that the quantum theory had to be incorrect. However, the observation was later proven to be correct and as late as in July 2019 the first image of quantum entanglement, as the phenomenon is called, was captured by \citet{moreau_imaging_2019}. See figure \eqref{fig:entanglement}.
+\citet{schrodinger_undulatory_1926} introduced the now-called Schrödinger equation in a 1926 paper as one of many contributions to the quantum mechanics at that time. Other contributors include \citet{born_zur_1926} who suggested now-standard interpretation of the probability density function as $|\Psi(\bs{x},t)|^2$ in 1926 and his companion \citet{heisenberg_uber_1925}, who formulated the matrix mechanics representation in 1925. However, many physicists were skeptical about the new theory, including Albert Einstein and Schrödinger himself. The theory differed from the classical mechanics in the sense that it was based on a statistical interpretation, with some strange consequences. For instance, the theory allowed negative kinetic energies to occur with the consequence that a particle could \textit{go through} a potential wall, known as quantum tunneling. Later, Einstein \cite{einstein_can_1935} also pointed out that when pairs or groups of particles are generated in ways such that the wave function of each particle cannot be described independently of the other state, they will be affected by each other even at large distances. He called this \textit{"spooky action at a distance"}, and used the observation to argument that the quantum theory had to be incorrect. However, the observation was later proven to be correct and as late as in July 2019 the first image of quantum entanglement, as the phenomenon is called, was captured by \citet{moreau_imaging_2019}. See figure \eqref{fig:entanglement}.
 
 Today, there is wide agreement in the physics society on the quantum theory. Actually, the theory is the most precisely tested in the history of science, where computed observable of atoms agree perfectly with experiments. Most notably, quantum electrodynamical calculations of the fine structure constant $\alpha$ are, by \citet{odom_new_2006}, found to agree with experiments within ten parts in a billion, $10^{-8}$.\bigskip
 
@@ -37,24 +37,24 @@ Albeit the quantum mechanics will make up the framework for this work, we will i
 Quantum mechanics is characterized by a set of fundamental axioms that make up the base of the theory. As we assume that they always hold, every statement in quantum mechanics is based on them, and it is, therefore, natural to list them now in the beginning. They can be formulated by six postulates, in the following way:
 
 \begin{enumerate}
-	\item \textit{"The state of a quantum mechanical system is completely specified by the wave function $\Psi(\bs{r},t)$."}
+	\item \textit{"The state of a quantum mechanical system is completely specified by the wave function $\Psi(\bs{x},t)$."}
 	
 	\item \textit{"To every observable in classical mechanics, there corresponds a linear, Hermitian operator in quantum mechanics."}
 	
-	\item \textit{"In any measurement of the observable associated with an operator $\hat{O}$, the only values that will ever be observed are the eigenvalues $o$ which satisfy $\hat{O}\Psi(\bs{r},t)=o\Psi(\bs{r},t)$."}
+	\item \textit{"In any measurement of the observable associated with an operator $\hat{O}$, the only values that will ever be observed are the eigenvalues $o$ which satisfy $\hat{O}\Psi(\bs{x},t)=o\Psi(\bs{x},t)$."}
 	
 	\item \textit{"The expectation value of the observable corresponding to operator $\hat{O}$ is given by
-		$$\langle\hat{O}\rangle=\frac{\int d\tau\Psi^*(\bs{r},t)\hat{O}\Psi(\bs{r},t)}{\int d\tau\Psi^*(\bs{r},t)\Psi(\bs{r},t)}.\textit{"}$$}
+		$$\langle\hat{O}\rangle=\frac{\int d\tau\Psi^*(\bs{x},t)\hat{O}\Psi(\bs{x},t)}{\int d\tau\Psi^*(\bs{x},t)\Psi(\bs{x},t)}.\textit{"}$$}
 	
 	\item \textit{"The wave function evolves in time according to the time-dependent Schrödinger equation,
-		$$\hat{\mathcal{H}}\Psi(\bs{r},t)=i\hbar\frac{\partial\Psi(\bs{r},t)}{\partial t}.\textit{"}$$}
+		$$\hat{\mathcal{H}}\Psi(\bs{x},t)=i\hbar\frac{\partial\Psi(\bs{x},t)}{\partial t}.\textit{"}$$}
 	
-	\item \textit{"The total wavefunction must be antisymmetric concerning the interchange of all coordinates of one fermion with those of another. Electronic spin must be included in this set of coordinates."} 
+	\item \textit{"The total wave function must be anti-symmetric concerning the interchange of all coordinates of one fermion with those of another. Electronic spin must be included in this set of coordinates."} 
 \end{enumerate}
 All the postulates will be used in this work, and they will be described in detail when we need them. Albeit we will look at stationary states only, even the time-dependent Schrödinger from the fifth postulate will be discussed due to the description of the diffusion Monte Carlo method in section \ref{sec:dmc}. The other will be covered in the current and the next chapter. The formulation of the presented postulates are taken from \cite{sherrill_david_postulates_2003}.
 
 \section{The Schrödinger equation} \label{sec:schrodinger}
-We have already presented the time-dependent Schrödinger equation on several occasions, but as mentioned above, we will in this work study stationary systems only. If we also recall that the particles are assumed to be non-relativistic, the focus will be on solving the time-independent non-relativistic Schrödinger equation. By defining $\Psi_n(\bs{r})$ as the wave function of a state $n$ with energy $\varepsilon_n$, the equation can be expressed as
+We have already presented the time-dependent Schrödinger equation on several occasions, but as mentioned above, we will in this work study stationary systems only. If we also recall that the particles are assumed to be non-relativistic, the focus will be on solving the time-independent non-relativistic Schrödinger equation. By defining $\Psi_n(\bs{x})$ as the wave function of a state $n$ with energy $\varepsilon_n$, the equation can be expressed as
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \label{eq:Energy}
 \hat{\mathcal{H}}\psin=E_n\psin

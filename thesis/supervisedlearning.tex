@@ -450,7 +450,7 @@ where $\gamma$ is the momentum parameter, which is just another hyper-parameter 
 		$t\leftarrow t+1$ (Increase time for each iteration)\;
 		$\bs{g}_t\leftarrow \nabla_{\theta}\mathcal{C}_t(\bs{\theta}_{t-1})$ (Get gradients from a given batch at time $t$)\;
 		$\bs{m}_t\leftarrow \gamma\bs{m}_{t-1}+\eta\cdot\bs{g}_t$ (Update first momentum estimate)\;
-		$\bs{\theta}_t=\bs{\theta}_{t-1}-\eta\cdot\bs{m}_t/\lambda^t$ (Update parameters with monotonic, adaptive step)\;
+		$\bs{\theta}_t=\bs{\theta}_{t-1}-\bs{m}_t/\lambda^t$ (Update parameters with monotonic, adaptive step)\;
 	}
 	\KwResult{Converged parameters $\bs{\theta}_t$.}
 	\caption{Adaptive stochastic gradient descent with momentum. See sections (\ref{sec:sgd}-\ref{sec:momentum}) for details. Robust default settings for the hyper-parameters are $\eta=0.001$, $\gamma=0.01$ and $\lambda=0.1$. All the operations are element-wise.}
@@ -497,6 +497,6 @@ where $\bs{m}_t$ is the biased first momentum estimate of the parameter vector $
 		$\bs{\theta}_t\leftarrow\bs{\theta}_{t-1}-\eta\cdot\hat{\bs{m}}_t/(\sqrt{\hat{\bs{v}}_t}+\bs{\varepsilon})$ (Update parameters) \;
 	}
 	\KwResult{Converged parameters $\bs{\theta}_t$.}
-	\caption{ADAM optimizer. Robust default settings for the hyper-parameters are $\eta=0.001$, $\gamma=0.01$ and $\lambda=0.1$. All the operations are element-wise, and for in-depth information see the original paper, \cite{kingma_adam:_2014}.}
+	\caption{ADAM optimizer. Robust default settings for the hyper-parameters are $\eta=0.001$, $\gamma_1=0.1$ and $\gamma_2=0.001$. All the operations are element-wise, and for in-depth information see the original paper by \citet{kingma_adam:_2014}.}
 	\label{alg:adam}
 \end{algorithm}\DecMargin{1em}
