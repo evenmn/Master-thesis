@@ -39,7 +39,7 @@ We observe that one first needs to define an object to represent the system, and
 
 The snippet above also demonstrates how the code was made flexible when it comes to the wave function. One can construct a wave function consisting of various elements by simply calling the \lstinline{setWaveFunctionElement} multiple times. This creates a wave function vector, \lstinline{m_waveFunctionVector}, in the background containing all the elements, which makes it easy to compose the wave function in whatever preferred way. All the elements can be combined. The reader might stub on the use of the element \lstinline{Gaussian}, is not the trial wave function defined by the Slater determinant multiplied with a Padé-Jastrow factor? It is, but as we will see later in section \ref{sec:factorizing}, the Gaussian part can be factorized out from the Slater determinant when using a Hermite basis. However, we will now start from the fundamental assumption that the trial wave function consists of a Slater determinant and a Jastrow factor, and take it from there.
 
-\section{Splitting the trial wave function in elements}
+\section{Decompose the trial wave function}
 In our VMC implementation, the trial wave function, $\Psi_T(\bs{R})$, is assumed to consist of a single Slater determinant and a Jastrow factor to take care of the repulsive interactions. In section \ref{sec:trial}, we saw that the electronic Slater determinant can be split up in a spin-up part and a spin-down part, giving the trial wave function
 \begin{equation}
 \Psi_T(\bs{R})=|\hat{D}_{\uparrow}(\bs{R})|\cdot|\hat{D}_{\downarrow}(\bs{R})|J(\bs{R})
@@ -664,7 +664,7 @@ One of the things that makes VMC preferred over other many-body methods is that 
 In algorithm \ref{alg:mpi}, we have sketched very roughly how the parallelization goes. We first run the entire sampling individually for all the $n$ processes, and if something goes wrong, we call the \lstinline|MPI_Abort| function. To align the processes before we collect all the cumulative values, we use the function \lstinline|MPI_Barrier| and we use \lstinline|MPI_Reduce| for the actual collection. After that, the average energies are calculated \textit{by the main process only}, and in the end, the updated parameters are broadcast to all the other processes. Note that this is just a sketch where we avoid the arguments and the actual implementation of the MPI functions. This is of course found in the code.
 
 \IncMargin{1em}
-\begin{algorithm}[H]
+\begin{algorithm}
 	\SetAlgoLined
 	MPI\_Init() (Initialize MPI)\;
 	\While{not converged}{
