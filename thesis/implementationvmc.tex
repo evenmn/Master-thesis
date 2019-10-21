@@ -160,16 +160,16 @@ We have now seen how the Slater determinant can be split up in a spin-up part an
 \Psi_{\text{sd}}(\bs{R})\propto\sum_{q}(-1)^q\hat{P}\phi_1(\bs{r}_1)\phi_2(\bs{r}_2)\hdots\phi_N(\bs{r}_N),
 \label{eq:slatersum}
 \end{equation}
-where the sum runs over all the possible permutations and $\hat{P}$ is the permutation operator, permuting coordinates pairwise. If all the (spatial) single particle functions $\phi_j(\bs{r}_j)$ can be split in two functions $f_j(\bs{r}_j)$ and $g(\bs{r}_j)$ where the latter is common for all the single particle functions,
+where the sum runs over all the possible permutations and $\hat{P}$ is the permutation operator, permuting coordinates pairwise. If all the (spatial) single particle functions $\phi_j(\bs{r}_i)$ can be split in two functions $f_j(\bs{r}_i)$ and $g(\bs{r}_i)$ where the latter is common for all the single particle functions,
 \begin{equation}
-\phi_j(\bs{r}_j)=f_j(\bs{r}_j)g(\bs{r}_j)
+\phi_j(\bs{r}_i)=f_j(\bs{r}_i)g(\bs{r}_i)
 \end{equation}
 the Slater determinant can be rewritten as
 \begin{equation}
 \begin{aligned}
 \Psi_{\text{sd}}(\bs{R})&\propto\sum_{p}(-1)^p\hat{P}f_1(\bs{r}_1)g(\bs{r}_1)f_2(\bs{r}_2)g(\bs{r}_2)\hdots f_N(\bs{r}_N)g(\bs{r}_N)\\
 &=g(\bs{r}_1)g(\bs{r}_2)\hdots g(\bs{r}_N)\sum_{p}(-1)^p\hat{P}f_1(\bs{r}_1)f_2(\bs{r}_2)\hdots f_N(\bs{r}_N)\\
-&=\prod_{i=1}^Ng(\bs{r}_j)
+&=\prod_{i=1}^Ng(\bs{r}_i)
 \begin{vmatrix}
 f_1(\boldsymbol{r}_1) & f_2(\boldsymbol{r}_1) & \hdots & f_N(\boldsymbol{r}_1)\\
 f_1(\boldsymbol{r}_2) & f_2(\boldsymbol{r}_2) & \hdots & f_N(\boldsymbol{r}_2)\\
@@ -180,9 +180,9 @@ f_1(\boldsymbol{r}_N) & f_2(\boldsymbol{r}_N) & \hdots & f_N(\boldsymbol{r}_N)
 \end{equation}
 This is very useful when dealing with some common basises. For instance, the Hermite basis is given by 
 \begin{equation}
-\phi_j(\bs{r}_j)\propto H_j(\bs{r}_j)\exp(-\frac{1}{2}\omega|\bs{r}_j|^2)
+\phi_j(\bs{r}_i)\propto H_j(\bs{r}_i)\exp(-\frac{1}{2}\omega|\bs{r}_i|^2)
 \end{equation}
-where $H_j(\bs{r}_j)$ are the Hermite polynomials and the Gaussian part fulfills the requirement of $g(\bs{r}_j)$. Therefore, we can construct a Slater determinant containing the Hermite polynomials only, treating the Gaussian as an independent element. This is not only preferable from an efficiency point of view, by doing this the variational parameter in the Gaussian is also removed from the determinant, which means that we can implement the determinant without worrying about the variational parameters. With this in mind, we will first treat the Gaussian element, obtaining its derivative and optimization schemes. Moreover, in section \ref{sec:slaterdeterminant} we will discuss how the determinant can be treated efficiently. 
+where $H_j(\bs{r}_i)$ are the Hermite polynomials and the Gaussian part fulfills the requirement of $g(\bs{r}_i)$. Therefore, we can construct a Slater determinant containing the Hermite polynomials only, treating the Gaussian as an independent element. This is not only preferable from an efficiency point of view, by doing this the variational parameter in the Gaussian is also removed from the determinant, which means that we can implement the determinant without worrying about the variational parameters. With this in mind, we will first treat the Gaussian element, obtaining its derivative and optimization schemes. Moreover, in section \ref{sec:slaterdeterminant} we will discuss how the determinant can be treated efficiently. 
 
 \subsection{Gaussian} \label{sec:simplegaussian}
 When factorizing out the Gaussian part from the Slater determinant, we obtain the element
@@ -322,7 +322,7 @@ for the Laplacian. We are then ready to write up the final expressions for the g
 \end{aligned}
 \label{eq:derivativelndet}
 \end{equation}
-where we have used that $d_{ij}=\phi_j(\bs{r}_j)$ with $\phi_j(\bs{r}_j)$ as the spatial functions found in the Slater determinant, see above.
+where we have used that $d_{ij}=\phi_j(\bs{r}_i)$ with $\phi_j(\bs{r}_i)$ as the spatial functions found in the Slater determinant, see above.
 
 \subsubsection{Efficient calculation of the determinant} \label{sec:efficientcalculationsofslaterdeterminant}
 As aforementioned, dealing with the Slater determinant is very computational expensive, mainly because of the requirement of the inverse Slater matrix. However, by revealing that only one row in the Slater matrix is updated for each step, we can update the inverse recursively. We use the same element representation as above, and express the ratio between the new and the old determinant as
@@ -345,7 +345,7 @@ while the remaining column, $i$, is updated using the simple formula \cite{morte
 d_{ki}^{-1}(\bs{R}_{\text{new}})=\frac{1}{R}d_{ki}^{-1}(\bs{R}_{\text{old}}).
 \label{eq:slaterinverse2}
 \end{equation}
-Those procedures makes the inverting scale as $\sim N^2$ instead of $\sim N^3$, which is largely beneficial for large systems.
+Those procedures makes the inverting scale as $\sim M^2$ instead of $\sim M^3$, which is largely beneficial for large systems.
 
 We assume that we do not have any variational parameter in the determinant, and obtain three expressions of the case when a particle with spin up is moved and three of the case when a particle with spin down is moved,
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
@@ -424,7 +424,7 @@ void SlaterDeterminant::updateSlaterDeterminantDerivatives(int start, int end)
 We avoid a double loop by taking a inner product instead. However, we are left with one loop which can also be avoided using smart matrix operations.
 
 \section{Jastrow factor}
-The second part of a standard VMC trial wave function is the Jastrow factor, which is meant to take care of the electron-electron correlations. The optimization scheme of this element is not as complex as the determinant, and this section will, therefore, be notably shorter than the previous. We will first discuss the two Jastrow factors given in section \ref{sec:jastrow}: the simple Jastrow and the Padé-Jastrow factor, and then we look at how the distance matrix can be updated efficiently. 
+The second part of a standard VMC trial wave function is the Jastrow factor, which is meant to take care of the electron-electron correlations. The optimization scheme of this element is not as complex as the determinant, and this section will, therefore, be notably shorter than the previous. We will first discuss the two Jastrow factors given in section \ref{sec:jastrow} and chapter \ref{chp:VMCwRBM}: the simple Jastrow and the Padé-Jastrow factor, and then we look at how the distance matrix can be updated efficiently. 
 
 \subsection{Simple Jastrow factor}
 Recall the simple Jastrow factor from \eqref{eq:SimpleJastrow},
