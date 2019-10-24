@@ -27,7 +27,7 @@ Even though we want a method which requires as little physical intuition as poss
 \end{equation}
 where the restricted Boltzmann machine takes all the coordinates as input nodes, i.e., the input vector is $\bs{x}=(x_1, y_1, x_2, y_2, \hdots, x_N, y_N)$ for a two-dimensional system. With this, we end up with a trial wave function that contains more variational parameters than a standard VMC trial wave function, and which hopefully is able to provide a more correct wave function. Further, we will add a simple Jastrow factor to see how this affects the correlations.
 
-\section{RBM with a simple Jastrow factor (RBM+SJ)}
+\section{RBM with a simple Jastrow factor (RBM+SJ)} \label{sec:rbmsj}
 This method, abbreviated RBM+SJ, is just an extension of the RBM method described in the previous section, where we add a simple Jastrow factor to help modeling the electron-electron cusp. When adding a Jastrow factor we also add some more physical intuition to the trial wave function, but the Jastrow factor used here still contains a minimum of physical intuition. It is expressed as
 \begin{equation}
 J(\bs{R}; \bs{\beta}) = \exp\left(\sum_{i=1}^N\sum_{j>i}^N{\beta_{ij}r_{ij}}\right).
@@ -38,7 +38,7 @@ where $r_{ij}$ is the radial distance between particle $i$ and $j$ and the $\bet
 \Psi_T(\bs{R})\propto|\hat{D}_{\uparrow}(\bs{R}_{\uparrow})|\cdot|\hat{D}_{\downarrow}(\bs{R}_{\downarrow})|J(\bs{R};\bs{\beta})
 \end{equation}
 
-\section{RBM with a Padé-Jastrow factor (RBM+PJ)}
+\section{RBM with a Padé-Jastrow factor (RBM+PJ)} \label{sec:rbmpj}
 Lastly, we add the well-known Padé-Jastrow factor to the RBM, abbreviated RBM+PJ, to see how much the results change when a more advanced correlation factor is added. As discussed in section \ref{sec:jastrow}, the Padé-Jastrow factor is constructed to model the electron-electron cusp correctly, and it is also interesting to see how more physical intuition in the trial wave function affects the results. The RBM+PJ trial wave function then reads
 \begin{equation}
 \Psi_T(\bs{R})\propto|\hat{D}_{\uparrow}(\bs{R}_{\uparrow})|\cdot|\hat{D}_{\downarrow}(\bs{R}_{\downarrow})|J(\bs{R};\beta)

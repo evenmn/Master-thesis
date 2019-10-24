@@ -3,11 +3,11 @@ The Dirac formalism, also called bracket notation, was suggested by \citet{dirac
 
 The Hilbert-space is a complete linear vector space, which allows length, inner products and angles between vectors to be measured. A column vector in the space is denoted by $\ket{\psi}$, which is called the \textit{ket}, and by taking the Hermitian conjugate of it we obtain the corresponding row vector, $(\ket{\psi})^+=\bra{\psi}$ called the \textit{bra}. As the Hilbert-space is characterized by linearity, it requires that the sum of two element in the space is also an element in the space,
 \begin{equation}
-\ket{\psi}+\ket{\phi}=\ket{\psi+\phi},
+\ket{\psi_1}+\ket{\psi_2}=\ket{\psi_1+\psi_2},
 \end{equation}
 and that two elements always \textit{commute},
 \begin{equation}
-\ket{\psi}+\ket{\phi}=\ket{\phi}+\ket{\psi}.
+\ket{\psi_1}+\ket{\psi_2}=\ket{\psi_2}+\ket{\psi_1}.
 \end{equation}
 Another important property is that an element of the space multiplied with a complex number is also an element of the space,
 \begin{equation}
@@ -27,19 +27,19 @@ The inner product between two basis elements is then given by
 \end{cases}
 \quad\equiv\delta_{ij}
 \end{equation}
-where we have introduced the Kronecker delta $\delta_{ij}$. If we further require that our basis is \textit{orthonormal}, the inner product is 1, and we can prove the \textit{completeness relation}. Assume we want to expand a vector $\ket{\phi}$ in our orthonormal basis set,
+where we have introduced the Kronecker delta $\delta_{ij}$. If we further require that our basis is \textit{orthonormal}, the inner product is 1, and we can prove the \textit{completeness relation}. Assume we want to expand a vector $\ket{\chi}$ in our orthonormal basis set,
 \begin{align}
-\ket{\phi}&=\sum_{i=1}^nc_i\ket{\psi_i}.
+\ket{\chi}&=\sum_{i=1}^nc_i\ket{\psi_i}.
 \end{align}
 By multiplying with one of the basis vectors on the left hand side, the sum collapses, and we are just left with one of the coefficients $c_j$,
 \begin{align}
-\braket{\psi_j}{\phi} &= \sum_{i=1}^nc_i\braket{\psi_j}{\psi_i}=c_j.
+\braket{\psi_j}{\chi} &= \sum_{i=1}^nc_i\braket{\psi_j}{\psi_i}=c_j.
 \end{align}
 If we now again insert this into the expansion, we obtain
 \begin{equation}
-\ket{\phi}=\sum_{i=1}^n\underbrace{\braket{\psi_i}{\phi}}_{c_i}\ket{\psi_i}=\bigg[\sum_{i=1}^n\ket{\psi_i}\bra{\psi_i}\bigg]\ket{\phi}
+\ket{\chi}=\sum_{i=1}^n\underbrace{\braket{\psi_i}{\chi}}_{c_i}\ket{\psi_i}=\bigg[\sum_{i=1}^n\ket{\psi_i}\bra{\psi_i}\bigg]\ket{\chi}
 \end{equation}
-which implies that the outer product
+which implies that the outer product is equal to 1 (vectorized equal to the identity matrix),
 \begin{equation}
 \sum_{i=1}^n\ket{\psi_i}\bra{\psi_i}=1.
 \end{equation}
@@ -73,4 +73,4 @@ Further, we also use the Dirac notation as a short-hand notation of the Slater d
 \psi_1(\boldsymbol{r}_N,\sigma_N) & \psi_2(\boldsymbol{r}_N,\sigma_N) & \hdots & \psi_N(\boldsymbol{r}_N,\sigma_N)
 \end{vmatrix}
 \end{equation}
-which is extensively used in for instance second quantization. 
+which is extensively used in for instance second quantization. This should not be confused with the Hartree product. 
