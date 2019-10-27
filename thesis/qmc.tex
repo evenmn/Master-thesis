@@ -104,7 +104,7 @@ where the Slater matrix now is block diagonal! For a general block diagonal matr
 \begin{equation}
 |\hat{D}(\bs{R})|\propto|\hat{D}_{\uparrow}(\bs{R}_{\uparrow})|\cdot |\hat{D}_{\downarrow}(\bs{R}_{\downarrow})|
 \end{equation}
-which can be seen by writing the total matrix as a product over all the block diagonal matrix. $\hat{D}_{\uparrow}$ is the matrix containing all spin-up states with collective coordinates $\bs{R}_{\uparrow}$ and $\hat{D}_{\downarrow}$ is the matrix containing all spin-down states with collective coordinates $\bs{R}_{\downarrow}$. Since all elements in the respective matrices contain the same spin function, it can be factorized out,
+which can be seen by writing the total matrix as a product over all the block diagonal matrix. $\hat{D}_{\uparrow}$ is the matrix containing all spin-up states with collective coordinates $\bs{R}_{\uparrow}$ and $\hat{D}_{\downarrow}$ is the matrix containing all spin-down states with collective coordinates $\bs{R}_{\downarrow}$. Since all elements in the respective matrices contain the same spin function, it can be factorized out \cite{nissenbaum_stochastic_2008},
 \begin{equation}
 \begin{aligned}
 |\hat{D}(\bs{R})|\propto&|\hat{D}_{\uparrow}(\bs{r}_1, \bs{r}_2,\hdots,\bs{r}_{N_{\uparrow}})|\{\xi_{\uparrow}(\sigma_1^{\uparrow})\xi_{\uparrow}(\sigma_2^{\uparrow})\hdots\xi_{\uparrow}(\sigma_{N_{\uparrow}}^{\uparrow})\} \\ \times&|\hat{D}_{\downarrow}(\bs{r}_{N_{\uparrow}+1}, \hdots,\bs{r}_{N-1},\bs{r}_{N})|\{\xi_{\downarrow}(\sigma_{N_{\uparrow}+1}^{\downarrow})\hdots\xi_{\downarrow}(\sigma_{N-1}^{\downarrow})\xi_{\downarrow}(\sigma_{N}^{\downarrow})\}
@@ -207,7 +207,7 @@ where the local energies $E_L(\bs{R}_i)$ are still evaluated with particle confi
 \begin{equation}
 \langle E_L\rangle=\lim_{M\to\infty} \frac{1}{M}\sum_{i=1}^ME_L(\bs{R}_i),
 \end{equation}
-indicating the desire of a large number of cycles. This is associated with a zero-variance property governing the VMC method, stating that the variance in the true ground state should be zero \cite{giuseppe_carleo_neural-network_2017, deb_variational_2014}. Various sampling regimes are described in chapter \ref{chp:metropolis}.
+indicating the desire of a large number of cycles. This is associated with a zero-variance property governing the VMC method, stating that the variance in the true ground state should be zero \cite{deb_variational_2014, assaraf_zero-variance_2003}. Various sampling regimes are described in chapter \ref{chp:metropolis}.
 
 \subsection{Parameter update} \label{sec:parameterupdate}
 Above we have discussed the sampling in detail, which is a central part of the VMC method. Another important part is the update of the parameters, which we need in order to find an approximative wave function. In section \ref{sec:optimizationalgorithms}, we discussed various gradient-based optimization algorithms for iterative minimization of the cost function $\mathcal{C}(\bs{\theta})$ in machine learning, and the same methods can be used in VMC.
