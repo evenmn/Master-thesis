@@ -15,10 +15,11 @@
 {\setlength{\parindent}{0cm}
 All illustrations in this thesis are created using the TikZ package \cite{tantau_graph_2013} if nothing else is specified. The plots are produced using a controversial combination of Matplotlib \cite{hunter_matplotlib:_2007} and PGFPlots \cite{tantau_graph_2013}.\bigskip
 
-Effort was made to follow the ISO 80000-2:2009 standard for mathematical signs and symbols \cite{iso/tc_12_iso_nodate}, and the ISO 80000-9:2009 standard for quantities and units in physical chemistry \cite{iso/tc_12_iso_nodate-1}.\bigskip
+\iffalse
+Effort was made to follow the ISO 80000-2:2009 standard for mathematical signs and symbols \cite{iso/tc_12_iso_nodate}, and the ISO 80000-9:2009 standard for quantities and units in physical chemistry \cite{iso/tc_12_iso_nodate-1}.\bigskip\fi
 
-The \LaTeX\, document preparation system was applied for typesetting.
-} 
+The \LaTeX\, document preparation system was applied for typesetting.}
+ 
 \newpage
 \section*{Abstract}
 Being able to solve the many-body Schrödinger equation accurately, in principle all physics and chemistry could be derived from first principles. However, exact wave functions of realistic and interesting systems are in general unavailable because they are non-deterministic polynomial-hard to compute \cite{troyer_computational_2005}, implying that we need to rely on approximations. The variational Monte Carlo (VMC) method is widely used for ground state studies, but requires a trial wave function ansatz which must trade off between efficiency and accuracy. The method has also many common features with machine learning algorithms, and as neural networks have shown impressive power as function approximators, the idea is to use a neural network as the trial wave function guess. For fermionic systems, like electronic structure systems, the wave function needs to obey Fermi-Dirac statistics, which typically is achieved using a Slater determinant. As a neural network hardly can model this feature, our approach is to replace the single-particle functions in the Slater determinant with restricted Boltzmann machines (RBM). To model the cusp correctly, correlation factors in the forms of a simple Jastrow factor and the well-known Padé-Jastrow factor were added, abbreviated RBM+SJ and RBM+PJ, respectively.

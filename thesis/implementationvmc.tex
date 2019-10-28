@@ -141,7 +141,7 @@ As we have seen above, the Slater determinant is the fundamental part of the tri
 
 Additionally, in section \ref{sec:trial}, we showed that the Slater determinant can be split in a spin-up part and a spin-down part, reducing its dimensionalities from $N\times N$ to two $N/2\times N/2$ matrices, with $N$ as the number of electrons. For an equal number of spin-up and spin-down electrons, this reduces in principle the cost of computing the Slater determinant with 87.5\%! Also, factorizing out common factors from the Slater determinant will give some speed-up. In this section, we will mostly discuss the various methods to make the update of the Slater matrix more efficient. We will start from the general determinant containing spin-$\sigma$ coordinates,
 \begin{equation}
-\Psi_{\text{sd}}(\bs{R})=|\hat{D}_{\sigma}(\bs{R})|\propto
+\Psi_{\text{sd}}(\bs{R})=|\hat{D}_{\sigma}(\bs{R})|=\frac{1}{\sqrt{N}}
 \begin{vmatrix}
 \phi_1(\boldsymbol{r}_1) & \phi_2(\boldsymbol{r}_1) & \hdots & \phi_{N}(\boldsymbol{r}_1)\\
 \phi_1(\boldsymbol{r}_2) & \phi_2(\boldsymbol{r}_2) & \hdots & \phi_{N}(\boldsymbol{r}_2)\\
@@ -157,7 +157,7 @@ $\phi_j(\bs{r}_i)$ is the single-particle function occupying the matrix element 
 \subsection{Factorizing out elements} \label{sec:factorizing}
 We have now seen how the Slater determinant can be split up in a spin-up part and a spin-down part. Before we evaluate these determinants, we should try to make the elements of the Slater matrices as simple as possible to save computational time. If all the elements have the same factor, the computations will get much cheaper if the factor is factorized out of the matrix. How this is possible can easiest be seen if we express the Slater determinant on a summation form,
 \begin{equation}
-\Psi_{\text{sd}}(\bs{R})\propto\sum_{q}(-1)^q\hat{P}\phi_1(\bs{r}_1)\phi_2(\bs{r}_2)\hdots\phi_N(\bs{r}_N),
+\Psi_{\text{sd}}(\bs{R})=\frac{1}{\sqrt{N}}\sum_{q}(-1)^q\hat{P}\phi_1(\bs{r}_1)\phi_2(\bs{r}_2)\hdots\phi_N(\bs{r}_N),
 \label{eq:slatersum}
 \end{equation}
 where the sum runs over all the possible permutations and $\hat{P}$ is the permutation operator, permuting coordinates pairwise. If all the (spatial) single particle functions $\phi_j(\bs{r}_i)$ can be split in two functions $f_j(\bs{r}_i)$ and $g(\bs{r}_i)$ where the latter is common for all the single particle functions,
@@ -167,7 +167,7 @@ where the sum runs over all the possible permutations and $\hat{P}$ is the permu
 the Slater determinant can be rewritten as
 \begin{equation}
 \begin{aligned}
-\Psi_{\text{sd}}(\bs{R})&\propto\sum_{p}(-1)^p\hat{P}f_1(\bs{r}_1)g(\bs{r}_1)f_2(\bs{r}_2)g(\bs{r}_2)\hdots f_N(\bs{r}_N)g(\bs{r}_N)\\
+\Psi_{\text{sd}}(\bs{R})&=\frac{1}{\sqrt{N}}\sum_{p}(-1)^p\hat{P}f_1(\bs{r}_1)g(\bs{r}_1)f_2(\bs{r}_2)g(\bs{r}_2)\hdots f_N(\bs{r}_N)g(\bs{r}_N)\\
 &=g(\bs{r}_1)g(\bs{r}_2)\hdots g(\bs{r}_N)\sum_{p}(-1)^p\hat{P}f_1(\bs{r}_1)f_2(\bs{r}_2)\hdots f_N(\bs{r}_N)\\
 &=\prod_{i=1}^Ng(\bs{r}_i)
 \begin{vmatrix}
