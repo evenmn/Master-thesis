@@ -142,15 +142,19 @@ E(\bs{x},\bs{h})= \sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2} - \sum_{j=1}^Hh_jb
 \end{equation}
 where $\sigma_i$ is the width of the Gaussian distribution, which can take an arbitrary number. Inserting the energy expression into equation \eqref{eq:boltzmanndist}, we obtain the Gaussian-binary joint probability distribution,
 \begin{equation}
-P(\bs{x},\bs{h})\propto\exp\Big(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2}\Big)\prod_{j=1}^H\exp\Big(h_jb_j+\sum_{i=1}^F\frac{h_jw_{ij}x_i}{\sigma^2}\Big),
+P(\bs{x},\bs{h})=\frac{1}{Z}\exp\Big(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2}\Big)\prod_{j=1}^H\exp\Big(h_jb_j+\sum_{i=1}^F\frac{h_jw_{ij}x_i}{\sigma^2}\Big),
 \label{eq:RBMWF1}
 \end{equation}
 where the first factor (the exponential function) is actually the definition of a Gaussian function and the product has a complexity proportional to the number of hidden nodes. Generative sampling algorithms, as Gibbs sampling, use this distribution directly, while other sampling tools, like Metropolis sampling, need the marginal distribution. To find the marginal distribution of the visible units, we just need to take the sum over $h=0$ and $h=1$ as the hidden units are binary. The final expression is given by
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-P(\bs{x})\propto\exp\Big(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2}\Big)\prod_{j=1}^H\bigg(1+\exp\Big(b_j+\sum_{i=1}^F\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg),
+P(\bs{x})=\frac{1}{Z}\exp\Big(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2}\Big)\prod_{j=1}^H\bigg(1+\exp\Big(b_j+\sum_{i=1}^F\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg),
 \label{eq:RBMWF2}
 \end{empheq}
-were the transition from equation \eqref{eq:gaussianbinary} is shown thoroughly in appendix \ref{app:rbmderive}. Since the visible units take continuous values, we need to integrate to find the marginal distribution of the hidden units, but since we never will use that distribution in this work, we will ignore the marginal distributions of the hidden units.
+were the transition from equation \eqref{eq:gaussianbinary} is shown thoroughly in appendix \ref{app:rbmderive}. Since the visible units take continuous values, we need to integrate to find the marginal distribution of the hidden units. The derivation is shown in appendix \ref{app:rbmderive}, and the final expression result reads
+\begin{equation}
+P(\bs{h})=\frac{1}{Z}\exp(\sum_{j=1}^Hh_jb_j)\prod_{i=1}^F\sqrt{2\pi\sigma_i^2}\exp(\frac{2a_i\sum_{j=1}^Hh_jw_{ij}+(\sum_{j=1}^Hh_jw_{ij})^2}{2\sigma_i^2})
+\end{equation}
+where 
 
 The conditional distributions are important in Gibbs sampling as they are used to determine the value of the hidden and visible nodes and update the weights. The distribution of $h$ given $x$ is used to update the hidden units and reads
 \begin{equation}
@@ -196,7 +200,7 @@ E(\bs{x},\bs{h})= \sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2} - \sum_{i=1}^F\sum
 \end{equation}
 with $c_{ij}$ as the weights between the visible units. In the rest of this project, we are interested in the marginal distribution of the visible units only, which becomes
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-P(\bs{x})\propto\exp\Big(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2}+\sum_{i=1}^F\sum_{j>i}^Fx_ic_{ij}x_j\Big)\prod_{j=1}^H\bigg(1+\exp\Big(b_j+\sum_{i=1}^F\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg)
+P(\bs{x})=\frac{1}{Z}\exp\Big(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2}+\sum_{i=1}^F\sum_{j>i}^Fx_ic_{ij}x_j\Big)\prod_{j=1}^H\bigg(1+\exp\Big(b_j+\sum_{i=1}^F\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg)
 \label{eq:PRBMWF}
 \end{empheq}
 by again using the approach detailed in appendix \ref{app:rbmderive}. In chapter \ref{chp:rbmimplementation}, we utilize that this marginal distribution can be split in a Gaussian part, a \textit{partly restricted} part and a product part. Then we see that the expression of the gradient of the log-likelihood function becomes the same with respect to $\bs{a},\bs{b}$ and $\bs{w}$ compared to the restricted Boltzmann machine, which means that we only need to calculate the expression of the gradient of the log-likelihood with respect to $\bs{c}$. This is given by the outer product
@@ -220,7 +224,7 @@ E(\bs{x},\bs{h})= \sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2} - \sum_{l=1}^L\sum
 \end{equation}
 where $H_L$ is the number of hidden units in layer $L$. The marginal probability distribution of the visible units read
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-P(\bs{x})\propto\exp\Big(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2}\Big)\prod_{l=1}^L\prod_{j=1}^{H_L}\bigg(1+\exp\Big(b_j^{(l)}+\sum_{i=1}^F\frac{w_{ij}^{(l)}x_i}{\sigma^2}\Big)\bigg).
+P(\bs{x})=\frac{1}{Z}\exp\Big(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2}\Big)\prod_{l=1}^L\prod_{j=1}^{H_L}\bigg(1+\exp\Big(b_j^{(l)}+\sum_{i=1}^F\frac{w_{ij}^{(l)}x_i}{\sigma^2}\Big)\bigg).
 \label{eq:DRBMWF}
 \end{empheq}
 which again can be obtained from the general expressions in appendix \ref{app:rbmderive}.
