@@ -1,4 +1,4 @@
-\chapter{Evaluation of a general Gaussian-binary RBM wave function} \label{app:rbmderive}
+\chapter{Derivation of Gaussian-binary restricted Boltzmann machine} \label{app:rbmderive}
 In this appendix, we start from a general Gaussian-binary restricted Boltzmann machine (RBM) and set up the system energy and joint probability distribution. Thereafter, we derive the marginal distribution which will later be used as the wave function. Closed-form expressions for the logarithmic gradient and the Laplacian of the wave function to be used in the local energy calculations, as we as the parameter gradient used in the parameter update will be given. We start from the most basic Gaussian-binary restricted Boltzmann machine in the form of 
 \begin{equation}
 \begin{aligned}
@@ -21,6 +21,7 @@ P(\bs{x},\bs{h})&=\frac{1}{Z}\exp(-\beta E(\bs{x},\bs{h}))\\
 where we fix $\beta=1/k_BT=1$ and ignore the partition function $Z$. Our main interest is the marginal distribution, which we will derive in detail.
 
 \section{Marginal distribution}\label{sec:derive}
+\subsection{Visible units}
 In chapter \ref{chp:machinelearning}, we presented the marginal distribution of the visible nodes as 
 \begin{equation}
 P(\bs{x})=\sum_{\{\bs{h}\}}P(\bs{x},\bs{h})
@@ -37,6 +38,17 @@ P(\boldsymbol{x})&\propto\sum_{\{\boldsymbol{h}\}}\exp\Big(\sum_{i=1}^F \frac{(x
 \end{aligned}
 \end{equation}
 where we exploit that only an element in the product contains a certain hidden node $h_j$.
+
+\subsection{Hidden units}
+The marginal distribution of the hidden units are found by an integral, as the visible units take continuous values. 
+
+\begin{equation}
+\begin{aligned}
+P(\bs{h})&=\int d\bs{x}P(\bs{x},\bs{h})\\
+&=\frac{1}{Z}\int d\bs{x}\exp(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2})\prod_{j=1}^H\exp(h_jb_j+\sum_{i=1}^F\frac{h_jW_{ij}x_i}{\sigma_i^2})\\
+&=\frac{1}{Z}\int d\bs{x}\exp(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2}+\sum_{j=1}^Hh_jb_j+\sum_{i=1}^F\sum_{j=1}^H\frac{h_jW_{ij}x_i}{\sigma_i^2})
+\end{aligned}
+\end{equation}
 
 \section{Conditional distribution}
 WRITE

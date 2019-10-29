@@ -106,7 +106,7 @@ For the partly restricted Boltzmann machine given in equation \eqref{eq:PRBMWF},
 which we can threat separately. To run a computation with the partly restricted Boltzmann machine, we thus need to add the elements \lstinline|RBMGaussian|, \lstinline|RBMProduct| and \lstinline|PartlyRestricted| in a similar way as in the example \ref{lst:qd}. When differentiating, we end up with the expressions
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \begin{aligned}
-\frac{|\Psi_{\text{pr}}(\bs{x}_{\text{new}})|^2}{|\Psi_{\text{pr}}(\bs{x}_{\text{old}})|^2}&=\exp\Big(2\sum_{j=1}^{F}c_{ij}x_j(x_i^{\text{new}}-x_i^{\text{old}})\Big)\\
+\frac{|\Psi_{\text{pr}}(\bs{R}_{\text{new}})|^2}{|\Psi_{\text{pr}}(\bs{R}_{\text{old}})|^2}&=\exp\Big(2\sum_{j=1}^{F}c_{ij}x_j(x_i^{\text{new}}-x_i^{\text{old}})\Big)\\
 \nabla_k\ln\Psi_{\text{pr}} &=2\sum_{j=1}^{F}c_{kj}x_j\\
 \nabla_k^2\ln\Psi_{\text{pr}} &= 2c_{kk}\\
 \nabla_{c_{ml}}\ln\Psi_{\text{pr}}&=x_mx_l
