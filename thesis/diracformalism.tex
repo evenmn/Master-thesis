@@ -37,16 +37,16 @@ By multiplying with one of the basis vectors on the left hand side, the sum coll
 \end{align}
 If we now again insert this into the expansion, we obtain
 \begin{equation}
-\ket{\chi}=\sum_{i=1}^n\underbrace{\braket{\psi_i}{\chi}}_{c_i}\ket{\psi_i}=\bigg[\sum_{i=1}^n\ket{\psi_i}\bra{\psi_i}\bigg]\ket{\chi}
+\ket{\chi}=\sum_{i=1}^n\underbrace{\braket{\psi_i}{\chi}}_{c_i}\ket{\psi_i}=\bigg[\sum_{i=1}^n\ket{\psi_i}\bra{\psi_i}\bigg]\ket{\chi},
 \end{equation}
 which implies that the outer product is equal to 1 (vectorized equal to the identity matrix),
 \begin{equation}
 \sum_{i=1}^n\ket{\psi_i}\bra{\psi_i}=1.
 \end{equation}
 
-We can use these properties to demonstrate how the normalization constant can be obtained without explicitly solving any integrals. Consider two spin-1/2 particles, for example the electron and the proton in the ground state of Hydrogen. There are then four possible states: the \textit{triplet} with $s=1$ and the \textit{singlet} with $s=0$. The latter reads \cite{griffiths_introduction_2005}
+We can use these properties to demonstrate how the normalization constant can be obtained without explicitly solving any integrals. Consider two spin-1/2 particles, for example the electron and the proton in the ground state of hydrogen. They can collectively be found in four possible states: the \textit{triplet} with $s=1$ and the \textit{singlet} with $s=0$. The latter reads \cite{griffiths_introduction_2005}
 \begin{equation}
-\ket{00}=A\big(\ket{\uparrow\downarrow}-\ket{\downarrow\uparrow}\big)
+\ket{00}=A\big(\ket{\uparrow\downarrow}-\ket{\downarrow\uparrow}\big),
 \end{equation}
 which is associated with the bra
 \begin{equation}
@@ -58,7 +58,7 @@ The inner product is then given by
 \braket{00}{00}&=A\big(\bra{\uparrow\downarrow}-\bra{\downarrow\uparrow}\big)A\big(\ket{\uparrow\downarrow}-\ket{\downarrow\uparrow}\big)\\
 &=A^2\big(\braket{\uparrow\downarrow}{\uparrow\downarrow}-\braket{\uparrow\downarrow}{\downarrow\uparrow}-\braket{\downarrow\uparrow}{\uparrow\downarrow}+\braket{\downarrow\uparrow}{\downarrow\uparrow}\big)\\
 &=A^2\big(1-0-0+1\big)\\
-&=2A^2=1
+&=2A^2=1,
 \end{aligned}
 \end{equation}
 where we have assumed that also the states $\ket{\uparrow\downarrow}$ and $\ket{\downarrow\uparrow}$ are orthonormal. From this, we can see that the normalization constant $A$ must be equal to $1/\sqrt{2}$.
@@ -71,6 +71,6 @@ Further, we also use the Dirac notation as a short-hand notation of the Slater d
 \psi_1(\boldsymbol{r}_2,\sigma_2) & \psi_2(\boldsymbol{r}_2,\sigma_2) & \hdots & \psi_N(\boldsymbol{r}_2,\sigma_2)\\
 \vdots & \vdots & \ddots & \vdots \\
 \psi_1(\boldsymbol{r}_N,\sigma_N) & \psi_2(\boldsymbol{r}_N,\sigma_N) & \hdots & \psi_N(\boldsymbol{r}_N,\sigma_N)
-\end{vmatrix}
+\end{vmatrix},
 \end{equation}
 which is extensively used in for instance second quantization. This should not be confused with the Hartree product. 
