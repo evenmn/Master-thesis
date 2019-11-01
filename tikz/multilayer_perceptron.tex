@@ -2,8 +2,8 @@
 
 % Define outputs
 \node[] (center) {};
-\node[input, above=0.3em of center] (y1) {$y_1$};
-\node[input, below=0.3em of center] (y2) {$y_2$};
+\node[input, above=0.3em of center] (y1) {$\tilde{y}_1$};
+\node[input, below=0.3em of center] (y2) {$\tilde{y}_2$};
 
 % Draw lines from output nodes
 \node[right of=y1] (righty1) {};
@@ -17,7 +17,7 @@
 \node[input,above of=aL2] (aL1) {$a_1^{(L)}$};
 \node[input,below of=aL3] (aL4) {$a_4^{(L)}$};
 \node[input,below of=aL4] (aL5) {$a_5^{(L)}$};
-\node[input,above of=aL1] (bL) {$B_L$};
+\node[input,above of=aL1] (bL) {$B^{(L)}$};
 
 % Hidden nodes 1
 \node[input,left=25em of center] (a13) {$a_3^{(1)}$};
@@ -25,7 +25,7 @@
 \node[input,above of=a12] (a11) {$a_1^{(1)}$};
 \node[input,below of=a13] (a14) {$a_4^{(1)}$};
 \node[input,below of=a14] (a15) {$a_5^{(1)}$};
-\node[input,above of=a11] (b1) {$B_1$};
+\node[input,above of=a11] (b1) {$B^{(1)}$};
 
 % Hidden nodes l
 \node[input,left=15em of center] (al3) {$a_3^{(l)}$};
@@ -33,7 +33,7 @@
 \node[input,above of=al2] (al1) {$a_1^{(l)}$};
 \node[input,below of=al3] (al4) {$a_4^{(l)}$};
 \node[input,below of=al4] (al5) {$a_5^{(l)}$};
-\node[input,above of=al1] (bl) {$B_l$};
+\node[input,above of=al1] (bl) {$B^{(l)}$};
 
 % Draw lines from hidden nodes
 \path[draw,->] (aL1) -- (y1);
@@ -41,20 +41,20 @@
 \path[draw,->] (aL3) -- (y1);
 \path[draw,->] (aL4) -- (y1);
 \path[draw,->] (aL5) -- (y1);
-\path[draw,->] (bL) -- (y1);
+\path[draw,->] (bL) -- (y1) node[midway,above,xshift=3mm,yshift=1mm] {$b_{1}^{(L)}$};
 
 \path[draw,->] (aL1) -- (y2);
 \path[draw,->] (aL2) -- (y2);
 \path[draw,->] (aL3) -- (y2);
 \path[draw,->] (aL4) -- (y2);
-\path[draw,->] (aL5) -- (y2) node[midway,below] {$w_{52}^{(L+1)}$};
+\path[draw,->] (aL5) -- (y2) node[midway,below] {$w_{52}^{(L)}$};
 \path[draw,->] (bL) -- (y2);
 
 % Define place left of left
 \node[input,left=5em of a13] (x2) {$x_2$};
 \node[input,above of=x2] (x1) {$x_1$};
 \node[input,below of=x2] (x3) {$x_3$};
-\node[input,above of=x1] (b0) {$B_0$};
+\node[input,above of=x1] (b0) {$B^{(0)}$};
 
 % Draw lines from input nodes
 \path[draw,->] (x1) -- (a11);
@@ -73,9 +73,9 @@
 \path[draw,->] (x3) -- (a12);
 \path[draw,->] (x3) -- (a13);
 \path[draw,->] (x3) -- (a14);
-\path[draw,->] (x3) -- (a15) node[midway,below] {$w_{35}^{(1)}$};
+\path[draw,->] (x3) -- (a15) node[midway,below] {$w_{35}^{(0)}$};
 
-\path[draw,->] (b0) -- (a11);
+\path[draw,->] (b0) -- (a11) node[midway,above] {$b_{1}^{(0)}$};
 \path[draw,->] (b0) -- (a12);
 \path[draw,->] (b0) -- (a13);
 \path[draw,->] (b0) -- (a14);
@@ -110,9 +110,9 @@
 \path[draw,dashed,->] (a15) -- (al2);
 \path[draw,dashed,->] (a15) -- (al3);
 \path[draw,dashed,->] (a15) -- (al4);
-\path[draw,dashed,->] (a15) -- (al5) node[midway,below] {$w_{55}^{(l)}$};
+\path[draw,dashed,->] (a15) -- (al5) node[midway,below] {$w_{55}^{(1)}$};
 
-\path[draw,dashed,->] (b1) -- (al1);
+\path[draw,dashed,->] (b1) -- (al1) node[midway,above] {$b_{1}^{(1)}$};
 \path[draw,dashed,->] (b1) -- (al2);
 \path[draw,dashed,->] (b1) -- (al3);
 \path[draw,dashed,->] (b1) -- (al4);
@@ -147,9 +147,9 @@
 \path[draw,dashed,->] (al5) -- (aL2);
 \path[draw,dashed,->] (al5) -- (aL3);
 \path[draw,dashed,->] (al5) -- (aL4);
-\path[draw,dashed,->] (al5) -- (aL5) node[midway,below] {$w_{55}^{(L)}$};
+\path[draw,dashed,->] (al5) -- (aL5) node[midway,below] {$w_{55}^{(l)}$};
 
-\path[draw,dashed,->] (bl) -- (aL1);
+\path[draw,dashed,->] (bl) -- (aL1) node[midway,above] {$b_{1}^{(l)}$};
 \path[draw,dashed,->] (bl) -- (aL2);
 \path[draw,dashed,->] (bl) -- (aL3);
 \path[draw,dashed,->] (bl) -- (aL4);
@@ -166,7 +166,7 @@
 % Add some text
 \node[below=6.1em of x2] {input};
 \node[below=6em of a13] {hidden 1};
-\node[below=6em of al3] {hidden l};
-\node[below=6em of aL3] {hidden L};
+\node[below=6em of al3] {hidden $l$};
+\node[below=6em of aL3] {hidden $L$};
 \node[below=6.8em of center] {output};
 \end{tikzpicture}

@@ -37,10 +37,13 @@
 \usepackage{xargs} 
 \usepackage{copyrightbox}
 \usepackage{mathpazo}
-%\usepackage[outdir=../Images/]{epstopdf}
-%\usepackage{eulervm}
 
 \renewcommand{\floatpagefraction}{.8}%
+
+% Listings
+\lstset{
+	literate={~} {$\sim$}{1}
+}
 
 % Colors
 \definecolor{background}{rgb}{0.898,0.898,0.898}

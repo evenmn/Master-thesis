@@ -4,7 +4,7 @@
 	\centering
 	%\includegraphics[scale=0.9]{Images/harmonicOscillator.png}
 	\input{../pgf/ho_figure.tex}
-	\caption{The harmonic oscillator potential (solid black line), with the exact single-particle wave functions, the Hermite functions, represented up to the 4th order. The quantum harmonic oscillator has many applications, be it the binding potential in molecules, lattice vibrations (phonons) or any trapped particle \cite{noauthor_what_nodate}.}
+	\caption{The harmonic oscillator potential (solid black line), with the exact single-particle wave functions, the Hermite functions, represented up to the 4th order. The quantum harmonic oscillator has many applications, be it first-order approximation of the binding potential in molecules \cite{wilson_molecular_1955}, lattice vibrations (phonons) \cite{cahill_heat_1989} or any trapped particle.}
 	\label{fig:harmonicoscillator}
 \end{figure}
 
@@ -13,33 +13,33 @@ In quantum physics, as in classical physics, there are many different systems wi
 We will in this chapter set up the explicit expressions of the Hamiltonians for the various systems and single-particle functions for various quantum mechanical systems. Although the quantum dots will be investigated in the first place, it is natural to include a brief discussion of the atom as there are many common features between the quantum dots. Also, double quantum dots will be covered, as one can find analytical solutions by an expansion of single quantum dot functions.
 
 \section{Quantum dots} \label{sec:quantumdots}
-Quantum dots are tiny particles and consist of fermions or bosons trapped in an external potential which is not created by a nucleus, unlike atoms. However, they have discrete electronic states with a well-defined shell structure like atoms and are therefore often called artificial atoms. In this thesis, we will study circular quantum dots with electrons confined in a harmonic oscillator potential, sometimes called Hooke's atom. 
+Quantum dots are tiny particles and consist of fermions or bosons trapped in an external potential which is not created by a nucleus, unlike atoms. However, they have discrete electronic states with a well-defined shell structure like atoms and are therefore often called artificial atoms. In this thesis, we will study circular quantum dots with electrons confined in a harmonic oscillator potential, sometimes called Hooke's atom \cite{liang_hookes_2011}. 
 
-The harmonic oscillator is often the first system that one is introduced to when attending an introductory course to quantum mechanics, for several reasons. Firstly, many systems can be approximated with the harmonic oscillator potential, including interactions in molecules and lattice vibrations. Secondly, the harmonic oscillator behaves nicely with absent of local minima and has neat equations for the non-interacting case. For an electron $i$, the potential reads
+The harmonic oscillator is often the first system that one is introduced to when attending an introductory course to quantum mechanics, for several reasons. First, many systems can be approximated with the harmonic oscillator potential, including molecular vibrations \cite{wilson_molecular_1955} and lattice vibrations \cite{cahill_heat_1989}. Second, the harmonic oscillator behaves nicely with absent of local minima and has neat equations for the non-interacting case. For an electron $i$, the potential reads
 \begin{equation}
 V_i(r)=\frac{1}{2}m\omega^2r_i^2,
 \end{equation}
 where $m$ is the electron mass, $\omega$ is the oscillator frequency and $r_i$ is the relative distance from particle $i$ to the center of the dot. Using natural units as described in Appendix B, we can write the Hamiltonian as
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \label{eq:HOHamiltonian}
-\hat{\mathcal{H}} = \sum_{i=1}^{N} \Big(-\frac{1}{2} \nabla_i^2 + \frac{1}{2} \omega^2r_i ^2\Big) + \sum_{i<j} \frac{1}{r_{ij}} 
+\hat{\mathcal{H}} = \sum_{i=1}^{N} \Big(-\frac{1}{2} \nabla_i^2 + \frac{1}{2} \omega^2r_i ^2\Big) + \sum_{i<j} \frac{1}{r_{ij}},
 \end{empheq}
-where the energy is given in Hartrees and the lengths are scaled with respect to $\sqrt{\hbar/m}$.
+where the energy is given in units of $\hbar$ and the lengths are scaled with respect to $\sqrt{\hbar/m}$.
 
 The exact solutions of the non-interacting Hamiltonian are the Hermite functions, 
 \begin{equation}
-\phi_n(x)=H_n(\sqrt{\omega}x)\exp(-\omega x^2/2)
+\phi_n(x)=\frac{1}{\sqrt{2^nn!}}\cdot\left(\frac{\omega}{\hbar}\right)^{1/4}H_n(\sqrt{\omega}x)\exp(-\omega x^2/2),
 \end{equation}
-which will also be used for the interacting atoms, though with a variational parameter detailed in section \ref{sec:simplegaussian}. $H_n(x)$ is the Hermite polynomial of $n$'th degree, and the first four Hermite functions are illustrated in figure \eqref{fig:harmonicoscillator}. The energy of an electron with principal quantum number $n$ in a certain dimension is given by the binomial coefficient
+where $H_n(x)$ is the Hermite polynomial of $n$'th degree, and the first four Hermite functions are illustrated in figure \eqref{fig:harmonicoscillator}. The energy of an electron with principal quantum number $n$ in a certain dimension is given by
 \begin{equation}
 E_n=\omega\Big(n+\frac{1}{2}\Big)\quad\quad\forall\quad n\in\{0,1,2...\}
 \label{eq:HOenergies}
 \end{equation}
 where we in multi-dimensional potentials need to summarize the contribution from all the dimensions.
 
-We will study closed-shell systems only as the Slater determinant in that case is unambiguous, i.e, there is only one possible determinant. In open-shell systems, there are in general multiple possible Slater determinants, and the trial wave function is thus a linear combination of them. The number of particles in closed-shell systems are called magic numbers, which in two dimensions are $N=2,6,12,\hdots$. In general, the magic numbers are given by
+We will study closed-shell systems only as the Slater determinant in that case is unambiguous, i.e, there is only one possible determinant. In open-shell systems, there are in general multiple possible Slater determinants, and the trial wave function is thus a linear combination of them. The number of particles in closed-shell systems are called magic numbers, which in two dimensions are $N=2,6,12,\hdots$. In general, the magic numbers are given by the binomial coefficients
 \begin{equation}
-N=s\binom{n+d}{d} \quad\quad\forall\quad n\in\{0,1,2...\}
+N=s\binom{n+d}{d} \quad\quad\forall\quad n\in\{0,1,2...\},
 \label{eq:HOclosedshell}
 \end{equation}
 where $s$ is the number of spin configurations (2 for electrons), $n$ is the principal quantum number and $d$ is the number of dimensions. This is a direct consequence of the Pauli principle, where the ground state can take two electrons with spatial single-particle functions $\phi_{n_x=0,n_y=0}(x,y)$, the first excited energy level can take four electrons with spatial single-particle functions $\phi_{n_x=1,n_y=0}(x,y)$ and $\phi_{n_x=0,n_y=1}(x,y)$ with degeneracy 2 and so on. See figure \eqref{fig:hostates} for an illustration of the first few states in a two-dimensional quantum dot. 
@@ -69,12 +69,12 @@ For reference and benchmark purposes, we will focus on the case with $a=1$ and $
 V_i(x)=\frac{1}{2}\omega^2\bigg[x_i^2+\frac{1}{4}b^2-b|x_i|\bigg],
 \label{eq:doublewell2}
 \end{equation}
-still in one dimension. For more than one dimension, we assume that the double dot expands in the $x$-direction, which gives us the dimension-independent expression
+still in one dimension. For more than one dimension, we assume that the wells are aligned in the $x$-direction, which gives us the dimension-independent expression
 \begin{equation}
 V_i^{\text{DW}}=\frac{1}{2}\omega^2\bigg[r_i^2+\frac{1}{4}b^2-b|x_i|\bigg]=V_i^{\text{HO}}+\frac{1}{2}\omega^2\bigg[\frac{1}{4}b^2-b|x_i|\bigg]
 \label{eq:doublewell3}
 \end{equation}
-where HO means harmonic oscillator potential and DW means double-well potential. What we actually observe, is that the potential separates in a single-dot part and a double-dot part, which makes the double-dot Hamiltonian similar to the single-dot Hamiltonian,
+where HO denotes harmonic oscillator potential and DW denotes double-well potential. What we actually observe, is that the potential separates in a single-dot part and a double-dot part, which makes the double-dot Hamiltonian similar to the single-dot Hamiltonian,
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \label{eq:DWHamiltonian}
 \hat{\mathcal{H}} = \sum_{i=1}^{N} \bigg(-\frac{1}{2} \nabla_i^2 + \frac{1}{2} \omega^2r_i ^2 + \frac{1}{2} \omega^2\Big(\frac{1}{4}b^2-b|x_i|\Big)\bigg) + \sum_{i<j} \frac{1}{r_{ij}}.
@@ -101,7 +101,7 @@ where our targets, $\hat{C}$, are just the eigenvectors of the $\hat{h}$-matrix.
 \begin{equation}
 \hat{h}_{\nu\lambda}=\mel{\phi_{\nu}^{\text{HO}}(x)}{\hat{\mathcal{H}}_{\text{HO}}}{\phi_{\lambda}^{\text{HO}}(x)}+\mel{\phi_{\nu}^{\text{HO}}(x)}{\hat{\mathcal{H}}_{\text{+}}}{\phi_{\lambda}^{\text{HO}}(x)}
 \end{equation}
-with $\hat{\mathcal{H}}_{\text{+}}=(1/2)\omega\sum_{i=1}^N\Big((1/4)b^2-b|x_i|\Big)$ as the contribution from the double-dot. The former integrals are just the harmonic oscillator energies, presented in equation \eqref{eq:HOenergies}, while the latter integrals are trivial to calculate. However, since we need to calculate a relatively large number of matrix elements, we decided to do it using numerical integration on the computer. The script doing this is given the creative name \lstinline|doublewell_functions.py|.
+with $\hat{\mathcal{H}}_{\text{+}}=(1/2)\omega\sum_{i=1}^N\Big[(1/4)b^2-b|x_i|\Big]$ as the contribution from the double-dot. The former integrals are just the harmonic oscillator energies, presented in equation \eqref{eq:HOenergies}, while the latter integrals are trivial to calculate. However, since we need to calculate a relatively large number of matrix elements, we decided to do it using numerical integration on the computer.
 
 \section{Atoms} \label{sec:atomic}
 Although we will focus on quantum dots in this work, atoms are relevant as they behave similar to quantum dots and can be studied with the same code framework with few modifications. When defining the atomic Hamiltonian, one often freezes out the nucleonic degrees of freedom known as the Born-Oppenheimer approximation. The electrons will in fact affect the nucleus, but due to the mass difference this effect is negligible. We again have Coulomb interaction between the electrons and the nucleus, and since we assume the latter to be at rest at the origin, the external potential affecting particle $i$ is
@@ -113,14 +113,14 @@ where $Z$ is the atomic number (number of protons in the nucleus). The total Ham
 \label{eq:AtomicHamiltonian}
 \hat{\mathcal{H}} = \sum_{i=1}^{N} \Big(-\frac{1}{2} \nabla_i^2 - \frac{Z}{r_i}\Big) + \sum_{i<j} \frac{1}{r_{ij}},
 \end{empheq}
-is given in atomic units which also is discussed in Appendix B. For the non-interacting case, the energy of a particle in shell $n$ is given by the Bohr formula
+is given in Hartree atomic units which also is discussed in Appendix B. For the non-interacting case, the energy of a particle in shell $n$ is given by the Bohr formula
 \begin{equation}
 E_n=-\frac{Z^2}{2n^2},
 \label{eq:bohrformula}
 \end{equation}
 which means that to find the binding energy of an atom, we need to summarize the energy of all the electrons. 
 
-Also, for this system, we need to specify a basis set to use. For atoms where the electrons do not interact, the wave functions are given by the \textit{Hydrogen-like orbitals}, which in spherical coordinates can be split in a radial part and an angular part,
+Also, for this system, we need to specify a basis set to use. For atoms where the electrons do not interact, the wave functions are given by the \textit{hydrogen-like orbitals}, which in spherical coordinates can be split in a radial part and an angular part,
 \begin{equation}
 \psi_{nlm_l}(r,\theta,\phi)=R_{nl}(r)Y_l^{m_l}(\theta,\phi),
 \label{eq:hydrogenlike}
@@ -129,13 +129,13 @@ where $n$ again is the principal quantum number, $l$ is the angular quantum numb
 
 The radial part can be presented as a function of the \textit{associated Laguerre polynomials} or \textit{generalized Laguerre polynomials}, $L_{q}^p(x)$ and the Hydrogen wave function presented in section \ref{sec:hydrogen},
 \begin{equation}
-R_{nl}(r)\propto r^le^{-Zr/n}\Big[L_{n-l-1}^{2l+1}\Big(\frac{2r}{n}Z\Big)\Big].
+R_{nl}(r)=\sqrt{\left(\frac{2Z}{n}\right)^3\frac{(n-l-1)!}{2n[(n+l)!]}} r^le^{-Zr/n}\Big[L_{n-l-1}^{2l+1}\Big(\frac{2r}{n}Z\Big)\Big].
 \end{equation}
 The angular part is given by the \textit{spherical harmonics},
 \begin{equation}
-Y_l^m(\theta,\phi)\propto P_l^m(\cos\theta)e^{im\phi}
+Y_l^m(\theta,\phi)=A P_l^m(\cos\theta)e^{im\phi}
 \end{equation}
-where $P_l^m(x)$ are the \textit{associated Legendre polynomials}. The complex part in the spherical harmonics can be avoided by introducing the real solid harmonics instead
+where $P_l^m(x)$ are the \textit{associated Legendre polynomials} and $A$ is a normalization factor. The complex part in the spherical harmonics can be avoided by introducing the real solid harmonics instead,
 \begin{equation}
 \label{eq:V_ext}
 S_l^m(\theta,\phi)\propto P_l^{|m|}(\cos\theta)
@@ -166,7 +166,7 @@ Alternatively, one can use a Hartree-Fock basis based on Gaussian functions, as 
 	\end{tabularx}
 \end{table}
 
-As for the quantum dot systems, we will study closed shells only, but for atoms, we will introduce subshells as well which are dependent on $l$ and $m$ in addition to the principal quantum number $n$. Traditionally, the first few subshells are denoted by $s, p, d$ and $f$, and the meaning can be found in table \eqref{tab:subshells}, together with number of electrons in each subshell. For Helium, we have two electrons with $n=1$, which means that both have $l=0$ and both electrons are in the $s$-subshell, or the so-called $s$-wave. We can thus write the electron configuration as $1s^2$. Similarly to the principal quantum number $n$, we can use the rule of tumble that the lower $l$, the lower energy, such that for Beryllium all four electrons are still in the $s$-subshell. Beryllium therefore has electron configuration $1s^2 2s^2$ or [He] $2s^2$. Since both subshells are fully occupied, Beryllium can be included in our closed-shell calculations. If we continue with the same rules, we see that the next closed-shell atom has a fully occupied $p$-subshell as well, which is Neon with 10 electrons. This is a noble gas, and we can write the electron configuration as [Be] $2p^6$. All noble gases have endings $Xs^2 Xp^6$, which is the reason why they always have eight valence electrons.
+As for the quantum dot systems, we will study closed shells only, but for atoms, we will introduce subshells as well which are dependent on $l$ and $m$ in addition to the principal quantum number $n$. Traditionally, the first few subshells are denoted by $s, p, d$ and $f$, and the meaning can be found in table \eqref{tab:subshells}, together with number of electrons in each subshell. For helium, we have two electrons with $n=1$, which means that both have $l=0$ and both electrons are in the $s$-subshell, or the so-called $s$-wave. We can thus write the electron configuration as $1s^2$. Similarly to the principal quantum number $n$, we can use the rule of tumble that the lower $l$, the lower energy, such that for beryllium all four electrons are still in the $s$-subshell. beryllium therefore has electron configuration $1s^2 2s^2$ or [He] $2s^2$. Since both subshells are fully occupied, beryllium can be included in our closed-shell calculations. If we continue with the same rules, we see that the next closed-shell atom has a fully occupied $p$-subshell as well, which is neon with 10 electrons. This is a noble gas, and we can write the electron configuration as [Be] $2p^6$. All noble gases have endings $Xs^2 Xp^6$, which is the reason why they always have eight valence electrons.
 
 We can now compare this to the periodic table, and observe that the first two rows agree with the theory presented above: The first row has two elements, and the second has eight. However, the third one also has eight elements, which does not fit our theory. It must be something we have overlooked. The reason is that the angular momentum contribution is not taken into account, i.e., we need to include the Hamiltonian term
 \begin{equation}
