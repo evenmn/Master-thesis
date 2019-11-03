@@ -134,7 +134,7 @@ which is called a binary-binary unit or Bernoulli-Bernoulli unit RBM. $H$ is the
 	\label{fig:restricted_boltzmann_machine}
 \end{figure}
 
-\subsection{Gaussian-binary units}
+\subsection{Gaussian-binary units} \label{sec:gaussianbinary}
 So far, we have discussed the linear models only, but as for feed-forward neural networks, we need non-linear models to solve non-linear problems. A natural next step is the model with Gaussian-binary units, which has a Gaussian mapping between the visible unit bias and the visible units and possibly also between the two layers. The energy expression of an architecture with Gaussian mapping between the visible units and the bias only, takes the form
 \begin{equation}
 E(\bs{x},\bs{h})= \sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2} - \sum_{j=1}^Hh_jb_j-\sum_{i=1}^F\sum_{j=i}^H \frac{x_iw_{ij}h_j}{\sigma_i^2},

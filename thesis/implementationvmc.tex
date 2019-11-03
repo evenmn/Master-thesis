@@ -45,7 +45,7 @@ In our VMC implementation, the trial wave function, $\Psi_T(\bs{R})$, is assumed
 \begin{equation}
 \Psi_T(\bs{R})=|\hat{S}_{\uparrow}(\bs{R})|\cdot|\hat{S}_{\downarrow}(\bs{R})|J(\bs{R})
 \end{equation}
-where $\bs{R}=(\bs{r}_1,\bs{r}_2,\hdots,\bs{r}_N)$ is the collective coordinates of all the electrons, where we exclude the spin as it is assumed to not affect the energy. $J(\bs{R})$ is an arbitrary Jastrow factor, while the Slater determinant is the determinant of the matrix $\hat{S}(\bs{R})$, henceforth the Slater matrix. To convince the reader that the Slater determinant and the Jastrow factor can be treated separately, we will consider a general trial wave function consisting of $p$ wave function elements $\{\Psi_1, \Psi_2\hdots\Psi_p\}$,
+where $\bs{R}=\{\bs{r}_1,\bs{r}_2,\hdots,\bs{r}_N\}$ is the collective coordinates of all the electrons, where we exclude the spin as it is assumed to not affect the energy. $J(\bs{R})$ is an arbitrary Jastrow factor, while the Slater determinant is the determinant of the matrix $\hat{S}(\bs{R})$, henceforth the Slater matrix. To convince the reader that the Slater determinant and the Jastrow factor can be treated separately, we will consider a general trial wave function consisting of $p$ wave function elements $\{\Psi_1, \Psi_2\hdots\Psi_p\}$,
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \Psi_T(\bs{R}) = \prod_{i=1}^p\Psi_i(\bs{R}),
 \label{eq:elementproduct}
@@ -144,7 +144,7 @@ Additionally, in section \ref{sec:trial}, we showed that the Slater determinant 
 \begin{equation}
 \Psi_{\text{sd}}(\bs{R})=\frac{1}{\sqrt{N!}}|\hat{S}_{\uparrow}(\bs{R}^{\uparrow})|\cdot|\hat{S}_{\downarrow}(\bs{R}^{\downarrow})|
 \end{equation}
-where $\hat{S}_{\sigma}(\bs{R}^{\sigma})$ is the Slater matrix of spin-$\sigma$ states with collective spatial coordinates $\bs{R}^{\sigma}=(\bs{r}_1^{\sigma},\bs{r}_2^{\sigma},\hdots,\bs{r}_{N_{\sigma}}^{\sigma})$ for $\sigma\in[\uparrow, \downarrow]$. The determinant of the spin-up state is treated in the same way as the determinant of the spin-down state, so will from now on consider a general spin-$\sigma$ state,
+where $\hat{S}_{\sigma}(\bs{R}^{\sigma})$ is the Slater matrix of spin-$\sigma$ states with collective spatial coordinates $\bs{R}^{\sigma}=\{\bs{r}_1^{\sigma},\bs{r}_2^{\sigma},\hdots,\bs{r}_{N_{\sigma}}^{\sigma}\}$ for $\sigma\in\{\uparrow, \downarrow\}$. The determinant of the spin-up state is treated in the same way as the determinant of the spin-down state, so will from now on consider a general spin-$\sigma$ state,
 \begin{equation}
 |\hat{S}(\bs{R})|\equiv|\hat{S}_{\sigma}(\bs{R})|=\begin{vmatrix}
 \phi_1(\boldsymbol{r}_1) & \phi_2(\boldsymbol{r}_1) & \hdots & \phi_{N}(\boldsymbol{r}_1)\\

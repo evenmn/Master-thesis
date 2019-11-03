@@ -1,12 +1,12 @@
 \chapter{Natural Units} \label{app:units}
-In everyday life, we usually stick to the standard SI units when measuring or expressing distances, energies, weights, time \textit{et cetera}. A standard unit system is important because it is common for people around the world so that people can communicate with each other conveniently across borders with a reduced risk of misconceptions. Another point is that people gradually develop an intuition about a set of units when they are used frequently, such that they immediately observe if a number makes sense or not when it is expressed in the preferred units. As a European, I always measure length in meters, so when people say they are 1.90m tall, I can easily imagine their height. On the other hand, when Americans tell their height, I do not have an intuition for how tall 6 feet 3 inches is. 
+In everyday life, we usually stick to the standard SI units when measuring or expressing distances, energies, weights, time \textit{et cetera}. A standard unit system is important because it is common for people around the world, so that people can communicate with each other conveniently across borders with a reduced risk of misconceptions. Another point is that people gradually develop an intuition about a set of units when they are used frequently, such that they immediately observe if a number makes sense or not when it is expressed in the preferred units. As a European, I always measure length in meters, so when people say they are 1.90m tall, I can easily imagine their height. On the other hand, when Americans tell their height, I do not have an intuition for how tall 6 feet 3 inches is. 
 
-However, in science, the SI units are often not the preferred ones, especially when things get very large or very small. For instance, measuring cosmological distances in meters is very unpractical, as the distance to the Sun is $\sim1.5\cdot10^{11}$m and the distance to our closest neighbor galaxy Andromeda is $\sim 2.4\cdot10^{22}$m! Instead, we use units like the astronomical unit [a.u.] (should not be confused with atomic units) and light-years. 
+However, in science, the SI units are often not the preferred ones, especially when things get very large or very small. For instance, measuring cosmological distances in meters is very unpractical, as the distance to the Sun is $\sim1.5\cdot10^{11}$m and the distance to our closest neighbor galaxy, Andromeda, is $\sim 2.4\cdot10^{22}$m! Instead, we use units like the astronomical unit [a.u.] (should not be confused with atomic units) and light-years. 
 
-For small scales, the situation is similar. For instance, the most probable distance between the nucleus and the electron in the Hydrogen atom is the Bohr radius, which is $a_0\approx5.3\cdot10^{-11}$m, which again is very unpractical to work with. Instead, we define so-called natural units where $a_0=1$, and scale the other quantities after that. We will in this chapter present how the quantum dot and atomic Hamiltonian can be scaled in natural units. We will stick to Hartree atomic units, as it gives elegant expressions of the Hamiltonians.  
+For small scales, the situation is similar. For instance, the most probable distance between the nucleus and the electron in the hydrogen atom is the Bohr radius, which is $a_0\approx5.3\cdot10^{-11}$m, which again is very unpractical to work with in SI units. Instead, we define so-called natural units where $a_0=1$, and scale the other quantities with respect to that. We will in this chapter present how the quantum dot and atomic Hamiltonian can be scaled in natural and Hartree atomic units, respectively.
 
 \section{Quantum dots}
-For circular quantum dots, the one-dimensional Hamiltonian in SI units reads
+For quantum dots, the one-dimensional Hamiltonian in SI units reads
 \begin{equation}
 \hat{\mathcal{H}}=-\frac{\hbar^2}{2m}\frac{\partial^2}{\partial x^2}+\frac{1}{2}m\omega^2x^2
 \label{eq:HamiltonianHO}
@@ -19,14 +19,15 @@ where $H_n(x)$ is the Hermite polynomials. We want to get rid of $\hbar$ and $m$
 \begin{equation}
 \hat{\mathcal{H}}'=-\frac{\hbar}{2m}\frac{\partial^2}{\partial x^2}+\frac{1}{2}\frac{m\omega^2}{\hbar}x^2.
 \end{equation}
-Moreover, we observe that the fraction $\hbar/m$ appears in both terms, which can be avoided by introducing a characteristic length $x'= x/\sqrt{\hbar/m}$. The final Hamiltonian is
-\begin{empheq}[box={\mybluebox[5pt]}]{equation}
+Moreover, we observe that the fraction $\hbar/m$ appears in both terms, which can be avoided by introducing a characteristic length, $x'= x/\sqrt{\hbar/m}$. The final Hamiltonian is
+\begin{equation}
 \hat{\mathcal{H}}=\frac{1}{2}\frac{\partial^2}{\partial x^2}+\frac{1}{2}\omega^2x^2
-\end{empheq}
+\end{equation}
 which corresponds to setting $\hbar=m=1$. In natural units, one often sets $\omega=1$ as well by scaling $\hat{\mathcal{H}}'=\hat{\mathcal{H}}/\hbar\omega$, but since we want to keep the $\omega$-dependency, we do it slightly different. This means that the exact wave functions for the one-particle one-dimensional case is given by
 \begin{equation}
-\phi_n(x)=\frac{1}{\sqrt{2^nn!}}\cdot\bigg(\frac{\omega}{\pi}\bigg)^{1/4}\exp\Big(-\frac{\omega}{2}x^2\Big)H_n(\sqrt{\omega}x).
+\phi_n(x)=\frac{1}{\sqrt{2^nn!}}\cdot\bigg(\frac{\omega}{\pi}\bigg)^{1/4}\exp\Big(-\frac{\omega}{2}x^2\Big)H_n(\sqrt{\omega}x)
 \end{equation} 
+in natural units.
 
 \section{Atoms}
 The atomic Hamiltonian for an electron in subshell $l$ affected by a nucleus with atomic number $Z$ reads
@@ -47,7 +48,7 @@ is found in all the right hand side terms, we can simplify the Hamiltonian to be
 \hat{\mathcal{H}}\cdot\frac{(4\pi\epsilon_0)^2\hbar^2}{m_ee^4Z^2}=-\frac{a_0^2}{2}\nabla^2+a_0\frac{Z}{r}-a_0^2\frac{l(l+1)}{2r^2}.
 \end{equation}
 We obtain the dimensionless Hamiltonian in Atomic units by scaling  $r'=r/a_0$ and $\hat{\mathcal{H}}'=\hat{\mathcal{H}}/(m_ee^4Z^2/(4\pi\epsilon_0)^2\hbar^2)$, getting
-\begin{empheq}[box={\mybluebox[5pt]}]{equation}
+\begin{equation}
 \hat{\mathcal{H}}=-\frac{1}{2}\nabla^2-\frac{Z}{r}+\frac{l(l+1)}{2r^2},
-\end{empheq}
+\end{equation}
 which again corresponds to setting $\hbar=m_e=k_e=e=1$.

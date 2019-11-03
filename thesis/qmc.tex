@@ -11,7 +11,7 @@ Quantum Monte Carlo methods (QMC) is a bunch of \textit{ab initio} methods that 
 E_0= \mel{\Psi_0}{\hat{\mathcal{H}}}{\Psi_0}= \frac{\int d\bs{R}\Psi_0(\bs{X})^*\hat{\mathcal{H}}\Psi_0(\bs{X})}{\int d\bs{R}\Psi_0(\bs{X})^*\Psi_0(\bs{X})},
 \label{eq:schrodingergroundstate}
 \end{empheq}
-which provides the ground state energy expectation value for the exact ground state wave function $\Psi_0(\bs{X})$ with $\bs{X}=\{(\bs{r}_1,\sigma_1),(\bs{r}_2,\sigma_2),\hdots,(\bs{r}_N,\sigma_N)\}$ as the collective coordinates and spin of the $N$ particles. As aforementioned, this integral is analytically infeasible for more or less all interesting systems, rising the need of numerical methods like QMC. As we will stick to ground state calculations, the wave function $\Psi(\bs{X})$ implies the many-body ground state wave function from this point.
+which provides the ground state energy expectation value for the exact ground state wave function $\Psi_0(\bs{X})$ with $\bs{X}=\{\{\bs{r}_1,\sigma_1\},\{\bs{r}_2,\sigma_2\},\hdots,\{\bs{r}_N,\sigma_N\}\}$ as the collective coordinates and spin of the $N$ particles. As aforementioned, this integral is analytically infeasible for more or less all interesting systems, rising the need of numerical methods like QMC. As we will stick to ground state calculations, the wave function $\Psi(\bs{X})$ implies the many-body ground state wave function from this point.
 
 In Monte Carlo integration, we use random numbers to evaluate integrals numerically. Typically, we want to estimate an expectation value $\langle\hat{O}\rangle$ by approximating the definition integral with a dense sum,
 \begin{equation}
@@ -104,13 +104,13 @@ where the Slater matrix now is block diagonal! For a general block diagonal matr
 \begin{equation}
 |\hat{S}(\bs{X})|=\frac{1}{\sqrt{N!}}|\hat{S}_{\uparrow}(\bs{X}^{\uparrow})|\cdot |\hat{S}_{\downarrow}(\bs{X}^{\downarrow})|
 \end{equation}
-which can be seen by writing the total matrix as a product over all the block diagonal matrix. $\hat{S}_{\sigma}$ is the matrix containing all spin-$\sigma$ states with collective coordinates $\bs{X}^{\sigma}=\{(\bs{r}_1^{\sigma},\xi_{\sigma}(\sigma)),(\bs{r}_2^{\sigma},\xi_{\sigma}(\sigma)),\hdots,(\bs{r}_N^{\sigma},\xi_{\sigma}(\sigma))\}$. Since all elements in the respective matrices contain the same spin function, it can be factorized out \cite{nissenbaum_stochastic_2008},
+which can be seen by writing the total matrix as a product over all the block diagonal matrix. $\hat{S}_{\sigma}$ is the matrix containing all spin-$\sigma$ states with collective coordinates $\bs{X}^{\sigma}=\{\{\bs{r}_1^{\sigma},\xi_{\sigma}(\sigma)\},\{\bs{r}_2^{\sigma},\xi_{\sigma}(\sigma)\},\hdots,\{\bs{r}_N^{\sigma},\xi_{\sigma}(\sigma)\}\}$. Since all elements in the respective matrices contain the same spin function, it can be factorized out \cite{nissenbaum_stochastic_2008},
 \begin{equation}
 \begin{aligned}
 |\hat{S}(\bs{X})|=\frac{1}{\sqrt{N!}}&|\hat{D}_{\uparrow}(\bs{r}_1, \bs{r}_2,\hdots,\bs{r}_{N_{\uparrow}})|\{\xi_{\uparrow}(\sigma_1^{\uparrow})\xi_{\uparrow}(\sigma_2^{\uparrow})\hdots\xi_{\uparrow}(\sigma_{N_{\uparrow}}^{\uparrow})\} \\ \times&|\hat{D}_{\downarrow}(\bs{r}_{N_{\uparrow}+1}, \hdots,\bs{r}_{N-1},\bs{r}_{N})|\{\xi_{\downarrow}(\sigma_{N_{\uparrow}+1}^{\downarrow})\hdots\xi_{\downarrow}(\sigma_{N-1}^{\downarrow})\xi_{\downarrow}(\sigma_{N}^{\downarrow})\}
 \end{aligned}
 \end{equation}
-and omitted in the future study. We can then define a set, $\bs{R}^{\sigma}=(\bs{r}_1^{\sigma},\bs{r}_2^{\sigma},\hdots,\bs{r}_N^{\sigma})$, containing the spatial coordinates of the spin-$\sigma$ particles and $\bs{R}=(\bs{r}_1,\bs{r}_2,\hdots,\bs{r}_N)$ containing the collective spatial coordinates. The Slater determinant we are left with is thus
+and omitted in the future study. We can then define a set, $\bs{R}^{\sigma}=\{\bs{r}_1^{\sigma},\bs{r}_2^{\sigma},\hdots,\bs{r}_N^{\sigma}\}$, containing the spatial coordinates of the spin-$\sigma$ particles and $\bs{R}=\{\bs{r}_1,\bs{r}_2,\hdots,\bs{r}_N\}$ containing the collective spatial coordinates. The Slater determinant we are left with is thus
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 |\hat{S}(\bs{R})|=\frac{1}{\sqrt{N!}}|\hat{S}_{\uparrow}(\bs{R}^{\uparrow})|\cdot |\hat{S}_{\downarrow}(\bs{R}^{\downarrow})|,
 \end{empheq}
@@ -238,21 +238,31 @@ We also have a technique called \textit{thinning}, which means picking every $n$
 Now as we have introduced the necessary theory, both in the form of quantum theory and machine learning theory, in addition to detailing the variational Monte Carlo (VMC) method, we are ready to unify the machine learning and quantum mechanics. As hinted above, the way we do this is to let a restricted Boltzmann machine define our single-particle functions in the trial wave function, and then just update the function in a normal VMC scheme. This is very similar to the approach of \citet{pfau2019abinitio}, but an essential difference is that they also used the relative distances betwen the particles as inputs to the neural network. Further, we investigate how the results change when Jastrow factors with gradually more physical intuition baked in are added. As the main goal is to find a method that requires less physical intuition in order to provide accurate results compared to the traditional methods, adding a simple Jastrow factor is also very interesting. We look at three different trial wave function ansatzes for the Boltzmann machines: a Slater determinant where the single-particle functions are given by a restricted Boltzmann machine (RBM), an RBM with a simple Jastrow added (RBM+SJ) and an RBM with a Padé-Jastrow factor added (RBM+PJ). They are detailed in respective sections below.
 
 \subsection{Restricted Boltzmann machine without Jastrow factor (RBM)} \label{sec:rbm}
-In section \ref{sec:trial}, we saw how the VMC method attempts to solve the time-independent Schrödinger equation directly by vary the parameters in a trial wave function. In order to satisfy the anti-symmetry properties of a fermionic many-body wave function, the trial wave function was composed as a Slater determinant,
+In section \ref{sec:trial}, we saw how the VMC method attempts to solve the time-independent Schrödinger equation directly by varying the parameters in a trial wave function. In order to satisfy the anti-symmetry properties of a fermionic many-body wave function, the trial wave function was composed as a Slater determinant,
 \begin{equation}
-\Psi_T(\bs{R})=\frac{1}{\sqrt{N!}}
+|\hat{S}(\bs{R})|=\frac{1}{\sqrt{N!}}|\hat{S}_{\uparrow}(\bs{R}^{\uparrow})|\cdot |\hat{S}_{\downarrow}(\bs{R}^{\downarrow})|,
+\end{equation}
+where
+\begin{equation}
+|\hat{S}_{\sigma}(\bs{R})|=
 \begin{vmatrix}
 \phi_1(\boldsymbol{r}_1) & \phi_2(\boldsymbol{r}_1) & \hdots & \phi_N(\boldsymbol{r}_1)\\
 \phi_1(\boldsymbol{r}_2) & \phi_2(\boldsymbol{r}_2) & \hdots & \phi_N(\boldsymbol{r}_2)\\
 \vdots & \vdots & \ddots & \vdots \\
 \phi_1(\boldsymbol{r}_N) & \phi_2(\boldsymbol{r}_N) & \hdots & \phi_N(\boldsymbol{r}_N)
-\end{vmatrix}\equiv|\hat{D}(\bs{R})|.
+\end{vmatrix}.
 \end{equation}
 Even though we want a method which requires as little physical intuition as possible, the wave function needs to obey Fermi-Dirac statistics, and we therefore also approximate the trial wave function with the Slater determinant for the machine learning methods. Further, we use the same framework as we did for VMC, but the single-particle functions (SPFs) $\phi_j(\bs{r}_i)$ are given by the marginal distribution of the visible units from a restricted Boltzmann machine, $P(\bs{r})$. For quantum dots, we also add the Hermite polynomials, $H_n(\bs{r})$ to get an unique SPF for each state. We then have
 \begin{equation}
 \phi_j(\bs{r}_i)=H_j(\bs{r}_i)P(\bs{r}_i)
 \end{equation}
-where the restricted Boltzmann machine takes all the coordinates as input nodes, i.e., the input vector is $\bs{x}=(x_1, y_1, x_2, y_2, \hdots, x_N, y_N)$ for a two-dimensional system. With this, we end up with a trial wave function that contains more variational parameters than a standard VMC trial wave function, and which hopefully is able to provide a more correct wave function. Further, we will add a simple Jastrow factor to see how this affects the correlations.
+where the marginal distribution is the distribution obtained in equation \eqref{eq:RBMWF2}, but for a single coordinate,
+\begin{equation}
+P(\bs{r})=\frac{1}{Z}\exp(-\sum_{i=1}^d\frac{(x_i-a_i)^2}{2\sigma_i^2}+\sum_{j=1}^H[b_j+\sum_{i=1}^dx_iw_{ij}]).
+\end{equation}
+This function is the same for all
+
+the restricted Boltzmann machine takes all the coordinates as input nodes, i.e., the input vector is $\bs{x}=(x_1, y_1, x_2, y_2, \hdots, x_N, y_N)$ for a two-dimensional system. With this, we end up with a trial wave function that contains more variational parameters than a standard VMC trial wave function, and which hopefully is able to provide a more correct wave function. Further, we will add a simple Jastrow factor to see how this affects the correlations.
 
 \subsection{RBM with a simple Jastrow factor (RBM+SJ)} \label{sec:rbmsj}
 This method, abbreviated RBM+SJ, is just an extension of the RBM method described in the previous section, where we add the simple Jastrow factor described in section \ref{sec:jastrow} to help modeling the electron-electron cusp. When adding a Jastrow factor we also add some more physical intuition to the trial wave function, but the Jastrow factor used here still contains a minimum of physical intuition. The trial wave function using this method thus takes the form
@@ -341,7 +351,7 @@ where the marginal probabilities are still given by equation \eqref{eq:probvmc}.
 \subsection{Gibbs sampling}
 Gibbs sampling has, throughout the years, gained high popularity in the machine learning community when it comes to training Boltzmann machines. There are probably many factors that contribute to this, where the performance is one of them. Another proper motivation is the absent of tuning parameters, which makes the method more comfortable to deal with compared to many of its competitors. The method is an instance of the Metropolis-Hastings algorithm and is therefore classified as another Markov chain Monte Carlo method. It differs from the Metropolis methods discussed above by the fact that all the moves are accepted, such that we do not waste computational time on rejected moves. Nevertheless, we should not use this argument alone to motivate the use of Gibbs sampling, as the algorithm usually and preferably rejects less than 1\% of the moves in importance sampling.
 
-We will in the following briefly describe the mathematical foundation of the method, before we, for the sake of clarity, connect it to the restricted Boltzmann machines. The method is built on the concept that, given a multivariate distribution, it is simpler to sample from a conditional distribution than to marginalize by integrating over a joint distribution. This is the reason why we do not need the marginal distributions in Gibbs sampling, but rather the conditional distributions. In the most general, Gibbs sampling proposes a rule for going from a sample $\bs{x}^{(i)}=(x_1^{(i)},x_2^{(i)},\hdots,x_n^{(i)})$ to another sample $\bs{x}^{(i+1)}=(x_1^{(i+1)},x_2^{(i+1)},\hdots,x_n^{(i+1)})$, similar to the Metropolis algorithm. However, in Gibbs sampling the transition from $x_j^{(i)}$ to $x_j^{(i+1)}$ is performed according to the conditional distribution specified by
+We will in the following briefly describe the mathematical foundation of the method, before we, for the sake of clarity, connect it to the restricted Boltzmann machines. The method is built on the concept that, given a multivariate distribution, it is simpler to sample from a conditional distribution than to marginalize by integrating over a joint distribution. This is the reason why we do not need the marginal distributions in Gibbs sampling, but rather the conditional distributions. In the most general, Gibbs sampling proposes a rule for going from a sample $\bs{x}^{(i)}=\{x_1^{(i)},x_2^{(i)},\hdots,x_n^{(i)}\}$ to another sample $\bs{x}^{(i+1)}=\{x_1^{(i+1)},x_2^{(i+1)},\hdots,x_n^{(i+1)}\}$, similar to the Metropolis algorithm. However, in Gibbs sampling the transition from $x_j^{(i)}$ to $x_j^{(i+1)}$ is performed according to the conditional distribution specified by
 \begin{equation}
 P\big(x_j^{(i+1)}|x_1^{(i+1)},\hdots,x_{j-1}^{(i+1)},x_{j+1}^{(i)},\hdots,x_n^{(i)}\big).
 \end{equation}
@@ -413,9 +423,9 @@ There are many ways to estimate the variance, where the cheapest ones ignore cor
 
 \subsection{Central concepts of statistics}
 Before we go through the methods, we will give a brief introduction to some useful statistical quantities. We start with the \textit{moments}, which are given by
-\begin{equation*}
+\begin{equation}
 \langle x^n\rangle=\int dxp(x)x^n
-\end{equation*}
+\end{equation}
 where $p(x)$ is the true probability density function. In order to make physical sense, this function needs to be normalized such that the integral over all possible outcomes gives a total probability of 1. This is associated with the zero'th moment, where we get $\int dxp(x)=1$. The first moment is the \textit{mean} of $p(x)$, and is often denoted by the letter $\mu$,
 \begin{equation}
 \langle x\rangle=\mu=\int dxp(x)x.
@@ -435,18 +445,26 @@ If the probability density function is unavailable, we cannot find the exact sam
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \langle X\rangle\approx \frac{1}{n}\sum_{i=1}^n X_i\equiv\overline{X},
 \end{empheq}
-for the sample mean assuming that $X$ is our sample containing $n$ points. Further, the variance of the sample mean, assuming that the measurements are \textit{independent}, can be found from
+for the sample mean assuming that $X$ is our sample containing $n$ points. Assuming that the measurements $X_i$ are \textit{independent} with identical variance $\sigma^2$ for each $i \in \{1,\cdots,n\}$, 
 \begin{equation}
-\text{var}(\overline{X})\equiv\frac{1}{n}\sum_{i=1}^n(X_i-\overline{X})^2=\frac{\sigma_i^2}{n}
+\mathrm{var}(\overline X) = \mathrm{var}\Big( \frac{1}{n}\sum_{i = 1}^n X_i \Big) = \frac{1}{n^2}\sum_{i = 1}^n \underbrace{\mathrm{var}( X_i)}_{= \sigma^2} = \frac{1}{n^2}n \sigma^2 = \frac{\sigma^2}{n}.
 \label{eq:samplevariance}
+\end{equation}
+Furthermore, in this case, the following is an unbiased estimator of the variance $\sigma^2$:
+\begin{equation}
+S_ n^2 = \frac{1}{n-1}\sum_{i = 1}^n (X_i - \overline X)^2.
 \end{equation}
 where $\sigma_i^2$ is the variance of the probability density function. The law of large numbers states that the estimated sample mean approaches the true sample mean as $n$ goes to infinity. This is closely related to the central limit theorem, which says that the probability distribution of $X$, $p_X(x)$, can be approximated as a normal distribution $\mathcal{N}(\mu,\sigma)$ with $\mu=\overline{X}_n$ and $\sigma=\text{var}(\overline{X})$ as the number of sampling points $n$ goes to infinity. 
 
-On the other hand, if the samples are \textit{correlated}, equation \eqref{eq:samplevariance} becomes an underestimation of the \textit{sample error} $\text{err}_X^2$, and is thus more a guideline for the size of the uncertainty, more than an actual estimate of it. In that case, we need to calculate the more general \textit{covariance} given by 
+On the other hand, if the samples are \textit{correlated}, equation \eqref{eq:samplevariance} becomes an underestimation of the \textit{sample error} $\text{err}_X^2$, and is thus more a guideline for the size of the uncertainty, more than an actual estimate of it. In that case, we need to estimate the \textit{covariance} given by
 \begin{equation}
-\text{cov}(X_i,X_j)=(X_i-\overline{X})(X_j-\overline{X}),
+\mathrm{cov}(X_i,X_j) = \langle (X_i - \mu)(X_j - \mu) \rangle; \qquad i,j \in \{1,\cdots,n\}.
 \end{equation}
-which provides a measure of the correlations between $X_i$ and $X_j$. Note that the variance is just the special case where $X_i$ and $X_j$ are independent. We define the sample error as
+Usually, the covariance is not known from the data, and we are advised to use
+\begin{equation}
+G_{ij} = (X_i - \overline{X})(X_j - \overline{X}),
+\end{equation}
+in order to obtain an estimate. Note that the variance is just the special case where $X_i$ and $X_j$ are independent. We define the sample error as
 \begin{equation}
 \text{err}_{X}^2=\frac{1}{n^2}\sum_{i=1}^n\sum_{j=1}^n\text{cov}(X_i,X_j),
 \end{equation}
@@ -468,7 +486,7 @@ the calculation of $\sigma_i^2$. A quick and easy way to get a proper estimate o
 
 When the blocking method was made accessible by \citet{flyvbjerg_error_1989} in 1989, the method required hyper-parameters which had to be carefully adjusted for each particular data set. In 2018, \citet{jonsson_standard_2018} reinvented the algorithm and made it automated, with no need for external parameters. Despite this, no compromise was made on performance. The method scales as $12n+\mathcal{O}(\log_2n)$ for small data sets, but reduces to $n+\mathcal{O}(1)$ for large data sets, which makes it preferred over bootstrap and jackknife for large data sets. We will now go through the idea behind the blocking method.
 
-Consider a time series $\{x_1, x_2, \hdots, x_n\}$ with $n=2^d$ data point for some integer $d>1$. For this series, an autocovariance function $\gamma(h)$ is guaranteed to exist. We arrange the data in a vector
+Consider a stationary time series $\{x_1, x_2, \hdots, x_n\}$ with $n=2^d$ data point for some integer $d>1$. For this series, an autocovariance function $\gamma(h)$ is guaranteed to exist. We arrange the data in a vector
 \begin{equation}
 X=(x_1,x_2,\hdots,x_n),
 \end{equation}

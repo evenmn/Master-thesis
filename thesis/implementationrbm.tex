@@ -1,11 +1,48 @@
 \chapter{Implementation: Restricted Boltzmann Machines} \label{chp:rbmimplementation}
 In the previous chapter, we described common optimization procedures for a standard variational Monte Carlo (VMC) implementation, and we also presented implementation examples taken from the code. In this section, we will do the same, but for the restricted Boltzmann machines (RBM). As we have pointed out before, the same sampling methods and optimization algorithms can be used both for the VMC implementation and the RBM implementation, which means that much of the VMC framework can be reused. The already described parts of the code will naturally not be described again, and for that reason, this chapter will more or less exclusively concern the RBM wave function elements.
 
-The main goal of this work is to reduce the physical intuition needed when doing quantum computations, and that is the task of the restricted Boltzmann machines. The idea is to use a flexible basis set based on RBMs, which needs to be the elements of the Slater matrix, as first seen in section \ref{sec:slater}. Further, we showed that the Slater determinant could be split in a spin-up part and a spin-down part in section \ref{sec:slaterdeterminant}, such that the spin can be factorized out and avoided. We therefore only need the spatial part of the wave functions, and we will henceforth assume that this spatial part is defined by the marginal distribution of the visible units, as suggested by \citet{carleo_solving_2017}. Even though we want to reduce the need for physical intuition of the system, we still need to use some intuition to get reasonable results. For instance, for quantum dot systems, we add the Hermite polynomials to the marginal distribution such that each basis function becomes unique. The spatial part of the RBM single-particle functions for quantum dots then read
+The main goal of this work is to reduce the physical intuition needed when doing quantum computations, and that is the task of the restricted Boltzmann machines. The idea is to use a flexible basis set based on RBMs, which are implemented the elements of the Slater matrix, as first seen in section \ref{sec:slater}. Recall that the Slater determinant can be decomposed in a spin-up part and a spin down-part,
 \begin{equation}
-\phi_n(\bs{x})=H_n(\bs{x})P(\bs{x})
+|\hat{S}(\bs{R})|=\frac{1}{\sqrt{N!}}|\hat{S}_{\uparrow}(\bs{R}^{\uparrow})|\cdot |\hat{S}_{\downarrow}(\bs{R}^{\downarrow})|,
 \end{equation}
-where $H_n(\bs{x})$ is the possibly multi-dimensional Hermite polynomial of degree $n$ and $P(\bs{x})$ is the marginal distribution of the visible nodes. In section \ref{sec:factorizing}, we saw that a Slater determinant containing single-particle functions in the form of $\phi_j(\bs{r}_i)=f_j(\bs{r}_i)g(\bs{r}_i)$ can be simplified by factorizing out the function $g(\bs{r}_i)$. For that reason, we can treat the marginal distributions $P(\bs{r})$ as separate elements in combination with the determinant containing Hermite polynomials. In the following section, we will describe how these elements can be treated in the code. 
+with $N$ as the number of electrons, $\bs{R}=(\bs{r}_1,\bs{r}_2,\hdots,\bs{r}_N)$ as the collective coordinates and where the spin-$\sigma$ determinant is given by
+\begin{equation}
+|\hat{S}(\bs{R})|\equiv|\hat{S}_{\sigma}(\bs{R})|=
+\begin{vmatrix}
+\phi_1(\boldsymbol{r}_1) & \phi_2(\boldsymbol{r}_1) & \hdots & \phi_N(\boldsymbol{r}_1)\\
+\phi_1(\boldsymbol{r}_2) & \phi_2(\boldsymbol{r}_2) & \hdots & \phi_N(\boldsymbol{r}_2)\\
+\vdots & \vdots & \ddots & \vdots \\
+\phi_1(\boldsymbol{r}_N) & \phi_2(\boldsymbol{r}_N) & \hdots & \phi_N(\boldsymbol{r}_N)
+\end{vmatrix}.
+\end{equation}
+for $\sigma\in[\uparrow, \downarrow]$. As the spin-dependency is factorized out, we only need the spatial part of the single-particle functions. As suggested by \citet{carleo_solving_2017}, those functions can be implemented as the marginal distributions of the visible nodes of a Gaussian-binary RBM,
+\begin{equation}
+\phi_j(\bs{r}_i)=H_j(\bs{r}_i)P(\bs{r}_i),
+\end{equation}
+where the Hermite polynomials, $H_n(\bs{r})$, are added in order to span the functions in a basis set, inspired by the Hermite functions. $P(\bs{r}_i)$ is the marginal distribution found in equation \eqref{eq:RBMWF2}, but for one coordinate only, 
+\begin{equation}
+P(\bs{r})=\frac{1}{Z}\exp(-\sum_{i=1}^d\frac{(x_i-a_i)^2}{2\sigma_i^2})\prod_{j=1}^H\exp(b_j+\sum_{i=1}^dx_iw_{ij}),
+\end{equation}
+where $d$ is the number of dimensions and the network-dependent symbols were described and illustrated in section \ref{sec:gaussianbinary}. In section \ref{sec:slaterdeterminant}, we saw that a factor can be factorized out from the determinant if it appears in all the single-particle functions. This is exactly what happens here, and we get 
+\begin{equation}
+|\hat{S}(\bs{R})|=\underbrace{\prod_{k=1}^NP(\bs{r}_i)}_{P(\bs{R})}
+\underbrace{
+\begin{vmatrix}
+H_1(\bs{r}_1) & H_2(\bs{r}_1) & \hdots & H_N(\bs{r}_1) \\
+H_1(\bs{r}_2) & H_2(\bs{r}_2) & \hdots & H_N(\bs{r}_2) \\
+\vdots & \vdots & \ddots & \vdots \\
+H_1(\bs{r}_N) & H_2(\bs{r}_N) & \hdots & H_N(\bs{r}_N)
+\end{vmatrix},
+}_{|\hat{D}(\bs{R})|}
+\end{equation}
+where $|\hat{D}(\bs{R})|$ are the determinants discussed in section \ref{sec:slaterdeterminant} and $P(\bs{R})$ is the marginal distribution of all the coordinates,
+\begin{equation}
+\begin{aligned}
+P(\bs{R})&=\prod_{k=1}^N\frac{1}{Z}\exp(-\sum_{i=1}^d\frac{(x_i-a_i)^2}{2\sigma_i^2})\prod_{j=1}^H\exp(b_j+\sum_{i=1}^dx_iw_{ij})\\
+&=\frac{1}{Z}\exp(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2})\prod_{j=1}^H\exp(Nb_j+\sum_{i=1}^Fx_iw_{ij}).
+\end{aligned}
+\end{equation}
+As $b_j$ is a free variational parameter and only occurs once, we can simply redefine it as $b_j=Nb_j$, and end up with exactly the same marginal distribution as presented in equation \eqref{eq:RBMWF2}. To simplify the derivatives, we will split this element further in a Gaussian part and a product part. 
 
 \section{Restricted Boltzmann machines}
 Back in chapter \ref{chp:restricted}, we presented the marginal distribution of the visible units of a Gaussian-binary restricted Boltzmann machine. As this part can be factorized out of the Slater determinant, it can be treated as a separate wave function element,
