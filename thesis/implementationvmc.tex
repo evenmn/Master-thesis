@@ -1,5 +1,5 @@
 \chapter{Implementation: Variational Monte Carlo} \label{chp:WFE}
-\epigraph{There are only two hard things in Computer Science: cache invalidation and naming things.}{Phil Karlton, \cite{fowler_bliki:_nodate}}
+\epigraph{There are only two hard things in Computer Science: cache invalidation and naming things.}{Phil Karlton, \supercite{fowler_bliki:_nodate}}
 \iffalse
 \begin{figure}[H]
 	\centering
@@ -8,7 +8,7 @@
 \end{figure}
 \fi
 
-In this chapter, we will describe the implemented variational Monte Carlo (VMC) code, which was developed from scratch in C++. As the code itself is around 7000 significant\footnote{Significant lines of code in this sense means lines that are not blank or commented. Counted by the \textit{cloc} program \cite{aldanial_cloc_2019}.} lines of code, we will go through selected and often not obvious parts. As often said, \textit{good planning is half the battle}, which largely relates to writing VMC code. The code was rewritten and restructured several times before we ended on the final version. As a starting point, we used the VMC framework implemented by \citet{ledum_simple_2016}, which was meant as an example implementation in the course \textit{FYS4411 - Computational Physics II: Quantum Mechanical Systems}. The entire source code can be found on the authors GitHub account, \url{http://www.github.com/evenmn/VMC}.
+In this chapter, we will describe the implemented variational Monte Carlo (VMC) code, which was developed from scratch in C++. As the code itself is around 7000 significant\footnote{Significant lines of code in this sense means lines that are not blank or commented. Counted by the \textit{cloc} program \supercite{aldanial_cloc_2019}.} lines of code, we will go through selected and often not obvious parts. As often said, \textit{good planning is half the battle}, which largely relates to writing VMC code. The code was rewritten and restructured several times before we ended on the final version. As a starting point, we used the VMC framework implemented by \citet{ledum_simple_2016}, which was meant as an example implementation in the course \textit{FYS4411 - Computational Physics II: Quantum Mechanical Systems}. The entire source code can be found on the authors GitHub account, \url{http://www.github.com/evenmn/VMC}.
 
 We developed the code with focus on three main aims: it should be fast, flexible and readable. It needs to be flexible in order to support the Boltzmann machines as our trial wave function guess, and since we will try out various Jastrow factors, the wave function elements should be easy to add and remove. Since quantum mechanical simulations, in general, are very expensive, it is crucial to develop efficient code to be able to study systems of some size. Lastly, we aim to write readable code such that others can reuse the code partly or in its entirety later.  How we work to achieve the goals will be illustrated by code mainly picked from the \lstinline{WaveFunction} class, which is the heart of the code.
 
@@ -36,7 +36,7 @@ QD->setWaveFunctionElement(new PadeJastrow(QD));
 QD->setNumberOfIterations(1000);
 QD->runSimulation();
 \end{lstlisting}
-We observe that one first needs to define an object to represent the system, and then the other settings are connected to the system in the form of subclasses. The reader might notice that we use the \textbf{lowerCamelCase} naming convention for function and variable names, which means that each word begins with a capital letter except the first word. For classes, we use the \textbf{UpperCamelCase} to distinguish from function names. Using the camel case is known to make the code readable, and apart from, for example, the popular \textbf{snake\_case}, we do not need delimiters between the words, which saves some space. After the naming convention is decided, we are still responsible for giving reasonable names, which is not always an easy task, as Karlton points out \cite{fowler_bliki:_nodate}. When one sees the name, one should know exactly what the variable/function/class is or does. Besides, as a code format, we use the ClangFormat, which provides a consequent way of formatting the code. 
+We observe that one first needs to define an object to represent the system, and then the other settings are connected to the system in the form of subclasses. The reader might notice that we use the \textbf{lowerCamelCase} naming convention for function and variable names, which means that each word begins with a capital letter except the first word. For classes, we use the \textbf{UpperCamelCase} to distinguish from function names. Using the camel case is known to make the code readable, and apart from, for example, the popular \textbf{snake\_case}, we do not need delimiters between the words, which saves some space. After the naming convention is decided, we are still responsible for giving reasonable names, which is not always an easy task, as Karlton points out \supercite{fowler_bliki:_nodate}. When one sees the name, one should know exactly what the variable/function/class is or does. Besides, as a code format, we use the ClangFormat, which provides a consequent way of formatting the code. 
 
 The snippet above also demonstrates how the code was made flexible when it comes to the wave function. One can construct a wave function consisting of various elements by simply calling the \lstinline{setWaveFunctionElement} multiple times. This creates a wave function vector, \lstinline{m_waveFunctionVector}, in the background containing all the elements, which makes it easy to compose the wave function in whatever preferred way. All the elements can be combined. The reader might stub on the use of the element \lstinline{Gaussian}, is not the standard trial wave function defined by the Slater-Jastrow wave function? It is, but as we will see later in section \ref{sec:factorizing}, the Gaussian part can be factorized out from the Slater determinant when using a Hermite basis. However, we will now start from the fundamental assumption that the trial wave function ansatz is the Slater-Jastrow wave function, and take it from there.
 
@@ -138,7 +138,7 @@ double System::evaluateProbabilityRatio()
 With this, we have introduced the four central functions of the wave function elements: \lstinline{computeLaplacian()}, \lstinline{computeGradient(k)}, \lstinline{computeParameterGradient()} and \lstinline{evaluateRatio()}. In the following, we will evaluate the Slater determinant and see how it can be decomposed further into more elements. 
 
 \section{Slater determinant}
-As we have seen above, the Slater determinant is the fundamental part of the trial wave function, together with the Jastrow factor. The main problem with the Slater determinant is that it is costly to deal with as the number of electrons increases. To find the gradient of the Slater determinant, as requested by equation \eqref{eq:splittedkineticenergy}, we need to compute the inverse of the Slater matrix, which by standard LU decomposition scales as $\sim M^3$ for an $M\times M$ matrix \cite{trahan_computational_2006}. Fortunately, there exist algorithms that let us obtain the inverse of the matrix by recursive relations, scaling as $\sim M^2$. This will be detailed in section \ref{sec:efficientcalculationsofslaterdeterminant}.
+As we have seen above, the Slater determinant is the fundamental part of the trial wave function, together with the Jastrow factor. The main problem with the Slater determinant is that it is costly to deal with as the number of electrons increases. To find the gradient of the Slater determinant, as requested by equation \eqref{eq:splittedkineticenergy}, we need to compute the inverse of the Slater matrix, which by standard LU decomposition scales as $\sim M^3$ for an $M\times M$ matrix \supercite{trahan_computational_2006}. Fortunately, there exist algorithms that let us obtain the inverse of the matrix by recursive relations, scaling as $\sim M^2$. This will be detailed in section \ref{sec:efficientcalculationsofslaterdeterminant}.
 
 Additionally, in section \ref{sec:trial}, we showed that the Slater determinant can be split in a spin-up part and a spin-down part, reducing its dimensionalities from $N\times N$ to two $N/2\times N/2$ matrices, with $N$ as the number of electrons. For an equal number of spin-up and spin-down electrons, this, in principle, reduces the cost of computing the Slater determinant with 87.5\%! Also, factorizing out common factors from the Slater determinant will give some speed-up. In this section, we will mostly discuss the various methods to make the update of the Slater matrix more efficient. We will start from the simplified expression of the Slater determinant derived in section \ref{sec:trial},
 \begin{equation}
@@ -302,7 +302,7 @@ The determinant of an arbitrary matrix $\hat{A}$ can be expressed by its comatri
 \begin{equation}
 |\hat{A}|=\sum_{ij}a_{ij}c_{ji}
 \end{equation}
-where $a_{ij}$ are the matrix elements of $\hat{A}$ and $c_{ij}$ are the elements of the comatrix. Going further, an element $c_{ij}$ can be expressed in terms of an element from the inverse of $\hat{A}$, $a_{ij}^{-1}$ \cite{morten_hjorth-jensen_computational_2019},
+where $a_{ij}$ are the matrix elements of $\hat{A}$ and $c_{ij}$ are the elements of the comatrix. Going further, an element $c_{ij}$ can be expressed in terms of an element from the inverse of $\hat{A}$, $a_{ij}^{-1}$ \supercite{morten_hjorth-jensen_computational_2019},
 \begin{equation}
 c_{ij}=a_{ij}^{-1}|\hat{A}|.
 \end{equation}
@@ -344,7 +344,7 @@ for all columns but the one associated with the moved electron, $i$. For all col
 d_{kj}^{-1}(\bs{R}_{\text{new}})=d_{kj}^{-1}(\bs{R}_{\text{old}})-\frac{S_j}{R}d_{ki}^{-1}(\bs{R}_{\text{old}})
 \label{eq:slaterinverse}
 \end{equation}
-while the remaining column, $i$, is updated using the simple formula \cite{morten_hjorth-jensen_computational_2019}
+while the remaining column, $i$, is updated using the simple formula \supercite{morten_hjorth-jensen_computational_2019}
 \begin{equation}
 d_{ki}^{-1}(\bs{R}_{\text{new}})=\frac{1}{R}d_{ki}^{-1}(\bs{R}_{\text{old}}).
 \label{eq:slaterinverse2}

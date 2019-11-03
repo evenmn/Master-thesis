@@ -1,10 +1,10 @@
 \chapter{Systems} \label{chp:systems}
-\epigraph{We must be clear that when it comes to atoms, language can be used only as in poetry.}{Niels Bohr, \cite{heisenberg_physics_1971}}
+\epigraph{We must be clear that when it comes to atoms, language can be used only as in poetry.}{Niels Bohr, \supercite{heisenberg_physics_1971}}
 \begin{figure}[H]
 	\centering
 	%\includegraphics[scale=0.9]{Images/harmonicOscillator.png}
 	\input{../pgf/ho_figure.tex}
-	\caption{The harmonic oscillator potential (solid black line), with the exact single-particle wave functions, the Hermite functions, represented up to the 4th order. The quantum harmonic oscillator has many applications, be it first-order approximation of the binding potential in molecules \cite{wilson_molecular_1955}, lattice vibrations (phonons) \cite{cahill_heat_1989} or any trapped particle.}
+	\caption{The harmonic oscillator potential (solid black line), with the exact single-particle wave functions, the Hermite functions, represented up to the 4th order. The quantum harmonic oscillator has many applications, be it first-order approximation of the binding potential in molecules \supercite{wilson_molecular_1955}, lattice vibrations (phonons) \supercite{cahill_heat_1989} or any trapped particle.}
 	\label{fig:harmonicoscillator}
 \end{figure}
 
@@ -13,9 +13,9 @@ In quantum physics, as in classical physics, there are many different systems wi
 We will in this chapter set up the explicit expressions of the Hamiltonians for the various systems and single-particle functions for various quantum mechanical systems. Although the quantum dots will be investigated in the first place, it is natural to include a brief discussion of the atom as there are many common features between the quantum dots. Moreover, double quantum dots will be covered, as one can find analytical solutions by an expansion of single quantum dot functions.
 
 \section{Quantum dots} \label{sec:quantumdots}
-Quantum dots are tiny systems consisting of fermions or bosons trapped in an external potential which is not created by a nucleus, unlike atoms. However, they have discrete electronic states with a well-defined shell structure like atoms and are therefore often called artificial atoms. In this thesis, we will study circular quantum dots with electrons confined in a harmonic oscillator potential, sometimes called Hooke's atom \cite{liang_hookes_2011}. 
+Quantum dots are tiny systems consisting of fermions or bosons trapped in an external potential which is not created by a nucleus, unlike atoms. However, they have discrete electronic states with a well-defined shell structure like atoms and are therefore often called artificial atoms. In this thesis, we will study circular quantum dots with electrons confined in a harmonic oscillator potential, sometimes called Hooke's atom \supercite{liang_hookes_2011}. 
 
-The harmonic oscillator is often the first system that one is introduced to when attending an introductory course to quantum mechanics, for several reasons. First, many systems can be approximated with the harmonic oscillator potential, including molecular vibrations \cite{wilson_molecular_1955} and lattice vibrations \cite{cahill_heat_1989}. Second, the harmonic oscillator behaves nicely with absent of local minima and has neat equations for the non-interacting case. For an electron $i$, the potential reads
+The harmonic oscillator is often the first system that one is introduced to when attending an introductory course to quantum mechanics, for several reasons. First, many systems can be approximated with the harmonic oscillator potential, including molecular vibrations \supercite{wilson_molecular_1955} and lattice vibrations \supercite{cahill_heat_1989}. Second, the harmonic oscillator behaves nicely with absent of local minima and has neat equations for the non-interacting case. For an electron $i$, the potential reads
 \begin{equation}
 V_i(r)=\frac{1}{2}m\omega^2r_i^2,
 \end{equation}
@@ -24,7 +24,7 @@ where $m$ is the electron mass, $\omega$ is the oscillator frequency and $r_i$ i
 \label{eq:HOHamiltonian}
 \hat{\mathcal{H}} = \sum_{i=1}^{N} \Big(-\frac{1}{2} \nabla_i^2 + \frac{1}{2} \omega^2r_i ^2\Big) + \sum_{i<j} \frac{1}{r_{ij}},
 \end{empheq}
-where the energy is given in units of $\hbar$ and the lengths are scaled with respect to $\sqrt{\hbar/m}$. The exact solutions of the non-interacting Hamiltonian are the Hermite functions \cite{griffiths_introduction_2005}, 
+where the energy is given in units of $\hbar$ and the lengths are scaled with respect to $\sqrt{\hbar/m}$. The exact solutions of the non-interacting Hamiltonian are the Hermite functions \supercite{griffiths_introduction_2005}, 
 \begin{equation}
 \phi_n(x)=\frac{1}{\sqrt{2^nn!}}\cdot\left(\frac{\omega}{\hbar}\right)^{1/4}H_n(\sqrt{\omega}x)\exp(-\omega x^2/2),
 \end{equation}
@@ -53,7 +53,7 @@ The potential of symmetrical quantum dots can in principle take a variety of dif
 V_i(x)=\frac{1}{2}\omega^2\bigg[|x_i|^a-\Big(\frac{b}{2}\Big)^a\bigg]^2
 \label{eq:doublewell}
 \end{equation}
-with $b$ as the distance between the lowest points of the wells and $a$ as an arbitrary integer \cite{jelic_double_2012}. Setting $a=1$ gives two parabolic wells with a sharp local maximum at $x=0$, while $a=2$ gives a smoother but steeper well. In figure \eqref{fig:doublewell} the potential is plotted for $a=1,2$ and $3$ and $b=2$.
+with $b$ as the distance between the lowest points of the wells and $a$ as an arbitrary integer \supercite{jelic_double_2012}. Setting $a=1$ gives two parabolic wells with a sharp local maximum at $x=0$, while $a=2$ gives a smoother but steeper well. In figure \eqref{fig:doublewell} the potential is plotted for $a=1,2$ and $3$ and $b=2$.
 
 \begin{figure}
 	\centering
@@ -147,7 +147,7 @@ such that
 \psi_{nlm}(r,\theta,\phi)= R_{nl}(r)S_l^m(\theta,\phi).
 \label{eq:hydrogenlikesolid}
 \end{equation}
-The real solid harmonics do not alter any physical quantities that are degenerate in the subspace consisting of opposite magnetic quantum numbers, and for that reason they will give the same energies as the spherical harmonics as long as the system is not subject to a magnetic field \cite{morten_hjorth-jensen_computational_2019}.
+The real solid harmonics do not alter any physical quantities that are degenerate in the subspace consisting of opposite magnetic quantum numbers, and for that reason they will give the same energies as the spherical harmonics as long as the system is not subject to a magnetic field \supercite{morten_hjorth-jensen_computational_2019}.
 
 Alternatively, one can use a Hartree-Fock basis based on Gaussian functions, as discussed in section \ref{sec:basisset}. More or less all electronic structure studies of atoms nowadays use these expansions, as they provide very precise results and high performance due to the evaluation properties of the Gaussian functions. Even though the Gaussian functions do not have the correct shape, an expansion can be fitted pretty well, as demonstrated by \citet{hehre_selfconsistent_1969}.
 

@@ -1,5 +1,5 @@
 \chapter{Preliminary Quantum Mechanics} \label{chp:quantum}
-\epigraph{I do not like it, and I am sorry I ever had anything to do with it.}{Erwin Schrödinger, \cite{noauthor_quantum_2005}}
+\epigraph{I do not like it, and I am sorry I ever had anything to do with it.}{Erwin Schrödinger, \supercite{noauthor_quantum_2005}}
 \begin{figure}[H]
 	\centering
 	\captionsetup[subfigure]{labelformat=empty}
@@ -9,24 +9,27 @@
 	\label{fig:entanglement}
 \end{figure}
 
-The quantum theory is a fundamental theory that describes nature at the smallest scales, typically used to explain the behavior of atoms and subatomic particles. Although the theory in principle holds for systems containing a large number of particles as well, the calculations become both comprehensive and expensive as the system size increases, and exact computations are therefore reserved small systems. For larger systems, we in practice need to rely on approximative estimates of the observable, which also fast becomes infeasible when the system size increase.
+The quantum theory is a fundamental theory that describes nature at the smallest scales, typically used to explain the behavior of atoms and subatomic particles. Although the theory in principle holds for systems containing a large number of particles as well, the calculations become both comprehensive and expensive as the system size increases, and exact computations are therefore reserved small systems. For larger systems, we in practice need to rely on approximative estimates when computing observables. As the size of the system increases, it quickly becomes infeasible to make accurate computations due to rapidly increasing complexity.
 
 In the most general form, the theory is based on the time-dependent Schrödinger equation,
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 i\hbar\frac{\partial}{\partial t}\ket{\Psi(\bs{x},t)}=\hat{\mathcal{H}}\ket{\Psi(\bs{x},t)}
+\label{eq:schrodinger}
 \end{empheq}
-which describes the state, or the wave function, $\Psi(\bs{x},t)$, of a system with Hamilton operator $\hat{\mathcal{H}}$, known as the Hamiltonian. $\bs{x}=(\bs{r},\sigma)$ specifies the coordinates and the spin of a particle, $\hbar$ is the reduced Planck's constant and $i$ is the solution of the equation $x^2=-1$. As we later will see, the quantum mechanical system is completely specified by the wave function, so by solving the equation we will in principle know anything about the system. 
+which describes the state, or the wave function, $\Psi(\bs{x},t)$, of a system with Hamiltonian, $\hat{\mathcal{H}}$. The spatial and spin coordinates are specified by $\bs{x}={\bs{r},\sigma}$, $\hbar$ is the reduced Planck's constant and $i$ is the solution of the equation $x^2=-1$. As we later will see, the quantum mechanical system is completely specified by the wave function, so by solving the Schrödinger equation we will in principle know everything about the system. 
 
-\citet{schrodinger_undulatory_1926} introduced the now-called Schrödinger equation in a 1926 paper as one of many contributions to the quantum mechanics at that time. Other contributors include \citet{born_zur_1926} who suggested now-standard interpretation of the probability density function as $|\Psi(\bs{x},t)|^2$ in 1926 and his companion \citet{heisenberg_uber_1925}, who formulated the matrix mechanics representation in 1925. However, many physicists were skeptical about the new theory, including Albert Einstein and Schrödinger himself. The theory differed from the classical mechanics in the sense that it was based on a statistical interpretation, with some strange consequences. For instance, the theory allowed negative kinetic energies to occur with the consequence that a particle could \textit{go through} a potential wall, known as quantum tunneling. Later, Einstein \cite{einstein_can_1935} also pointed out that when pairs or groups of particles are generated in ways such that the wave function of each particle cannot be described independently of the other state, they will be affected by each other even at large distances. He called this \textit{"spooky action at a distance"}, and used the observation to argument that the quantum theory had to be incorrect. However, the observation was later proven to be correct and as late as in 2019 the first image of quantum entanglement, as the phenomenon is called, was captured by \citet{moreau_imaging_2019}. This image is presented in figure \eqref{fig:entanglement}.
+\citet{schrodinger_undulatory_1926} introduced the now-called Schrödinger equation, \eqref{eq:schrodinger}, in a 1926 paper as one of many contributions to the quantum mechanics at that time. Other contributors include \citet{born_zur_1926} who suggested the now-standard interpretation of the probability density function as $|\Psi(\bs{x},t)|^2$ in 1926 and his companion \citet{heisenberg_uber_1925}, who formulated the matrix mechanics representation in 1925. However, many physicists were skeptical about the new theory, including Albert Einstein and Schrödinger himself. The theory differed from the classical mechanics in the sense that it was based on a statistical interpretation, with some strange consequences. For instance, the theory allowed negative kinetic energies to occur with the consequence that a particle could \textit{go through} a potential wall, known as quantum tunneling. Later, Einstein \supercite{einstein_can_1935} also pointed out that when pairs or groups of particles are generated in ways such that the wave function of each particle cannot be described independently of the other state, they will be affected by each other even at large distances. He called this \textit{"spooky action at a distance"}, and used the observation to argument that the quantum theory had to be incorrect. However, the observation was later proven to be correct and as late as in 2019 the first image of quantum entanglement, as the phenomenon is called, was captured by \citet{moreau_imaging_2019}, presented in figure \eqref{fig:entanglement}.
 
-Today, there is wide agreement in the physics society on the quantum theory. Actually, the theory is the most precisely tested in the history of science, where computed observable of atoms agree perfectly with experiments. Most notably, quantum electrodynamical calculations of the fine structure constant $\alpha$ are, by \citet{odom_new_2006}, found to agree with experiments within ten parts in a billion, $10^{-8}$.\bigskip
+Today, there is wide agreement in the physics society on the quantum theory. Actually, the theory is the most precisely tested theory in the history of science, where computed observable of atoms agree perfectly with experiments. Most notably, quantum electrodynamical calculations of the fine structure constant $\alpha$ are, by \citet{odom_new_2006}, found to agree with experiments within ten parts in a billion.
 
-In this chapter, we will first state the postulates of quantum mechanics, and thereafter we discuss the time-independent Schrödinger equation and challenges related to solving it. As we will see, every observable in quantum mechanics is associated with an operator. The consequence is that all obtained values are identified with standard errors which are also important to specify in order to present the accuracy of the value. In that manner, quantum mechanics is based on statistics, and in section \ref{sec:statisticalinterpretation} we discuss the statistical interpretation of the theory. The variational principle states that the ground state energy is the lowest possible energy calculated, so by minimizing the energy in a variational scheme, a ground state energy estimation can be obtained. Other things discussed are the quantum numbers, which are the values that give acceptable solutions to the Schrödinger equation, and the virial theorem, which relates kinetic and potential energy. 
+In this chapter, we will first state the postulates of quantum mechanics, and thereafter we discuss the time-independent Schrödinger equation and challenges related to solving it. As we will see, every observable in quantum mechanics is associated with an operator. Consequently, all obtained values are identified with standard errors which are also important to specify in order to present the accuracy of the value. Quantum mechanics has inherent uncertainty, and in section \ref{sec:statisticalinterpretation} we discuss the statistical interpretation of the theory. 
 
-Albeit the quantum mechanics will make up the framework for this work, we will in this chapter only discuss the theory needed for the work, and this is therefore not meant as an encyclopedia to quantum mechanics. For a complete introduction to the topic, \textit{Introduction to Quantum Mechanics} written by \citet{griffiths_introduction_2005} serves as an excellent read. Before we get started, we make a few assumptions in order to simplify our problem. The most important ones are specified below with an explanation of why they are valid.
+Next we discuss the variational principle, which states that the ground state energy is the lowest possible energy calculated, so by minimizing the energy in a variational scheme, a ground state energy estimation can be obtained. We also provide a brief overview of the quantum numbers, which are the values that give acceptable solutions to the Schrödinger equation, and the virial theorem, which relates kinetic and potential energy. 
+
+Because quantum mechanics will make up the framework for this work, we will in this chapter only discuss the theory needed for the work, and this section is not meant as an encyclopedia to quantum mechanics. For a complete introduction to the topic, \textit{Introduction to Quantum Mechanics} written by \citet{griffiths_introduction_2005} serves as an excellent read. Before we get started, we make a few assumptions in order to simplify our problem. The most important assumptions are specified below with an explanation of why they are valid.
 
 \begin{itemize}
-	\item \textbf{Point-like particles:} First, all particles involved will be assumed to be point-like, i.e., they lack spatial extension. For electrons, this makes sense since they, as far as we know, do not extend. The assumption is also applied to the nucleus in atomic systems, but it still makes sense since the distance from the nucleus to the electrons is known to be much larger than the nucleus extension.
+	\item \textbf{Point-like particles:} First, all particles involved are assumed to be point-like, i.e. they lack spatial extension. For electrons, this makes sense since they, as far as we know, do not extend. The assumption is also applied to the nucleus in atomic systems, but it still makes sense since the distance from the nucleus to the electrons is known to be much larger than the nucleus extension.
 	
 	\item \textbf{Non-relativistic spacetime:}  Second, we operate in the non-relativistic spacetime, which is an excellent approximation as long as we do not approach the speed of light and we do not involve strong forces. Applying classical physics, we can find that the speed of the electron in a hydrogen atom is about 1\% of the speed of light. Even though the electrons achieve higher velocities in heavy atoms, we do not need to worry about it as we will stick to the lighter atoms. In the quantum dots, this assumption holds even for large systems, as the velocity and density will still be sufficiently low.
 	
@@ -34,12 +37,12 @@ Albeit the quantum mechanics will make up the framework for this work, we will i
 \end{itemize}
 
 \section{The postulates of quantum mechanics} \label{sec:postulates}
-Quantum mechanics is characterized by a set of fundamental axioms that make up the base of the theory. As we assume that they always hold, every statement in quantum mechanics is based on them, and it is, therefore, natural to list them now in the beginning. They can be formulated by six postulates, in the following way:
+Quantum mechanics is characterized by a set of fundamental axioms that make up the base of the theory. As we assume that they always hold, every statement in quantum mechanics is based on them, and it is natural to list them here in the beginning. The postulates can be formulated in six points:
 
 \begin{enumerate}
 	\item \textit{"The state of a quantum mechanical system is completely specified by the wave function $\Psi(\bs{x},t)$."}
 	
-	\item \textit{"To every observable in classical mechanics, there corresponds a linear, Hermitian operator in quantum mechanics."}
+	\item \textit{"To every observable in classical mechanics, there is a corresponding a linear, Hermitian operator in quantum mechanics."}
 	
 	\item \textit{"In any measurement of the observable associated with an operator $\hat{O}$, the only values that will ever be observed are the eigenvalues $o$ which satisfy $\hat{O}\Psi(\bs{x},t)=o\Psi(\bs{x},t)$."}
 	
@@ -51,7 +54,7 @@ Quantum mechanics is characterized by a set of fundamental axioms that make up t
 	
 	\item \textit{"The total wave function must be anti-symmetric concerning the interchange of all coordinates of one fermion with those of another. Electronic spin must be included in this set of coordinates."} 
 \end{enumerate}
-All the postulates will be used in this work, and they will be described in detail when we need them. Even though we will look at stationary states only, even the time-dependent Schrödinger from the fifth postulate will be discussed due to the description of the diffusion Monte Carlo method in section \ref{sec:dmc}. The other will be covered in the current and the next chapter. The formulation of the presented postulates are taken from Ref. \cite{sherrill_david_postulates_2003}.
+All the postulates will be used in this work, and they will be described in detail when we need them. Even though we will look at stationary states only, even the time-dependent Schrödinger from the fifth postulate will be discussed due to the description of the diffusion Monte Carlo method in section \ref{sec:dmc}. The other postulates will be covered in the current and the next chapter. The formulation of the presented postulates are taken from Ref. \cite{sherrill_david_postulates_2003}.
 
 \section{The Schrödinger equation} \label{sec:schrodinger}
 We have already presented the time-dependent Schrödinger equation on several occasions, but as mentioned above, we will in this work study stationary systems only. If we also recall that the particles are assumed to be non-relativistic, the focus will be on solving the time-independent non-relativistic Schrödinger equation. By defining $\Psi_n(\bs{x})$ as the wave function of a state $n$ with energy $E_n$, the equation can be expressed as
@@ -65,15 +68,17 @@ where $\hat{\mathcal{H}}$ is the aforementioned Hamiltonian, the total energy op
 \end{equation}
 with $\hat{T}$ and $\hat{V}$ as the kinetic and potential energy operators respectively. 
 
-Again from classical mechanics, the kinetic energy of a moving particle of mass $m$ yields $T=p^2/2m$ where $p$ is the (linear) momentum, such that the kinetic energy operator can be represented as 
+In classical mechanics, the kinetic energy of a moving particle of mass $m$ is $T=p^2/2m$ where $p$ is the (linear) momentum, the quantized kinetic energy operator can be represented as 
 \begin{equation}
 \hat{T}=\frac{\hat{p}^2}{2m},
 \end{equation}
-according to Ehrenfest's theorem. Further, the momentum operator is $\hat{p}=-i\hbar\hat{\nabla}$ with $\hat{\nabla}$ as the differential operator and the factor $i\hbar$ arising from the canonical commutator relation between the position operator and the momentum operator,
+according to Ehrenfest's theorem \supercite{ehrenfest_bemerkung_1927} and the second postulate. The momentum operator is $\hat{p}=-i\hbar\hat{\nabla}$ with $\hat{\nabla}$ as the differential operator and the factor $i\hbar$ arising from the canonical commutator relation between the position operator and the momentum operator,
 \begin{equation}
 [\hat{x},\hat{p}]=\hat{x}\hat{p}-\hat{p}\hat{x}=i\hbar,
 \end{equation}
-which indicates that the momentum and the position do not \textit{commute}. In other words, the order of the operators in an equation is not arbitrary. The potential, on the other hand, is obviously dependent on the system we want to study. For atomic systems, the potential as a function of the distance from the nucleus can be found from Coulomb's law and reads 
+which indicates that the momentum and the position do not \textit{commute}, and that the order of the operators in an equation is not arbitrary. 
+
+The potential is dependent on the system we want to study. For atomic systems, the potential as a function of the distance from the nucleus can be found from Coulomb's law and reads 
 \begin{equation}
 V(r)=\frac{1}{4\pi\epsilon_0}\frac{Ze^2}{r},
 \label{eq:atompotential}
@@ -83,21 +88,19 @@ where the nucleus is assumed to be at rest at the origin, $k_e=1/4\pi\epsilon_0$
 \hat{\mathcal{H}}=-\frac{\hbar^2}{2m}\nabla^2+V(r),
 \label{eq:oneparticlehamiltonian}
 \end{equation}
-which is the farthest we can go without specifying the external potential $V(r)$.
-
-By setting up equation \eqref{eq:Energy} with respect to the energies, we obtain an integral,
+and by setting up equation \eqref{eq:Energy} with respect to the energies, we obtain an integral,
 \begin{equation}
 E_n=\frac{\int d\bs{x}\psinc\hat{\mathcal{H}}\psin}{\int d\bs{x}\psinc\psin},
 \label{eq:energyintegral}
 \end{equation}
-which not necessarily is trivial to solve. For almost\footnote{Exceptions include quantum dots of two electrons in two and three dimensions, where Taut has presented semi-analytical energies for a few oscillator frequencies \cite{taut_two_1993,taut_two_1994}.} all many-electron systems, this becomes analytically infeasible due to a two-body interaction term. This will be covered in chapter \ref{chp:manybody}.
+which is consistent with the 4th postulate can be difficult to solve. For almost\footnote{Exceptions include quantum dots of two electrons in two and three dimensions, where Taut has presented semi-analytical energies for a few oscillator frequencies \supercite{taut_two_1993,taut_two_1994}.} all many-electron systems, this becomes analytically infeasible due to a two-body interaction term. This will be covered in chapter \ref{chp:manybody}.
 
-As suggested by Max Born, we get the probability density function if we take the dot product between the complex conjugate wave function and the wave function itself,
+As suggested by Max Born \supercite{born_zur_1926}, we get the probability density function if we take the dot product between the complex conjugate wave function and the wave function itself,
 \begin{equation}
 P(\bs{r})=\psinc\psin=|\psin|^2,
 \label{eq:pdf}
 \end{equation}
-so the denominator in equation \eqref{eq:energyintegral} is basically the integral over all the probabilities. If the wave function is normalized correctly, this should always give 1. As a very brief example, we will below calculate the bounding energy of the hydrogen atom.
+so the denominator in equation \eqref{eq:energyintegral} is basically the integral over all the probabilities. If the wave function is normalized correctly, this should always give 1. As a very brief example, we will below calculate the binding energy of the hydrogen atom.
 
 \subsection{The hydrogen atom} \label{sec:hydrogen}
 We presented the one-particle Hamiltonian in equation \eqref{eq:oneparticlehamiltonian}, and the potential from the nucleus in equation \eqref{eq:atompotential}. By introducing the Bohr radius,
@@ -149,7 +152,7 @@ where $\bra{\Psi}$ is called the \textit{bra} and $\ket{\Psi}$ is called the \te
 \begin{equation}
 \langle \hat{O}\rangle=\mel{\Psi}{\hat{O}}{\Psi},
 \end{equation}
-and will henceforth be assumed. More information about the Dirac formalism can be found in Appendix \ref{app:dirac}. 
+and will henceforth be assumed. More information about the Dirac formalism can be found in appendix \ref{app:dirac}. 
 
 \section{The variational principle} \label{sec:variationalprinciple}
 In the equations above, the presented wave functions are assumed to be the exact eigenfunctions of the Hamiltonian. However, often we do not know the exact wave functions, and we need to guess what the wave functions might be. In those cases, we apply the variational principle, which states that only the exact ground state wave function can give the ground state energy. All other wave functions that fulfill the required properties (see section \ref{sec:wavefunction}) give higher energies, and mathematically we can express the statement as
@@ -157,10 +160,10 @@ In the equations above, the presented wave functions are assumed to be the exact
 E_0\leq\mel{\Psi}{\hat{\mathcal{H}}}{\Psi},
 \label{eq:variationalprinciple}
 \end{empheq}
-where $\Psi$ is an arbitrary wave function. The variational method is a way of estimating the energy ground state, which is based on the variational principle. Most notably, the variational Monte Carlo method is named after the principle and attempts to solve the integrals directly by varying a trial wave function. The variational principle ensures that the obtained energy never goes below the ground state energy, as further described in chapter \ref{chp:methods}. Other methods that apply the variational method are the famous Hartree-Fock method and the infamous coupled cluster method.
+where $\Psi$ is an arbitrary wave function. The variational method is a way of estimating the energy ground state, which is based on the variational principle. Most notably, the variational Monte Carlo method is named after the principle and attempts to solve the integrals directly by varying a trial wave function. The variational principle ensures that the obtained energy never goes below the ground state energy, as further described in chapter \ref{chp:methods}. Other methods that apply the variational method are the Hartree-Fock method and the coupled cluster method.
 
 \section{Quantum numbers}
-Unlike in classical mechanics, all the observable in quantum mechanics are discrete or \textit{quantized}, which means that the $n$ associated with $E_n$ above cannot take any number. $n$ can only take positive integers and is named the principal quantum number. We also have other quantum numbers identified with the angular momentum and spin as described below.
+Unlike in classical mechanics, all the observable in quantum mechanics are discrete or \textit{quantized}, which means that the energy can only take discrete values. The possible numbers, called quantum numbers, are are always associated with the degrees of freedom. The first quantum number, $n$, is the principal quantum number and can take positive integers. We also have other quantum numbers identified with the angular momentum and spin as described below.
 
 \subsection*{Principal}
 The \textbf{principal} quantum number describes the electron shell, and can take all positive integers, $n\in[1,2,3,\hdots)$. As $n$ increases, the electron excites to a higher shell such that also the energy increases. In general, $E_1<E_2<E_3\hdots$ as long as all other quantum numbers are fixed. The electron shells can again be split up in subshells, requiring more quantum numbers.
@@ -183,7 +186,7 @@ The virial theorem relates the kinetic energy to the potential energy, and makes
 \langle\hat{T}\rangle=-\frac{1}{2}\sum_{i=1}^N\langle\bs{F}_i\cdot\bs{r}_i\rangle_t,
 \label{eq:virialtheorem}
 \end{empheq}
-where $\bs{F}_i$ represents the force on particle $i$ at position $\bs{r}_i$. The quantum mechanical version was proven by \citet{fock_bemerkung_1930} in a 1930 paper, where the expectation value of the force is represented with $d\langle p\rangle/dt$. For potential sources in the form of $V_i=ar^{n_i}$, we can use Ehrenfest's theorem to express the virial theorem in a simpler fashion,
+where $\bs{F}_i$ represents the force on particle $i$ at position $\bs{r}_i$. The quantum mechanical version was proven by \citet{fock_bemerkung_1930} in 1930, where the expectation value of the force is represented with $d\langle p\rangle/dt$. For potential sources in the form of $V_i=ar^{n_i}$, we can use Ehrenfest's theorem to express the virial theorem in a simpler fashion,
 \begin{equation}
 2\langle \hat{T} \rangle = \sum_{i}n_i\langle \hat{V}_{i} \rangle.
 \label{eq:simplevirial}
@@ -192,7 +195,7 @@ The same expression can be found in classical physics as well, using the relatio
 
 On the other hand, the hydrogen atom, discussed in section \ref{sec:hydrogen}, satisfies the virial theorem as the potential is in the form of $V(r)\propto r^{-1}$ and the electron is bounded. For that particular case, the virial theorem reads $2\langle\hat{T}\rangle=-\langle\hat{V}\rangle$, which means that $\langle\hat{H}\rangle=\langle\hat{V}\rangle/2$. However, if we add another electron and get a hydrogen anion, the simplified virial theorem in equation \eqref{eq:simplevirial} breaks down because of the interaction.
 
-It is also important to emphasize that the expectation value discussed above is, in principle, the time average of the operator. However, if the ergodic hypothesis holds for the system, i.e., the ensemble average is equal to the time average, an ensemble average can also be taken \cite{flyvbjerg_error_1989}.
+It is also important to emphasize that the expectation value discussed above is, in principle, the time average of the operator. However, if the ergodic hypothesis holds for the system, i.e., the ensemble average is equal to the time average, an ensemble average can also be taken \supercite{flyvbjerg_error_1989}.
 
 \iffalse
 \subsubsection*{Angular Momentum and Spin}
