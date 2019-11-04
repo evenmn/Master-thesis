@@ -45,7 +45,7 @@ In our VMC implementation, the trial wave function, $\Psi_T(\bs{R})$, is assumed
 \begin{equation}
 \Psi_T(\bs{R})=|\hat{S}_{\uparrow}(\bs{R})|\cdot|\hat{S}_{\downarrow}(\bs{R})|J(\bs{R})
 \end{equation}
-where $\bs{R}=\{\bs{r}_1,\bs{r}_2,\hdots,\bs{r}_N\}$ is the collective coordinates of all the electrons, where we exclude the spin as it is assumed to not affect the energy. $J(\bs{R})$ is an arbitrary Jastrow factor, while the Slater determinant is the determinant of the matrix $\hat{S}(\bs{R})$, henceforth the Slater matrix. To convince the reader that the Slater determinant and the Jastrow factor can be treated separately, we will consider a general trial wave function consisting of $p$ wave function elements $\{\Psi_1, \Psi_2\hdots\Psi_p\}$,
+where $\bs{R}=\{\bs{r}_1,\bs{r}_2,\cdots,\bs{r}_N\}$ is the collective coordinates of all the electrons, where we exclude the spin as it is assumed to not affect the energy. $J(\bs{R})$ is an arbitrary Jastrow factor, while the Slater determinant is the determinant of the matrix $\hat{S}(\bs{R})$, henceforth the Slater matrix. To convince the reader that the Slater determinant and the Jastrow factor can be treated separately, we will consider a general trial wave function consisting of $p$ wave function elements $\{\Psi_1, \Psi_2\cdots\Psi_p\}$,
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \Psi_T(\bs{R}) = \prod_{i=1}^p\Psi_i(\bs{R}),
 \label{eq:elementproduct}
@@ -55,7 +55,7 @@ where $\Psi_i(\bs{R})$ in principle can be any function of the coordinates $\bs{
 \subsection{Local energy computations} \label{sec:kinetic}
 The local energy computation is the heart of the VMC code, and the aim for an efficient and flexible code starts from here. It was first defined in equation \eqref{eq:localenergy}, and by inserting a general Hamiltonian, $\hat{\mathcal{H}}=-1/2\nabla^2+V$, with $V$ covering all the potential energy, we obtain
 \begin{equation}
-E_L=\sum_{k=1}^F\Big[-\frac{1}{2}\Big(\frac{1}{\Psi_T(\bs{R})}\nabla_k^2\Psi_T(\bs{R})\Big) + V_k\Big].
+E_L=\sum_{k=1}^F\left[-\frac{1}{2}\Big(\frac{1}{\Psi_T(\bs{R})}\nabla_k^2\Psi_T(\bs{R})\Big) + V_k\right].
 \end{equation}
 $F=Nd$ is degrees of freedom, with $N$ as the number of electrons and $d$ as the number of dimensions. The first term, which is the kinetic energy term, is the only wave function-dependent one, and we will in this section decompose it with respect to the elements in equation \eqref{eq:elementproduct}. The potential energy term, $V$, is not directly dependent on the wave function and will therefore not be further touched here. 
 
@@ -75,7 +75,7 @@ Expressing the kinetic energy in terms of this relation is useful because most o
 \end{equation}
 such that the local energy is given by
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-E_L=-\frac{1}{2}\bigg[\sum_{i=1}^p\nabla^2\ln\Psi_i(\bs{R}) + \sum_{k=1}^{F}\Big(\sum_{i=1}^p\nabla_k\ln\Psi_i(\bs{R})\Big)^2\bigg] + V.
+E_L=-\frac{1}{2}\left[\sum_{i=1}^p\nabla^2\ln\Psi_i(\bs{R}) + \sum_{k=1}^{F}\Big(\sum_{i=1}^p\nabla_k\ln\Psi_i(\bs{R})\Big)^2\right] + V.
 \label{eq:splittedkineticenergy}
 \end{empheq}
 This can be found when all local derivatives $\nabla^2\ln\Psi_i(\bs{R})$ and $\nabla_k\ln\Psi_i(\bs{R})$ are given. By assuming that the former is returned by a function \lstinline{computeLaplacian()} and the latter is returned by a function \lstinline{computeGradient(k)}, we compute the kinetic energy using the following function
@@ -144,13 +144,13 @@ Additionally, in section \ref{sec:trial}, we showed that the Slater determinant 
 \begin{equation}
 \Psi_{\text{sd}}(\bs{R})=\frac{1}{\sqrt{N!}}|\hat{S}_{\uparrow}(\bs{R}^{\uparrow})|\cdot|\hat{S}_{\downarrow}(\bs{R}^{\downarrow})|
 \end{equation}
-where $\hat{S}_{\sigma}(\bs{R}^{\sigma})$ is the Slater matrix of spin-$\sigma$ states with collective spatial coordinates $\bs{R}^{\sigma}=\{\bs{r}_1^{\sigma},\bs{r}_2^{\sigma},\hdots,\bs{r}_{N_{\sigma}}^{\sigma}\}$ for $\sigma\in\{\uparrow, \downarrow\}$. The determinant of the spin-up state is treated in the same way as the determinant of the spin-down state, so will from now on consider a general spin-$\sigma$ state,
+where $\hat{S}_{\sigma}(\bs{R}^{\sigma})$ is the Slater matrix of spin-$\sigma$ states with collective spatial coordinates $\bs{R}^{\sigma}=\{\bs{r}_1^{\sigma},\bs{r}_2^{\sigma},\cdots,\bs{r}_{N_{\sigma}}^{\sigma}\}$ for $\sigma\in\{\uparrow, \downarrow\}$. The determinant of the spin-up state is treated in the same way as the determinant of the spin-down state, so will from now on consider a general spin-$\sigma$ state,
 \begin{equation}
 |\hat{S}(\bs{R})|\equiv|\hat{S}_{\sigma}(\bs{R})|=\begin{vmatrix}
-\phi_1(\boldsymbol{r}_1) & \phi_2(\boldsymbol{r}_1) & \hdots & \phi_{N}(\boldsymbol{r}_1)\\
-\phi_1(\boldsymbol{r}_2) & \phi_2(\boldsymbol{r}_2) & \hdots & \phi_{N}(\boldsymbol{r}_2)\\
+\phi_1(\boldsymbol{r}_1) & \phi_2(\boldsymbol{r}_1) & \cdots & \phi_{N}(\boldsymbol{r}_1)\\
+\phi_1(\boldsymbol{r}_2) & \phi_2(\boldsymbol{r}_2) & \cdots & \phi_{N}(\boldsymbol{r}_2)\\
 \vdots & \vdots & & \vdots \\
-\phi_1(\boldsymbol{r}_{N}) & \phi_2(\boldsymbol{r}_{N}) & \hdots & \phi_{N}(\boldsymbol{r}_{N})
+\phi_1(\boldsymbol{r}_{N}) & \phi_2(\boldsymbol{r}_{N}) & \cdots & \phi_{N}(\boldsymbol{r}_{N})
 \end{vmatrix},
 \end{equation}
 where $\phi_j(\bs{r}_i)$ is the single-particle function occupying the matrix element $\hat{D}_{ij}$.
@@ -158,7 +158,7 @@ where $\phi_j(\bs{r}_i)$ is the single-particle function occupying the matrix el
 \subsection{Factorizing out elements} \label{sec:factorizing}
 We have now seen how the Slater determinant can be split up in a spin-up part and a spin-down part. Before we evaluate these determinants, we should try to make the elements of the Slater matrices as simple as possible to save computational time. If all the elements have the same factor, the computations will get much cheaper if the factor is factorized out of the determinant. How this is possible can easiest be seen if we express the Slater determinant on a summation form,
 \begin{equation}
-|\hat{S}(\bs{R})|=\sum_{q}(-1)^q\hat{P}\phi_1(\bs{r}_1)\phi_2(\bs{r}_2)\hdots\phi_N(\bs{r}_N),
+|\hat{S}(\bs{R})|=\sum_{q}(-1)^q\hat{P}\phi_1(\bs{r}_1)\phi_2(\bs{r}_2)\cdots\phi_N(\bs{r}_N),
 \label{eq:slatersum}
 \end{equation}
 where the sum runs over all the possible permutations and $\hat{P}$ is the permutation operator, permuting coordinates pairwise. If all the (spatial) single-particle functions $\phi_j(\bs{r}_i)$ can be split in two functions $f_j(\bs{r}_i)$ and $g(\bs{r}_i)$ where the latter is common for all the single-particle functions,
@@ -168,14 +168,14 @@ where the sum runs over all the possible permutations and $\hat{P}$ is the permu
 the determinant can be rewritten as
 \begin{equation}
 \begin{aligned}
-|\hat{S}(\bs{R})|&=\sum_{p}(-1)^p\hat{P}f_1(\bs{r}_1)g(\bs{r}_1)f_2(\bs{r}_2)g(\bs{r}_2)\hdots f_N(\bs{r}_N)g(\bs{r}_N)\\
-&=g(\bs{r}_1)g(\bs{r}_2)\hdots g(\bs{r}_N)\sum_{p}(-1)^p\hat{P}f_1(\bs{r}_1)f_2(\bs{r}_2)\hdots f_N(\bs{r}_N)\\
+|\hat{S}(\bs{R})|&=\sum_{p}(-1)^p\hat{P}f_1(\bs{r}_1)g(\bs{r}_1)f_2(\bs{r}_2)g(\bs{r}_2)\cdots f_N(\bs{r}_N)g(\bs{r}_N)\\
+&=g(\bs{r}_1)g(\bs{r}_2)\cdots g(\bs{r}_N)\sum_{p}(-1)^p\hat{P}f_1(\bs{r}_1)f_2(\bs{r}_2)\cdots f_N(\bs{r}_N)\\
 &=\underbrace{\prod_{i=1}^Ng(\bs{r}_i)}_{G(\bs{R})}
 \underbrace{\begin{vmatrix}
-f_1(\boldsymbol{r}_1) & f_2(\boldsymbol{r}_1) & \hdots & f_N(\boldsymbol{r}_1)\\
-f_1(\boldsymbol{r}_2) & f_2(\boldsymbol{r}_2) & \hdots & f_N(\boldsymbol{r}_2)\\
+f_1(\boldsymbol{r}_1) & f_2(\boldsymbol{r}_1) & \cdots & f_N(\boldsymbol{r}_1)\\
+f_1(\boldsymbol{r}_2) & f_2(\boldsymbol{r}_2) & \cdots & f_N(\boldsymbol{r}_2)\\
 \vdots & \vdots & \ddots & \vdots \\
-f_1(\boldsymbol{r}_N) & f_2(\boldsymbol{r}_N) & \hdots & f_N(\boldsymbol{r}_N)
+f_1(\boldsymbol{r}_N) & f_2(\boldsymbol{r}_N) & \cdots & f_N(\boldsymbol{r}_N)
 \end{vmatrix}}_{|\hat{D}(\bs{R})|}.
 \end{aligned}
 \end{equation}
@@ -192,7 +192,7 @@ where $H_j(\sqrt{\omega}\bs{r}_i)$ are the Hermite polynomials and the Gaussian 
 \subsection{Gaussian} \label{sec:simplegaussian}
 When factorizing out the Gaussian part from the Slater determinant, we obtain the factor
 \begin{equation}
-\Psi_{\text{sg}}(\bs{R}; \alpha)=\prod_{j=1}^Ng(\bs{r}_j)=\exp\Big(-\frac{1}{2}\omega\alpha\sum_{j=1}^Nr_j^2\Big)=\exp\Big(-\frac{1}{2}\omega\alpha\sum_{j=1}^{F}x_j^2\Big),
+\Psi_{\text{sg}}(\bs{R}; \alpha)=\prod_{j=1}^Ng(\bs{r}_j)=\exp(-\frac{1}{2}\omega\alpha\sum_{j=1}^Nr_j^2)=\exp(-\frac{1}{2}\omega\alpha\sum_{j=1}^{F}x_j^2),
 \end{equation}
 which we will implement as a wave function element with $\omega$ as the oscillator strength and $\alpha$ as a variational parameter, which for quantum dots with non-interacting electrons is 1. Because of the presence of $r_i^2$, the function can easily be treated both in Cartesian and spherical coordinates, but in this thesis we will focus on the former. We now use $j$ as our summation index, and reserve $i$ for the moved electron and $k$ as our the differentiating index. When changing a coordinate $x_i$ from $x_i^{\text{old}}$ to $x_i^{\text{new}}$, the probability ratio between the new and the old state can easily be found to be 
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
@@ -294,7 +294,7 @@ where $\sigma$ is the spin projection. When summarizing, the sum is always over 
 \end{equation}
 and
 \begin{equation}
-\nabla_k^2\ln|\hat{D}(\bs{R})|=\frac{\nabla_k^2|\hat{D}(\bs{R})|}{|\hat{D}(\bs{R})|}-\bigg(\frac{\nabla_k|\hat{D}(\bs{R})|}{|\hat{D}(\bs{R})|}\bigg)^2
+\nabla_k^2\ln|\hat{D}(\bs{R})|=\frac{\nabla_k^2|\hat{D}(\bs{R})|}{|\hat{D}(\bs{R})|}-(\frac{\nabla_k|\hat{D}(\bs{R})|}{|\hat{D}(\bs{R})|})^2
 \end{equation}
 which are consistent with the equations \eqref{eq:derlogdef} and \eqref{eq:secderlogdef}. At this point, there are (at least) two possible paths to the final expressions. We can keep on using matrix operations and find the expressions of $\nabla_k|\hat{D}(\bs{R})|/|\hat{D}(\bs{R})|$ and $\nabla_k^2|\hat{D}(\bs{R})|/|\hat{D}(\bs{R})|$ using Jacobi's formula, or we can switch to element representations of the matrices. We choose the latter, because we believe that is the path of least resistance. 
 
@@ -322,7 +322,7 @@ for the Laplacian. We are then ready to write up the final expressions for the g
 \begin{equation}
 \begin{aligned}
 \nabla_k\ln|\hat{D}(\bs{R})|&=\sum_{j}d_{jk}^{-1}\nabla_k\phi_{j}(\bs{r}_k)\\
-\nabla_k^2\ln|\hat{D}(\bs{R})|&=\sum_jd_{jk}^{-1}(\bs{R})\nabla_k^2\phi_{j}(\bs{R}_k)-\Big(\sum_jd_{jk}^{-1}\nabla_k\phi_{j}(\bs{r}_k)\Big)^2
+\nabla_k^2\ln|\hat{D}(\bs{R})|&=\sum_jd_{jk}^{-1}(\bs{R})\nabla_k^2\phi_{j}(\bs{R}_k)-\left(\sum_jd_{jk}^{-1}\nabla_k\phi_{j}(\bs{r}_k)\right)^2
 \end{aligned}
 \label{eq:derivativelndet}
 \end{equation}
@@ -372,7 +372,7 @@ We assume that we do not have any variational parameter in the determinant, and 
 \end{empheq}
 
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-\nabla^2\ln|\hat{D}(\bs{R})|=\sum_{k=1}^F\bigg[\sum_{j=1}^{F}\nabla_k^2d_{jk}(\bs{R})d_{kj}^{-1}(\bs{R})-\Big(\sum_{j=1}^{F}\nabla_kd_{ik}(\bs{R})d_{ki}^{-1}(\bs{R})\Big)^2\bigg]
+\nabla^2\ln|\hat{D}(\bs{R})|=\sum_{k=1}^F\left[\sum_{j=1}^{F}\nabla_k^2d_{jk}(\bs{R})d_{kj}^{-1}(\bs{R})-\left(\sum_{j=1}^{F}\nabla_kd_{ik}(\bs{R})d_{ki}^{-1}(\bs{R})\right)^2\right]
 \label{eq:slaterlaplacian}
 \end{empheq}
 
@@ -445,7 +445,7 @@ where $i'$ again is the moved electron. The gradient is straight-forward to find
 \end{empheq}
 where $j'$ is related to the same dimension as $k'$. Here we use $x_{j'}$ as a general coordinate, no matter if it is associated with the $x$-direction or not. This also applies to the Laplacian,
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-\nabla^2\ln\Psi_{\text{sj}}=\sum_{k'=1}^{F}\sum_{j=1}^N\frac{\beta_{kj}}{r_{kj}}\bigg[1-\Big(\frac{x_{k'}-x_{j'}}{r_{kj}}\Big)^2\bigg].
+\nabla^2\ln\Psi_{\text{sj}}=\sum_{k'=1}^{F}\sum_{j=1}^N\frac{\beta_{kj}}{r_{kj}}\left[1-\Big(\frac{x_{k'}-x_{j'}}{r_{kj}}\Big)^2\right].
 \end{empheq}
 Finally, the parameter update is given by
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
@@ -475,7 +475,7 @@ with \lstinline{i_p} as the moved electron, \lstinline{i_d} as the direction the
 \subsection{The Padé-Jastrow factor}
 The Padé-Jastrow factor is a more complicated Jastrow factor, and was specified in equation \eqref{eq:PadeJastrow}, 
 \begin{equation}
-\Psi_{\text{pj}}(\bs{R}; \beta) = \exp\bigg(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij}}\bigg),
+\Psi_{\text{pj}}(\bs{R}; \beta) = \exp(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij}}),
 \end{equation}
 where $\beta$ is a variational parameter and the $a_{ij}$ is \textbf{not} a variational parameter, but rather constants dependent on the spin of electrons $i$ and $j$. Similarly to the simple Jastrow, we also here need to distinguish between electron indices and coordinate indices because of the radial distances $r_{ij}$. We do the same trick with denoting $j'$ by the coordinate index and $j$ as the electron index, and obtain the gradient 
 \begin{equation}
@@ -497,9 +497,9 @@ f_{ij}=\frac{a_{ij}}{(1+\beta r_{ij})^2}\quad\quad g_{i'j'}=\frac{x_{i'}-x_{j'}}
 and obtain the simplified expressions
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \begin{aligned}
-\frac{|\Psi_{\text{pj}}(\bs{R}_{\text{new}})|^2}{|\Psi_{\text{pj}}(\bs{R}_{\text{old}})|^2}&=\exp\Big(2\sum_{j=1}^Na_{ij}(h_{ij}^{\text{new}}-h_{ij}^{\text{old}})\Big)\\
+\frac{|\Psi_{\text{pj}}(\bs{R}_{\text{new}})|^2}{|\Psi_{\text{pj}}(\bs{R}_{\text{old}})|^2}&=\exp(2\sum_{j=1}^Na_{ij}(h_{ij}^{\text{new}}-h_{ij}^{\text{old}}))\\
 \nabla_{k'}\ln\Psi_{\text{pj}} &=\sum_{j\neq k=1}^Nf_{kj}\cdot g_{k'j'}\\
-\nabla^2\ln\Psi_{\text{pj}} &= \sum_{k'=1}^F\sum_{j\neq k=1}^N\frac{f_{kj}}{r_{kj}}\Big[1-(1+2\beta h_{kj})g_{k'j'}^2\Big]\\
+\nabla^2\ln\Psi_{\text{pj}} &= \sum_{k'=1}^F\sum_{j\neq k=1}^N\frac{f_{kj}}{r_{kj}}\left[1-(1+2\beta h_{kj})g_{k'j'}^2\right]\\
 \nabla_{\beta}\ln\Psi_{\text{pj}}&=-\sum_{l=1}^N\sum_{j>l}^Na_{lj}h_{lj}^2=-\sum_{l=1}^N\sum_{j>l}^Nf_{lj}r_{lj}^2
 \end{aligned}
 \end{empheq}
@@ -701,7 +701,7 @@ In algorithm \ref{alg:mpi}, we have sketched very roughly how the parallelizatio
 \end{algorithm}\DecMargin{1em}
 
 \section{Electron density} \label{sec:electrondensityimplementation}
-We presented the theory behind the electron density in section \ref{sec:electrondensity}, where we saw that the $P$-body density is given by an integral over all probability density functions, $|\Psi(\bs{R}_1,\hdots,\bs{R}_N)|^2$, but $P$ of them. Usually, we look at the one-body density or the two-body density, leaving out one or two electrons from the integration. Further in section \ref{sec:electrondensityqmc}, we gave a brief explanation of how the one-body density can be found using Monte Carlo integration in a VMC scheme. In this section, we will discuss the technique in more detail, and of course, give the actual implementation.
+We presented the theory behind the electron density in section \ref{sec:electrondensity}, where we saw that the $P$-body density is given by an integral over all probability density functions, $|\Psi(\bs{R}_1,\cdots,\bs{R}_N)|^2$, but $P$ of them. Usually, we look at the one-body density or the two-body density, leaving out one or two electrons from the integration. Further in section \ref{sec:electrondensityqmc}, we gave a brief explanation of how the one-body density can be found using Monte Carlo integration in a VMC scheme. In this section, we will discuss the technique in more detail, and of course, give the actual implementation.
 
 In our particular implementation, we have technically calculated the one-body density in two different ways; dividing the space into annuluses\footnote{An annulus is a ring-shaped object with a region bounded by two concentric circles.} to calculate the radial electron distribution and dividing the space into a grid to calculate the spatial electron distribution. The former is convenient when we want to present the density in a two-dimensional plot, making a comparison between multiple methods easy. Often, the one-body density is only dependent on the radial distance from the center, and then it is sufficient to look at the radial density profile. On the other hand, the spatial density profile contains more information between the position of the electrons, which is interesting when the density is also dependent on the angle.
 

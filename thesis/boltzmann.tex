@@ -82,12 +82,12 @@ The conditional probabilities are especially important in Gibbs sampling, where 
 \subsection{Maximum log-likelihood estimate}
 Now, suppose that the energy function also is a function of some parameters $\bs{\theta}$. We have already expressed the log-likelihood function, 
 \begin{equation}
-\ln P(\bs{x}|\bs{\theta})=\ln\bigg[\frac{1}{Z}\sum_{\bs{h}'}\exp(-E(\bs{x},\bs{h}'))\bigg]=\ln\sum_{\bs{h}'}\exp(-E(\bs{x},\bs{h}'))-\ln\sum_{\bs{x}',\bs{h}'}\exp(-E(\bs{x}',\bs{h}')),
+\ln P(\bs{x}|\bs{\theta})=\ln\left[\frac{1}{Z}\sum_{\bs{h}'}\exp(-E(\bs{x},\bs{h}'))\right]=\ln\sum_{\bs{h}'}\exp(-E(\bs{x},\bs{h}'))-\ln\sum_{\bs{x}',\bs{h}'}\exp(-E(\bs{x}',\bs{h}')),
 \end{equation}
 and by maximizing this we find the maximum log-likelihood estimate. This estimate is important in neural networks since we always seek to maximize the likelihood in the training process. The function is maximized when 
 \begin{equation}
 \begin{aligned}
-\frac{\partial\ln P(\bs{x}|\bs{\theta})}{\partial\bs{\theta}}&=\frac{\partial}{\partial\bs{\theta}}\bigg(\ln\sum_{\bs{h}'}\exp(-E(\bs{x},\bs{h}'))\bigg)-\frac{\partial}{\partial\bs{\theta}}\bigg(\ln\sum_{\bs{x}',\bs{h}'}\exp(-E(\bs{x}',\bs{h}'))\bigg)\\
+\frac{\partial\ln P(\bs{x}|\bs{\theta})}{\partial\bs{\theta}}&=\frac{\partial}{\partial\bs{\theta}}\left(\ln\sum_{\bs{h}'}\exp(-E(\bs{x},\bs{h}'))\right)-\frac{\partial}{\partial\bs{\theta}}\left(\ln\sum_{\bs{x}',\bs{h}'}\exp(-E(\bs{x}',\bs{h}'))\right)\\
 &=-\sum_{\bs{h}'}P(\bs{h}'|\bs{x})\frac{\partial E(\bs{x},\bs{h}')}{\partial\bs{\theta}}+\sum_{\bs{x}',\bs{h}'}P(\bs{x}',\bs{h}')\frac{\partial E(\bs{x}',\bs{h}')}{\partial\bs{\theta}}=0.
 \end{aligned}
 \end{equation}
@@ -142,17 +142,17 @@ E(\bs{x},\bs{h})= \sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2} - \sum_{j=1}^Hh_jb
 \end{equation}
 where the $\sigma_i$'s are the width of the Gaussian distributions, which can take arbitrary numbers. Inserting the energy expression into equation \eqref{eq:boltzmanndist}, we obtain the Gaussian-binary joint probability distribution,
 \begin{equation}
-P(\bs{x},\bs{h})=\frac{1}{Z}\exp\Big(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2}\Big)\prod_{j=1}^H\exp\Big(h_jb_j+\sum_{i=1}^F\frac{x_iw_{ij}h_j}{\sigma_i^2}\Big),
+P(\bs{x},\bs{h})=\frac{1}{Z}\exp(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2})\prod_{j=1}^H\exp(h_jb_j+\sum_{i=1}^F\frac{x_iw_{ij}h_j}{\sigma_i^2}),
 \label{eq:RBMWF1}
 \end{equation}
 where the first factor (the exponential function) is actually the definition of a Gaussian function and the product has a complexity proportional to the number of hidden nodes. Generative sampling algorithms, as Gibbs sampling, use this distribution directly, while other sampling tools, like Metropolis sampling, need the marginal distribution. To find the marginal distribution of the visible units, we just need to take the sum over $h=0$ and $h=1$ as the hidden units are binary. The final expression is given by
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-P(\bs{x})=\frac{1}{Z}\exp\Big(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2}\Big)\prod_{j=1}^H\bigg(1+\exp\Big(b_j+\sum_{i=1}^F\frac{x_iw_{ij}}{\sigma_i^2}\Big)\bigg),
+P(\bs{x})=\frac{1}{Z}\exp(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2})\prod_{j=1}^H\left[1+\exp(b_j+\sum_{i=1}^F\frac{x_iw_{ij}}{\sigma_i^2})\right],
 \label{eq:RBMWF2}
 \end{empheq}
 were the transition from equation \eqref{eq:gaussianbinary} is shown thoroughly in appendix \ref{app:rbmderive}. Since the visible units take continuous values, we need to integrate to find the marginal distribution of the hidden units. The derivation is shown in appendix \ref{app:rbmderive}, and the final expression result reads
 \begin{equation}
-P(\bs{h})=\frac{1}{Z}\exp(\sum_{j=1}^Hh_jb_j)\prod_{i=1}^F\sqrt{2\pi\sigma_i^2}\exp(a_i\sum_{j=1}^H\frac{w_{ij}h_j}{\sigma_i^2}+(\sum_{j=1}^H\frac{w_{ij}h_j}{2\sigma_i^2})^2)
+P(\bs{h})=\frac{1}{Z}\exp(\sum_{j=1}^Hh_jb_j)\prod_{i=1}^F\sqrt{2\pi\sigma_i^2}\exp(a_i\sum_{j=1}^H\frac{w_{ij}h_j}{\sigma_i^2}+\left(\sum_{j=1}^H\frac{w_{ij}h_j}{2\sigma_i^2}\right)^2)
 \end{equation}
 which can be used to find the conditional distribution of the hidden units, but other than that it will not be further used. The conditional distributions are important in Gibbs sampling as they are used to determine the value of the hidden and visible nodes and update the weights. The conditional distribution of the visible units is used to update the hidden units and reads
 \begin{equation}
@@ -198,7 +198,7 @@ E(\bs{x},\bs{h})= \sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2} - \sum_{i=1}^F\sum
 \end{equation}
 with $c_{ij}$ as the weights between the visible units. In the rest of this project, we are interested in the marginal distribution of the visible units only, which becomes
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-P(\bs{x})=\frac{1}{Z}\exp\Big(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2}+\sum_{i=1}^F\sum_{j>i}^Fx_ic_{ij}x_j\Big)\prod_{j=1}^H\bigg(1+\exp\Big(b_j+\sum_{i=1}^F\frac{w_{ij}x_i}{\sigma^2}\Big)\bigg)
+P(\bs{x})=\frac{1}{Z}\exp(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2}+\sum_{i=1}^F\sum_{j>i}^Fx_ic_{ij}x_j)\prod_{j=1}^H\left[1+\exp(b_j+\sum_{i=1}^F\frac{w_{ij}x_i}{\sigma^2})\right]
 \label{eq:PRBMWF}
 \end{empheq}
 by again using the approach detailed in appendix \ref{app:rbmderive}. In chapter \ref{chp:rbmimplementation}, we utilize that this marginal distribution can be split in a Gaussian part, a \textit{partly restricted} part and a product part. Then we see that the expression of the gradient of the log-likelihood function becomes the same with respect to $\bs{a},\bs{b}$ and $\bs{w}$ compared to the restricted Boltzmann machine, which means that we only need to calculate the expression of the gradient of the log-likelihood with respect to $\bs{c}$. This is given by the outer product
@@ -222,7 +222,7 @@ E(\bs{x},\bs{h})= \sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2} - \sum_{l=1}^L\sum
 \end{equation}
 where $H_L$ is the number of hidden units in layer $L$. The marginal probability distribution of the visible units read
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-P(\bs{x})=\frac{1}{Z}\exp\Big(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2}\Big)\prod_{l=1}^L\prod_{j=1}^{H_L}\bigg(1+\exp\Big(b_j^{(l)}+\sum_{i=1}^F\frac{w_{ij}^{(l)}x_i}{\sigma^2}\Big)\bigg).
+P(\bs{x})=\frac{1}{Z}\exp(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2})\prod_{l=1}^L\prod_{j=1}^{H_L}\left[1+\exp(b_j^{(l)}+\sum_{i=1}^F\frac{w_{ij}^{(l)}x_i}{\sigma^2})\right].
 \label{eq:DRBMWF}
 \end{empheq}
 which again can be obtained from the general expressions in appendix \ref{app:rbmderive}.

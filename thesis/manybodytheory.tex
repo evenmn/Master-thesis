@@ -14,7 +14,7 @@ In the previous chapter, the quantum mechanics of single particles was discussed
 E_n=\mel{\Psi_n(\bs{X})}{\hat{\mathcal{H}}}{\Psi_n(\bs{X})},
 \label{eq:energy}
 \end{equation}
-but we here use the many-body wave function $\Psi_n(\bs{X})$ of state $n$ with $\bs{X}=\{\bs{x}_1,\bs{x}_2,\hdots,\bs{x}_N\}=\{\{\bs{r}_1, \sigma_1\}, \{\bs{r}_2, \sigma_2\},\hdots,\{\bs{r}_N, \sigma_N\}\}$ denoting the collective coordinates and the spins of all the $N$ particles in the system. The Hamiltonian, $\hat{\mathcal{H}}$, defines the system and is given explicitly in the next section. As noted before, the wave function of large systems needs to store an immense amount of information and is therefore impractical or even impossible to deal with. In this section, we will first look at how the many-body Hamiltonian is composed, before we have an extensive discussion of how the many-body wave function is constructed.
+but we here use the many-body wave function $\Psi_n(\bs{X})$ of state $n$ with $\bs{X}=\{\bs{x}_1,\bs{x}_2,\cdots,\bs{x}_N\}=\{\{\bs{r}_1, \sigma_1\}, \{\bs{r}_2, \sigma_2\},\cdots,\{\bs{r}_N, \sigma_N\}\}$ denoting the collective coordinates and the spins of all the $N$ particles in the system. The Hamiltonian, $\hat{\mathcal{H}}$, defines the system and is given explicitly in the next section. As noted before, the wave function of large systems needs to store an immense amount of information and is therefore impractical or even impossible to deal with. In this section, we will first look at how the many-body Hamiltonian is composed, before we have an extensive discussion of how the many-body wave function is constructed.
 
 \section{The electronic Hamiltonian} \label{sec:electronichamiltonian}
 We have already seen what the one-body Hamiltonian looks like, and the many-body Hamiltonian is not very different. We recall that it can be split in a kinetic and a potential term,
@@ -45,7 +45,7 @@ where the two former ones are the one-body integrals, or \textit{matrix elements
 \section{The many-body wave function} \label{sec:wavefunction}
 By the first postulate of quantum mechanics presented in section \ref{sec:postulates}, the wave function contains all the information specifying the state of the system. This means that all observable in classical mechanics can in principle also be estimated from the wave function, which makes finding the wave function our aim. As discussed in chapter \ref{chp:quantum}, we can define the wave function for a single particle, known as the \textit{single-particle function} (SPF), $\psi(\bs{r},\sigma)$. Can we combine the SPFs of the electrons in a system and obtain the many-body wave function? Possibly, the most straight-forward way of doing this is to simply multiply all the SPFs,
 \begin{equation}
-\Psi(\bs{X})=\psi(\bs{r}_1,\sigma_1)\psi(\bs{r}_2,\sigma_2)\hdots\psi(\bs{r}_N,\sigma_N),
+\Psi(\bs{X})=\psi(\bs{r}_1,\sigma_1)\psi(\bs{r}_2,\sigma_2)\cdots\psi(\bs{r}_N,\sigma_N),
 \end{equation}
 known as the \textit{Hartree product}. However, this product is generally not correct, as it does not include the required symmetry properties of the many-body wave function. Instead, we can take the symmetry into account by expressing the many-body wave function as a determinant or a permanent, as we will see in section \ref{sec:slater}. Together with the symmetry properties, there is an array of requirements the wave function needs to meet in order to be physically correct. Some of them are:
 
@@ -71,7 +71,7 @@ The trial wave function needs to satisfy some requirements in order to be used i
 \subsection{Anti-symmetry and the Pauli principle} \label{sec:symmetry}
 Symmetry and anti-symmetry are central concepts in quantum mechanics, and often one can use symmetry arguments to simplify expressions and calculations. Assume that we have a permutation operator, $\hat{P}(i\rightarrow j)$, which exchanges the coordinates of the particles $i$ and $j$ in the many-body wave function containing $M$ particles,
 \begin{equation}
-\hat{P}(i\rightarrow j)\Psi_n(\bs{x}_1,\hdots,\bs{x}_i,\hdots,\bs{x}_j,\hdots,\bs{x}_M)=p\Psi_n(\bs{x}_1,\hdots,\bs{x}_j,\hdots,\bs{x}_i,\hdots,\bs{x}_M),
+\hat{P}(i\rightarrow j)\Psi_n(\bs{x}_1,\cdots,\bs{x}_i,\cdots,\bs{x}_j,\cdots,\bs{x}_M)=p\Psi_n(\bs{x}_1,\cdots,\bs{x}_j,\cdots,\bs{x}_i,\cdots,\bs{x}_M),
 \end{equation}
 where $p$ is the eigenvalue coming from the transformation. If we again apply the $\hat{P}$ operator, we should switch the same coordinates back, and we expect to end up with the initial wave function. For that reason, $p$ must be either +1 or -1. \footnote{Actually, in two-dimensional systems a third possibility is allowed which gives an \textit{anyon}. The theory on this was developed by \citet{leinaas_one_1977} during the 1970s.} The particles that have an anti-symmetric wave function under the exchange of two coordinates are called fermions, named after Enrico Fermi, and as discussed before, they have half-integer spin. On the other hand, the particles that have a symmetric wave function under the exchange of two coordinates are called bosons, named after Satyendra Nath Bose, and have integer spin. A consequence of the anti-symmetric wave function is that two identical fermions cannot occupy the same state at the same time, known as the Pauli principle. This means that identical fermions even in the many-particle ground state (at zero temperature) spread over multiple states, and in the next section, we will see how this principle is included in the wave function through a Slater determinant. 
 
@@ -93,10 +93,10 @@ which is equates to zero if the particles happen to be at the same position and 
 \begin{equation}
 \Psi(\bs{X})=\frac{1}{\sqrt{N!}}
 \begin{vmatrix}
-\psi_1(\boldsymbol{r}_1,\sigma_1) & \psi_2(\boldsymbol{r}_1,\sigma_1) & \hdots & \psi_N(\boldsymbol{r}_1,\sigma_1)\\
-\psi_1(\boldsymbol{r}_2,\sigma_2) & \psi_2(\boldsymbol{r}_2,\sigma_2) & \hdots & \psi_N(\boldsymbol{r}_2,\sigma_2)\\
+\psi_1(\boldsymbol{r}_1,\sigma_1) & \psi_2(\boldsymbol{r}_1,\sigma_1) & \cdots & \psi_N(\boldsymbol{r}_1,\sigma_1)\\
+\psi_1(\boldsymbol{r}_2,\sigma_2) & \psi_2(\boldsymbol{r}_2,\sigma_2) & \cdots & \psi_N(\boldsymbol{r}_2,\sigma_2)\\
 \vdots & \vdots & \ddots & \vdots \\
-\psi_1(\boldsymbol{r}_N,\sigma_N) & \psi_2(\boldsymbol{r}_N,\sigma_N) & \hdots & \psi_N(\boldsymbol{r}_N,\sigma_N)
+\psi_1(\boldsymbol{r}_N,\sigma_N) & \psi_2(\boldsymbol{r}_N,\sigma_N) & \cdots & \psi_N(\boldsymbol{r}_N,\sigma_N)
 \end{vmatrix}
 \end{equation}
 where the $\psi(\bs{r},\sigma)$ is the tensor product between the radial part $\phi(\bs{r})$ and the spin part $\xi(\sigma)$,
@@ -112,7 +112,7 @@ In quantum chemistry, a basis set usually refers to a set of one-particle functi
 
 In our work, however, the molecular orbitals correspond to the basis functions, as we in most of the cases do not expand our SPFs, $\psi(\bs{r},\sigma)$, in a basis set. Our SPFs are typically the solution of the non-interacting system, and as the Jastrow factor is supposed to deal with the interaction, we use the same functions for the interacting case as well.
 
-A common notation is to use the Greek letter $\varphi$ for the atomic orbitals and $\psi$ for the molecular orbitals, such that single-particle functions can be obtained from an expansion of the $N$ basis functions $\{\varphi_1(\bs{r}),\varphi_2(\bs{r}),\hdots\varphi_N(\bs{r})\}$ in the manner of
+A common notation is to use the Greek letter $\varphi$ for the atomic orbitals and $\psi$ for the molecular orbitals, such that single-particle functions can be obtained from an expansion of the $N$ basis functions $\{\varphi_1(\bs{r}),\varphi_2(\bs{r}),\cdots\varphi_N(\bs{r})\}$ in the manner of
 \begin{equation}
 \psi_i(\bs{r})=\sum_{j=1}^Nc_{ji}\varphi_j(\bs{r}),
 \label{eq:expansion}
@@ -132,11 +132,11 @@ Our primary focus in this work is to see if we can use machine learning to reduc
 In quantum many-body computations, the electron density is frequently calculated, and there are several reasons for that. First, the electron density can be found experimentally, such that the calculations can be benchmarked. Second, the electron density is very informative, since information about all particles can be gathered in one plot. The $P$-body electron density is defined by the multi-dimensional integral over the probability density function of all the particles but $P$, for a normalized wave function represented by
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \label{eq:electron_density}
-\rho_P(\bs{r}_1,\hdots,\bs{r}_P)=N\int_{-\infty}^{\infty}d\bs{r}_{P+1}\hdots d\bs{r}_N |\Psi(\bs{r}_1,\hdots \bs{r}_N)|^2
+\rho_P(\bs{r}_1,\cdots,\bs{r}_P)=N\int_{-\infty}^{\infty}d\bs{r}_{P+1}\cdots d\bs{r}_N |\Psi(\bs{r}_1,\cdots \bs{r}_N)|^2
 \end{empheq}
 where $P\leq N$. This integral is in general difficult to solve, and it can be found analytically for just a few realistic systems. For other systems, we need to solve the integral numerically, and we will in chapter \ref{chp:methods} describe how this can be done using Monte Carlo integration. The density should not be normalized to unit both when it is calculated analytically and numerically, but to the number of particles, i.e.,
 \begin{equation}
-\int_{-\infty}^{\infty}d\bs{r}_{1}\hdots d\bs{r}_P\Big[\rho_P(\bs{r}_1,\hdots,\bs{r}_P)\Big]=N.
+\int_{-\infty}^{\infty}d\bs{r}_{1}\cdots d\bs{r}_P\Big[\rho_P(\bs{r}_1,\cdots,\bs{r}_P)\Big]=N.
 \end{equation}
 
 As we cannot pinpoint a particle in quantum mechanics, i.e., it is impossible to distinguish two identical particles in any way, the electron density is the same no matter which particles we decide to leave out. The standard notation is to leave out the first $P$ particles, but we could also, for instance, have left out the $P$ last particles and so forth.
@@ -146,10 +146,10 @@ So, what does the electron density tell us? The one-body density, $\rho_1(\bs{r}
 For non-interacting systems, the wave function is separable with respect to the different particles. In those cases one can easily find the electron density analytically, since the functions of coordinates which we do not integrate over can be factorized out of the integral,
 \begin{equation}
 \begin{aligned}
-\rho_P(\bs{r}_1,\hdots,\bs{r}_P)&=\int_{-\infty}^{\infty}d\bs{r}_{P+1}\hdots d\bs{r}_N |\Psi(\bs{r}_1),\hdots \Psi(\bs{r}_N)|^2\\
-&=\int_{-\infty}^{\infty}d\bs{r}_{P+1}\hdots d\bs{r}_N |\Psi(\bs{r}_1)|^2\hdots |\Psi(\bs{r}_N)|^2\\
-&=|\Psi(\bs{r}_1)|^2\hdots |\Psi(\bs{r}_P)|^2\underbrace{\int_{-\infty}^{\infty}d\bs{r}_{P+1}|\Psi(\bs{r}_{P+1})|^2\hdots\int_{-\infty}^{\infty}d\bs{r}_{N}|\Psi(\bs{r}_{N})|^2}_{=1}\\
-&=|\Psi(\bs{r}_1)|^2\hdots |\Psi(\bs{r}_P)|^2,
+\rho_P(\bs{r}_1,\cdots,\bs{r}_P)&=\int_{-\infty}^{\infty}d\bs{r}_{P+1}\cdots d\bs{r}_N |\Psi(\bs{r}_1),\cdots \Psi(\bs{r}_N)|^2\\
+&=\int_{-\infty}^{\infty}d\bs{r}_{P+1}\cdots d\bs{r}_N |\Psi(\bs{r}_1)|^2\cdots |\Psi(\bs{r}_N)|^2\\
+&=|\Psi(\bs{r}_1)|^2\cdots |\Psi(\bs{r}_P)|^2\underbrace{\int_{-\infty}^{\infty}d\bs{r}_{P+1}|\Psi(\bs{r}_{P+1})|^2\cdots\int_{-\infty}^{\infty}d\bs{r}_{N}|\Psi(\bs{r}_{N})|^2}_{=1}\\
+&=|\Psi(\bs{r}_1)|^2\cdots |\Psi(\bs{r}_P)|^2,
 \end{aligned}
 \end{equation}
 where we have assumed that the wave functions are normalized. This result has no scientific importance, but will be used to validate the implementation of the electron density in the code, see section \ref{sec:norepulsive}.
