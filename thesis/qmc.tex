@@ -422,7 +422,7 @@ In experiments, we have two main classes of errors; systematical errors and stat
 There are many ways to estimate the variance, where the cheapest ones ignore correlation effects between the measurements. More accurate standard error estimations can be performed by resampling methods like blocking, bootstrap, or jackknife. We will cover the blocking method only since we stick to that method in our particular implementations. To save computational time, we resample the final iteration only; for the others, we use the simple estimation method.
 
 \subsection{Central concepts of statistics}
-Before we go through the methods, we will give a brief introduction to some useful statistical quantities. We start with the \textit{moments}, which are given by
+Before we go through the blocking method, we will give a brief introduction to some useful statistical quantities. We start with the \textit{moments}, which are given by
 \begin{equation}
 \langle x^n\rangle=\int dxp(x)x^n
 \end{equation}
@@ -434,9 +434,9 @@ Moreover, we can define the \textit{central moments} given by
 \begin{equation}
 \langle(x-\langle x\rangle)^n\rangle=\int dx(x-\langle x\rangle)^np(x),
 \end{equation}
-which is centered around the mean. With $n=0$ and $n=1$, this is easy to find, but what is the central moment with $n=2$? The central moment with $n=2$ is what we call the \textit{variance}, and is often denoted as $\sigma_i^2$ as we did in the equation \eqref{eq:variance}. One can show that
+which is centered around the mean. With $n=0$ and $n=1$, this is easy to find, but what is the central moment with $n=2$? The central moment with $n=2$ is what we call the \textit{variance}, and is often denoted as $\sigma^2$ as we did in the equation \eqref{eq:variance}. One can show that
 \begin{equation}
-\sigma_i^2=\langle(x-\langle x\rangle)^2\rangle=\langle x^2\rangle - \langle x \rangle^2
+\sigma^2=\langle(x-\langle x\rangle)^2\rangle=\langle x^2\rangle - \langle x \rangle^2
 \label{eq:variance2}
 \end{equation}
 which was already stated in chapter \ref{chp:quantum}. The \textit{standard deviation} is defined as the square-root of the variance, $\sigma$, and will be presented as the measure of the uncertainty in the last digit of numerical results. By using the expressions above, we can calculate the mean and the variance of a probability density function $p(x)$, but what do we do if we have a set of data drawn from an unknown $p(x)$?
@@ -445,7 +445,7 @@ If the probability density function is unavailable, we cannot find the exact sam
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \langle X\rangle\approx \frac{1}{n}\sum_{i=1}^n X_i\equiv\overline{X},
 \end{empheq}
-for the sample mean assuming that $X$ is our sample containing $n$ points. Assuming that the measurements $X_i$ are \textit{independent} with identical variance $\sigma^2$ for each $i \in \{1,\cdots,n\}$, 
+for the sample mean given a sample $X$ containing $n$ points. Assuming that the measurements $X_i$ are \textit{independent} with identical variance $\sigma^2$ for each $i \in \{1,\cdots,n\}$ \supercite{devore_modern_2012}, 
 \begin{equation}
 \mathrm{var}(\overline X) = \mathrm{var}\Big( \frac{1}{n}\sum_{i = 1}^n X_i \Big) = \frac{1}{n^2}\sum_{i = 1}^n \underbrace{\mathrm{var}( X_i)}_{= \sigma^2} = \frac{1}{n^2}n \sigma^2 = \frac{\sigma^2}{n}.
 \label{eq:samplevariance}
@@ -454,7 +454,7 @@ Furthermore, in this case, the following is an unbiased estimator of the varianc
 \begin{equation}
 S_ n^2 = \frac{1}{n-1}\sum_{i = 1}^n (X_i - \overline X)^2.
 \end{equation}
-where $\sigma_i^2$ is the variance of the probability density function. The law of large numbers states that the estimated sample mean approaches the true sample mean as $n$ goes to infinity. This is closely related to the central limit theorem, which says that the probability distribution of $X$, $p_X(x)$, can be approximated as a normal distribution $\mathcal{N}(\mu,\sigma)$ with $\mu=\overline{X}_n$ and $\sigma=\text{var}(\overline{X})$ as the number of sampling points $n$ goes to infinity. 
+The law of large numbers states that the estimated sample mean approaches the true sample mean as $n$ goes to infinity. This is closely related to the central limit theorem, which states that the probability distribution of $X$, $p_X(x)$, can be approximated as a normal distribution $\mathcal{N}(\mu,\sigma)$ with $\mu=\overline{X}_n$ and $\sigma=\text{var}(\overline{X})$ as the number of sampling points $n$ goes to infinity. 
 
 On the other hand, if the samples are \textit{correlated}, equation \eqref{eq:samplevariance} becomes an underestimation of the \textit{sample error} $\text{err}_X^2$, and is thus more a guideline for the size of the uncertainty, more than an actual estimate of it. In that case, we need to estimate the \textit{covariance} given by
 \begin{equation}
@@ -464,7 +464,7 @@ Usually, the covariance is not known from the data, and we are advised to use
 \begin{equation}
 G_{ij} = (X_i - \overline{X})(X_j - \overline{X}),
 \end{equation}
-in order to obtain an estimate. Note that the variance is just the special case where $X_i$ and $X_j$ are independent. We define the sample error as
+in order to obtain an estimate \supercite{shumway_time_2017}. Note that the variance is just the special case where $X_i$ and $X_j$ are independent. We define the sample error as
 \begin{equation}
 \text{err}_{X}^2=\frac{1}{n^2}\sum_{i=1}^n\sum_{j=1}^n\text{cov}(X_i,X_j),
 \end{equation}
@@ -474,7 +474,7 @@ with an ability to be further expressed as a function of the \textit{autocovaria
 \end{equation}
 and is thus just a measure of the correlation of a section of a time series with another section of the same time series. If $h=0$, this is just the variance $\gamma(0)=\sigma_i^2/n$ and the sample error simplifies to
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-\text{err}_X^2=\frac{\sigma_i^2}{n}+\frac{2}{n}\sum_{h=1}^{n-1}\Big(1-\frac{h}{n}\Big)\gamma(h).
+\text{err}_X^2=\frac{\sigma^2}{n}+\frac{2}{n}\sum_{h=1}^{n-1}\Big(1-\frac{h}{n}\Big)\gamma(h).
 \label{eq:samplevariance2}
 \end{empheq}
 
@@ -482,11 +482,11 @@ A problem with this definition of the sampling error is that it turns out to be 
 
 \subsection{Blocking}\label{sec:resampling}
 Above, we have described the need for a proper uncertainty estimation in computational simulations, where the covariance was included in
-the calculation of $\sigma_i^2$. A quick and easy way to get a proper estimate of the uncertainty is by using the blocking method.
+the calculation of $\sigma^2$. A quick and easy way to get a proper estimate of the uncertainty is by using the blocking method.
 
 When the blocking method was made accessible by \citet{flyvbjerg_error_1989} in 1989, the method required hyper-parameters which had to be carefully adjusted for each particular data set. In 2018, \citet{jonsson_standard_2018} reinvented the algorithm and made it automated, with no need for external parameters. Despite this, no compromise was made on performance. The method scales as $12n+\mathcal{O}(\log_2n)$ for small data sets, but reduces to $n+\mathcal{O}(1)$ for large data sets, which makes it preferred over bootstrap and jackknife for large data sets. We will now go through the idea behind the blocking method.
 
-Consider a stationary time series $\{x_1, x_2, \hdots, x_n\}$ with $n=2^d$ data point for some integer $d>1$. For this series, an autocovariance function $\gamma(h)$ is guaranteed to exist. We arrange the data in a vector
+Consider a stationary time series $\{x_1, x_2, \hdots, x_n\}$ with $n=2^d$ data point for some integer $d>1$. For this series, an autocovariance function $\gamma(h)$ is guaranteed to exist \cite{jonsson_standard_2018}. We arrange the data in a vector
 \begin{equation}
 X=(x_1,x_2,\hdots,x_n),
 \end{equation}
@@ -510,7 +510,7 @@ with the consequence that the sample mean variance of the entire set of samples 
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \text{var}(\overline{X})=\frac{\sigma_k^2}{n_k}+e_k\quad\quad\forall\quad k\in\{0,1,...,d-1\}.
 \end{empheq}
-In the original (manual) blocking method, we had to know exactly where to stop the procedure in order to satisfy equation \eqref{eq:varivarj}. If we do not continue long enough, the sample variance has not converged, while if we keep on going for too long, the standard error of $\text{var}(\hat{\sigma}_k^2/n_k)$ get very large. If one plots the sample variance as a function of the iterations, one will see that the curve forms a plateau before it gets very noisy, but with Jonsson's automated method, we do not need to worry about this. 
+In the original (manual) blocking method, we had to know exactly where to stop the procedure in order to satisfy equation \eqref{eq:varivarj}. If we do not continue long enough, the sample variance has not converged, while if we keep on going for too long, the standard error of $\text{var}(\hat{\sigma}_k^2/n_k)$ get very large. If one plots the sample variance as a function of the iterations, one will see that the curve forms a plateau before it gets very noisy, but by using Jonsson's automated method, we do not need to worry about this. 
 
 \iffalse
 We will end this section by scratching the most basic blocking algorithm, which is given in algorithm \ref{alg:blocking}. In our work, we will consequently use the automated blocking algorithm and code developed by \citet{jonsson_standard_2018}, available on \url{https://github.com/computative/block}.
