@@ -2,27 +2,59 @@
 \begin{tikzpicture}[scale=1, thick, dot/.style={shape=circle,inner sep=+0pt, minimum size=+2pt, fill, label={#1}}]
 
 % High variance low-bias model
-\node at (1,1.5) {High variance low-bias model};
-\coordinate[] (center1) at (1,4);
-\coordinate[] (point) at (1,7);
+\newcommand{\aX}{1}
+\newcommand{\aY}{4}
+\newcommand{\aR}{1}
 
-\foreach \cnt[count=\Cnt from 0.75] in {0.75, .5, .25, 0}
-\node[draw, fill=myblue] 
-at (center1) [circle through=($(center1)!\cnt!(point)$)] {};
+\node at (\aX,1.4) {High variance low-bias model};
+\coordinate[] (center1) at (\aX,\aY);
+\coordinate[] (point1) at (1,7);
+
+\foreach \cnt[count=\Cnt from \aR] in {0.75, .5, .25, 0}
+	\node[draw, fill=myblue] at (center1) [circle through=($(center1)!\cnt!(point1)$)] {};
+
+\foreach \x in {0,...,50}
+	\coordinate[dot, color0, inner sep=1pt] ($!\x!$) at (2*\aR*rand+\aX, 2*\aR*rand+\aY);
 
 % Low variance high-bias model
-\coordinate[] (center2) at (4,6);
+\newcommand{\bX}{4}
+\newcommand{\bY}{6}
+\newcommand{\bR}{1}
 
-\foreach \cnt[count=\Cnt from .3] in {.3, .2, .1, .0}
-\node[draw, fill=myred] 
-at (center2) [circle through=($(center2)!\cnt!(point)$)] {};
+\node[text width = 3cm] at (5,4.8) {Low variance high-bias model};
+\coordinate[] (center2) at (\bX,\bY);
+\coordinate[] (point2) at (1,7);
+
+\foreach \cnt[count=\Cnt from .2] in {.2, .1, .0}
+	\node[draw, fill=myred] at (center2) [circle through=($(center2)!\cnt!(point2)$)] {};
+
+%\foreach \x in {0,...,20}
+%	\coordinate[dot, color1, inner sep=1pt] ($!\x!$) at (0.5*rand+4, 0.5*rand+6);
+	
+\foreach \x in {1,...,20}
+{
+	% Find random numbers
+	\pgfmathrandominteger{\a}{-1000}{1000}
+	\pgfmathrandominteger{\b}{-1000}{1000}
+	
+	% Scale numbers nicely
+	\pgfmathparse{0.001*\bR*\a + \bX}\let\a\pgfmathresult
+	\pgfmathparse{0.001*\bR*\b + \bY}\let\b\pgfmathresult
+	
+	% Check if numbers are inside circle
+	\pgfmathparse{ifthenelse((\a-\bX)^2 + (\b-\bY)^2 <= \bR^2,%
+		"color1",
+		"white")}
+	\fill[\pgfmathresult] (\a,\b) circle (0.05);
+};
+%\draw (\bX,\bY) circle (\bR);
 
 \coordinate[dot] (center2) at (4,6);
 
 % True model
 \coordinate[dot, red, inner sep=2pt] (center1) at (1,4);
-\draw[->] (1,6.5) -- (center1);
-\node at (1,7) {True model};
+\draw[ultra thick, ->] (1,6.5) -- (center1);
+\node at (1,6.7) {True model};
 
 \begin{axis}[
 xshift=7cm, 

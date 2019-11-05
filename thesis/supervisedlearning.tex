@@ -132,18 +132,19 @@ Finally, we have the second-order polynomial, which is miles ahead of its compet
 Up to this point, we have skipped some important terms in the statistics behind machine learning. First, we have the \textit{bias}, which describes the best our model could do if we had an infinite amount of training data. We also have the \textit{variance}, which is a measure of the fluctuations in the predictions. In figure (\ref{fig:bias_variance} a), an example of high variance low-bias and a low variance high bias models are presented. What we actually want is a low variance low-bias model, but this model is normally infeasible, and we need to find the optimal tradeoff between bias and variance. This is known as the bias-variance tradeoff. 
 
 In figure (\ref{fig:bias_variance} b), the bias-variance tradeoff is illustrated as a function of the model complexity. We observe that the prediction error is large when the model complexity is too low, which corresponds to a low variance. This substantiates what we discussed in the example in section \ref{sec:example}, where we claimed that a too low model complexity under its data set. Therefore, a too low variance is associated with underfitting. On the other side of the plot, we can see that also a too complex model causes a large prediction error, which corresponds to a low bias. As discussed before, a too complex model overfits the model, which is associated with low bias. 
-
+\iffalse
 \begin{figure}
 	\centering
 	\subfloat[Illustration of bias and variance]{{\includegraphics[width=8cm]{../Images/bias_variance.png}}}
 	\subfloat[Bias-variance trade-off]{{\includegraphics[width=8cm]{../Images/bias_variance_tradeoff.png} }}
 	\caption{Examples of high variance, low-bias and low variance high-bias (a) and illustration of the bias-variance trade-off (b). Figures are taken from \citet{mehta_high-bias_2019}.}%
-	\label{fig:bias_variance}
 \end{figure}
+\fi
 \begin{figure}
 	\centering
 	\input{../tikz/biasvariance.tex}
-	\caption{Illustration of the bias and variance. On the left-hand side, the predicted values of a two-dimensional high variance low-bias model (blue) and low variance high-bias model are illustrated. On the right-hand side, the bias-variance decomposition is shown.}
+	\caption{Illustration of the bias and variance. On the left-hand side, the predicted values of a two-dimensional high variance low-bias model (blue) and low variance high-bias model (red) are illustrated. On the right-hand side, the bias-variance decomposition is shown.}
+	\label{fig:bias_variance}
 \end{figure}
 
 To minimize the prediction error, we should therefore neither minimize the bias nor the variance. Instead, we should find the bias and variance which corresponds to the lowest error. To see how the error is distributed between the bias and variance, we can perform a so-called bias-variance decomposition. This is easiest if we assume that the true data is generated from a noisy model
