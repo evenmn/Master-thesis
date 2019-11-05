@@ -140,6 +140,11 @@ In figure (\ref{fig:bias_variance} b), the bias-variance tradeoff is illustrated
 	\caption{Examples of high variance, low-bias and low variance high-bias (a) and illustration of the bias-variance trade-off (b). Figures are taken from \citet{mehta_high-bias_2019}.}%
 	\label{fig:bias_variance}
 \end{figure}
+\begin{figure}
+	\centering
+	\input{../tikz/biasvariance.tex}
+	\caption{Illustration of the bias and variance. On the left-hand side, the predicted values of a two-dimensional high variance low-bias model (blue) and low variance high-bias model are illustrated. On the right-hand side, the bias-variance decomposition is shown.}
+\end{figure}
 
 To minimize the prediction error, we should therefore neither minimize the bias nor the variance. Instead, we should find the bias and variance which corresponds to the lowest error. To see how the error is distributed between the bias and variance, we can perform a so-called bias-variance decomposition. This is easiest if we assume that the true data is generated from a noisy model
 \begin{equation}
