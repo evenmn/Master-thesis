@@ -13,10 +13,10 @@ The quantum theory is a fundamental theory that describes nature at the smallest
 
 In the most general form, the theory is based on the time-dependent Schrödinger equation,
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-i\hbar\frac{\partial}{\partial t}\ket{\Psi(\bs{x},t)}=\hat{\mathcal{H}}\ket{\Psi(\bs{x},t)}
+i\hbar\frac{\partial}{\partial t}\ket{\Psi(\bs{x},t)}=\hat{\mathcal{H}}\ket{\Psi(\bs{x},t)},
 \label{eq:schrodinger}
 \end{empheq}
-which describes the state, or the wave function, $\Psi(\bs{x},t)$, of a system with Hamiltonian, $\hat{\mathcal{H}}$. The spatial and spin coordinates are specified by $\bs{x}={\bs{r},\sigma}$, $\hbar$ is the reduced Planck's constant and $i$ is the solution of the equation $x^2=-1$. As we later will see, the quantum mechanical system is completely specified by the wave function, so by solving the Schrödinger equation we will in principle know everything about the system. 
+which describes the state, or the wave function, $\Psi(\bs{x},t)$, of a system with Hamiltonian, $\hat{\mathcal{H}}$. The spatial and spin coordinates are specified by $\bs{x}=\{\bs{r},\sigma\}$, $\hbar$ is the reduced Planck's constant and $i$ is the solution of the equation $x^2=-1$. As we later will see, the quantum mechanical system is completely specified by the wave function, so by solving the Schrödinger equation we will in principle know everything about the system. 
 
 \citet{schrodinger_undulatory_1926} introduced the now-called Schrödinger equation, \eqref{eq:schrodinger}, in a 1926 paper as one of many contributions to the quantum mechanics at that time. Other contributors include \citet{born_zur_1926} who suggested the now-standard interpretation of the probability density function as $|\Psi(\bs{x},t)|^2$ in 1926 and his companion \citet{heisenberg_uber_1925}, who formulated the matrix mechanics representation in 1925. However, many physicists were skeptical about the new theory, including Albert Einstein and Schrödinger himself. The theory differed from the classical mechanics in the sense that it was based on a statistical interpretation, with some strange consequences. For instance, the theory allowed negative kinetic energies to occur with the consequence that a particle could \textit{go through} a potential wall, known as quantum tunneling. Later, Einstein \supercite{einstein_can_1935} also pointed out that when pairs or groups of particles are generated in ways such that the wave function of each particle cannot be described independently of the other state, they will be affected by each other even at large distances. He called this \textit{"spooky action at a distance"}, and used the observation to argument that the quantum theory had to be incorrect. However, the observation was later proven to be correct and as late as in 2019 the first image of quantum entanglement, as the phenomenon is called, was captured by \citet{moreau_imaging_2019}, presented in figure \eqref{fig:entanglement}.
 
@@ -64,7 +64,7 @@ We have already presented the time-dependent Schrödinger equation on several oc
 \end{empheq}
 where $\hat{\mathcal{H}}$ is the aforementioned Hamiltonian, the total energy operator. By analogy with the classical mechanics, the total mechanical energy is the kinetic and potential energy summarized,
 \begin{equation}
-\hat{H}=\hat{T}+\hat{V}
+\hat{H}=\hat{T}+\hat{V},
 \end{equation}
 with $\hat{T}$ and $\hat{V}$ as the kinetic and potential energy operators respectively. 
 
@@ -146,7 +146,7 @@ where $\sigma_x$ is the standard deviation of the position and $\sigma_p$ is the
 
 The general expected value in equation \eqref{eq:generalexp} is expressed using the Schrödinger wave mechanics picture, but it can also be written in terms of, for instance, the Heisenberg picture applying matrices. However, the standard formalism today in most branches of the quantum mechanics is the Dirac notation, which relates the Schrödinger picture and the Heisenberg picture elegantly. Using this, the expectation value from equation \eqref{eq:generalexp} reads
 \begin{equation}
-\langle \hat{O}\rangle=\frac{\mel{\Psi}{\hat{O}}{\Psi}}{\braket{\Psi}{\Psi}}
+\langle \hat{O}\rangle=\frac{\mel{\Psi}{\hat{O}}{\Psi}}{\braket{\Psi}{\Psi}},
 \end{equation}
 where $\bra{\Psi}$ is called the \textit{bra} and $\ket{\Psi}$ is called the \textit{ket}. For that reason, the formalism is also called bracket formalism. Usually, the wave function is assumed to be normalized, which further simplifies the expected value to
 \begin{equation}

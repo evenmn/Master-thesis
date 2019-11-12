@@ -19,15 +19,15 @@ but we here use the many-body wave function $\Psi_n(\bs{X})$ of state $n$ with $
 \section{The electronic Hamiltonian} \label{sec:electronichamiltonian}
 We have already seen what the one-body Hamiltonian looks like, and the many-body Hamiltonian is not very different. We recall that it can be split in a kinetic and a potential term,
 \begin{equation}
-\hat{H}=\hat{T}+\hat{V}
+\hat{H}=\hat{T}+\hat{V},
 \end{equation}
 where $\hat{T}$ is the kinetic energy and $\hat{V}$ is the potential energy. Nevertheless, as we study electrons, they are charged and will therefore interact with each other. For that reason, we need to add an interaction term to the Hamiltonian, which in general is included in the potential term $V=V_{\text{ext}}+V_{\text{int}}$ with $V_{\text{ext}}$ as the external potential and $V_{\text{int}}$ as the interaction potential. In the same way as the nucleus potential, the interaction potential is given by Coulomb's law, for two electrons given by 
 \begin{equation}
-V_{\text{int}} =k_e\frac{e^2}{r_{12}}
+V_{\text{int}} =k_e\frac{e^2}{r_{12}},
 \end{equation}
 where $r_{12}$ is the distance between the electrons. For a general system containing $N$ electrons, the total Hamiltonian can therefore be expressed as 
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-\hat{\mathcal{H}}=-\sum_{i=1}^N\frac{\hbar^2}{2m_e}\nabla_i^2+\sum_{i=1}^{N}V_i + \sum_{i=1}^N\sum_{j>i}^Nk_e\frac{e^2}{r_{ij}}
+\hat{\mathcal{H}}=-\sum_{i=1}^N\frac{\hbar^2}{2m_e}\nabla_i^2+\sum_{i=1}^{N}V_i + \sum_{i=1}^N\sum_{j>i}^Nk_e\frac{e^2}{r_{ij}},
 \label{eq:ElectronicHamiltonian}
 \end{empheq}
 without specifying the external potential, $V_i$. The relative distance between particle $i$ and $j$ is defined by $r_{ij}\equiv|\bs{r}_i-\bs{r}_j|$. From now on, we will use atomic units setting $\hbar=m_e=k_e=e=1$, see appendix \ref{app:units} for details.
@@ -37,7 +37,7 @@ By putting the Hamiltonian in equation \eqref{eq:ElectronicHamiltonian} into equ
 \begin{aligned}
 E_n&=\sum_{i=1}^N\bigg[-\frac{1}{2}\mel{\Psi_n(\bs{X})}{\nabla_i^2}{\Psi_n(\bs{X})}
 +\mel{\Psi_n(\bs{X})}{V_i}{\Psi_n(\bs{X})}
-+\sum_{j>i}^N\mel{\Psi_n(\bs{X})}{\frac{1}{r_{ij}}}{\Psi_n(\bs{X})}\bigg]
++\sum_{j>i}^N\mel{\Psi_n(\bs{X})}{\frac{1}{r_{ij}}}{\Psi_n(\bs{X})}\bigg],
 \end{aligned}
 \end{equation}
 where the two former ones are the one-body integrals, or \textit{matrix elements}, which in many cases can be solved analytically. However, the last term is often difficult to solve, and in fact there are analytical solutions available for the two-particle case only. In other words, a precise evaluation of this integral can usually only be found using numerical methods, which we will have a closer look at in chapter \ref{chp:methods} in conjunction with quantum Monte Carlo methods.
@@ -85,7 +85,7 @@ Consider a system of two identical fermions with SPFs $\psi_1(\bs{r},\sigma)$ an
 \begin{vmatrix}
 \psi_1(\boldsymbol{r}_1,\sigma_1) & \psi_2(\boldsymbol{r}_1,\sigma_1)\\
 \psi_1(\boldsymbol{r}_2,\sigma_2) & \psi_2(\boldsymbol{r}_2,\sigma_2)
-\end{vmatrix}\\
+\end{vmatrix},\\
 &=\frac{1}{\sqrt{2}}\Big[\psi_1(\boldsymbol{r}_1,\sigma_1)\psi_2(\boldsymbol{r}_2,\sigma_2)-\psi_2(\boldsymbol{r}_1,\sigma_1)\psi_1(\boldsymbol{r}_2,\sigma_2)\Big],
 \end{aligned}
 \end{equation}
@@ -97,7 +97,7 @@ which is equates to zero if the particles happen to be at the same position and 
 \psi_1(\boldsymbol{r}_2,\sigma_2) & \psi_2(\boldsymbol{r}_2,\sigma_2) & \cdots & \psi_N(\boldsymbol{r}_2,\sigma_2)\\
 \vdots & \vdots & \ddots & \vdots \\
 \psi_1(\boldsymbol{r}_N,\sigma_N) & \psi_2(\boldsymbol{r}_N,\sigma_N) & \cdots & \psi_N(\boldsymbol{r}_N,\sigma_N)
-\end{vmatrix}
+\end{vmatrix},
 \end{equation}
 where the $\psi(\bs{r},\sigma)$ is the tensor product between the radial part $\phi(\bs{r})$ and the spin part $\xi(\sigma)$,
 \begin{equation}
@@ -132,23 +132,23 @@ Our primary focus in this work is to see if we can use machine learning to reduc
 In quantum many-body computations, the electron density is frequently calculated, and there are several reasons for that. First, the electron density can be found experimentally, such that the calculations can be benchmarked. Second, the electron density is very informative, since information about all particles can be gathered in one plot. The $P$-body electron density is defined by the multi-dimensional integral over the probability density function of all the particles but $P$, for a normalized wave function represented by
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \label{eq:electron_density}
-\rho_P(\bs{r}_1,\cdots,\bs{r}_P)=N\int_{-\infty}^{\infty}d\bs{r}_{P+1}\cdots d\bs{r}_N |\Psi(\bs{r}_1,\cdots \bs{r}_N)|^2
+\rho_P(\bs{r}_1,\cdots,\bs{r}_P)=N\int_{-\infty}^{\infty}d\bs{r}_{P+1}\cdots d\bs{r}_N |\Psi(\bs{r}_1,\cdots \bs{r}_N)|^2,
 \end{empheq}
 where $P\leq N$. This integral is in general difficult to solve, and it can be found analytically for just a few realistic systems. For other systems, we need to solve the integral numerically, and we will in chapter \ref{chp:methods} describe how this can be done using Monte Carlo integration. The density should not be normalized to unit both when it is calculated analytically and numerically, but to the number of particles, i.e.,
 \begin{equation}
 \int_{-\infty}^{\infty}d\bs{r}_{1}\cdots d\bs{r}_P\Big[\rho_P(\bs{r}_1,\cdots,\bs{r}_P)\Big]=N.
 \end{equation}
 
-As we cannot pinpoint a particle in quantum mechanics, i.e., it is impossible to distinguish two identical particles in any way, the electron density is the same no matter which particles we decide to leave out. The standard notation is to leave out the first $P$ particles, but we could also, for instance, have left out the $P$ last particles and so forth.
+As we cannot pinpoint a particle in quantum mechanics, i.e. it is impossible to distinguish two identical particles in any way, the electron density is the same no matter which particles we decide to leave out. The standard notation is to leave out the first $P$ particles, but we could also, for instance, have left out the $P$ last particles and so forth.
 
 So, what does the electron density tell us? The one-body density, $\rho_1(\bs{r}_1)$, is sometimes simply referred to as the electron density. It gives the probability density of finding an electron throughout the space, and give insight about how the particles are distributed in the system. On the other hand, the two-body density. $\rho_2(\bs{r}_1,\bs{r}_2)$, becomes a two-dimensional function and is therefore often expressed as a matrix. It gives the probability density of finding an electron throughout the space, given the coordinates of another particle. It, therefore, contains information about how the particles distribute relative to each other and is essential when we want to study the pairwise interaction. In systems with strong forces, such as nuclear systems, the three-body interactions become important and then it also makes sense to look at the three-body density $\rho_3(\bs{r}_1, \bs{r}_2, \bs{r}_3)$. For closed-shell circular quantum dots the radial electron density profile is often preferred as the density then also is circular and independent of the angle. 
 
 For non-interacting systems, the wave function is separable with respect to the different particles. In those cases one can easily find the electron density analytically, since the functions of coordinates which we do not integrate over can be factorized out of the integral,
 \begin{equation}
 \begin{aligned}
-\rho_P(\bs{r}_1,\cdots,\bs{r}_P)&=\int_{-\infty}^{\infty}d\bs{r}_{P+1}\cdots d\bs{r}_N |\Psi(\bs{r}_1),\cdots \Psi(\bs{r}_N)|^2\\
-&=\int_{-\infty}^{\infty}d\bs{r}_{P+1}\cdots d\bs{r}_N |\Psi(\bs{r}_1)|^2\cdots |\Psi(\bs{r}_N)|^2\\
-&=|\Psi(\bs{r}_1)|^2\cdots |\Psi(\bs{r}_P)|^2\underbrace{\int_{-\infty}^{\infty}d\bs{r}_{P+1}|\Psi(\bs{r}_{P+1})|^2\cdots\int_{-\infty}^{\infty}d\bs{r}_{N}|\Psi(\bs{r}_{N})|^2}_{=1}\\
+\rho_P(\bs{r}_1,\cdots,\bs{r}_P)&=\int_{-\infty}^{\infty}d\bs{r}_{P+1}\cdots d\bs{r}_N |\Psi(\bs{r}_1),\cdots \Psi(\bs{r}_N)|^2,\\
+&=\int_{-\infty}^{\infty}d\bs{r}_{P+1}\cdots d\bs{r}_N |\Psi(\bs{r}_1)|^2\cdots |\Psi(\bs{r}_N)|^2,\\
+&=|\Psi(\bs{r}_1)|^2\cdots |\Psi(\bs{r}_P)|^2\underbrace{\int_{-\infty}^{\infty}d\bs{r}_{P+1}|\Psi(\bs{r}_{P+1})|^2\cdots\int_{-\infty}^{\infty}d\bs{r}_{N}|\Psi(\bs{r}_{N})|^2}_{=1},\\
 &=|\Psi(\bs{r}_1)|^2\cdots |\Psi(\bs{r}_P)|^2,
 \end{aligned}
 \end{equation}

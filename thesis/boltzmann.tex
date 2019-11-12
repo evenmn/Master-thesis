@@ -53,7 +53,7 @@ The KL divergence is a measure of the difference between two \textit{probability
 
 To proceed further, we will introduce latent variables in form of hidden units. Suppose we want to model an $m$-dimensional unknown probability distribution $Q$. Typically, not all the variables $\bs{s}$ are observed components, they can also be latent variables. If we split $\bs{s}$ into \textit{visible} variables $\bs{x}$ and hidden variables $\bs{h}$, and under the assumption that $\bs{x}$ and $\bs{h}$ are variables in an energy function $E(\bs{x},\bs{h})$, we can express the joint probability as the Boltzmann distribution
 \begin{equation}
-P(\bs{x},\bs{h})=\frac{\exp(-E(\bs{x},\bs{h}))}{Z}
+P(\bs{x},\bs{h})=\frac{\exp(-E(\bs{x},\bs{h}))}{Z},
 \end{equation}
 where $Z$ is the partition function, which is the sum of the probability of all possible states, which was already introduced in equation \eqref{eq:partition}. We have ignored the factor $k_BT$ by setting it to 1. Where the visible units correspond to components of an observation, the hidden units introduce the system to more degrees of freedom. This allows us to describe complex distributions over the visible variables by means of simple conditional distributions \supercite{fischer_training_2014}. Those conditional distributions will be described later, but let us first take a look at the marginal distributions.
 
@@ -71,7 +71,7 @@ $P(\bs{x})$ is important as it gives the probability of a particular set of visi
 \subsection{Conditional distributions}
 The conditional distributions can be found from Bayes' theorem, and read
 \begin{equation}
-P(\bs{h}|\bs{x})=\frac{P(\bs{x},\bs{h})}{P(\bs{x})}=\frac{\exp(-E(\bs{x},\bs{h}))}{\sum_{\bs{h}'}\exp(-E(\bs{x},\bs{h}'))}
+P(\bs{h}|\bs{x})=\frac{P(\bs{x},\bs{h})}{P(\bs{x})}=\frac{\exp(-E(\bs{x},\bs{h}))}{\sum_{\bs{h}'}\exp(-E(\bs{x},\bs{h}'))},
 \end{equation}
 and
 \begin{equation}
@@ -87,7 +87,7 @@ Now, suppose that the energy function also is a function of some parameters $\bs
 and by maximizing this we find the maximum log-likelihood estimate. This estimate is important in neural networks since we always seek to maximize the likelihood in the training process. The function is maximized when 
 \begin{equation}
 \begin{aligned}
-\frac{\partial\ln P(\bs{x}|\bs{\theta})}{\partial\bs{\theta}}&=\frac{\partial}{\partial\bs{\theta}}\left(\ln\sum_{\bs{h}'}\exp(-E(\bs{x},\bs{h}'))\right)-\frac{\partial}{\partial\bs{\theta}}\left(\ln\sum_{\bs{x}',\bs{h}'}\exp(-E(\bs{x}',\bs{h}'))\right)\\
+\frac{\partial\ln P(\bs{x}|\bs{\theta})}{\partial\bs{\theta}}&=\frac{\partial}{\partial\bs{\theta}}\left(\ln\sum_{\bs{h}'}\exp(-E(\bs{x},\bs{h}'))\right)-\frac{\partial}{\partial\bs{\theta}}\left(\ln\sum_{\bs{x}',\bs{h}'}\exp(-E(\bs{x}',\bs{h}'))\right),\\
 &=-\sum_{\bs{h}'}P(\bs{h}'|\bs{x})\frac{\partial E(\bs{x},\bs{h}')}{\partial\bs{\theta}}+\sum_{\bs{x}',\bs{h}'}P(\bs{x}',\bs{h}')\frac{\partial E(\bs{x}',\bs{h}')}{\partial\bs{\theta}}=0.
 \end{aligned}
 \end{equation}
@@ -152,7 +152,7 @@ P(\bs{x})=\frac{1}{Z}\exp(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2})\prod_{j=
 \end{empheq}
 were the transition from equation \eqref{eq:gaussianbinary} is shown thoroughly in appendix \ref{app:rbmderive}. Since the visible units take continuous values, we need to integrate to find the marginal distribution of the hidden units. The derivation is shown in appendix \ref{app:rbmderive}, and the final expression result reads
 \begin{equation}
-P(\bs{h})=\frac{1}{Z}\exp(\sum_{j=1}^Hh_jb_j)\prod_{i=1}^F\sqrt{2\pi\sigma_i^2}\exp(a_i\sum_{j=1}^H\frac{w_{ij}h_j}{\sigma_i^2}+\left(\sum_{j=1}^H\frac{w_{ij}h_j}{2\sigma_i^2}\right)^2)
+P(\bs{h})=\frac{1}{Z}\exp(\sum_{j=1}^Hh_jb_j)\prod_{i=1}^F\sqrt{2\pi\sigma_i^2}\exp(a_i\sum_{j=1}^H\frac{w_{ij}h_j}{\sigma_i^2}+\left(\sum_{j=1}^H\frac{w_{ij}h_j}{2\sigma_i^2}\right)^2),
 \end{equation}
 which can be used to find the conditional distribution of the hidden units, but other than that it will not be further used. The conditional distributions are important in Gibbs sampling as they are used to determine the value of the hidden and visible nodes and update the weights. The conditional distribution of the visible units is used to update the hidden units and reads
 \begin{equation}
@@ -168,15 +168,15 @@ with the width of the Gaussian distribution determining the variance. Note that 
 In Metropolis sampling, we only use the marginal distribution of the visible units, so the weights to the hidden units are additional variational parameters. For completeness reasons, we will discuss the Gibbs sampling, but we will in practice stick to the Metropolis sampling. More about the different sampling tools can be found in chapter \ref{chp:methods}. We also need the gradient of the log-likelihood function in order to train the network. The likelihood function is defined as the probability of $\bs{x}$ given a set of parameters $\bs{\theta}$, which relate to our problem as $P(\bs{x}|\bs{a},\bs{b},\bs{w})$. We therefore get three maximum log-likelihood estimates,
 \begin{equation}
 \begin{aligned}
-\frac{\partial\ln P(\bs{x}|\bs{a},\bs{b},\bs{w})}{\partial\bs{a}}&=\frac{\bs{x}-\bs{a}}{\sigma^2}\\
-\frac{\partial\ln P(\bs{x}|\bs{a},\bs{b},\bs{w})}{\partial\bs{b}}&=\bs{n}\\
-\frac{\partial\ln P(\bs{x}|\bs{a},\bs{b},\bs{w})}{\partial\bs{w}}&=\frac{\bs{x}\bs{n}^T}{\sigma^2}
+\frac{\partial\ln P(\bs{x}|\bs{a},\bs{b},\bs{w})}{\partial\bs{a}}&=\frac{\bs{x}-\bs{a}}{\sigma^2},\\
+\frac{\partial\ln P(\bs{x}|\bs{a},\bs{b},\bs{w})}{\partial\bs{b}}&=\bs{n},\\
+\frac{\partial\ln P(\bs{x}|\bs{a},\bs{b},\bs{w})}{\partial\bs{w}}&=\frac{\bs{x}\bs{n}^T}{\sigma^2},
 \end{aligned}
 \label{eq:loglikelihood}
 \end{equation}
 where we have defined a vector $\bs{n}$ as the (element-wise) logistic function
 \begin{equation}
-\bs{n}(\bs{v})\equiv\frac{1}{1+\exp(-\bs{v})}
+\bs{n}(\bs{v})\equiv\frac{1}{1+\exp(-\bs{v})},
 \end{equation}
 with $\bs{v}$ as the vector containing all the elements in the last exponent in equation \eqref{eq:RBMWF2},
 \begin{equation}
@@ -193,12 +193,12 @@ One can also imagine a partly restricted architecture, where we have intern conn
 	\label{fig:partly_restricted_boltzmann_machine}
 \end{figure}
 \begin{equation}
-E(\bs{x},\bs{h})= \sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2} - \sum_{i=1}^F\sum_{j>i}^Fx_ic_{ij}x_j- \sum_{j=1}^Hh_jb_j-\sum_{i=1}^F\sum_{j=i}^H \frac{x_iw_{ij}h_j}{\sigma_i^2} 
+E(\bs{x},\bs{h})= \sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2} - \sum_{i=1}^F\sum_{j>i}^Fx_ic_{ij}x_j- \sum_{j=1}^Hh_jb_j-\sum_{i=1}^F\sum_{j=i}^H \frac{x_iw_{ij}h_j}{\sigma_i^2},
 \label{eq:partlygaussianbinary}
 \end{equation}
 with $c_{ij}$ as the weights between the visible units. In the rest of this project, we are interested in the marginal distribution of the visible units only, which becomes
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-P(\bs{x})=\frac{1}{Z}\exp(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2}+\sum_{i=1}^F\sum_{j>i}^Fx_ic_{ij}x_j)\prod_{j=1}^H\left[1+\exp(b_j+\sum_{i=1}^F\frac{w_{ij}x_i}{\sigma^2})\right]
+P(\bs{x})=\frac{1}{Z}\exp(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma^2}+\sum_{i=1}^F\sum_{j>i}^Fx_ic_{ij}x_j)\prod_{j=1}^H\left[1+\exp(b_j+\sum_{i=1}^F\frac{w_{ij}x_i}{\sigma^2})\right],
 \label{eq:PRBMWF}
 \end{empheq}
 by again using the approach detailed in appendix \ref{app:rbmderive}. In chapter \ref{chp:rbmimplementation}, we utilize that this marginal distribution can be split in a Gaussian part, a \textit{partly restricted} part and a product part. Then we see that the expression of the gradient of the log-likelihood function becomes the same with respect to $\bs{a},\bs{b}$ and $\bs{w}$ compared to the restricted Boltzmann machine, which means that we only need to calculate the expression of the gradient of the log-likelihood with respect to $\bs{c}$. This is given by the outer product
@@ -217,7 +217,7 @@ We can also construct deep Boltzmann machines, also known as deep belief network
 	\label{fig:deep_restricted_boltzmann_machine}
 \end{figure}
 \begin{equation}
-E(\bs{x},\bs{h})= \sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2} - \sum_{l=1}^L\sum_{j=1}^{H_L}h_j^{(l)}b_j^{(l)}-\sum_{l=1}^L\sum_{i=1}^F\sum_{j=i}^{H_L} \frac{x_iw_{ij}^{(l)}h_j^{(l)}}{\sigma_i^2}
+E(\bs{x},\bs{h})= \sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2} - \sum_{l=1}^L\sum_{j=1}^{H_L}h_j^{(l)}b_j^{(l)}-\sum_{l=1}^L\sum_{i=1}^F\sum_{j=i}^{H_L} \frac{x_iw_{ij}^{(l)}h_j^{(l)}}{\sigma_i^2},
 \label{eq:deepgaussianbinary}
 \end{equation}
 where $H_L$ is the number of hidden units in layer $L$. The marginal probability distribution of the visible units read

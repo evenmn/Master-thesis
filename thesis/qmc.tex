@@ -15,7 +15,7 @@ which provides the ground state energy expectation value for the exact ground st
 
 In Monte Carlo integration, we use random numbers to evaluate integrals numerically. Typically, we want to estimate an expectation value $\langle\hat{O}\rangle$ by approximating the definition integral with a dense sum,
 \begin{equation}
-\langle \hat{O}\rangle\equiv\int_{-\infty}^{\infty}d\bs{x}P(\bs{x})\hat{O}(\bs{x})\approx\frac{1}{M}\sum_{i=1}^M\hat{O}(\bs{x}_i)
+\langle \hat{O}\rangle\equiv\int_{-\infty}^{\infty}d\bs{x}P(\bs{x})\hat{O}(\bs{x})\approx\frac{1}{M}\sum_{i=1}^M\hat{O}(\bs{x}_i),
 \label{eq:montecarlointegration}
 \end{equation}
 where $M$ is the number of \textit{Monte Carlo cycles} and the coordinates $\bs{x}_i$ are drawn randomly from the probability density function $P(\bs{x})$. A great advantage of the QMC methods, is that we obtain approximative ground state wave functions when solving equation \eqref{eq:schrodingergroundstate}, which by the fourth postulate of quantum mechanics allows estimations of the ground state expectation values associated with other operators as well. 
@@ -37,7 +37,7 @@ In this section, we will look at how the VMC method approaches those challenges.
 \subsection{The trial wave function} \label{sec:trial}
 The trial wave function was mentioned in section \ref{sec:cusp}, but what is actually the trial wave function? In VMC, we start from a wave function ansatz, which is our ground state wave function guess. This function is equipped with variational parameters, and in order to estimate the wave function accurately, the trial wave function needs to be able to approach the correct wave function as we vary the parameters. However, as the many-body wave function is NP-hard to calculate \supercite{troyer_computational_2005}, we will only be able to approximate it and for that reason the wave function is by many considered as the root of all evil in many-body physics. For fermionic systems, the standard trial wave function used in VMC, given a set of variational parameters $\bs{\theta}$, is the Slater-Jastrow wave function, 
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-\Psi_T(\bs{X};\bs{\theta})=|\hat{S}(\bs{X};\bs{\theta})|J(\bs{X};\bs{\theta})
+\Psi_T(\bs{X};\bs{\theta})=|\hat{S}(\bs{X};\bs{\theta})|J(\bs{X};\bs{\theta}),
 \end{empheq}
 where $|\hat{S}(\bs{X};\bs{\theta})|$ is a Slater determinant used to bake in the anti-symmetry discussed in section \ref{sec:symmetry} and $J(\bs{R};\bs{\theta})$ is a Jastrow factor used to model the electron-electron correlations. Recall that the general Slater determinant has the form
 \begin{equation}
@@ -47,7 +47,7 @@ where $|\hat{S}(\bs{X};\bs{\theta})|$ is a Slater determinant used to bake in th
 \psi_1(\boldsymbol{r}_2,\sigma_2;\bs{\theta}) & \psi_2(\boldsymbol{r}_2,\sigma_2;\bs{\theta}) & \hdots & \psi_N(\boldsymbol{r}_2,\sigma_2;\bs{\theta})\\
 \vdots & \vdots & \ddots & \vdots \\
 \psi_1(\boldsymbol{r}_N,\sigma_N;\bs{\theta}) & \psi_2(\boldsymbol{r}_N,\sigma_N;\bs{\theta}) & \hdots & \psi_N(\boldsymbol{r}_N,\sigma_N;\bs{\theta})
-\end{vmatrix}
+\end{vmatrix},
 \label{eq:variationalslater}
 \end{equation}
 where the single-particle function $\psi(\bs{r},\sigma;\bs{\theta})$ can be decomposed in a spatial part, $\phi(\bs{r};\bs{\theta})$ and a spin part, $\xi(\sigma)$, 
@@ -73,8 +73,8 @@ $\otimes$ denotes the tensor product, and the factorization is only possible if 
 \psi_j(\bs{r}_i,\sigma_i)=
 \begin{cases}
 \phi_j(\bs{r}_i)\xi_{\uparrow}(\sigma_i)\quad\quad&\text{if } j<N_{\uparrow}\\
-\phi_j(\bs{r}_i)\xi_{\downarrow}(\sigma_i)\quad\quad&\text{if } j\geq N_{\uparrow}.
-\end{cases}
+\phi_j(\bs{r}_i)\xi_{\downarrow}(\sigma_i)\quad\quad&\text{if } j\geq N_{\uparrow}
+\end{cases}.
 \end{equation}
 Since the first $N_{\uparrow}$ particles have spin up, $\sigma_i=\,\uparrow\quad\forall\quad i\in\{1,2,...,N_{\uparrow}\}$, and the remaining have spin down, we can now set up the Slater determinant in equation \eqref{eq:variationalslater} where each single-particle function is split in a spatial part and a spin part,
 \begin{equation*}
@@ -98,16 +98,16 @@ We observe that the the spin-up particles sometimes occupy spin-down states, whi
 0 & \hdots & 0 & \phi_{1}(\boldsymbol{r}_{N_{\uparrow}+1})\xi_{\downarrow}(\downarrow) & \hdots & \phi_{N_{\downarrow}}(\boldsymbol{r}_{N_{\uparrow}+1})\xi_{\downarrow}(\downarrow)\\
 \vdots & & \vdots & \vdots & & \vdots \\
 0 & \hdots & 0 & \phi_{1}(\boldsymbol{r}_N)\xi_{\downarrow}(\downarrow) & \hdots & \phi_{N_{\downarrow}}(\boldsymbol{r}_N)\xi_{\downarrow}(\downarrow)\\
-\end{vmatrix}
+\end{vmatrix},
 \end{equation*}
 where the Slater matrix now is block diagonal! For a general block diagonal matrix, the determinant is given by the product of the determinant of each block
 \begin{equation}
-|\hat{S}(\bs{X})|=\frac{1}{\sqrt{N!}}|\hat{S}_{\uparrow}(\bs{X}^{\uparrow})|\cdot |\hat{S}_{\downarrow}(\bs{X}^{\downarrow})|
+|\hat{S}(\bs{X})|=\frac{1}{\sqrt{N!}}|\hat{S}_{\uparrow}(\bs{X}^{\uparrow})|\cdot |\hat{S}_{\downarrow}(\bs{X}^{\downarrow})|,
 \end{equation}
 which can be seen by writing the total matrix as a product over all the block diagonal matrix. $\hat{S}_{\sigma}$ is the matrix containing all spin-$\sigma$ states with collective coordinates $\bs{X}^{\sigma}=\{\{\bs{r}_1^{\sigma},\xi_{\sigma}(\sigma)\},\{\bs{r}_2^{\sigma},\xi_{\sigma}(\sigma)\},\hdots,\{\bs{r}_N^{\sigma},\xi_{\sigma}(\sigma)\}\}$. Since all elements in the respective matrices contain the same spin function, it can be factorized out \supercite{nissenbaum_stochastic_2008},
 \begin{equation}
 \begin{aligned}
-|\hat{S}(\bs{X})|=\frac{1}{\sqrt{N!}}&|\hat{D}_{\uparrow}(\bs{r}_1, \bs{r}_2,\hdots,\bs{r}_{N_{\uparrow}})|\{\xi_{\uparrow}(\sigma_1^{\uparrow})\xi_{\uparrow}(\sigma_2^{\uparrow})\hdots\xi_{\uparrow}(\sigma_{N_{\uparrow}}^{\uparrow})\} \\ \times&|\hat{D}_{\downarrow}(\bs{r}_{N_{\uparrow}+1}, \hdots,\bs{r}_{N-1},\bs{r}_{N})|\{\xi_{\downarrow}(\sigma_{N_{\uparrow}+1}^{\downarrow})\hdots\xi_{\downarrow}(\sigma_{N-1}^{\downarrow})\xi_{\downarrow}(\sigma_{N}^{\downarrow})\}
+|\hat{S}(\bs{X})|=\frac{1}{\sqrt{N!}}&|\hat{D}_{\uparrow}(\bs{r}_1, \bs{r}_2,\hdots,\bs{r}_{N_{\uparrow}})|\{\xi_{\uparrow}(\sigma_1^{\uparrow})\xi_{\uparrow}(\sigma_2^{\uparrow})\hdots\xi_{\uparrow}(\sigma_{N_{\uparrow}}^{\uparrow})\}, \\ \times&|\hat{D}_{\downarrow}(\bs{r}_{N_{\uparrow}+1}, \hdots,\bs{r}_{N-1},\bs{r}_{N})|\{\xi_{\downarrow}(\sigma_{N_{\uparrow}+1}^{\downarrow})\hdots\xi_{\downarrow}(\sigma_{N-1}^{\downarrow})\xi_{\downarrow}(\sigma_{N}^{\downarrow})\},
 \end{aligned}
 \end{equation}
 and omitted in the future study. We can then define a set, $\bs{R}^{\sigma}=\{\bs{r}_1^{\sigma},\bs{r}_2^{\sigma},\hdots,\bs{r}_N^{\sigma}\}$, containing the spatial coordinates of the spin-$\sigma$ particles and $\bs{R}=\{\bs{r}_1,\bs{r}_2,\hdots,\bs{r}_N\}$ containing the collective spatial coordinates. The Slater determinant we are left with is thus
@@ -163,10 +163,10 @@ As we have seen, in VMC, we start with a trial wave function guess $\Psi_T(\bs{R
 \begin{equation}
 E_0 \leq E = \frac{\int d\bs{R}\Psi_T(\bs{R})^*\hat{\mathcal{H}}\Psi_T(\bs{R})}{\int d\bs{R}\Psi_T(\bs{R})^*\Psi_T(\bs{R})}.
 \end{equation}
-Furthermore, the integral can be written in the form of a general expectation value
+Furthermore, the integral can be written in the form of a general expectation value,
 \begin{equation}
 E = \int d\bs{R} E_L(\bs{R})P(\bs{R})
-\end{equation}
+\end{equation},
 defining the local energy as
 \begin{equation}
 E_L(\bs{R})\equiv\frac{1}{\Psi_T(\bs{R})}\hat{\mathcal{H}}\Psi_T(\bs{R})
@@ -193,7 +193,7 @@ Above we have discussed the sampling in detail, which is a central part of the V
 
 However, we need to define a cost function for VMC which is minimized when the ground state energy is obtained. According to the variational principle, the ground state energy is the lowest energy we can obtain, so an obvious cost function is the energy expectation value. We therefore set
 \begin{equation}
-\mathcal{C}(\bs{\theta})=\langle E_L\rangle
+\mathcal{C}(\bs{\theta})=\langle E_L\rangle,
 \end{equation}
 since we get the expectation value of the local energy from the Metropolis sampling. Further, we use the definition of the gradient of an expectation value from \citet{morten_hjorth-jensen_computational_2019} and obtain
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
@@ -202,7 +202,7 @@ since we get the expectation value of the local energy from the Metropolis sampl
 \end{empheq}
 which means that we need to calculate the expectation values $\langle E_L\nabla_{\theta_j}\ln\Psi_T\rangle$ and $\langle\nabla_{\theta_j}\ln\Psi_T\rangle$ in addition to the expectation value of the local energy. Those expectation values are found from the integrals
 \begin{equation}
-\langle\nabla_{\theta_j}\ln\Psi_T\rangle = \int_{-\infty}^{\infty}d\bs{R}\nabla_{\theta_j}\ln\Psi_T(\bs{R})P(\bs{R})
+\langle\nabla_{\theta_j}\ln\Psi_T\rangle = \int_{-\infty}^{\infty}d\bs{R}\nabla_{\theta_j}\ln\Psi_T(\bs{R})P(\bs{R}),
 \end{equation}
 and
 \begin{equation}
@@ -254,25 +254,25 @@ where
 \end{equation}
 Even though we want a method which requires as little physical intuition as possible, the wave function needs to obey Fermi-Dirac statistics, and we therefore also approximate the trial wave function with the Slater determinant for the machine learning methods. Further, we use the same framework as we did for VMC, but the single-particle functions (SPFs) $\phi_j(\bs{r}_i)$ are given by the marginal distribution of the visible units from a restricted Boltzmann machine, $P(\bs{r})$. For quantum dots, we also add the Hermite polynomials, $H_n(\bs{r})$ to get an unique SPF for each state. We then have
 \begin{equation}
-\phi_j(\bs{r}_i)=H_j(\bs{r}_i)P(\bs{r}_i)
+\phi_j(\bs{r}_i)=H_j(\bs{r}_i)P(\bs{r}_i),
 \end{equation}
 where the marginal distribution is the distribution obtained in equation \eqref{eq:RBMWF2}. The RBM trial wave function is then simply
 \begin{equation}
-\Psi_T(\bs{R})=|\hat{S}_{\uparrow}(\bs{R}^{\uparrow})|\cdot |\hat{S}_{\downarrow}(\bs{R}^{\downarrow})|
+\Psi_T(\bs{R})=|\hat{S}_{\uparrow}(\bs{R}^{\uparrow})|\cdot |\hat{S}_{\downarrow}(\bs{R}^{\downarrow})|,
 \end{equation}
 where we omit the normalization factor, $Z$, as it is not required by the method, as we will see in section \ref{sec:metropolis}.
 
 \subsection{RBM with a simple Jastrow factor (RBM+SJ)} \label{sec:rbmsj}
 This method, abbreviated RBM+SJ, is just an extension of the RBM method described in the previous section, where we add the simple Jastrow factor described in section \ref{sec:jastrow} to help modeling the electron-electron cusp. When adding a Jastrow factor we also add some more physical intuition to the trial wave function, but the Jastrow factor used here still contains a minimum of physical intuition. The trial wave function using this method thus takes the form
 \begin{equation}
-\Psi_T(\bs{R})=|\hat{D}_{\uparrow}(\bs{R}^{\uparrow})|\cdot|\hat{D}_{\downarrow}(\bs{R}^{\downarrow})|J(\bs{R};\bs{\beta})
+\Psi_T(\bs{R})=|\hat{D}_{\uparrow}(\bs{R}^{\uparrow})|\cdot|\hat{D}_{\downarrow}(\bs{R}^{\downarrow})|J(\bs{R};\bs{\beta}),
 \end{equation}
 where $\bs{\beta}$ is a set of variational parameters and where the normalization factor, $Z$, again is omitted.  
 
 \subsection{RBM with a Padé-Jastrow factor (RBM+PJ)} \label{sec:rbmpj}
 Lastly, we add the well-known Padé-Jastrow factor to the RBM, abbreviated RBM+PJ, to see how much the results change when a more advanced correlation factor is added. As discussed in section \ref{sec:jastrow}, the Padé-Jastrow factor is constructed to model the electron-electron cusp correctly, and it is also interesting to see how an increased amount of physical intuition in the trial wave function affects the results. The RBM+PJ trial wave function then reads
 \begin{equation}
-\Psi_T(\bs{R})=|\hat{D}_{\uparrow}(\bs{R}_{\uparrow})|\cdot|\hat{D}_{\downarrow}(\bs{R}_{\downarrow})|J(\bs{R};\beta)
+\Psi_T(\bs{R})=|\hat{D}_{\uparrow}(\bs{R}_{\uparrow})|\cdot|\hat{D}_{\downarrow}(\bs{R}_{\downarrow})|J(\bs{R};\beta),
 \end{equation}
 where we recall that the Padé-Jastrow factor contains the variational parameter $\beta$.
 
@@ -297,7 +297,7 @@ where we limit $A$ to maximum 1 as the probability should not exceed 1. We want 
 \subsection{Brute-force sampling} \label{sec:bruteforce}
 In its simplest form, the move is proposed randomly both in magnitude and direction. Mathematically, we can write this as
 \begin{equation}
-\bs{R}'=\bs{R}+\Delta xd\bs{R}
+\bs{R}'=\bs{R}+\Delta xd\bs{R},
 \end{equation}
 where $\Delta x$ is the step length and $d\bs{r}$ has a random magnitude and direction (typically which particle to move). We obtain the naïve acceptance probability when requiring $T(\bs{R}'|\bs{R})=T(\bs{R}|\bs{R}')$, such that the it simplifies to
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
@@ -308,7 +308,7 @@ However, with this approach, an unsatisfying number of moves will be rejected as
 \subsection{Importance sampling} \label{sec:importancesampling}
 Importance sampling is a more intelligent sampling method than the brute-force sampling, since the new position is based on an educated guess. To understand how it works, we need to take a quick look at diffusion processes. We start from the Fokker-Planck equation,
 \begin{equation}
-\frac{\partial P(\bs{R},t)}{\partial t}=D\nabla\left(\nabla-\bs{F}\right)P(\bs{R},t)
+\frac{\partial P(\bs{R},t)}{\partial t}=D\nabla\left(\nabla-\bs{F}\right)P(\bs{R},t),
 \label{eq:fokkerplanck}
 \end{equation}
 which describes how a probability distribution $P(\bs{R},t)$ evolves in appearance of a drift force $\bs{F}$. In the case $\bs{F}=\bs{0}$, the equation reduces to the diffusion equation with $D$ as the diffusion constant. This simplifies to $D=1/2$ in natural units. 
@@ -320,7 +320,7 @@ The Langevin equation states that a diffusion particle tends to move parallel to
 \end{equation}
 Given a position $\bs{R}$, the new position $\bs{R}'$ can be be found by applying forward-Euler on the Langevin equation, obtaining
 \begin{equation}
-\bs{R}'=\bs{R}+D\Delta t\bs{F}(\bs{R}) + \bs{\xi}\sqrt{\Delta t}
+\bs{R}'=\bs{R}+D\Delta t\bs{F}(\bs{R}) + \bs{\xi}\sqrt{\Delta t},
 \end{equation}
 where $\Delta t$ is a fictive time step and $\bs{\xi}$ is a Gaussian random variable. Further, we want to find an expression of the drift force $\bs{F}$ which makes the system converge to a stationary state. A stationary state is found when the probability density function, $P(\bs{R})$, is constant in time, i.e., when the left-hand side of the Fokker-Planck equation is zero. In that case, we can rewrite the equation as
 \begin{equation}
@@ -328,7 +328,7 @@ where $\Delta t$ is a fictive time step and $\bs{\xi}$ is a Gaussian random vari
 \end{equation}
 where the parenthesis are written out and we have moved the term that is independent of the force $\bs{F}$ to the left-hand side. Moreover, we assume that the drift force takes the form $\bs{F}(\bs{R})=g(\bs{R})\nabla P(\bs{R})$ based on the fact that the force should point in the direction of the steepest slope. We can then go ahead and write
 \begin{equation}
-\nabla^2 P(\bs{R})\big(1-P(\bs{R})g(\bs{R})\big)=\nabla\big(g(\bs{R})P(\bs{R})\big)\nabla P(\bs{R})
+\nabla^2 P(\bs{R})\big(1-P(\bs{R})g(\bs{R})\big)=\nabla\big(g(\bs{R})P(\bs{R})\big)\nabla P(\bs{R}),
 \end{equation}
 where the quantity $\nabla^2 P(\bs{R})$ is factorized out from two of the terms. The equation is satisfied when $g(\bs{R})=1/P(\bs{R})$, such that the drift force evolves to the well-known form
 \begin{equation}
@@ -357,7 +357,7 @@ The marginal distribution of a subset of variables can then be approximated by s
 
 For a restricted Boltzmann machine, this becomes a two-step sampling process as we have two layers, such that we use the conditional probabilities $P(\bs{x}|\bs{h})$ and $P(\bs{h}|\bs{x})$ to update the visible and hidden units respectively. For the restricted Boltzmann machine with Gaussian-binary units presented in section \ref{sec:RBM}, the conditional probability of $h_j=0$ given a set of visible nodes $\bs{x}$ is
 \begin{equation}
-P(h_j=0|\bs{x})=\frac{1}{1+\exp(+b_j+\sum_{i=1}^Nx_iw_{ij}/\sigma_i^2)}
+P(h_j=0|\bs{x})=\frac{1}{1+\exp(+b_j+\sum_{i=1}^Nx_iw_{ij}/\sigma_i^2)},
 \end{equation}
 and the corresponding conditional probability of $h_j=1$ is
 \begin{equation}
@@ -382,17 +382,17 @@ Since the DMC method is used as a reference for more or less all the produced re
 \begin{equation}
 i\frac{\partial\Psi(\bs{R},t)}{\partial t}=\hat{\mathcal{H}}\Psi(\bs{R},t),
 \end{equation}
-with $t$ as the time and $i$ as the solution of $x^2=-1$. In natural units, the Hamiltonian is given by
+with $\Psi(\bs{R},t)$ as the many-body wave function, $t$ as the time and $i$ as the solution of $x^2=-1$. In natural units, the Hamiltonian is given by
 \begin{equation}
 \hat{\mathcal{H}}=-\frac{1}{2}\nabla^2 + V(\bs{R}).
 \end{equation}
 Further, we assume that the potential becomes infinite as $x\rightarrow \pm\infty$, such that the particle motion is confined to a finite spatial domain. The formal solution of the time-dependent Schrödinger equation is then given by an expansion of the eigenfunctions of $\hat{\mathcal{H}}$, $\phi_n(\bs{r})$, given by
 \begin{equation}
-\Psi(\bs{R},t)=\sum_{n=0}^{\infty}c_n\phi_n(\bs{R})e^{-E_nt/\hbar},
+\Psi(\bs{R},t)=\sum_{n=0}^{\infty}c_n\phi_n(\bs{R})e^{-E_nt/\hbar}.
 \end{equation}
-with $\hbar$ as the reduced Planck's constant and where the coefficients can be obtained by
+$\hbar$ is the reduced Planck's constant and the coefficients can be obtained by integrating up the eigenfunction and the many-body wave function,
 \begin{equation}
-c_n=\int_{-\infty}^{\infty}d\bs{R}\phi_n(\bs{R})\Psi(\bs{R},0)
+c_n=\int_{-\infty}^{\infty}d\bs{R}\phi_n(\bs{R})\Psi(\bs{R},0),
 \end{equation}
 under the assumption that the eigenfunctions are orthonormal and that the energies $E_n$ are sorted in increasing order. The DMC method is based on the time-imaginary Schrödinger equation, which is obtained by a \textbf{shift of energy scale}, setting $V(\bs{R})\rightarrow V(\bs{R}) - E_R$ and $E_n\rightarrow E_n -E_R$, which does not change any physical quantity. By further using the \textbf{Wick rotation of time} setting $\tau=it$, we obtain the time-imaginary Schrödinger equation \supercite{kosztin_introduction_1996},
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
@@ -403,16 +403,15 @@ which gives the expansion
 \begin{equation}
 \Psi(\bs{R},\tau)=\sum_{n=0}^{\infty}c_n\phi_n(\bs{R})e^{-(E_n-E_R)\tau}.
 \end{equation}
-
 The time-imaginary Schrödinger equation is similar to the Fokker-Planck equation presented in equation \eqref{eq:fokkerplanck}, which was noticed by Fermi already around 1945 \supercite{metropolis_monte_1949,ceperley_quantum_1986}. Since we have analytical solutions of the Fokker-Planck equation, the idea is to apply the same solutions to equation \eqref{eq:timeimaginary}. To clarify this, consider the time-imaginary Schrödinger equation for non-interacting particles,
 \begin{equation}
-\frac{\partial\Psi(\bs{R},\tau)}{\partial\tau}=\frac{1}{2}\nabla^2\Psi(\bs{R},\tau)
+\frac{\partial\Psi(\bs{R},\tau)}{\partial\tau}=\frac{1}{2}\nabla^2\Psi(\bs{R},\tau),
 \end{equation}
 which is really similar to the diffusion equation,
 \begin{equation}
-\frac{\partial\phi(\bs{R},t)}{\partial t}=D\nabla^2\phi(\bs{R},t)
+\frac{\partial\phi(\bs{R},t)}{\partial t}=D\nabla^2\phi(\bs{R},t),
 \end{equation}
-where $D$ is the diffusion constant set to $1/2$ in our calculations, no wonder why. We end our motivation of the DMC method here, and relegate the reader to \citet{kosztin_introduction_1996} for a thorough and comprehensive explanation of the method. The last section of this chapter is about error estimation, which is very important in experimental physics, also when it comes to computer experiments. 
+where $D$ is the diffusion constant set to $1/2$ in our calculations. We end our motivation of the DMC method here, and relegate the reader to \citet{kosztin_introduction_1996} for a thorough and comprehensive explanation of the method. The last section of this chapter is about error estimation, which is very important in experimental physics, also when it comes to computer experiments. 
 
 \section{Error estimation} \label{sec:variance}
 In experiments, we have two main classes of errors; systematical errors and statistical errors. The former is a result of external factors such as uncertainties in the apparatus or a person constantly takes an incorrect measurement, which is an error that is hard to estimate. The latter, however, can be found by estimating the variance of the sample mean, which we want to find accurately and efficiently. Monte Carlo simulations can be treated as computer experiments, and therefore we can use the same analyzing tools as we do for real experiments.
@@ -422,7 +421,7 @@ There are many ways to estimate the variance, where the cheapest ones ignore cor
 \subsection{Central concepts of statistics}
 Before we go through the blocking method, we will give a brief introduction to some useful statistical quantities. We start with the \textit{moments}, which are given by
 \begin{equation}
-\langle x^n\rangle=\int dxp(x)x^n
+\langle x^n\rangle=\int dxp(x)x^n,
 \end{equation}
 where $p(x)$ is the true probability density function. In order to make physical sense, this function needs to be normalized such that the integral over all possible outcomes gives a total probability of 1. This is associated with the zero'th moment, where we get $\int dxp(x)=1$. The first moment is the \textit{mean} of $p(x)$, and is often denoted by the letter $\mu$,
 \begin{equation}
@@ -434,7 +433,7 @@ Moreover, we can define the \textit{central moments} given by
 \end{equation}
 which is centered around the mean. With $n=0$ and $n=1$, this is easy to find, but what is the central moment with $n=2$? The central moment with $n=2$ is what we call the \textit{variance}, and is often denoted as $\sigma^2$ as we did in the equation \eqref{eq:variance}. One can show that
 \begin{equation}
-\sigma^2=\langle(x-\langle x\rangle)^2\rangle=\langle x^2\rangle - \langle x \rangle^2
+\sigma^2=\langle(x-\langle x\rangle)^2\rangle=\langle x^2\rangle - \langle x \rangle^2,
 \label{eq:variance2}
 \end{equation}
 which was already stated in chapter \ref{chp:quantum}. The \textit{standard deviation} is defined as the square-root of the variance, $\sigma$, and will be presented as the measure of the uncertainty in the last digit of numerical results. By using the expressions above, we can calculate the mean and the variance of a probability density function $p(x)$, but what do we do if we have a set of data drawn from an unknown $p(x)$?
@@ -452,7 +451,7 @@ Furthermore, in this case, the following is an unbiased estimator of the varianc
 \begin{equation}
 S_ n^2 = \frac{1}{n-1}\sum_{i = 1}^n (X_i - \overline X)^2.
 \end{equation}
-The law of large numbers states that the estimated sample mean approaches the true sample mean as $n$ goes to infinity. This is closely related to the central limit theorem, which states that the probability distribution of $X$, $p_X(x)$, can be approximated as a normal distribution $\mathcal{N}(\mu,\sigma)$ with $\mu=\overline{X}_n$ and $\sigma=\text{var}(\overline{X})$ as the number of sampling points $n$ goes to infinity. 
+The law of large numbers states that the estimated sample mean approaches the true sample mean as $n$ goes to infinity. This is closely related to the central limit theorem, which states that the probability distribution of $X$, $p_X(x)$, can be approximated as a normal distribution $\mathcal{N}(\mu,\sigma)$ with $\mu=\overline{X}_n$ and $\sigma=\text{var}(\overline{X})$ as the number of sampling points, $n$, goes to infinity. 
 
 On the other hand, if the samples are \textit{correlated}, equation \eqref{eq:samplevariance} becomes an underestimation of the \textit{sample error} $\text{err}_X^2$, and is thus more a guideline for the size of the uncertainty, more than an actual estimate of it. In that case, we need to estimate the \textit{covariance} given by
 \begin{equation}
@@ -468,7 +467,7 @@ in order to obtain an estimate \supercite{shumway_time_2017}. Note that the vari
 \end{equation}
 with an ability to be further expressed as a function of the \textit{autocovariance}, defined as 
 \begin{equation}
-\gamma(h)=\text{cov}(X_i,X_{i+h})
+\gamma(h)=\text{cov}(X_i,X_{i+h}),
 \end{equation}
 and is thus just a measure of the correlation of a section of a time series with another section of the same time series. If $h=0$, this is just the variance $\gamma(0)=\sigma^2/n$ and the sample error simplifies to
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
@@ -491,7 +490,7 @@ X=(x_1,x_2,\hdots,x_n),
 which we assume to be asymptotically uncorrelated. The idea is to take the mean of subsequent pair of elements from $X$, and form a new vector $X_1$. We then repeat the operation on $X_1$ and form a new vector $X_2$ and so on. This is the reason why we require $n=2^d$ with $d$ as an integer. If $k$ denotes an element in vector $X_i$, we can write the procedure recursively as
 \begin{equation}
 \begin{aligned}
-(X_0)_k&\equiv(X)_k\\
+(X_0)_k&\equiv(X)_k,\\
 (X_{i+1})_k&\equiv\frac{1}{2}\Big((X_i)_{2k-1}+(X_i)_{2k}\Big),
 \end{aligned}
 \end{equation}

@@ -30,7 +30,7 @@ where the energy is given in units of $\hbar$ and the lengths are scaled with re
 \end{equation}
 where $H_n(x)$ is the Hermite polynomial of $n$'th degree, and the first four Hermite functions are illustrated in figure \eqref{fig:harmonicoscillator}. The energy of an electron with principal quantum number $n$ in a certain dimension is given by
 \begin{equation}
-E_n=\omega\Big(n+\frac{1}{2}\Big)\quad\quad\forall\quad n\in\{0,1,2...\}
+E_n=\omega\Big(n+\frac{1}{2}\Big)\quad\quad\forall\quad n\in\{0,1,2...\},
 \label{eq:HOenergies}
 \end{equation}
 where we in multi-dimensional potentials need to summarize the contribution from all the dimensions.
@@ -50,7 +50,7 @@ Another historically important quantum system is the double dot, which similarly
 
 The potential of symmetrical quantum dots can in principle take a variety of different shapes, but the most used one-dimensional symmetrical potentials can be derived from the formula
 \begin{equation}
-V_i(x)=\frac{1}{2}\omega^2\bigg[|x_i|^a-\Big(\frac{b}{2}\Big)^a\bigg]^2
+V_i(x)=\frac{1}{2}\omega^2\bigg[|x_i|^a-\Big(\frac{b}{2}\Big)^a\bigg]^2,
 \label{eq:doublewell}
 \end{equation}
 with $b$ as the distance between the lowest points of the wells and $a$ as an arbitrary integer \supercite{jelic_double_2012}. Setting $a=1$ gives two parabolic wells with a sharp local maximum at $x=0$, while $a=2$ gives a smoother but steeper well. In figure \eqref{fig:doublewell} the potential is plotted for $a=1,2$ and $3$ and $b=2$.
@@ -69,7 +69,7 @@ V_i(x)=\frac{1}{2}\omega^2\bigg[x_i^2+\frac{1}{4}b^2-b|x_i|\bigg],
 \end{equation}
 still in one dimension. For more than one dimension, we assume that the wells are aligned in the $x$-direction, which gives us the dimension-independent expression
 \begin{equation}
-V_i^{\text{DW}}=\frac{1}{2}\omega^2\bigg[r_i^2+\frac{1}{4}b^2-b|x_i|\bigg]=V_i^{\text{HO}}+\frac{1}{2}\omega^2\bigg[\frac{1}{4}b^2-b|x_i|\bigg]
+V_i^{\text{DW}}=\frac{1}{2}\omega^2\bigg[r_i^2+\frac{1}{4}b^2-b|x_i|\bigg]=V_i^{\text{HO}}+\frac{1}{2}\omega^2\bigg[\frac{1}{4}b^2-b|x_i|\bigg],
 \label{eq:doublewell3}
 \end{equation}
 where HO denotes harmonic oscillator potential and DW denotes double-well potential. What we observe, is that the potential separates in a single-dot part and a double-dot part, which makes the double-dot Hamiltonian similar to the single-dot Hamiltonian,
@@ -85,7 +85,7 @@ In order to model these systems appropriately, we need a set of single-particle 
 where $L\in[1,\infty\rangle$ is the number of basis functions used and $C_{n\lambda}$ is the coefficient associated with the double-dot function $n$ and the single-dot function $\lambda$, which is what we want to find. Inserting this into the double-dot Schrödinger equation and multiplying with $\bra{\phi_{\nu}^{\text{HO}}(x)}$ on the left-hand side gives
 \begin{equation}
 \label{eq:doublewellsums}
-\sum_{\lambda=1}^LC_{n\lambda}\mel{\phi_{\nu}^{\text{HO}}(x)}{\hat{\mathcal{H}}_{\text{DW}}}{\phi_{\lambda}^{\text{HO}}(x)}=E_n\sum_{\lambda=1}^LC_{n\lambda}\braket{\phi_{\nu}^{\text{HO}}(x)}{\phi_{\lambda}^{\text{HO}}(x)}
+\sum_{\lambda=1}^LC_{n\lambda}\mel{\phi_{\nu}^{\text{HO}}(x)}{\hat{\mathcal{H}}_{\text{DW}}}{\phi_{\lambda}^{\text{HO}}(x)}=E_n\sum_{\lambda=1}^LC_{n\lambda}\braket{\phi_{\nu}^{\text{HO}}(x)}{\phi_{\lambda}^{\text{HO}}(x)},
 \end{equation}
 where the right-hand side sum collapses because the overlap is just the Kronecker delta, $\braket{\phi_{\nu}^{\text{HO}}(x)}{\phi_{\lambda}^{\text{HO}}(x)}=\delta_{\nu\lambda}$. By defining the matrix elements
 \begin{equation}
@@ -93,11 +93,11 @@ where the right-hand side sum collapses because the overlap is just the Kronecke
 \end{equation}
 we can set up equation \eqref{eq:doublewellsums} as an eigenvalue problem in the form of
 \begin{equation}
-\hat{h}\hat{C}=E\hat{C}
+\hat{h}\hat{C}=E\hat{C},
 \end{equation}
 where our targets, $\hat{C}$, are the eigenvectors of the $\hat{h}$-matrix. Now recall that the double dot Hamiltonian is an extension of the single dot Hamiltonian, such that we can rewrite
 \begin{equation}
-\hat{h}_{\nu\lambda}=\mel{\phi_{\nu}^{\text{HO}}(x)}{\hat{\mathcal{H}}_{\text{HO}}}{\phi_{\lambda}^{\text{HO}}(x)}+\mel{\phi_{\nu}^{\text{HO}}(x)}{\hat{\mathcal{H}}_{\text{+}}}{\phi_{\lambda}^{\text{HO}}(x)}
+\hat{h}_{\nu\lambda}=\mel{\phi_{\nu}^{\text{HO}}(x)}{\hat{\mathcal{H}}_{\text{HO}}}{\phi_{\lambda}^{\text{HO}}(x)}+\mel{\phi_{\nu}^{\text{HO}}(x)}{\hat{\mathcal{H}}_{\text{+}}}{\phi_{\lambda}^{\text{HO}}(x)},
 \end{equation}
 with $\hat{\mathcal{H}}_{\text{+}}=(1/2)\omega\sum_{i=1}^N\Big[(1/4)b^2-b|x_i|\Big]$ as the contribution from the double-dot. The former integrals are just the harmonic oscillator energies, presented in equation \eqref{eq:HOenergies}, while the latter integrals are trivial to calculate. However, since we need to calculate a relatively large number of matrix elements, we do it using numerical integration on the computer.
 
@@ -131,7 +131,7 @@ R_{nl}(r)=\sqrt{\left(\frac{2Z}{n}\right)^3\frac{(n-l-1)!}{2n[(n+l)!]}} r^le^{-Z
 \end{equation}
 The angular part is given by the \textit{spherical harmonics},
 \begin{equation}
-Y_l^m(\theta,\phi)=A P_l^m(\cos\theta)e^{im\phi}
+Y_l^m(\theta,\phi)=A P_l^m(\cos\theta)e^{im\phi},
 \end{equation}
 where $P_l^m(x)$ are the \textit{associated Legendre polynomials} and $A$ is a normalization factor. The complex part in the spherical harmonics can be avoided by introducing the real solid harmonics instead,
 \begin{equation}
@@ -139,8 +139,8 @@ where $P_l^m(x)$ are the \textit{associated Legendre polynomials} and $A$ is a n
 S_l^m(\theta,\phi)\propto P_l^{|m|}(\cos\theta)
 \begin{cases} 
 \cos(m\phi) & \text{if} \quad m\geq0 \\
-\sin(|m|\phi) & \text{if} \quad m<0,
-\end{cases}
+\sin(|m|\phi) & \text{if} \quad m<0
+\end{cases},
 \end{equation}
 such that
 \begin{equation}
@@ -166,9 +166,9 @@ Alternatively, one can use a Hartree-Fock basis based on Gaussian functions, as 
 
 As for the quantum dot systems, we will study closed shells only, but for atoms, we will introduce subshells as well which are dependent on $l$ and $m$ in addition to the principal quantum number $n$. Traditionally, the first few subshells are denoted by $s, p, d$ and $f$, and the meaning can be found in table \eqref{tab:subshells}, together with number of electrons in each subshell. For helium, we have two electrons with $n=1$, which means that both have $l=0$ and both electrons are in the $s$-subshell, or the so-called $s$-wave. We can thus write the electron configuration as $1s^2$. Similarly to the principal quantum number $n$, we can use the rule of tumble that the lower $l$, the lower energy, such that for beryllium all four electrons are still in the $s$-subshell. beryllium therefore has electron configuration $1s^2 2s^2$ or [He] $2s^2$. Since both subshells are fully occupied, beryllium can be included in our closed-shell calculations. If we continue with the same rules, we see that the next closed-shell atom has a fully occupied $p$-subshell as well, which is neon with 10 electrons. This is a noble gas, and we can write the electron configuration as [Be] $2p^6$. All noble gases have endings $Xs^2 Xp^6$, which is the reason why they always have eight valence electrons.
 
-We can now compare this to the periodic table, and observe that the first two rows agree with the theory presented above: The first row has two elements, and the second has eight. However, the third one also has eight elements, which does not fit our theory. It must be something we have overlooked. The reason is that the angular momentum contribution is not taken into account, i.e. we need to include the Hamiltonian term
+We can now compare this to the periodic table, and observe that the first two rows agree with the theory presented above: The first row has two elements, and the second has eight. However, the third one also has eight elements, which does not fit our theory. It must be something we have overlooked. The reason is that the angular momentum contribution is not taken into account, i.e. we need to include the term,
 \begin{equation}
-V_L=\frac{l(l+1)}{2r^2}
+V_L=\frac{l(l+1)}{2r^2},
 \end{equation}
-as well. If we do so, we see that the rule of thumb defined above not always holds. Sometimes a low $l$ in a higher $n$ causes lower energy than a high $l$ in a lower $n$.
+in the Hamiltonian. If we do so, we see that the rule of thumb defined above not always holds. Sometimes a low $l$ in a higher $n$ causes lower energy than a high $l$ in a lower $n$.
 

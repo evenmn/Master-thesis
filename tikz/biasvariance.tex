@@ -28,25 +28,25 @@
 \foreach \cnt[count=\Cnt from .2] in {.2, .1, .0}
 	\node[draw, fill=myred] at (center2) [circle through=($(center2)!\cnt!(point2)$)] {};
 
-%\foreach \x in {0,...,20}
-%	\coordinate[dot, color1, inner sep=1pt] ($!\x!$) at (0.5*rand+4, 0.5*rand+6);
+\foreach \x in {0,...,50}
+	\coordinate[dot, color1, inner sep=1pt] ($!\x!$) at (0.5*rand+4, 0.5*rand+6);
 	
-\foreach \x in {1,...,20}
-{
-	% Find random numbers
-	\pgfmathrandominteger{\a}{-1000}{1000}
-	\pgfmathrandominteger{\b}{-1000}{1000}
-	
-	% Scale numbers nicely
-	\pgfmathparse{0.001*\bR*\a + \bX}\let\a\pgfmathresult
-	\pgfmathparse{0.001*\bR*\b + \bY}\let\b\pgfmathresult
-	
-	% Check if numbers are inside circle
-	\pgfmathparse{ifthenelse((\a-\bX)^2 + (\b-\bY)^2 <= \bR^2,%
-		"color1",
-		"white")}
-	\fill[\pgfmathresult] (\a,\b) circle (0.05);
-};
+%\foreach \x in {1,...,20}
+%{
+%	% Find random numbers
+%	\pgfmathrandominteger{\a}{-1000}{1000}
+%	\pgfmathrandominteger{\b}{-1000}{1000}
+%	
+%	% Scale numbers nicely
+%	\pgfmathparse{0.001*\bR*\a + \bX}\let\a\pgfmathresult
+%	\pgfmathparse{0.001*\bR*\b + \bY}\let\b\pgfmathresult
+%	
+%	% Check if numbers are inside circle
+%	\pgfmathparse{ifthenelse((\a-\bX)^2 + (\b-\bY)^2 <= \bR^2,%
+%		"color1",
+%		"white")}
+%	\fill[\pgfmathresult] (\a,\b) circle (0.05);
+%};
 %\draw (\bX,\bY) circle (\bR);
 
 \coordinate[dot] (center2) at (4,6);
