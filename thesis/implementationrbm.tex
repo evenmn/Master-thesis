@@ -1,11 +1,11 @@
 \chapter{Implementation: Restricted Boltzmann Machines} \label{chp:rbmimplementation}
-In the chapter \ref{chp:WFE}, we described common optimization procedures for a standard variational Monte Carlo (VMC) implementation, and we also presented implementation examples taken from the code. In this section, we will do the same, but for the restricted Boltzmann machines (RBM). As we have pointed out before, the same sampling methods and optimization algorithms can be used both for the VMC implementation and the RBM implementation, which means that much of the VMC framework can be reused. The already described parts of the code will naturally not be described again, and for that reason, this chapter will more or less exclusively concern the RBM wave function elements.
+In chapter \ref{chp:WFE}, we described common optimization procedures for a standard variational Monte Carlo (VMC) implementation, and we also presented implementation examples taken from the code. In this section, we will do the same, but for the restricted Boltzmann machines (RBM). As we have pointed out before, the same sampling methods and optimization algorithms can be used both for the VMC implementation and the RBM implementation. This implies that much of the VMC framework can be reused. The already described parts of the code will naturally not be described again, and for that reason, this chapter will more or less exclusively deal with the RBM wave function elements.
 
 The main goal of this work is to reduce the physical intuition needed when doing quantum computations, and that is the task of the restricted Boltzmann machines. The idea is to use a flexible basis set based on RBMs, which are implemented as the elements of the Slater matrix, as first seen in section \ref{sec:slater}. Recall that the Slater determinant can be decomposed in a spin-up part and a spin down-part,
 \begin{equation}
 |\hat{S}(\bs{R})|=\frac{1}{\sqrt{N!}}|\hat{S}_{\uparrow}(\bs{R}^{\uparrow})|\cdot |\hat{S}_{\downarrow}(\bs{R}^{\downarrow})|,
 \end{equation}
-with $N$ as the number of electrons and $\bs{R}=\{\bs{r}_1,\bs{r}_2,\cdots,\bs{r}_N\}$ as the collective spatial coordinates. For quantum dot systems, the spin-$\sigma$ determinant can be split in a factor $G(\bs{R})$ determinant containing the Hermite polynomials,
+with $N$ as the number of electrons and $\bs{R}=\{\bs{r}_1,\bs{r}_2,\cdots,\bs{r}_N\}$ as the collective spatial coordinates. For quantum dot systems, the spin-$\sigma$ determinant can be split in a factor $G(\bs{R})$ and a determinant containing the Hermite polynomials,
 \begin{equation}
 |\hat{S}(\bs{R})|\equiv|\hat{S}_{\sigma}(\bs{R})|=G(\bs{R})
 \begin{vmatrix}
@@ -70,7 +70,7 @@ void RBMGaussian::updateArrays(const Eigen::VectorXd positions,
     m_probabilityRatio = exp(sqrdDiff / (2 * m_sigma_iSqrd));
 }
 \end{lstlisting}
-We see that the vector \lstinline|m_Xa|, corresponding to $\bs{xa}$, is declared globally such that it can be used also in the gradients of the element. \lstinline|i| is again the updated coordinate. 
+We see that the vector \lstinline|m_Xa|, corresponding to $\bs{xa}$, is declared globally such that it can be used in the gradients in equation \eqref{eq:NQSGaussian}. The updated coordinate is again denoted by \lstinline|i|. 
 
 \section{RBM-product}
 The RBM product is the last part of \eqref{eq:RBMWF2}, and is thus given by

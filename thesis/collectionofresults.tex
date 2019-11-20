@@ -1,7 +1,7 @@
 \chapter{Collection of Results} \label{chp:totalresults}
 In this appendix, we present a more or less complete collection of the results obtained through our work, including ground state energy and one-body and two-body density profiles. It is meant as a complementary part to substitute the selected results in chapter \ref{chp:results}, where the (arguably) most important results are presented and discussed. For that reason, the discussion above covers most of the results also in this appendix, and they will not be discussed further. The raw files, containing energies and standard errors directly from the Abel computer cluster, can be found in Ref. \cite{nordhagen_even_marius_2019_3477946}. A complete collection of the plots in this appendix can be found on \url{https://github.com/evenmn/Master-thesis/plots/}. 
 
-We look at four different trial wave function ansatzes, included three versions of the RBM; a Slater determinant with the Boltzmann machines as the single-particle functions (RBM), as described in chapter \ref{chp:rbmimplementation}, an RBM with the simple Jastrow factor described in section \ref{sec:rbmsj} (RBM+SJ) and an RBM with the Padé-Jastrow factor described in section \ref{sec:jastrow} (RBM+PJ). For VMC, we use the Slater-Jastrow ansatz, i.e., the trial wave function consists of a Padé-Jastrow factor and a Slater determinant containing standard single-particle functions, as detailed in chapter \ref{chp:WFE}. We will stick to natural units as discussed in appendix \ref{app:units}. A brief recap is that for quantum dots, the energy is given in units of Planck's reduced constant, $E'=E/\hbar$, length is scaled as $x'=x/\sqrt{\hbar/m}$ where $m$ is the mass of a particle, which implies that the $d$-dimensional density, $\rho_d(\bs{r})$, is given in units of $(\hbar/m)^{-d/2}$. For atoms, we use Hartree atomic units, meaning that the length is given in units of the Bohr radius, $a_0$, the $d$-dimensional density is given in units of $a_0^{-d}$ and the energy is scaled as $E'=E/(\hbar^2/m_ea_0)$.
+We look at four different trial wave function ansätze, included three versions of the RBM; a Slater determinant with the Boltzmann machines as the single-particle functions (RBM), as described in chapter \ref{chp:rbmimplementation}, an RBM with the simple Jastrow factor described in section \ref{sec:rbmsj} (RBM+SJ) and an RBM with the Padé-Jastrow factor described in section \ref{sec:jastrow} (RBM+PJ). For VMC, we use the Slater-Jastrow ansatz, i.e., the trial wave function consists of a Padé-Jastrow factor and a Slater determinant containing standard single-particle functions, as detailed in chapter \ref{chp:WFE}. We will stick to natural units as discussed in appendix \ref{app:units}. A brief recap is that for quantum dots, the energy is given in units of Planck's reduced constant, $E'=E/\hbar$, length is scaled as $x'=x/\sqrt{\hbar/m}$ where $m$ is the mass of a particle, which implies that the $d$-dimensional density, $\rho_d(\bs{r})$, is given in units of $(\hbar/m)^{-d/2}$. For atoms, we use Hartree atomic units, meaning that the length is given in units of the Bohr radius, $a_0$, the $d$-dimensional density is given in units of $a_0^{-d}$ and the energy is scaled as $E'=E/(\hbar^2/m_ea_0)$.
 
 First, the computational time for two- and three-dimensional quantum dots will be listed, which is just the information plotted in figure \eqref{fig:cpu_time}. After that, we list all the ground state obtained energies for quantum dots with up to $N=20$ electrons in two and three dimensions, included the distribution between potential and kinetic energy. Lastly, we present a complete set of the radial and spatial one-body density profiles and the radial two-body density profiles. 
 
@@ -52,7 +52,7 @@ We have created respective tables for each of our four methods variational Monte
 		&& 3.0 && 7.9859(2) & 2.5215(3) & 3.6733(4) & 1.7910(2) \\ 
 		&& 5.0 && 12.6141(2) & 4.2752(4) & 5.9493(6) & 2.3896(3) \\
 		&& 10.0 && 23.7748(7) & 9.063(3) & 11.132(4) & 3.580(1) \\
-		\hdashline \\
+		\hline \\
 		
 		&6 & 0.01 && 0.7072(5) & 0.033(2) & 0.2660(4) & 0.4080(6) \\
 		&& 0.1 && 3.7337(5) & 0.3251(3) & 1.4070(9) & 2.002(1) \\
@@ -63,7 +63,7 @@ We have created respective tables for each of our four methods variational Monte
 		&& 3.0 && 49.415(1) & 10.309(3) & 21.456(4) & 17.649(2) \\ 
 		&& 5.0 && 76.801(6) & 23.50(1) & 27.33(1) & 25.967(7) \\
 		&& 10.0 && 137.338(4) & 45.25(1) & 55.75(1) & 36.336(6) \\
-		\hdashline \\
+		\hline \\
 		
 		&12 & 0.01 && 2.5106(8) & 0.0682(2) & 0.893(1) & 1.549(1) \\
 		&& 0.1 && 12.679(2) & 0.8141(7) & 4.692(1) & 7.173(2) \\
@@ -74,7 +74,7 @@ We have created respective tables for each of our four methods variational Monte
 		&& 3.0 && 158.145(6) & 33.020(8) & 59.72(1) & 65.407(9) \\ 
 		&& 5.0 && 239.527(8) & 58.22(1) & 93.92(2) & 87.39(1) \\
 		&& 10.0 && 435.36(2) & 114.61(2) & 200.13(4) & 120.62(1) \\
-		\hdashline \\
+		\hline \\
 		
 		&20 & 0.01 && 6.217(2) & 0.1236(4) & 2.244(2) & 3.849(2) \\
 		&& 0.1 && 32.308(5) & 1.708(2) & 7.680(4) & 22.919(7) \\
@@ -103,7 +103,7 @@ We have created respective tables for each of our four methods variational Monte
 		&& 3.0 && 7.9103(2) & 2.5627(7) & 3.664(1) & 1.6840(5) \\ 
 		&& 5.0 && 12.5322(2) & 4.369(1) & 5.890(2) & 2.2838(7) \\
 		&& 10.0 && 23.6773(3) & 9.062(3) & 11.208(3) & 3.408(1) \\
-		\hdashline \\
+		\hline \\
 		
 		&6 & 0.01 && 0.7006(3) & 0.0376(2) & 0.2467(4) & 0.4163(4) \\
 		&& 0.1 && 3.63825(9) & 0.23798(6) & 1.3992(2) & 1.3992(2) \\
@@ -114,7 +114,7 @@ We have created respective tables for each of our four methods variational Monte
 		&& 3.0 && 49.050(1) & 11.164(3) & 20.6469(5) & 17.240(3) \\ 
 		&& 5.0 && 75.116(1) & 19.661(5) & 32.283(7) & 23.172(3) \\
 		&& 10.0 && 136.331(2) & 41.65(1) & 60.53(1) & 34.152(5) \\
-		\hdashline \\
+		\hline \\
 		
 		&12 & 0.01 && 2.4950(5) & 0.07(2) & 0.845(4) & 1.58(2) \\
 		&& 0.1 && 12.5964(7) & 0.4520(4) & 4.644(1) & 7.500(1) \\
@@ -125,7 +125,7 @@ We have created respective tables for each of our four methods variational Monte
 		&& 3.0 && 154.521(3) & 28.050(5) & 63.84(1) & 62.634(6) \\ 
 		&& 5.0 && 234.110(6) & 52.86(1) & 94.50(2) & 86.75(1) \\
 		&& 10.0 && 415.384(7) & 108.57(2) & 181.90(3) & 124.92(1) \\
-		\hdashline \\
+		\hline \\
 		
 		&20 & 0.01 && 6.239(2) & 0.1372(6) & 2.184(2) & 3.919(3) \\
 		&& 0.1 && 30.624(3) & 1.487(2) & 10.893(5) & 18.243(5) \\
@@ -154,7 +154,7 @@ We have created respective tables for each of our four methods variational Monte
 		&& 3.0 && 7.87961(1) & 2.3144(5) & 3.9349(6) & 1.6413(3) \\
 		&& 5.0 && 12.49832(1) & 3.9569(7) & 6.3068(8) & 2.2347(4) \\
 		&& 10.0 && 23.65275(7) & 9.228(3) & 11.059(3) & 3.366(1) \\
-		\hdashline \\
+		\hline \\
 		
 		&6 & 0.01 && 0.6932(5) & 0.031(2) & 0.260(2) & 0.401(1) \\
 		&& 0.1 && 3.5700(2) & 0.3494(3) & 1.2805(9) & 1.9401(8) \\
@@ -165,7 +165,7 @@ We have created respective tables for each of our four methods variational Monte
 		&& 3.0 && 48.9157(8) & 10.789(5) & 20.383(5) & 17.743(2) \\ 
 		&& 5.0 && 74.9545(5) & 20.402(5) & 31.744(7) & 22.809(3) \\
 		&& 10.0 && 136.1738(8) & 42.66(1) & 59.71(1) & 33.799(5) \\
-		\hdashline \\
+		\hline \\
 		
 		&12 & 0.01 && 2.5019(4) & 0.0699(2) & 0.893(1) & 1.539(1) \\
 		&& 0.1 && 12.361(1) & 0.797(1) & 4.394(3) & 7.169(3) \\
@@ -176,7 +176,7 @@ We have created respective tables for each of our four methods variational Monte
 		&& 3.0 && 154.206(1) & 29.701(6) & 60.74(1) & 63.763(7) \\ 
 		&& 5.0 && 233.633(4) & 58.33(1) & 84.76(1) & 90.537(9) \\
 		&& 10.0 && 415.943(9) & 124.13(2) & 157.92(3) & 133.89(1) \\
-		\hdashline \\
+		\hline \\
 		
 		&20 & 0.01 && 6.210(1) & 0.1208(5) & 2.189(2) & 3.900(2) \\
 		&& 0.1 && 30.156(1) & 1.574(1) & 10.473(3) & 18.109(3) \\
@@ -204,7 +204,7 @@ We have created respective tables for each of our four methods variational Monte
 		&& 3.0 && 7.88401(4) & 2.732(2) & 3.500(3) & 1.652(1) \\ 
 		&& 5.0 && 12.50405(5) & 4.619(4) & 5.629(4) & 2.255(2) \\
 		&& 10.0 && 23.65035(1) & 9.529(1) & 10.538(1) & 3.583(1) \\
-		\hdashline \\
+		\hline \\
 		
 		&6 & 0.01 && 0.69647(2) & 0.02886(1) & 0.23363(5) & 0.43398(5) \\
 		&& 0.1 && 3.5695(1) & 0.3201(3) & 1.2934(6) & 1.9560(5) \\
@@ -215,7 +215,7 @@ We have created respective tables for each of our four methods variational Monte
 		&& 3.0 && 48.8728(4) & 12.016(2) & 19.682(4) & 17.175(2) \\ 
 		&& 5.0 && 74.9356(5) & 20.796(4) & 31.043(6) & 23.097(3) \\
 		&& 10.0 && 136.1522(7) & 43.712(9) & 58.20(1) & 34.240(5) \\
-		\hdashline \\
+		\hline \\
 		
 		&12 & 0.01 && 2.4972(3) & 0.05506(2) & 0.858(1) & 1.584(1)\\
 		&& 0.1 && 12.29962(9) & 0.7524(2) & 4.2159(4) & 7.3312(4) \\
@@ -226,7 +226,7 @@ We have created respective tables for each of our four methods variational Monte
 		&& 3.0 && 154.206(1) & 29.701(6) & 60.74(1) & 63.763(7) \\ 
 		&& 5.0 && 232.818(2) & 56.157(9) & 88.18(1) & 88.478(9) \\
 		&& 10.0 && 415.056(4) & 112.99(2) & 173.91(3) & 128.15(1) \\
-		\hdashline \\
+		\hline \\
 		
 		&20 & 0.01 && 6.2097(8) & 0.1005(4) & 2.270(3) & 3.839(3) \\
 		&& 0.1 && 30.0403(2) & 1.3743(3) & 10.206(1) & 18.4604(9) \\
@@ -256,7 +256,7 @@ We have created respective tables for each of our four methods variational Monte
 		&& 3.0 && 10.2981(2) & 3.7507(8) & 5.2896(9) & 1.2578(2) \\ 
 		&& 5.0 && 16.7018(1) & 6.211(1) & 8.890(1) & 1.6012(2) \\
 		&& 10.0 && 32.2186(2) & 7.879(3) & 22.306(3) & 2.0343(2) \\
-		\hdashline \\
+		\hline \\
 		
 		&8 & 0.01 && 1.1350(1) & 0.0626(2) & 0.3951(7) & 0.6774(7) \\
 		&& 0.1 && 5.8910(6) & 0.6480(6) & 2.075(2) & 3.168(2) \\
@@ -267,7 +267,7 @@ We have created respective tables for each of our four methods variational Monte
 		&& 3.0 && 81.648(3) & 23.987(6) & 31.157(8) & 26.504(4) \\ 
 		&& 5.0 && 126.03(9) & 42.68(6) & 47.58(5) & 35.77(2) \\
 		&& 10.0 && 231.410(6) & 85.62(2) & 95.00(2) & 50.789(7) \\
-		\hdashline \\
+		\hline \\
 		
 		&20 & 0.01 && 5.6448(4) & 0.1624(4) & 1.955(2) & 3.527(2) \\
 		&& 0.1 && 27.9277(5) & 1.7925(5) & 9.676(2) & 16.459(2) \\
@@ -296,7 +296,7 @@ We have created respective tables for each of our four methods variational Monte
 		&& 3.0 && 10.32289(5) & 3.5281(8) & 5.6147(9) & 1.1801(2) \\ 
 		&& 5.0 && 16.7155(1) & 7.035(2) & 8.035(2) & 1.6462(4) \\
 		&& 10.0 && 32.6045(9) & 14.568(4) & 15.613(5) & 2.4238(6) \\
-		\hdashline \\
+		\hline \\
 		
 		&8 & 0.01 && 1.1371(5) & 0.02(1) & 0.388(6) & 0.73(2) \\
 		&& 0.1 && 5.7498(4) & 0.4107(3) & 2.113(1) & 3.226(1) \\
@@ -307,7 +307,7 @@ We have created respective tables for each of our four methods variational Monte
 		&& 3.0 && 80.6370(9) & 21.039(5) & 34.888(8) & 24.710(3) \\ 
 		&& 5.0 && 124.955(1) & 37.126(9) & 54.81(1) & 33.020(5) \\
 		&& 10.0 && 230.149(2) & 76.75(2) & 105.83(2) & 47.560(6) \\
-		\hdashline \\
+		\hline \\
 		
 		&20 & 0.01 && 5.6448(4) & 0.1624(4) & 1.955(2) & 3.527(2) \\
 		&& 0.1 && 27.470(1) & 0.9593(9) & 9.711(6) & 16.800(5) \\
@@ -336,7 +336,7 @@ We have created respective tables for each of our four methods variational Monte
 		&& 3.0 && 10.31271(4) & 3.5410(8) & 5.5989(9) & 1.1728(2) \\ 
 		&& 5.0 && 16.7170(1) & 7.012(2) & 8.072(2) & 1.632(4) \\
 		&& 10.0 && 32.44255(9) & 8.054(3) & 22.384(3) & 2.0042(2) \\
-		\hdashline \\
+		\hline \\
 		
 		&8 & 0.01 && 1.1346(1) & 0.0624(2) & 0.3910(7) & 0.6812(7) \\
 		&& 0.1 && 5.8562(9) & 0.6134(7) & 2.088(2) & 3.155(2) \\
@@ -347,7 +347,7 @@ We have created respective tables for each of our four methods variational Monte
 		&& 3.0 && 80.6280(3) & 18.35(2) & 38.64(2) & 23.627(2) \\ 
 		&& 5.0 && 124.915(1) & 37.61(2) & 54.44(2) & 32.87(8) \\
 		&& 10.0 && 230.186(1) & 78.64(4) & 103.59(5) & 47.95(1) \\
-		\hdashline \\
+		\hline \\
 		
 		&20 & 0.01 && 5.6328(3) & 0.1621(4) & 1.923(2) & 3.558(2) \\
 		&& 0.1 && 27.3382(8) & 1.336(3) & 9.408(4) & 16.595(3) \\
@@ -375,7 +375,7 @@ We have created respective tables for each of our four methods variational Monte
 		&& 3.0 && 10.31717(1) & 3.8365(7) & 5.2770(8) & 1.2037(2) \\ 
 		&& 5.0 && 16.713925(4) & 8.1523(8) & 6.7797(9) & 1.7819(2) \\
 		&& 10.0 && 32.449053(8) & 14.586(2) & 15.470(2) & 2.3933(2) \\
-		\hdashline \\
+		\hline \\
 		
 		&8 & 0.01 && 1.12283(7) & 0.04384(7) & 0.3832(2) & 0.6958(2) \\
 		&& 0.1 && 5.7126(1) & 0.4930(4) & 2.085(1) & 3.1342(9) \\
@@ -386,7 +386,7 @@ We have created respective tables for each of our four methods variational Monte
 		&& 3.0 && 80.6193(3) & 22.281(5) & 33.286(7) & 25.052(3) \\ 
 		&& 5.0 && 124.9024(4) & 38.713(8) & 52.89(1) & 33.300(4) \\
 		&& 10.0 && 230.1668(7) & 81.03(2) & 100.56(2) & 48.573(6) \\
-		\hdashline \\
+		\hline \\
 		
 		&20 & 0.01 && 5.6428(3) & 0.1621(4) & 1.923(2) & 3.558(2) \\
 		&& 0.1 && 27.3152(5) & 1.247(1) & 9.392(3) & 16.676(3) \\
