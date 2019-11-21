@@ -13,17 +13,17 @@ Computers have long been used for solving complex scientific problems. Actually,
 
 Also on the software side, big breakthroughs have been made since the advent of the electronic computer. The programming language Fortran was released in 1957, which provided a new basis of scientific programming \supercite{allen_history_1981}. Later, Ole Johan Dahl and Kristen Nygaard developed the language SIMULA, which is considered as the first object-orientated language \supercite{holmevik_compiling_1994}. The language that we mostly will rely on in this work, C++, is an extension of the language C which was developed in the early 1970s and is, together with Fortran, one of few languages that have survived the ravages of time. 
 
-The computers used today, included both the hardware and the software, have become possible due to the heroic effort of an array of scientists, engineers, and mechanics over a long period. The computers are stronger than ever, are more memorious than ever, are compacter than ever and, last but not least, they are more user-friendly than ever. All this has made heavy computations possible that was unthinkable just decades ago and has contributed to the development of virtually all branches of science. Due to the user-friendliness, advanced simulations have also been available for young and curious students like the author, which we should not take for granted. 
+The computers used today, including both the hardware and the software, have become possible due to the heroic effort of an array of scientists, engineers, and mechanics over a long period. The computers are stronger than ever, have more memory than ever, are compacter than ever and, last but not least, they are more user-friendly than ever. All this has made heavy computations possible that were unthinkable just decades ago and has contributed to the development of virtually all branches of science. Due to the user-friendliness, advanced simulations have also been available for young and curious students like the author. We should not take this for granted. 
 
 The computer's language itself is binary and is the lowest level. To translate commands to this language, we need a "translator", which is a language that fills the gap between the binary language and human commands. We categorize this language in levels based on how similar they are to the binary language. Low-level languages are more similar to the binary language than a high-level language, and the result is that low-level languages, in general, are more demanding to deal with, but they are typically faster than high-level languages. In our work, we use the low-level language C++ for the main code, but for scripting, including plotting and solving less expensive problems, the high-level language Python has been used. 
 
-In this chapter, we will explain the essentials behind scientific programming, using examples from both C++ and Python. We will begin from the very basic, so if the reader is an experienced programmer, this chapter will probably be perceived as old news. Programs are often either classified as \textit{procedural programming} or \textit{object-oriented programming}, based on whether the code is written in the same order as the program flow goes (procedural) or is based on objects (object-orientated). We will explain the basics of object-oriented programming in the following.
+In this chapter, we will explain the essentials behind scientific programming, using examples from both C++ and Python. We will begin from the very basic, so if the reader is an experienced programmer, this chapter will probably be perceived as old news. Programs are often either classified as \textit{procedural programming} or \textit{object-oriented programming}, based on whether the code is written in the same order as the program flow goes (procedural) or is based on objects (object-oriented). We will explain the basics of object-oriented programming in the following.
 
-\section{Object-orientated programming in Python}
-In everyday life, we are all the time surrounded by objects that we categorize based on properties like their function, behavior, or expression. For instance, a \textit{circle} is an object with properties like area, circumference \textit{et cetera}, and can be categorized as a \textit{shape}. Other members of the shape class might be square and triangle. In object-orientated programming, we create similar objects, or classes, to make the program flow more intuitive for the reader. The main class is called the parent class, while the sub-classes are called the children. The reason for this analogy is that the sub-classes always inherit from their main class, but not the other way around. The example with the shapes can therefore be implemented with \texttt{Shapes} being the parent, and \texttt{Circle}, \texttt{Square} and \texttt{Triangle} being its children. In the high-level language Python, this can be implemented as 
+\section{Object-oriented programming in Python}
+In everyday life, we are all the time surrounded by objects that we categorize based on properties like their function, behavior, or expression. For instance, a \textit{circle} is an object with properties like area, circumference \textit{et cetera}, and can be categorized as a \textit{shape}. Other members of the shape class might be squares and triangles. In object-oriented programming, we create similar objects, or classes, to make the program flow more intuitive for the reader. The main class is called the parent class, while the sub-classes are called the children. The reason for this analogy is that the sub-classes always inherit from their main class, but not the other way around. The example with the shapes can therefore be implemented with \texttt{Shapes} being the parent, and \texttt{Circle}, \texttt{Square} and \texttt{Triangle} being its children. In the high-level language Python, this can be implemented in the following way:
 
 \lstset{basicstyle=\scriptsize}
-\begin{lstlisting}[language=python]
+\begin{lstlisting}[language=python, caption={Geometric shapes implemented in object-oriented Python.}, label={lst:python}]
 import numpy as np
 
 class Shapes:
@@ -62,7 +62,7 @@ class Triangle(Shapes):
 	def getCircumference(self):
 		return 6*self.r
 \end{lstlisting}
-where we give the children the properties area, circumference and extent. The length \texttt{r} means the radius of a circle, half the side length of a square and also half a side length of the equilateral triangle, see figure \eqref{fig:montecarlointegration}. We can implement a circle, square and triangle of \texttt{r}=1, respectively named "circ", "squr" and "tria" by these three lines
+We give the children the properties area, circumference and extent. The length \texttt{r} means the radius of a circle, half the side length of a square and also half a side length of the equilateral triangle, see figure \eqref{fig:montecarlointegration}. We can implement a circle, square and triangle of \texttt{r}=1, respectively named "circ", "squr" and "tria" by these three lines
 \lstset{basicstyle=\scriptsize}
 \begin{lstlisting}[language=python]
 circ = Circle(1)
@@ -82,7 +82,7 @@ Moreover, we can easily get their areas by calling the \texttt{getArea()} functi
 NotImplementedError: Class Triangle has no instance 'getArea'.
 \end{lstlisting}
 
-As we can see, the area of the circle and the square were calculated successfully, giving $\pi r^2$ and $4r$ respectively. On the other hand, the area of the triangle raised an error, which is because we do not have defined the area of the triangle! This example illustrates that the properties of the children overwrites the properties of the parent, but if the children do not have the called property, it will instead return the parent's property. 
+As we can see, the area of the circle and the square were calculated successfully, giving $\pi r^2$ and $4r$ respectively. On the other hand, the area of the triangle raised an error, which is because we do not have defined the area of the triangle! This example illustrates that the properties of the children overwrites the properties of the parent, but if a child does not have the called property, it will instead return the parent's property. 
 
 \subsection{An example based on Monte Carlo simulations}
 Up to this point, we have talked a lot about Monte Carlo simulations without giving an illustrating example of what it is. Methods, where we draw numbers randomly from a function to reveal properties of a function, are in general classified as Monte Carlo simulations and in that manner, the name might sound more complicated than it is. 
@@ -124,7 +124,7 @@ Considering the fact that $\pi=3.141592653589793...$, the obtained result is qui
 \section{Low-level programming with C++}
 Above, we looked at how inheritance can be implemented in the high-level language Python, and we observed the main weakness of high-level languages: the computational time. In this section, we will repeat the implementation and example above, using C++. Using a low-level language will, hopefully, provide a significant speed-up. A similar class structure in C++ looks like
 \lstset{basicstyle=\scriptsize}
-\begin{lstlisting}[language=c++]
+\begin{lstlisting}[language=c++, caption={Geometric shapes implemented in object-oriented C++.}, label={lst:cpp}]
 class Shapes {
 	public:
 		Shapes();
@@ -180,10 +180,10 @@ Square::Square(double r) : Shapes() {
 	m_r = r;
 }
 \end{lstlisting}
-which looks quite different from the implementation in Python. We will go thoroughly through the different parts of the code. One of the first thing we observe, is that we here need to \textit{declare} all the variables, which means that we need to specify the variable type. In the following we will have a look at some standard \textit{data types}.
+This looks different from the implementation in Python presented in listing \eqref{lst:python}. We will go thoroughly through the different parts of the code. One of the first thing we observe, is that we here need to \textit{declare} all the variables, meaning that we need to specify the variable type. In the following we will have a look at some standard \textit{data types}.
 
 \subsection{Built-in data types}
-In low-level languages, we need to specify the data types manually, giving us more control and flexibility. The most fundamental data types are \texttt{int} representing an integer number, \texttt{float} representing a floating number, \texttt{bool} representing a Boolean number and a \texttt{char} representing a character. Often, these four data types are not sufficient for the task we want to implement, and we need to introduce more data types. An especially common error is \textit{overflow}, meaning that the number computed is out of the range of our data type. To avoid this, we can switch to data types of longer range, replacing \texttt{int} with a \texttt{long long int} (or just a \texttt{long long}), and replacing \texttt{float} with a \texttt{double}.
+In low-level languages, we need to specify the data types manually, providing more control and flexibility. The most fundamental data types are \texttt{int} representing an integer number, \texttt{float} representing a floating number, \texttt{bool} representing a Boolean number and \texttt{char} representing a character. Often, these four data types are not sufficient for the task we want to implement, and we need to introduce more data types. An especially common error is \textit{overflow}, meaning that the number computed is out of the range of our data type. To avoid this, we can switch to data types of longer range, replacing \texttt{int} with a \texttt{long long int} (or just a \texttt{long long}), and replacing \texttt{float} with a \texttt{double}.
 
 \begin{table}
 	\caption{Built-in data types in C++, with their memory occupation and range in a 64-bit processor, taken from \supercite{noauthor_c++_2017}. Extensions in the parenthesis are optional.}
@@ -204,26 +204,26 @@ In low-level languages, we need to specify the data types manually, giving us mo
 	\end{tabularx}
 \end{table} 
 
-Some languages also deal with \texttt{long int} and \texttt{long double}, but in C++ an \texttt{int} and a \texttt{long int} is the same. Additionally, a \texttt{long double} is the same as a \texttt{double}. As lack of memory seldom is a problem on modern computers, it is common to declare all floating numbers as \texttt{double}s. In table \eqref{tab:datatypes}, the most common data types are listed with their range and memory occupation in C++. For integers, it is also possible to "move" the range from its zero-centered default to only include positive numbers. This is done by declaring an \texttt{unsigned} data type. By using unsigned data types, the range doubles in the positive direction, but it should not be done if one, by any chance, can get negative numbers, as one then will get \textit{underflow}.  
+Some languages also deal with \texttt{long int} and \texttt{long double}, but in C++ an \texttt{int} and a \texttt{long int} is the same. Additionally, a \texttt{long double} is the same as a \texttt{double}. As lack of memory is not the largest problem when performing simulations, it is common to declare all floating numbers as \texttt{double}s. In table \eqref{tab:datatypes}, the most common data types are listed with their range and memory occupation in C++. For integers, it is also possible to "move" the range from its zero-centered default to only include positive numbers. This is done by declaring an \texttt{unsigned} data type. By using unsigned data types, the range doubles in the positive direction, but it should not be done if we, by any chance, can get negative numbers, as we then get \textit{underflow}.  
 
 \subsection{Access modifiers}
-Another thing that we observe from the code example above, is that we define the functions as \texttt{private} or \texttt{public}, which are called access modifiers. The access modifiers specify how much access the environment should have to the function: \texttt{private} means that the function can only be called from the particular class, while \texttt{public} means that also sub-classes (children) and other classes have access to the function. We also have a third access modifier in C++, called \texttt{protected}. \texttt{protected} members of a class A are not accessible outside of A's code, but any class that inherits from A has access to the protected member. 
+Another thing that we observe from the code example in listing \eqref{lst:cpp}, is that we define the functions as \texttt{private} or \texttt{public}, which are called access modifiers. The access modifiers specify how much access the environment should have to the function: \texttt{private} means that the function can only be called from the particular class, while \texttt{public} means that also sub-classes (children) and other classes have access to the function. We also have a third access modifier in C++, called \texttt{protected}. \texttt{protected} members of a class A are not accessible outside of A's code, but any class that inherits from A has access to the protected member. 
 
 \subsection{Virtual functions}
-In Python, we saw how a parent's function was overwritten by a function of the child. This works as long as the child's function has an identical name and identical arguments as the parent's function; otherwise it all will fail. In C++, a safer method exists based on virtual functions, where a child is \textit{forced} to have the same virtual functions as its parent. The virtual functions of the parent therefore serves as a template of its children, such that all the children have the same features. If the parent function is empty, the function is called pure virtual. This is often very useful, as the children tend to have the same features. Taking it back to the \texttt{Shapes} class, all the shapes ought to have features area and circumference, which can be forced by using virtual functions, as done in the example above, where all functions are pure virtual.
+In the Python example in listing \eqref{lst:python}, we saw how a parent's function was overwritten by a function of the child. This works as long as the child's function has an identical name and identical arguments as the parent's function; otherwise it all will fail. In C++, a safer method exists based on virtual functions, where a child is \textit{forced} to have the same virtual functions as its parent. The virtual functions of the parent therefore serves as a template of its children, such that all the children have the same features. If the parent function is empty, the function is called pure virtual. This is often very useful, as the children tend to have the same features. Taking it back to the \texttt{Shapes} class, all the shapes ought to have features area and circumference, which can be forced by using virtual functions, as done in the example above, where all functions are pure virtual.
 
 \subsection{Constructors and destructors}
-In the example above, we observe that the class \texttt{Shapes} has a function with the same name, \texttt{Shapes} and another virtual function $\sim$\texttt{Shapes}. The former one is used to create the object and is hence named a \textit{constructor}. This function is called automatically when the object of a class is created. Similarly, the latter one destructs an object when we are done evaluating the object. It is therefore named a \textit{destructor} and is also called automatically when an object is deleted or goes out of scope.
+In the C++ example in \eqref{lst:cpp}, we observe that the class \texttt{Shapes} has a function with the same name, \texttt{Shapes} and another virtual function $\sim$\texttt{Shapes}. The former one is used to create the object and is hence named a \textit{constructor}. This function is called automatically when the object of a class is created. Similarly, the latter one destructs an object when we are done evaluating the object. It is therefore named a \textit{destructor} and is also called automatically when an object is deleted or goes out of scope.
 
 \subsection{Pointers}
-In the example above, we have not directly used any pointer. However, pointers are important in low-level languages, and we will here give a very brief introduction to pointers. For a C++ program, the memory of a computer is like a succession of memory cells, each with a unique address and of size one byte. When declaring a variable of size larger than one byte, the object will occupy memory cells that have consecutive addresses. Often, it is useful to know this address, which allows us to change the object directly in the memory. The address of a variable is given by the address-of operator, \&, working as
+In the C++ example in \eqref{lst:cpp}, we have not directly used any pointer. However, pointers are important in low-level languages, and we will here give a very brief introduction to pointers. For a C++ program, the memory of a computer is like a succession of memory cells, each with a unique address and of size one byte. When declaring a variable of size larger than one byte, the object will occupy memory cells that have consecutive addresses. Often, it is useful to know this address, which allows us to change the object directly in the memory. The address of a variable is given by the address-of operator, \&, working as
 \lstset{basicstyle=\scriptsize}
 \begin{lstlisting}[language=C++]
-address=&variable.
+address=&variable
 \end{lstlisting}
 By doing this, we say that we \textit{point to the address}, and a variable that stores the address of another variable is thereby called a pointer. Furthermore, the dereference operator, *, gives the value of the address to where a pointer points. Thus, the following is true
 \begin{lstlisting}[language=C++]
-variable=*address.
+variable=*address
 \end{lstlisting}
 
 \subsection{Back to the Monte Carlo example}
@@ -254,7 +254,7 @@ int main() {
 	return 0;
 }
 \end{lstlisting}
-which gives about the same output as the Python script, but is much faster. 
+This gives a similar output as the Python script, but is much faster.
 
 \iffalse
 \subsection{Data types in Eigen}

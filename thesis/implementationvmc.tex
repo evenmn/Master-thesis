@@ -8,14 +8,14 @@
 \end{figure}
 \fi
 
-In this chapter, we will describe the implemented variational Monte Carlo (VMC) code, which was developed from scratch in C++. As the code itself is around 7000 significant\footnote{Significant lines of code in this sense means lines that are not blank or commented. Counted by the \textit{cloc} program \supercite{aldanial_cloc_2019}.} lines of code, we will go through selected and often not obvious parts. As often said, \textit{good planning is half the battle}, which largely relates to writing VMC code. The code was rewritten and restructured several times before we ended on the final version. As a starting point, we used the VMC framework implemented by \citet{ledum_simple_2016}, which was meant as an example implementation in the course \textit{FYS4411 - Computational Physics II: Quantum Mechanical Systems}. The entire source code can be found on the authors GitHub account, \url{http://www.github.com/evenmn/VMC}.
+In this chapter, we will describe the implemented variational Monte Carlo (VMC) code, which was developed from scratch in C++. As the implementation itself is around 7000 significant\footnote{Significant lines of code in this sense means lines that are not blank or commented. Counted by the \textit{cloc} program \supercite{aldanial_cloc_2019}.} lines of code, we will go through selected and often not obvious parts. As often said, \textit{good planning is half the battle}, which largely relates to writing VMC code. The code was rewritten and restructured several times before we ended on the final version. As a starting point, we used the VMC framework implemented by \citet{ledum_simple_2016}. The entire source code can be found on the author's GitHub account, \url{http://www.github.com/evenmn/VMC}.
 
 We developed the code with focus on three main aims: it should be fast, flexible and readable. It needs to be flexible in order to support the Boltzmann machines as our trial wave function guess, and since we will try out various Jastrow factors, the wave function elements should be easy to add and remove. Since quantum mechanical simulations, in general, are very expensive, it is crucial to develop efficient code to be able to study systems of some size. Lastly, we aim to write readable code such that others can reuse the code partly or in its entirety later.  How we work to achieve the goals will be illustrated by code mainly picked from the \lstinline{WaveFunction} class, which is the heart of the code.
 
 For all matrix operations, we use the open-source template library for linear algebra Eigen throughout the code. Eigen provides an elegant interface, with support for all the needed matrix and vector operations. Additionally, Eigen is built on the standard software libraries for numerical linear algebra, BLAS, and LAPACK, which are incredibly fast. These contribute significantly to the performance of the code. 
 
 \section{Flexibility and readability}
-We have done several things in order to keep the code as readable as possible. Firstly, the code was written in an object-orientated scheme which makes it more intuitive to a human as discussed in chapter \ref{chp:scientificprogramming}. The Hamiltonians, optimizers, wave functions, sampling methods, and even the random number generator were treated as objects, making the code more or less as object-orientated as possible. An object-oriented code also makes it straight-forward to define a system since we can specify the preferred object. Below, we define a two-dimensional quantum dot system of $N=6$ electrons with frequency $\omega=1.0$, learning rate $\eta=0.1$, number of Metropolis cycles $M=2^{20}=1,048,576$ and max number of iterations set to 1000.
+We have done several things in order to keep the code as readable as possible. Firstly, the code is fully object-oriented. This makes it more intuitive to read, as discussed in chapter \ref{chp:scientificprogramming}. The Hamiltonians, optimizers, wave functions, sampling methods, and even the random number generator were treated as objects, making the code more or less as object-orientated as possible. An object-oriented code also makes it straight-forward to define a system since we can specify the preferred object. Below, we define a two-dimensional quantum dot system of $N=6$ electrons with frequency $\omega=1.0$, learning rate $\eta=0.1$, number of Metropolis cycles $M=2^{20}=1,048,576$ and max number of iterations set to 1000.
 
 \begin{lstlisting}[language={C++}, caption={Example on how a quantum dot system can be initialized.}, label={lst:qd}]
 System *QD = new System();
@@ -140,7 +140,7 @@ With this, we have introduced the four central functions of the wave function el
 \section{Slater determinant}
 As we have seen above, the Slater determinant is the fundamental part of the trial wave function, together with the Jastrow factor. The main problem with the Slater determinant is that it is costly to deal with as the number of electrons increases. To find the gradient of the Slater determinant, as requested by equation \eqref{eq:splittedkineticenergy}, we need to compute the inverse of the Slater matrix, which by standard LU decomposition scales as $\sim M^3$ for an $M\times M$ matrix \supercite{trahan_computational_2006}. Fortunately, there exist algorithms that let us obtain the inverse of the matrix by recursive relations, scaling as $\sim M^2$. This will be detailed in section \ref{sec:efficientcalculationsofslaterdeterminant}.
 
-Additionally, in section \ref{sec:trial}, we showed that the Slater determinant can be split in a spin-up part and a spin-down part, reducing its dimensionalities from $N\times N$ to two $N/2\times N/2$ matrices, with $N$ as the number of electrons. For an equal number of spin-up and spin-down electrons, this, in principle, reduces the cost of computing the Slater determinant with 87.5\%! Also, factorizing out common factors from the Slater determinant will give some speed-up. In this section, we will mostly discuss the various methods to make the update of the Slater matrix more efficient. We will start from the simplified expression of the Slater determinant derived in section \ref{sec:trial},
+Additionally, in section \ref{sec:trial}, we showed that the Slater determinant can be split in a spin-up part and a spin-down part with the assumption that the Hamiltonian is spin-independent. This reduces dimensionality of the Slater matrix from $N\times N$ to two $N/2\times N/2$ matrices, with $N$ as the number of electrons. For an equal number of spin-up and spin-down electrons, this, in principle, reduces the cost of computing the Slater determinant with 87.5\%! Also, factorizing out common factors from the Slater determinant will give some speed-up. In this section, we will mostly discuss the various methods to make the update of the Slater matrix more efficient. We will start from the simplified expression of the Slater determinant derived in section \ref{sec:trial},
 \begin{equation}
 \Psi_{\text{sd}}(\bs{R})=\frac{1}{\sqrt{N!}}|\hat{S}_{\uparrow}(\bs{R}^{\uparrow})|\cdot|\hat{S}_{\downarrow}(\bs{R}^{\downarrow})|,
 \end{equation}
@@ -156,7 +156,7 @@ where $\hat{S}_{\sigma}(\bs{R}^{\sigma})$ is the Slater matrix of spin-$\sigma$ 
 where $\phi_j(\bs{r}_i)$ is the single-particle function occupying the matrix element $\hat{D}_{ij}$.
 
 \subsection{Factorizing out elements} \label{sec:factorizing}
-We have now seen how the Slater determinant can be split up in a spin-up part and a spin-down part. Before we evaluate these determinants, we should try to make the elements of the Slater matrices as simple as possible to save computational time. If all the elements have the same factor, the computations will get much cheaper if the factor is factorized out of the determinant. How this is possible can easiest be seen if we express the Slater determinant on a summation form,
+We have now seen how the Slater determinant can be split up in a spin-up part and a spin-down part. Before we evaluate these determinants, we should try to make the elements of the Slater matrices as simple as possible to save computational time. If all the elements have the same factor, the computations will get much cheaper if the factor is factorized out of the determinant. How this is possible can easiest be seen if we express the Slater determinant as
 \begin{equation}
 |\hat{S}(\bs{R})|=\sum_{q}(-1)^q\hat{P}\phi_1(\bs{r}_1)\phi_2(\bs{r}_2)\cdots\phi_N(\bs{r}_N),
 \label{eq:slatersum}
@@ -272,11 +272,11 @@ As discussed in section \ref{sec:trial}, the Slater determinant can be split in 
 \end{equation}
 where $\bs{R}_{\uparrow}$ are the coordinates of electrons with spin up (defined as the first $N_{\uparrow}$ coordinates) and $\bs{R}_{\downarrow}$ are the coordinates of electrons with spin down (defined as the last $N_{\downarrow}$ coordinates). 
 
-We can now exploit the logarithmic scale, by using that the logarithm of a product corresponds to summarize the logarithm of each factor,
+We can now exploit the logarithmic scale, by using that the logarithm of a product corresponds to sums of the logarithm of each factor,
 \begin{equation}
-\ln\Psi_{\text{det}}(\bs{R})=\ln|\hat{D}_{\uparrow}(\bs{R}^{\uparrow})|+\ln|\hat{D}_{\downarrow}(\bs{R}^{\downarrow})|,
+\ln\Psi_{\text{det}}(\bs{R})=\ln|\hat{D}_{\uparrow}(\bs{R}^{\uparrow})|+\ln|\hat{D}_{\downarrow}(\bs{R}^{\downarrow})|.
 \end{equation}
-such that we only need to care about one of the determinants when differentiating, dependent on whether the coordinate we differentiate with respect to is among the spin-up or the spin-down coordinates,
+We only need to care about one of the determinants when differentiating, dependent on whether the coordinate we differentiate with respect to is among the spin-up or the spin-down coordinates,
 \begin{equation}
 \nabla_k\ln\Psi_{\text{det}}(\bs{R})=
 \begin{cases} 
@@ -284,7 +284,7 @@ such that we only need to care about one of the determinants when differentiatin
 \nabla_k\ln|\hat{D}_{\downarrow}(\bs{R}^{\downarrow})| & \text{if} \quad k\geq N_{\uparrow}
 \end{cases}.
 \end{equation}
-Before we go further, we will introduce a more general notation which covers both the cases:
+Before we continue, we introduce a more general notation which covers both spin cases:
 \begin{equation}
 \hat{D}(\bs{R})\equiv \hat{D}_{\sigma}(\bs{R}^{\sigma}),
 \end{equation}
@@ -349,7 +349,7 @@ while the remaining column, $i$, is updated using the simple formula \supercite{
 d_{ki}^{-1}(\bs{R}_{\text{new}})=\frac{1}{R}d_{ki}^{-1}(\bs{R}_{\text{old}}).
 \label{eq:slaterinverse2}
 \end{equation}
-Those procedures make the inverting scaling as $\sim M^2$ instead of $\sim M^3$, which is largely beneficial for large systems.
+These procedures make the inverting scaling as $\sim M^2$ instead of $\sim M^3$, which is largely beneficial for complex systems.
 
 Henceforth we assume that we do not have any variational parameter in the determinant, and obtain three expressions of the case when a spin-up electron is moved and three of the case when a spin-down electron is moved, and get the following equation for $k<N_{\uparrow}$:
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
