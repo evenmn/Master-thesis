@@ -35,7 +35,7 @@ Before we present the mathematical framework of the method, we will restate the 
 In this section, we will look at how the VMC method tackles these challenges. We start with discussing the trial wave function, and set up our trial wave function ansatz. Then, we define the local energy and explain how it is used to solve the energy integral using Monte Carlo integration. In the end, we will mention some common extensions to the VMC method. 
 
 \subsection{The trial wave function} \label{sec:trial}
-The trial wave function was mentioned in section \ref{sec:cusp}, but what is actually the trial wave function? In VMC, we start from a wave function ansatz, which is our ground state wave function guess. This function is equipped with variational parameters, and in order to estimate the wave function accurately, the trial wave function needs to be able to approach the correct wave function as we vary the parameters. However, as the many-body wave function is NP-hard to calculate \supercite{troyer_computational_2005}, we will only be able to approximate it and for that reason the wave function is by many considered as the root of all evil in many-body physics. For fermionic systems, the standard trial wave function used in VMC, given a set of variational parameters $\bs{\theta}$, is the Slater-Jastrow wave function, 
+The trial wave function was mentioned in section \ref{sec:cusp}, but a detailed description of it will first be presented here. In VMC, we start from a wave function ansatz, which is our ground state wave function guess. This function is equipped with variational parameters, and in order to estimate the wave function accurately, the trial wave function needs to be able to approach the correct wave function as we vary the parameters. However, as the many-body wave function is NP-hard to calculate \supercite{troyer_computational_2005}, we will only be able to approximate it and for that reason the wave function is by many considered as the root of all evil in many-body physics. For fermionic systems, the standard trial wave function used in VMC is the Slater-Jastrow wave function. Given a set of variational parameters $\bs{\theta}$, it can be expressed as
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \Psi_T(\bs{X};\bs{\theta})=|\hat{S}(\bs{X};\bs{\theta})|J(\bs{X};\bs{\theta}),
 \end{empheq}
@@ -128,7 +128,7 @@ which is independent of spin, i.e. the matrices now consist of the spatial funct
 It is also worth to notice that the number of spin-up particles determines the size of the spin-up matrix, and the number of spin-down particles determines the size of the spin-down matrix. In other words, we can change the ratio between spin-up particles and spin-down particles by adjusting the relative sizes of the determinants. In the implementation, however, we stick to the magic quantum numbers, where $N_{\uparrow}=N_{\downarrow}$.
 
 \subsection{The Jastrow factor} \label{sec:jastrow}
-The second factor in our trial wave function ansatz is the Jastrow factor, which is added in order to get the correct electron-electron cusp. This makes the value of the wave function, and then the probability, low when the distance between two electrons is small. This is the main idea behind the simple Jastrow factor.
+The second factor in our trial wave function ansatz is the Jastrow factor, which is added in order to account for the electron-electron correlations. As discussed the section \ref{sec:cusp}, it is crucial to model the so-called cusps correctly, which is the task of the Jastrow factor. We will first discuss a simple Jastrow factor, and then move on the the more complex Padé-Jastrow factor. 
 
 \subsubsection{Simple Jastrow} \label{sec:simplejastrow}
 The simple Jastrow factor is just an exponential function with the sum over all particle distances. In addition, each distance $r_{ij}$ is weighted by a parameter $\beta_{ij}$, and the factor becomes
@@ -136,10 +136,10 @@ The simple Jastrow factor is just an exponential function with the sum over all 
 J(\bs{r}; \bs{\beta}) = \exp(\sum_{i=1}^N\sum_{j>i}^N{\beta_{ij}r_{ij}}).
 \label{eq:SimpleJastrow}
 \end{equation}
-All the $\beta_{ij}$ are free variational parameters, which are expected to be symmetric since the distance matrix is symmetric. One problem with this Jastrow factor, is that it potentially does not create the cusp around each particle correctly. Basically, the Jastrow factor increases faster than it should when a particle is moved away from another. To solve this, we need to introduce a more complex Jastrow factor, the Padé-Jastrow.
+All the $\beta_{ij}$ are free variational parameters, which are expected to be symmetric since the distance matrix is symmetric. 
 
 \subsubsection{Padé-Jastrow} \label{sec:padejastrow}
-The Padé-Jastrow factor is closely related to the simple Jastrow above, but a numerator is added to make the cusp correct. It reads
+The Padé-Jastrow factor is closely related to the simple Jastrow above, but a numerator makes it more complex. It reads
 \begin{equation}
 J(\bs{r};\beta) = \exp(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij}}).
 \label{eq:PadeJastrow}
@@ -153,7 +153,7 @@ a_{ij}=
 1/(d-1) & \text{if $i,j$ are particles of opposite spin},
 \end{cases}
 \end{equation}
-for dimensions $d\in\{2,3\}$ where the natural units are used. For two dimensions, this gives $a_{ij}=1/3$ (same spin) or $a_{ij}=1$ (opposite spin) and for three dimensions $a_{ij}=1/4$ (same spin) and $a_{ij}=1/2$ (opposite spin) \supercite{hogberget_quantum_2013,mariadason_quantum_2018}.
+for dimensions $d\in\{2,3\}$ where the natural units are used. For two dimensions, this gives $a_{ij}=1/3$ (same spin) or $a_{ij}=1$ (opposite spin) and for three dimensions $a_{ij}=1/4$ (same spin) and $a_{ij}=1/2$ (opposite spin) \supercite{hogberget_quantum_2013,mariadason_quantum_2018}. These values are determined by the cusp condition\supercite{bingel_a_physical_1967}.
 
 \subsection{The local energy}
 We have now seen how we approximate the wave function by a trial wave function, and in this section we will describe how to find the energy. In chapter \ref{chp:quantum}, we saw that the two-body interaction term makes the integral impossible to solve analytically for many particles, such that we need to rely on numerical methods. 
