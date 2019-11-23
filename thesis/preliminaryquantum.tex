@@ -16,7 +16,7 @@ In the most general form, the theory is based on the time-dependent Schrödinger
 i\hbar\frac{\partial}{\partial t}\ket{\Psi(\bs{x},t)}=\hat{\mathcal{H}}\ket{\Psi(\bs{x},t)},
 \label{eq:schrodinger}
 \end{empheq}
-which describes the state, or the wave function, $\Psi(\bs{x},t)$, of a system with Hamiltonian, $\hat{\mathcal{H}}$. The spatial and spin coordinates are specified by $\bs{x}=\{\bs{r},\sigma\}$, $\hbar$ is the reduced Planck's constant and $i$ is the solution of the equation $x^2=-1$. As we later will see, the quantum mechanical system is completely specified by the wave function, so by solving the Schrödinger equation we will in principle know everything about the system. 
+which describes the state, or the wave function, $\Psi(\bs{x},t)$, of a system with Hamiltonian, $\hat{\mathcal{H}}$. The coordinate, as a common term for the position and the spin, is specified by $\bs{x}=\{\bs{r},\sigma\}$, $\hbar$ is the reduced Planck's constant and $i$ is the solution of the equation $x^2=-1$. As we later will see, the quantum mechanical system is completely specified by the wave function, so by solving the Schrödinger equation we will in principle know everything about the system. 
 
 \citet{schrodinger_undulatory_1926} introduced the now-called Schrödinger equation, \eqref{eq:schrodinger}, in a 1926 paper as one of many contributions to the quantum mechanics at that time. Other contributors include \citet{born_zur_1926} who suggested the now-standard interpretation of the probability density function as $|\Psi(\bs{x},t)|^2$ in 1926 and \citet{heisenberg_uber_1925}, who formulated the matrix mechanics representation in 1925. However, many physicists were skeptical about the new theory, including Albert Einstein and Schrödinger himself. The theory differed from classical mechanics in the sense that it was based on a statistical interpretation, with some strange consequences. For instance, the theory allowed particles to \textit{go through} a potential wall, known as quantum tunneling. Later, Einstein \supercite{einstein_can_1935} also pointed out that when pairs or groups of particles are generated in ways such that the wave function of each particle cannot be described independently of the other state, they will be affected by each other even at large distances. He called this \textit{"spooky action at a distance"}, and used the observation to argument that the quantum theory had to be incorrect. However, the observation was later proven to be correct and as late as in 2019 the first image of quantum entanglement, as the phenomenon is called, was captured by \citet{moreau_imaging_2019}, presented in figure \eqref{fig:entanglement}.
 
@@ -29,13 +29,11 @@ Next we discuss the variational principle, which states that the ground state en
 Because quantum mechanics will make up the framework for this work, we will in this chapter only discuss the theory needed for the work, and this section is not meant as an encyclopedia to quantum mechanics. For a complete introduction to the topic, \textit{Introduction to Quantum Mechanics} written by \citet{griffiths_introduction_2005} serves as an excellent read. Before we get started, we make a few assumptions in order to simplify our problem. The most important assumptions are specified below with an explanation of why they are valid.
 
 \begin{itemize}
-	\item \textbf{Point-like particles:} For all practical purposes, 
+	\item \textbf{Point-like particles:} For all practical purposes, our length scales are much larger than the assumed radius of electrons and protons. Treating the electrons and protons as points-like particles is therefore a good approximation. 
 	
-	First, all particles involved are assumed to be point-like, i.e. they lack spatial extension. For electrons, this makes sense since they, as far as we know, do not extend. The assumption is also applied to the nucleus in atomic systems, but it still makes sense since the distance from the nucleus to the electrons is known to be much larger than the nucleus extension.
+	\item \textbf{Non-relativistic spacetime:}  Second, we operate in the non-relativistic spacetime, which is an excellent approximation as long as we do not approach the speed of light and we do not involve the strong nuclear force. Applying classical physics, we can find that the speed of the electron in a hydrogen atom is about 1\% of the speed of light. Even though the electrons achieve higher velocities in heavy atoms, we do not need to worry about it as we will stick to the lighter atoms. In the quantum dots, this assumption holds even for large systems, as the velocity and density will still be sufficiently low.
 	
-	\item \textbf{Non-relativistic spacetime:}  Second, we operate in the non-relativistic spacetime, which is an excellent approximation as long as we do not approach the speed of light and we do not involve strong forces. Applying classical physics, we can find that the speed of the electron in a hydrogen atom is about 1\% of the speed of light. Even though the electrons achieve higher velocities in heavy atoms, we do not need to worry about it as we will stick to the lighter atoms. In the quantum dots, this assumption holds even for large systems, as the velocity and density will still be sufficiently low.
-	
-	\item For specific systems, we might make new assumptions and approximations. For instance, for atomic systems, we will assume that the nucleus is at rest. Those approximations will be discussed consecutively. 
+	\item For specific systems, we might make new assumptions and approximations. For instance, for atomic systems, we will assume that the nucleus is at rest. These approximations will be discussed consecutively. 
 \end{itemize}
 
 \section{The postulates of quantum mechanics} \label{sec:postulates}
@@ -80,7 +78,7 @@ according to Ehrenfest's theorem \supercite{ehrenfest_bemerkung_1927} and the se
 \end{equation}
 which indicates that the momentum and the position do not \textit{commute}, and that the order of the operators in an equation is not arbitrary. 
 
-The potential is dependent on the system we want to study. For atomic systems, the potential as a function of the distance from the nucleus can be found from Coulomb's law and reads 
+The potential depends on the system we want to study. For atomic systems, the potential as a function of the nucleus-electron distance can be found from Coulomb's law and reads 
 \begin{equation}
 V(r)=\frac{1}{4\pi\epsilon_0}\frac{Ze^2}{r},
 \label{eq:atompotential}
@@ -129,6 +127,7 @@ in atomic units. The binding energy in Hydrogen is found from the Schrödinger e
 \end{equation}
 which indicates that $E_0=-0.5$.
 
+\iffalse
 \section{Statistical interpretation} \label{sec:statisticalinterpretation}
 In equation \eqref{eq:energyintegral}, we found the expectation value of the energy using the Hamiltonian, which is the energy operator. By the second postulate of quantum mechanics, every observable in the classical mechanics is associated with such a Hermitian operator $\hat{O}$ related to an expectation value $\langle \hat{O}\rangle$ in the same way,
 \begin{equation}
@@ -155,6 +154,7 @@ where $\bra{\Psi}$ is called the \textit{bra} and $\ket{\Psi}$ is called the \te
 \langle \hat{O}\rangle=\mel{\Psi}{\hat{O}}{\Psi},
 \end{equation}
 and will henceforth be assumed. More information about the Dirac formalism can be found in appendix \ref{app:dirac}. 
+\fi
 
 \section{The variational principle} \label{sec:variationalprinciple}
 In the equations above, the presented wave functions are assumed to be the exact eigenfunctions of the Hamiltonian. However, often we do not know the exact wave functions, and we need to guess what the wave functions might be. In those cases, we apply the variational principle, which states that only the exact ground state wave function can give the ground state energy. All other wave functions that fulfill the required properties (see section \ref{sec:wavefunction}) give higher energies, and mathematically we can express the statement as
@@ -162,7 +162,7 @@ In the equations above, the presented wave functions are assumed to be the exact
 E_0\leq\mel{\Psi}{\hat{\mathcal{H}}}{\Psi},
 \label{eq:variationalprinciple}
 \end{empheq}
-where $\Psi$ is an arbitrary wave function. The variational method is a way of estimating the energy ground state, which is based on the variational principle. Most notably, the variational Monte Carlo method is named after the principle and attempts to solve the integrals directly by varying a trial wave function. The variational principle ensures that the obtained energy never goes below the ground state energy, as further described in chapter \ref{chp:methods}. Other methods that apply the variational method are the Hartree-Fock method and the coupled cluster method.
+where $\Psi$ is an arbitrary wave function. The variational method is a way of estimating the energy ground state, which is based on the variational principle. Most notably, the variational Monte Carlo method is named after the principle and attempts to solve the integrals directly by varying a trial wave function. The variational principle ensures that the obtained energy never goes below the ground state energy, as further described in chapter \ref{chp:methods}.
 
 \section{Quantum numbers}
 Unlike in classical mechanics, all the observable in quantum mechanics are discrete or \textit{quantized}, which means that the energy can only take discrete values. The possible numbers, called quantum numbers, are are always associated with the degrees of freedom. The first quantum number, $n$, is the principal quantum number and can take positive integers. We also have other quantum numbers identified with the angular momentum and spin as described below.
@@ -188,14 +188,14 @@ The virial theorem relates the kinetic energy to the potential energy, and makes
 \langle\hat{T}\rangle=-\frac{1}{2}\sum_{i=1}^N\langle\bs{F}_i\cdot\bs{r}_i\rangle_t,
 \label{eq:virialtheorem}
 \end{empheq}
-where $\bs{F}_i$ represents the force on particle $i$ at position $\bs{r}_i$. The quantum mechanical version was proven by \citet{fock_bemerkung_1930} in 1930, where the expectation value of the force is represented with $d\langle p\rangle/dt$. For potential sources in the form of $V_i=ar^{n_i}$, we can use Ehrenfest's theorem to express the virial theorem in a simpler fashion,
+where $\bs{F}_i$ represents the force on particle $i$ at position $\bs{r}_i$. The quantum mechanical version was proven by \citet{fock_bemerkung_1930} in 1930, where the expectation value of the force is represented with $d\langle p\rangle/dt$. For potential sources in the form of $V_i=ar^{n_i}$, we can use Ehrenfest's theorem\supercite{ehrenfest_bemerkung_1927} to express the virial theorem in a simpler fashion,
 \begin{equation}
 2\langle \hat{T} \rangle = \sum_{i}n_i\langle \hat{V}_{i} \rangle.
 \label{eq:simplevirial}
 \end{equation}
-The same expression can be found in classical physics as well, using the relation $\bs{F}=-\nabla V$. The virial theorem requires that the system is in a bound state. An example on a system that does not fulfill the requirements, is a comet that has enough kinetic energy to escape a planet's gravitational field. 
+The same expression can be found in classical physics as well, using the relation $\bs{F}=-\nabla V$. The virial theorem requires that the system is in a bound state. An example of a system that does not fulfill the requirements, is a comet that has enough kinetic energy to escape a planet's gravitational field. 
 
-On the other hand, the hydrogen atom, discussed in section \ref{sec:hydrogen}, satisfies the virial theorem as the potential is in the form of $V(r)\propto r^{-1}$ and the electron is bounded. For that particular case, the virial theorem reads $2\langle\hat{T}\rangle=-\langle\hat{V}\rangle$, which means that $E=\langle\hat{V}\rangle/2$. However, if we add another electron and get a hydrogen anion, the simplified virial theorem in equation \eqref{eq:simplevirial} breaks down because of the interaction.
+On the other hand, the hydrogen atom, discussed in section \ref{sec:hydrogen}, satisfies the virial theorem as the potential is in the form of $V(r)\propto r^{-1}$ and the electron is bound. For that particular case, the virial theorem reads $2\langle\hat{T}\rangle=-\langle\hat{V}\rangle$, which means that $E=\langle\hat{V}\rangle/2$.
 
 It is also important to emphasize that the expectation value discussed above is, in principle, the time average of the operator. However, if the ergodic hypothesis holds for the system, i.e., the ensemble average is equal to the time average, an ensemble average can also be taken \supercite{flyvbjerg_error_1989}.
 

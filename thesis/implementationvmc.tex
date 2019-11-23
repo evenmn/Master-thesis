@@ -15,7 +15,7 @@ We developed the code with focus on three main aims: it should be fast, flexible
 For all matrix operations, we use the open-source template library for linear algebra Eigen throughout the code. Eigen provides an elegant interface, with support for all the needed matrix and vector operations. Additionally, Eigen is built on the standard software libraries for numerical linear algebra, BLAS, and LAPACK, which are incredibly fast. These contribute significantly to the performance of the code. 
 
 \section{Flexibility and readability}
-We have done several things in order to keep the code as readable as possible. Firstly, the code is fully object-oriented. This makes it more intuitive to read, as discussed in chapter \ref{chp:scientificprogramming}. The Hamiltonians, optimizers, wave functions, sampling methods, and even the random number generator were treated as objects, making the code more or less as object-orientated as possible. An object-oriented code also makes it straight-forward to define a system since we can specify the preferred object. Below, we define a two-dimensional quantum dot system of $N=6$ electrons with frequency $\omega=1.0$, learning rate $\eta=0.1$, number of Metropolis cycles $M=2^{20}=1,048,576$ and max number of iterations set to 1000.
+We have done several things in order to keep the code as readable as possible. Firstly, the code is fully object-oriented. This makes it more intuitive to read, as discussed in chapter \ref{chp:scientificprogramming}. The Hamiltonians, optimizers, wave functions, sampling methods, and even the random number generator were treated as objects, making the code more or less as object-orientated as possible. An object-oriented code also makes it straightforward to define a system since we can specify the preferred object. Below, we define a two-dimensional quantum dot system of $N=6$ electrons with frequency $\omega=1.0$, learning rate $\eta=0.1$, number of Metropolis cycles $M=2^{20}=1,048,576$ and max number of iterations set to 1000.
 
 \begin{lstlisting}[language={C++}, caption={Example on how a quantum dot system can be initialized.}, label={lst:qd}]
 System *QD = new System();
@@ -106,7 +106,7 @@ In section \ref{sec:parameterupdate}, we presented how the parameters can be upd
 \end{empheq}
 where $\Psi_{\theta_j}(\bs{R})$ is the only element which contains the parameter $\theta_j$. With this in mind, we need to find closed-form expressions of $\nabla_{\theta_j}\ln\Psi_{\theta_j}(\bs{R})$ for all wave function elements $\Psi_{\theta_j}(\bs{R})$ that are associated with a variational parameter $\theta_{j}$.
 
-In the code, we store all the parameters in a \textit{parameter matrix} where each element has its own row of parameters. Similarly, we create a \textit{gradient matrix} of the same dimensions to store the gradients $\nabla_{\theta_j}\ln\Psi_{\theta_j}(\bs{R})$ for each variational parameter. The function which collect all the gradients is implemented straight-forwardly, and is given by
+In the code, we store all the parameters in a \textit{parameter matrix} where each element has its own row of parameters. Similarly, we create a \textit{gradient matrix} of the same dimensions to store the gradients $\nabla_{\theta_j}\ln\Psi_{\theta_j}(\bs{R})$ for each variational parameter. The function which collect all the gradients is implemented straightforward, and is given by
 \begin{lstlisting}[language=c++]
 Eigen::MatrixXd System::getAllParameterGradients()
 {
@@ -211,7 +211,7 @@ We observe that the factor $\omega\alpha$ is found in all the expressions above 
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \nabla_{\alpha}\ln\Psi_{\text{sg}} = -\frac{1}{2}\omega\sum_{j=1}^Fx_j^2.
 \end{empheq}
-The implementation is very straight-forward, and looks like
+The implementation is very straightforward, and looks like
 \begin{lstlisting}[language=c++]
 double Gaussian::evaluateRatio()
 {
@@ -391,7 +391,7 @@ void SlaterDeterminant::updateSlaterMatrixDerRow(const int row)
 	}
 }
 \end{lstlisting}
-where each element is taken from the \lstinline{basisElementDer} function in the \lstinline{Basis} class. This function returns just the derivative of the single-particle function called for the chosen basis set. Note also that only the coordinates of the moved electron, stored in a column of the \lstinline{m_positions} matrix, is needed for the update. The update of \lstinline{m_slaterMatrix} and \lstinline{m_slaterMatrixSecDer} are very straight-forward and similar to the example above, so we will not discuss them further.
+where each element is taken from the \lstinline{basisElementDer} function in the \lstinline{Basis} class. This function returns just the derivative of the single-particle function called for the chosen basis set. Note also that only the coordinates of the moved electron, stored in a column of the \lstinline{m_positions} matrix, is needed for the update. The update of \lstinline{m_slaterMatrix} and \lstinline{m_slaterMatrixSecDer} are very straightforward and similar to the example above, so we will not discuss them further.
 
 What might be less intuitive is how to update the inverse of the Slater matrix. We also store this in a dedicated matrix \lstinline{m_slaterMatrixInverse}, and we use LU decomposition to initialize it. After that, we use equations (\ref{eq:slaterratio}-\ref{eq:slaterinverse2}) to update the inverse. We implement it as
 
@@ -440,7 +440,7 @@ with $N$ as the number of electrons, $r_{ij}$ as the distance between electron $
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \frac{|\Psi_{\text{sj}}(\bs{R}_{\text{new}})|^2}{|\Psi_{\text{sj}}(\bs{R}_{\text{old}})|^2}=\exp\bigg(2\sum_{j=1}^N\beta_{ij}(r_{ij}^{\text{new}}-r_{ij}^{\text{old}})\bigg),
 \end{empheq}
-where $i$ again is the moved electron. The gradient is straight-forward to find, and reads
+where $i$ again is the moved electron. The gradient is straightforward to find, and reads
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \nabla_{k'}\ln\Psi_{\text{sj}}=\sum_{j=1}^N\beta_{kj}\frac{x_{k'}-x_{j'}}{r_{kj}},
 \end{empheq}
@@ -621,7 +621,7 @@ where \lstinline|dQF| is the difference between the new and the old force and \l
 The parameter update is a central part of a VMC implementation, and a good VMC implementation requires a good optimization algorithm. Since the optimization functions are called outside the sampling, they are just called a fraction of times, compared to the function called from the sampling. Therefore, we will not put too much effort into making them efficient, but they should still be thought-through. We will here discuss the gradient descent method with momentum and monotonic decaying step and the ADAM optimizer. The \lstinline|Optimizer| class contains a pure virtual function \lstinline|updateParameters|, which is thus forced to be included in the optimizer subclasses. This function returns the update of the new parameters and is the function we will discuss in this section.
 
 \subsection{Gradient descent}
-Gradient descent is a simple optimization algorithm, and so is the implementation. Based on the theory presented in section \ref{sec:gd}, the implementation is really straight-forward and reads
+Gradient descent is a simple optimization algorithm, and so is the implementation. Based on the theory presented in section \ref{sec:gd}, the implementation is really straightforward and reads
 \begin{lstlisting}
 Eigen::MatrixXd GradientDescent::updateParameters()
 {
@@ -634,7 +634,7 @@ Eigen::MatrixXd GradientDescent::updateParameters()
 where \lstinline|m_v| is the momentum vector and \lstinline|m_monotonicExp| describes how fast the rate should decrease. Further, \lstinline|m_gamma| is the momentum parameter defining the relative size of the momentum. The function \lstinline|Optimization::getEnergyGradient| returns a matrix with the gradients of the energy expectation value with respect to all the parameters, given in equation \eqref{eq:gradientenergy}.
 
 \subsection{ADAM optimizer}
-The ADAM optimizer implementation also is very straight-forwardly based on the algorithm given in section \ref{sec:adam}. The momentum vectors were implemented as matrices to match the dimensions of the parameter matrix. By matrix operations, we could also have made the function efficient, but since that is not the aim here, we decided to keep the loops in order to make the code readable. The implementation looks like
+The ADAM optimizer implementation also is very straightforward based on the algorithm given in section \ref{sec:adam}. The momentum vectors were implemented as matrices to match the dimensions of the parameter matrix. By matrix operations, we could also have made the function efficient, but since that is not the aim here, we decided to keep the loops in order to make the code readable. The implementation looks like
 \begin{lstlisting}
 Eigen::MatrixXd ADAM::updateParameters()
 {
