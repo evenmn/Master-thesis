@@ -17,14 +17,12 @@ Unlike traditional algorithms, machine learning algorithms perform a specific ta
 \end{shadequote}
 
 % Why Machine Learning?
-In our search for a technique to solve quantum mechanical problems where less physical intuition is needed, machine learning appears as a natural tool. Firstly, machine learning algorithms are able to provide impressive results, even with absence of rules specifying what the network should do. This was, for instance, demonstrated by \citet{silver2017mastering} who developed a chess engine which learned the rules by playing against itself thousands of times. Secondly, the fundamental goal of machine learning is to fit a model in order to minimize a cost function, which is exactly what we do in the popular variational Monte Carlo (VMC) method with the wave function as the model and with the energy as the cost function. However, in traditional VMC, the trial wave function is tailored to each particular system, which naturally requires a significant amount of physical intuition. Our goal is to find a trial wave function so flexible that it can approach the true wave function even with lack of physical intuition. For that, we use a restricted Boltzmann machine (RBM), an energy-based neural network. Reducing the need of physical intuition is important because the study of many urgent systems is out of reach for the existing methods, due to lack of information about the wave function. Examples include bosonic systems, where expressions for two-body correlations in general are unavailable \supercite{holzmann_pair_1999}, and nuclear systems, where three-body correlations are crucial \supercite{sauer_three-nucleon_2014}.
+In our search for a technique to solve quantum mechanical problems where less physical intuition is needed, machine learning appears as a natural tool. Firstly, machine learning algorithms are able to provide impressive results, even with absence of rules specifying what the network should do. This was, for instance, demonstrated by \citet{silver2017mastering} who developed a chess engine which learned the rules by playing against itself thousands of times. Secondly, the fundamental goal of machine learning is to fit a model in order to minimize a cost function, which is exactly what we do when applying the popular variational Monte Carlo (VMC) method with the wave function as the model and with the energy as the cost function. However, in traditional VMC, the trial wave function is tailored to each particular system, which naturally requires a significant amount of physical intuition. Our goal is to find a trial wave function so flexible that it can approach the true wave function even with lack of physical intuition. For that, we use a restricted Boltzmann machine (RBM), an energy-based neural network. Reducing the need of physical intuition is important because the study of many urgent systems is out of reach for existing methods, due to lack of information about the wave function. Examples include bosonic systems, where expressions for two-body correlations in general are unavailable \supercite{holzmann_pair_1999}, and nuclear systems, where three-body correlations are crucial \supercite{sauer_three-nucleon_2014}.
 
 % How do we use Machine Learning?
-We typically classify machine learning methods as being either supervised or unsupervised, based on the way we define the cost function. Supervised models are provided with \textit{targets}, which are outputs that the model should obtain with a certain input data set. We then define the cost function as the error between the output from the model and the targets, and the model is trained until it is able to reproduce the targets. For unsupervised models, we need to find another way to define the cost function, as they are not provided with targets. These kinds of models will be used in this work, as they we in general not have labeled data for our particular problem.
+We typically classify machine learning methods as being either supervised or unsupervised, based on the way we define the cost function. Supervised models are provided with \textit{targets}, which are outputs that the model should obtain with a certain input data set. We then define the cost function as the error between the output from the model and the targets, and the model is trained until it is able to reproduce the targets. For unsupervised models, we need to find another way to define the cost function, as they are not provided with targets. These kinds of models will be used in this work, as we in general do not have labeled data for our particular problem. In our work, we aim at constructing powerful methods for the study of the ground state of complex systems. As targets for these systems usually are unavailable, we will use unsupervised algorithms. For RBMs, the cost function is traditionally defined by a system energy which we want to minimize. 
 
-In our work, we aim at constructing a powerful method for the study of the ground state of complex systems, and as targets for these systems usually are unavailable, we will use unsupervised algorithms. For RBMs, the cost function is traditionally defined by a system energy which we want to minimize. 
-
-As there are many common concepts in supervised and unsupervised learning, we will in this chapter adhere to supervised learning and introduce essential concepts like artificial neurons, weights and optimization schemes. The Boltzmann machines, which are the models that we actually use in the work, are discussed in chapter \ref{chp:restricted}.
+As there are many common concepts in supervised and unsupervised learning, we will in this chapter adhere to supervised learning and introduce essential concepts like artificial neurons, weights and optimization schemes. The Boltzmann machines, which are the models that we actually use in this work, are discussed in chapter \ref{chp:restricted}.
 
 % The goal of supervised learning
 Supervised learning maps an input to an output based on example input-output pairs. To functionalize this, we need to train the model such that the error between the targets and the outputs is minimized. However, this is in general not sufficient as we also want to make new predictions from the same model. The two points that need to be satisfied in supervised learning are therefore:
@@ -50,8 +48,8 @@ where the parameters $a$, $b$ and $c$ are our estimators. The polynomial is now 
 	\tilde{y}_1&=&ax_1^2&+&bx_1&+&c\\
 	\tilde{y}_2&=&ax_2^2&+&bx_2&+&c\\
 	\vdots&&\vdots&&\vdots&&\vdots\\
-	\tilde{y}_n&=&ax_n^2&+&bx_n&+&c
-},
+	\tilde{y}_n&=&ax_n^2&+&bx_n&+&c,
+}
 \label{eq:lineareqs}
 \end{equation}
 where $\tilde{y}_i=f(x_i)$ is the output from the model with $x_i$ as the input. What we want to do is to determine the estimators, $a$, $b$ and $c$, such that the mean squared error (MSE) of all these equations,
@@ -70,7 +68,7 @@ and the $x_i^j$'s are collected in a row vector
 \begin{equation}
 \bs{X}_i\equiv(x_i^2, x_i^1, x_i^0)=(x_i^2, x_i, 1).
 \end{equation}
-By using this, the cost function can be written as
+By using this, the cost function can be rewritten as
 \begin{equation}
 \begin{aligned}
 \mathcal{C}(\bs{\theta})&=\frac{1}{n}\sum_{i=0}^{n-1}\Big(y_i-\sum_{j=0}^2X_{ij}\theta_j\Big)^2,\\
@@ -108,7 +106,7 @@ In this example, we will do the polynomial regression on an actual two-dimension
 \end{equation}
 which is nothing else than a second-order polynomial with some noise. The data points are plotted in figure (\ref{fig:polynomials} a), and we want to fit a $p$'th degree polynomial to the points. The first thing we need to realize is that in order to validate our models, we cannot use all points for the training. There is no strict rule on how much of the data set that should be used for training and validation, but at least the training data set should be larger than the validation data set. For this particular problem, we decide to leave out $\{(1,15),(9,63),(10,60)\}$ from the training, which we later will use for validation.
 
-Furthermore, we use equation \eqref{eq:polynomialestimators} to find the best fitting first-, second- and sixth-order polynomials, and obtain the functions presented in table \eqref{tab:example} with the respective training and prediction errors. The polynomials are also plotted in figure (\ref{fig:polynomials} b) together with the actual data points.
+Furthermore, we use equation \eqref{eq:polynomialestimators} for finding the best fitting first-, second- and sixth-order polynomials, and obtain the functions presented in table \eqref{tab:example} with the respective training and prediction errors. The polynomials are also plotted in figure (\ref{fig:polynomials} b) together with the actual data points.
 
 \begin{figure}
 	\centering
@@ -130,12 +128,12 @@ Furthermore, we use equation \eqref{eq:polynomialestimators} to find the best fi
 	\end{tabularx}
 \end{table}
 
-What we immediately observe, is that the more complex model (higher degree polynomial), the lower the training error. The polynomial of sixth-order fits the points entirely. The first-order polynomial performs poorly, while the second-order polynomial performs intermediately. However, when we want to predict future observations, the prediction error is more crucial than the training error as it shows the ability to reproduce unlabeled data. The prediction error of the output from the sixth-order polynomial is enormous, indicating that the polynomial is a bad fit to the data set. When a model can reproduce the training set very well, but is not able to reproduce the training set, we say that it overfits the data set. This means that the model is too complicated considering the problem. On the other hand, we see that the first-order polynomial also has a significant prediction error, which means that it is not able to reproduce the validation set either. We say that it underfits the data set, indicating the need for a more complex model.
+What we immediately observe, is that the more complex model (higher degree polynomial) we use, the lower training error we get. The polynomial of sixth-order fits the points entirely. The first-order polynomial performs poorly, while the second-order polynomial performs intermediately. However, when we want to predict future observations, the prediction error is more crucial than the training error as it shows the ability to reproduce unlabeled data. The prediction error of the output from the sixth-order polynomial is enormous, indicating that the polynomial is a bad fit to the data set. When a model can reproduce the training set very well, but is not able to reproduce the training set, we say that it overfits the data set. This means that the model is too complex considering the problem. On the other hand, we see that the first-order polynomial also has a significant prediction error, which means that it is not able to reproduce the validation set either. We say that it underfits the data set, indicating the need for a more complex model.
 
-Finally, we have the second-order polynomial, which is miles ahead of its competitors when it comes to the prediction error. It turns out that the second-order model has an appropriate complexity, and we could have guessed that just by looking at the data points. The natural question now is \textit{"How do we find a correct model complexity?"}. The answer is that there is no easy way of doing this, which is one reason why machine learning is difficult. The trial and error method is the standard approach, where we examine various complexities and calculate the prediction error for each model. To find the prediction error precisely, one typically uses $K$ cross-validation resampling, which evaluates $K$ different choices of validation set to make the most use of the data. More about resampling analysis can be found in section \ref{sec:resampling}. A deeper understanding of the prediction error and how to reveal if a model overfits or under its will hopefully be gained in the next section, on bias-variance tradeoff. 
+Finally, we have the second-order polynomial, which is miles ahead of its competitors when it comes to the prediction error. It turns out that the second-order model has an appropriate complexity, which we could have guessed by looking at the data points. The natural question now is \textit{"How do we find a correct model complexity?"}. The answer is that there is no easy way of doing this, which is one reason why machine learning is difficult. The trial and error method is the standard approach, where we examine various complexities and calculate the prediction error for each model. To find the prediction error precisely, one typically uses $K$ cross-validation resampling, which evaluates $K$ different choices of validation set to make the most use of the data. More about resampling analysis can be found in section \ref{sec:resampling}. A deeper understanding of the prediction error and how to reveal whether a model overfits or under its will hopefully be gained in the next section, on bias-variance tradeoff. 
 
 \section{Bias-variance tradeoff}
-Up to this point, we have skipped some important terms in the statistics behind machine learning. First, we have the \textit{bias}, which describes the best our model could do if we had an infinite amount of training data. We also have the \textit{variance}, which is a measure of the fluctuations occurring due to finite sampling effects. In the left part of figure \eqref{fig:bias_variance}, an example of high variance low-bias and a low variance high bias models is presented. What we actually want is a low variance low-bias model, but this model is normally not feasible, and we need to find the optimal tradeoff between bias and variance. This is known as the bias-variance tradeoff. 
+Up to this point, we have skipped some important terms in the statistics behind machine learning. First, we have the \textit{bias}, which describes the best our model could do if we had an infinite amount of training data. We also have the \textit{variance}, which is a measure of the fluctuations occurring due to finite sampling effects. In the left part of figure \eqref{fig:bias_variance}, examples of high variance low-bias and low variance high bias models is presented. What we actually want is a low variance low-bias model, but this model is normally not feasible, and we need to find the optimal tradeoff between bias and variance. This is known as the bias-variance tradeoff. 
 
 In the right part of figure \eqref{fig:bias_variance}, the bias-variance tradeoff is illustrated as a function of the model complexity. We observe that the prediction error is large when the model complexity is too low, which corresponds to a low variance. This substantiates what we discussed in section \ref{sec:example}, where we claimed that a too low model complexity underfits the data set. Therefore, a too low variance is associated with underfitting. On the other side of the plot, we can see that also a too complex model causes a large prediction error, which corresponds to a low bias. As discussed before, a too complex model overfits the model, which is associated with low bias. 
 \iffalse
@@ -161,15 +159,15 @@ where the noise, $\epsilon$, is normally distributed with mean zero and standard
 \begin{equation}
 E_{\text{pred}}\equiv\langle\langle(y_{\epsilon}-\tilde{y})^2\rangle\rangle_{\epsilon}=\underbrace{\sum_i(f(x_i)-\langle \tilde{y}\rangle)^2}_{\text{bias}^2}+\underbrace{\sum_i\langle(\tilde{y}-\langle \tilde{y}\rangle)^2\rangle}_{\text{variance}}+\underbrace{\sum_i\sigma_{\epsilon}^2}_{\text{noise}},
 \end{equation}
-where the expectation values are over the data set $\mathcal{D}$ if nothing else is specified. This decomposition is discussed in great detail by \citet{mehta_high-bias_2019}.
+where the expectation values are over the data set, $\mathcal{D}$, if nothing else is specified. This decomposition is discussed in great detail by \citet{mehta_high-bias_2019}.
 
 \section{Linear regression}
 Polynomial regression, discussed in section \ref{sec:poly}, is an instance of linear regression that we introduced to motivate before we study linear regression in general. Instead of fitting a polynomial to a set of points, we can fit a general function in the form of
 \begin{equation}
-f(x_i)=\sum_{j=0}^pX_{ij}(x_i)\theta_j,
+f(x_i)=\sum_{j=0}^pX_{ij}(x_i)\theta_j
 \label{eq:targets}
 \end{equation}
-where we have $p+1$ estimators $\theta_j$. The matrix $\bs{X}$ is called the \textit{design matrix}, and in the case where $X_{ij}(x_i)=x_i^j$ corresponds to polynomial regression, but it can in principle be an arbitrary function of $x_i$. The cost function for \textit{the ordinary least square regression} (OLS) case is already found in equation \eqref{eq:polynomialcost}, and we can recall it as
+to the points, where we have $p+1$ estimators $\theta_j$. The matrix $\bs{X}$ is called the \textit{design matrix}, and the case where $X_{ij}(x_i)=x_i^j$ corresponds to polynomial regression, but it can in principle be an arbitrary function of $x_i$. The cost function for \textit{the ordinary least square regression} (OLS) case is already found in equation \eqref{eq:polynomialcost}, and we can recall it as
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \mathcal{C}(\bs{\theta})=\sum_{i=1}^{n}\Big(y_i-\sum_{j=0}^pX_{ij}\theta_j\Big)^2,\qquad\qquad\qquad\text{OLS}
 \end{empheq}
@@ -182,7 +180,7 @@ which is minimized when
 To solve this equation, we need to find the inverse of the matrix $\bs{X}^T\bs{X}$, which is typically done by \textit{lower-upper} (LU) decomposition or \textit{singular values decomposition} (SVD). Often when dealing with large data sets, the design matrix becomes singular. A singular matrix is defined by a determinant equal to zero, making them non-invertible. Fortunately, SVD always works, and in cases where the matrix is singular, it turns out to be a good idea to perform such a decomposition. In the next section we will see why.
 
 \subsection{Singular value decomposition}
-Singular value decomposition is a method which decomposes an $m\times n$ matrix $\bs{X}$ into a product of three matrices, written as
+Singular value decomposition is a method which decomposes an $m\times n$ matrix, $\bs{X}$, into a product of three matrices, written as
 \begin{equation}
 \bs{X}=\bs{U}\bs{\Sigma}\bs{V}^T,
 \end{equation}
@@ -194,7 +192,7 @@ where we exploit that $\bs{U}^T\bs{U}=\mathbb{1}$ and $\bs{\Sigma}^T\bs{\Sigma}=
 \begin{equation}
 (\bs{X}^T\bs{X})\bs{V}=\bs{V}\bs{D},
 \end{equation}
-to get rid of the $\bs{V}^T$. A similar exercise can be performed on $\bs{X}\bs{X}^T$, and we will obtain
+to get rid of $\bs{V}^T$. A similar exercise can be performed on $\bs{X}\bs{X}^T$, and we will obtain
 \begin{equation}
 (\bs{X}\bs{X}^T)\bs{U}=\bs{U}\bs{D}.
 \end{equation}
@@ -218,7 +216,7 @@ where $\mathbb{1}$ is the identity matrix. The penalty, $\lambda$, is a so-calle
 where we in principle just add the L2-norm of the estimator vector to the OLS cost function. The link between equation \eqref{eq:ridgetheta} and \eqref{eq:ridge} can be easiest found by going from the latter to the former, similarly to what we did for the polynomial regression in equations (\ref{eq:polynomialcost}-\ref{eq:polynomialestimators}).
 
 \subsection{LASSO regression} \label{sec:lasso}
-Finally, we introduce the \textit{least absolute shrinkage and selection operator} (LASSO) regression, which in the same way as Ridge regression is based on regularization. Instead of adding the L2-norm of the estimator matrix, we add the the L1-norm $|\theta_j|$, and the cost function expresses
+Finally, we introduce the \textit{least absolute shrinkage and selection operator} (LASSO) regression, which in the same way as Ridge regression is based on regularization. Instead of adding the L2-norm of the estimator matrix, we add the the L1-norm, $|\theta_j|$, and the cost function expresses
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \mathcal{C}(\bs{\theta})=\sum_{i=1}^{n}\Big(y_i-\sum_{j=0}^pX_{ij}\theta_j\Big)^2+\lambda\sum_{j=1}^p|\theta_j|.\qquad\text{Lasso}
 \end{empheq}
@@ -226,21 +224,21 @@ For LASSO regression, we cannot set $\partial\mathcal{C}(\bs{\theta})/\partial\t
 \begin{equation}
 \theta_{k,t}=\theta_{k,t-1}-\eta \frac{\partial\mathcal{C}(\bs{\theta}_{t-1})}{\partial\theta_k},
 \end{equation}
-where $\theta_{k,t}$ is the parameter $\theta_k$ at iteration $t$ and $\mathcal{C}(\bs{\theta})$ is an arbitrary cost function. Here we are introduced to a new hyper-parameter, $\eta$, known as the \textit{learning rate}, which controls the rate of converge in the estimators. It has to be specified carefully, where a too large $\eta$ will make the cost function diverge and a too small $\eta$ will make the training too slow. We experience that an $\eta\in[0.01-0.0001]$ is a good choice. For OLS, the vectorized iterative parameter update can be written as
+where $\theta_{k,t}$ is the parameter $\theta_k$ at iteration $t$ and $\mathcal{C}(\bs{\theta})$ is an arbitrary cost function. Here we are introduced to a new hyper-parameter, $\eta$, known as the \textit{learning rate}, which controls the rate of converge in the estimators. It has to be specified carefully, where a too large $\eta$ will make the cost function diverge and a too small $\eta$ will make the training too slow. We experience that an $\eta\in\{0.01-0.0001\}$ is a good choice. For OLS, the vectorized iterative parameter update can be written as
 \begin{equation}
 \bs{\theta}_t=\bs{\theta}_{t-1}-\eta\bs{X}^T(\bs{y}-\bs{X}\bs{\theta}_{t-1}).
 \label{eq:olsupdate}
 \end{equation}
 
 \section{Logistic regression}
-So far, we have discussed polynomial regression and linear regression.  which consist of models giving continuous outputs. However, what do we do if we want discrete outputs, for example, in the form of classification? This is what logistic regression is all about, where the name comes from the logistic function (sigmoid function) which is used to fire or not fire the neurons. As for the linear regression, we also need a cost function in logistic regression, which we will motivate in the following.
+So far, we have discussed polynomial regression and linear regression, where both methods includes models giving continuous outputs. However, what if we want discrete outputs, for example, in the form of classification? This is what logistic regression is all about, where the name comes from the logistic function (sigmoid function) which is used to fire or not fire the neurons. As for the linear regression, we also need a cost function in logistic regression. The cost function will be motivated in the following.
 
-Consider a system that can take two possible energies $\varepsilon_0$ and $\varepsilon_1$. From elementary statistical mechanics, we know that the probability of finding a system in a state of a certain energy is given by the Boltzmann distribution, such that
+Consider a system that can take two possible energies, $\varepsilon_0$ and $\varepsilon_1$. From elementary statistical mechanics, we know that the probability of finding a system in a state of energy $\varepsilon_0$ is given by the Boltzmann distribution, such that
 \begin{align}
 P(y_i=0)&=\frac{\exp(-\varepsilon_0/k_BT)}{\exp(-\varepsilon_0/k_BT)+\exp(-\varepsilon_1/k_BT)},\\
 &=\frac{1}{1+\exp(-(\varepsilon_1-\varepsilon_0)/k_BT)},
 \end{align}
-which is the \textit{sigmoid function}, in the most general given by
+which is the \textit{sigmoid}, in the most general given by
 \begin{equation}
 f(x)=\frac{1}{1+\exp(-x)}.
 \end{equation}
@@ -254,7 +252,7 @@ where $k_B$ is Boltzmann's constant and $T$ is the system temperature. The proba
 P(y_i=1)&=1-P(y_i=0),\\
 &=\frac{1}{1+\exp(-(\varepsilon_0-\varepsilon_1)/k_BT)}.
 \end{align}
-Notice that the only thing we need is the energy difference, $\Delta\varepsilon=\varepsilon_1-\varepsilon_0$, between the two states rather than the energy itself. This is often the case in physics, where we for instance have no absolute potential energy. If we now assume that the energy difference can be written as a function of the coordinates that specify the state $i$ stored in the row vector $\bs{X}_i$, and a column vector with parameters, $\bs{w}$, known as the \textit{weights}, the difference can be written as
+Note that the only thing we need is the energy difference, $\Delta\varepsilon=\varepsilon_1-\varepsilon_0$, between the two states rather than the energy itself. This is often the case in physics, where we for instance have no absolute potential energy. We now assume that the energy difference can be written as the inner product between a row vector, $\bs{X}_i$, specifying the state $i$ and a column vector with parameters, $\bs{w}$. These parameters are known as the \textit{weights}, the difference can be written as
 \begin{figure}
 	\centering
 	\input{../tikz/singlelayer_perceptron.tex}
@@ -262,7 +260,7 @@ Notice that the only thing we need is the energy difference, $\Delta\varepsilon=
 	\label{fig:single_perceptron}
 \end{figure}
 \begin{equation}
-\Delta\varepsilon=\bs{X}_i\bs{w}\equiv\tilde{y}_i,
+\Delta\varepsilon=\bs{X}_i\bs{w}\equiv\tilde{y}_i.
 \end{equation}
 giving the conditional probability
 \begin{equation}
@@ -276,11 +274,11 @@ which is known as the \textit{likelihood}. The \textit{log-likelihood} function 
 \begin{equation}
 l(\bs{w})=\sum_{i=1}^n\left[y_i\log f(\bs{X}_i\bs{w})+(1-y_i)\log(1-f(\bs{X}_i\bs{w}))\right].
 \end{equation}
-As in linear regression, we want to find a cost function which we can minimize in order to fit the model to the data set. Since the log-likelihood function is at its maximum at the highest probability, a natural choice is to set the cost function to the negative log-likelihood function,
+As in linear regression, we want to find a cost function which we can minimize in order to fit the model to the data set. Since the log-likelihood function has its maximum at the highest probability, a natural choice is to set the cost function to the negative log-likelihood function,
 \begin{equation}
 \mathcal{C}(\bs{w})=-l(\bs{w})=-\sum_{i=1}^n\Big[y_i\log f(\bs{X}_i\bs{w})+(1-y_i)\log(1-f(\bs{X}_i\bs{w}))\Big],
 \end{equation}
-which is the \textit{cross entropy}. To clarify things, we will try to illustrate how this works. In figure (\ref{fig:single_perceptron}), we have an input set $\bs{X}_i$ where each unit is multiplied with a parameter from $\bs{w}$ and summarized. This corresponds to the inner product $\bs{X}_i\bs{w}$. Further, the sum (or the inner product) is \textit{activated} by an \textit{activation function}, which we above have assumed to be the sigmoid function. The output is then given by
+which is the \textit{cross entropy}. To clarify things, we will try to illustrate how this works. In figure (\ref{fig:single_perceptron}), we have an input set $\bs{X}_i=\{x_1,x_2,\cdots,x_n\}$ where each unit is multiplied with a parameter $w_j$ and summarized. This corresponds to the inner product $\bs{X}_i\bs{w}$. Further, the sum (or the inner product) is \textit{activated} by an \textit{activation function}, which we above have assumed to be the sigmoid. The output is then given by
 \begin{eqnarray}
 a_i=f(\bs{X}_i\bs{w}),
 \end{eqnarray}
@@ -290,14 +288,14 @@ The output from the activation is then used in the cost function to calculate th
 \begin{empheq}[box={\mybluebox[5pt]}]{align}
 \bs{w}_t= \bs{w}_{t-1} - \eta\bs{X}[\bs{y}-f(\bs{X}\bs{w}_{t-1})],
 \end{empheq}
-where $\bs{X}$ is a matrix containing all the column vectors $\bs{X}_i$. This expression is extremely similar, not to say identical to the estimator update for ordinary least square presented in equation \eqref{eq:olsupdate}. The difference is that we now denote the parameters by $\bs{w}$ instead of $\bs{\theta}$ to prepare for the neural networks, but they are basically the same thing. 
+where $\bs{X}$ is a matrix containing all the column vectors $\bs{X}_i$. This expression is extremely similar, not to say identical, to the estimator update for ordinary least square presented in equation \eqref{eq:olsupdate}. The difference is that we now denote the parameters by $\bs{w}$ instead of $\bs{\theta}$ to prepare for the neural networks, but they are basically the same thing. 
 
 \section{Neural networks} \label{sec:neural_network}
 Now we know enough to examine the field of artificial neural networks. Neural networks can provide either continuous or discrete outputs and are therefore competitors to both linear and logistic regression. The great strength of neural networks is that one can add multiple \textit{layers}, which makes the model extremely flexible. According to \textbf{the universal approximation theorem}, a neural network with only one hidden layer with a finite number of units can approximate any continuous function \supercite{hornik_multilayer_1989}. However, often, multiple layers are used since these networks are in general known to be easier to train and work better for complex systems. Neural networks of more than one layer are called \textit{deep} networks, and as more layers are added, the network gets \textit{deeper}. Deep networks contain more weights than narrower networks with the same number of units, and are therefore often preferred.
 
-In figure \eqref{fig:neural_network}, we have illustrated a deep neural network with an unspecified number of layers and five hidden units in each layer. It has some similarities with the logistic regression model in figure \eqref{fig:single_perceptron}, but with multiple hidden layers and multiple outputs, this model is more complicated. We decided to drop the representation of the weights (apart from some selected labeled ones), but each line corresponds to a weight.
+In figure \eqref{fig:neural_network}, we have illustrated a deep neural network with an unspecified number of layers and five hidden units in each layer. It has some similarities with the logistic regression model in figure \eqref{fig:single_perceptron}, but with multiple hidden layers and multiple outputs, this model is more complex. We decided to drop the representation of the weights (apart from some selected labeled ones), but each line corresponds to a weight.
 
-Without a hidden layer, we have seen that the update of weights is quite straightforward. For a neural network consisting of multiple layers, the question is: \textit{How do we update the weights when we do not know the values of the hidden units?} This question will be answered in section \ref{sec:backward}, where the most popular technique for weight update in neural networks, back propagation, is discussed. Before that, we will generalize the forward phase presented in logistic regression.
+Without a hidden layer, we have seen that the update of weights is straightforward. For a neural network consisting of multiple layers, the question is: \textit{How do we update the weights when we do not know the values of the hidden units?} This question will be answered in section \ref{sec:backward}, where the most popular technique for weight update in neural networks, back propagation, is discussed. Before that, we will generalize the forward phase presented in logistic regression.
 
 \begin{figure}
 	\centering
@@ -307,26 +305,26 @@ Without a hidden layer, we have seen that the update of weights is quite straigh
 \end{figure}
 
 \subsection{Forward phase}
-In the previous section, we saw how the output is found for a single perceptron, i.e. the model presented in figure \eqref{fig:single_perceptron}. For a neural network, or a multi-layer perceptron, the net output to the first layer is similar, and given by
+In the previous section, we saw how the output is found for a single perceptron, i.e. the model presented in figure \eqref{fig:single_perceptron}. For a neural network, also called a multi-layer perceptron, the net output to the first layer is similar, and given by
 \begin{equation*}
-z_j^{(1)}=\sum_{i=1}^{N_0}x_iw_{ij}^{(0)}=\bs{X}\bs{w}_j^{(0)},
+z_j^{(1)}=\sum_{i=1}^{N_0+1}x_iw_{ij}^{(0)}=\bs{X}\bs{w}_j^{(0)}.
 \end{equation*}
-where $N_0$ is the number of units in layer 0 (the input layer), $\bs{X}$ is the input vector which is assumed to be a row vector and $\bs{w}_j^{(1)}$ is the $i$'th column of the $\bs{w}$-matrix associated with the first layer. We have again assumed that the bias node is included in $\bs{X}$ and the first set of bias weights are included in $\bs{w}^{(1)}$. The same applies for the other layers as well. If we let the activation function, $f(x)$, act on the net output, we get the real output given by
+Here, $N_0$ is the number of units in layer 0 (the input layer), $\bs{X}$ is the input vector which is assumed to be a row vector and $\bs{w}_j^{(1)}$ is the $i$'th column of the $\bs{w}$-matrix associated with the first layer. We have again assumed that the bias node is included in $\bs{X}$ and the first set of bias weights are included in $\bs{w}^{(0)}$ (therefore $N_0+1$ elements in the sum). The same applies for the other layers as well. If we let the activation function, $f(x)$, act on the net output, we get the real output given by
 \begin{equation*}
-a_j^{(1)}=f(z_j^{(1)})=f\Big(\sum_{i=1}^{N_0}x_iw_{ij}^{(0)}\Big).
+a_j^{(1)}=f(z_j^{(1)})=f\left(\sum_{i=1}^{N_0+1}x_iw_{ij}^{(0)}\right).
 \end{equation*}
 This is then again the input to the next layer with $N_1$ units, so the output from the second layer is simply
 \begin{equation*}
-a_j^{(2)}=f\Big(\sum_{i=1}^{N_1}a_i^{(1)}w_{ij}^{(1)}\Big).
+a_j^{(2)}=f\left(\sum_{i=1}^{N_1+1}a_i^{(1)}w_{ij}^{(1)}\right).
 \end{equation*}
 For a neural network of multiple layers, the same procedure applies for all the layers and we can find a general formula for the output at a layer $l+1$. The net output to a node $z_j^{(l+1)}$ in layer $l+1$ can be found to be
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-z_j^{(l+1)}=\sum_{i=1}^{N_{l}}a_i^{(l)}w_{ij}^{(l)},
+z_j^{(l+1)}=\sum_{i=1}^{N_{l}+1}a_i^{(l)}w_{ij}^{(l)},
 \label{eq:netoutput}
 \end{empheq}
 where layer $l$ has $N_{l}$ units and we need to be aware that $a_j^{(0)}=x_j$. After activation, the output is obviously found to be
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-a_j^{(l+1)}=f(z_j^{(l+1)})=f\left(\sum_{i=1}^{N_{l}}a_i^{(l)}w_{ij}^{(l)}\right),
+a_j^{(l+1)}=f(z_j^{(l+1)})=f\left(\sum_{i=1}^{N_{l}+1}a_i^{(l)}w_{ij}^{(l)}\right),
 \label{eq:output}
 \end{empheq}
 which is the only formula needed for the forward phase. In practice, the operation is always implemented in a vectorized fashion, reading $\bs{a}^{(l+1)}=f(\bs{a}^{(l)}\bs{w}^{(l)})$. The activation function $f(x)$ is not explicitly defined, because it is often expedient having the chance to experiment with multiple activation functions. 
@@ -334,7 +332,7 @@ which is the only formula needed for the forward phase. In practice, the operati
 \subsection{Activation function}
 The task of the activation function is to define a soft (or hard) threshold for passing the information forward, hence the name "activation". There are multiple reasons to do this, where the most important is to introduce non-linearity into the output of a unit. Without an activation function, all of our layers would simply stack one affine transformation after another resulting in a composition of transformations equal to one layer. In other words, the deep networks would have lost their clout without the activation functions. 
 
-Henceforth, we have only discussed the sigmoid activation function. However, there are plenty of other activation functions available and the sigmoid function has in fact lost its popularity. Most notably, functions based on \textit{rectified linear units} (ReLU) have increased in popularity and have become the most popular among activation functions. Some popular variations are the \textit{leaky} ReLU and \textit{exponential linear units} (ELU), which are linear for positive numbers, where all have trivial derivatives. The pure linear activation function is still widely used, especially on the output layer. In figure (\ref{fig:activation_functions}), standard RELU, leaky RELU and ELU are plotted along with the sigmoid function.
+Henceforth, we have only discussed the sigmoid activation function. However, there are plenty of other activation functions available and the sigmoid function has in fact lost its popularity. Most notably, functions based on \textit{rectified linear units} (ReLU) have increased in popularity and have become the most popular among activation functions. Some popular variations are the \textit{leaky} ReLU and \textit{exponential linear units} (ELU), which are linear for positive numbers, where all have trivial derivatives. The pure linear activation function is still widely used, especially on the output layer. In figure (\ref{fig:activation_functions}), standard RELU, leaky RELU and ELU are plotted along with the sigmoid.
 
 \begin{figure}
 	\centering
@@ -349,17 +347,17 @@ Henceforth, we have only discussed the sigmoid activation function. However, the
 
 
 \subsection{Backward propagation} \label{sec:backward}
-Backward propagation is the basic algorithm for updating the weights in a neural network and is similar to the weight update presented for linear and logistic regression. The algorithm for this was presented by \citet{rumelhart_learning_1986} in 1986, and enabled deep neural networks to solve relatively complicated problems for the first time. To update the weights, we update the weights layer-wise based on the outputs until we get to the inputs, hence the backward propagation name. 
+Backward propagation is the basic algorithm for updating the weights in a neural network and is similar to the weight update presented for linear and logistic regression. The algorithm for this was presented by \citet{rumelhart_learning_1986} in 1986, and enabled deep neural networks to solve relatively complicated problems for the first time. To weights are updated layer-wise based on the outputs until we get to the inputs, hence the backward propagation name. 
 
-As observed above, a unit depends on all the units in the previous layers. This means that the units depend on a large number of parameters, making the training scheme quite complex. Nevertheless, it is possible to generalize this to express the updating formulas on a relatively simple form, similar to the forward phase. From the linear and logistic regression, we know that we need the derivative of the cost function in order to implement the weight update. Again, we define the cost function as the mean square error,
+As observed above, a unit depends on all the units in the previous layers. This means that the units depend on a large number of parameters, resulting in a complex the training scheme. Nevertheless, it is possible to generalize this to express the updating formulas on a relatively simple form, similar to the forward phase. From the linear and logistic regression, we know that we need the derivative of the cost function in order to implement the weight update. Again, we define the cost function as the mean square error,
 \begin{equation}
-\mathcal{C}(\bs{w})=\frac{1}{2}\sum_{i=1}^{N_L}(y_i-a_i^{(L+1)})^2,
+\mathcal{C}(\bs{w})=\frac{1}{2}\sum_{i=1}^{N_{L+1}}\left(y_i-a_i^{(L+1)}\right)^2,
 \end{equation}
 where we have $L$ hidden layers ($L+1$ is the last layer) and $N_{L+1}$ output units. The derivative of this with respect to one of the weights between the $L$'th and $L+1$'th layer can be written as a sum using the chain rule
 \begin{equation}
-\frac{\partial\mathcal{C}(\bs{w})}{\partial w_{jk}^{(L)}}=\frac{\partial\mathcal{C}(\bs{w})}{\partial a_j^{(L+1)}}\frac{\partial a_j^{(L+1)}}{\partial z_j^{(L+1)}}\frac{\partial z_j^{(L+1)}}{\partial w_{jk}^{(L)}}.
+\frac{\partial\mathcal{C}(\bs{w})}{\partial w_{jk}^{(L)}}=\frac{\partial\mathcal{C}(\bs{w})}{\partial a_j^{(L+1)}}\frac{\partial a_j^{(L+1)}}{\partial z_j^{(L+1)}}\frac{\partial z_j^{(L+1)}}{\partial w_{jk}^{(L)}},
 \end{equation}
-where $z_j^{(L+1)}$ and $a_j^{(L+1)}$ are found from equations \eqref{eq:netoutput} and \eqref{eq:output} respectively. If we start with the first factor, it can be written as
+where $z_j^{(L+1)}$ and $a_j^{(L+1)}$ are found from equations \eqref{eq:netoutput} and \eqref{eq:output}, respectively. If we start from the first factor, it can be expressed as
 \begin{equation}
 \frac{\partial\mathcal{C}(\bs{w})}{\partial a_j^{(L+1)}}=-(y_j-a_j^{(L+1)}),
 \end{equation}
@@ -373,7 +371,7 @@ Finally, the last factor is found from equation \eqref{eq:netoutput}, and we obt
 \end{equation}
 Collecting all the factors, the update of the last set of weights is written as
 \begin{equation}
-\frac{\partial\mathcal{C}(\bs{w})}{\partial w_{jk}^{(L)}}=-(y_j-a_j^{(L+1)})a_j^{(L+1)}(1-a_j^{(L+1)})a_k^{(L)},
+\frac{\partial\mathcal{C}(\bs{w})}{\partial w_{jk}^{(L)}}=-\left(y_j-a_j^{(L+1)}\right)a_j^{(L+1)}\left(1-a_j^{(L+1)}\right)a_k^{(L)},
 \end{equation}
 when the sigmoid function is used in the activation. In the next step, we can define
 \begin{equation}
@@ -395,14 +393,14 @@ We now recognize that the first factor in the sum is just $\delta_k^{(l+1)}$ and
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \delta_j^{(l)}=\sum_k\delta_k^{(l+1)}w_{kj}^{(l)}f'(z_j^{(l)}),
 \end{empheq}
-where we use the expression of $\delta_j^{(L)}$ as our initial condition. As for several of the methods discussed above, a solution of the weight update does not exist in closed form and we need to rely on iterative optimization methods. Using gradient descent, a new set of weights $\bs{w}_t$ is computed using the update rule
+where we use the expression of $\delta_j^{(L)}$ as our initial condition. As for several of the methods discussed above, a solution of the weight update does not exist in closed form and we need to rely on iterative optimization methods. Using gradient descent, a new set of weights, $\bs{w}_t$, is computed using the update rule
 \begin{equation}
 \bs{w}_t=\bs{w}_{t-1}-\eta\frac{\partial\mathcal{C}(\bs{w}_{t-1})}{\partial \bs{w}_{t-1}},
 \end{equation}
 where the multi-dimensional differentiation is done element-wise. Other optimization methods will be discussed in the following section.
 
 \section{Optimization algorithms} \label{sec:optimizationalgorithms}
-In section \ref{sec:lasso}, we discussed the gradient descent optimization algorithm, which is among the most basic optimization methods available. That method is based on the gradient, which is the slope of the cost function. However. Many other methods depend of the second-order partial derivatives which results in the Hessian matrix,  defining the curvature of the cost function. We will barely scratch the surface of this field, limiting us to the gradient methods as they are computationally efficient and straightforward to implement.
+In section \ref{sec:lasso}, we discussed the gradient descent optimization algorithm, which is among the most basic optimization methods available. That method is based on the gradient, which is the slope of the cost function. However, many other methods depend of the second-order partial derivatives which results in the Hessian matrix, defining the curvature of the cost function. We will barely scratch the surface of this field, limiting us to the gradient methods as they are computationally efficient and straightforward to implement.
 
 To have the method fresh in mind, we will start with reintroducing the gradient descent method before we move on to its stochastic brother. We will then take a look at how momentum can be added. Finally, we examine the stochastic and momentum-based ADAM optimizer. Recall that given a cost function, $\mathcal{C}(\bs{\theta})$, the gradient with respect to a parameter $\theta$ can be found from
 \begin{equation}
@@ -418,7 +416,7 @@ Perhaps the simplest and most intuitive method for finding the minimum is the gr
 \end{empheq}
 where $\bs{\theta}_t$ is the parameter vector at time step (iteration) $t$ and $\eta$ is the learning rate. $\nabla_{\theta} \mathcal{C}(\bs{\theta}_{t-1})$ is the gradient of the cost function with respect to all the parameters $\theta$ at time $t-1$. 
 
-The idea is to find the direction where the cost function $\mathcal{C}(\bs{\theta})$ has the steepest slope, and move in the direction which minimizes the cost function. When the gradient approaches zero, a minimum is found. A possible, but basic, stop criterion is
+The idea is to find the direction where the cost function, $\mathcal{C}(\bs{\theta})$, has the steepest slope, and move in the direction which minimizes the cost function. When the gradient approaches zero, a minimum is found. A possible, but basic, stop criterion is
 \begin{equation}
 \nabla_{\theta} \mathcal{C}(\bs{\theta}_t)<\epsilon,
 \end{equation}
@@ -446,6 +444,8 @@ The same idea lies behind the momentum used in optimization algorithms; the mome
 \end{empheq}
 where $\gamma$ is the momentum parameter, which is just another hyper-parameter usually initialized to a small number. $\bs{m}_t$ is the momentum vector and is usually the zero vector, corresponding to no initial momentum.
 
+The optimization algorithm can be modified further in unlimited ways. A common improvement is to add higher-order momentum; another is to make the learning-rate adaptive. We have implemented the most basic version of this, with monotonic adaptivity. We will end this section by setting up the algorithm of a stochastic gradient descent optimization with momentum and monotonic adaptivity. The algorithm is found in algorithm \ref{alg:asgd}.
+
 \IncMargin{1em}
 \begin{algorithm}
 	\SetAlgoLined
@@ -468,10 +468,8 @@ where $\gamma$ is the momentum parameter, which is just another hyper-parameter 
 	\label{alg:asgd}
 \end{algorithm}\DecMargin{1em}
 
-The optimization algorithm can be modified further in unlimited ways. A common improvement is to add higher-order momentum; another is to make the learning-rate adaptive. We have implemented the most basic version of this, with monotonic adaptivity. We will end this section by setting up the algorithm of a stochastic gradient descent optimization with momentum and monotonic adaptivity. The algorithm is found in algorithm \ref{alg:asgd}.
-
 \subsection{ADAM} \label{sec:adam}
-ADAM is a first-order stochastic optimization method which is widely used in machine learning. It was first described by \citet{kingma_adam:_2014}, and published in 2014. It has experienced an immense popularity, and with its 30,000 citations it is among the most cited articles in the machine learning community. The main reason why it is widely used, is obviously that it provides good performance. The fact that it only requires the gradient makes it efficient, and the way the momentum is implemented still makes it capable of handling a large number of variational parameters. The optimization algorithm can be expressed as a set of equations
+ADAM is a first-order stochastic optimization method and is widely used in machine learning. It was first described by \citet{kingma_adam:_2014}, and published in 2014. It has experienced an immense popularity, and with its 30,000 citations it is among the most cited articles in the machine learning community. The main reason why it is widely used, is obviously that it provides good performance. The fact that it only requires the gradient makes it efficient, and the way the momentum is implemented still makes it capable of handling a large number of variational parameters. The optimization algorithm can be expressed as a set of equations
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \begin{aligned}
 \bs{g}_t&=\nabla_{\theta} \mathcal{C}_t(\bs{\theta}_{t-1}),\\
@@ -482,7 +480,7 @@ ADAM is a first-order stochastic optimization method which is widely used in mac
 \bs{\theta}_t&=\bs{\theta}_{t-1}-\eta\hat{\bs{m}}_t/(\sqrt{\hat{\bs{v}}_t}+\bs{\varepsilon}),
 \end{aligned}
 \end{empheq}
-where $\bs{m}_t$ is the biased first momentum estimate of the parameter vector $\bs{\theta}$ and $\bs{v}_t$ is the biased second raw moment estimate. The momentum parameters need to be in the range $\gamma_1,\gamma_2\in[0,1)$, and are often set to values close to 1. This makes the optimization adaptive, as the time goes the factors $1-\gamma_1^t$ and $1-\gamma_2^t$ approach 1 from below. $\eta$ is the learning rate, and should be a small number. Finally, the parameters $\bs{\varepsilon}$ are added to avoid division by zero. We can set up the algorithm in a way similar to the adaptive stochastic gradient descent algorithm presented above, which gives the algorithm \ref{alg:adam}.
+where $\bs{m}_t$ is the biased first momentum estimate of the parameter vector $\bs{\theta}$ and $\bs{v}_t$ is the biased second raw moment estimate. The momentum parameters need to be in the range $\gamma_1,\gamma_2\in[0,1)$, and are often set to values close to 1. This makes the optimization adaptive, as the time goes the factors $1-\gamma_1^t$ and $1-\gamma_2^t$ approach 1 from below. $\eta$ is the learning rate, and should be a small number. Finally, the parameters $\bs{\varepsilon}$ are added to avoid division by zero. We can set up the algorithm in a way similar to the adaptive stochastic gradient descent algorithm presented above, giving algorithm \ref{alg:adam}.
 
 \IncMargin{1em}
 \begin{algorithm}
