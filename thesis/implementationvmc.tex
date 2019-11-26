@@ -189,7 +189,7 @@ where we have introduced $\Psi_{\text{det}}(\bs{R})\equiv |\hat{D}_{\uparrow}(\b
 \end{equation}
 where $H_j(\sqrt{\omega}\bs{r}_i)$ are the Hermite polynomials and the Gaussian part fulfills the requirement of $g(\bs{r}_i)$. Therefore, we can construct a Slater determinant containing the Hermite polynomials only, treating the Gaussian as an independent element. This is not only preferable from an efficiency point of view, by doing this the variational parameter in the Gaussian is also removed from the determinant, which means that we can implement the determinant without worrying about the variational parameters. With this in mind, we will first treat the Gaussian element, obtaining its derivative and optimization schemes. Moreover, in section \ref{sec:slaterdeterminant}, we will discuss how the determinant can be treated efficiently. 
 
-\subsection{Gaussian} \label{sec:simplegaussian}
+\subsection{The Gaussian} \label{sec:simplegaussian}
 When factorizing out the Gaussian part from the Slater determinant, we obtain the factor
 \begin{equation}
 \Psi_{\text{sg}}(\bs{R}; \alpha)=\prod_{j=1}^Ng(\bs{r}_j)=\exp(-\frac{1}{2}\omega\alpha\sum_{j=1}^Nr_j^2)=\exp(-\frac{1}{2}\omega\alpha\sum_{j=1}^{F}x_j^2),
@@ -329,7 +329,7 @@ for the Laplacian. We are then ready to write up the final expressions for the g
 where we have used that $d_{ij}=\phi_j(\bs{r}_i)$ with $\phi_j(\bs{r}_i)$ as the spatial functions found in the determinant.
 
 \subsection{Efficient calculation of the determinant} \label{sec:efficientcalculationsofslaterdeterminant}
-As aforementioned, dealing with the Slater determinant is very computational expensive, mainly because of the requirement of the inverse Slater matrix. However, by revealing that only one row in the Slater matrix is updated for each step, we can update the inverse recursively. We use the same element representation as above, and express the ratio between the new and the old determinant as
+As aforementioned, dealing with the Slater determinant is very computational expensive, mainly because of the requirement of the inverse Slater matrix. However, by revealing that only one row in the Slater matrix is updated for each iteration step, we can update the inverse recursively. We use the same element representation as above, and express the ratio between the new and the old determinant as
 \begin{equation}
 R\equiv \frac{|\hat{D}(\bs{R}_{\text{new}})|}{|\hat{D}(\bs{R}_{\text{old}})|}=\frac{\sum_{j}d_{ij}(\bs{R}_{\text{new}})c_{ij}(\bs{R}_{\text{new}})}{\sum_{j}d_{ij}(\bs{R}_{\text{old}})c_{ij}(\bs{R}_{\text{old}})}=\sum_{j}d_{ij}(\bs{R}_{\text{new}})d_{ji}^{-1}(\bs{R}_{\text{old}}),
 \label{eq:slaterratio}
@@ -351,10 +351,9 @@ d_{ki}^{-1}(\bs{R}_{\text{new}})=\frac{1}{R}d_{ki}^{-1}(\bs{R}_{\text{old}}).
 \end{equation}
 The inverting of the matrix now scales as $\sim M^2$, compared to $\sim M^3$ when applying LU decomposition. This is largely beneficial for complex systems.
 
-Henceforth we assume that we do not have any variational parameter in the determinant. For that reason, we only need the expressions for the probability ratio, gradient and Laplacian. The probability ratio and gradient can be calculated for either the spin-up matrix or the spin-down matrix, dependent on the spin of the moved particle. The two expressions for $k<N_{\uparrow}$ are given by
+Henceforth we assume that we do not have any variational parameter in the determinant. For that reason, we only need the expressions for the probability ratio, gradient and Laplacian. The probability ratio and gradient can be calculated for either the spin-up matrix or the spin-down matrix, depending on the spin of the moved particle. The two expressions for $k<N_{\uparrow}$ are given by
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \begin{aligned}
-&\quad\text{if}\quad k<N_{\uparrow}:\\
 \frac{|\Psi_{\text{sd}}(\bs{R}_{\text{new}})|^2}{|\Psi_{\text{sd}}(\bs{R}_{\text{old}})|^2}&=
 \frac{|\hat{D}_{\uparrow}(\bs{R}_{\uparrow}^{\text{new}})|^2}{|\hat{D}_{\uparrow}(\bs{R}_{\uparrow}^{\text{old}})|^2},\\
 \nabla_k\ln|\hat{D}_{\uparrow}(\bs{R}_{\uparrow})|&=\sum_{j=1}^{N_{\uparrow}}\nabla_kd_{jk}(\bs{R}_{\uparrow})d_{kj}^{-1}(\bs{R}_{\uparrow}),
@@ -364,7 +363,6 @@ Henceforth we assume that we do not have any variational parameter in the determ
 while for $k\geq N_{\uparrow}$ we have
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \begin{aligned}
-&\quad\text{if}\quad k\geq N_{\uparrow}:\\
 \frac{|\Psi_{\text{sd}}(\bs{R}_{\text{new}})|^2}{|\Psi_{\text{sd}}(\bs{R}_{\text{old}})|^2}&=
 \frac{|\hat{D}_{\downarrow}(\bs{R}_{\downarrow}^{\text{new}})|^2}{|\hat{D}_{\downarrow}(\bs{R}_{\downarrow}^{\text{old}})|^2},\\
 \nabla_k\ln|\hat{D}_{\downarrow}(\bs{R}_{\downarrow})|&=\sum_{j=N_{\uparrow}}^{F}\nabla_kd_{jk}(\bs{R}_{\downarrow})d_{kj}^{-1}(\bs{R}_{\downarrow}).
@@ -372,14 +370,14 @@ while for $k\geq N_{\uparrow}$ we have
 \end{empheq}
 On the other hand, the local energy in equation \eqref{eq:splittedkineticenergy} only requires the sum of all Laplacians, and we obtain an expression that is independent of which particle we have moved,
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-\nabla^2\ln|\hat{D}(\bs{R})|=\sum_{k=1}^F\left[\sum_{j=1}^{F}\nabla_k^2d_{jk}(\bs{R})d_{kj}^{-1}(\bs{R})-\left(\sum_{j=1}^{F}\nabla_kd_{ik}(\bs{R})d_{ki}^{-1}(\bs{R})\right)^2\right],
+\nabla^2\ln|\hat{D}(\bs{R})|=\sum_{k=1}^F\left[\sum_{j=1}^{F}\nabla_k^2d_{jk}(\bs{R})d_{kj}^{-1}(\bs{R})-\left(\sum_{j=1}^{F}\nabla_kd_{jk}(\bs{R})d_{kj}^{-1}(\bs{R})\right)^2\right],
 \label{eq:slaterlaplacian}
 \end{empheq}
 where we have $F=Nd$ degrees of freedom.
 
-We have now presented the theory behind finding the ratio between the new and the old probability and the gradients of the determinant (equations (\ref{eq:slaterupdateup}-\ref{eq:slaterlaplacian})), and we have described how we efficiently can find the inverse of the Slater matrix (equations (\ref{eq:slaterratio}-\ref{eq:slaterinverse2})). However, to make things more clear, we will outline some selected parts of the Slater determinant implementation.
+We have now presented the theory behind finding the ratio between the new and the old probability and the gradients of the determinant (equations (\ref{eq:slaterupdateup}-\ref{eq:slaterlaplacian})), and we have described how we efficiently can find the inverse of the Slater matrix (equations (\ref{eq:slaterratio}-\ref{eq:slaterinverse2})). In order to clarify, we will outline some selected parts of the Slater determinant implementation.
 
-In the code, we create a Slater matrix, \lstinline{m_slaterMatrix} where all the elements are stored. This matrix contains both $\hat{D}_{\uparrow}$ and $\hat{D}_{\downarrow}$, and has therefore dimensions $N\times N/2$. Furthermore, we store the gradient of the elements concerning all the $F$ elements in a matrix \lstinline{m_slaterMatrixDer}, which naturally gets the dimensions $F\times N/2$. We also create a matrix \lstinline{m_slaterMatrixSecDer} to store all the Laplacians of the elements, which also has the dimensions $F\times N/2$. In all of them, we only need to update a row when a electron is moved, which makes it quite efficient. The \lstinline{m_slaterMatrixDer} is updated in the following way
+In the code, we create a Slater matrix, \lstinline{m_slaterMatrix} where all the elements are stored. This matrix contains both $\hat{D}_{\uparrow}$ and $\hat{D}_{\downarrow}$, and has therefore dimensions $N\times N/2$. Furthermore, we store the gradient of the elements concerning all the $F$ elements in a matrix \lstinline{m_slaterMatrixDer}, which naturally gets the dimensions $F\times N/2$. We also create a matrix \lstinline{m_slaterMatrixSecDer} to store all the Laplacians of the elements, which also has the dimensions $F\times N/2$. In all of them, we only need to update a row when a electron is moved, resulting in an acceptable computational cost. The \lstinline{m_slaterMatrixDer} is updated according to
 
 \begin{lstlisting}[language={c++}]
 void SlaterDeterminant::updateSlaterMatrixDerRow(const int row)
@@ -415,7 +413,7 @@ void SlaterDeterminant::updateSlaterMatrixInverse(int start, int end)
 	m_slaterMatrixInverse.col(m_particle) /= m_ratio;
 }
 \end{lstlisting}
-where \lstinline{m_ratio} is a global variable also returned by the function \lstinline{evaluateRatio} (see section \ref{sec:probabilityratio}). Note that the loops never affect the $i$'th columns, where electron $i$ is moved (in the code denoted by the global variable \lstinline{m_particle}). The arguments of the function \lstinline{updateSlaterMatrixInverse} specify which part of the matrix that should be updated, based on whether the moved electron has spin-up or spin-down. We will end our discussions of the Slater determinant by presenting the implementation of the gradient and the Laplacian of the logarithm of the determinant. These were decided to be stored in the vectors \lstinline{m_determinantDer} and \lstinline{m_determinantSecDer} for $\nabla_k|\hat{D}(\bs{R})|/|\hat{D}(\bs{R})|$ and $\nabla_k^2|\hat{D}(\bs{R})|/|\hat{D}(\bs{R})|$, respectively. These vectors are updated using vector operations in the following fashion
+where \lstinline{m_ratio} represents the ratio between the new and the old determinant. Note that the loops never affect the $i$'th columns, where electron $i$ is moved (in the code denoted by the global variable \lstinline{m_particle}). The arguments of the function \lstinline{updateSlaterMatrixInverse} specify which part of the matrix that should be updated, based on whether the moved electron has spin-up or spin-down. We will end our discussions of the Slater determinant by presenting the implementation of the gradient and the Laplacian of the logarithm of the determinant. These were decided stored in the vectors \lstinline{m_determinantDer} and \lstinline{m_determinantSecDer} for $\nabla_k|\hat{D}(\bs{R})|/|\hat{D}(\bs{R})|$ and $\nabla_k^2|\hat{D}(\bs{R})|/|\hat{D}(\bs{R})|$, respectively. These vectors are updated using vector operations in the following fashion
 \begin{lstlisting}[language={c++}]
 void SlaterDeterminant::updateSlaterDeterminantDerivatives(int start, int end)
 {
@@ -431,14 +429,14 @@ We avoid a double loop by taking an inner product instead. However, we are left 
 \section{Jastrow factor}
 The second part of a Slater-Jastrow wave function is the Jastrow factor, which is meant to take care of the electron-electron correlations. The optimization scheme for this element is not as complex as the determinant, and this section will, therefore, be notably shorter than the previous. We will first discuss the two Jastrow factors given in section \ref{sec:jastrow}: the simple Jastrow and the Padé-Jastrow factor, and then we look at how the distance matrix can be updated efficiently. 
 
-\subsection{Simple Jastrow factor}
+\subsection{The Simple Jastrow factor}
 Recall the simple Jastrow factor from \eqref{eq:SimpleJastrow},
 \begin{equation}
 \Psi_{\text{sj}}(\bs{R};\bs{\beta})=\exp\bigg(\sum_{i=1}^N\sum_{j>i}^N\beta_{ij}r_{ij}\bigg),
 \end{equation}
-with $N$ as the number of electrons, $r_{ij}$ as the distance between electron $i$ and $j$, and $\beta_{ij}$ as variational parameters. This is a quite simple element, but one challenge is that we operate in Cartesian coordinates, while the expressed Jastrow factor obviously is easier to deal with in polar coordinates. Since we need to differentiate this with respect to all degrees of freedom, we need to be attentive not confusing the electron indices with the coordinate indices. Let us reserve $j'$ as the coordinate index and $j$ as the index of the corresponding electron. The relationship between $j'$ and $j$ is then \textit{always} $j=j'\setminus d$ with $d$ as the number of dimensions and where the backslash denotes integer division. The other way around, we have $j'=j\cdot d+D$ where $D$ is the respective dimension of the coordinate $j'$. With that notation, the probability ratio is given by
+with $N$ as the number of electrons, $r_{ij}$ as the distance between electron $i$ and $j$, and $\beta_{ij}$ as variational parameters. Albeit this element is simple, challenge are encountered as we operate in Cartesian coordinates, while the expressed Jastrow factor obviously is easier to deal with in polar coordinates. Since we need to differentiate this with respect to all degrees of freedom, we need to be attentive not confusing the electron indices with the coordinate indices. Let us reserve $j'$ as the coordinate index and $j$ as the index of the corresponding electron. The relationship between $j'$ and $j$ is then \textit{always} $j=j'\setminus d$ with $d$ as the number of dimensions and where the backslash denotes integer division. The other way around, we have $j'=j\cdot d+D$ where $D$ is the respective dimension of the coordinate $j'$. With that notation, the probability ratio is given by
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-\frac{|\Psi_{\text{sj}}(\bs{R}_{\text{new}})|^2}{|\Psi_{\text{sj}}(\bs{R}_{\text{old}})|^2}=\exp\bigg(2\sum_{j=1}^N\beta_{ij}(r_{ij}^{\text{new}}-r_{ij}^{\text{old}})\bigg),
+\frac{|\Psi_{\text{sj}}(\bs{R}_{\text{new}})|^2}{|\Psi_{\text{sj}}(\bs{R}_{\text{old}})|^2}=\exp(2\sum_{j=1}^N\beta_{ij}\left(r_{ij}^{\text{new}}-r_{ij}^{\text{old}}\right)),
 \end{empheq}
 where $i$ again is the moved electron. The gradient is straightforward to find, and reads
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
@@ -452,9 +450,9 @@ with $F=Nd$ again as the degrees of freedom. Finally, the parameter update is gi
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \nabla_{\beta_{ml}}\ln\Psi_{\text{sj}}=r_{ml}.
 \end{empheq}
-For this element, the most important thing we can do to keep the computational cost as low as possible is to reveal that only a row and a column of the distance matrix is changed as we change a coordinate. Updating the entire distance matrix means updating $N^2$ elements, while updating a row and a column means updating $2N$ elements, which is an important difference for large systems. This is detailed in section \ref{sec:distancematrix}.
+For this element, the most important thing we can do to keep the computational cost low is to reveal that only a row and a column of the distance matrix is changed as we move a particle. Updating the entire distance matrix means updating $N^2$ elements, while updating a row and a column means updating $2N$ elements, which is an important difference for large systems. This is detailed in section \ref{sec:distancematrix}.
 
-We also observe that the factor $(x_{k'}-x_{j'})/r_{kj}$ is found in both the gradient and the Laplacian, so by storing this matrix, we can speed-up the computations. Most naturally, the matrix has dimensions $F\times F$, but using that we only are interested in the elements where $x_{k'}$ and $x_{j'}$ have the same dimension and that the diagonal is zero, only $F$ of the elements need to be found. Further, the matrix is obviously anti-symmetric, so we only need to calculate $F/2$ of the elements. When an electron is moved, only the elements related to the moved electron need to be updated. In total, we therefore have to update $2(N-1)$ elements. Again, we utilize that the matrix is anti-symmetric and get the following efficient update scheme
+We also observe that the factor $(x_{k'}-x_{j'})/r_{kj}$ is found in both the gradient and the Laplacian, so by storing this matrix, we can speed-up the computations. Most naturally, the matrix has dimensions $F\times F$, but using that we only are interested in the elements where $x_{k'}$ and $x_{j'}$ are associated with the same dimension and where the diagonal is zero, only $F$ of the elements need to be found. Further, the matrix is obviously anti-symmetric, so we only need to calculate $F/2$ of the elements. When an electron is moved, only the elements related to the moved electron need to be updated. In total, we therefore have to update $2(N-1)$ elements. Again, we utilize that the matrix is anti-symmetric and get the following efficient update scheme
 \begin{lstlisting}[language={c++}]
 void SimpleJastrow::updatePrincipalDistance(int i)
 {
@@ -471,14 +469,14 @@ void SimpleJastrow::updatePrincipalDistance(int i)
 	}
 }
 \end{lstlisting}
-with \lstinline{i_p} as the moved electron, \lstinline{i_d} as the direction the electron is moved in and \lstinline|i| as the coordinate index. Similarly, the loop goes over the electrons \lstinline{j_p} with the associated coordinate \lstinline{j}. Note that we split the loop in two parts to avoid calculating the distance from a electron to itself. This trick is also done in many of the other functions in the simple Jastrow class, also in the Padé-Jastrow factor class. 
+with \lstinline{i_p} as the moved electron, \lstinline{i_d} as the direction the electron is moved in and \lstinline|i| as the coordinate index. Similarly, the loop goes over the electrons \lstinline{j_p} with the associated coordinate \lstinline{j}. Note that we split the loop in two parts to avoid calculating the distance from an electron to itself. This trick is also done in many of the other functions in the simple Jastrow and Padé-Jastrow classes. 
 
 \subsection{The Padé-Jastrow factor}
 The Padé-Jastrow factor is a more complicated Jastrow factor, and was specified in equation \eqref{eq:PadeJastrow}, 
 \begin{equation}
 \Psi_{\text{pj}}(\bs{R}; \beta) = \exp(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij}}),
 \end{equation}
-where $\beta$ is a variational parameter and the $a_{ij}$ is \textbf{not} a variational parameter, but rather constants dependent on the spin of electrons $i$ and $j$. Similar to the simple Jastrow, we also here need to distinguish between electron indices and coordinate indices because of the radial distances $r_{ij}$. We do the same trick with denoting $j'$ by the coordinate index and $j$ as the electron index, and obtain the gradient 
+where $\beta$ is a variational parameter and the $a_{ij}$ is \textbf{not} a variational parameter, but rather constants dependent on the spin of electrons $i$ and $j$. Similar to the simple Jastrow, we also here need to distinguish between electron indices and coordinate indices because of the radial distances $r_{ij}$. We do the same trick with denoting the coordinate index by $j'$ and the electron index by $j$. Then gradient is then obtained as 
 \begin{equation}
 \nabla_{k'}\ln\Psi_{\text{pj}}=\sum_{j\neq k=1}^N\frac{a_{kj}}{(1+\beta r_{kj})^2}\frac{x_{k'}-x_{j'}}{r_{kj}},
 \end{equation}
@@ -486,14 +484,14 @@ with respect to the coordinate $x_{k'}$. By again differentiating this with resp
 \begin{equation}
 \nabla^2\ln\Psi_{\text{pj}}=\sum_{k'=1}^{F}\sum_{j\neq k=1}^N\frac{a_{kj}}{(1+\beta r_{kj})^2}\bigg[1-\Big(1+2\frac{\beta r_{kj}}{1+\beta r_{kj}}\Big)\Big(\frac{x_{k'}-x_{j'}}{r_{kj}}\Big)^2\bigg]\frac{1}{r_{kj}}.
 \end{equation}
-Similar to the simple Jastrow factor, we again observe the factor $(x_{k'}-x_{j'})/r_{kj}$ appears in both the gradient and the Laplacian, which can be stored as a matrix and updated in the same way as described for the simple Jastrow factor. The last expression we need is the one used to update the variational parameter $\beta$, which is found to be
+Similar to the simple Jastrow factor, we again observe that the factor $(x_{k'}-x_{j'})/r_{kj}$ appears in both the gradient and the Laplacian, which can be stored as a matrix and updated in the same way as described for the simple Jastrow factor. The last expression we need is the one used to update the variational parameter $\beta$, which is found to be
 \begin{equation}
 \nabla_{\beta}\ln\Psi_{\text{pj}}=-\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}^2}{(1+\beta r_{ij})^2}.
 \end{equation}
 
 In addition to the factor $g_{i'j'}\equiv(x_{k'}-x_{j'})/r_{kj}$, there are multiple factors that we can store to make the computations cheaper. The factor $f_{ij}\equiv a_{ij}/(1+\beta r_{ij})^2$ is found both in the gradient, Laplacian and parameter gradient, and storing it will save a significant amount of computational time. Lastly, the factor $h_{ij}\equiv r_{ij}/(1+\beta r_{ij})$ is found in several places and will be stored as well. As a summary, we use
 \begin{equation}
-f_{ij}=\frac{a_{ij}}{(1+\beta r_{ij})^2}\quad\quad g_{i'j'}=\frac{x_{i'}-x_{j'}}{r_{ij}}\quad\quad h_{ij}=\frac{r_{ij}}{1+\beta r_{ij}}.
+f_{ij}=\frac{a_{ij}}{(1+\beta r_{ij})^2}\quad\wedge\quad g_{i'j'}=\frac{x_{i'}-x_{j'}}{r_{ij}}\quad\wedge\quad h_{ij}=\frac{r_{ij}}{1+\beta r_{ij}}.
 \end{equation}
 and obtain the simplified expressions
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
@@ -504,10 +502,10 @@ and obtain the simplified expressions
 \nabla_{\beta}\ln\Psi_{\text{pj}}&=-\sum_{l=1}^N\sum_{j>l}^Na_{lj}h_{lj}^2=-\sum_{l=1}^N\sum_{j>l}^Nf_{lj}r_{lj}^2,
 \end{aligned}
 \end{empheq}
-with unmarked indices ($j$) as the electron related ones and the marked ($j$) as the coordinate related ones. $i$ is the moved electron. We now proceed further to the update of the distance matrix, which is where we can find the remaining optimization possibilities. 
+with unmarked indices ($j$) as the electron related ones and the marked ($j'$) as the coordinate related ones. $i$ is the moved electron. We now proceed further to the update of the distance matrix, which is where we can find the remaining optimization possibilities. 
 
 \subsection{Updating the distance matrix} \label{sec:distancematrix}
-The distance matrix, which is used in the Jastrow factors, gives an illustrating example on how we can avoid repeating calculations. The matrix, henceforth named $M$, contains the relative distances between all the electrons, for three electrons given by
+The distance matrix, used in the Jastrow factors, gives an illustrating example on how we can avoid repeating calculations. The matrix, henceforth named $M$, contains the relative distances between all the electrons, for three electrons given by
 \begin{eqnarray}
 M=
 \begin{pmatrix}
@@ -546,10 +544,10 @@ void Metropolis::calculateDistanceMatrixCross(const int electron) {
 \end{lstlisting}
 where the function \lstinline{calculateDistanceMatrixElement(i,j)} returns element \lstinline{i,j} of the matrix, which is called from the function \lstinline{calculateDistanceMatrixCross(electron)}. The latter takes the moved electron index as input, and updates the necessary row and column of the matrix. 
 
-For systems of non-interacting electrons, the distance matrix is redundant, and should therefore not be calculated. We have solved this by giving all the wave function elements and the Hamiltonians a number which indicated whether they require the distance matrix or not, as mentioned above. If no part of the code needs the distance matrix, it is never calculated. We also calculate the radial position globally when any part of the code requires it. The components are stored in a vector named \lstinline{radialVector}, applying the same optimization ideas as the distance matrix. 
+For systems of non-interacting electrons, the distance matrix is redundant, and should therefore not be calculated. We have solved this by giving all the wave function elements and the Hamiltonians a number which indicated whether they require the distance matrix or not. If no part of the code needs the distance matrix, it is never calculated. We also calculate the radial position globally when any part of the code requires it. The components are stored in a vector named \lstinline{radialVector}, applying the same optimization ideas as the distance matrix. 
 
 \section{Sampling} \label{sec:sampling}
-Also, when it comes to the sampling itself, there exist optimization schemes to speed-up the process. Remember that the sampling algorithm often is repeated millions of times for each iteration, so even a small impact can give a massive speed-up. We will initially present the brute force sampling implementation in its entirety before we move on to the importance of sampling implementation. For the latter, we will discuss the optimization possibilities and connect them to the actual implementation.
+Also, when it comes to the sampling itself, there exist optimization schemes to speed-up the process. Remember that the sampling algorithm often is repeated millions of times for each iteration, so even a small change in the code may give a massive impact on the computational cost. We will initially present the brute force sampling implementation in its entirety before we move on to the importance of sampling implementation. For the latter, we will discuss the optimization possibilities and connect them to the actual implementation.
 
 \subsection{Brute force sampling}
 The brute force sampling was introduced in section \ref{sec:bruteforce}, and is the most basic sampling method implemented. The sampling function \lstinline{BruteForce::acceptMove}, which returns true if the move is accepted, is implemented as
@@ -583,7 +581,7 @@ bool BruteForce::acceptMove()
 	return true;
 }
 \end{lstlisting}
-where \lstinline|i| is the changed coordinate which is drawn from the random number generator \lstinline|m_RNG|. Initially the old positions, radial vector and distance matrix are stored in case the move is rejected, and then a new move is proposed in positive or negative direction. If the radial vector or distance matrix (or both) are needed somewhere in the code, they are updated in this function, using the ideas and implementation presented in section \ref{sec:distancematrix}. The they are distributed to the wave function elements using the function \lstinline|updateAllArrays|.
+where \lstinline|i| is the changed coordinate drawn from the random number generator \lstinline|m_RNG|. Initially the old positions, radial vector and distance matrix are stored, in case the move is rejected, and then a new move is proposed in positive or negative direction. If the radial vector or distance matrix (or both) are needed somewhere in the code, they are updated in this function, using the ideas and implementation presented in section \ref{sec:distancematrix}. They are distributed to the wave function elements using the function \lstinline|updateAllArrays|.
 
 In the end, the probability ratio is evaluated using the function \lstinline|evaluateProbabilityRatio| presented in section \ref{sec:probabilityratio}. If this ratio is larger than a random number between 0 and 1, the move is accepted, and otherwise, we set all the arrays back to the old ones (also the ones in the wave function elements). 
 
@@ -615,7 +613,7 @@ double ImportanceSampling::GreenRatio(const int i)
 	return exp(0.5 * dQF * m_dx) + 1;
 }
 \end{lstlisting}
-where \lstinline|dQF| is the difference between the new and the old force and \lstinline|m_dx| is the distance electron \lstinline|i| is moved. 1 appears from the term where \lstinline|m_dx| is zero, such that we get zero in the exponent. 
+where \lstinline|dQF| is the difference between the new and the old force and \lstinline|m_dx| is the distance electron \lstinline|i| is moved. The contribution 1 appears from the term where \lstinline|m_dx| is zero, such that we get zero in the exponent. 
 
 \section{Update of parameters} \label{sec:update}
 The parameter update is a central part of a VMC implementation, and a good VMC implementation requires a good optimization algorithm. Since the optimization functions are called outside the sampling, they are just called a fraction of times, compared to the function called from the sampling. Therefore, we will not put too much effort into making them efficient, but they should still be thought-through. We will here discuss the gradient descent method with momentum and monotonic decaying step and the ADAM optimizer. The \lstinline|Optimizer| class contains a pure virtual function \lstinline|updateParameters|, which is thus forced to be included in the optimizer subclasses. This function returns the update of the new parameters and is the function we will discuss in this section.
@@ -654,7 +652,7 @@ Eigen::MatrixXd ADAM::updateParameters()
 \end{lstlisting}
 where effort was made naming variables consistently with what we did in section \ref{sec:adam}. The parameter matrix, named \lstinline|m_parameters|, can then easily be updated by the code
 \begin{lstlisting}
-if (m_myRank == 0) {
+if (m_rank == 0) {
 	m_sampler->computeAverages();
 	m_parameters -= m_optimization->updateParameters();
 }
@@ -662,11 +660,11 @@ if (m_myRank == 0) {
 where \lstinline|m_optimization| is the specified optimizer and \lstinline|m_myrank| is the \textit{rank} of the process. Parallel processing is not discussed yet, but we will describe it briefly in the following section.
 
 \section{Parallel processing}
-The code was parallelized using MPI to make studies of large systems possible. This means that the code can run multiple parallel treads and in that manner, utilize the processors. Most notably, this allows us to run on computer clusters which typically reduce the running time with a factor 10-100. We will not explain how MPI works in detail, nor will we detail the implementation of MPI since the commands are distributed over the entire code. The thing we present is a sketch of the idea behind the parallelization used for our particular code.
+The code was parallelized using MPI to make studies of large systems possible. This means that the code can run multiple parallel treads and in that manner, utilize all the processors. Most notably, this allows us to run on computer clusters which typically reduce the running time with a factor 10-100. We will not explain how MPI works in detail, nor will we detail the implementation of MPI since the commands are distributed over the entire code. The thing we present is a sketch of the idea behind the parallelization used for our particular code.
 
-One of the things that makes VMC preferred over other many-body methods is that the algorithm quite easily can be split into independent parts, which encourages parallelization. The entire sampling can be split into as many parallel processes as needed, such that the code can be run on an arbitrary number of CPUs. We typically distinguish between wall clock time, $t_{clock}$ and CPU time $t_{cpu}$ where the former is the time measured by a clock, and the latter is the total computation time from all the CPUs. The speed-up will in general not be 100\%, i.e. $t_{clock}\neq t_{cpu}/n$ with $n$ as the number of processes, mainly because all of the samplings should have the same burn-in period as if we only run one process, but also because the code that is not part of the sampling cannot be parallelized and needs to be run on the same CPU. The process that takes care of this part is the primary process with rank 0.
+One thing that makes VMC preferred over other many-body methods is that the algorithm easily can be split into independent parts, which encourages parallelization. The entire sampling can be split into as many parallel processes as needed, such that the code can be run on an arbitrary number of CPUs. We typically distinguish between wall clock time, $t_{clock}$ and CPU time $t_{cpu}$ where the former is the time measured by a clock, and the latter is the total computation time from all the CPUs. The speed-up will in general not be 100\%, i.e. $t_{clock}\neq t_{cpu}/n$ with $n$ as the number of processes, mainly because the code that is not part of the sampling cannot be parallelized and needs to be run on one CPU. The process that takes care of this part is the primary process with rank 0.
 
-In algorithm \ref{alg:mpi}, we have sketched very roughly how the parallelization goes. We first run the entire sampling individually for all the $n$ processes, and if something goes wrong, we call the \lstinline|MPI_Abort| function. To align the processes before we collect all the cumulative values, we use the function \lstinline|MPI_Barrier| and we use \lstinline|MPI_Reduce| for the actual collection. After that, the average energies are calculated \textit{by the main process only}, and in the end, the updated parameters are broadcast to all the other processes. Note that this is just a sketch where we avoid the arguments and the actual implementation of the MPI functions. This is of course found in the code.
+In algorithm \ref{alg:mpi}, we have sketched very roughly how the parallelization goes. We first run the entire sampling individually for all the $n$ processes, and if something goes wrong, we call the \lstinline|MPI_Abort| function. To align the processes before we collect all the cumulative values, we use the function \lstinline|MPI_Barrier| and we use \lstinline|MPI_Reduce| for the actual summation. After that, the average energies are calculated by the primary process \textit{only}, and in the end, the updated parameters are broadcast to all the other processes. Note that this is just a sketch where we avoid the arguments and the actual implementation of the MPI functions. This is of course found in the code.
 
 \IncMargin{1em}
 \begin{algorithm}
@@ -704,12 +702,12 @@ In algorithm \ref{alg:mpi}, we have sketched very roughly how the parallelizatio
 \section{Electron density} \label{sec:electrondensityimplementation}
 We presented the theory behind the electron density in section \ref{sec:electrondensity}, where we saw that the $P$-body density is given by an integral over all probability density functions, $|\Psi(\bs{R}_1,\cdots,\bs{R}_N)|^2$, but $P$ of them. Usually, we look at the one-body density or the two-body density, leaving out one or two electrons from the integration. Further in section \ref{sec:electrondensityqmc}, we gave a brief explanation of how the one-body density can be found using Monte Carlo integration in a VMC scheme. In this section, we will discuss the technique in more detail, and of course, give the actual implementation.
 
-In our particular implementation, we have technically calculated the one-body density in two different ways; dividing the space into annuluses\footnote{An annulus is a ring-shaped object with a region bounded by two concentric circles.} to calculate the radial electron distribution and dividing the space into a grid to calculate the spatial electron distribution. The former is convenient when we want to present the density in a two-dimensional plot, making a comparison between multiple methods easy. Often, the one-body density is only dependent on the radial distance from the center, and then it is sufficient to look at the radial density profile. On the other hand, the spatial density profile contains more information between the position of the electrons, which is interesting when the density is also dependent on the angle.
+In our particular implementation, we have technically calculated the one-body density in two different ways; by dividing the space into annuluses\footnote{An annulus is a ring-shaped object with a region bounded by two concentric circles.} to calculate the radial electron distribution and by dividing the space into a grid to calculate the spatial electron distribution. The former is convenient when we want to present the density in a two-dimensional plot, making a comparison between multiple methods easy. Often, the one-body density is only dependent on the radial distance from the center, and then it is sufficient to look at the radial density profile. On the other hand, the spatial density profile contains more information between the position of the electrons, which is interesting when the density is also dependent on the angle.
 
 \begin{figure}
 	\centering
 	\input{../tikz/onebody_bins.tex}
-	\caption{This figure is meant to illustrate how the one-body density is calculated using Monte Carlo integration. The space is divided into $n$ bins (here 5), and count the number of electrons in each bin is counted throughout the sampling. Afterward, the bins need to be standardized.}
+	\caption{This figure is meant to illustrate how the radial one-body density is calculated using Monte Carlo integration. The space is divided into $n$ bins (here $n=5$), and the number of times the electrons appear in each bin is counted throughout the sampling. Afterward, the bins need to be standardized.}
 	\label{fig:onebody}
 \end{figure}
 For the radial density profile, we in practice deal with bins formed by annuluses of equal width $\Delta r$, the two-dimensional case is illustrated in figure \eqref{fig:onebody}. This means that the bins do not have an equal extent, and we need to compensate for this by dividing by the respective volume. In two dimensions, a bin $i$ has the area
@@ -736,11 +734,11 @@ void Sampler::computeOneBodyDensity(const Eigen::VectorXd radialVector)
 	}
 }
 \end{lstlisting}
-where \lstinline|m_radialStep| is the width of each annulus, above denoted by $\Delta r$. In the end, \lstinline|m_electronsPerBin| is printed to file, and we do the normalization when a script reads this file. For the case where we look at the spatial density distribution, all the bins have equal size, and the approach is therefore straight-forward. Also, for the two-body density, we can choose to either calculate the radial or the spatial density distribution, but as the spatial distribution becomes many-dimensional, we stick to the radial distribution for this quantity. This distribution is calculated in a similar way as the one-body density, and it will not be further detailed. 
+where \lstinline|m_radialStep| is the width of each annulus, above denoted by $\Delta r$. In the end, \lstinline|m_electronsPerBin| is printed to file, and we do the normalization when a script reads this file. For the case where we look at the spatial density distribution, all the bins have equal size, and the approach is therefore straight-forward. Also, for the two-body density, we can choose to either calculate the radial or the spatial density distribution, but as the spatial distribution becomes higher-dimensional, we stick to the radial distribution for this quantity. This distribution is calculated in a similar way as the one-body density, and it will not be further detailed. 
 
 \section{Random number generator}
 Monte Carlo integration rely on random numbers that are received from a random number generator (RNG). The RNG should have two main properties: It should give many independent, uncorrelated random numbers and it should be fast. The former depends on the \textit{period} of the RNG, where a long period gives many independent numbers. 
 
-In this work, we have used the Mersenne Twister random number generator, as it has a period of $2^{19937}-1$ which is known as the Mersenne prime. This is an incredibly large number and should be more than sufficient for our purpose. We use the built-in package in C++, \lstinline|std::mt19937|, which is also quite fast. 
+In this work, we have used the Mersenne Twister random number generator, as it has a period of $2^{19937}-1$ which is known as the Mersenne prime. This is an incredibly large number and should be more than sufficient for our purpose. We use the built-in package in C++, \lstinline|std::mt19937|, which is also very efficient. 
 
 It is important to be aware that the way we use the RNG is not optimized for parallel processing. The reason for this, is that we do not necessarily have different seeds for different processes. However, since the communication between the various processes is limited, this will not affect our results. 
