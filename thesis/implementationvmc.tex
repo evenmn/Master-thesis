@@ -123,7 +123,7 @@ In the two previous sections, we have seen how the derivatives of the wave funct
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \frac{P(\bs{R}_{\text{new}})}{P(\bs{R}_{\text{old}})}=\frac{|\Psi_T(\bs{R}_{\text{new}})|^2}{|\Psi_T(\bs{R}_{\text{old}})|^2}=\prod_{i=1}^p\frac{|\Psi_i(\bs{R}_{\text{new}})|^2}{|\Psi_i(\bs{R}_{\text{old}})|^2},
 \end{empheq}
-again utilizing equation \eqref{eq:elementproduct}. Finding closed-form expressions for those ratios is not only beneficial because it is needed in the actual implementation, as we work in the log-space those ratios often take simple forms which are cheap to evaluate. Below, we will calculate those ratios for all the elements since we are going to use that directly in the sampling. We name the function returning the ratio of a particular element \lstinline{evaluateRatio()}, and we obtain the total probability ratio in the following way
+again utilizing equation \eqref{eq:elementproduct}. Finding closed-form expressions for these ratios is not only beneficial because it is needed in the actual implementation, as we work in the log-space these ratios often take simple forms which are cheap to evaluate. Below, we will calculate these ratios for all the elements since we are going to use that directly in the sampling. We name the function returning the ratio of a particular element \lstinline{evaluateRatio()}, and we obtain the total probability ratio in the following way
 \begin{lstlisting}[language=c++]
 double System::evaluateProbabilityRatio()
 {

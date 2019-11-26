@@ -93,7 +93,7 @@ respectively, with $p_j$ and $n_j$ as the sigmoid and its counterpart,
 \begin{equation}
 n_j\equiv \frac{1}{1+\exp(-f_j)}\quad\wedge\quad p_j\equiv \frac{1}{1+\exp(+f_j)}.
 \end{equation}
-Those expressions can be used to find the kinetic energy directly, as the kinetic energy contribution from this specific element is just the sum over the gradients and Laplacians, $T=\sum_{k=1}^F[\nabla_k^2\ln\Psi_{\text{rp}}+(\nabla_k\ln\Psi_{\text{rp}})^2]$. An arbitrary parameter $\theta_i$ can be updated according to the log-likelihood function which is just the derivative of the log-likelihood function
+These expressions can be used to find the kinetic energy directly, as the kinetic energy contribution from this specific element is just the sum over the gradients and Laplacians, $T=\sum_{k=1}^F[\nabla_k^2\ln\Psi_{\text{rp}}+(\nabla_k\ln\Psi_{\text{rp}})^2]$. An arbitrary parameter $\theta_i$ can be updated according to the log-likelihood function which is just the derivative of the log-likelihood function
 \begin{equation}
 \frac{\partial}{\partial \theta_i}\ln \Psi_{\text{rp}}=\sum_{j=1}^Hn_j\frac{\partial}{\partial\theta_i}(f_j),
 \end{equation}
