@@ -11,7 +11,7 @@ Since we base this scientific work on solving equations numerically on the compu
 
 Computers have long been used for solving complex scientific problems. Actually, for a long time, science was the primary motivation for developing computers. Already in 1929, Egil Hylleraas used his mechanical desk calculator to calculate the ground state energy of the helium atom, which remains a milestone in computational quantum chemistry as well as quantum chemistry in general \supercite{helgaker_perspective_2000}. Later, pioneers like Alan Turing and John von Neumann contributed to the invention of the first electronic computer, which made numerical solutions of ordinary differential equations possible \supercite{gustafsson_scientific_2018}. 
 
-Also on the software side, big breakthroughs have been made since the advent of the electronic computer. The programming language Fortran was released in 1957, which provided a new basis of scientific programming \supercite{allen_history_1981}. Later, Ole Johan Dahl and Kristen Nygaard developed the language SIMULA, which is considered as the first object-orientated language \supercite{holmevik_compiling_1994}. The language that we mostly will rely on in this work, C++, is an extension of the language C which was developed in the early 1970s and is, together with Fortran, one of few languages that have survived the ravages of time. 
+Also on the software side, big breakthroughs have been made since the advent of the electronic computer. The programming language Fortran was released in 1957, which provided a new basis of scientific programming \supercite{allen_history_1981}. Later, Ole Johan Dahl and Kristen Nygaard developed the language SIMULA, which is considered as the first object-oriented language \supercite{holmevik_compiling_1994}. The language that we mostly will rely on in this work, C++, is an extension of the language C which was developed in the early 1970s and is, together with Fortran, one of few languages that have survived the ravages of time. 
 
 The computers used today, including both the hardware and the software, have become possible due to the heroic effort of an array of scientists, engineers, and mechanics over a long period. The computers are stronger than ever, have more memory than ever, are compacter than ever. Last but not least, they are more user-friendly than ever. All this has made heavy computations possible that were unthinkable just decades ago and has contributed to the development of virtually all branches of science. Due to the user-friendliness, advanced simulations have also been available for young and curious students like the author. We should not take this for granted. 
 
@@ -36,33 +36,40 @@ class Shapes:
 
 class Circle(Shapes):
 	def getArea(self):
+		'''Returns the area of the circle. '''
 		return np.pi*self.r**2
 
 	def getCircumference(self):
+		'''Returns the circumference of the circle. '''
 		return 2*np.pi*self.r
 
 	def contains(self, x, y):
+		'''Returns True if the point (x,y) is inside the circle. '''
 		if np.linalg.norm([x,y]) < self.r:
 			return True
 		return False
 
 class Square(Shapes):
 	def getArea(self):
+		'''Returns the area of the square. '''
 		return 4*self.r**2
 
 	def getCircumference(self):
+		'''Returns the circumference of the square. '''
 		return 8*self.r
 
 	def contains(self, x, y):
+		'''Returns True if the point (x,y) is inside the square. '''
 		if abs(x) < self.r and abs(y) < self.r:
 			return True
 	return False
 
 class Triangle(Shapes):
 	def getCircumference(self):
+		'''Returns the circumference of the equilateral triangle. '''
 		return 6*self.r
 \end{lstlisting}
-We give the children the properties area, circumference and extent. The length \texttt{r} means the radius of a circle, half the side length of a square and also half a side length of the equilateral triangle, see figure \eqref{fig:montecarlointegration}. We can implement a circle, square and triangle of \texttt{r}=1, respectively named "circ", "squr" and "tria" by these three lines
+We give the children the properties area, circumference and extent. The length \texttt{r} means the radius of a circle, half the side length of a square and also half a side length of the equilateral triangle, as illustrated in figure \eqref{fig:montecarlointegration}. We can implement a circle, square and triangle of \texttt{r}=1, respectively named "circ", "squr" and "tria" by these three lines
 \lstset{basicstyle=\scriptsize}
 \begin{lstlisting}[language=python]
 circ = Circle(1)
@@ -85,9 +92,9 @@ NotImplementedError: Class Triangle has no instance 'getArea'.
 As we can see, the area of the circle and the square were calculated successfully, giving $\pi r^2$ and $4r$ respectively. On the other hand, the area of the triangle raised an error, which is because we do not have defined the area of the triangle! This example illustrates that the properties of the children overwrites the properties of the parent, but if a child does not have the called property, it will instead return the parent's property. 
 
 \subsection{An example based on Monte Carlo simulations}
-Up to this point, we have talked a lot about Monte Carlo simulations without giving an illustrating example of what it is. Methods, where we draw numbers randomly from a function to reveal properties of a function, are in general classified as Monte Carlo simulations and in that manner, the name might sound more complicated than it is. 
+Up to this point, we have talked a lot about Monte Carlo simulations without giving an illustrating example of what it is. Methods where we draw numbers randomly from a function to reveal properties of a function, are in general classified as Monte Carlo simulations and in that manner, the name might sound more complicated than it is. 
 
-Suppose we did not know the value of $\pi$, what could we do to approximate its value? There are many ways to do this, where the most intuitive might be to measure the ratio between the diameter and the circumference in a circle. It is not possible to do this very accurate manually. A more accurate and robust solution would be to use Monte Carlo simulations, where we, for instance, can take the starting point on the relation
+Suppose we did not know the value of $\pi$, what could we do to approximate its value? There are many ways to do this, where the most intuitive might be to measure the ratio between the diameter and the circumference in a circle. It is not possible to do this very accurate manually. A more accurate solution would be to use Monte Carlo simulations, where we, for instance, can take the starting point on the relation
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \pi=4\frac{\text{A}_{\text{circle}}}{\text{A}_{\text{square}}},
 \end{empheq}
@@ -119,10 +126,10 @@ MC = 10^7 Pi:  3.1420708
 MC = 10^8 Pi:  3.1416844
 MC = 10^9 Pi:  3.141615628
 \end{lstlisting}
-Considering the fact that $\pi=3.141592653589793...$, the obtained result is quite acceptable. However, to run the program with $M=10^9$ Monte Carlo cycles, the program is quite slow. Is it possible to do this faster? The answer is yes, by switching entirely or partly to a low-level language.
+Note that the value of $\pi$ was never used in this calculation. Considering the fact that $\pi=3.141592653589793...$, the obtained result is quite acceptable. However, to run the program with $M=10^9$ Monte Carlo cycles, the program is quite slow. Is it possible to do this faster? The answer is yes, by switching partly or entirely to a low-level language.
 
 \section{Low-level programming with C++}
-Above, we looked at how inheritance can be implemented in the high-level language Python, and we observed the main weakness of high-level languages: the computational time. In this section, we will repeat the implementation and example above, using C++. Using a low-level language will, hopefully, provide a significant speed-up. A similar class structure in C++ looks like
+Above, we looked at how inheritance can be implemented in the high-level language Python, and we observed the main weakness of high-level languages: the computational time. In this section, we will repeat the implementation above using C++. Using a low-level language will, hopefully, provide a significant speed-up. A similar C++ class structure as the Python class presented listing \ref{lst:python} looks like
 \lstset{basicstyle=\scriptsize}
 \begin{lstlisting}[language=c++, caption={Geometric shapes implemented in object-oriented C++.}, label={lst:cpp}]
 class Shapes {
@@ -132,25 +139,28 @@ class Shapes {
 		virtual double getCircumference() = 0;
 		virtual bool contains(double x, double y) = 0;
 		virtual ~Shapes();
+	private:
+		double m_r;
 };
 
 class Circle : public Shapes {
 	public:
 		Circle(double r);
 		double getArea() {
+			/* Returns the area of the circle. */
 			return M_PI * m_r * m_r;
 		}
 		double getCircumference() {
+			/* Returns the circumference of the circle. */
 			return 2 * M_PI * m_r;
 		}
 		bool contains(double x, double y) {
+			/* Returns true if the point (x,y) is inside the circle. */
 			if(sqrt(x*x+y*y) < m_r) {
 				return true;
 			}
 			return false;
 		}
-	private:
-		double m_r = 1;
 };
 
 Circle::Circle(double r) : Shapes() {
@@ -161,19 +171,20 @@ class Square: public Shapes {
 	public:
 		Square(double r);
 		double getArea() {
+			/* Returns the area of the square. */
 			return 4 * m_r * m_r;
 		}
 		double getCircumference() {
+			/* Returns the circumference of the square. */
 			return 8 * m_r;
 		}
 		bool contains(double x, double y) {
+			/* Returns true if the point (x,y) is inside the square. */
 			if(fabs(x) < m_r && fabs(y) < m_r) {
 				return true;
 			}
 			return false;
 		}
-	private:
-		double m_r = 1;
 };
 
 Square::Square(double r) : Shapes() {
@@ -183,7 +194,7 @@ Square::Square(double r) : Shapes() {
 This looks different from the implementation in Python presented in listing \eqref{lst:python}. We will go thoroughly through the different parts of the code. One of the first thing we observe, is that we here need to \textit{declare} all the variables, meaning that we need to specify the variable type. In the following we will have a look at some standard \textit{data types}.
 
 \subsection{Built-in data types}
-In low-level languages, we need to specify the data types manually, providing more control and flexibility. The most fundamental data types are \texttt{int} representing an integer number, \texttt{float} representing a floating number, \texttt{bool} representing a Boolean number and \texttt{char} representing a character. Often, these four data types are not sufficient for the task we want to implement, and we need to introduce more data types. An especially common error is \textit{overflow}, meaning that the number computed is out of the range of our data type. To avoid this, we can switch to data types of longer range, replacing \texttt{int} with a \texttt{long long int} (or just a \texttt{long long}), and replacing \texttt{float} with a \texttt{double}.
+In low-level languages, we need to specify the data types manually, enhancing the control. The most fundamental data types are \texttt{int} representing an integer number, \texttt{float} representing a floating number, \texttt{bool} representing a Boolean number and \texttt{char} representing a character. Often, these four data types are not sufficient for the task we want to implement, and we need to introduce more data types. An especially common error is \textit{overflow}, meaning that the number computed is out of the range of our data type. To avoid this, we can switch to data types of longer range, replacing \texttt{int} with a \texttt{long long int} (or just a \texttt{long long}), and replacing \texttt{float} with a \texttt{double}.
 
 \begin{table}
 	\caption{Built-in data types in C++, with their memory occupation and range in a 64-bit processor, taken from \supercite{noauthor_c++_2017}. Extensions in the parenthesis are optional.}
@@ -204,7 +215,7 @@ In low-level languages, we need to specify the data types manually, providing mo
 	\end{tabularx}
 \end{table} 
 
-Some languages also deal with \texttt{long int} and \texttt{long double}, but in C++ an \texttt{int} and a \texttt{long int} is the same. Additionally, a \texttt{long double} is the same as a \texttt{double}. As lack of memory is not the largest problem when performing simulations, it is common to declare all floating numbers as \texttt{double}s. In table \eqref{tab:datatypes}, the most common data types are listed with their range and memory occupation in C++. For integers, it is also possible to "move" the range from its zero-centered default to only include positive numbers. This is done by declaring an \texttt{unsigned} data type. By using unsigned data types, the range doubles in the positive direction, but it should not be done if we, by any chance, can get negative numbers, as we then get \textit{underflow}.  
+Some languages also deal with \texttt{long int} and \texttt{long double}, but in C++ an \texttt{int} and a \texttt{long int} is the same. Additionally, a \texttt{long double} is the same as a \texttt{double}. As lack of memory is typically not the largest problem when performing simulations, it is common to declare all floating numbers as \texttt{double}s. In table \eqref{tab:datatypes}, the most common data types are listed with their range and memory occupation in C++. For integers, it is also possible to "move" the range from its zero-centered default to only include positive numbers. This is done by declaring an \texttt{unsigned} data type. By using unsigned data types, the range doubles in the positive direction, but it should not be done if we, by any chance, can get negative numbers, as we then get \textit{underflow}.  
 
 \subsection{Access modifiers}
 Another thing that we observe from the code example in listing \eqref{lst:cpp}, is that we define the functions as \texttt{private} or \texttt{public}, which are called access modifiers. The access modifiers specify how much access the environment should have to the function: \texttt{private} means that the function can only be called from the particular class, while \texttt{public} means that also sub-classes (children) and other classes have access to the function. We also have a third access modifier in C++, called \texttt{protected}. \texttt{protected} members of a class A are not accessible outside of A's code, but any class that inherits from A has access to the protected member. 
