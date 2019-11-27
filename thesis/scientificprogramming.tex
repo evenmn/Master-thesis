@@ -146,11 +146,10 @@ public:
 	Circle(double r) { m_r = r; }
 	double getArea() { return M_PI * m_r * m_r; }
 	double getCircumference() { return 2 * M_PI * m_r; }
-	bool getExtent(double x, double y)
-	{
-	if (sqrt(x * x + y * y) < m_r) {
-		return true;
-	}
+	bool getExtent(double x, double y) {
+		if (sqrt(x * x + y * y) < m_r) {
+			return true;
+		}
 		return false;
 	}
 	~Circle() {}
@@ -163,11 +162,10 @@ public:
 	Square(double r) { m_r = r; }
 	double getArea() { return 4 * m_r * m_r; }
 	double getCircumference() { return 8 * m_r; }
-	bool getExtent(double x, double y)
-	{
-	if (fabs(x) < m_r && fabs(y) < m_r) {
-		return true;
-	}
+	bool getExtent(double x, double y) {
+		if (fabs(x) < m_r && fabs(y) < m_r) {
+			return true;
+		}
 		return false;
 	}
 	~Square() {}
