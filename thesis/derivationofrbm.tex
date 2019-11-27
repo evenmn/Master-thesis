@@ -11,55 +11,56 @@ where $Z$ is the partition function,
 \begin{equation}
 Z=\iint d\bs{x}d\bs{h}P(\bs{x},\bs{h}),
 \end{equation}
-and $\beta=1/k_BT$ is a factor which will be fixed to 1. As the marginal and conditional distributions are closely related both for the visible and hidden units, the distributions will be presented in the sections related to the two layers respectively. Afterwards, we will also present the gradient of the marginal distributions and the log-likelihood function.
+and $\beta=1/k_BT$ is a factor which will be fixed to 1. As the marginal and conditional distributions are closely related both for the visible and hidden layer, we present the distributions in sections respective for the two layers. 
 
 \section{Distributions of visible units}
-The distributions of the visible units are used to find properties related to the visible units. If we recall a restricted Boltzmann machine, the transformation between the visible nodes and the hidden nodes is $f_j(\bs{x};\bs{\theta})=b_j+\sum_{i=1}^Fw_{ij}x_i/\sigma_i^2$. By this expression, we can express the joint probability distribution as
+The distributions of the visible units are used to find properties related to the visible units. If we recall a restricted Boltzmann machine, the transformation between the visible units and the hidden units is $f_j(\bs{x};\bs{\theta})=b_j+\sum_{i=1}^Fw_{ij}x_i/\sigma_i^2$. By this expression, we can express the joint probability distribution as
 \begin{equation}
 \begin{aligned}
 P(\bs{x,\bs{h}})&=\frac{1}{Z}\exp(-\sum_{i=1}^{F}\frac{(x_i-a_i)^2}{2\sigma_i^2}+\sum_{j=1}^Hb_jh_j+\sum_{i=1}^F\sum_{j=1}^{H}\frac{x_iw_{ij}h_j}{\sigma_i^2}),\\
-&=\frac{1}{Z}\exp(-\sum_{i=1}^F \frac{(x_i - a_i)^2}{2\sigma^2}+\sum_{j=1}^H\Big[b_jh_j+\frac{\sum_{i=1}^Fh_jw_{ij}x_i}{\sigma_i^2}\Big]),\\
+&=\frac{1}{Z}\exp(-\sum_{i=1}^F \frac{(x_i - a_i)^2}{2\sigma^2}+\sum_{j=1}^H\left[b_jh_j+\frac{\sum_{i=1}^Fh_jw_{ij}x_i}{\sigma_i^2}\right]),\\
 &=\frac{1}{Z}\exp(-\sum_{i=1}^F \frac{(x_i - a_i)^2}{2\sigma^2}+\sum_{j=1}^Hh_jf_j(\bs{x};\bs{\theta})),
 \end{aligned}
 \label{eq:jointvisible}
 \end{equation}
-which will be the base of the other distributions of the hidden nodes. 
+which will be the base of the other distributions of the visible units. 
 
 \subsection{Marginal distribution}
-The marginal distribution of the visible nodes is given by the sum
+The marginal distribution of the visible units is given by the sum
 \begin{equation}
 P(\bs{h})=\sum_{\{\bs{h}\}} P(\bs{x},\bs{h}),
 \end{equation}
-as the hidden nodes can take binary values only. By inserting the expression of the joint probability distribution from equation \eqref{eq:jointvisible}, we obtain
+as the hidden units can take binary values only. By inserting the expression of the joint probability distribution from equation \eqref{eq:jointvisible}, we obtain
 \begin{equation}
 \begin{aligned}
 P(\bs{x})&=\frac{1}{Z}\sum_{\{\bs{h}\}}\exp(\sum_{i=1}^F \frac{(x_i - a_i)^2}{2\sigma^2}+\sum_{j=1}^Hh_jf_j(\bs{x};\bs{\theta})),\\
-&=\frac{1}{Z}\exp(-\sum_{i=1}^F\frac{(x_i - a_i)^2}{2\sigma^2}) \sum_{\{\bs{h}\}}\prod_{j=1}^H\exp\Big(h_jf_j\Big),\\
-&=\frac{1}{Z}\exp(-\sum_{i=1}^F \frac{(x_i - a_i)^2}{2\sigma^2})\sum_{h_1=0}^1\sum_{h_2=0}^1\hdots\sum_{h_H=0}^1\exp\Big(h_1f_1\Big)\exp\Big(h_2f_2\Big)\hdots\exp\Big(h_Hf_H\Big),\\
+&=\frac{1}{Z}\exp(-\sum_{i=1}^F\frac{(x_i - a_i)^2}{2\sigma^2}) \sum_{\{\bs{h}\}}\prod_{j=1}^H\exp(h_jf_j),\\
+&=\frac{1}{Z}\exp(-\sum_{i=1}^F \frac{(x_i - a_i)^2}{2\sigma^2})\sum_{h_1=0}^1\sum_{h_2=0}^1\hdots\sum_{h_H=0}^1\exp(h_1f_1)\exp(h_2f_2)\hdots\exp(h_Hf_H),\\
 %&=\frac{1}{Z}\exp\Big(\sum_{i=1}^F \frac{(x_i - a_i)^2}{2\sigma^2}\Big)\sum_{h_1=0}^1\sum_{h_2=0}^1\hdots\sum_{h_H=0}^1\exp\Big(h_1f_1\Big)\exp\Big(h_2f_2\Big)\hdots\exp\Big(h_Hf_H\Big)\\
 %&=\frac{1}{Z}\exp\Big(\sum_{i=1}^F \frac{(x_i - a_i)^2}{2\sigma^2}\Big)\sum_{h_1=0}^1\exp\Big(h_1f_1\Big)\sum_{h_2=0}^1\exp\Big(h_2f_2\Big)\hdots\sum_{h_H=0}^1\exp\Big(h_Hf_H\Big)\\
-&=\frac{1}{Z}\exp\Big(-\sum_{i=1}^F \frac{(x_i - a_i)^2}{2\sigma^2}\Big)\prod_{j=1}^H\sum_{h_j=0}^1\exp\Big(h_jf_j\Big),\\
-&=\frac{1}{Z}\exp\Big(-\sum_{i=1}^F \frac{(x_i - a_i)^2}{2\sigma^2}\Big) \prod_{j=1}^H \left[1+ \exp(f_j(\bs{x};\bs{\theta}))\right].
+&=\frac{1}{Z}\exp(-\sum_{i=1}^F \frac{(x_i - a_i)^2}{2\sigma^2})\prod_{j=1}^H\sum_{h_j=0}^1\exp(h_jf_j),\\
+&=\frac{1}{Z}\exp(-\sum_{i=1}^F \frac{(x_i - a_i)^2}{2\sigma^2}) \prod_{j=1}^H \left[1+ \exp(f_j(\bs{x};\bs{\theta}))\right].
 \end{aligned}
 \label{eq:marginalvisible}
 \end{equation}
+This is what we will use as the marginal distribution of the visible units. 
 
 \subsection{Conditional distribution}
 The conditional distribution of the visible units is given by
 \begin{eqnarray}
 P(\bs{h}|\bs{x})=\frac{P(\bs{x},\bs{h})}{P(\bs{x})},
 \end{eqnarray}
-where the nominator is the joint probability distribution given in equation \eqref{eq:jointvisible} and the denominator is the marginal distribution of the visible nodes given in equation \eqref{eq:marginalvisible}. This gives the conditional probability
+where the numerator is the joint probability distribution given in equation \eqref{eq:jointvisible} and the denominator is the marginal distribution of the visible units given in equation \eqref{eq:marginalvisible}. This gives the conditional probability
 \begin{equation}
 \begin{aligned}
-P(\bs{h}|\bs{x})&=\frac{\frac{1}{Z}\exp(-\sum_{i=1}^F \frac{(x_i - a_i)^2}{2\sigma^2}+\sum_{j=1}^Hh_jf_j(\bs{x};\bs{\theta}))}{\frac{1}{Z}\exp(-\sum_{i=1}^F \frac{(x_i - a_i)^2}{2\sigma^2}) \prod_{j=1}^H \bigg[1+ \exp(f_j(\bs{x};\bs{\theta}))\bigg]},\\
+P(\bs{h}|\bs{x})&=\frac{\frac{1}{Z}\exp(-\sum_{i=1}^F \frac{(x_i - a_i)^2}{2\sigma^2}+\sum_{j=1}^Hh_jf_j(\bs{x};\bs{\theta}))}{\frac{1}{Z}\exp(-\sum_{i=1}^F \frac{(x_i - a_i)^2}{2\sigma^2}) \prod_{j=1}^H \left[1+ \exp(f_j(\bs{x};\bs{\theta}))\right]},\\
 &=\prod_{j=1}^H\frac{\exp(h_jf_j(\bs{x};\bs{\theta}))}{1+\exp(f_j(\bs{x};\bs{\theta}))},
 \end{aligned}
 \end{equation}
-where we recall that $f_j(\bs{x};\bs{\theta})=b_j+\sum_{i=1}^Fw_{ij}x_i/\sigma_i^2$ are just the transition going from the visible nodes to the hidden nodes.
+where we recall that $f_j(\bs{x};\bs{\theta})=b_j+\sum_{i=1}^Fw_{ij}x_i/\sigma_i^2$ are just the transition going from the visible units to the hidden units.
 
 \section{Distributions of hidden units}
-The distributions of the hidden units are used to find properties related to the hidden units. If we recall a restricted Boltzmann machine, the transformation between the hidden nodes and the visible nodes is $g_i(\bs{h};\bs{\theta})=a_i+\sum_{j=1}^Hh_jw_{ij}$. By using that expression, we can express the joint probability distribution as
+The distributions of the hidden units are used to find properties related to the hidden units. If we recall a restricted Boltzmann machine, the transformation between the hidden units and the visible units is $g_i(\bs{h};\bs{\theta})=a_i+\sum_{j=1}^Hh_jw_{ij}$. By using that expression, we can express the joint probability distribution as
 \begin{equation}
 \begin{aligned}
 P(\bs{x,\bs{h}})&=\frac{1}{Z}\exp(-\sum_{i=1}^{F}\frac{(x_i-a_i)^2}{2\sigma_i^2}+\sum_{j=1}^Hb_jh_j+\sum_{i=1}^F\sum_{j=1}^{H}\frac{x_iw_{ij}h_j}{\sigma_i^2}),\\
@@ -68,14 +69,14 @@ P(\bs{x,\bs{h}})&=\frac{1}{Z}\exp(-\sum_{i=1}^{F}\frac{(x_i-a_i)^2}{2\sigma_i^2}
 \end{aligned}
 \label{eq:jointhidden}
 \end{equation}
-which will be the base of the other distributions of the hidden nodes. 
+which will be the base of the other distributions of the hidden units. 
 
 \subsection{Marginal distribution}
-The marginal distribution of the hidden nodes is given by the integral
+The marginal distribution of the hidden units is given by the integral
 \begin{equation}
 P(\bs{h})=\int d\bs{x}P(\bs{x},\bs{h}),
 \end{equation}
-as the visible nodes can take continuous values. By inserting the expression of the joint probability distribution from equation \eqref{eq:jointhidden}, we obtain
+as the visible units can take continuous values. By inserting the expression of the joint probability distribution from equation \eqref{eq:jointhidden}, we obtain
 \begin{equation}
 \begin{aligned}
 P(\bs{h})&=\frac{1}{Z}\int d\bs{x} \exp(\sum_{j=1}^Hb_jh_j-\sum_{i=1}^F\frac{x_i^2+a_i^2-2x_ig_i(\bs{h};\bs{\theta})}{2\sigma_i^2}),\\
@@ -87,13 +88,14 @@ P(\bs{h})&=\frac{1}{Z}\int d\bs{x} \exp(\sum_{j=1}^Hb_jh_j-\sum_{i=1}^F\frac{x_i
 \end{aligned}
 \label{eq:marginalhidden}
 \end{equation}
+This is what we have used as the marginal distribution of the hidden units.
 
 \subsection{Conditional distribution}
 The conditional distribution of the hidden units is given by
 \begin{eqnarray}
 P(\bs{x}|\bs{h})=\frac{P(\bs{x},\bs{h})}{P(\bs{h})},
 \end{eqnarray}
-where the numerator is the joint probability distribution given in equation \eqref{eq:jointhidden} and the denominator is the marginal distribution of the hidden nodes given in equation \eqref{eq:marginalhidden}. This gives the conditional probability
+where the numerator is the joint probability distribution given in equation \eqref{eq:jointhidden} and the denominator is the marginal distribution of the hidden units given in equation \eqref{eq:marginalhidden}. This gives the conditional probability
 \begin{equation}
 \begin{aligned}
 P(\bs{x}|\bs{h})&=\frac{\frac{1}{Z}\exp(\sum_{j=1}^Hb_jh_j-\sum_{i=1}^F\frac{x_i^2+a_i^2-2x_ig_i(\bs{h};\bs{\theta})}{2\sigma_i^2})}{\frac{1}{Z}\exp(\sum_{j=1}^Hb_jh_j)\prod_{i=1}^F\sqrt{2\pi\sigma_i^2}\exp(\frac{-a_i^2+g_i(\bs{h};\bs{\theta})}{2\sigma_i^2})},\\
