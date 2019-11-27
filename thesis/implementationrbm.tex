@@ -1,15 +1,13 @@
 \chapter{Implementation: Restricted Boltzmann Machines} \label{chp:rbmimplementation}
-In chapter \ref{chp:WFE}, we described common optimization procedures for a variational Monte Carlo (VMC) framework, including the Slater-Jastrow trial wave function. Additionally, we presented implementation examples taken from the code. The way we implement the restricted Boltzmann machines in the VMC framework was explained briefly in section \ref{sec:unifying}, 
+The restricted Boltzmann machines where detailed in chapter \ref{chp:restricted} from a machine learning point of view. In section \ref{sec:unifying}, we described briefly how the Boltzmann machines can be used as the trial wave function ansatz in a variational Monte Carlo framework. The implementation of this framework was described in the previous chapter, with examples taken from the code. The remaining part is to detail the implementation of ansätze based on the restricted Boltzmann machine. 
 
-we will do the same, but for the restricted Boltzmann machines (RBM). As we have pointed out before, the same sampling methods and optimization algorithms can be used both for the VMC implementation and the RBM implementation. This implies that much of the VMC framework can be reused. The already described parts of the code will naturally not be described again, and for that reason, this chapter will more or less exclusively deal with the RBM wave function elements.
-
-The main goal of this work is to reduce the physical intuition needed when doing quantum computations, and that is the task of the restricted Boltzmann machines. The idea is to use a flexible basis set based on RBMs, which are implemented as the elements of the Slater matrix, as first seen in section \ref{sec:slater}. Recall that the Slater determinant can be decomposed in a spin-up part and a spin down-part,
+This work aims to reduce the physical intuition needed when performing electron structure calculations. However, as argued before, we do not expect a restricted Boltzmann machine to understand the complex Fermi-Dirac statistics. Therefore, a Slater determinant is implemented in the trial wave function ansatz in order to enforce anti-symmetry. In section \ref{sec:trial}, we decomposed the Slater determinant in a spin-up part and a spin-down part with the assumption that the Hamiltonian is spin-independent. Therefore, we can express the determinant as
 \begin{equation}
 |\hat{S}(\bs{R})|=\frac{1}{\sqrt{N!}}|\hat{S}_{\uparrow}(\bs{R}^{\uparrow})|\cdot |\hat{S}_{\downarrow}(\bs{R}^{\downarrow})|,
 \end{equation}
-with $N$ as the number of electrons and $\bs{R}=\{\bs{r}_1,\bs{r}_2,\cdots,\bs{r}_N\}$ as the collective spatial coordinates. For quantum dot systems, the spin-$\sigma$ determinant can be split in a factor $G(\bs{R})$ and a determinant containing the Hermite polynomials,
+with $N$ as the number of electrons and $\bs{R}=\{\bs{r}_1,\bs{r}_2,\cdots,\bs{r}_N\}$ as the collective spatial coordinates. $\bs{R}^{\sigma}=\{\bs{r}_1^{\sigma},\bs{r}_2^{\sigma},\cdots,\bs{r}_{N_{\sigma}}^{\sigma}\}$ are the spin-$\sigma$ spatial coordinates for $\sigma\in\{\uparrow,\downarrow\}$. For quantum dot systems, the spin-$\sigma$ determinant can be split in a factor $G(\bs{R})$ and a determinant containing the Hermite polynomials,
 \begin{equation}
-|\hat{S}(\bs{R})|\equiv|\hat{S}_{\sigma}(\bs{R})|=G(\bs{R})
+|\hat{S}_{\sigma}(\bs{R})|=G(\bs{R})
 \begin{vmatrix}
 H_1(\boldsymbol{r}_1) & H_2(\boldsymbol{r}_1) & \cdots & H_N(\boldsymbol{r}_1)\\
 H_1(\boldsymbol{r}_2) & H_2(\boldsymbol{r}_2) & \cdots & H_N(\boldsymbol{r}_2)\\
@@ -17,9 +15,9 @@ H_1(\boldsymbol{r}_2) & H_2(\boldsymbol{r}_2) & \cdots & H_N(\boldsymbol{r}_2)\\
 H_1(\boldsymbol{r}_N) & H_2(\boldsymbol{r}_N) & \cdots & H_N(\boldsymbol{r}_N)
 \end{vmatrix},
 \end{equation}
-for $\sigma\in\{\uparrow, \downarrow\}$. For a standard VMC Slater determinant, the factor $G(\bs{R})$ is just the Gaussian function, $G(\bs{R})=\exp(-\frac{1}{2}\alpha\omega\sum_{i=1}^Fx_i^2)$, but as suggested by \citet{carleo_solving_2017}, this can be replaced by the marginal distribution of the visible units of a Gaussian-binary RBM in order to introduce more variational parameters to the trial wave function. This will be our RBM trial wave function ansatz. We then get the determinant
+as seen in section \ref{sec:factorizing}. For the standard single-particle functions for quantum dots, the factor $G(\bs{R})$ is just the Gaussian function, $G(\bs{R})=\exp(-\frac{1}{2}\alpha\omega\sum_{i=1}^Fx_i^2)$, but as suggested by \citet{carleo_solving_2017}, this can be replaced by the marginal distribution of the visible units of a Gaussian-binary restricted Boltzmann machine in order to find a more flexible ansatz. This will be our first machine learning trial wave function ansatz, denoted by the RBM ansatz. We then get the determinant
 \begin{equation}
-|\hat{S}(\bs{R})|=P(\bs{R})
+|\hat{S}_{\sigma}(\bs{R})|=P(\bs{R})
 \underbrace{
 	\begin{vmatrix}
 	H_1(\bs{r}_1) & H_2(\bs{r}_1) & \cdots & H_N(\bs{r}_1) \\
@@ -33,7 +31,7 @@ with
 \begin{equation}
 P(\bs{R})=\frac{1}{Z}\exp(-\sum_{i=1}^F\frac{(x_i-a_i)^2}{2\sigma_i^2})\prod_{j=1}^H\left[1+\exp(b_j+\sum_{i=1}^F\frac{x_iw_{ij}}{2\sigma_i^2})\right]
 \end{equation}
-as the marginal distribution, taken from section \ref{sec:gaussianbinary} where all the symbols are defined. This can be treated as a separate wave function element, as discussed in section \ref{sec:factorizing}, and we can reuse the evaluation of the determinant $|\hat{D}(\bs{R})|$ discussed in section \ref{sec:slaterdeterminant}. If we denote this element by "rbm" and avoid the normalization factor $Z$, the total element is given by
+as the marginal distribution, taken from section \ref{sec:gaussianbinary} where all the symbols are defined. This can be treated as a separate wave function element, as discussed in section \ref{sec:factorizing}, and we can reuse the evaluation of the determinant $|\hat{D}(\bs{R})|$ discussed in section \ref{sec:slaterdeterminant}. If we denote this element by "rbm" and omit the normalization factor $Z$, the total element is given by
 \begin{equation}
 \Psi_{\text{rbm}}(\bs{x};\bs{a},\bs{b},\bs{w})=\exp(-\sum_{i=1}^{F}\frac{(x_i-a_i)^2}{2\sigma_i^2})\prod_{j=1}^H\left[1+\exp(b_j+\sum_{i=1}^{F}\frac{x_iw_{ij}}{\sigma_i^2})\right],
 \label{eq:rbmelement}
@@ -41,11 +39,11 @@ as the marginal distribution, taken from section \ref{sec:gaussianbinary} where 
 which can naturally be split further into a Gaussian part and a product part. This splitting is performed in order to simplify the equations needed when computing the kinetic energy. They will also be implemented as separate wave function elements, as this will reduce the complexity of the derivatives associated with each element. The first part will henceforth be denoted by "RBM-Gaussian", while the last part will be denoted by "RBM-product". 
 
 \section{RBM-Gaussian}
-The RBM-Gaussian is just the first part of equation \eqref{eq:rbmelement} and reads
+The RBM-Gaussian is the first part of equation \eqref{eq:rbmelement} and reads
 \begin{equation}
-\Psi_{\text{rg}}(\bs{x};\bs{a})=\exp(-\sum_{i=1}^{F}\frac{(x_i-a_i)^2}{2\sigma_i^2}),
+\Psi_{\text{rg}}(\bs{x};\bs{a})=\exp(-\sum_{i=1}^{F}\frac{(x_i-a_i)^2}{2\sigma_i^2}).
 \end{equation}
-which is really similar to the simple Gaussian presented in section \ref{sec:simplegaussian}. Also the gradient, Laplacian and the gradient with respect to the variational parameters become similar, and we will for that reason just list them up:
+The element is similar to the Gaussian element presented in section \ref{sec:simplegaussian}, and the derivatives also become similar. For that reason, they will be listed up without further explanation:
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \label{eq:NQSGaussian}
 \begin{aligned}
@@ -57,13 +55,13 @@ which is really similar to the simple Gaussian presented in section \ref{sec:sim
 \end{empheq}
 Further, the frequency of the quantum dots should be inversely proportional to the Gaussian sampling width from the Gaussian-binary RBM, $\sigma_i^2$, such that we can set 
 \begin{equation}
-\omega = \frac{1}{\sigma_i^2} \quad\quad\forall\quad\quad i\in\{1,\cdots,F\},
+\omega = \frac{1}{\sigma_i^2} \quad\quad\forall\quad\quad i\in\{1,\cdots,F\}.
 \end{equation}
-for the RBMs to account for the oscillator frequency. An obvious optimization concerning this element, is that we can introduce a vector $\bs{xa}\equiv\bs{x}-\bs{a}$, which we deal with instead of the position vector $\bs{x}$ and the parameter vector $\bs{a}$. We update the arrays using the virtual function \lstinline|updateArrays|, which looks like
+An obvious optimization concerning this element, is that we can introduce a vector $\bs{xa}\equiv\bs{x}-\bs{a}$, which we deal with instead of the position vector $\bs{x}$ and the parameter vector $\bs{a}$. We update the arrays using the virtual function \lstinline|updateArrays|, given by
 \begin{lstlisting}
 void RBMGaussian::updateArrays(const Eigen::VectorXd positions,
-                               const Eigen::VectorXd radialVector,
-                               const Eigen::MatrixXd distanceMatrix,
+                               const Eigen::VectorXd /*radialVector*/,
+                               const Eigen::MatrixXd /*distanceMatrix*/,
                                const int i)
 {
     m_positions = positions;
@@ -72,14 +70,14 @@ void RBMGaussian::updateArrays(const Eigen::VectorXd positions,
     m_probabilityRatio = exp(sqrdDiff / (2 * m_sigma_iSqrd));
 }
 \end{lstlisting}
-We see that the vector \lstinline|m_Xa|, corresponding to $\bs{xa}$, is declared globally such that it can be used in the gradients in equation \eqref{eq:NQSGaussian}. The updated coordinate is again denoted by \lstinline|i|. 
+We see that the vector \lstinline|m_Xa|, associated with $\bs{xa}$, is declared globally such that it can be used in the gradients in equation \eqref{eq:NQSGaussian}. The updated coordinate is again denoted by \lstinline|i|. 
 
 \section{RBM-product}
 The RBM product is the last part of \eqref{eq:RBMWF2}, and is thus given by
 \begin{equation}
 \Psi_{\text{rp}}(\bs{x};\bs{b},\bs{w})=\prod_{j=1}^H\left[1+\exp(b_j+\sum_{i=1}^{F}\frac{x_iw_{ij}}{\sigma_i^2})\right].
 \end{equation}
-For a general Gaussian-binary RBM product in the form of
+For a general Gaussian-binary restricted Boltzmann machine product in the form of
 \begin{equation}
 \Psi(\bs{x};\bs{\theta})=\prod_{j=1}^H\bigg[1+\exp\Big(f_j(\bs{x};\bs{\theta})\Big)\bigg],
 \end{equation}
@@ -91,11 +89,11 @@ and
 \begin{equation}
 \nabla_k^2\ln\Psi_{\text{rp}}=\sum_{j=1}^Hn_j\big[\nabla_k^2(f_j)+p_j\big(\nabla_k(f_j)\big)^2\big],
 \end{equation}
-respectively, with $p_j$ and $n_j$ as the sigmoid and its counterpart,
+respectively. $p_j$ and $n_j$ are the sigmoid and its counterpart,
 \begin{equation}
 n_j\equiv \frac{1}{1+\exp(-f_j)}\quad\wedge\quad p_j\equiv \frac{1}{1+\exp(+f_j)}.
 \end{equation}
-These expressions can be used to find the kinetic energy directly, as the kinetic energy contribution from this specific element is just the sum over the gradients and Laplacians, $T=\sum_{k=1}^F[\nabla_k^2\ln\Psi_{\text{rp}}+(\nabla_k\ln\Psi_{\text{rp}})^2]$. An arbitrary parameter $\theta_i$ can be updated according to the log-likelihood function which is just the derivative of the log-likelihood function
+These expressions can be used to directly find the kinetic energy contribution from this element, as the contribution is just the sum over the gradients and Laplacians, $T=\sum_{k=1}^F[\nabla_k^2\ln\Psi_{\text{rp}}+(\nabla_k\ln\Psi_{\text{rp}})^2]$. An arbitrary parameter $\theta_i$ can be updated according to the log-likelihood function, which is just the derivative of the log-likelihood function
 \begin{equation}
 \frac{\partial}{\partial \theta_i}\ln \Psi_{\text{rp}}=\sum_{j=1}^Hn_j\frac{\partial}{\partial\theta_i}(f_j),
 \end{equation}
@@ -103,7 +101,7 @@ and the ratio between the new and the old wave function elements can be found by
 \begin{equation}
 \frac{\Psi_{\text{rp}}^{\text{new}}}{\Psi_{\text{rp}}^{\text{old}}}=\prod_{j=1}^H\frac{p_j^{\text{old}}}{p_j^{\text{new}}}.
 \end{equation}
-As a conclusion, what we actually need to calculate to find respective expressions for each wave function element is $\nabla_k(f_j)$, $\nabla_k^2(f_j)$ and $\partial_{\theta_i}(f_j)$ for all variational parameters $\theta_i$, which is naturally simpler than differentiating the entire wave function element. For our particular expression of $f_j=b_j+\bs{w}_j^T\bs{x}/\sigma_i^2$, they can be found to be 
+In conclusion, what we actually need for obtaining the local energy and the parameter update, are closed-form expressions of $\nabla_k(f_j)$, $\nabla_k^2(f_j)$ and $\partial_{\theta_i}(f_j)$ for all variational parameters $\theta_i$. For our particular expression of $f_j=b_j+\sum_{i=1}^Fx_iw_{ij}/\sigma_i^2$, they can be found to be 
 \begin{equation}
 \begin{aligned}
 \nabla_k(f_j)&=\frac{w_{kj}}{\sigma_i^2},\\
@@ -112,7 +110,7 @@ As a conclusion, what we actually need to calculate to find respective expressio
 \partial _{w_{ml}}(f_j)&=\frac{x_m}{\sigma_i^2}\delta_{lj},
 \end{aligned}
 \end{equation}
-where $\delta_{lj}$ is the Kronecker delta. Finally, we obtain the needed equations
+where $\delta_{lj}$ is the Kronecker delta. Finally, we obtain the required equations
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \begin{aligned}
 \frac{|\Psi_{\text{rp}}(\bs{x}_{\text{new}})|^2}{|\Psi_{\text{rp}}(\bs{x}_{\text{old}})|^2}&=\prod_{j=1}^H\frac{p_j(\bs{x}_{\text{old}})^2}{p_j(\bs{x}_{\text{new}})^2},\\
@@ -122,11 +120,11 @@ where $\delta_{lj}$ is the Kronecker delta. Finally, we obtain the needed equati
 \nabla_{w_{ml}}\ln\Psi_{\text{rp}}&=\frac{x_mn_l}{\sigma_i^2}.
 \end{aligned}
 \end{empheq}
-This is the same result as obtained for the gradient of the log-likelihood function presented in chapter \ref{chp:machinelearning}. In this element, there are plenty of optimization possibilities. For the RBM-Gaussian, we saw that the distribution width, $\sigma_i$, was set such that $\omega=1/\sigma_i^2$, but for this product the value of $\sigma_i$ has no impact on the outcome since it is always multiplied with the weights which are adjusted freely. By further revealing that some sums are vector products, we can get a significant speed-up. Firstly, we will define a vector 
+This is the same result as obtained for the gradient of the log-likelihood function presented in chapter \ref{chp:machinelearning}. In this element, there are plenty of optimization possibilities. For the RBM-Gaussian, we saw that the distribution width, $\sigma_i$, was set such that $\omega=1/\sigma_i^2$, but for this product the value of $\sigma_i$ has no impact on the output since it is always multiplied with the weights which are adjusted freely. By further revealing that some sums can be expressed as vector products, we can get a significant speed-up. Firstly, we will define a vector 
 \begin{equation}
 \bs{v}=\bs{b}+\bs{w}^T\bs{x},
 \end{equation}
-which is the transformation for going from the hidden units to the visible units in Gaussian-binary restricted Boltzmann machine, and what we above have called $\bs{f}(\bs{x};\bs{\theta})$. Thereafter, we define the vectors $\bs{n}$ and $\bs{p}$ as described above. These vectors are declared as \lstinline|m_v|, \lstinline|m_n| and \lstinline|m_p| respectively, and are initialized and updated using the function \lstinline|updateVectors| in the following way
+which is the transformation for going from the hidden units to the visible units in Gaussian-binary restricted Boltzmann machine, what we above have called $\bs{f}(\bs{x};\bs{\theta})$. Thereafter, we define the vectors $\bs{n}$ and $\bs{p}$ as described above. These vectors are declared as \lstinline|m_v|, \lstinline|m_n| and \lstinline|m_p| respectively, and are initialized and updated using the function \lstinline|updateVectors| in the following way
 
 \begin{lstlisting}
 void RBMProduct::updateVectors()
@@ -137,23 +135,23 @@ void RBMProduct::updateVectors()
     m_n = e.cwiseProduct(m_p);
 }
 \end{lstlisting}
-One can see that all the operations are vectorized, which makes the operations quite affordable. 
+One can see that all the operations are vectorized, which makes the operations affordable. 
 
 \section{Partly restricted Boltzmann machine}
 For the partly restricted Boltzmann machine given in equation \eqref{eq:PRBMWF}, we observe that the only difference from a standard Boltzmann machine is the factor 
 \begin{equation}
-\Psi_{\text{pr}}=\exp\Big(\sum_{i=1}^{F}\sum_{j=1}^{F}x_ic_{ij}x_j\Big),
+\Psi_{\text{pr}}=\exp(\sum_{i=1}^{F}\sum_{j=1}^{F}x_ic_{ij}x_j),
 \end{equation}
 which we also can threat separately. To run a computation with the partly restricted Boltzmann machine, we thus need to add the elements \lstinline|RBMGaussian|, \lstinline|RBMProduct| and \lstinline|PartlyRestricted| in a similar way as in the example \ref{lst:qd}. When differentiating, we end up with the expressions
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \begin{aligned}
-\frac{|\Psi_{\text{pr}}(\bs{R}_{\text{new}})|^2}{|\Psi_{\text{pr}}(\bs{R}_{\text{old}})|^2}&=\exp\Big(2\sum_{j=1}^{F}c_{ij}x_j(x_i^{\text{new}}-x_i^{\text{old}})\Big),\\
+\frac{|\Psi_{\text{pr}}(\bs{R}_{\text{new}})|^2}{|\Psi_{\text{pr}}(\bs{R}_{\text{old}})|^2}&=\exp(2\sum_{j=1}^{F}c_{ij}x_j\left(x_i^{\text{new}}-x_i^{\text{old}}\right)),\\
 \nabla_k\ln\Psi_{\text{pr}} &=2\sum_{j=1}^{F}c_{kj}x_j,\\
 \nabla_k^2\ln\Psi_{\text{pr}} &= 2c_{kk},\\
 \nabla_{c_{ml}}\ln\Psi_{\text{pr}}&=x_mx_l,
 \end{aligned}
 \end{empheq}
-where $x_i$ is the changed coordinated. Also here can we use vectorization to speed-up the computations, most elegantly shown by the \lstinline|computeParameterGradient|,
+where $x_i$ is the changed coordinated. We can use vectorization to speed-up the computations again, most elegantly shown by the \lstinline|computeParameterGradient|,
 \begin{lstlisting}
 Eigen::VectorXd PartlyRestricted::computeParameterGradient()
 {

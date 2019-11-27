@@ -133,63 +133,49 @@ Above, we looked at how inheritance can be implemented in the high-level languag
 \lstset{basicstyle=\scriptsize}
 \begin{lstlisting}[language=c++, caption={Geometric shapes implemented in object-oriented C++.}, label={lst:cpp}]
 class Shapes {
-	public:
-		Shapes();
-		virtual double getArea() = 0;
-		virtual double getCircumference() = 0;
-		virtual bool contains(double x, double y) = 0;
-		virtual ~Shapes();
-	private:
-		double m_r;
+public:
+	Shapes() {}
+	virtual double getArea() = 0;
+	virtual double getCircumference() = 0;
+	virtual bool getExtent(double x, double y) = 0;
+	virtual ~Shapes() = 0;
 };
 
 class Circle : public Shapes {
-	public:
-		Circle(double r);
-		double getArea() {
-			/* Returns the area of the circle. */
-			return M_PI * m_r * m_r;
-		}
-		double getCircumference() {
-			/* Returns the circumference of the circle. */
-			return 2 * M_PI * m_r;
-		}
-		bool contains(double x, double y) {
-			/* Returns true if the point (x,y) is inside the circle. */
-			if(sqrt(x*x+y*y) < m_r) {
-				return true;
-			}
-			return false;
-		}
+public:
+	Circle(double r) { m_r = r; }
+	double getArea() { return M_PI * m_r * m_r; }
+	double getCircumference() { return 2 * M_PI * m_r; }
+	bool getExtent(double x, double y)
+	{
+	if (sqrt(x * x + y * y) < m_r) {
+		return true;
+	}
+		return false;
+	}
+	~Circle() {}
+private:
+	double m_r = 1;
 };
 
-Circle::Circle(double r) : Shapes() {
-	m_r = r;
-}
-
-class Square: public Shapes {
-	public:
-		Square(double r);
-		double getArea() {
-			/* Returns the area of the square. */
-			return 4 * m_r * m_r;
-		}
-		double getCircumference() {
-			/* Returns the circumference of the square. */
-			return 8 * m_r;
-		}
-		bool contains(double x, double y) {
-			/* Returns true if the point (x,y) is inside the square. */
-			if(fabs(x) < m_r && fabs(y) < m_r) {
-				return true;
-			}
-			return false;
-		}
+class Square : public Shapes {
+public:
+	Square(double r) { m_r = r; }
+	double getArea() { return 4 * m_r * m_r; }
+	double getCircumference() { return 8 * m_r; }
+	bool getExtent(double x, double y)
+	{
+	if (fabs(x) < m_r && fabs(y) < m_r) {
+		return true;
+	}
+		return false;
+	}
+	~Square() {}
+private:
+	double m_r = 1;
 };
 
-Square::Square(double r) : Shapes() {
-	m_r = r;
-}
+Shapes::~Shapes() {}
 \end{lstlisting}
 This looks different from the implementation in Python presented in listing \eqref{lst:python}. We will go thoroughly through the different parts of the code. One of the first thing we observe, is that we here need to \textit{declare} all the variables, meaning that we need to specify the variable type. In the following we will have a look at some standard \textit{data types}.
 
@@ -241,14 +227,14 @@ variable=*address
 We can now call the class above from the \texttt{main} function. We start defining the children \texttt{circ} and \texttt{squr}, and use the \texttt{contains()} function to approximate the area ratio between them. The code looks like 
 \begin{lstlisting}[language=c++]
 int main() {   
-	class Shapes* circ = new Circle(1);
-	class Shapes* squr = new Square(1);
+	class Shapes *circ = new Circle(1.0);
+	class Shapes *squr = new Square(1.0);
 
 	for(int i=1; i<10; i++) {
 		int M = int(pow(10,i));
 		long long A_square = 0;
 		long long A_circle = 0;
-		for(int m=0; i<M; i++) {
+		for(int m=0; m<M; m++) {
 			double x = uniform(gen);
 			double y = uniform(gen);
 			if(circ->contains(x, y)) {

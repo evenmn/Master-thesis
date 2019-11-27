@@ -70,16 +70,16 @@ The quantum dot system is the system we will keep most of the attention on, and 
 	\label{tab:quantumdotswointeraction}
 	\begin{tabularx}{\textwidth}{r|rR{2cm}R{2cm}R{2cm}|R{2cm}R{2cm}R{2cm}} \hline\hline
 		&& \multicolumn{3}{c}{$\omega=0.5$}&\multicolumn{3}{c}{$\omega=1.0$}\\ \hline
-		\makecell{\\ \phantom{=}}& $N$ & \multicolumn{1}{c}{RBM} & \multicolumn{1}{c}{VMC} & \multicolumn{1}{c}{Exact} & \multicolumn{1}{c}{RBM} & \multicolumn{1}{c}{VMC} & \multicolumn{1}{c}{Exact} \\ \hline \\
+		\makecell{\\ \phantom{=}}& $N$ & \multicolumn{1}{c}{RBM} & \multicolumn{1}{c}{VMC} & \multicolumn{1}{c}{Exact} & \multicolumn{1}{c}{RBM} & \multicolumn{1}{c}{VMC} & \multicolumn{1}{c}{Exact} \\ \hline
 		
-		\parbox[t]{2mm}{\multirow{3}{*}{\rotatebox[origin=c]{90}{2D}}}
+		\parbox[t]{2mm}{\multirow{4}{*}{\rotatebox[origin=c]{90}{2D}}} \\
 		&2 & 1.0 & 1.0 & 1 & 2.0 & 2.0 & 2\\
 		%&6 & 5.0 & 5.0 & 5 & 10.0 & 10.0 & 10 \\
 		&12 & 14.0 & 14.0 & 14 & 28.0 & 28.0 & 28\\
 		%&20 & 30.0 & 30.0 & 30 & 60.0 & 60.0 & 60\\
-		&30 & 55.0 & 55.0 & 55 & 110.0 & 110.0 & 110\\ \hline \\
+		&30 & 55.0 & 55.0 & 55 & 110.0 & 110.0 & 110\\ \hline
 		
-		\parbox[t]{2mm}{\multirow{3}{*}{\rotatebox[origin=c]{90}{3D}}}
+		\parbox[t]{2mm}{\multirow{4}{*}{\rotatebox[origin=c]{90}{3D}}} \\
 		&2 & 1.5 & 1.5 & 1.5 & 3.0 & 3.0 & 3 \\
 		%&8 & 9.0 & 9.0 & 9 & 18.0 & 18.0 & 18 \\
 		&20 & 30.0 & 30.0 & 30 & 60.0 & 60.0 & 60 \\
@@ -160,36 +160,36 @@ Initially, we look at two-dimensional quantum dots with up to $N=56$ electrons a
 	\begin{landscape}
 		\begin{table}
 			\captionsetup{width=0.9\hsize}
-			\caption{The ground state energy of two-dimensional quantum dots with $N$ electrons and frequency $\omega$. The HF results are taken from \citet{mariadason_quantum_2018}, the DMC results are taken from \citet{hogberget_quantum_2013} and semi-analytical results (Exact) are taken from \citet{taut_two_1994}. The energy is given in units of $\hbar$ (natural units), and the numbers in parenthesis are the statistical uncertainties in the last digit. Empty spots imply that the result is not available. For abbreviations see the text.}
+			\caption{The ground state energy of two-dimensional quantum dots with $N$ electrons and frequency $\omega$. The HF results are taken from \citet{mariadason_quantum_2018}, the DMC results are taken from \citet{hogberget_quantum_2013} and semi-analytical results (Exact) are taken from \citet{taut_two_1994}. The energy is given in units of $\hbar$ (natural units), and the numbers in parenthesis are the statistical uncertainties in the last digit. Empty cells in the table imply that the result is not available. For abbreviations see the text. $*$ For $N=2$ and $\omega=1/6$, the HF result was generated using the code developed by \citet{mariadason_hartreefock_2018}.}
 			\begin{tabularx}{\hsize}{llR{2.65cm}R{2.65cm}R{2.65cm}R{2.65cm}R{2.65cm}R{2.65cm}R{2.65cm}} \hline\hline
 				\label{tab:quantumdotswinteraction2D1}
 				\makecell{\\ $N$ \\ \phantom{=}} & $\omega$ & \multicolumn{1}{c}{RBM} & \multicolumn{1}{c}{RBM+SJ} & \multicolumn{1}{c}{RBM+PJ} & \multicolumn{1}{c}{\makecell{HF \\ (Ref.\cite{mariadason_quantum_2018})}} & \multicolumn{1}{c}{VMC} & \multicolumn{1}{c}{\makecell{DMC \\ (Ref.\cite{hogberget_quantum_2013})}} & \multicolumn{1}{c}{\makecell{Exact \\ (Ref.\cite{taut_two_1994})}} \\ \hline \\
-				2 & 0.1 & 0.4728(1) & 0.44856(1) & 0.440975(8) & 0.525635 & 0.44129(1) & 0.44079(1) \\ 
-				& 1/6 & 0.7036(1) & 0.67684(7) & 0.66715(6) & 0.768675 & 0.66710(1) & & 2/3 \\
-				& 0.28 & 1.07050(4) & 1.03470(7) & 1.021668(7) & 1.14171 & 1.02192(1) & 1.02164(1) \\
-				& 0.5 & 1.72293(7) & 1.67739(9) & 1.659637(6) & 1.79974 & 1.65974(1) & 1.65977(1)  \\
-				& 1.0 & 3.0803(2) & 3.02108(5) & 2.999587(5) & 3.16190 & 2.99936(1) & 3.00000(1) & 3.0 \\ 
+				2 & 0.1 & 0.4728(1) & 0.44856(1) & 0.440975(8) & 0.525635\phantom{$^*$} & 0.44129(1) & 0.44079(1) \\ 
+				& 1/6 & 0.7036(1) & 0.67684(7) & 0.66715(6) & 0.768675$^*$ & 0.66710(1) & & 2/3 \\
+				& 0.28 & 1.07050(4) & 1.03470(7) & 1.021668(7) & 1.14171\phantom{$^*$} & 1.02192(1) & 1.02164(1) \\
+				& 0.5 & 1.72293(7) & 1.67739(9) & 1.659637(6) & 1.79974\phantom{$^*$} & 1.65974(1) & 1.65977(1)  \\
+				& 1.0 & 3.0803(2) & 3.02108(5) & 2.999587(5) & 3.16190\phantom{$^*$} & 2.99936(1) & 3.00000(1) & 3.0 \\ 
 				\hline \\
 				
-				6 & 0.1 & 3.697(1) & 3.63825(9) & 3.5700(2) & 3.85238 & 3.5695(1) & 3.55385(5) \\ 
-				& 0.28 & 7.9273(9) & 7.7313(2) & 7.6203(2) & 8.01957 & 7.6219(1) & 7.60019(6) \\
-				& 0.5 & 12.241(1) & 11.9659(5) & 11.8074(2) & 12.2713 & 11.8104(2) & 11.78484(6) \\
-				& 1.0 & 20.716(1) & 20.3393(8) & 20.1832(2) & 20.7192 & 20.1918(2) & 20.15932(8) \\ \hline \\
+				6 & 0.1 & 3.697(1) & 3.63825(9) & 3.5700(2) & 3.85238\phantom{$^*$} & 3.5695(1) & 3.55385(5) \\ 
+				& 0.28 & 7.9273(9) & 7.7313(2) & 7.6203(2) & 8.01957\phantom{$^*$} & 7.6219(1) & 7.60019(6) \\
+				& 0.5 & 12.241(1) & 11.9659(5) & 11.8074(2) & 12.2713\phantom{$^*$} & 11.8104(2) & 11.78484(6) \\
+				& 1.0 & 20.716(1) & 20.3393(8) & 20.1832(2) & 20.7192\phantom{$^*$} & 20.1918(2) & 20.15932(8) \\ \hline \\
 				
-				12 & 0.1 & 12.679(1) & 12.5964(7) & 12.3416(4) & 12.9247 & 12.29962(9) & 12.26984(8) \\ 
-				& 0.28 & 26.389(2) & 26.051(1) & 25.7331(5) & 26.5500 & 25.7049(4) & 25.63577(9) \\
-				& 0.5 & 40.440(3) & 39.6340(7) & 39.2743(6) & 40.2161 & 39.2421(5) & 39.1596(1) \\
-				& 1.0 & 67.632(3) & 66.1898(8) & 65.7911(7) & 66.9113 & 65.7026(4) & 65.7001(1) \\ \hline
+				12 & 0.1 & 12.679(1) & 12.5964(7) & 12.3416(4) & 12.9247\phantom{$^*$} & 12.29962(9) & 12.26984(8) \\ 
+				& 0.28 & 26.389(2) & 26.051(1) & 25.7331(5) & 26.5500\phantom{$^*$} & 25.7049(4) & 25.63577(9) \\
+				& 0.5 & 40.440(3) & 39.6340(7) & 39.2743(6) & 40.2161\phantom{$^*$} & 39.2421(5) & 39.1596(1) \\
+				& 1.0 & 67.632(3) & 66.1898(8) & 65.7911(7) & 66.9113\phantom{$^*$} & 65.7026(4) & 65.7001(1) \\ \hline
 			\end{tabularx}
 		\end{table}
 		
 		\begin{table}
 			\label{tab:quantumdotswinteraction2D2}
 			\begin{tabularx}{\hsize}{llR{2.65cm}R{2.65cm}R{2.65cm}R{2.65cm}R{2.65cm}R{2.65cm}R{2.65cm}} \\
-				20 & 0.1 & 30.824(2) & 30.567(3) & 30.1553(9) & 31.1902 & 30.0403(2) & 29.9779(1) \\ 
-				& 0.28 & 63.788(4) & 62.786(3) & 62.148(1) & 63.5390 & 62.0755(7) & 61.9268(1) \\
-				& 0.5 & 96.410(1) & 94.920(4) & 94.104(1) & 95.7328 & 94.0433(9) & 93.8752(1) \\
-				& 1.0 & 159.428(3) & 156.816(4) & 156.104(1) & 158.004 & 155.8900(4) & 155.8822(1) & \phantom{=} \\ 
+				20 & 0.1 & 30.824(2) & 30.567(3) & 30.1553(9) & 31.1902\phantom{$^*$} & 30.0403(2) & 29.9779(1) \\ 
+				& 0.28 & 63.788(4) & 62.786(3) & 62.148(1) & 63.5390\phantom{$^*$} & 62.0755(7) & 61.9268(1) \\
+				& 0.5 & 96.410(1) & 94.920(4) & 94.104(1) & 95.7328\phantom{$^*$} & 94.0433(9) & 93.8752(1) \\
+				& 1.0 & 159.428(3) & 156.816(4) & 156.104(1) & 158.004\phantom{$^*$} & 155.8900(4) & 155.8822(1) & \phantom{=} \\ 
 				\hline \\
 				
 				30 & 0.1 & 61.829(5) & 61.198(2) & 60.774(2) & & 60.585(1) & 60.4205(2) \\ 
@@ -211,7 +211,7 @@ Initially, we look at two-dimensional quantum dots with up to $N=56$ electrons a
 		
 		\begin{table}
 			\captionsetup{width=0.9\hsize}
-			\caption{The ground state energy of three-dimensional quantum dots with $N$ electrons and frequency $\omega$.  The HF results are taken from \citet{mariadason_quantum_2018}, the DMC results are taken from \citet{hogberget_quantum_2013} and semi-analytical results (Exact) are taken from \citet{taut_two_1993}. The energy is given in units of $\hbar$ (natural units), and the numbers in parenthesis are the statistical uncertainties in the last digit. Empty spots imply that the result is not available. For abbreviations see the text.} 
+			\caption{The ground state energy of three-dimensional quantum dots with $N$ electrons and frequency $\omega$.  The HF results are taken from \citet{mariadason_quantum_2018}, the DMC results are taken from \citet{hogberget_quantum_2013} and semi-analytical results (Exact) are taken from \citet{taut_two_1993}. The energy is given in units of $\hbar$ (natural units), and the numbers in parenthesis are the statistical uncertainties in the last digit. Empty cells in the table imply that the result is not available. For abbreviations see the text.} 
 			\begin{tabularx}{\hsize}{llR{2.65cm}R{2.65cm}R{2.65cm}R{2.65cm}R{2.65cm}R{2.65cm}R{2.65cm}} \hline\hline
 				\label{tab:quantumdotswinteraction3D1}
 				\makecell{\\ $N$ \\ \phantom{=}} & $\omega$ & \multicolumn{1}{c}{RBM} & \multicolumn{1}{c}{RBM+SJ} & \multicolumn{1}{c}{RBM+PJ} & \multicolumn{1}{c}{\makecell{HF \\ (Ref.\cite{mariadason_quantum_2018})}} & \multicolumn{1}{c}{VMC} & \multicolumn{1}{c}{\makecell{DMC \\ (Ref.\cite{hogberget_quantum_2013})}} & \multicolumn{1}{c}{\makecell{Exact \\ (Ref.\cite{taut_two_1993})}} \\ \hline \\
@@ -242,7 +242,7 @@ Initially, we look at two-dimensional quantum dots with up to $N=56$ electrons a
 }
 
 \subsection{Ground state energy} \label{sec:groundstateenergy}
-The ground state energy is a natural starting point as the simulations are based on energy minimization. Moreover, the energy can easily be compared to benchmarks. By exploiting the symmetry of quantum dots with $n=2$ electrons, \citeauthor{taut_two_1993} was able to obtain semi-analytical energies for quantum dots of certain frequencies $\omega$. For two-dimensional dots, he found the energy to be $E=3$ for the frequency $\omega=1$ and $E=2/3$ with $\omega=1/6$ as the frequency \supercite{taut_two_1993}. Additionally, his studies of three-dimensional dots revealed the energy $E=2$ for the frequency $\omega=1/2$ and $E=1/2$ with $\omega=1/10$ as the frequency \supercite{taut_two_1994}. For other references we need to rely on earlier research, usually other simulations. Since diffusion Monte Carlo (DMC) simulations are known to give very accurate results, we will mainly compare our results to the DMC computations by \citet{hogberget_quantum_2013}. These results exist for quantum dots with up to $N=56$ electrons in two dimensions and with up to $N=20$ electrons in three dimensions. Another important reference is the Hartree-Fock (HF) limit, as the HF method approximates the electron-electron correlations by a mean-field. This is a particular interesting reference for simulations with the RBM ansatz, as both the methods approximate the many-body wave function with a single Slater determinant only. Practically, RBM should give a lower energy than the HF limit as the latter is known to be computationally cheap. We use the HF computations from \citet{mariadason_quantum_2018} for two-dimensional quantum dots with up to $N=20$ electrons and three-dimensional quantum dots with up to $N=8$ electrons. For the two-dimensional quantum dot with $N=2$ and frequency $\omega=1/6$, we obtained the HF energy using the code developed by \citeauthor{mariadason_quantum_2018}\supercite{mariadason_hartreefock_2018}.
+The ground state energy is a natural starting point as the simulations are based on energy minimization. Moreover, the energy can easily be compared to benchmarks. By exploiting the symmetry of quantum dots with $n=2$ electrons, \citeauthor{taut_two_1993} was able to obtain semi-analytical energies for quantum dots of certain frequencies $\omega$. For two-dimensional dots, he found the energy to be $E=3$ for the frequency $\omega=1$ and $E=2/3$ with $\omega=1/6$ as the frequency \supercite{taut_two_1993}. Additionally, his studies of three-dimensional dots revealed the energy $E=2$ for the frequency $\omega=1/2$ and $E=1/2$ with $\omega=1/10$ as the frequency \supercite{taut_two_1994}. For other references we need to rely on earlier research, usually other simulations. Since diffusion Monte Carlo (DMC) simulations are known to give very accurate results, we will mainly compare our results to the DMC computations by \citet{hogberget_quantum_2013}. These results exist for quantum dots with up to $N=56$ electrons in two dimensions and with up to $N=20$ electrons in three dimensions. Another important reference is the Hartree-Fock (HF) limit, as the HF method approximates the electron-electron correlations by a mean-field. This is a particular interesting reference for simulations with the RBM ansatz, as both the methods approximate the many-body wave function with a single Slater determinant only. Practically, RBM should give a lower energy than the HF limit as the latter is known to be computationally cheap. We use the HF computations from \citet{mariadason_quantum_2018} for two-dimensional quantum dots with up to $N=20$ electrons and three-dimensional quantum dots with up to $N=8$ electrons. For the two-dimensional quantum dot with $N=2$ and frequency $\omega=1/6$, we obtained the HF energy using the code developed by \citet{mariadason_hartreefock_2018}.
 
 Ground state energy computations of two- and three dimensional quantum dots are found in tables \eqref{tab:quantumdotswinteraction2D1} and \eqref{tab:quantumdotswinteraction3D1}, respectively. They are computed using the RBM, RBM+SJ, RBM+PJ and VMC ans채tze, and the HF limit and DMC are present for reference purposes. The analytical values are found in the last column. We observe that the ansatz that requires least physical intuition is used, RBM, is the one that gives the highest energies among the ans채tze. This is expected as no Jastrow factor is added to account for the correlations. 
 
@@ -372,7 +372,7 @@ In figure \eqref{fig:TB_interaction_2P}, we plot the two-body density for a two-
 		\subfloat[RBM+PJ]{{\includegraphics[width=5.7cm]{../plots/int1/twobody/2D/2P/1.000000w/RBMPJ_ADAM_MC1048576_zoomed.png}}}
 		\subfloat[VMC]{{\includegraphics[width=5.7cm]{../plots/int1/twobody/2D/2P/1.000000w/VMC_ADAM_MC1048576_zoomed.png}}}
 		
-		\caption{Plots of the radial two-body density profiles, $\rho(r_i, r_j)$, for two-dimensional quantum dots with $N=2$ electrons and oscillator frequencies $\omega=0.1$, 0.5 and 1.0 seen from the top. The methods RBM, RBM+SJ, RBM+PJ and VMC (from the left) were used, with the ADAM optimizer and $M=2^{28}=268,435,456$ Monte Carlo cycles after convergence. For  abbreviations and description of the natural units used, see the text.}%
+		\caption{Plots of the radial two-body density profiles, $\rho(r_i, r_j)$, for two-dimensional quantum dots with $N=2$ electrons and oscillator frequencies $\omega=0.1$, 0.5 and 1.0 seen from the top. The RBM, RBM+SJ, RBM+PJ and VMC ans채tze (from the left) were used, with the ADAM optimizer and $M=2^{28}=268,435,456$ Monte Carlo cycles after convergence. For  abbreviations and description of the natural units used, see the text.}%
 		\label{fig:TB_interaction_2P}
 	\end{figure}
 \end{landscape}
@@ -392,7 +392,7 @@ In figure \eqref{fig:TB_interaction_2P}, we plot the two-body density for a two-
 	\subfloat[RBM]{\includegraphics[width=7cm]{../plots/int1/twobody/2D/42P/0.500000w/RBM_ADAM_MC1048576.png}}
 	\subfloat[VMC]{{\includegraphics[width=7cm]{../plots/int1/twobody/2D/42P/0.500000w/VMC_ADAM_MC1048576.png}}}
 	
-	\caption{Plots of the two-body density profiles, $\rho(r_i, r_j)$, for two-dimensional quantum dots with an even number of closed shells ($N=6$, 20 and 42 electrons from the top) and oscillator frequency $\omega=0.5$. The methods RBM (left column) and VMC (right column) were used, with the ADAM optimizer and $M=2^{28}=268,435,456$ Monte Carlo cycles after convergence. For  abbreviations and description of the natural units used, see the text.}%
+	\caption{Plots of the two-body density profiles, $\rho(r_i, r_j)$, for two-dimensional quantum dots with an even number of closed shells ($N=6$, 20 and 42 electrons from the top) and oscillator frequency $\omega=0.5$. The RBM (left column) and VMC (right column) ans채tze were used, with the ADAM optimizer and $M=2^{28}=268,435,456$ Monte Carlo cycles after convergence. For  abbreviations and description of the natural units used, see the text.}%
 	\label{fig:TB_interaction_20P}
 \end{figure}
 
@@ -452,7 +452,7 @@ If we further recall the virial theorem presented in section \ref{sec:virial}, i
 \end{empheq}
 This can be seen from table \eqref{tab:splitfrequencyQD20P}, where we present the energy distribution for $N=12$ and selected frequencies. Especially for low frequency dots, the kinetic energy is dominated by the interaction energy. When the frequency is increased, the interacting energy contributes less. The kinetic and total potential energy then approach the same energy. This can also be seen from figure \eqref{fig:energydistribution}, as the graphs flatten out as the frequency increases. Based on this, we believe that $\langle\hat{T}\rangle\simeq\langle\hat{V}_{\text{ext}}\rangle$ when $\omega\rightarrow\infty$.
 
-Furthermore, the modified virial theorem, $\langle\hat{T}\rangle=\langle\hat{V}_{\text{ext}}\rangle$, is only valid in the exact wave function basis of the system. This is a consequence of the exponential rate of the operators. For quantum dots, the kinetic energy operator goes as $\hat{T}\propto r^{-2}$, while the potential energy operator goes as $\hat{V}_{\text{ext}}\propto r^2$. This means that the kinetic energy is deeply sensitive about the ends of the wave function and the potential energy is sensitive about the center. The result is that both the ends and the center of the wave function need to be correct in order to verify the virial theorem. Physically, this means that an energy close to the ground state energy can be obtained even when the contribution from the various energy sources is wrong. For that reason, a low energy does not guarantee the correct wave function. It is difficult to know which distribution is the correct one, but for high frequencies the virial theorem provides an indication.
+We will also stress that the viral theorem is only valid in the exact wave function basis of a system. For the non-interacting quantum dots, $\langle\hat{T}\rangle=\langle\hat{V}_{\text{ext}}\rangle$ only holds when the expectation values are obtained using the Hermite functions as the wave function. This is a consequence of the exponential rate of the operators.
 
 \iffalse
 If we assume that the interaction potential goes as $V_{\text{int}}\propto r^{-1}$, we can write the virial theorem as
@@ -482,7 +482,7 @@ Another interesting aspect is how the energy is distributed for the various ans�
 	\subfloat[$N=6$]{{\includegraphics[width=5.1cm]{../plots/int1/onebody2/2D/6P/0.100000w/VMC_ADAM_MC1048576.png}}}\hspace{-0.cm}
 	\subfloat[$N=12$]{{\includegraphics[width=5.1cm]{../plots/int1/onebody2/2D/12P/0.100000w/VMC_ADAM_MC1048576.png}}}
 	
-	\caption{Plots of the one-body density profile, $\rho(x, y)$, of two-dimensional quantum dots with frequency $\omega=0.1$ and $N=2$, 6 and 12 electrons seen from left to right. The methods used are RBM (upper plots) and VMC (lower plots). The surface plot and the contour plot on the $xy$-plane illustrate the density, and the graph on the $yz$-plane represents the cross-section through $x=0$. The surface plots are noise-reduced using a Savitzky-Golay filter. For abbreviations and description of the natural units used, see the text.}
+	\caption{Plots of the one-body density profile, $\rho(x, y)$, of two-dimensional quantum dots with frequency $\omega=0.1$ and $N=2$, 6 and 12 electrons seen from left to right. The ans채tze used are RBM (upper plots) and VMC (lower plots). The surface plot and the contour plot on the $xy$-plane illustrate the density, and the graph on the $yz$-plane represents the cross-section through $x=0$. The surface plots are noise-reduced using a Savitzky-Golay filter. For abbreviations and description of the natural units used, see the text.}
 	\label{fig:lowfreqRBM}
 \end{figure}
 
@@ -505,7 +505,7 @@ We start by looking at quantum dots with frequency $\omega=0.1$, and in figure \
 	\subfloat[$\omega=0.1$]{{\includegraphics[width=5.1cm]{../plots/int1/onebody2/2D/2P/0.100000w/VMC_ADAM_MC1048576.png}}}\hspace{-0.cm}
 	\subfloat[$\omega=0.01$]{{\includegraphics[width=5.1cm]{../plots/int1/onebody2/2D/2P/0.010000w/VMC_ADAM_MC2pow28_smooth_blue_small.png}}}
 	
-	\caption{Plots of the one-body density profile, $\rho(x, y)$, of two-dimensional quantum dots with $N=2$ electrons and frequencies $\omega=0.28$, 0.1 and 0.01 from left to right. The methods used are RBM+PJ (upper plots) and VMC (lower plots). The surface plot and the contour plot on the $xy$-plane illustrate the density, and the graph on the $yz$-plane represents the cross-section through $x=0$. The surface plots are noise-reduced using a Savitzky-Golay filter. For  abbreviations and description of the natural units used, see the text.}
+	\caption{Plots of the one-body density profile, $\rho(x, y)$, of two-dimensional quantum dots with $N=2$ electrons and frequencies $\omega=0.28$, 0.1 and 0.01 from left to right. The ans채tze used are RBM+PJ (upper plots) and VMC (lower plots). The surface plot and the contour plot on the $xy$-plane illustrate the density, and the graph on the $yz$-plane represents the cross-section through $x=0$. The surface plots are noise-reduced using a Savitzky-Golay filter. For  abbreviations and description of the natural units used, see the text.}
 	\label{fig:lowfreq2P}
 \end{figure}
 
@@ -524,7 +524,7 @@ Furthermore, in figure \eqref{fig:lowfreq2P} we fix the number of electrons to b
 	\subfloat[$\omega=0.1$]{{\includegraphics[width=5.1cm]{../plots/int1/onebody2/2D/6P/0.100000w/VMC_ADAM_MC1048576.png}}}\hspace{-0.cm}
 	\subfloat[$\omega=0.01$]{{\includegraphics[width=5.1cm]{../plots/int1/onebody2/2D/6P/0.010000w/VMC_ADAM_MC2pow28_smooth}}}
 	
-	\caption{Plots of the one-body density profile, $\rho(x, y)$, of two-dimensional quantum dots with $N=6$ electrons and frequencies $\omega=0.28$, 0.1 and 0.01 seen from left to right. The methods used are RBM+PJ (upper plots) and VMC (lower plots). The surface plot and the contour plot on the $xy$-plane illustrate the density, and the graph on the $yz$-plane represents the cross-section through $x=0$. The surface plots are noise-reduced using a Savitzky-Golay filter. For  abbreviations and description of the natural units used, see the text.}
+	\caption{Plots of the one-body density profile, $\rho(x, y)$, of two-dimensional quantum dots with $N=6$ electrons and frequencies $\omega=0.28$, 0.1 and 0.01 seen from left to right. The ans채tze used are RBM+PJ (upper plots) and VMC (lower plots). The surface plot and the contour plot on the $xy$-plane illustrate the density, and the graph on the $yz$-plane represents the cross-section through $x=0$. The surface plots are noise-reduced using a Savitzky-Golay filter. For  abbreviations and description of the natural units used, see the text.}
 	\label{fig:lowfreq6P}
 \end{figure}
 

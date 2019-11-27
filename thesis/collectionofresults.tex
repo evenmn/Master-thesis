@@ -1,14 +1,12 @@
 \chapter{Collection of Results} \label{chp:totalresults}
 In this appendix, we present a more or less complete collection of the quantum dot results obtained through our work, including ground state energy and one-body and two-body density profiles. It is meant as a complementary part to substitute the selected results in chapter \ref{chp:results}, where the (arguably) most important results are presented and discussed. For that reason, the discussion above covers most of the results also in this appendix, and they will not be discussed further. The raw files, containing energies and standard errors directly from the Abel computer cluster, can be found in Ref. \cite{nordhagen_even_marius_2019_3477946}. A complete collection of the plots in this appendix can be found at \url{https://github.com/evenmn/Master-thesis/plots/}. 
 
-We look at four different trial wave function ansätze, included three versions based on the restricted Boltzmann machine. A Slater determinant with the Boltzmann machines as the single-particle functions will be denoted by the RBM ansatz. When adding a simple Jastrow factor to the RBM ansatz, we obtain the RBM+SJ ansatz. We can also add the more complicated Padé-Jastrow factor to the RBM ansatz, obtaining the RBM+PJ ansatz. We have also implemented the \textit{de facto} standard trial wave function ansatz used in electronic structure calculation, the Slater-Jastrow ansatz. This will simply be denoted by the VMC ansatz. 
-
-We will stick to natural units as discussed in appendix \ref{app:units}. A brief recap is that for quantum dots, the energy is given in units of Planck's reduced constant, $E'=E/\hbar$, length is scaled as $x'=x/\sqrt{\hbar/m}$ where $m$ is the mass of a particle, which implies that the $d$-dimensional density, $\rho_d(\bs{r})$, is given in units of $(\hbar/m)^{-d/2}$.
+We look at four different trial wave function ansätze, included three versions based on the restricted Boltzmann machine. A Slater determinant with the Boltzmann machines as the single-particle functions will be denoted by the RBM ansatz. When adding a simple Jastrow factor to the RBM ansatz, we obtain the RBM+SJ ansatz. We can also add the more complicated Padé-Jastrow factor to the RBM ansatz, obtaining the RBM+PJ ansatz. We have also implemented the \textit{de facto} standard trial wave function ansatz used in electronic structure calculation, the Slater-Jastrow ansatz. This will simply be denoted by the VMC ansatz. We will stick to natural units as discussed in appendix \ref{app:units}. A brief recap is that for quantum dots, the energy is given in units of Planck's reduced constant, $E'=E/\hbar$, length is scaled as $x'=x/\sqrt{\hbar/m}$ where $m$ is the mass of a particle, which implies that the $d$-dimensional density, $\rho_d(\bs{r})$, is given in units of $(\hbar/m)^{-d/2}$.
 
 First, the computational time for two- and three-dimensional quantum dots will be listed, which is just the information plotted in figure \eqref{fig:cpu_time}. After that, we list the ground state energies obtained for two- and three-dimensional quantum dots with up to $N=20$ electrons. This includes the distribution between kinetic energy, harmonic oscillator energy and electron-electron interaction energy. Lastly, we present a complete set of plots of the radial and spatial one-body density and the radial two-body density. 
 
 \section{CPU time} \label{sec:cputime}
-The CPU-time per iteration was calculated for all the quantum dot systems we have been looking at, i.e. two-dimensional dots containing up to $N=90$ electrons and three-dimensional quantum dots containing up to $N=70$ electrons. We assume that the CPU-time per iteration is independent of the frequency, such that the times are obtained using a variety of different oscillator frequencies. To make precise estimations of the CPU-time per iteration, all simulations were run with $M=2^{20}=1,048,576$ cycles per iteration on the computer cluster Abel. As not the entire code can be parallelized, and as the processes need to communicate, the parallelism is not 100\% efficient and we also need the same number of cores for all the simulations in order to get comparable times. We decided to use 8 nodes á 16 cores, giving 128 parallel processes in total. In order to obtain precise estimates, we performed at least four independent runs for each system, where the average time over thousands of iterations was calculated automatically by the program. The results can be found in the tables \eqref{tab:cputime2D} and \eqref{tab:cputime3D} for two- and three dimensional quantum dots, respectively. As we only consider closed-shell dots, the $N$ in the tables do only include the magic numbers.
+The CPU-time per iteration was calculated for all the quantum dot systems we have been looking at, i.e. two-dimensional dots containing up to $N=90$ electrons and three-dimensional quantum dots containing up to $N=70$ electrons. We assume that the CPU-time per iteration is independent of the frequency, such that the times are obtained using a variety of different oscillator frequencies. To make precise estimations of the CPU-time per iteration, all simulations were run with $M=2^{20}=1,048,576$ cycles per iteration on the computer cluster Abel. As not the entire code can be parallelized, and as the processes need to communicate, the parallelism is not 100\% efficient and we also need the same number of cores for all the simulations in order to get comparable times. We decided to use 8 nodes á 16 cores, giving 128 parallel processes in total. In order to obtain precise estimates, we performed at least four independent runs for each system, where the average time over thousands of iterations was calculated automatically by the program. The results can be found in the tables \eqref{tab:cputime2D} and \eqref{tab:cputime3D} for two- and three-dimensional quantum dots, respectively. As we only consider closed-shell dots, the $N$ in the tables do only include the magic numbers.
 
 \begin{table}[H]
 	\caption{The CPU time (in seconds) per iteration when simulating two-dimensional quantum dots with $N=2$, 6, 12, 20, 30, 42, 56, 72 and 90 electrons. The time was clocked for $M=2^{20}=1,048,576$ Monte Carlo cycles, and to get accurate times we took the average over at least four independent runs with thousands of iterations. For more information, see the text.}
@@ -41,7 +39,7 @@ We have created respective tables for each of our four ansätze, which were desc
 
 \subsection{Two dimensions}
 \begin{table}[H]
-	\caption{The ground state energy, $E$, of two-dimensional quantum dots with $N$ electrons and frequency $\omega$ obtained by RBM. In the following columns, the distribution between kinetic, $\langle\hat{T}\rangle$, external potential, $\langle\hat{V}_{\text{ext}}\rangle$, and interaction, $\langle\hat{V}_{\text{int}}\rangle$, energy are presented. The energy is given in units of $\hbar$ (natural units), and the numbers in parenthesis are the statistical uncertainties in the last digit. For abbreviations see the text.}
+	\caption{The ground state energy, $E$, of two-dimensional quantum dots with $N$ electrons and frequency $\omega$ obtained by the RBM ansatz. In the following columns, the distribution between kinetic, $\langle\hat{T}\rangle$, external potential, $\langle\hat{V}_{\text{ext}}\rangle$, and interaction, $\langle\hat{V}_{\text{int}}\rangle$, energy are presented. The energy is given in units of $\hbar$ (natural units), and the numbers in parenthesis are the statistical uncertainties in the last digit. For abbreviations see the text.}
 	\label{tab:splitfrequencyQDRBM}
 	\begin{tabularx}{\textwidth}{R{1cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{1cm}} \hline\hline
 		\makecell{\\ \phantom{$N$}} & $N$ & $\omega$ && \multicolumn{1}{c}{$E$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} & \\ \hline \\
@@ -92,7 +90,7 @@ We have created respective tables for each of our four ansätze, which were desc
 \end{table} 
 
 \begin{table}[H]
-	\caption{The ground state energy, $E$, of two-dimensional quantum dots with $N$ electrons and frequency $\omega$ obtained by RBM+SJ. In the following columns, the distribution between kinetic, $\langle\hat{T}\rangle$, external potential, $\langle\hat{V}_{\text{ext}}\rangle$, and interaction, $\langle\hat{V}_{\text{int}}\rangle$, energy are presented. The energy is given in units of $\hbar$ (natural units), and the numbers in parenthesis are the statistical uncertainties in the last digit. For abbreviations see the text.}
+	\caption{The ground state energy, $E$, of two-dimensional quantum dots with $N$ electrons and frequency $\omega$ obtained by the RBM+SJ ansatz. In the following columns, the distribution between kinetic, $\langle\hat{T}\rangle$, external potential, $\langle\hat{V}_{\text{ext}}\rangle$, and interaction, $\langle\hat{V}_{\text{int}}\rangle$, energy are presented. The energy is given in units of $\hbar$ (natural units), and the numbers in parenthesis are the statistical uncertainties in the last digit. For abbreviations see the text.}
 	\label{tab:splitfrequencyQDRBMSJ}
 	\begin{tabularx}{\textwidth}{R{1cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{1cm}} \hline\hline
 		\makecell{\\ \phantom{$N$}} & $N$ & $\omega$ && \multicolumn{1}{c}{$E$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} & \\ \hline \\
@@ -143,7 +141,7 @@ We have created respective tables for each of our four ansätze, which were desc
 \end{table}
 
 \begin{table}[H]
-	\caption{The ground state energy, $E$, of two-dimensional quantum dots with $N$ electrons and frequency $\omega$ obtained by RBM+PJ. In the following columns, the distribution between kinetic, $\langle\hat{T}\rangle$, external potential, $\langle\hat{V}_{\text{ext}}\rangle$, and interaction, $\langle\hat{V}_{\text{int}}\rangle$, energy are presented. The energy is given in units of $\hbar$ (natural units), and the numbers in parenthesis are the statistical uncertainties in the last digit. For abbreviations see the text.}
+	\caption{The ground state energy, $E$, of two-dimensional quantum dots with $N$ electrons and frequency $\omega$ obtained by the RBM+PJ ansatz. In the following columns, the distribution between kinetic, $\langle\hat{T}\rangle$, external potential, $\langle\hat{V}_{\text{ext}}\rangle$, and interaction, $\langle\hat{V}_{\text{int}}\rangle$, energy are presented. The energy is given in units of $\hbar$ (natural units), and the numbers in parenthesis are the statistical uncertainties in the last digit. For abbreviations see the text.}
 	\label{tab:splitfrequencyQDRBMPJ}
 	\begin{tabularx}{\textwidth}{R{1cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{1cm}} \hline\hline
 		\makecell{\\ \phantom{$N$}} & $N$ & $\omega$ && \multicolumn{1}{c}{$E$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} & \\ \hline \\
@@ -193,7 +191,7 @@ We have created respective tables for each of our four ansätze, which were desc
 	\end{tabularx}
 \end{table} 
 \begin{table}[H]
-	\caption{The ground state energy, $E$, of two-dimensional quantum dots with $N$ electrons and frequency $\omega$ obtained by VMC. In the following columns, the distribution between kinetic, $\langle\hat{T}\rangle$, external potential, $\langle\hat{V}_{\text{ext}}\rangle$, and interaction, $\langle\hat{V}_{\text{int}}\rangle$, energy are presented. The energy is given in units of $\hbar$ (natural units), and the numbers in parenthesis are the statistical uncertainties in the last digit. For abbreviations see the text.}
+	\caption{The ground state energy, $E$, of two-dimensional quantum dots with $N$ electrons and frequency $\omega$ obtained by the VMC ansatz. In the following columns, the distribution between kinetic, $\langle\hat{T}\rangle$, external potential, $\langle\hat{V}_{\text{ext}}\rangle$, and interaction, $\langle\hat{V}_{\text{int}}\rangle$, energy are presented. The energy is given in units of $\hbar$ (natural units), and the numbers in parenthesis are the statistical uncertainties in the last digit. For abbreviations see the text.}
 	\label{tab:splitfrequencyQDVMC}
 	\begin{tabularx}{\textwidth}{R{1cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{1cm}} \hline\hline
 		\makecell{\\ \phantom{$N$}} & $N$ & $\omega$ && \multicolumn{1}{c}{$E$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} & \\ \hline \\
@@ -245,7 +243,7 @@ We have created respective tables for each of our four ansätze, which were desc
 
 \subsection{Three dimensions}
 \begin{table}[H]
-	\caption{The ground state energy, $E$, of three-dimensional quantum dots with $N$ electrons and frequency $\omega$ obtained by RBM. In the following columns, the distribution between kinetic, $\langle\hat{T}\rangle$, external potential, $\langle\hat{V}_{\text{ext}}\rangle$, and interaction, $\langle\hat{V}_{\text{int}}\rangle$, energy are presented. The energy is given in units of $\hbar$ (natural units), and the numbers in parenthesis are the statistical uncertainties in the last digit. For abbreviations see the text.}
+	\caption{The ground state energy, $E$, of three-dimensional quantum dots with $N$ electrons and frequency $\omega$ obtained by the RBM ansatz. In the following columns, the distribution between kinetic, $\langle\hat{T}\rangle$, external potential, $\langle\hat{V}_{\text{ext}}\rangle$, and interaction, $\langle\hat{V}_{\text{int}}\rangle$, energy are presented. The energy is given in units of $\hbar$ (natural units), and the numbers in parenthesis are the statistical uncertainties in the last digit. For abbreviations see the text.}
 	\label{tab:splitfrequencyQDRBM3D}
 	\begin{tabularx}{\textwidth}{R{1cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{1cm}} \hline\hline
 		\makecell{\\ \phantom{$N$}} & $N$ & $\omega$ && \multicolumn{1}{c}{$E$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} & \\ \hline \\
@@ -285,7 +283,7 @@ We have created respective tables for each of our four ansätze, which were desc
 \end{table}
 
 \begin{table}[H]
-	\caption{The ground state energy, $E$, of three-dimensional quantum dots with $N$ electrons and frequency $\omega$ obtained by RBM+SJ. In the following columns, the distribution between kinetic, $\langle\hat{T}\rangle$, external potential, $\langle\hat{V}_{\text{ext}}\rangle$, and interaction, $\langle\hat{V}_{\text{int}}\rangle$, energy are presented. The energy is given in units of $\hbar$ (natural units), and the numbers in parenthesis are the statistical uncertainties in the last digit. For abbreviations see the text.}
+	\caption{The ground state energy, $E$, of three-dimensional quantum dots with $N$ electrons and frequency $\omega$ obtained by the RBM+SJ ansatz. In the following columns, the distribution between kinetic, $\langle\hat{T}\rangle$, external potential, $\langle\hat{V}_{\text{ext}}\rangle$, and interaction, $\langle\hat{V}_{\text{int}}\rangle$, energy are presented. The energy is given in units of $\hbar$ (natural units), and the numbers in parenthesis are the statistical uncertainties in the last digit. For abbreviations see the text.}
 	\label{tab:splitfrequencyQDRBMSJ3D}
 	\begin{tabularx}{\textwidth}{R{1cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{1cm}} \hline\hline
 		\makecell{\\ \phantom{$N$}} & $N$ & $\omega$ && \multicolumn{1}{c}{$E$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} \\ \hline \\
@@ -325,7 +323,7 @@ We have created respective tables for each of our four ansätze, which were desc
 \end{table}
 
 \begin{table}[H]
-	\caption{The ground state energy, $E$, of three-dimensional quantum dots with $N$ electrons and frequency $\omega$ obtained by RBM+PJ. In the following columns, the distribution between kinetic, $\langle\hat{T}\rangle$, external potential, $\langle\hat{V}_{\text{ext}}\rangle$, and interaction, $\langle\hat{V}_{\text{int}}\rangle$, energy are presented. The energy is given in units of $\hbar$ (natural units), and the numbers in parenthesis are the statistical uncertainties in the last digit. For abbreviations see the text.}
+	\caption{The ground state energy, $E$, of three-dimensional quantum dots with $N$ electrons and frequency $\omega$ obtained by the RBM+PJ ansatz. In the following columns, the distribution between kinetic, $\langle\hat{T}\rangle$, external potential, $\langle\hat{V}_{\text{ext}}\rangle$, and interaction, $\langle\hat{V}_{\text{int}}\rangle$, energy are presented. The energy is given in units of $\hbar$ (natural units), and the numbers in parenthesis are the statistical uncertainties in the last digit. For abbreviations see the text.}
 	\label{tab:splitfrequencyQDRBMPJ3D}
 	\begin{tabularx}{\textwidth}{R{1cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{1cm}} \hline\hline
 		\makecell{\\ \phantom{$N$}} & $N$ & $\omega$ && \multicolumn{1}{c}{$E$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} & \\ \hline \\
@@ -364,7 +362,7 @@ We have created respective tables for each of our four ansätze, which were desc
 	\end{tabularx}
 \end{table}
 \begin{table}[H]
-	\caption{The ground state energy, $E$, of three-dimensional quantum dots with $N$ electrons and frequency $\omega$ obtained by VMC. In the following columns, the distribution between kinetic, $\langle\hat{T}\rangle$, external potential, $\langle\hat{V}_{\text{ext}}\rangle$, and interaction, $\langle\hat{V}_{\text{int}}\rangle$, energy are presented. The energy is given in units of $\hbar$ (natural units), and the numbers in parenthesis are the statistical uncertainties in the last digit. For abbreviations see the text.}
+	\caption{The ground state energy, $E$, of three-dimensional quantum dots with $N$ electrons and frequency $\omega$ obtained by the VMC ansatz. In the following columns, the distribution between kinetic, $\langle\hat{T}\rangle$, external potential, $\langle\hat{V}_{\text{ext}}\rangle$, and interaction, $\langle\hat{V}_{\text{int}}\rangle$, energy are presented. The energy is given in units of $\hbar$ (natural units), and the numbers in parenthesis are the statistical uncertainties in the last digit. For abbreviations see the text.}
 	\label{tab:splitfrequencyQDVMC3D}
 	\begin{tabularx}{\textwidth}{R{1cm}rrcR{2.3cm}R{2.3cm}R{2.3cm}R{2.3cm}R{1cm}} \hline\hline
 		\makecell{\\ \phantom{$N$}} & $N$ & $\omega$ && \multicolumn{1}{c}{$E$} & \multicolumn{1}{c}{$\langle \hat{T}\rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{ext}} \rangle$} & \multicolumn{1}{c}{$\langle \hat{V}_{\text{int}} \rangle$} & \\ \hline \\
@@ -457,7 +455,7 @@ The density profiles become identical for two- and three-dimensional quantum dot
 		\subfloat[$\omega=0.5$]{{\includegraphics[width=5.7cm]{../plots/int1/onebody/2D/42P/0.500000w/ADAM_MC1048576.png}}}
 		\subfloat[$\omega=1.0$]{{\includegraphics[width=5.7cm]{../plots/int1/onebody/2D/42P/1.000000w/ADAM_MC1048576.png}}}
 		
-		\caption{Plots of the one-body density profiles, $\rho(r)$, for two-dimensional quantum dots with $N=2$, 6, 12, 20, 30 and 42 electrons seen from the top and oscillator frequencies $\omega=0.1$, 0.28, 0.5 and 1.0 from left to right. The method used were RBM, RBM+SJ, RBM+PJ and VMC, the ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. For abbreviations and description of the natural units used, see the text.}
+		\caption{Plots of the one-body density profiles, $\rho(r)$, for two-dimensional quantum dots with $N=2$, 6, 12, 20, 30 and 42 electrons seen from the top and oscillator frequencies $\omega=0.1$, 0.28, 0.5 and 1.0 from left to right. The ansätze used were RBM, RBM+SJ, RBM+PJ and VMC, the ADAM optimizer was used, and after convergence the number of Monte-Carlo cycles was $M=2^{28}=268,435,456$. For abbreviations and description of the natural units used, see the text.}
 		\label{fig:OB_interaction_2D_2}
 	\end{figure}
 	\begin{figure} [H]%
@@ -482,7 +480,7 @@ The density profiles become identical for two- and three-dimensional quantum dot
 		\subfloat[RBM+PJ]{{\includegraphics[width=5.7cm]{../plots/int1/onebody2/2D/2P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{-0.0cm}
 		\subfloat[VMC]{{\includegraphics[width=5.7cm]{../plots/int1/onebody2/2D/2P/1.000000w/VMC_ADAM_MC1048576.png}}}
 		
-		\caption{Plots of the one-body density profiles, $\rho(x,y)$, for two-dimensional quantum dots with $N=2$ electrons and frequencies $\omega=0.1$, 0.5 and 1.0 seen from the top. The surface plot and the contour plot on the $xy$-plane illustrate the density, and the graph on the $yz$-plane represents the cross-section through $x=0$. They were obtained using the methods RBM, RBM+SJ, RBM+PJ and VMC from left to right, with the ADAM optimizer and $M=2^{30}=1,073,741,824$ Monte Carlo cycles after convergence. The plots are noise-reduced using a Savitzky-Golay filter. For abbreviations and description of the natural units used, see the text.}
+		\caption{Plots of the one-body density profiles, $\rho(x,y)$, for two-dimensional quantum dots with $N=2$ electrons and frequencies $\omega=0.1$, 0.5 and 1.0 seen from the top. The surface plot and the contour plot on the $xy$-plane illustrate the density, and the graph on the $yz$-plane represents the cross-section through $x=0$. They were obtained using the RBM, RBM+SJ, RBM+PJ and VMC ansätze from left to right, with the ADAM optimizer and $M=2^{30}=1,073,741,824$ Monte Carlo cycles after convergence. The plots are noise-reduced using a Savitzky-Golay filter. For abbreviations and description of the natural units used, see the text.}
 		\label{fig:OB2_interaction_2P}
 	\end{figure}
 	\begin{figure} [H]%
@@ -507,7 +505,7 @@ The density profiles become identical for two- and three-dimensional quantum dot
 		\subfloat[RBM+PJ]{{\includegraphics[width=5.7cm]{../plots/int1/onebody2/2D/6P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{-0.0cm}
 		\subfloat[VMC]{{\includegraphics[width=5.7cm]{../plots/int1/onebody2/2D/6P/1.000000w/VMC_ADAM_MC1048576.png}}}
 		
-		\caption{Plots of the one-body density profiles, $\rho(x,y)$, for two-dimensional quantum dots with $N=6$ electrons and frequencies $\omega=0.1$, 0.5 and 1.0 seen from the top. The surface plot and the contour plot on the $xy$-plane illustrate the density, and the graph on the $yz$-plane represents the cross-section through $x=0$. They were obtained using the methods RBM, RBM+SJ, RBM+PJ and VMC from left to right, with the ADAM optimizer and $M=2^{30}=1,073,741,824$ Monte Carlo cycles after convergence. The plots are noise-reduced using a Savitzky-Golay filter. For abbreviations and description of the natural units used, see the text.}%
+		\caption{Plots of the one-body density profiles, $\rho(x,y)$, for two-dimensional quantum dots with $N=6$ electrons and frequencies $\omega=0.1$, 0.5 and 1.0 seen from the top. The surface plot and the contour plot on the $xy$-plane illustrate the density, and the graph on the $yz$-plane represents the cross-section through $x=0$. They were obtained using the RBM, RBM+SJ, RBM+PJ and VMC ansätze from left to right, with the ADAM optimizer and $M=2^{30}=1,073,741,824$ Monte Carlo cycles after convergence. The plots are noise-reduced using a Savitzky-Golay filter. For abbreviations and description of the natural units used, see the text.}%
 		\label{fig:OB2_interaction_6P}
 	\end{figure}
 	\begin{figure} [H]%
@@ -532,7 +530,7 @@ The density profiles become identical for two- and three-dimensional quantum dot
 		\subfloat[RBM+PJ]{{\includegraphics[width=5.7cm]{../plots/int1/onebody2/2D/12P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{-0.0cm}
 		\subfloat[VMC]{{\includegraphics[width=5.7cm]{../plots/int1/onebody2/2D/12P/1.000000w/VMC_ADAM_MC1048576.png}}}
 		
-		\caption{Plots of the one-body density profiles, $\rho(x,y)$, for two-dimensional quantum dots with $N=12$ electrons and frequencies $\omega=0.1$, 0.5 and 1.0 seen from the top. The surface plot and the contour plot on the $xy$-plane illustrate the density, and the graph on the $yz$-plane represents the cross-section through $x=0$. They were obtained using the methods RBM, RBM+SJ, RBM+PJ and VMC from left to right, with the ADAM optimizer and $M=2^{30}=1,073,741,824$ Monte Carlo cycles after convergence. The plots are noise-reduced using a Savitzky-Golay filter. For abbreviations and description of the natural units used, see the text.}%
+		\caption{Plots of the one-body density profiles, $\rho(x,y)$, for two-dimensional quantum dots with $N=12$ electrons and frequencies $\omega=0.1$, 0.5 and 1.0 seen from the top. The surface plot and the contour plot on the $xy$-plane illustrate the density, and the graph on the $yz$-plane represents the cross-section through $x=0$. They were obtained using the RBM, RBM+SJ, RBM+PJ and VMC ansätze from left to right, with the ADAM optimizer and $M=2^{30}=1,073,741,824$ Monte Carlo cycles after convergence. The plots are noise-reduced using a Savitzky-Golay filter. For abbreviations and description of the natural units used, see the text.}%
 		\label{fig:OB2_interaction_12P}
 	\end{figure}
 	\begin{figure} [H]%
@@ -557,7 +555,7 @@ The density profiles become identical for two- and three-dimensional quantum dot
 		\subfloat[RBM+PJ]{{\includegraphics[width=5.7cm]{../plots/int1/onebody2/2D/20P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{-0.0cm}
 		\subfloat[VMC]{{\includegraphics[width=5.7cm]{../plots/int1/onebody2/2D/20P/1.000000w/VMC_ADAM_MC1048576.png}}}
 		
-		\caption{Plots of the one-body density profiles, $\rho(x,y)$, for two-dimensional quantum dots with $N=20$ electrons and frequencies $\omega=0.1$, 0.5 and 1.0 seen from the top. The surface plot and the contour plot on the $xy$-plane illustrate the density, and the graph on the $yz$-plane represents the cross-section through $x=0$. They were obtained using the methods RBM, RBM+SJ, RBM+PJ and VMC from left to right, with the ADAM optimizer and $M=2^{30}=1,073,741,824$ Monte Carlo cycles after convergence. The plots are noise-reduced using a Savitzky-Golay filter. For abbreviations and description of the natural units used, see the text.}%
+		\caption{Plots of the one-body density profiles, $\rho(x,y)$, for two-dimensional quantum dots with $N=20$ electrons and frequencies $\omega=0.1$, 0.5 and 1.0 seen from the top. The surface plot and the contour plot on the $xy$-plane illustrate the density, and the graph on the $yz$-plane represents the cross-section through $x=0$. They were obtained using the RBM, RBM+SJ, RBM+PJ and VMC ansätze from left to right, with the ADAM optimizer and $M=2^{30}=1,073,741,824$ Monte Carlo cycles after convergence. The plots are noise-reduced using a Savitzky-Golay filter. For abbreviations and description of the natural units used, see the text.}%
 		\label{fig:OB2_interaction_20P}
 	\end{figure}
 	\begin{figure} [H]%
@@ -582,7 +580,7 @@ The density profiles become identical for two- and three-dimensional quantum dot
 		\subfloat[RBM+PJ]{{\includegraphics[width=5.7cm]{../plots/int1/onebody2/2D/56P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{-0.0cm}
 		\subfloat[VMC]{{\includegraphics[width=5.7cm]{../plots/int1/onebody2/2D/56P/1.000000w/VMC_ADAM_MC1048576.png}}}
 		
-		\caption{Plots of the one-body density profiles, $\rho(x,y)$, for two-dimensional quantum dots with frequency $\omega=1.0$ and $N=20$, 30 and 42 electrons seen from the top. The surface plot and the contour plot on the $xy$-plane illustrate the density, and the graph on the $yz$-plane represents the cross-section through $x=0$. They were obtained using the methods RBM, RBM+SJ, RBM+PJ and VMC from left to right, with the ADAM optimizer and $M=2^{30}=1,073,741,824$ Monte Carlo cycles after convergence. The plots are noise-reduced using a Savitzky-Golay filter. For abbreviations and description of the natural units used, see the text.}%
+		\caption{Plots of the one-body density profiles, $\rho(x,y)$, for two-dimensional quantum dots with frequency $\omega=1.0$ and $N=20$, 30 and 42 electrons seen from the top. The surface plot and the contour plot on the $xy$-plane illustrate the density, and the graph on the $yz$-plane represents the cross-section through $x=0$. They were obtained using the RBM, RBM+SJ, RBM+PJ and VMC ansätze from left to right, with the ADAM optimizer and $M=2^{30}=1,073,741,824$ Monte Carlo cycles after convergence. The plots are noise-reduced using a Savitzky-Golay filter. For abbreviations and description of the natural units used, see the text.}%
 		\label{fig:OB2_interaction_large}
 	\end{figure}
 \end{landscape}
@@ -638,7 +636,7 @@ In figures (\ref{fig:TB_2D_0p1w}-\ref{fig:TB_2D_1p0w}), we present the two-body 
 		\subfloat[RBM+PJ]{{\includegraphics[width=5.7cm]{../plots/int1/twobody/2D/42P/0.100000w/RBMPJ_ADAM_MC1048576.png}}}
 		\subfloat[VMC]{{\includegraphics[width=5.7cm]{../plots/int1/twobody/2D/42P/0.100000w/VMC_ADAM_MC1048576.png}}}
 		
-		\caption{Plots of the radial two-body density profiles, $\rho(r_i, r_j)$, for two-dimensional quantum dots with $N=2$, 6, 12, 20, 30 and 42 electrons seen from the top and oscillator frequency $\omega=0.1$. The methods RBM, RBM+SJ, RBM+PJ and VMC (from the left) were used, with the ADAM optimizer and $M=2^{28}=268,435,456$ Monte-Carlo cycles after convergence. For abbreviations and description of the natural units used, see the text.}%
+		\caption{Plots of the radial two-body density profiles, $\rho(r_i, r_j)$, for two-dimensional quantum dots with $N=2$, 6, 12, 20, 30 and 42 electrons seen from the top and oscillator frequency $\omega=0.1$. The  RBM, RBM+SJ, RBM+PJ and VMC ansätze (from the left) were used, with the ADAM optimizer and $M=2^{28}=268,435,456$ Monte-Carlo cycles after convergence. For abbreviations and description of the natural units used, see the text.}%
 		\label{fig:TB_2D_0p1w}
 	\end{figure}
 	
@@ -687,7 +685,7 @@ In figures (\ref{fig:TB_2D_0p1w}-\ref{fig:TB_2D_1p0w}), we present the two-body 
 		\subfloat[RBM+PJ]{{\includegraphics[width=5.7cm]{../plots/int1/twobody/2D/42P/0.500000w/RBMPJ_ADAM_MC1048576.png}}}
 		\subfloat[VMC]{{\includegraphics[width=5.7cm]{../plots/int1/twobody/2D/42P/0.500000w/VMC_ADAM_MC1048576.png}}}
 		
-		\caption{Plots of the radial two-body density profiles, $\rho(r_i, r_j)$, for two-dimensional quantum dots with $N=2$, 6, 12, 20, 30 and 42 electrons seen from the top and oscillator frequency $\omega=0.5$. The methods RBM, RBM+SJ, RBM+PJ and VMC (from the left) were used, with the ADAM optimizer and $M=2^{28}=268,435,456$ Monte-Carlo cycles after convergence. For abbreviations and description of the natural units used, see the text.}%
+		\caption{Plots of the radial two-body density profiles, $\rho(r_i, r_j)$, for two-dimensional quantum dots with $N=2$, 6, 12, 20, 30 and 42 electrons seen from the top and oscillator frequency $\omega=0.5$. The RBM, RBM+SJ, RBM+PJ and VMC ansätze (from the left) were used, with the ADAM optimizer and $M=2^{28}=268,435,456$ Monte-Carlo cycles after convergence. For abbreviations and description of the natural units used, see the text.}%
 		\label{fig:TB_2D_0p5w}
 	\end{figure}
 	\begin{figure}
@@ -733,7 +731,7 @@ In figures (\ref{fig:TB_2D_0p1w}-\ref{fig:TB_2D_1p0w}), we present the two-body 
 		\subfloat[RBM+PJ]{{\includegraphics[width=5.7cm]{../plots/int1/twobody/2D/42P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}
 		\subfloat[VMC]{{\includegraphics[width=5.7cm]{../plots/int1/twobody/2D/42P/1.000000w/VMC_ADAM_MC1048576.png}}}
 		
-		\caption{Plots of the radial two-body density profiles, $\rho(r_i, r_j)$, for two-dimensional quantum dots with $N=2$, 6, 12, 20, 30 and 42 electrons seen from the top and oscillator frequency $\omega=1.0$. The methods RBM, RBM+SJ, RBM+PJ and VMC (from the left) were used, with the ADAM optimizer and $M=2^{28}=268,435,456$ Monte-Carlo cycles after convergence. For abbreviations and description of the natural units used, see the text.}%
+		\caption{Plots of the radial two-body density profiles, $\rho(r_i, r_j)$, for two-dimensional quantum dots with $N=2$, 6, 12, 20, 30 and 42 electrons seen from the top and oscillator frequency $\omega=1.0$. The RBM, RBM+SJ, RBM+PJ and VMC ansätze (from the left) were used, with the ADAM optimizer and $M=2^{28}=268,435,456$ Monte-Carlo cycles after convergence. For abbreviations and description of the natural units used, see the text.}%
 		\label{fig:TB_2D_1p0w}
 	\end{figure}
 \end{landscape}

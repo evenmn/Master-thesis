@@ -146,7 +146,7 @@ Additionally, in section \ref{sec:trial}, we showed that the Slater determinant 
 \end{equation}
 where $\hat{S}_{\sigma}(\bs{R}^{\sigma})$ is the Slater matrix of spin-$\sigma$ states with collective spatial coordinates $\bs{R}^{\sigma}=\{\bs{r}_1^{\sigma},\bs{r}_2^{\sigma},\cdots,\bs{r}_{N_{\sigma}}^{\sigma}\}$ for $\sigma\in\{\uparrow, \downarrow\}$. The determinant of the spin-up state is treated in the same way as the determinant of the spin-down state, so will from now on consider a general spin-$\sigma$ state,
 \begin{equation}
-|\hat{S}(\bs{R})|\equiv|\hat{S}_{\sigma}(\bs{R})|=\begin{vmatrix}
+|\hat{S}_{\sigma}(\bs{R})|=\begin{vmatrix}
 \phi_1(\boldsymbol{r}_1) & \phi_2(\boldsymbol{r}_1) & \cdots & \phi_{N}(\boldsymbol{r}_1)\\
 \phi_1(\boldsymbol{r}_2) & \phi_2(\boldsymbol{r}_2) & \cdots & \phi_{N}(\boldsymbol{r}_2)\\
 \vdots & \vdots & & \vdots \\
@@ -158,7 +158,7 @@ where $\phi_j(\bs{r}_i)$ is the single-particle function occupying the matrix el
 \subsection{Factorizing out elements} \label{sec:factorizing}
 We have now seen how the Slater determinant can be split up in a spin-up part and a spin-down part. Before we evaluate these determinants, we should try to make the elements of the Slater matrices as simple as possible to save computational time. If all the elements have the same factor, the computations will get much cheaper if the factor is factorized out of the determinant. How this is possible can easiest be seen if we express the Slater determinant as
 \begin{equation}
-|\hat{S}(\bs{R})|=\sum_{q}(-1)^q\hat{P}\phi_1(\bs{r}_1)\phi_2(\bs{r}_2)\cdots\phi_N(\bs{r}_N),
+|\hat{S}_{\sigma}(\bs{R})|=\sum_{q}(-1)^q\hat{P}\phi_1(\bs{r}_1)\phi_2(\bs{r}_2)\cdots\phi_N(\bs{r}_N),
 \label{eq:slatersum}
 \end{equation}
 where the sum runs over all the possible permutations and $\hat{P}$ is the permutation operator, permuting coordinates pairwise. If all the (spatial) single-particle functions $\phi_j(\bs{r}_i)$ can be split in two functions $f_j(\bs{r}_i)$ and $g(\bs{r}_i)$ where the latter is common for all the single-particle functions,
@@ -168,7 +168,7 @@ where the sum runs over all the possible permutations and $\hat{P}$ is the permu
 the determinant can be rewritten as
 \begin{equation}
 \begin{aligned}
-|\hat{S}(\bs{R})|&=\sum_{p}(-1)^p\hat{P}f_1(\bs{r}_1)g(\bs{r}_1)f_2(\bs{r}_2)g(\bs{r}_2)\cdots f_N(\bs{r}_N)g(\bs{r}_N),\\
+|\hat{S}_{\sigma}(\bs{R})|&=\sum_{p}(-1)^p\hat{P}f_1(\bs{r}_1)g(\bs{r}_1)f_2(\bs{r}_2)g(\bs{r}_2)\cdots f_N(\bs{r}_N)g(\bs{r}_N),\\
 &=g(\bs{r}_1)g(\bs{r}_2)\cdots g(\bs{r}_N)\sum_{p}(-1)^p\hat{P}f_1(\bs{r}_1)f_2(\bs{r}_2)\cdots f_N(\bs{r}_N),\\
 &=\underbrace{\prod_{i=1}^Ng(\bs{r}_i)}_{G(\bs{R})}
 \underbrace{\begin{vmatrix}
