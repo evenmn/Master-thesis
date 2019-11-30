@@ -6,19 +6,19 @@
 	\caption{Random walker on a two-dimensional grid, 1000 moves.}
 \end{figure}
 
-Quantum Monte Carlo methods (QMC) represent a variety \textit{ab initio} methods that attempt to solve the Schrödinger equation using stochastic Monte Carlo integration. \textit{Ab initio} reads "from first principles", which implies that the methods constitute a fundamental approach to the problem. They all seek to evaluate the multi-dimensional integrals that represent various quantum mechanical expectation values. The expression for the energy reads
+Quantum Monte Carlo methods (QMC) represent a variety \textit{ab initio} methods that attempt to solve the Schrödinger equation using stochastic Monte Carlo integration. \textit{Ab initio} reads "from first principles", implying that the methods constitute a fundamental approach to the problem. They all seek to evaluate the multi-dimensional integrals that represent various quantum mechanical expectation values. The expression for the energy reads
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 E_0= \mel{\Psi_0}{\hat{\mathcal{H}}}{\Psi_0}= \frac{\int d\bs{X}\Psi_0(\bs{X})^*\hat{\mathcal{H}}\Psi_0(\bs{X})}{\int d\bs{X}\Psi_0(\bs{X})^*\Psi_0(\bs{X})},
 \label{eq:schrodingergroundstate}
 \end{empheq}
-which provides the ground state energy expectation value for the exact ground state wave function $\Psi_0(\bs{X})$ with $\bs{X}=\{\{\bs{r}_1,\sigma_1\},\{\bs{r}_2,\sigma_2\},\hdots,\{\bs{r}_N,\sigma_N\}\}$ as the collective coordinates of the $N$ particles. We use coordinates as a common term for both the spins and the positions. As aforementioned, this integral is analytically infeasible for more or less all interesting systems, evokes the need for numerical methods like QMC. As we will stick to ground state calculations, the wave function $\Psi(\bs{X})$ implies the many-body ground state wave function from this point.
+which provides the ground state energy expectation value for the exact ground state wave function $\Psi_0(\bs{X})$ with $\bs{X}=\{\{\bs{r}_1,\sigma_1\},\{\bs{r}_2,\sigma_2\},\hdots,\{\bs{r}_N,\sigma_N\}\}$ as the collective coordinates of the $N$ particles. We use coordinates as a common term for both the spins and the positions. As aforementioned, this integral is analytically infeasible for more or less all interesting systems, evokes the need for numerical methods like QMC. As we will stick to ground state calculations, the wave function $\Psi(\bs{X})$ henceforth denotes the many-body ground state wave function.
 
 In Monte Carlo integration, we use random numbers to evaluate integrals numerically. Typically, we want to estimate an expectation value $\langle\hat{O}\rangle$ by approximating the integral with the sum,
 \begin{equation}
 \langle \hat{O}\rangle\equiv\int_{-\infty}^{\infty}d\bs{x}P(\bs{x})\hat{O}(\bs{x})\approx\frac{1}{M}\sum_{i=1}^M\hat{O}(\bs{x}_i),
 \label{eq:montecarlointegration}
 \end{equation}
-where $M$ is the number of \textit{Monte Carlo cycles} and the coordinates $\bs{x}_i$ are drawn randomly from the probability density function $P(\bs{x})$. A great advantage of the QMC methods, is that we obtain approximative ground state wave functions when solving equation \eqref{eq:schrodingergroundstate}, which by the fourth postulate of quantum mechanics allows estimations of the ground state expectation values associated with other operators as well. 
+where $M$ is the number of \textit{Monte Carlo cycles} and the coordinates $\bs{x}_i$ are drawn randomly from the probability density function $P(\bs{x})$. A great advantage of the QMC methods, is that we obtain approximative ground state wave functions when solving equation \eqref{eq:schrodingergroundstate}. By the fourth postulate of quantum mechanics presented in section \ref{sec:postulates}, this allows estimations of the ground state expectation values associated with other operators as well. 
 
 Two widely used QMC methods are the variational Monte Carlo (VMC) method and the diffusion Monte Carlo (DMC) method, where the former is arguably the simplest of all the QMC methods. It attempts to solve the integrals in equation \eqref{eq:schrodingergroundstate} directly by varying parameters, with the support of the variational principle presented in section \ref{sec:variationalprinciple}. This makes VMC a comparably computationally cheap method, but the performance is usually not in the league of the best methods. Diffusion Monte Carlo, on the other hand, is computationally expensive, but is also potentially numerically exact, making it a preferred method when high accuracy is needed. At first glance, it might seems like a tradeoff where VMC is used when computational time is more important than the accuracy and DMC is used when the opposite is true. However, DMC requires a wave function input which is close to the exact wave function, forcing us first to run a VMC calculation to obtain this wave function before the DMC machinery can be started.
 
@@ -88,7 +88,7 @@ Since the first $N_{\uparrow}$ particles have spin up, $\sigma_i=\,\uparrow$, an
 \phi_1(\boldsymbol{r}_N)\xi_{\uparrow}(\downarrow) & \hdots & \phi_{N_{\uparrow}}(\boldsymbol{r}_N)\xi_{\uparrow}(\downarrow) & \phi_{1}(\boldsymbol{r}_N)\xi_{\downarrow}(\downarrow) & \hdots & \phi_{N_{\downarrow}}(\boldsymbol{r}_N)\xi_{\downarrow}(\downarrow)\\
 \end{vmatrix}.
 \end{equation*}
-We observe that the the spin-up particles sometimes occupy spin-down states, which they are not allowed to. Therefore, half of the elements become zero and the determinant can be further expressed as
+We observe that the spin-up particles sometimes occupy spin-down states. This is not accepted and half of the elements vanish. The determinant can therefore be expressed as
 \begin{equation*}
 |\hat{S}(\bs{X})|=\frac{1}{\sqrt{N!}}
 \begin{vmatrix}
@@ -102,9 +102,9 @@ We observe that the the spin-up particles sometimes occupy spin-down states, whi
 \end{equation*}
 where the Slater matrix now is block diagonal! For a general block diagonal matrix, the determinant is given by the product of the determinant of each block
 \begin{equation}
-|\hat{S}(\bs{X})|=\frac{1}{\sqrt{N!}}|\hat{S}_{\uparrow}(\bs{X}^{\uparrow})|\cdot |\hat{S}_{\downarrow}(\bs{X}^{\downarrow})|,
+|\hat{S}(\bs{X})|=\frac{1}{\sqrt{N!}}|\hat{S}_{\uparrow}(\bs{X}^{\uparrow})|\cdot |\hat{S}_{\downarrow}(\bs{X}^{\downarrow})|.
 \end{equation}
-which can be seen by writing the total matrix as a product over all the block diagonal matrix. $\hat{S}_{\sigma}$ is the matrix containing all spin-$\sigma$ states with collective coordinates $\bs{X}^{\sigma}=\{\{\bs{r}_1^{\sigma},\xi_{\sigma}(\sigma)\},\{\bs{r}_2^{\sigma},\xi_{\sigma}(\sigma)\},\hdots,\{\bs{r}_N^{\sigma},\xi_{\sigma}(\sigma)\}\}$. Since all elements in the respective matrices contain the same spin function, it can be factorized out \supercite{nissenbaum_stochastic_2008},
+This can be seen by writing the total matrix as a product of all the block diagonal matrix. The matrix containing all the spin-$\sigma$ states is denoted by $\hat{S}_{\sigma}(\bs{X}^{\sigma})$ with collective coordinates $\bs{X}^{\sigma}=\{\{\bs{r}_1^{\sigma},\xi_{\sigma}(\sigma)\},\{\bs{r}_2^{\sigma},\xi_{\sigma}(\sigma)\},\hdots,\{\bs{r}_N^{\sigma},\xi_{\sigma}(\sigma)\}\}$. Since all elements in the respective matrices contain the same spin function, it can be factorized out \supercite{nissenbaum_stochastic_2008},
 \begin{equation}
 \begin{aligned}
 |\hat{S}(\bs{X})|=\frac{1}{\sqrt{N!}}&|\hat{D}_{\uparrow}(\bs{r}_1, \bs{r}_2,\hdots,\bs{r}_{N_{\uparrow}})|\{\xi_{\uparrow}(\sigma_1^{\uparrow})\xi_{\uparrow}(\sigma_2^{\uparrow})\hdots\xi_{\uparrow}(\sigma_{N_{\uparrow}}^{\uparrow})\}, \\ \times&|\hat{D}_{\downarrow}(\bs{r}_{N_{\uparrow}+1}, \hdots,\bs{r}_{N-1},\bs{r}_{N})|\{\xi_{\downarrow}(\sigma_{N_{\uparrow}+1}^{\downarrow})\hdots\xi_{\downarrow}(\sigma_{N-1}^{\downarrow})\xi_{\downarrow}(\sigma_{N}^{\downarrow})\},
@@ -128,7 +128,7 @@ which is independent of spin, i.e. the matrices now consist of the spatial funct
 It is also worth to notice that the number of spin-up particles determines the size of the spin-up matrix, and the number of spin-down particles determines the size of the spin-down matrix. In other words, we can change the ratio between spin-up particles and spin-down particles by adjusting the relative sizes of the determinants. In the implementation, however, we stick to the magic quantum numbers, where $N_{\uparrow}=N_{\downarrow}$.
 
 \subsection{The Jastrow factor} \label{sec:jastrow}
-The second factor in our trial wave function ansatz is the Jastrow factor, which is added in order to account for the electron-electron correlations. As discussed the section \ref{sec:cusp}, it is crucial to model the so-called cusps correctly, which is the task of the Jastrow factor. We will first discuss a simple Jastrow factor, and then move on the the more complex Padé-Jastrow factor. 
+The second factor in our trial wave function ansatz is the Jastrow factor, which is added in order to account for the electron-electron correlations. As discussed the section \ref{sec:cusp}, it is crucial to cancel the singularity in the potential as two electrons get close. This is the task of the Jastrow factor. We will first discuss a simple Jastrow factor, and then move on the the more complex Padé-Jastrow factor. 
 
 \subsubsection{Simple Jastrow} \label{sec:simplejastrow}
 The simple Jastrow factor is just an exponential function with the sum over all particle distances. In addition, each distance $r_{ij}$ is weighted by a parameter $\beta_{ij}$, and the factor becomes
@@ -136,7 +136,7 @@ The simple Jastrow factor is just an exponential function with the sum over all 
 J(\bs{r}; \bs{\beta}) = \exp(\sum_{i=1}^N\sum_{j>i}^N{\beta_{ij}r_{ij}}).
 \label{eq:SimpleJastrow}
 \end{equation}
-All the $\beta_{ij}$ are free variational parameters, which are expected to be symmetric since the distance matrix is symmetric. 
+All the $\beta_{ij}$ are free variational parameters. 
 
 \subsubsection{Padé-Jastrow} \label{sec:padejastrow}
 The Padé-Jastrow factor is closely related to the simple Jastrow above, but a denominator makes it more complex. It reads
@@ -144,7 +144,7 @@ The Padé-Jastrow factor is closely related to the simple Jastrow above, but a d
 J(\bs{r};\beta) = \exp(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij}}).
 \label{eq:PadeJastrow}
 \end{equation}
-where $\beta$ is a variational parameter. In addition, the fractions are multiplied with factors $a_{ij}$ which depend on the particles $i$ and $j$ in the following way:
+where $\beta$ is a variational parameter. In addition, there are factors $a_{ij}$ depending on the particles $i$ and $j$ in the following way:
 \begin{equation}
 \label{eq:ajastrow}
 a_{ij}=
@@ -188,18 +188,18 @@ where the local energies $E_L(\bs{R}_i)$ are still evaluated with particle coord
 indicating the need for a large number of cycles. This is associated with a zero-variance property governing the quantum Monte Carlo methods, stating that the variance in the true ground state should be zero \supercite{deb_variational_2014, assaraf_zero-variance_2003}. Various sampling regimes are described in section \ref{sec:metropolis}.
 
 \subsection{Parameter update} \label{sec:parameterupdate}
-Another important part of the VMC method is the update of parameters, which we need in order to find an approximative wave function. In section \ref{sec:optimizationalgorithms}, we discussed various gradient-based optimization algorithms for iterative minimization of the cost function, $\mathcal{C}(\bs{\theta})$, in machine learning, and the same methods can be used in VMC simulations.
+Another important part of the VMC method is the update of parameters, required in order to find an approximative wave function. In section \ref{sec:optimizationalgorithms}, we discussed various gradient-based optimization algorithms for iterative minimization of the cost function, $\mathcal{C}(\bs{\theta})$, in machine learning. The same methods can be used for finding the minimum in VMC simulations.
 
-However, we need to define a cost function for VMC which is minimized when the ground state energy is obtained. According to the variational principle, the ground state energy is the lowest energy we can obtain, so an obvious cost function is the energy expectation value. We therefore set
+In order to find the correct ground state energy, we need to define a cost function for VMC that is minimized when the ground state energy is obtained. According to the variational principle, the ground state energy is the lowest energy we can obtain, so an obvious cost function is the energy expectation value. We therefore set
 \begin{equation}
 \mathcal{C}(\bs{\theta})=\langle E_L\rangle,
 \end{equation}
 since we get the expectation value of the local energy from the Metropolis sampling. Further, we use the definition of the gradient of an expectation value from \citet{umrigar_energy_2005} and obtain
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-\nabla_{\theta_j} \langle E_L\rangle=2\Big(\langle E_L\nabla_{\theta_j}\ln\Psi_T\rangle - \langle E_L\rangle\langle\nabla_{\theta_j}\ln\Psi_T\rangle\Big),
+\nabla_{\theta_j} \langle E_L\rangle=2\left(\langle E_L\nabla_{\theta_j}\ln\Psi_T\rangle - \langle E_L\rangle\langle\nabla_{\theta_j}\ln\Psi_T\rangle\right).
 \label{eq:gradientenergy}
 \end{empheq}
-which means that we need to calculate the expectation values $\langle E_L\nabla_{\theta_j}\ln\Psi_T\rangle$ and $\langle\nabla_{\theta_j}\ln\Psi_T\rangle$ in addition to the expectation value of the local energy. These expectation values are found from the integrals
+This means that we need to calculate the expectation values $\langle E_L\nabla_{\theta_j}\ln\Psi_T\rangle$ and $\langle\nabla_{\theta_j}\ln\Psi_T\rangle$ in addition to the expectation value of the local energy. These expectation values are found from the integrals
 \begin{equation}
 \langle\nabla_{\theta_j}\ln\Psi_T\rangle = \int_{-\infty}^{\infty}d\bs{R}\nabla_{\theta_j}\ln\Psi_T(\bs{R})P(\bs{R}),
 \end{equation}
@@ -251,7 +251,7 @@ where
 \phi_1(\boldsymbol{r}_N) & \phi_2(\boldsymbol{r}_N) & \hdots & \phi_N(\boldsymbol{r}_N)
 \end{vmatrix}.
 \end{equation}
-Even though we want a method which requires as little physical intuition as possible, the wave function needs to obey Fermi-Dirac statistics, and we therefore also approximate the trial wave function with the Slater determinant for the machine learning methods. Further, we use the same framework as we did for traditional VMC ansätze, including the Slater determinant, but the single-particle functions (SPFs) $\phi_j(\bs{r}_i)$ are given by the marginal distribution of the visible units from a restricted Boltzmann machine, $P(\bs{r})$. For quantum dots, we also add the Hermite polynomials, $H_n(\bs{r})$, to obtain a unique SPF for each state. We then have
+Even though we want a method that requires as little physical intuition as possible, the wave function needs to obey Fermi-Dirac statistics, and we therefore also approximate the trial wave function with the Slater determinant for the machine learning methods. Further, we use the same framework as we did for traditional VMC ansätze, including the Slater determinant, but the single-particle functions (SPFs) $\phi_j(\bs{r}_i)$ are given by the marginal distribution of the visible units from a restricted Boltzmann machine, $P(\bs{r})$. For quantum dots, we also add the Hermite polynomials, $H_n(\bs{r})$, to obtain a unique SPF for each state. We then have
 \begin{equation}
 \phi_j(\bs{r}_i)=H_j(\bs{r}_i)P(\bs{r}_i),
 \end{equation}
@@ -276,13 +276,13 @@ Lastly, we add the well-known Padé-Jastrow factor to the RBM ansatz, and obtain
 where we recall that the Padé-Jastrow factor contains the variational parameter $\beta$.
 
 \section{The Metropolis Algorithm} \label{sec:metropolis}
-Metropolis sampling is a Markov chain Monte Carlo method, which generates a Markov chain using a proposal density for new steps, and the method also rejects unsatisfying moves. In its most simple form, a particle is moved in a random direction, which was the original method invented by \citet{metropolis_equation_1953} back in 1953. Later, the method was improved by \citet{hastings_monte_1970}, giving rise to the more general Metropolis-Hastings algorithm. The genius of the Metropolis algorithms is that the acceptance of a move is not based on the probabilities themselves, but rather the ratio between the new and the old probabilities. In that way, we avoid calculating the normalizing factor, which is often computationally intractable.
+Metropolis sampling is a Markov chain Monte Carlo method and generates a Markov chain using a proposal density for new steps. The method also rejects unsatisfying moves. The original method was invented by \citet{metropolis_equation_1953} back in 1953, and samples a particle in a random direction. Later, the method was improved by \citet{hastings_monte_1970}, giving rise to the more general Metropolis-Hastings algorithm. The genius of the Metropolis algorithms is that the acceptance of a move is not based on the probabilities themselves, but rather the ratio between the new and the old probabilities. In that way, we avoid calculating the normalizing factor, which is often computationally intractable.
 
 We will first discuss Markov chains in general, before we connect them to the original Metropolis algorithm, henceforth called \textit{brute-force sampling}, and then the Metropolis-Hastings algorithm, also called \textit{importance sampling}. If we denote the current state by $\bs{R}$, and the proposed state by $\bs{R}'$, we have a transition rule $P(\bs{R}'|\bs{R})$ for going from $\bs{R}$ to $\bs{R}'$ and a transition rule $P(\bs{R}|\bs{R}')$ for going the opposite way. If we then assume that the rules satisfy \textit{ergodicity} and \textit{detailed balance}, we have the following relationship:
 \begin{equation}
-P(\bs{R}'|\bs{R})P(\bs{R})=P(\bs{R}|\bs{R}')P(\bs{R}'),
+P(\bs{R}'|\bs{R})P(\bs{R})=P(\bs{R}|\bs{R}')P(\bs{R}').
 \end{equation}
-which is actually a restatement of Bayes' theorem presented in section \ref{sec:bayes}. The next step is to rewrite the transition rules in terms of a proposal distribution $T(\bs{R}'|\bs{R})$ and an acceptance probability $A(\bs{R}',\bs{R})$,
+This is actually a restatement of Bayes' theorem presented in section \ref{sec:bayes}. The next step is to rewrite the transition rules in terms of a proposal distribution $T(\bs{R}'|\bs{R})$ and an acceptance probability $A(\bs{R}',\bs{R})$,
 \begin{equation}
 P(\bs{R}'|\bs{R})=T(\bs{R}'|\bs{R})A(\bs{R}',\bs{R}).
 \end{equation}
@@ -298,11 +298,11 @@ In its simplest form, the move is proposed randomly both in magnitude and direct
 \begin{equation}
 \bs{R}'=\bs{R}+\Delta xd\bs{R},
 \end{equation}
-where $\Delta x$ is the step length and $d\bs{r}$ has a random magnitude and direction (typically which particle to move). We obtain the naïve acceptance probability when requiring $T(\bs{R}'|\bs{R})=T(\bs{R}|\bs{R}')$, such that it simplifies to
+where $\Delta x$ is the step length and $d\bs{r}$ has a random magnitude and direction (typically what particle to move). We obtain the naïve acceptance probability when requiring $T(\bs{R}'|\bs{R})=T(\bs{R}|\bs{R}')$, such that it simplifies to
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 A(\bs{R}',\bs{R})=\text{min }\left[1,\frac{P(\bs{R}')}{P(\bs{R})}\right].
 \end{empheq}
-However, with this approach, an unsatisfying number of moves will be rejected as the particles can be moved in all directions, which results in a significant waste of computing power. A better method is \textbf{importance sampling}, since the particles are moved according to the so-called quantum force to be defined below. 
+However, with this approach, an unsatisfying number of moves will be rejected as the particles can be moved in all directions, resulting in a significant waste of computing power. A better method is \textbf{importance sampling}, since the particles are moved according to the so-called quantum force to be defined below. 
 
 \subsection{Importance sampling} \label{sec:importancesampling}
 Importance sampling is a more intelligent sampling method than the brute-force sampling, since the new position is based on an educated guess. To understand how it works, we need to take a quick look at diffusion processes. We start from the Fokker-Planck equation,
@@ -335,7 +335,7 @@ where the quantity $\nabla^2 P(\bs{R})$ is factorized out from two of the terms.
 \end{equation}
 which is also known as the \textit{quantum force}. 
 
-The remaining part concerns the acceptance of the moves. For this, we need to find the sampling distributions $T(\bs{R}'|\bs{R})$ from equation \eqref{eq:acceptance}, which are just the solutions of the Fokker-Planck equation. The solutions read
+The remaining part concerns the acceptance of the moves. For this, we from equation \eqref{eq:acceptance} find the sampling distributions $T(\bs{R}'|\bs{R})$, which are just the solutions of the Fokker-Planck equation. The solutions read
 \begin{equation}
 G(\bs{R}',\bs{R},\Delta t)\frac{1}{(4\pi D\Delta t)^{3N/2}}\exp(-\left(\bs{R}'-\bs{R}-D\Delta t\bs{F}(\bs{R})\right)^2/4D\Delta t),
 \end{equation}
@@ -356,9 +356,9 @@ The marginal distribution of a subset of variables can then be approximated by s
 
 For a restricted Boltzmann machine, this becomes a two-step sampling process as we have two layers, such that we use the conditional probabilities $P(\bs{x}|\bs{h})$ and $P(\bs{h}|\bs{x})$ to update the visible and hidden units respectively. For the restricted Boltzmann machine with Gaussian-binary units presented in section \ref{sec:RBM}, the conditional probability of $h_j=0$ given a set of visible nodes $\bs{x}$ is
 \begin{equation}
-P(h_j=0|\bs{x})=\frac{1}{1+\exp(+b_j+\sum_{i=1}^Nx_iw_{ij}/\sigma_i^2)},
+P(h_j=0|\bs{x})=\frac{1}{1+\exp(+b_j+\sum_{i=1}^Nx_iw_{ij}/\sigma_i^2)}.
 \end{equation}
-and the corresponding conditional probability of $h_j=1$ is
+The corresponding conditional probability of $h_j=1$ is
 \begin{equation}
 P(h_j=1|\bs{x})=\frac{1}{1+\exp(-b_j-\sum_{i=1}^Nx_iw_{ij}/\sigma_i^2)},
 \end{equation}
@@ -366,16 +366,16 @@ which is by the way again the sigmoid. Note that $P(h_j=0|\bs{x})+P(h_j=1|\bs{x}
 
 For the update of the visible nodes, we see from equation \eqref{eq:normal} that the visible nodes are chosen after the normal distribution,
 \begin{equation}
-P(x_i|\bs{h})=\mathcal{N}\left(a_i+\sum_{j=1}^Hw_{ij}h_j,\sigma_i^2\right),
+P(x_i|\bs{h})=\mathcal{N}\left(a_i+\sum_{j=1}^Hw_{ij}h_j,\sigma_i^2\right).
 \end{equation}
-which introduces some stochasticity to the system. By going back and forth in the Boltzmann machine multiple times (a round trip corresponds to an iteration), the hope is that the expectation values can be approximated by averaging over all the iterations. 
+This introduces some stochasticity to the system. By going back and forth in the Boltzmann machine multiple times (a round trip corresponds to an iteration), the hope is that the expectation values can be approximated by averaging over all the iterations. 
 
 As pointed out earlier, the Gibbs sampling will not be implemented in this work, but we describe it for completeness purposes. The reason for this is that the method has not shown promising results for our specific problem, and we will instead rely on Metropolis sampling. We have already tested the Gibbs sampling in another similar project on small quantum dots, and so have others like \citet{flugsrud_vilde_moe_solving_nodate}. The results are matching and show poor performance compared to the Metropolis-Hastings algorithm.
 
 However, the Gibbs sampling method should not be underestimated. \citet{carleo_solving_2017} showed its importance when solving the Ising model using a restricted Boltzmann machine and Gibbs sampling, and in traditional Boltzmann machines, the Gibbs sampling is the preferred tool.
 
 \section{Diffusion Monte Carlo} \label{sec:dmc}
-The second and last quantum Monte Carlo method we will discuss is the diffusion Monte Carlo (DMC) method. DMC belongs to a class of projection and Green's function approaches and provides in principle an exact solution of the Schrödinger equation. However, for fermionic systems, the method is plagued by the occurrence of a sign-problem, known as the fermion sign problem \supercite{troyer_computational_2005}, and we need to use approximations to overcome the problem. The most common fix is the fixed-node approximation, which introduces errors to the computations. The problem is also attempted to solve using shadow wave functions, for instance, by \citet{calcavecchia_sign_2014}, which have many commonalities with our restricted Boltzmann machine (RBM) approach. The idea is that the RBMs can also contribute to solve the sign problem, but we leave this for later studies. 
+The second and last quantum Monte Carlo method we will discuss is the diffusion Monte Carlo (DMC) method. DMC belongs to a class of projection and Green's function approaches and provides in principle an exact solution of the Schrödinger equation. However, for fermionic systems, the method is plagued by the occurrence of a sign-problem, known as the fermion sign problem \supercite{troyer_computational_2005}, and we need to use approximations to overcome the problem. The most common fix is the fixed-node approximation, which introduces errors to the computations. The problem is also attempted to solve using shadow wave functions, for instance, by \citet{calcavecchia_sign_2014}. These functions have many commonalities with our restricted Boltzmann machine (RBM) approach. The idea is that the RBMs can also contribute to solve the sign problem, but we leave this for later studies. 
 
 Since the DMC method is used as a reference for more or less all the produced results, it is natural to give a brief discussion of the idea behind the method. By the fifth postulate of quantum mechanics discussed in section \ref{sec:postulates}, the motion of a particle that moves in a potential $V(\bs{R})$ is described by the time-dependent Schrödinger equation,
 \begin{equation}
@@ -393,20 +393,20 @@ $\hbar$ is the reduced Planck's constant and the coefficients can be obtained by
 \begin{equation}
 c_n=\int_{-\infty}^{\infty}d\bs{R}\phi_n(\bs{R})\Psi(\bs{R},0),
 \end{equation}
-under the assumption that the eigenfunctions are orthonormal and that the energies are sorted in increasing order, $E_1<E_2<E_3\cdots$. The DMC method is based on the time-imaginary Schrödinger equation, which is obtained by a \textbf{shift of energy scale}, setting $V(\bs{R})\rightarrow V(\bs{R}) - E_R$ and $E_n\rightarrow E_n -E_R$, which does not change any physical quantity. By further using the \textbf{Wick rotation of time} setting $\tau=it$, we obtain the time-imaginary Schrödinger equation \supercite{kosztin_introduction_1996},
+under the assumption that the eigenfunctions are orthonormal and that the energies are sorted in increasing order, $E_1<E_2<E_3\cdots$. The DMC method is based on the time-imaginary Schrödinger equation.  This equation is obtained by a \textbf{shift of energy scale}, setting $V(\bs{R})\rightarrow V(\bs{R}) - E_R$ and $E_n\rightarrow E_n -E_R$, not altering any physical quantity. By further using the \textbf{Wick rotation of time} setting $\tau=it$, we obtain the time-imaginary Schrödinger equation \supercite{kosztin_introduction_1996},
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
--\frac{\partial\Psi(\bs{R},\tau)}{\partial\tau}=-\frac{1}{2}\nabla^2\Psi(\bs{R},\tau)+[V(\bs{r})-E_R]\Psi(\bs{R},\tau),
+-\frac{\partial\Psi(\bs{R},\tau)}{\partial\tau}=-\frac{1}{2}\nabla^2\Psi(\bs{R},\tau)+[V(\bs{r})-E_R]\Psi(\bs{R},\tau).
 \label{eq:timeimaginary}
 \end{empheq}
-which gives the expansion
+This gives the expansion
 \begin{equation}
 \Psi(\bs{R},\tau)=\sum_{n=0}^{\infty}c_n\phi_n(\bs{R})e^{-(E_n-E_R)\tau}.
 \end{equation}
 The time-imaginary Schrödinger equation is similar to the Fokker-Planck equation presented in equation \eqref{eq:fokkerplanck}, which was noticed by Fermi already around 1945 \supercite{metropolis_monte_1949,ceperley_quantum_1986}. Since we have analytical solutions of the Fokker-Planck equation, the idea is to apply the same solutions to equation \eqref{eq:timeimaginary}. To clarify this, consider the time-imaginary Schrödinger equation for non-interacting particles,
 \begin{equation}
-\frac{\partial\Psi(\bs{R},\tau)}{\partial\tau}=\frac{1}{2}\nabla^2\Psi(\bs{R},\tau),
+\frac{\partial\Psi(\bs{R},\tau)}{\partial\tau}=\frac{1}{2}\nabla^2\Psi(\bs{R},\tau).
 \end{equation}
-which is really similar to the diffusion equation,
+This is similar to the diffusion equation,
 \begin{equation}
 \frac{\partial\phi(\bs{R},t)}{\partial t}=D\nabla^2\phi(\bs{R},t),
 \end{equation}
@@ -448,7 +448,7 @@ Furthermore, in this case, the following is an unbiased estimator of the varianc
 \begin{equation}
 S_ n^2 = \frac{1}{n-1}\sum_{i = 1}^n (X_i - \overline X)^2.
 \end{equation}
-The law of large numbers states that the estimated sample mean approaches the true sample mean as $n$ goes to infinity. This is closely related to the central limit theorem, which states that the probability distribution of $X$, $p_X(x)$, can be approximated as a normal distribution $\mathcal{N}(\mu,\sigma)$ with $\mu=\overline{X}_n$ and $\sigma=\text{var}(\overline{X})$ as the number of sampling points, $n$, goes to infinity. 
+The law of large numbers states that the estimated sample mean approaches the true sample mean as $n$ goes to infinity. This is closely related to the central limit theorem. This states that the probability distribution of $X$, $p_X(x)$, can be approximated by a normal distribution $\mathcal{N}(\mu,\sigma)$ with $\mu=\overline{X}_n$ and $\sigma=\text{var}(\overline{X})$ as the number of sampling points, $n$, goes to infinity. 
 
 On the other hand, if the samples are \textit{correlated}, equation \eqref{eq:samplevariance} becomes an underestimation of the \textit{sample error} $\text{err}_X^2$, and is thus more a guideline for the size of the uncertainty, more than an actual estimate of it. In that case, we need to estimate the \textit{covariance} given by
 \begin{equation}
@@ -471,14 +471,13 @@ and is thus just a measure of the correlation of a section of a time series with
 \text{err}_X^2=\frac{\sigma^2}{n}+\frac{2}{n}\sum_{h=1}^{n-1}\left(1-\frac{h}{n}\right)\gamma(h).
 \label{eq:samplevariance2}
 \end{empheq}
-
-A problem with this definition of the sampling error is that it turns out to be very expensive to calculate as the number of samples gets large. We require a cheaper method, which is the task of the resampling methods. We will, in the following, discuss the blocking algorithm, which is the resampling method of choice in this work. 
+A problem with this definition of the sampling error is that it turns out to be very expensive to calculate as the number of samples gets large. As cheaper way to estimate the sampling error is accomplished by resampling methods. We will, in the following, discuss the blocking algorithm, which is the resampling method of choice in this work. 
 
 \subsection{Blocking}\label{sec:resampling}
 Above, we have described the need for a proper uncertainty estimation in computational simulations, where the covariance was included in
 the calculation of $\sigma^2$. A quick and easy way to get a proper estimate of the uncertainty is by using the blocking method.
 
-When the blocking method was made accessible by \citet{flyvbjerg_error_1989} in 1989, the method required hyper-parameters which had to be carefully adjusted for each particular data set. In 2018, \citet{jonsson_standard_2018} reinvented the algorithm and made it automated, with no need for external parameters. Despite this, no compromise was made on performance. The method scales as $12n+\mathcal{O}(\log_2n)$ for small data sets, but reduces to $n+\mathcal{O}(1)$ for large data sets, which makes it preferred over bootstrap and jackknife for large data sets. We will now go through the idea behind the blocking method.
+When the blocking method was made accessible by \citet{flyvbjerg_error_1989} in 1989, the method required hyper-parameters which had to be carefully adjusted for each particular data set. In 2018, \citet{jonsson_standard_2018} reinvented the algorithm and made it automated, with no need for external parameters. Despite this, no compromise was made on performance. The method scales as $12n+\mathcal{O}(\log_2n)$ for small data sets, but reduces to $n+\mathcal{O}(1)$ for large data sets.  This makes it preferred over bootstrap and jackknife for large data sets. We will now go through the idea behind the blocking method.
 
 Consider a stationary time series $\{x_1, x_2, \hdots, x_n\}$ with $n=2^d$ data point for some integer $d>1$. For this series, an autocovariance function $\gamma(h)$ is guaranteed to exist \supercite{jonsson_standard_2018}. We arrange the data in a vector
 \begin{equation}

@@ -135,14 +135,14 @@ void RBMProduct::updateVectors()
     m_n = e.cwiseProduct(m_p);
 }
 \end{lstlisting}
-One can see that all the operations are vectorized, which makes the operations affordable. 
+We observe that all the operations are vectorized, making the operations affordable. 
 
 \section{Partly restricted Boltzmann machine}
 For the partly restricted Boltzmann machine given in equation \eqref{eq:PRBMWF}, we observe that the only difference from a standard Boltzmann machine is the factor 
 \begin{equation}
-\Psi_{\text{pr}}=\exp(\sum_{i=1}^{F}\sum_{j=1}^{F}x_ic_{ij}x_j),
+\Psi_{\text{pr}}=\exp(\sum_{i=1}^{F}\sum_{j=1}^{F}x_ic_{ij}x_j).
 \end{equation}
-which we also can threat separately. To run a computation with the partly restricted Boltzmann machine, we thus need to add the elements \lstinline|RBMGaussian|, \lstinline|RBMProduct| and \lstinline|PartlyRestricted| in a similar way as in the example \ref{lst:qd}. When differentiating, we end up with the expressions
+This can be threated separately. To run a computation with the partly restricted Boltzmann machine, we thus need to add the elements \lstinline|RBMGaussian|, \lstinline|RBMProduct| and \lstinline|PartlyRestricted| in a similar way as in the example \ref{lst:qd}. When differentiating, we end up with the expressions
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \begin{aligned}
 \frac{|\Psi_{\text{pr}}(\bs{R}_{\text{new}})|^2}{|\Psi_{\text{pr}}(\bs{R}_{\text{old}})|^2}&=\exp(2\sum_{j=1}^{F}c_{ij}x_j\left(x_i^{\text{new}}-x_i^{\text{old}}\right)),\\
