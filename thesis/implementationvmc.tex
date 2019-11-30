@@ -459,13 +459,11 @@ void SimpleJastrow::updatePrincipalDistance(int i)
 	int i_d = i % m_numberOfDimensions;
 	for (int j_p = 0; j_p < i_p; j_p++) {
 		int j = i_d + j_p * m_numberOfDimensions;
-		m_principalDistance(i, j) = (m_positions(i) - m_positions(j)) / m_distanceMatrix(i_p, j_p);
-		m_principalDistance(j, i) = -m_principalDistance(i, j);
+		m_principalDistance(j, i) = (m_positions(i) - m_positions(j)) / m_distanceMatrix(j_p, i_p);
 	}
 	for (int j_p = i_p + 1; j_p < m_numberOfelectrons; j_p++) {
 		int j = i_d + j_p * m_numberOfDimensions;
 		m_principalDistance(i, j) = (m_positions(i) - m_positions(j)) / m_distanceMatrix(i_p, j_p);
-		m_principalDistance(j, i) = -m_principalDistance(i, j);
 	}
 }
 \end{lstlisting}
@@ -520,7 +518,7 @@ r_{12} & 0 & r_{23} \\
 r_{13} & r_{23} & 0
 \end{pmatrix},
 \end{eqnarray}
-where $r_{ij}$ means the distance between electrons $i$ and $j$. Since $r_{ij}=r_{ji}$ and $r_{ii}=0$, the matrix becomes symmetric with zeros on the diagonal, which means that we only need to calculate $N(N-1)/2$ elements instead of $N^2$. Further, we can utilize that only an electron is moved at a time, which means that only a row and a column are changed when an electron is moved. For instance, if electron 1 is moved, the upper row and the left-hand side column in matrix $M$ need to be updated. In our program, we have implemented this in the following way
+where $r_{ij}$ means the distance between electrons $i$ and $j$. Since $r_{ij}=r_{ji}$ and $r_{ii}=0$, the matrix becomes symmetric with zeros on the diagonal, which means that we only need to calculate $N(N-1)/2$ elements instead of $N^2$. When updating the elements, we can utilize that only an electron is moved at a time, which means that only a row and a column are changed when an electron is moved. For instance, if electron 1 is moved, the upper row and the left-hand side column in matrix $M$ need to be updated. In our program, we have implemented this in the following way
 \lstset{basicstyle=\scriptsize}
 \begin{lstlisting}[language=c++]
 double Metropolis::calculateDistanceMatrixElement(const int i, const int j) 
@@ -536,9 +534,11 @@ double Metropolis::calculateDistanceMatrixElement(const int i, const int j)
 }
 
 void Metropolis::calculateDistanceMatrixCross(const int electron) {
-	for(int i=0; i<m_numberOfelectrons; i++) {
+	for(int i=0; i<electron; i++) {
+		m_distanceMatrix(i, electron) = calculateDistanceMatrixElement(i, electron);
+	}
+	for(int i=electron + 1; i<m_numberOfParticles; i++) {
 		m_distanceMatrix(electron, i) = calculateDistanceMatrixElement(electron, i);
-		m_distanceMatrix(i, electron) = m_distanceMatrix(electron, i);
 	}
 }
 \end{lstlisting}

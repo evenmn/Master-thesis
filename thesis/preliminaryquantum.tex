@@ -22,7 +22,7 @@ which describes the state, or the wave function, $\Psi(\bs{x},t)$, of a system w
 
 Today, there is wide agreement in the physics society on the quantum theory. Actually, the theory is the most precisely tested theory in the history of science, where computed observable of atoms agree perfectly with experiments. Most notably, quantum electrodynamical calculations of the fine structure constant $\alpha$ are, by \citet{odom_new_2006}, found to agree with experiments within ten parts in a billion.
 
-In this chapter, we will first state the postulates of quantum mechanics, and thereafter we discuss the time-independent Schrödinger equation and challenges encountered when solving it. As we will see, every observable in quantum mechanics is associated with an operator. Consequently, all obtained values are identified with standard errors which are also important to specify in order to present the accuracy of the value.
+In this chapter, we will first state the postulates of quantum mechanics, and thereafter we discuss the time-independent Schrödinger equation and challenges encountered when solving it. As we will see, every observable in quantum mechanics is associated with an operator. Consequently, all obtained values are identified with standard errors. These values are also important to specify in order to present the accuracy of the value.
 
 Next we discuss the variational principle, which states that the ground state energy is the lowest possible energy calculated, so by minimizing the energy in a variational scheme, a ground state energy estimation can be obtained. We also provide a brief overview of the quantum numbers, which are the values that give acceptable solutions to the Schrödinger equation, and the virial theorem, which relates kinetic and potential energy. 
 
@@ -162,22 +162,22 @@ In the equations above, the presented wave functions are assumed to be the exact
 E_0\leq\mel{\Psi}{\hat{\mathcal{H}}}{\Psi},
 \label{eq:variationalprinciple}
 \end{empheq}
-where $\Psi$ is an arbitrary wave function. The variational method is a way of estimating the energy ground state, which is based on the variational principle. Most notably, the variational Monte Carlo method is named after the principle and attempts to solve the integrals directly by varying a trial wave function. The variational principle ensures that the obtained energy never goes below the ground state energy, as further described in chapter \ref{chp:methods}.
+where $\Psi$ is an arbitrary wave function. The variational method is a way of estimating the energy ground state and is based on the variational principle. Most notably, the variational Monte Carlo method is named after the principle and attempts to solve the integrals directly by varying a trial wave function. The variational principle ensures that the obtained energy never goes below the ground state energy, as further described in chapter \ref{chp:methods}.
 
 \section{Quantum numbers}
 Unlike in classical mechanics, all the observable in quantum mechanics are discrete or \textit{quantized}, which means that the energy can only take discrete values. The possible numbers, called quantum numbers, are are always associated with the degrees of freedom. The first quantum number, $n$, is the principal quantum number and can take positive integers. We also have other quantum numbers identified with the angular momentum and spin as described below.
 
 \subsection*{Principal}
-The \textbf{principal} quantum number describes the electron shell, and can take all positive integers, $n\in[1,2,3,\hdots)$. As $n$ increases, the electron excites to a higher shell such that also the energy increases. In general, $E_1<E_2<E_3\hdots$ as long as all other quantum numbers are fixed. The electron shells can again be split up in subshells, requiring more quantum numbers.
+The \textbf{principal} quantum number takes all positive integers, $n\in[1,2,3,\cdots)$. It is associated with an energy shell. In general, $E_n<E_{n+1}$ as long as all other quantum numbers are fixed. 
 
 \subsection*{Angular}
-An electron shell can possibly have more than one subshell, described by the \textbf{angular} quantum number $l$. $l$ can take all non-negative integers up to $n$, $l\in[0,1,\hdots n-1]$, such that the subshell degeneracy in a shell is simply $n$. In atoms, the angular quantum number describes the shape of the shell, where $l=0$ gives a spherical shape, $l=1$ gives a polar shape while $l=2$ gives a cloverleaf shape. 
+We label the \textbf{angular} quantum number by the letter $l$. It can take all non-negative integers up to $n$, $l\in[0,1,\hdots n-1]$, such that the subshell degeneracy in a shell is simply $n$. In atoms, the angular quantum number describes the shape of a given shell defined by $n$. $l=0$ gives a spherical shape, $l=1$ gives a polar shape while $l=2$ gives a cloverleaf shape. 
 
 \subsection*{Magnetic}
 We also have a \textbf{magnetic} quantum number, $m_l$, which has the range $-l,-l+1,\hdots,l-1,l$. If $l$ describes the shape of a shell, $m_l$ specifies its orientation in space. This quantum number was first observed under the presence of a magnetic field, hence the name.
 
 \subsection*{Spin}
-The \textbf{spin} quantum number, $s$, gives the spin of a particle, which can just be seen as a particle's property. Particles are often classified into two groups depending on the spin because of their different behavior: \textbf{bosons} have integer spin, while \textbf{fermions} have half-integer spin. Electrons and protons have spin $s=1/2$, making them fermions.
+The \textbf{spin} quantum number, $s$, gives the spin of a particle, and can just be seen as a particle's property. Particles are often classified into two groups depending on the spin because of their different behavior: \textbf{bosons} have integer spin, while \textbf{fermions} have half-integer spin. Electrons and protons have spin $s=1/2$, making them fermions.
 
 \subsection*{Spin projection}
 The last number we will discuss is the \textbf{spin projection} quantum number $m_s$. It has the range $-s,-s+1,\hdots,s-1,s$, and is therefore related to the spin quantum number in the same way as the magnetic number $m_l$ is related to the angular number $l$. Electrons can for that reason take the values $m_s=+1/2$ or $m_s=-1/2$, such that there are two groups of electrons. The consequences will be discussed in the section \ref{sec:wavefunction}.
@@ -188,12 +188,12 @@ The virial theorem relates the kinetic energy to the potential energy, and makes
 \langle\hat{T}\rangle=-\frac{1}{2}\sum_{i=1}^N\langle\bs{F}_i\cdot\bs{r}_i\rangle_t,
 \label{eq:virialtheorem}
 \end{empheq}
-where $\bs{F}_i$ represents the force on particle $i$ at position $\bs{r}_i$. The quantum mechanical version was proven by \citet{fock_bemerkung_1930} in 1930, where the expectation value of the force is represented with $d\langle p\rangle/dt$. For potential sources in the form of $V_i=ar^{n_i}$, we can use Ehrenfest's theorem\supercite{ehrenfest_bemerkung_1927} to express the virial theorem in a simpler fashion,
+where $\bs{F}_i$ represents the force on particle $i$ at position $\bs{r}_i$. The quantum mechanical version was proven by \citet{fock_bemerkung_1930} in 1930, where the expectation value of the force is represented by $d\langle p\rangle/dt$. For potential sources in the form of $V_i=ar^{n_i}$, we can use Ehrenfest's theorem\supercite{ehrenfest_bemerkung_1927} to express the virial theorem in a simpler fashion,
 \begin{equation}
 2\langle \hat{T} \rangle = \sum_{i}n_i\langle \hat{V}_{i} \rangle.
 \label{eq:simplevirial}
 \end{equation}
-The same expression can be found in classical physics as well, using the relation $\bs{F}=-\nabla V$. The virial theorem requires that the system is in a bound state. An example of a system that does not fulfill the requirements, is a comet that has enough kinetic energy to escape a planet's gravitational field. 
+The virial theorem requires that the system is in a bound state. An example of a system that does not fulfill the requirements, is a comet that has enough kinetic energy to escape a planet's gravitational field. 
 
 On the other hand, the hydrogen atom, discussed in section \ref{sec:hydrogen}, satisfies the virial theorem as the potential is in the form of $V(r)\propto r^{-1}$ and the electron is bound. For that particular case, the virial theorem reads $2\langle\hat{T}\rangle=-\langle\hat{V}\rangle$, resulting in $E=\langle\hat{V}\rangle/2$.
 
