@@ -480,7 +480,7 @@ where $\beta$ is a variational parameter and the $a_{ij}$ is \textbf{not} a vari
 \end{equation}
 with respect to the coordinate $x_{k'}$. By again differentiating this with respect to $x_{k'}$, we obtain the Laplacian. We again only need the sum of all the Laplacians, which is given by
 \begin{equation}
-\nabla^2\ln\Psi_{\text{pj}}=\sum_{k'=1}^{F}\sum_{j\neq k=1}^N\frac{a_{kj}}{(1+\beta r_{kj})^2}\bigg[1-\Big(1+2\frac{\beta r_{kj}}{1+\beta r_{kj}}\Big)\Big(\frac{x_{k'}-x_{j'}}{r_{kj}}\Big)^2\bigg]\frac{1}{r_{kj}}.
+\nabla^2\ln\Psi_{\text{pj}}=\sum_{k'=1}^{F}\sum_{j\neq k=1}^N\frac{a_{kj}}{(1+\beta r_{kj})^2}\left[1-\left(1+2\frac{\beta r_{kj}}{1+\beta r_{kj}}\right)\left(\frac{x_{k'}-x_{j'}}{r_{kj}}\right)^2\right]\frac{1}{r_{kj}}.
 \end{equation}
 Similar to the simple Jastrow factor, we again observe that the factor $(x_{k'}-x_{j'})/r_{kj}$ appears in both the gradient and the Laplacian, which can be stored as a matrix and updated in the same way as described for the simple Jastrow factor. The last expression we need is the one used to update the variational parameter $\beta$, This can be found to be
 \begin{equation}
@@ -494,7 +494,7 @@ f_{ij}=\frac{a_{ij}}{(1+\beta r_{ij})^2}\quad\wedge\quad g_{i'j'}=\frac{x_{i'}-x
 and obtain the simplified expressions
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \begin{aligned}
-\frac{|\Psi_{\text{pj}}(\bs{R}_{\text{new}})|^2}{|\Psi_{\text{pj}}(\bs{R}_{\text{old}})|^2}&=\exp(2\sum_{j=1}^Na_{ij}(h_{ij}^{\text{new}}-h_{ij}^{\text{old}})),\\
+\frac{|\Psi_{\text{pj}}(\bs{R}_{\text{new}})|^2}{|\Psi_{\text{pj}}(\bs{R}_{\text{old}})|^2}&=\exp(2\sum_{j=1}^Na_{ij}\left(h_{ij}^{\text{new}}-h_{ij}^{\text{old}}\right)),\\
 \nabla_{k'}\ln\Psi_{\text{pj}} &=\sum_{j\neq k=1}^Nf_{kj}\cdot g_{k'j'},\\
 \nabla^2\ln\Psi_{\text{pj}} &= \sum_{k'=1}^F\sum_{j\neq k=1}^N\frac{f_{kj}}{r_{kj}}\left[1-(1+2\beta h_{kj})g_{k'j'}^2\right],\\
 \nabla_{\beta}\ln\Psi_{\text{pj}}&=-\sum_{l=1}^N\sum_{j>l}^Na_{lj}h_{lj}^2=-\sum_{l=1}^N\sum_{j>l}^Nf_{lj}r_{lj}^2,

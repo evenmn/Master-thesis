@@ -109,7 +109,7 @@ V_{\text{ext}}(r_i)=- \frac{1}{2} k_e\frac{Ze^2}{r_i},
 where $k_e$ is Coulomb's constant, $e$ is the elementary charge and $Z$ is the atomic number (number of protons in the nucleus). The total Hamiltonian,
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 \label{eq:AtomicHamiltonian}
-\hat{\mathcal{H}} = \sum_{i=1}^{N} \Big(-\frac{1}{2} \nabla_i^2 - \frac{Z}{r_i}\Big) + \sum_{j>i} \frac{1}{r_{ij}},
+\hat{\mathcal{H}} = \sum_{i=1}^{N} \left(-\frac{1}{2} \nabla_i^2 - \frac{Z}{r_i}\right) + \sum_{j>i} \frac{1}{r_{ij}},
 \end{empheq}
 is given in Hartree atomic units which also are discussed in Appendix B. For the non-interacting case, the energy of a particle in shell $n$ is given by the Bohr formula\supercite{griffiths_introduction_2005}
 \begin{equation}
@@ -126,7 +126,7 @@ where $n$ again is the principal quantum number, $l$ is the angular quantum numb
 
 The radial part can be presented as a function of the \textit{associated Laguerre polynomials} or \textit{generalized Laguerre polynomials}, $L_{q}^p(x)$ and the hydrogen wave function presented in section \ref{sec:hydrogen},
 \begin{equation}
-R_{nl}(r)=\sqrt{\left(\frac{2Z}{n}\right)^3\frac{(n-l-1)!}{2n[(n+l)!]}} r^le^{-Zr/n}\Big[L_{n-l-1}^{2l+1}\Big(\frac{2r}{n}Z\Big)\Big].
+R_{nl}(r)=\sqrt{\left(\frac{2Z}{n}\right)^3\frac{(n-l-1)!}{2n[(n+l)!]}} r^le^{-Zr/n}\left[L_{n-l-1}^{2l+1}\left(\frac{2r}{n}Z\right)\right].
 \end{equation}
 The angular part is given by the \textit{spherical harmonics},
 \begin{equation}

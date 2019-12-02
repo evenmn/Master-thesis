@@ -6,7 +6,7 @@
 	\caption{Random walker on a two-dimensional grid, 1000 moves.}
 \end{figure}
 
-Quantum Monte Carlo methods (QMC) represent a variety \textit{ab initio} methods that attempt to solve the Schrödinger equation using stochastic Monte Carlo integration. \textit{Ab initio} reads "from first principles", implying that the methods constitute a fundamental approach to the problem. They all seek to evaluate the multi-dimensional integrals that represent various quantum mechanical expectation values. The expression for the energy reads
+Quantum Monte Carlo methods (QMC) represent a variety of \textit{ab initio} methods that attempt to solve the Schrödinger equation using stochastic Monte Carlo integration. \textit{Ab initio} reads "from first principles", implying that the methods constitute a fundamental approach to the problem. They all seek to evaluate the multi-dimensional integrals that represent various quantum mechanical expectation values. The expression for the energy reads
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
 E_0= \mel{\Psi_0}{\hat{\mathcal{H}}}{\Psi_0}= \frac{\int d\bs{X}\Psi_0(\bs{X})^*\hat{\mathcal{H}}\Psi_0(\bs{X})}{\int d\bs{X}\Psi_0(\bs{X})^*\Psi_0(\bs{X})},
 \label{eq:schrodingergroundstate}
@@ -104,7 +104,7 @@ where the Slater matrix now is block diagonal! For a general block diagonal matr
 \begin{equation}
 |\hat{S}(\bs{X})|=\frac{1}{\sqrt{N!}}|\hat{S}_{\uparrow}(\bs{X}^{\uparrow})|\cdot |\hat{S}_{\downarrow}(\bs{X}^{\downarrow})|.
 \end{equation}
-This can be seen by writing the total matrix as a product of all the block diagonal matrix. The matrix containing all the spin-$\sigma$ states is denoted by $\hat{S}_{\sigma}(\bs{X}^{\sigma})$ with collective coordinates $\bs{X}^{\sigma}=\{\{\bs{r}_1^{\sigma},\xi_{\sigma}(\sigma)\},\{\bs{r}_2^{\sigma},\xi_{\sigma}(\sigma)\},\hdots,\{\bs{r}_N^{\sigma},\xi_{\sigma}(\sigma)\}\}$. Since all elements in the respective matrices contain the same spin function, it can be factorized out \supercite{nissenbaum_stochastic_2008},
+This can be seen by writing the total matrix as a product of all the blocks. The matrix containing all the spin-$\sigma$ states is denoted by $\hat{S}_{\sigma}(\bs{X}^{\sigma})$ with collective coordinates $\bs{X}^{\sigma}=\{\{\bs{r}_1^{\sigma},\xi_{\sigma}(\sigma)\},\{\bs{r}_2^{\sigma},\xi_{\sigma}(\sigma)\},\hdots,\{\bs{r}_N^{\sigma},\xi_{\sigma}(\sigma)\}\}$. Since all elements in the respective matrices contain the same spin function, it can be factorized out \supercite{nissenbaum_stochastic_2008},
 \begin{equation}
 \begin{aligned}
 |\hat{S}(\bs{X})|=\frac{1}{\sqrt{N!}}&|\hat{D}_{\uparrow}(\bs{r}_1, \bs{r}_2,\hdots,\bs{r}_{N_{\uparrow}})|\{\xi_{\uparrow}(\sigma_1^{\uparrow})\xi_{\uparrow}(\sigma_2^{\uparrow})\hdots\xi_{\uparrow}(\sigma_{N_{\uparrow}}^{\uparrow})\}, \\ \times&|\hat{D}_{\downarrow}(\bs{r}_{N_{\uparrow}+1}, \hdots,\bs{r}_{N-1},\bs{r}_{N})|\{\xi_{\downarrow}(\sigma_{N_{\uparrow}+1}^{\downarrow})\hdots\xi_{\downarrow}(\sigma_{N-1}^{\downarrow})\xi_{\downarrow}(\sigma_{N}^{\downarrow})\},

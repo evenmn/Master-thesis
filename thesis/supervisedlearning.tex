@@ -58,7 +58,7 @@ where $\tilde{y}_i=f(x_i)$ is the output from the model with $x_i$ as the input.
 \end{equation}
 is minimized. For this problem, we define the cost function, $\mathcal{C}(\bs{\theta})$, as the MSE, which is always the function that we want to minimize in machine learning. For our choice of model, the cost function reads
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-\mathcal{C}(a,b,c)=\frac{1}{n}\sum_{i=0}^{n-1}\Big(y_i-(ax_i^2+bx_i+c)\Big)^2.
+\mathcal{C}(a,b,c)=\frac{1}{n}\sum_{i=0}^{n-1}\left(y_i-(ax_i^2+bx_i+c)\right)^2.
 \end{empheq}
 Before we proceed to the minimization, we will introduce a more general notation, where the estimators are collected in a column vector 
 \begin{equation}
@@ -66,13 +66,13 @@ Before we proceed to the minimization, we will introduce a more general notation
 \end{equation}
 and the $x_i^j$'s are collected in a row vector
 \begin{equation}
-\bs{X}_i\equiv(x_i^2, x_i^1, x_i^0)=(x_i^2, x_i, 1).
+\bs{X}_i\equiv\left(x_i^2, x_i^1, x_i^0\right)=\left(x_i^2, x_i, 1\right).
 \end{equation}
 By using this, the cost function can be rewritten as
 \begin{equation}
 \begin{aligned}
-\mathcal{C}(\bs{\theta})&=\frac{1}{n}\sum_{i=0}^{n-1}\Big(y_i-\sum_{j=0}^2X_{ij}\theta_j\Big)^2,\\
-&=\frac{1}{n}\sum_{i=0}^{n-1}\Big(y_i-\bs{X}_i\bs{\theta}\Big)^2,\\
+\mathcal{C}(\bs{\theta})&=\frac{1}{n}\sum_{i=0}^{n-1}\left(y_i-\sum_{j=0}^2X_{ij}\theta_j\right)^2,\\
+&=\frac{1}{n}\sum_{i=0}^{n-1}\left(y_i-\bs{X}_i\bs{\theta}\right)^2,\\
 &=\frac{1}{n}(\bs{y}-\bs{X}\bs{\theta})^T(\bs{y}-\bs{X}\bs{\theta}),
 \end{aligned}
 \label{eq:polynomialcost}
@@ -80,8 +80,8 @@ By using this, the cost function can be rewritten as
 where we in the last step have collected all the vectors $\bs{X}_i$ in a matrix $\bs{X}=[\bs{X}_1,\bs{X}_2,\hdots,\bs{X}_n]$. As the minimum of the cost function with respect to an estimator $\theta_k$ is found when the derivative is zero, we need to solve the equation
 \begin{equation}
 \begin{aligned}
-\frac{\partial \mathcal{C}(\bs{\theta})}{\partial\theta_k} &=\frac{\partial}{\partial\theta_k}\bigg(\frac{1}{n}\sum_{i=0}^{n-1}\Big(y_i-\sum_{j=0}^2X_{ij}\theta_j\Big)^2\bigg),\\
-&=\frac{2}{n}\sum_{i=0}^{n-1}X_{ik}\Big(y_i-\sum_{j=0}^2X_{ij}\theta_j\Big)=0.
+\frac{\partial \mathcal{C}(\bs{\theta})}{\partial\theta_k} &=\frac{\partial}{\partial\theta_k}\left(\frac{1}{n}\sum_{i=0}^{n-1}\left(y_i-\sum_{j=0}^2X_{ij}\theta_j\right)^2\right),\\
+&=\frac{2}{n}\sum_{i=0}^{n-1}X_{ik}\left(y_i-\sum_{j=0}^2X_{ij}\theta_j\right)=0.
 \end{aligned}
 \end{equation}
 We can go further and write it on matrix-vector form as
@@ -169,7 +169,7 @@ f(x_i)=\sum_{j=0}^pX_{ij}(x_i)\theta_j
 \end{equation}
 to the points, where we have $p+1$ estimators $\theta_j$. The matrix $\bs{X}$ is called the \textit{design matrix}, and the case where $X_{ij}(x_i)=x_i^j$ corresponds to polynomial regression, but it can in principle be an arbitrary function of $x_i$. The cost function for \textit{the ordinary least square regression} (OLS) case is already found in equation \eqref{eq:polynomialcost}, and we can recall it as
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-\mathcal{C}(\bs{\theta})=\sum_{i=1}^{n}\Big(y_i-\sum_{j=0}^pX_{ij}\theta_j\Big)^2,\qquad\qquad\qquad\text{OLS}
+\mathcal{C}(\bs{\theta})=\sum_{i=1}^{n}\left(y_i-\sum_{j=0}^pX_{ij}\theta_j\right)^2,
 \end{empheq}
 which is minimized when
 \begin{equation}
@@ -190,11 +190,11 @@ where $\bs{U}$ is a unitary $m\times m$ matrix, $\bs{V}$ is a unitary $n\times n
 \end{equation}
 where we exploit that $\bs{U}^T\bs{U}=\mathbb{1}$ and $\bs{\Sigma}^T\bs{\Sigma}=\bs{D}$ by definition. Further we can multiply by $\bs{V}$ on the right-hand side,
 \begin{equation}
-(\bs{X}^T\bs{X})\bs{V}=\bs{V}\bs{D},
+\left(\bs{X}^T\bs{X}\right)\bs{V}=\bs{V}\bs{D},
 \end{equation}
 to get rid of $\bs{V}^T$. A similar exercise can be performed on $\bs{X}\bs{X}^T$, and we will obtain
 \begin{equation}
-(\bs{X}\bs{X}^T)\bs{U}=\bs{U}\bs{D}.
+\left(\bs{X}\bs{X}^T\right)\bs{U}=\bs{U}\bs{D}.
 \end{equation}
 By using the former of the two expressions, one can show that
 \begin{equation}
@@ -205,12 +205,12 @@ which is solvable even when $\bs{X}^T\bs{X}$ is singular.
 \subsection{Ridge regression}
 Ridge regression is an extension of ordinary least square regression, introduced for two main reasons. Firstly, it is used to keep the matrix $\bs{X}^T\bs{X}$ non-singular, and secondly, it is used to introduce regularization. The most intuitive way of avoiding singular values in the matrix, is to add values to the diagonal as a matrix with values along the diagonal is not singular. The procedure is to add the same value, the penalty $\lambda$, to all the diagonal elements to ensure that all the diagonal elements will get a non-zero value. Still using the matrix-vector form, this can be written as 
 \begin{equation}
-\bs{\theta}=(\bs{X}^T\bs{X}+\lambda\mathbb{1})^{-1}\bs{X}^T\bs{y},
+\bs{\theta}=\left(\bs{X}^T\bs{X}+\lambda\mathbb{1}\right)^{-1}\bs{X}^T\bs{y},
 \label{eq:ridgetheta}
 \end{equation}
 where $\mathbb{1}$ is the identity matrix. The penalty, $\lambda$, is a so-called \textit{hyper-parameter}, in contrast to the estimators which are variational parameters. What distinguishes hyper-parameters from variational parameters, is that the former are specified before the training and the latter are determined throughout the training. This method is called Ridge regression, and has a cost function given by 
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-\mathcal{C}(\bs{\theta})=\sum_{i=1}^{n}\Big(y_i-\sum_{j=0}^pX_{ij}\theta_j\Big)^2+\lambda\sum_{j=1}^p|\theta_j|^2,\qquad\text{Ridge}
+\mathcal{C}(\bs{\theta})=\sum_{i=1}^{n}\left(y_i-\sum_{j=0}^pX_{ij}\theta_j\right)^2+\lambda\sum_{j=1}^p|\theta_j|^2,
 \label{eq:ridge}
 \end{empheq}
 where we in principle just add the L2-norm of the estimator vector to the OLS cost function. The link between equation \eqref{eq:ridgetheta} and \eqref{eq:ridge} can be easiest found by going from the latter to the former, similarly to what we did for the polynomial regression in equations (\ref{eq:polynomialcost}-\ref{eq:polynomialestimators}).
@@ -218,7 +218,7 @@ where we in principle just add the L2-norm of the estimator vector to the OLS co
 \subsection{LASSO regression} \label{sec:lasso}
 Finally, we introduce the \textit{least absolute shrinkage and selection operator} (LASSO) regression, which in the same way as Ridge regression is based on regularization. Instead of adding the L2-norm of the estimator matrix, we add the the L1-norm, $|\theta_j|$, and the cost function expresses
 \begin{empheq}[box={\mybluebox[5pt]}]{equation}
-\mathcal{C}(\bs{\theta})=\sum_{i=1}^{n}\Big(y_i-\sum_{j=0}^pX_{ij}\theta_j\Big)^2+\lambda\sum_{j=1}^p|\theta_j|.\qquad\text{Lasso}
+\mathcal{C}(\bs{\theta})=\sum_{i=1}^{n}\left(y_i-\sum_{j=0}^pX_{ij}\theta_j\right)^2+\lambda\sum_{j=1}^p|\theta_j|.
 \end{empheq}
 For LASSO regression, we cannot set $\partial\mathcal{C}(\bs{\theta})/\partial\theta_k=0$ and find a closed-form expression of $\bs{\theta}$. This means that we need to use an iterative optimization algorithm in order to obtain the optimal estimators. Such optimization methods are essential in non-linear problems such as deep neural networks and variational Monte Carlo. In section \ref{sec:optimizationalgorithms}, we present various optimization methods, but from now on we will stick to one of the most basic methods, \textit{gradient descent}, which can be written as  
 \begin{equation}
