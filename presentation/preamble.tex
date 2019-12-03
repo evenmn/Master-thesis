@@ -7,7 +7,6 @@
 \usepackage{verbatim} %for å inkludere filer med tegn LaTeX ikke liker
 \usepackage{tabularx}
 \usepackage{booktabs}
-\usepackage{amsmath}
 \usepackage{mathbbol}
 \usepackage{float}		% fix object
 \usepackage{pdflscape}	% landscape page
@@ -24,8 +23,6 @@
 %\usepackage{titlesec}
 \usepackage{comment}
 \usepackage{makecell}	% New line in cell
-\usepackage{fancybox}	% Oval equation box
-\usepackage{enumitem}	% Itemize settings
 \usepackage{subfig}		% Sub figures
 \usepackage{empheq}		% Beautiful boxes
 \usepackage{multirow}	% Multirow in table
@@ -37,7 +34,11 @@
 \usepackage{xargs} 
 \usepackage{copyrightbox}
 \usepackage{mathpazo}
+\usepackage[absolute,overlay]{textpos}
+\usepackage{mathtools}  
 
+\mathtoolsset{showonlyrefs}
+\usefonttheme{serif}
 
 % Colors
 \definecolor{background}{rgb}{0.898,0.898,0.898}
@@ -67,7 +68,7 @@
 
 %tikz
 \setcounter{secnumdepth}{4}
-\usetikzlibrary{through, shapes, calc, shapes, arrows, positioning, arrows.meta, shadows, er, spy, external} 
+\usetikzlibrary{through, shapes, calc, arrows, positioning, arrows.meta, shadows, er, spy, external, snakes} 
 \tikzstyle{neuron}=[draw,circle,minimum size=20pt,inner sep=0pt, fill=white]
 \tikzstyle{stateTransition}=[thick]
 \tikzstyle{learned}=[text=red]

@@ -1,6 +1,6 @@
 \documentclass{beamer}
-\input{preliminares.tex}
 \input{preamble.tex}
+\input{preliminares.tex}
 
 \author{Even Marius Nordhagen} 
 \institute[UiO] { University of Oslo \\ 
@@ -18,20 +18,39 @@
 
 \mframe{\frametitle{Outline}
 \begin{itemize}
-	\item Theory
-	\begin{itemize}
-		\item Quantum Mechanics
-		\item Machine Learning
-	\end{itemize}
+	\item Motivation
+	\item Quantum Theory
+	\item Machine Learning
 	\item Methods
-	\begin{itemize}
-		\item Variational Monte Carlo
-		\item Restricted Boltzmann Machines
-	\end{itemize}
 	\item Results
 	\item Conclusion
 	\item (Code)
 \end{itemize}
+}
+
+\titleframe{Motivation}
+
+\mframe{\frametitle{Why quantum dots?}
+	\begin{itemize}
+		\item Technology
+		\item Theoretically
+		\item Experimentally
+	\end{itemize}
+}
+
+\mframe{\frametitle{Why is it challenging?}
+	\begin{itemize}
+		\item Quantum many-body problem
+		\item Fermi-Dirac statistics
+	\end{itemize}
+}
+
+\mframe{\frametitle{How to overcome the challenges?}
+	\begin{itemize}
+		\item Efforts..
+		\item gh
+		\item Our approach: Machine Learning
+	\end{itemize}
 }
 
 \mframe{
@@ -40,23 +59,15 @@
 	\end{center}
 }
 
-\mframe{\frametitle{Quantum Mechanics}
-The mechanics of a quantum system is described by the time-dependent Schrödinger equation,
-\begin{empheq}[box={\mybluebox[5pt]}]{equation}
-	i\hbar\frac{\partial}{\partial t}\ket{\Psi(\bs{r},t)}=\hat{\mathcal{H}}\ket{\Psi(\bs{r},t)}
-\end{empheq}
-
-}
-
 \mframe{\frametitle{The Time-independent Schrödinger Equation}
-For a stationary system, the Schrödinger equation reduces to
+A stationary quantum mechanical system is described by 
 	\begin{equation}
 	E_n=\frac{\int d\bs{r}\psinc\hat{\mathcal{H}}\psin}{\int d\bs{r}\psinc\psin}
 	\end{equation}
 which gives the energy of state $n$.
 }
 
-
+\iffalse
 \mframe{\frametitle{Harmonic Oscillator}
 
 \begin{equation}
@@ -84,8 +95,8 @@ which gives the energy of state $n$.
 		\centering
 		\input{../pgf/HO_2P.tex}
 	\end{figure}
-	
 }
+\fi
 
 \mframe{\frametitle{Machine Learning}
 	
