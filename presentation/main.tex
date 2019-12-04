@@ -1,6 +1,5 @@
 \documentclass{beamer}
 \input{preamble.tex}
-\input{preliminares.tex}
 
 \author{Even Marius Nordhagen} 
 \institute[UiO] { University of Oslo \\ 
@@ -12,11 +11,9 @@
 
 \begin{document}
 
-\begin{frame}
-\titlepage 
-\end{frame}
+\frontframe
 
-\mframe{\frametitle{Outline}
+\mframe{Outline}{
 \begin{itemize}
 	\item Motivation
 	\item Quantum Theory
@@ -30,45 +27,41 @@
 
 \titleframe{Motivation}
 
-\mframe{\frametitle{Why quantum dots?}
+\mframe{Why quantum dots?}{
 	\begin{itemize}
-		\item Technology
+		\item Technology \supercite{noauthor_samsung_nodate}
 		\item Theoretically
-		\item Experimentally
+		\item Experimentally (2D)
 	\end{itemize}
 }
 
-\mframe{\frametitle{Why is it challenging?}
+\mframe{Why is it challenging?}{
 	\begin{itemize}
 		\item Quantum many-body problem
 		\item Fermi-Dirac statistics
 	\end{itemize}
 }
 
-\mframe{\frametitle{How to overcome the challenges?}
+\mframe{How to overcome the challenges?}{
 	\begin{itemize}
 		\item Efforts..
 		\item gh
-		\item Our approach: Machine Learning
+		\item Our approach: Machine Learning \supercite{carleo_solving_2017, pfau2019abinitio}
 	\end{itemize}
 }
 
-\mframe{
-	\begin{center}
-		Theory
-	\end{center}
-}
+\titleframe{Quantum Theory}
 
-\mframe{\frametitle{The Time-independent Schrödinger Equation}
+\mframe{The Time-independent Schrödinger Equation}{
 A stationary quantum mechanical system is described by 
 	\begin{equation}
-	E_n=\frac{\int d\bs{r}\psinc\hat{\mathcal{H}}\psin}{\int d\bs{r}\psinc\psin}
+	E_n=\frac{\int d\bs{R}\psinc\hat{\mathcal{H}}\psin}{\int d\bs{R}\psinc\psin}
 	\end{equation}
 which gives the energy of state $n$.
 }
 
 \iffalse
-\mframe{\frametitle{Harmonic Oscillator}
+\mframe{Harmonic Oscillator}{
 
 \begin{equation}
 \begin{aligned}
@@ -84,7 +77,7 @@ which gives the energy of state $n$.
 
 }
 
-\mframe{\frametitle{Circular Quantum Dots}
+\mframe{Circular Quantum Dots}{
 	\begin{equation}
 	\begin{aligned}
 	\hat{\mathcal{H}} &= -\frac{1}{2}\nabla_1^2 -\frac{1}{2}\nabla_2^2 + \frac{1}{2} \omega^2r_1^2 + \frac{1}{2} \omega^2r_2^2 + \frac{1}{r_{ij}}\\
@@ -98,7 +91,9 @@ which gives the energy of state $n$.
 }
 \fi
 
-\mframe{\frametitle{Machine Learning}
+\titleframe{Machine Learning Theory}
+
+\mframe{Machine Learning}{
 	
 	\begin{shadequote}{}
 		Machine learning is the science of getting computers to act without being explicitly programmed.
@@ -106,59 +101,55 @@ which gives the energy of state $n$.
 	
 }
 
-\mframe{\frametitle{Feed-forward Neural Network}
+\mframe{Feed-forward Neural Network}{
 	\begin{figure}[scale=0.2]
 		\centering
 		\input{../tikz/multilayer_perceptron.tex}
 	\end{figure}
 }
 
-\mframe{\frametitle{Restricted Boltzmann machines}
-	\begin{figure}
+\mframe{Restricted Boltzmann machines}{
+	\begin{figure}[width=5cm]
 		\centering
 		\input{../tikz/restricted_boltzmann_machine.tex}
 	\end{figure}
 }
 
-\mframe{
-	\begin{center}
-		Methods
-	\end{center}
-}
+\titleframe{Methods}
 
-\mframe{\frametitle{Variational Monte Carlo (VMC)}
+\mframe{Variational Monte Carlo (VMC)}{
 Exploit the variational principle in order to obtain the ground state energy
 	\begin{equation}
 	\begin{aligned}
-	E_0 < E_{\text{VMC}} &= \frac{\int d\bs{r}\Psi_T(\bs{r})^*\hat{\mathcal{H}}\Psi_T(\bs{r})}{\int d\bs{r}\Psi_T(\bs{r})^*\Psi_T(\bs{r})}\\
-	&= \int d\bs{r}\underbrace{\frac{\Psi_T(\bs{r})^*\Psi_T(\bs{r})}{\int d\bs{r}\Psi_T(\bs{r})^*\Psi_T(\bs{r})}}_{P(\bs{r})}\cdot\underbrace{\frac{1}{\Psi_T(\bs{r})}\hat{\mathcal{H}}\Psi_T(\bs{r})}_{E_L(\bs{r})}
+	E_0 < E_{\text{VMC}} &= \frac{\int d\bs{R}\Psi_T(\bs{R})^*\hat{\mathcal{H}}\Psi_T(\bs{R})}{\int d\bs{R}\Psi_T(\bs{R})^*\Psi_T(\bs{R})}\\
+	&= \int d\bs{R}\underbrace{\frac{\Psi_T(\bs{R})^*\Psi_T(\bs{R})}{\int d\bs{R}\Psi_T(\bs{R})^*\Psi_T(\bs{R})}}_{P(\bs{R})}\cdot\underbrace{\frac{1}{\Psi_T(\bs{R})}\hat{\mathcal{H}}\Psi_T(\bs{R})}_{E_L(\bs{R})}
 	\end{aligned}
 	\end{equation}
 	
 }
 
-\mframe{\frametitle{Monte Carlo Integration}
+\mframe{Monte Carlo Integration}{
 	We attempt to solve the integral by sampling from the probability density function $P(\bs{r})$
 	\begin{equation}
 	\begin{aligned}
-	E_{\text{VMC}} &= \int d\bs{r} E_L(\bs{r})P(\bs{r}) \\
-	&\approx\frac{1}{M}\sum_{i=1}^ME_L(\bs{r}_i)
+	E_{\text{VMC}} &= \int d\bs{R} E_L(\bs{R})P(\bs{R}) \\
+	&\approx\frac{1}{M}\sum_{i=1}^ME_L(\bs{R}_i)
 	\end{aligned}
 	\end{equation}
 }
 
-\mframe{\frametitle{Trial Wave Function}
+\mframe{Trial Wave Function}{
 	\begin{equation}
-	P(\bs{r})\propto\Psi_T(\bs{r})^*\Psi_T(\bs{r})
+	P(\bs{R})\propto\Psi_T(\bs{R})^*\Psi_T(\bs{R})
 	\end{equation}
 	
 	Use the Slater-Jastrow function as our trial wave function
 	\begin{equation}
-	\Psi_T(\bs{r})=|\hat{D}(\bs{r})|J(\bs{r})
+	\Psi_T(\bs{R})=|\hat{D}(\bs{R})|J(\bs{R})
 	\end{equation}
-	where the Slater matrix, $\hat{D}(\bs{r})$, contains all the single-particle functions
+	where the Slater matrix, $\hat{D}(\bs{R})$, contains all the single-particle functions
 	\begin{equation}
-	\hat{D}(\bs{r})=
+	\hat{D}(\bs{R})=
 	\begin{pmatrix}
 	\phi_1(\boldsymbol{r}_1) & \phi_2(\boldsymbol{r}_1) & \hdots & \phi_N(\boldsymbol{r}_1)\\
 	\phi_1(\boldsymbol{r}_2) & \phi_2(\boldsymbol{r}_2) & \hdots & \phi_N(\boldsymbol{r}_2)\\
@@ -168,14 +159,14 @@ Exploit the variational principle in order to obtain the ground state energy
 	\end{equation}
 }
 
-\mframe{\frametitle{Single-particle Functions}
+\mframe{Single-particle Functions}{
 	The Hermite functions,
 	\begin{equation}
 	\phi_n(\bs{r})\propto H_n(\bs{r})\exp(-\frac{1}{2}\alpha\omega|\bs{r}|^2),
 	\end{equation}
 	are used as the single-particle functions for quantum dots in standard VMC. The Gaussian can be factorized out from the Slater determinant.
 	\begin{equation}
-	|\hat{D}(\bs{r};\alpha)|\propto\exp(-\frac{1}{2}\alpha\omega|\bs{r}|^2)
+	|\hat{D}(\bs{R};\alpha)|\propto\exp(-\frac{1}{2}\alpha\omega|\bs{R}|^2)
 	\begin{vmatrix}
 	H_1(\boldsymbol{r}_1) & H_2(\boldsymbol{r}_1) & \hdots & H_N(\boldsymbol{r}_1)\\
 	H_1(\boldsymbol{r}_2) & H_2(\boldsymbol{r}_2) & \hdots & H_N(\boldsymbol{r}_2)\\
@@ -185,7 +176,7 @@ Exploit the variational principle in order to obtain the ground state energy
 	\end{equation}
 }
 
-\mframe{\frametitle{Restricted Boltzmann Machine}
+\mframe{Restricted Boltzmann Machine}{
 	We use the marginal distribution of the visible units as the single-particle functions in the Slater determinant, and see if them can model the correlations 
 	\begin{equation}
 	\phi_n(\bs{r})\propto H_n(\bs{r})P(\bs{r};\bs{a},\bs{b},\bs{W})
@@ -203,7 +194,7 @@ Exploit the variational principle in order to obtain the ground state energy
 }
 
 
-\mframe{\frametitle{Jastrow Factor}
+\mframe{Jastrow Factor}{
 The Jastrow factor is added to account for the correlations
 
 Simple Jastrow factor
@@ -217,37 +208,49 @@ J(\bs{r};\beta) = \exp\bigg(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta 
 \end{equation}
 }
 
-\mframe{
-	\begin{center}
-		Results
-	\end{center}
+\titleframe{Results}
+
+\mframe{Ground State Energy}{
+\begin{table}
+	\caption{Ground state energy of two-dimensional  quantum dot with $N=2$ electrons and frequency $\omega=1.0$.}
+	\begin{tabularx}{\textwidth}{lR{1.5cm}R{1.6cm}R{1.6cm}R{1.5cm}R{1.3cm}} 
+		\toprule
+		$\omega$ & RBM & RBM+SJ & RBM+PJ & HF\footnote[2]{\citet{mariadason_quantum_2018}} & Exact\footnote[8]{\citet{taut_two_1993}} \\
+		\midrule
+		1/6 & 0.7036(1) & 0.67684(7) & 0.66715(6) & 0.768675 & 2/3 \\ 
+		1 & 3.0803(2) & 3.02108(5) & 2.999587(5) & 3.1690 & 3 \\
+		\bottomrule
+	\end{tabularx}
+\end{table}
 }
 
-\iffalse
-\mframe{\frametitle{Ground State Energy}
-	\begin{tabularx}{\textwidth}{lR{1.5cm}R{1.6cm}R{1.6cm}R{1.5cm}R{1.3cm}} \hline\hline
-		\label{tab:cputimefit}
-		\makecell{$\omega$ \\ \phantom{=}} & RBM & RBM+SJ & RBM+PJ & HF\footnote{Produced by the HF code developed by \citeauthor{mariadason_quantum_2018}} & Exact\footnote{\citeauthor{taut_two_1993}, \citetitle{taut_two_1993}, \citeyear{taut_two_1993}}} \\ \hline \\
-	1/6 & 0.7036(1) & 0.67684(7) & 0.66715(6) & 0.768675 & 2/3 \\ 
-	1 & 3.0803(2) & 3.02108(5) & 2.999587(5) & 3.1690 & 3 \\ \hline\hline
-\end{tabularx}
+\mframe{One-body density}{
+	\begin{figure}
+		\centering
+		\captionsetup[subfigure]{labelformat=empty}
+		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{RBM}}}\hspace{0.cm}
+		\subfloat{{\includegraphics[width=3cm]{../plots/int1/onebody2/2D/20P/1.000000w/RBM_ADAM_MC1048576.png}}}\hspace{0.5cm}
+		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{RBM+SJ}}}\hspace{0.cm}
+		\subfloat{{\includegraphics[width=3cm]{../plots/int1/onebody2/2D/20P/1.000000w/RBMSJ_ADAM_MC1048576.png}}}\\
+		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{RBM+PJ}}}\hspace{0.cm}
+		\subfloat{{\includegraphics[width=3cm]{../plots/int1/onebody2/2D/20P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{0.5cm}
+		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{VMC}}}\hspace{0.cm}
+		\subfloat{{\includegraphics[width=3cm]{../plots/int1/onebody2/2D/20P/1.000000w/VMC_ADAM_MC1048576.png}}}
+		
+		\caption{Plots of the one-body density profiles, $\rho(x,y)$, for two-dimensional quantum dots with $N=20$ electrons and frequency $\omega=1.0$.}%
+	\end{figure}
 }
-\fi
 
-\mframe{\frametitle{Computational Cost}
+\mframe{Computational Cost}{
 	\begin{figure}
 		\centering 
 		\input{../pgf/cpu_2D.tex}
 	\end{figure} 
 }
 
-\mframe{
-	\begin{center}
-		Conclusion
-	\end{center}
-}
+\titleframe{Conclusion}
 
-\mframe{\frametitle{Retrospect}
+\mframe{Conclusions}{
 	\begin{itemize}
 		\item RBM is able to account for most of the correlations
 		\item RBM+PJ implies to give a lower ground state energy and model the correlations better than a traditional VMC
@@ -255,7 +258,7 @@ J(\bs{r};\beta) = \exp\bigg(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta 
 	\end{itemize}
 }
 
-\mframe{\frametitle{Future Work}
+\mframe{Future Work}{
 	\begin{itemize}
 		\item Repeat the exercise using spherical coordinates - interactions are easier to model in spherical coordinates
 		\item Check the ability of modeling the three-body correlations, considering nuclear systems
@@ -263,10 +266,10 @@ J(\bs{r};\beta) = \exp\bigg(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta 
 	\end{itemize}
 }
 
-\mframe{
-	\begin{center}
-		Thank you!
-	\end{center}
+\titleframe{Thank you!}
+
+\mframe{References}{
+	\printbibliography
 }
 
 \end{document}

@@ -1,0 +1,68 @@
+% Beamer style
+ \setlength{\TPHorizModule}{10mm}
+\setlength{\TPVertModule}{\TPHorizModule}
+\textblockorigin{1mm}{1mm} % start everything near the top-left corner
+\setlength{\parindent}{0pt}
+
+\setbeamertemplate{itemize items}{\color{color0}$\blacktriangleright$}
+
+\setbeamercolor{titlelike}{fg=black}
+\setbeamercolor{block title}{fg=white}
+\setbeamercolor{block title}{bg=black}
+\setbeamercolor{block body}{bg=color0}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% FRONT FRAME
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\frontframe}{
+	\begin{frame}
+		%\titlepage 
+		\thispagestyle{empty}
+		\begin{center}
+			\Large{\textcolor{black}{\mtitle}}\\ \vspace{0.5cm}
+			\includegraphics[scale=.3]{../Images/UiO_Segl_pms485.eps} \\ \vspace{0.5cm}
+			\large{\mauthor}\\ \vspace{0.3cm}
+			\scriptsize{University of Oslo} \\ \vspace{0.2cm}
+			\scriptsize{\textit{\mmail}} \\ \vspace{0.5cm}
+			\large{\today} \\ \vfill
+		\end{center}
+	\end{frame}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ORDINARY FRAME
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\mframe}[2]{
+	\frame{
+		% PROGRESSION WHEEL 
+		\begin{textblock}{3}(0.5,8)
+			\begin{tikzpicture}[x=1mm,y=1mm]
+			\foreach \x in {1,2,...,\inserttotalframenumber} 
+			\draw [myblue,very thick] (\x/\inserttotalframenumber*360:3) -- (\x/\inserttotalframenumber*360:4);
+			\foreach \x in {1,2,...,\insertframenumber} 
+			\draw[color0,very thick] (\x/\inserttotalframenumber*360:3) -- (\x/\inserttotalframenumber*360:4);
+			\node at (0,0) [] {\tiny{\textbf{\textcolor{black}{\insertframenumber}}}};
+			\end{tikzpicture}
+		\end{textblock}
+	
+		% UIO LOGO
+		\begin{textblock}{3}(4.2,8.3)
+			\centering
+			\includegraphics[scale=.2]{../Images/UiO_Seal_A_ENG_cmyk.eps}
+		\end{textblock}
+		
+		\frametitle{#1}
+		\small{#2}}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TITLED FRAME
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\titleframe}[1]{
+	\mframe{
+		\begin{center}
+			\vspace{2cm}
+			{\Huge \textcolor{black}{#1}}
+		\end{center}
+	}
+}
