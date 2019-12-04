@@ -212,7 +212,7 @@ J(\bs{r};\beta) = \exp\bigg(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta 
 
 \mframe{Ground State Energy}{
 \begin{table}
-	\caption{Ground state energy of two-dimensional  quantum dot with $N=2$ electrons and frequency $\omega=1.0$.}
+	\caption{$N=2$, $\omega=1.0$.}
 	\begin{tabularx}{\textwidth}{lR{1.5cm}R{1.6cm}R{1.6cm}R{1.5cm}R{1.3cm}} 
 		\toprule
 		$\omega$ & RBM & RBM+SJ & RBM+PJ & HF\footnote[2]{\citet{mariadason_quantum_2018}} & Exact\footnote[8]{\citet{taut_two_1993}} \\
@@ -222,6 +222,10 @@ J(\bs{r};\beta) = \exp\bigg(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta 
 		\bottomrule
 	\end{tabularx}
 \end{table}
+}
+
+\mframe{Energy distribution}{
+	Distribution between various energy sources
 }
 
 \mframe{One-body density}{
@@ -236,30 +240,8 @@ J(\bs{r};\beta) = \exp\bigg(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta 
 		\subfloat{{\includegraphics[width=3cm]{../plots/int1/onebody2/2D/20P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{0.5cm}
 		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{VMC}}}\hspace{0.cm}
 		\subfloat{{\includegraphics[width=3cm]{../plots/int1/onebody2/2D/20P/1.000000w/VMC_ADAM_MC1048576.png}}}
-		
-		%\caption{Plots of the one-body density profiles, $\rho(x,y)$, for two-dimensional quantum dots with $N=20$ electrons and frequency $\omega=1.0$.}%
+		\caption{$N=12$, $\omega=1.0$}
 	\end{figure}
-}
-
-\mframe{Two-body density}{
-	\begin{figure}
-		\centering
-		\captionsetup[subfigure]{labelformat=empty}
-		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{RBM}}}\hspace{0.cm}
-		\subfloat{{\includegraphics[width=3cm]{../plots/int1/twobody/2D/20P/1.000000w/RBM_ADAM_MC1048576.png}}}\hspace{0.5cm}
-		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{RBM+SJ}}}\hspace{0.cm}
-		\subfloat{{\includegraphics[width=3cm]{../plots/int1/twobody/2D/20P/1.000000w/RBMSJ_ADAM_MC1048576.png}}}\\
-		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{RBM+PJ}}}\hspace{0.cm}
-		\subfloat{{\includegraphics[width=3cm]{../plots/int1/twobody/2D/20P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{0.5cm}
-		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{VMC}}}\hspace{0.cm}
-		\subfloat{{\includegraphics[width=3cm]{../plots/int1/twobody/2D/20P/1.000000w/VMC_ADAM_MC1048576.png}}}
-		
-		%\caption{Plots of the two-body density profiles, $\rho(r_i,r_j)$, for two-dimensional quantum dots with $N=20$ electrons and frequency $\omega=1.0$.}%
-	\end{figure}
-}
-
-\mframe{Energy distribution}{
-	Distribution between various energy sources
 }
 
 \mframe{Low-frequency dots}{
@@ -275,9 +257,23 @@ J(\bs{r};\beta) = \exp\bigg(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta 
 		\subfloat[$N=2$]{{\includegraphics[width=3cm]{../plots/int1/onebody2/2D/2P/0.100000w/VMC_ADAM_MC1048576.png}}}\hspace{-0.cm}
 		\subfloat[$N=6$]{{\includegraphics[width=3cm]{../plots/int1/onebody2/2D/6P/0.100000w/VMC_ADAM_MC1048576.png}}}\hspace{-0.cm}
 		\subfloat[$N=12$]{{\includegraphics[width=3cm]{../plots/int1/onebody2/2D/12P/0.100000w/VMC_ADAM_MC1048576.png}}}
-		
-		%\caption{Plots of the one-body density profile, $\rho(x, y)$, of two-dimensional quantum dots with frequency $\omega=0.1$ and $N=2$, 6 and 12 electrons seen from left to right. The ansätze used are RBM (upper plots) and VMC (lower plots). The surface plot and the contour plot on the $xy$-plane illustrate the density, and the graph on the $yz$-plane represents the cross-section through $x=0$. The surface plots are noise-reduced using a Savitzky-Golay filter. For abbreviations and description of the natural units used, see the text.}
-		\label{fig:lowfreqRBM}
+		\caption{$\omega=0.1$}
+	\end{figure}
+}
+
+\mframe{Two-body density}{
+	\begin{figure}
+		\centering
+		\captionsetup[subfigure]{labelformat=empty}
+		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{RBM}}}\hspace{0.cm}
+		\subfloat{{\includegraphics[width=3cm]{../plots/int1/twobody/2D/20P/1.000000w/RBM_ADAM_MC1048576.png}}}\hspace{0.5cm}
+		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{RBM+SJ}}}\hspace{0.cm}
+		\subfloat{{\includegraphics[width=3cm]{../plots/int1/twobody/2D/20P/1.000000w/RBMSJ_ADAM_MC1048576.png}}}\\
+		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{RBM+PJ}}}\hspace{0.cm}
+		\subfloat{{\includegraphics[width=3cm]{../plots/int1/twobody/2D/20P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{0.5cm}
+		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{VMC}}}\hspace{0.cm}
+		\subfloat{{\includegraphics[width=3cm]{../plots/int1/twobody/2D/20P/1.000000w/VMC_ADAM_MC1048576.png}}}
+		\caption{$N=12$, $\omega=1.0$}
 	\end{figure}
 }
 
