@@ -237,7 +237,45 @@ J(\bs{r};\beta) = \exp\bigg(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta 
 		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{VMC}}}\hspace{0.cm}
 		\subfloat{{\includegraphics[width=3cm]{../plots/int1/onebody2/2D/20P/1.000000w/VMC_ADAM_MC1048576.png}}}
 		
-		\caption{Plots of the one-body density profiles, $\rho(x,y)$, for two-dimensional quantum dots with $N=20$ electrons and frequency $\omega=1.0$.}%
+		%\caption{Plots of the one-body density profiles, $\rho(x,y)$, for two-dimensional quantum dots with $N=20$ electrons and frequency $\omega=1.0$.}%
+	\end{figure}
+}
+
+\mframe{Two-body density}{
+	\begin{figure}
+		\centering
+		\captionsetup[subfigure]{labelformat=empty}
+		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{RBM}}}\hspace{0.cm}
+		\subfloat{{\includegraphics[width=3cm]{../plots/int1/twobody/2D/20P/1.000000w/RBM_ADAM_MC1048576.png}}}\hspace{0.5cm}
+		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{RBM+SJ}}}\hspace{0.cm}
+		\subfloat{{\includegraphics[width=3cm]{../plots/int1/twobody/2D/20P/1.000000w/RBMSJ_ADAM_MC1048576.png}}}\\
+		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{RBM+PJ}}}\hspace{0.cm}
+		\subfloat{{\includegraphics[width=3cm]{../plots/int1/twobody/2D/20P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{0.5cm}
+		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{VMC}}}\hspace{0.cm}
+		\subfloat{{\includegraphics[width=3cm]{../plots/int1/twobody/2D/20P/1.000000w/VMC_ADAM_MC1048576.png}}}
+		
+		%\caption{Plots of the two-body density profiles, $\rho(r_i,r_j)$, for two-dimensional quantum dots with $N=20$ electrons and frequency $\omega=1.0$.}%
+	\end{figure}
+}
+
+\mframe{Energy distribution}{
+	Distribution between various energy sources
+}
+
+\mframe{Low-frequency dots}{
+	\begin{figure}
+		\centering
+		\captionsetup[subfigure]{labelformat=empty}
+		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{RBM}}}\hspace{0.cm}
+		\subfloat{{\includegraphics[width=3cm]{../plots/int1/onebody2/2D/20P/1.000000w/RBM_ADAM_MC1048576.png}}}\hspace{0.5cm}
+		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{RBM+SJ}}}\hspace{0.cm}
+		\subfloat{{\includegraphics[width=3cm]{../plots/int1/onebody2/2D/20P/1.000000w/RBMSJ_ADAM_MC1048576.png}}}\\
+		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{RBM+PJ}}}\hspace{0.cm}
+		\subfloat{{\includegraphics[width=3cm]{../plots/int1/onebody2/2D/20P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{0.5cm}
+		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{VMC}}}\hspace{0.cm}
+		\subfloat{{\includegraphics[width=3cm]{../plots/int1/onebody2/2D/20P/1.000000w/VMC_ADAM_MC1048576.png}}}
+		
+		%\caption{Plots of the one-body density profiles, $\rho(x,y)$, for two-dimensional quantum dots with $N=20$ electrons and frequency $\omega=1.0$.}%
 	\end{figure}
 }
 
@@ -269,7 +307,7 @@ J(\bs{r};\beta) = \exp\bigg(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta 
 \titleframe{Thank you!}
 
 \mframe{References}{
-	\printbibliography
+	\tiny{\printbibliography}
 }
 
 \end{document}
