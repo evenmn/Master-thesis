@@ -1,13 +1,13 @@
 \documentclass{beamer}
 \input{preamble.tex}
 
-\author{Even Marius Nordhagen} 
-\institute[UiO] { University of Oslo \\ 
-                  \medskip
-                  \textit{evenmn@fys.uio.no}
-                }
-\date{\today} 
-\title{Studies of Quantum Dots using Machine Learning}
+%\author{Even Marius Nordhagen} 
+%\institute[UiO] { University of Oslo \\ 
+%                  \medskip
+%                  \textit{evenmn@fys.uio.no}
+%                }
+%\date{\today} 
+%\title{Studies of Quantum Dots using Machine Learning}
 
 \begin{document}
 
@@ -266,16 +266,18 @@ J(\bs{r};\beta) = \exp\bigg(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta 
 	\begin{figure}
 		\centering
 		\captionsetup[subfigure]{labelformat=empty}
-		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{RBM}}}\hspace{0.cm}
-		\subfloat{{\includegraphics[width=3cm]{../plots/int1/onebody2/2D/20P/1.000000w/RBM_ADAM_MC1048576.png}}}\hspace{0.5cm}
-		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{RBM+SJ}}}\hspace{0.cm}
-		\subfloat{{\includegraphics[width=3cm]{../plots/int1/onebody2/2D/20P/1.000000w/RBMSJ_ADAM_MC1048576.png}}}\\
-		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{RBM+PJ}}}\hspace{0.cm}
-		\subfloat{{\includegraphics[width=3cm]{../plots/int1/onebody2/2D/20P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{0.5cm}
-		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{VMC}}}\hspace{0.cm}
-		\subfloat{{\includegraphics[width=3cm]{../plots/int1/onebody2/2D/20P/1.000000w/VMC_ADAM_MC1048576.png}}}
+		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{RBM}}}\hspace{0.1cm}
+		\subfloat{{\includegraphics[width=3cm]{../plots/int1/onebody2/2D/2P/0.100000w/RBM_ADAM_MC1048576.png}}}\hspace{-0.cm}
+		\subfloat{{\includegraphics[width=3cm]{../plots/int1/onebody2/2D/6P/0.100000w/RBM_ADAM_MC1048576.png}}}\hspace{-0.cm}
+		\subfloat{{\includegraphics[width=3cm]{../plots/int1/onebody2/2D/12P/0.100000w/RBM_ADAM_MC1048576.png}}}\\ [-0.cm]
 		
-		%\caption{Plots of the one-body density profiles, $\rho(x,y)$, for two-dimensional quantum dots with $N=20$ electrons and frequency $\omega=1.0$.}%
+		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{VMC}}}\hspace{0.1cm}
+		\subfloat[$N=2$]{{\includegraphics[width=3cm]{../plots/int1/onebody2/2D/2P/0.100000w/VMC_ADAM_MC1048576.png}}}\hspace{-0.cm}
+		\subfloat[$N=6$]{{\includegraphics[width=3cm]{../plots/int1/onebody2/2D/6P/0.100000w/VMC_ADAM_MC1048576.png}}}\hspace{-0.cm}
+		\subfloat[$N=12$]{{\includegraphics[width=3cm]{../plots/int1/onebody2/2D/12P/0.100000w/VMC_ADAM_MC1048576.png}}}
+		
+		%\caption{Plots of the one-body density profile, $\rho(x, y)$, of two-dimensional quantum dots with frequency $\omega=0.1$ and $N=2$, 6 and 12 electrons seen from left to right. The ansätze used are RBM (upper plots) and VMC (lower plots). The surface plot and the contour plot on the $xy$-plane illustrate the density, and the graph on the $yz$-plane represents the cross-section through $x=0$. The surface plots are noise-reduced using a Savitzky-Golay filter. For abbreviations and description of the natural units used, see the text.}
+		\label{fig:lowfreqRBM}
 	\end{figure}
 }
 
