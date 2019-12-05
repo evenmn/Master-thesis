@@ -215,10 +215,10 @@ J(\bs{r};\beta) = \exp\bigg(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta 
 	\caption{$N=2$}
 	\begin{tabularx}{\textwidth}{lR{1.5cm}R{1.6cm}R{1.6cm}R{1.5cm}R{1.3cm}} 
 		\toprule
-		$\omega$ & RBM & RBM+SJ & RBM+PJ & HF \footnote{\citet{mariadason_quantum_2018}} & Exact \footnote{\citet{taut_two_1993}} \\
+		$\omega$ & RBM & RBM+SJ & RBM+PJ & HF \footnote{Computation of the Hartree-Fock limit by \citeauthor{mariadason_quantum_2018}, \citeyear{mariadason_quantum_2018} \cite{mariadason_quantum_2018}.} & Exact \footnote{Semi-analytical ground state energy calculated by \citeauthor{taut_two_1993}, \citeyear{taut_two_1993} \cite{taut_two_1993}.} \\
 		\midrule
 		1/6 & 0.7036(1) & 0.67684(7) & 0.66715(6) & 0.768675 & 2/3 \\ 
-		1 & 3.0803(2) & 3.02108(5) & 2.999587(5) & 3.1690 & 3 \\
+		1 & 3.0803(2) & 3.02108(5) & 2.999587(5) & 3.16190 & 3 \\
 		\bottomrule
 	\end{tabularx}
 \end{table}
@@ -227,9 +227,9 @@ J(\bs{r};\beta) = \exp\bigg(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta 
 \mframe{Ground State Energy}{
 \begin{table}
 	\caption{$N=20$}
-	\begin{tabularx}{\hsize}{lR{1.6cm}R{1.6cm}R{1.6cm}R{1.6cm}R{1.6cm}R{1.6cm}} \\
+	\begin{tabularx}{\hsize}{lR{1.3cm}R{1.3cm}R{1.3cm}R{1.3cm}R{1.3cm}R{1.3cm}} \\
 		\toprule
-		$\omega$ & RBM & RBM+SJ & RBM+PJ & HF \footnote{\citet{mariadason_quantum_2018}} & VMC & DMC \footnote{\citet{hogberget_quantum_2013}} \\
+		$\omega$ & RBM & RBM+SJ & RBM+PJ & HF \footnote{Computation of the Hartree-Fock limit by \citeauthor{mariadason_quantum_2018}, \citeyear{mariadason_quantum_2018} \cite{mariadason_quantum_2018}.} & VMC & DMC \footnote{Ground state energy estimate using the diffusion Monte Carlo method. By \citeauthor{hogberget_quantum_2013}, \citeyear{hogberget_quantum_2013} \cite{hogberget_quantum_2013}.} \\
 		\midrule
 		0.1 & 30.824(2) & 30.567(3) & 30.1553(9) & 31.1902 & 30.0403(2) & 29.9779(1) \\ 
 		%0.28 & 63.788(4) & 62.786(3) & 62.148(1) & 63.5390 & 62.0755(7) & 61.9268(1) \\
@@ -241,7 +241,11 @@ J(\bs{r};\beta) = \exp\bigg(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta 
 }
 
 \mframe{Energy distribution}{
-	Distribution between various energy sources
+	\begin{figure}
+		\centering 
+		\input{../pgf/energy_distribution_20.tex}
+		\caption{$N=20$}
+	\end{figure} 
 }
 
 \mframe{One-body density}{
@@ -256,7 +260,23 @@ J(\bs{r};\beta) = \exp\bigg(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta 
 		\subfloat{{\includegraphics[width=3cm]{../plots/int1/onebody2/2D/20P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{0.5cm}
 		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{VMC}}}\hspace{0.cm}
 		\subfloat{{\includegraphics[width=3cm]{../plots/int1/onebody2/2D/20P/1.000000w/VMC_ADAM_MC1048576.png}}}
-		\caption{$N=12$, $\omega=1.0$}
+		\caption{$N=20$, $\omega=1.0$}
+	\end{figure}
+}
+
+\mframe{Two-body density}{
+	\begin{figure}
+		\centering
+		\captionsetup[subfigure]{labelformat=empty}
+		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{RBM}}}\hspace{0.cm}
+		\subfloat{{\includegraphics[width=3cm]{../plots/int1/twobody/2D/20P/1.000000w/RBM_ADAM_MC1048576.png}}}\hspace{0.5cm}
+		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{RBM+SJ}}}\hspace{0.cm}
+		\subfloat{{\includegraphics[width=3cm]{../plots/int1/twobody/2D/20P/1.000000w/RBMSJ_ADAM_MC1048576.png}}}\\
+		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{RBM+PJ}}}\hspace{0.cm}
+		\subfloat{{\includegraphics[width=3cm]{../plots/int1/twobody/2D/20P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{0.5cm}
+		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{VMC}}}\hspace{0.cm}
+		\subfloat{{\includegraphics[width=3cm]{../plots/int1/twobody/2D/20P/1.000000w/VMC_ADAM_MC1048576.png}}}
+		\caption{$N=20$, $\omega=1.0$}
 	\end{figure}
 }
 
@@ -274,22 +294,6 @@ J(\bs{r};\beta) = \exp\bigg(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta 
 		\subfloat[$N=6$]{{\includegraphics[width=3cm]{../plots/int1/onebody2/2D/6P/0.100000w/VMC_ADAM_MC1048576.png}}}\hspace{-0.cm}
 		\subfloat[$N=12$]{{\includegraphics[width=3cm]{../plots/int1/onebody2/2D/12P/0.100000w/VMC_ADAM_MC1048576.png}}}
 		\caption{$\omega=0.1$}
-	\end{figure}
-}
-
-\mframe{Two-body density}{
-	\begin{figure}
-		\centering
-		\captionsetup[subfigure]{labelformat=empty}
-		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{RBM}}}\hspace{0.cm}
-		\subfloat{{\includegraphics[width=3cm]{../plots/int1/twobody/2D/20P/1.000000w/RBM_ADAM_MC1048576.png}}}\hspace{0.5cm}
-		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{RBM+SJ}}}\hspace{0.cm}
-		\subfloat{{\includegraphics[width=3cm]{../plots/int1/twobody/2D/20P/1.000000w/RBMSJ_ADAM_MC1048576.png}}}\\
-		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{RBM+PJ}}}\hspace{0.cm}
-		\subfloat{{\includegraphics[width=3cm]{../plots/int1/twobody/2D/20P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{0.5cm}
-		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{VMC}}}\hspace{0.cm}
-		\subfloat{{\includegraphics[width=3cm]{../plots/int1/twobody/2D/20P/1.000000w/VMC_ADAM_MC1048576.png}}}
-		\caption{$N=20$, $\omega=1.0$}
 	\end{figure}
 }
 

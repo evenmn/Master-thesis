@@ -1,0 +1,76 @@
+\begin{tikzpicture}
+
+\begin{axis}[
+legend cell align={left},
+legend style={at={(0.9,0.1)}, anchor=south east, draw=white!80.0!black},
+title style={yshift=-1.5ex},
+%tick align=outside,
+tick pos=both,
+x grid style={white!69.01960784313725!black},
+xlabel={\(\displaystyle \omega\)},
+width=8cm,
+height=6cm,
+xmajorgrids,
+xmin=-0.4895, xmax=10.4995,
+xtick style={color=black},
+y grid style={white!69.01960784313725!black},
+ylabel style={rotate=-90.0},
+ylabel={\(\displaystyle \frac{\langle\hat{T}\rangle}{\langle\hat{V}\rangle}\)},
+ymajorgrids,
+%ymin=-0.03, ymax=0.7,
+ytick style={color=black}
+]
+\addplot [thick, color0]
+table {%
+	0.01 0.0202855736090596
+	0.1 0.0558188176084186
+	0.28 0.0748673013733255
+	0.5 0.092181964299863
+	1 0.120447174205168
+	2 0.191577362501107
+	3 0.2257693437
+	5 0.263982205508037
+	10 0.278872126802915
+};
+\addlegendentry{RBM}
+\addplot [thick, color1]
+table {%
+	0.01 0.0224807471735212
+	0.1 0.0510365183964855
+	0.28 0.0535270823545204
+	0.5 0.0761996706229769
+	1 0.108428284656055
+	2 0.17366909653192
+	3 0.19307880632568
+	5 0.260942252768941
+	10 0.332349732889548
+};
+\addlegendentry{RBM+SJ}
+\addplot [thick, color2]
+table {%
+	0.01 0.0198390540318607
+	0.1 0.0550696242390316
+	0.28 0.0812272164373049
+	0.5 0.0960548685344326
+	1 0.120346512979882
+	2 0.152555093728466
+	3 0.20363356015151
+	5 0.286590458917023
+	10 0.373618884667807
+};
+\addlegendentry{RBM+PJ}
+\addplot [thick, color3]
+table {%
+	0.01 0.0164511376657391
+	0.1 0.0430938843433643
+	0.28 0.067074638154502
+	0.5 0.0907330085826954
+	1 0.121087634122869
+	2 0.176534004132603
+	3 0.20481414099371
+	5 0.307872099467483
+	10 0.330233868695407
+};
+\addlegendentry{VMC}
+\end{axis}
+\end{tikzpicture}

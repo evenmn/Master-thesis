@@ -5,7 +5,7 @@
 \setlength{\parindent}{0pt}
 
 \setbeamertemplate{itemize items}{\color{color0}$\blacktriangleright$}
-\addtobeamertemplate{footnote}{\hspace{5ex}}{\vspace{10ex}}
+\addtobeamertemplate{footnote}{}{\vspace{10ex}}
 
 \setbeamercolor{titlelike}{fg=black}
 \setbeamercolor{block title}{fg=white}
@@ -40,7 +40,7 @@
 			\begin{tikzpicture}[x=1mm,y=1mm]
 			\foreach \x in {1,2,...,\inserttotalframenumber} 
 			\draw [gray!30,very thick] (\x/\inserttotalframenumber*360:3) -- (\x/\inserttotalframenumber*360:4);
-			\foreach \x in {1,2,...,\insertframenumber} 
+			\foreach \x in {1,2,...,\insertframenumber}
 			\draw[color0,very thick] (\x/\inserttotalframenumber*360:3) -- (\x/\inserttotalframenumber*360:4);
 			\node at (0,0) [] {\tiny{\textbf{\textcolor{black}{\insertframenumber}}}};
 			\end{tikzpicture}
