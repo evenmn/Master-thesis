@@ -33,7 +33,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ORDINARY FRAME
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\mframe}[2]{
+\newcommand{\mframe}[3]{
 	\frame{
 		% PROGRESSION WHEEL 
 		\begin{textblock}{3}(0.5,8)
@@ -51,19 +51,20 @@
 			\centering
 			\includegraphics[scale=.2]{../Images/UiO_Seal_A_ENG_cmyk.eps}
 		\end{textblock}
-		
-		\frametitle{#1}
-		\scriptsize{#2}}
+		\begin{center}
+			\frametitle{\textcolor{color0}{#1}}
+			\framesubtitle{#2}
+		\end{center}
+		\scriptsize{#3}}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TITLED FRAME
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\titleframe}[1]{
-	\mframe{
+	\mframe{}{}{
 		\begin{center}
-			\vspace{2cm}
-			{\Huge \textcolor{black}{#1}}
+			{\Huge \textcolor{color0}{#1}}
 		\end{center}
 	}
 }

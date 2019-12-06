@@ -13,7 +13,7 @@
 
 \frontframe
 
-\mframe{Outline}{
+\mframe{Outline}{}{
 \begin{itemize}
 	\item Motivation
 	\item Quantum Theory
@@ -27,7 +27,7 @@
 
 \titleframe{Motivation}
 
-\mframe{Why quantum dots?}{
+\mframe{Why quantum dots?}{}{
 	\begin{itemize}
 		\item Technology \supercite{noauthor_samsung_nodate}
 		\item Theoretically
@@ -35,14 +35,14 @@
 	\end{itemize}
 }
 
-\mframe{Why is it challenging?}{
+\mframe{Why is it challenging?}{}{
 	\begin{itemize}
 		\item Quantum many-body problem
 		\item Fermi-Dirac statistics
 	\end{itemize}
 }
 
-\mframe{How to overcome the challenges?}{
+\mframe{How to overcome the challenges?}{}{
 	\begin{itemize}
 		\item Efforts..
 		\item gh
@@ -52,7 +52,7 @@
 
 \titleframe{Quantum Theory}
 
-\mframe{The Time-independent Schrödinger Equation}{
+\mframe{The Time-independent Schrödinger Equation}{}{
 A stationary quantum mechanical system is described by 
 	\begin{equation}
 	E_n=\frac{\int d\bs{R}\psinc\hat{\mathcal{H}}\psin}{\int d\bs{R}\psinc\psin}
@@ -61,7 +61,7 @@ which gives the energy of state $n$.
 }
 
 \iffalse
-\mframe{Harmonic Oscillator}{
+\mframe{Harmonic Oscillator}{}{
 
 \begin{equation}
 \begin{aligned}
@@ -77,7 +77,7 @@ which gives the energy of state $n$.
 
 }
 
-\mframe{Circular Quantum Dots}{
+\mframe{Circular Quantum Dots}{}{
 	\begin{equation}
 	\begin{aligned}
 	\hat{\mathcal{H}} &= -\frac{1}{2}\nabla_1^2 -\frac{1}{2}\nabla_2^2 + \frac{1}{2} \omega^2r_1^2 + \frac{1}{2} \omega^2r_2^2 + \frac{1}{r_{ij}}\\
@@ -93,7 +93,7 @@ which gives the energy of state $n$.
 
 \titleframe{Machine Learning Theory}
 
-\mframe{Machine Learning}{
+\mframe{Machine Learning}{}{
 	
 	\begin{shadequote}{}
 		Machine learning is the science of getting computers to act without being explicitly programmed.
@@ -101,14 +101,14 @@ which gives the energy of state $n$.
 	
 }
 
-\mframe{Feed-forward Neural Network}{
+\mframe{Feed-forward Neural Network}{}{
 	\begin{figure}[scale=0.2]
 		\centering
 		\input{../tikz/multilayer_perceptron.tex}
 	\end{figure}
 }
 
-\mframe{Restricted Boltzmann machines}{
+\mframe{Restricted Boltzmann machines}{}{
 	\begin{figure}[width=5cm]
 		\centering
 		\input{../tikz/restricted_boltzmann_machine.tex}
@@ -117,7 +117,7 @@ which gives the energy of state $n$.
 
 \titleframe{Methods}
 
-\mframe{Variational Monte Carlo (VMC)}{
+\mframe{Variational Monte Carlo (VMC)}{}{
 Exploit the variational principle in order to obtain the ground state energy
 	\begin{equation}
 	\begin{aligned}
@@ -128,8 +128,8 @@ Exploit the variational principle in order to obtain the ground state energy
 	
 }
 
-\mframe{Monte Carlo Integration}{
-	We attempt to solve the integral by sampling from the probability density function $P(\bs{r})$
+\mframe{Monte Carlo Integration}{}{
+	We attempt to solve the integral by sampling from the probability density function $P(\bs{R})$
 	\begin{equation}
 	\begin{aligned}
 	E_{\text{VMC}} &= \int d\bs{R} E_L(\bs{R})P(\bs{R}) \\
@@ -138,7 +138,7 @@ Exploit the variational principle in order to obtain the ground state energy
 	\end{equation}
 }
 
-\mframe{Trial Wave Function}{
+\mframe{Trial Wave Function}{}{
 	\begin{equation}
 	P(\bs{R})\propto\Psi_T(\bs{R})^*\Psi_T(\bs{R})
 	\end{equation}
@@ -159,7 +159,7 @@ Exploit the variational principle in order to obtain the ground state energy
 	\end{equation}
 }
 
-\mframe{Single-particle Functions}{
+\mframe{Single-particle Functions}{}{
 	The Hermite functions,
 	\begin{equation}
 	\phi_n(\bs{r})\propto H_n(\bs{r})\exp(-\frac{1}{2}\alpha\omega|\bs{r}|^2),
@@ -176,7 +176,7 @@ Exploit the variational principle in order to obtain the ground state energy
 	\end{equation}
 }
 
-\mframe{Restricted Boltzmann Machine}{
+\mframe{Restricted Boltzmann Machine}{}{
 	We use the marginal distribution of the visible units as the single-particle functions in the Slater determinant, and see if them can model the correlations 
 	\begin{equation}
 	\phi_n(\bs{r})\propto H_n(\bs{r})P(\bs{r};\bs{a},\bs{b},\bs{W})
@@ -194,7 +194,7 @@ Exploit the variational principle in order to obtain the ground state energy
 }
 
 
-\mframe{Jastrow Factor}{
+\mframe{Jastrow Factor}{}{
 The Jastrow factor is added to account for the correlations
 
 Simple Jastrow factor
@@ -210,45 +210,46 @@ J(\bs{r};\beta) = \exp\bigg(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta 
 
 \titleframe{Results}
 
-\mframe{Ground State Energy}{
+\mframe{Ground State Energy}{Number of electrons: $N=2$. Frequency: $\omega$.}{
 \begin{table}
-	\caption{$N=2$}
-	\begin{tabularx}{\textwidth}{lR{1.5cm}R{1.6cm}R{1.6cm}R{1.5cm}R{1.3cm}} 
+	%\caption{$N=2$}
+	\begin{tabularx}{\textwidth}{lR{1.25cm}R{1.25cm}R{1.4cm}R{1.4cm}R{1.2cm}R{1.cm}} 
 		\toprule
-		$\omega$ & RBM & RBM+SJ & RBM+PJ & HF \footnote{Computation of the Hartree-Fock limit by \citeauthor{mariadason_quantum_2018}, \citeyear{mariadason_quantum_2018} \cite{mariadason_quantum_2018}.} & Exact \footnote{Semi-analytical ground state energy calculated by \citeauthor{taut_two_1993}, \citeyear{taut_two_1993} \cite{taut_two_1993}.} \\
-		\midrule
-		1/6 & 0.7036(1) & 0.67684(7) & 0.66715(6) & 0.768675 & 2/3 \\ 
-		1 & 3.0803(2) & 3.02108(5) & 2.999587(5) & 3.16190 & 3 \\
+		$\omega$ & RBM & RBM+SJ & RBM+PJ & VMC & HF \footnote{Computation of the Hartree-Fock limit by \citeauthor{mariadason_quantum_2018}, \citeyear{mariadason_quantum_2018} \cite{mariadason_quantum_2018}.} & Exact \footnote{Semi-analytical ground state energy calculated by \citeauthor{taut_two_1993}, \citeyear{taut_two_1993} \cite{taut_two_1993}.} \\
+		\midrule \\
+		1/6 & 0.7036(1) & 0.67684(7) & 0.66715(6) & 0.66710(1) & 0.768675 & 2/3 \\ 
+		1 & 3.0803(2) & 3.02108(5) & 2.999587(5) & 2.99936(1) & 3.16190 & 3 \\
 		\bottomrule
 	\end{tabularx}
 \end{table}
 }
 
-\mframe{Ground State Energy}{
+\mframe{Ground State Energy}{Number of electrons: $N=20$. Frequency: $\omega$.}{
 \begin{table}
-	\caption{$N=20$}
-	\begin{tabularx}{\hsize}{lR{1.3cm}R{1.3cm}R{1.3cm}R{1.3cm}R{1.3cm}R{1.3cm}} \\
+	%\caption{$N=20$}
+	\begin{tabularx}{\hsize}{lR{1.25cm}R{1.25cm}R{1.3cm}R{1.4cm}R{1.cm}R{1.4cm}} \\
 		\toprule
-		$\omega$ & RBM & RBM+SJ & RBM+PJ & HF \footnote{Computation of the Hartree-Fock limit by \citeauthor{mariadason_quantum_2018}, \citeyear{mariadason_quantum_2018} \cite{mariadason_quantum_2018}.} & VMC & DMC \footnote{Ground state energy estimate using the diffusion Monte Carlo method. By \citeauthor{hogberget_quantum_2013}, \citeyear{hogberget_quantum_2013} \cite{hogberget_quantum_2013}.} \\
-		\midrule
-		0.1 & 30.824(2) & 30.567(3) & 30.1553(9) & 31.1902 & 30.0403(2) & 29.9779(1) \\ 
+		$\omega$ & RBM & RBM+SJ & RBM+PJ & VMC & HF \footnote{Computation of the Hartree-Fock limit by \citeauthor{mariadason_quantum_2018}, \citeyear{mariadason_quantum_2018} \cite{mariadason_quantum_2018}.} & DMC \footnote{Ground state energy estimate using the diffusion Monte Carlo method. By \citeauthor{hogberget_quantum_2013}, \citeyear{hogberget_quantum_2013} \cite{hogberget_quantum_2013}.} \\
+		\midrule \\
+		0.1 & 30.824(2) & 30.567(3) & 30.1553(9) & 30.0403(2) & 31.1902 & 29.9779(1) \\ 
 		%0.28 & 63.788(4) & 62.786(3) & 62.148(1) & 63.5390 & 62.0755(7) & 61.9268(1) \\
 		%0.5 & 96.410(1) & 94.920(4) & 94.104(1) & 95.7328 & 94.0433(9) & 93.8752(1) \\
-		1.0 & 159.428(3) & 156.816(4) & 156.104(1) & 158.004 & 155.8900(4) & 155.8822(1) \\ 
+		1.0 & 159.428(3) & 156.816(4) & 156.104(1) & 155.8900(4) & 158.004 & 155.8822(1) \\ 
 		\bottomrule
 	\end{tabularx}
 \end{table}
 }
 
-\mframe{Energy distribution}{
+\mframe{Energy distribution}{Number of electrons: $N=20$. Frequency: $\omega$.}{
+	Ratio between the kinetic energy, $\langle\hat{T}\rangle$, and the total potential energy, $\langle\hat{V}\rangle$.
 	\begin{figure}
 		\centering 
 		\input{../pgf/energy_distribution_20.tex}
-		\caption{$N=20$}
-	\end{figure} 
+		%\caption{$N=20$}
+	\end{figure}
 }
 
-\mframe{One-body density}{
+\mframe{One-body density}{Number of electrons: $N=20$. Frequency: $\omega=1.0$.}{
 	\begin{figure}
 		\centering
 		\captionsetup[subfigure]{labelformat=empty}
@@ -260,11 +261,11 @@ J(\bs{r};\beta) = \exp\bigg(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta 
 		\subfloat{{\includegraphics[width=3cm]{../plots/int1/onebody2/2D/20P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{0.5cm}
 		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{VMC}}}\hspace{0.cm}
 		\subfloat{{\includegraphics[width=3cm]{../plots/int1/onebody2/2D/20P/1.000000w/VMC_ADAM_MC1048576.png}}}
-		\caption{$N=20$, $\omega=1.0$}
+		%\caption{$N=20$, $\omega=1.0$}
 	\end{figure}
 }
 
-\mframe{Two-body density}{
+\mframe{Two-body density}{Number of electrons: $N=20$. Frequency: $\omega=1.0$.}{
 	\begin{figure}
 		\centering
 		\captionsetup[subfigure]{labelformat=empty}
@@ -276,11 +277,11 @@ J(\bs{r};\beta) = \exp\bigg(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta 
 		\subfloat{{\includegraphics[width=3cm]{../plots/int1/twobody/2D/20P/1.000000w/RBMPJ_ADAM_MC1048576.png}}}\hspace{0.5cm}
 		\subfloat{\raisebox{1cm}{\rotatebox[origin=t]{90}{VMC}}}\hspace{0.cm}
 		\subfloat{{\includegraphics[width=3cm]{../plots/int1/twobody/2D/20P/1.000000w/VMC_ADAM_MC1048576.png}}}
-		\caption{$N=20$, $\omega=1.0$}
+		%\caption{$N=20$, $\omega=1.0$}
 	\end{figure}
 }
 
-\mframe{Low-frequency dots}{
+\mframe{Low-frequency dots}{Number of electrons: $N$. Frequency: $\omega=0.1$.}{
 	\begin{figure}
 		\centering
 		\captionsetup[subfigure]{labelformat=empty}
@@ -293,11 +294,11 @@ J(\bs{r};\beta) = \exp\bigg(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta 
 		\subfloat[$N=2$]{{\includegraphics[width=3cm]{../plots/int1/onebody2/2D/2P/0.100000w/VMC_ADAM_MC1048576.png}}}\hspace{-0.cm}
 		\subfloat[$N=6$]{{\includegraphics[width=3cm]{../plots/int1/onebody2/2D/6P/0.100000w/VMC_ADAM_MC1048576.png}}}\hspace{-0.cm}
 		\subfloat[$N=12$]{{\includegraphics[width=3cm]{../plots/int1/onebody2/2D/12P/0.100000w/VMC_ADAM_MC1048576.png}}}
-		\caption{$\omega=0.1$}
+		%\caption{$\omega=0.1$}
 	\end{figure}
 }
 
-\mframe{Computational Cost}{
+\mframe{Computational Cost}{Number of electrons: $N$.}{
 	\begin{figure}
 		\centering 
 		\input{../pgf/cpu_2D.tex}
@@ -306,7 +307,7 @@ J(\bs{r};\beta) = \exp\bigg(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta 
 
 \titleframe{Conclusion}
 
-\mframe{Conclusions}{
+\mframe{Conclusions}{}{
 	\begin{itemize}
 		\item RBM is able to account for most of the correlations
 		\item RBM+PJ implies to give a lower ground state energy and model the correlations better than a traditional VMC
@@ -314,7 +315,7 @@ J(\bs{r};\beta) = \exp\bigg(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta 
 	\end{itemize}
 }
 
-\mframe{Future Work}{
+\mframe{Future Work}{}{
 	\begin{itemize}
 		\item Repeat the exercise using spherical coordinates - interactions are easier to model in spherical coordinates
 		\item Check the ability of modeling the three-body correlations, considering nuclear systems
@@ -324,7 +325,7 @@ J(\bs{r};\beta) = \exp\bigg(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta 
 
 \titleframe{Thank you!}
 
-\mframe{References}{
+\mframe{References}{}{
 	\tiny{\printbibliography}
 }
 
