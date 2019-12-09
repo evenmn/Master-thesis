@@ -5,7 +5,10 @@
 \setlength{\parindent}{0pt}
 
 \setbeamertemplate{itemize items}{\color{color0}$\blacktriangleright$}
+\setbeamertemplate{bibliography item}{\insertbiblabel}
 \addtobeamertemplate{footnote}{}{\vspace{10ex}}
+
+\renewcommand*{\bibfont}{\tiny}
 
 \setbeamercolor{titlelike}{fg=black}
 \setbeamercolor{block title}{fg=white}
@@ -51,10 +54,9 @@
 			\centering
 			\includegraphics[scale=.2]{../Images/UiO_Seal_A_ENG_cmyk.eps}
 		\end{textblock}
-		\begin{center}
-			\frametitle{\textcolor{color0}{#1}}
-			\framesubtitle{#2}
-		\end{center}
+		\frametitle{\textcolor{color0}{#1}}
+		\framesubtitle{#2}
+		\vspace{-0.5cm}
 		\scriptsize{#3}}
 }
 

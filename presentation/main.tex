@@ -1,23 +1,27 @@
-\documentclass{beamer}
+%\documentclass{beamer}				% frames
+\documentclass[notes]{beamer}		% frames + notes
+%\documentclass[notes=only]{beamer}	% notes
 \input{preamble.tex}
-
-%\author{Even Marius Nordhagen} 
-%\institute[UiO] { University of Oslo \\ 
-%                  \medskip
-%                  \textit{evenmn@fys.uio.no}
-%                }
-%\date{\today} 
-%\title{Studies of Quantum Dots using Machine Learning}
 
 \begin{document}
 
 \frontframe
 
+\note{
+\begin{itemize}
+	\item Glad so many of you could attend this presentation
+	\item Present myself
+	\item Present topic/master thesis
+	\item Practical information (Present a years work in 30 min - leave details in the thesis)
+	\item Feel free to ask questions if anything is unclear
+\end{itemize}
+}
+
 \mframe{Outline}{}{
 \begin{itemize}
 	\item Motivation
 	\item Quantum Theory
-	\item Machine Learning
+	\item Machine Learning Theory
 	\item Methods
 	\item Results
 	\item Conclusion
@@ -25,22 +29,60 @@
 \end{itemize}
 }
 
+\note{We will start with some motivation. Thereafter, we present the essential theory, the methods and the results. I will try to spend most of the time on the results. In the end, I will address a brief conclusion, and show how to use the developed software if we have time.}
+
 \titleframe{Motivation}
 
 \mframe{Why quantum dots?}{}{
 	\begin{itemize}
-		\item Technology \supercite{noauthor_samsung_nodate, manders_8.3:_2015}
-		\item Experimentally \supercite{brunner_sharp-line_1994}
-		\item Physically
+		\item \textbf{Technologically:} 
+		
+			Quantum dots are expected to be the next big thing in display technology \supercite{noauthor_samsung_nodate, manders_8.3:_2015}.
+		\item \textbf{Experimentally:}
+		
+			Researchers have managed to study two-dimensional quantum dots in the laboratory \supercite{brunner_sharp-line_1994}.
+		\item \textbf{Physically:}
+		
+			An array of interesting physical phenomena can be observed in quantum dots.
 	\end{itemize}
+}
+
+\note{As mentioned initially, we have focused on quantum dots throughout this thesis. 
+	
+	\vspace{0.5cm}
+	{\large \textbf{But what are quantum dots?}}
+	
+	Quantum dots are small artificial particles, often called artificial atoms because of their many common features with atoms. For instance, both quantum dots and atoms have discrete energy spectra. 
+	
+	\vspace{0.5cm}
+	{\large \textbf{Why quantum dots?}}
+	
+	Technologically: Quantum dots are expected to be the next big thing in display technology. They have, for instance, the ability to emit light of specific wave lengths, meaning that the color can be controlled with high precision. Samsung already claim that they use quantum dots in their high-end TVs.
+	
+}
+\note{Experimentally: Quantum dots can be investigated in laboratory experiments. This encourages computational experiments as well, since we can use the results from the laboratory experiments as 		references. Researchers have managed to study quantum dots squeezes between two plates, making the confinement in z-direction absent. This makes them essentially two-dimensional, which is the reason why we have decided to also focus on two-dimensional systems. 
+	
+	\vspace{0.5cm}
+	Physically: From a physical point of view, the quantum dots are interesting as they are simple systems that can model a long range of phenomena. An example is the Wigner localization. 
+	
+	We will look at circular quantum dots with electron.
 }
 
 \mframe{Why is it challenging?}{}{
 	\begin{itemize}
 		\item Many-body problem
 		\item Fermi-Dirac statistics
-		\item NP-hard to compute the wave function
+		\item Hard to compute the wave function
 	\end{itemize}
+}
+
+\note{The many-body problem is encountered when simulating a quantum many-body system. The problem is caused by the correlations between the particles. A many-body system means more than two particles.
+	
+	\vspace{0.5cm}
+	Fermionic systems need to obey Fermi-Dirac statistics. This results in the requirement of an anti-symmetric wave function under exchange of two particle coordinates. 
+	
+	\vspace{0.5cm}
+	The wave function is categorized as nondeterministic polynomial hard to compute, which means that...
 }
 
 \mframe{How to overcome the challenges?}{}{
@@ -50,6 +92,13 @@
 		\item Our approach: VMC with Machine Learning \supercite{carleo_solving_2017, pfau2019abinitio}
 	\end{itemize}
 }
+
+\note{There are several different ways to overcome the many-body problem. The Hartree-Fock method is a popular approach, which, loosely speaking, attempts to replace the electron-electron interactions with a mean field. 
+	
+	\vspace{0.5cm}
+	Then we have the variational Monte Carlo method, which attempts to solve the Schrödinger equation accurately using Monte Carlo integration. It is called variational because we need to introduce a trial wave function ansatz, which we vary. Our approach is to let machine learning define this ansatz, inspired by \citet{carleo_solving_2017} and \citet{flugsrud_vilde_moe_solving_nodate}. Also \citet{pfau2019abinitio} has done something similar. 
+}	
+	
 
 \titleframe{Quantum Theory}
 
@@ -64,6 +113,12 @@
 	\end{equation}
 }
 
+\note{The Schrödinger equation describes the motion of any quantum mechanical system. Since we will limit us to stationary systems only, the time-independent Schrödinger equation will be our focus. It is shown here. In linear algebra terms, it is an eigenvalue equation with the Hamilton operator, $\hat{\mathcal{H}}$, as a matrix and the wave function, $\Psi_n$, as the eigen function. $E_n$ is the energy of state $n$, and is the eigenvalue.
+
+\vspace{0.5cm}
+For quantum dots, the Hamiltonian is given by
+}
+
 \mframe{The Time-independent Schrödinger Equation}{}{
 By solving the Schrödinger equation with respect to the energy, we obtain 
 	\begin{equation}
@@ -72,8 +127,10 @@ By solving the Schrödinger equation with respect to the energy, we obtain
 where $\bs{X}$ are the collective coordinates (spin and position).
 }
 
+\note{There are several ways to solve the equation, where an approach is to solve it as an eigenvalue problem. However, this quickly gets infeasible as the Hamilatonian matrix gets large. Instead, we can express the energy on an integral form, as shown here. This integral is hard to solve because of the interaction term in the Hamiltonian. }
+
 \mframe{The Variational Principle}{}{
-	The variational principle serves as a way of finding the ground state energy. For an arbitrary trial wave function $\Psi_T^*(\bs{X})$, it states that the obtained energy is larger or equal to the ground state,
+	The variational principle serves as a way of finding the ground state energy. For an arbitrary trial wave function $\Psi_T(\bs{X})$, it states that the obtained energy is larger or equal to the ground state,
 	\begin{equation}
 	E_0\leq E=\frac{\int d\bs{X}\Psi_T^*(\bs{X})\hat{\mathcal{H}}\Psi_T(\bs{X})}{\int d\bs{X}\Psi_T^*(\bs{X})\Psi_T^*(\bs{X})}.
 	\end{equation}
@@ -220,12 +277,12 @@ The Jastrow factor is added to account for the correlations
 
 Simple Jastrow factor
 \begin{equation}
-J(\bs{r}; \bs{\beta}) = \exp\left(\sum_{i=1}^N\sum_{j>i}^N{\beta_{ij}r_{ij}}\right).
+J(\bs{r}; \bs{\beta}) = \exp(\sum_{i=1}^N\sum_{j>i}^N{\beta_{ij}r_{ij}}).
 \end{equation}
 
 Padé-Jastrow factor
 \begin{equation}
-J(\bs{r};\beta) = \exp\bigg(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij}}\bigg).
+J(\bs{r};\beta) = \exp(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij}}).
 \end{equation}
 }
 
@@ -347,7 +404,7 @@ J(\bs{r};\beta) = \exp\bigg(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta 
 \titleframe{Thank you!}
 
 \mframe{References}{}{
-	\tiny{\printbibliography}
+	\printbibliography
 }
 
 \end{document}
