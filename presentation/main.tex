@@ -29,9 +29,9 @@
 
 \mframe{Why quantum dots?}{}{
 	\begin{itemize}
-		\item Technology \supercite{noauthor_samsung_nodate}
-		\item Theoretically
-		\item Experimentally (2D)
+		\item Technology \supercite{noauthor_samsung_nodate, manders_8.3:_2015}
+		\item Experimentally \supercite{brunner_sharp-line_1994}
+		\item Physically
 	\end{itemize}
 }
 
@@ -45,8 +45,8 @@
 
 \mframe{How to overcome the challenges?}{}{
 	\begin{itemize}
-		\item Hartree-Fock
-		\item Variational Monte Carlo (VMC)
+		\item Hartree-Fock (HF) theory
+		\item Variational Monte Carlo (VMC) method
 		\item Our approach: VMC with Machine Learning \supercite{carleo_solving_2017, pfau2019abinitio}
 	\end{itemize}
 }
@@ -54,11 +54,30 @@
 \titleframe{Quantum Theory}
 
 \mframe{The Time-independent Schrödinger Equation}{}{
-A stationary quantum mechanical system is described by 
+	A stationary quantum mechanical system is described by the time-independent Schrödinger equation,
 	\begin{equation}
-	E_n=\frac{\int d\bs{R}\psinc\hat{\mathcal{H}}\psin}{\int d\bs{R}\psinc\psin}
+	\hat{\mathcal{H}}\Psi_n=E_n\Psi_n,
 	\end{equation}
-which gives the energy of state $n$.
+	where $\Psi_n$ is the wave function of state $n$ and $E_n$ is the corresponding energy. $\hat{\mathcal{H}}$ is the Hamiltonian, which for a quantum dot is given by
+	\begin{equation}
+	\hat{\mathcal{H}} = \sum_{i=1}^{N} \left(-\frac{1}{2} \nabla_i^2 + \frac{1}{2} \omega^2r_i ^2\right) + \sum_{j>i} \frac{1}{r_{ij}}.
+	\end{equation}
+}
+
+\mframe{The Time-independent Schrödinger Equation}{}{
+By solving the Schrödinger equation with respect to the energy, we obtain 
+	\begin{equation}
+	E_n=\frac{\int d\bs{X}\Psi_n^*(\bs{X})\hat{\mathcal{H}}\Psi_n(\bs{X})}{\int d\bs{X}\Psi_n^*(\bs{X})\Psi_n^*(\bs{X})},
+	\end{equation}
+where $\bs{X}$ are the collective coordinates (spin and position).
+}
+
+\mframe{The Variational Principle}{}{
+	The variational principle serves as a way of finding the ground state energy. For an arbitrary trial wave function $\Psi_T^*(\bs{X})$, it states that the obtained energy is larger or equal to the ground state,
+	\begin{equation}
+	E_0\leq E=\frac{\int d\bs{X}\Psi_T^*(\bs{X})\hat{\mathcal{H}}\Psi_T(\bs{X})}{\int d\bs{X}\Psi_T^*(\bs{X})\Psi_T^*(\bs{X})}.
+	\end{equation}
+	Thus, by minimizing the obtained energy, $E$, we can estimate the ground state energy. 
 }
 
 \iffalse
@@ -98,6 +117,7 @@ which gives the energy of state $n$.
 	
 	\begin{shadequote}{}
 		Machine learning is the science of getting computers to act without being explicitly programmed.
+		\par Stanford University \supercite{noauthor_machine_nodate}
 	\end{shadequote}
 	
 }
