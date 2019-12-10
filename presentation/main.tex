@@ -1,5 +1,5 @@
-%\documentclass{beamer}				% frames
-\documentclass[notes]{beamer}		% frames + notes
+\documentclass{beamer}				% frames
+%\documentclass[notes]{beamer}		% frames + notes
 %\documentclass[notes=only]{beamer}	% notes
 \input{preamble.tex}
 
@@ -19,6 +19,7 @@
 
 \mframe{Outline}{}{
 \begin{itemize}
+	\setlength\itemsep{1em}
 	\item Motivation
 	\item Quantum Theory
 	\item Machine Learning Theory
@@ -33,6 +34,74 @@
 
 \titleframe{Motivation}
 
+\mframe{Machine Learning}{Studies of Quantum Dots using \textcolor{red}{\underline{Machine Learning}}}{
+	\begin{itemize}
+		\setlength\itemsep{3em}
+		\item<1-> \begin{shadequote}{}
+			Machine learning is the science of getting computers to act without being explicitly programmed \supercite{noauthor_machine_nodate}.
+		\end{shadequote}
+		\item<2-> Image recognition 
+		\item<3-> Voice commands
+	\end{itemize}	
+}
+
+\note{Split up the title and start with the last term: Machine Learning. This is the method that we use. Machine learning has experienced a booming popularity over the past years. Machine learning algorithms are based on studies of the human brain, and are therefore a branch of artificial intelligence. Neural networks have, for instance, revolutioned the field of image recognition, and they make phones and TVs able to recognize your voice.\bigskip
+
+But this is not related to quantum mechanics, why do we want to use machine learning to solve quantum mechanical problems? Do we use it just because it sounds fancy?}
+
+\mframe{Machine Learning + Quantum Mechanics}{Studies of Quantum Dots using \textcolor{red}{\underline{Machine Learning}}}{
+	\begin{itemize}
+		\setlength\itemsep{3em}
+		\item<1-> Neural networks are eminent function approximators
+		\item<2-> Existing methods are reminiscent of machine learning algorithms
+	\end{itemize}	
+	\pause\pause\vspace{0.6cm}
+	\begin{figure}
+		\centering
+		\input{../tikz/simple_perceptron.tex}
+	\end{figure}
+}
+
+\note{No, there are some good reasons. Firstly, neural networks have shown impressive power as function approximators. In quantum mechanical calculations, the so-called wave function contains all the information about the system, and is therefore our ultimate goal to find.  By approximating the wave function by a neural network, the network can in principle provide all the desired information. \bigskip
+
+Even though this is a relatively new idea, there exist recent research with the same approach. In 2017, Carlo and Troyer solved the Ising model using restricted Boltzmann machines. A prior student at this group, Flugsrud, extended the work to small quantum dots, and we will again extend her work to larger quantum dots. Recently, \citet{pfau2019abinitio} used more traditional neural networks to study atoms and molecules. }
+
+\mframe{Quantum Dots}{Studies of \textcolor{red}{\underline{Quantum Dots}} using Machine Learning}{
+	\begin{itemize}
+		\setlength\itemsep{3em}
+		\item<1-> \textbf{Technologically:} 
+		
+		Quantum dots are expected to be the next big thing in display technology \supercite{noauthor_samsung_nodate, manders_8.3:_2015}.
+		\item<2-> \textbf{Experimentally:}
+		
+		Researchers have managed to study two-dimensional quantum dots in the laboratory \supercite{brunner_sharp-line_1994}.
+		\item<3-> \textbf{Physically:}
+		
+		An array of interesting physical phenomena can be observed in quantum dots.
+	\end{itemize}
+}
+
+\note{We now move back to quantum dots, which is the system we have studied. We could has studied other systems, such as atoms, but quantum dots are exciting for several reasons. 
+
+\vspace{0.5cm}
+{\large \textbf{But what are quantum dots?}}
+
+Quantum dots are small artificial particles, often called artificial atoms because of their many common features with atoms. For instance, both quantum dots and atoms have discrete energy spectra. 
+
+\vspace{0.5cm}
+{\large \textbf{Why quantum dots?}}
+
+Technologically: Quantum dots are expected to be the next big thing in display technology. They have, for instance, the ability to emit light of specific wave lengths, meaning that the color can be controlled with high precision. Samsung already claim that they use quantum dots in their high-end TVs.}
+
+\note{Experimentally: Quantum dots can be investigated in laboratory experiments. This encourages computational experiments as well, since we can use the results from the laboratory experiments as 		references. Researchers have managed to study quantum dots squeezes between two plates, making the confinement in z-direction absent. This makes them essentially two-dimensional, which is the reason why we have decided to also focus on two-dimensional systems. 
+	
+	\vspace{0.5cm}
+	Physically: From a physical point of view, the quantum dots are interesting as they are simple systems that can model a long range of phenomena. An example is the Wigner localization. 
+	
+	We will look at circular quantum dots with electron.
+}
+
+\iffalse
 \mframe{Why quantum dots?}{}{
 	\begin{itemize}
 		\item \textbf{Technologically:} 
@@ -67,6 +136,8 @@
 	
 	We will look at circular quantum dots with electron.
 }
+\fi
+\iffalse
 
 \mframe{Why is it challenging?}{}{
 	\begin{itemize}
@@ -98,91 +169,53 @@
 	\vspace{0.5cm}
 	Then we have the variational Monte Carlo method, which attempts to solve the Schrödinger equation accurately using Monte Carlo integration. It is called variational because we need to introduce a trial wave function ansatz, which we vary. Our approach is to let machine learning define this ansatz, inspired by \citet{carleo_solving_2017} and \citet{flugsrud_vilde_moe_solving_nodate}. Also \citet{pfau2019abinitio} has done something similar. 
 }	
-	
+\fi
 
 \titleframe{Quantum Theory}
 
-\mframe{The Time-independent Schrödinger Equation}{}{
-	A stationary quantum mechanical system is described by the time-independent Schrödinger equation,
+\note{I will try to not spend much time on the theory, but there are some necessary parts that need to be covered.}
+
+\mframe{The Schrödinger Equation}{}{
+	\begin{empheq}[box={\mybluebox[5pt]}]{equation}
+	\hat{\mathcal{H}}\Psi=E\Psi
+	\end{empheq}
+	\pause
+	\vspace{0.2cm}
+	\begin{center}
+		{\large $\Downarrow$}
+	\end{center}
+	\vspace{0.3cm}
 	\begin{equation}
-	\hat{\mathcal{H}}\Psi_n=E_n\Psi_n,
-	\end{equation}
-	where $\Psi_n$ is the wave function of state $n$ and $E_n$ is the corresponding energy. $\hat{\mathcal{H}}$ is the Hamiltonian, which for a quantum dot is given by
-	\begin{equation}
-	\hat{\mathcal{H}} = \sum_{i=1}^{N} \left(-\frac{1}{2} \nabla_i^2 + \frac{1}{2} \omega^2r_i ^2\right) + \sum_{j>i} \frac{1}{r_{ij}}.
+	E=\frac{\int d\bs{X}\Psi^*(\bs{X})\hat{\mathcal{H}}\Psi(\bs{X})}{\int d\bs{X}\Psi^*(\bs{X})\Psi(\bs{X})}
 	\end{equation}
 }
 
-\note{The Schrödinger equation describes the motion of any quantum mechanical system. Since we will limit us to stationary systems only, the time-independent Schrödinger equation will be our focus. It is shown here. In linear algebra terms, it is an eigenvalue equation with the Hamilton operator, $\hat{\mathcal{H}}$, as a matrix and the wave function, $\Psi_n$, as the eigen function. $E_n$ is the energy of state $n$, and is the eigenvalue.
+\note{The Schrödinger equation describes the motion of any quantum mechanical system, and is the equation that I have spent one year solving. Since we will limit us to stationary systems only, the time-independent Schrödinger equation will be our focus. In linear algebra terms, it is an eigenvalue equation with the Hamilton operator, $\hat{\mathcal{H}}$, as a matrix and the wave function, $\Psi_n$, as the eigen function. $E_n$ is the energy of state $n$, which is the eigenvalue.
 
 \vspace{0.5cm}
-For quantum dots, the Hamiltonian is given by
+The most natural way of solving this equation, is to simply express the Hamiltonian as a matrix and obtain the wave function and the energy from diagonalize the matrix. This is known as configuration interaction. However, we can only do this for small systems, as it is very computational intensive. 
 }
 
-\mframe{The Time-independent Schrödinger Equation}{}{
-By solving the Schrödinger equation with respect to the energy, we obtain 
-	\begin{equation}
-	E_n=\frac{\int d\bs{X}\Psi_n^*(\bs{X})\hat{\mathcal{H}}\Psi_n(\bs{X})}{\int d\bs{X}\Psi_n^*(\bs{X})\Psi_n^*(\bs{X})},
-	\end{equation}
-where $\bs{X}$ are the collective coordinates (spin and position).
-}
-
-\note{There are several ways to solve the equation, where an approach is to solve it as an eigenvalue problem. However, this quickly gets infeasible as the Hamilatonian matrix gets large. Instead, we can express the energy on an integral form, as shown here. This integral is hard to solve because of the interaction term in the Hamiltonian. }
+\note{Instead, we separate the equation with respect to the energy, and obtain a equation consisting of some integrals. }
 
 \mframe{The Variational Principle}{}{
+	
+	
 	The variational principle serves as a way of finding the ground state energy. For an arbitrary trial wave function $\Psi_T(\bs{X})$, it states that the obtained energy is larger or equal to the ground state,
 	\begin{equation}
-	E_0\leq E=\frac{\int d\bs{X}\Psi_T^*(\bs{X})\hat{\mathcal{H}}\Psi_T(\bs{X})}{\int d\bs{X}\Psi_T^*(\bs{X})\Psi_T^*(\bs{X})}.
+	E_0\leq E=\frac{\int d\bs{X}\Psi_T^*(\bs{X})\hat{\mathcal{H}}\Psi_T(\bs{X})}{\int d\bs{X}\Psi_T^*(\bs{X})\Psi_T(\bs{X})}.
 	\end{equation}
 	Thus, by minimizing the obtained energy, $E$, we can estimate the ground state energy. 
 }
 
-\iffalse
-\mframe{Harmonic Oscillator}{}{
-
-\begin{equation}
-\begin{aligned}
-\hat{\mathcal{H}} &= -\frac{1}{2}\nabla^2 + \frac{1}{2} \omega^2r^2\\
-&= \langle\hat{T}\rangle + \langle\hat{V}\rangle
-\end{aligned}
-\end{equation}
-
-\begin{figure}
-	\centering
-	\input{../pgf/HO_1P.tex}
-\end{figure}
-
-}
-
-\mframe{Circular Quantum Dots}{}{
-	\begin{equation}
-	\begin{aligned}
-	\hat{\mathcal{H}} &= -\frac{1}{2}\nabla_1^2 -\frac{1}{2}\nabla_2^2 + \frac{1}{2} \omega^2r_1^2 + \frac{1}{2} \omega^2r_2^2 + \frac{1}{r_{ij}}\\
-	&= \langle\hat{T}_1\rangle + \langle\hat{T}_2\rangle + \langle\hat{V}_1\rangle + \langle\hat{V}_2\rangle + \langle\hat{V}_{\text{int}}\rangle
-	\end{aligned}
-	\end{equation}
-	\begin{figure}
-		\centering
-		\input{../pgf/HO_2P.tex}
-	\end{figure}
-}
-\fi
-
 \titleframe{Machine Learning Theory}
 
-\mframe{Machine Learning}{}{
-	
-	\begin{shadequote}{}
-		Machine learning is the science of getting computers to act without being explicitly programmed.
-		\par Stanford University \supercite{noauthor_machine_nodate}
-	\end{shadequote}
-	
-}
+\note{Now over to the machine learning theory.}
 
-\mframe{Feed-forward Neural Network}{}{
+\mframe{Feed-forward Neural Network (FNN)}{}{
 	\begin{figure}[scale=0.2]
 		\centering
-		\input{../tikz/multilayer_perceptron.tex}
+		\input{../tikz/multilayer_perceptron_presentation.tex}
 	\end{figure}
 }
 

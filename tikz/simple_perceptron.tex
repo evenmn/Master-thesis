@@ -1,0 +1,41 @@
+\begin{tikzpicture}
+
+% Neural network
+\node[input] (output) {};
+
+\node[input, left=5ex of output] (hidden) {};
+\node[input, above=3ex of hidden] (hu) {};
+\node[input, below=3ex of hidden] (hl) {};
+
+\node[left=6ex of hidden] (visible) {};
+\node[input, above=1ex of visible] (vu) {};
+\node[input, below=1ex of visible] (vl) {};
+
+\path[draw] (output) -- (hu);
+\path[draw] (output) -- (hidden);
+\path[draw] (output) -- (hl);
+
+\path[draw] (vu) -- (hu);
+\path[draw] (vu) -- (hidden);
+\path[draw] (vu) -- (hl);
+\path[draw] (vl) -- (hu);
+\path[draw] (vl) -- (hidden);
+\path[draw] (vl) -- (hl);
+
+% Wave
+\node[right=3ex of output, scale=2] (arrow) {$\Rightarrow$};
+\begin{axis}[scale=0.4,
+	xshift=10ex, 
+	yshift=-8ex, 
+	axis line style={draw=none}, 
+	ticks=none, 
+	xmin=-10,
+	xmax=10]
+	\addplot[thick, black, samples=100, right=2ex of arrow] plot (\x, { (4*\x*\x - 2) * exp(-0.5 * \x*\x) });
+\end{axis}
+
+% Psi
+\node[left=3ex of visible, scale=2] (equal) {$=$};
+\node[left=3ex of equal, scale=3] {$\Psi$};
+
+\end{tikzpicture}
