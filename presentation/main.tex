@@ -7,15 +7,7 @@
 
 \frontframe
 
-\note{
-\begin{itemize}
-	\item Glad so many of you could attend this presentation
-	\item Present myself
-	\item Present topic/master thesis
-	\item Practical information (Present a years work in 30 min - leave details in the thesis)
-	\item Feel free to ask questions if anything is unclear
-\end{itemize}
-}
+\note{Welcome to my master presentation! It is nice to see that so many of you could be here today! My name is Even, and I will talk about my last years work. It resulted in a master's thesis titled Studies of quantum dots using machine learning. Since I need to compress one years work into 30 minutes, this presentation will not be very technically. For details, I relegate you to this wonderful thesis. }
 
 \mframe{Outline}{}{
 \begin{itemize}
@@ -30,7 +22,7 @@
 \end{itemize}
 }
 
-\note{We will start with some motivation. Thereafter, we present the essential theory, the methods and the results. I will try to spend most of the time on the results. In the end, I will address a brief conclusion, and show how to use the developed software if we have time.}
+\note{We will start with some motivation. Thereafter, we present the essential theory, first quantum theory and then machine learning theory. Our primary focus will be on the results, as that's the most interesting outcome of our work. }
 
 \titleframe{Motivation}
 
@@ -40,7 +32,7 @@
 	\end{center}
 }
 
-\note{First I suggest that we take a closer look at the title of my thesis: Studies of Quantum Dots using Machine Learning. We will decompose this, and start with the last term: machine learning.}
+\note{First I suggest that we take a closer look at the title of my thesis: Studies of Quantum Dots using Machine Learning. We will decompose this to make it more clear, and start with the last term: machine learning.}
 
 \mframe{Machine Learning}{}{
 	\begin{itemize}
@@ -53,32 +45,36 @@
 	\end{itemize}	
 }
 
-\note{This is the method that we use. Machine learning has experienced a booming popularity over the past years. Machine learning algorithms are based on studies of the human brain, and are therefore a branch of artificial intelligence. Neural networks have, for instance, revolutioned the field of image recognition, and they make phones and TVs able to recognize your voice.\bigskip
+\note{Many of you have probbaly heard of the term Machine Learning. To define it, we will use the definition by Stanford university: "Machine learning is the science of getting computers to act without being explicitly programmed." In other words, we don't need to hard-code everything, the machine learning algorithms are supposed to find out what to do themselves. Machine learning has experienced a booming popularity over the past years. Machine learning algorithms are based on studies of the human brain, and are therefore a branch of artificial intelligence. Neural networks have, for instance, revolutioned the field of image recognition, and they make phones and TVs able to recognize your voice.\bigskip
 
 But this is not related to quantum mechanics, why do we want to use machine learning to solve quantum mechanical problems? Do we use it just because it sounds fancy?}
 
 \mframe{Machine Learning + Quantum Mechanics}{}{
 	\begin{itemize}
-		\setlength\itemsep{3em}
 		\item<1-> Neural networks are eminent function approximators
-		\item<2-> Existing methods are reminiscent of machine learning algorithms
 	\end{itemize}	
-	\pause\pause\vspace{0.6cm}
+	\pause\vspace{0.6cm}
 	\begin{figure}
 		\centering
 		\input{../tikz/simple_perceptron.tex}
 	\end{figure}
+	\begin{itemize}
+		\item<3-> Existing methods are reminiscent of machine learning algorithms
+	\end{itemize}
 }
 
 \note{No, there are some good reasons. Firstly, neural networks have shown impressive power as function approximators. In quantum mechanical calculations, the so-called wave function contains all the information about the system, and is therefore our ultimate goal to find.  By approximating the wave function by a neural network, the network can in principle provide all the desired information. \bigskip
-
-Even though this is a relatively new idea, there exist recent research with the same approach. In 2017, Carlo and Troyer solved the Ising model using restricted Boltzmann machines. A prior student at this group, Flugsrud, extended the work to small quantum dots, and we will again extend her work to larger quantum dots. Recently, \citet{pfau2019abinitio} used more traditional neural networks to study atoms and molecules. }
+Secondly, some quantum many-body methods, like the variational Monte Carlo method that we will discuss later, are similar to machine learning techniques. 
+\bigskip
+Even though this is a relatively new idea, there exist recent research with the same approach. In 2017, Carlo and Troyer solved the Ising model using restricted Boltzmann machines. A prior student at this group, Flugsrud, extended the work to small quantum dots, and we will again extend her work to larger quantum dots. Recently, Pfau et. al used more traditional neural networks to study atoms and molecules. }
 
 \mframe{}{}{
 	\begin{center}
 		{\large Studies of \textcolor<2>{red}{Quantum Dots} using Machine Learning}
 	\end{center}
 }
+
+\note{So now we have discussed the last term, but we will also consider the system that we have investigated: Quantum dots. }
 
 \mframe{Quantum Dots}{}{
 	\begin{itemize}
@@ -95,24 +91,19 @@ Even though this is a relatively new idea, there exist recent research with the 
 	\end{itemize}
 }
 
-\note{We now move back to quantum dots, which is the system that we study. We could has studied other systems, such as atoms, but quantum dots are exciting for several reasons. 
-
-\vspace{0.5cm}
-{\large \textbf{But what are quantum dots?}}
+\note{{\large \textbf{First: What are quantum dots?}}
 
 Quantum dots are small artificial particles, often called artificial atoms because of their many common features with atoms. For instance, both quantum dots and atoms have discrete energy spectra. 
 
 \vspace{0.5cm}
-{\large \textbf{Why quantum dots?}}
+{\large \textbf{There are many reasons why quantum dots are interesting}}
 
-Technologically: Quantum dots are expected to be the next big thing in display technology. They have, for instance, the ability to emit light of specific wave lengths, meaning that the color can be controlled with high precision. Samsung already claim that they use quantum dots in their high-end TVs.}
+Technologically, quantum dots are expected to be the next big thing in display technology. They have, for instance, the ability to emit light of specific wave lengths, meaning that the color can be controlled with high precision. Samsung already claim that they use quantum dots in their high-end TVs.}
 
-\note{Experimentally: Quantum dots can be investigated in laboratory experiments. This encourages computational experiments as well, since we can use the results from the laboratory experiments as 		references. Researchers have managed to study quantum dots squeezes between two plates, making the confinement in z-direction absent. This makes them essentially two-dimensional, which is the reason why we have decided to also focus on two-dimensional systems. 
+\note{Experimentally, quantum dots can be investigated in the laboratory. This encourage computational experiments as well, since we can use the results from the laboratory experiments as references. Researchers have managed to study quantum dots squeezes between two plates, making the confinement in z-direction absent. This makes them essentially two-dimensional, which is the reason why we have decided to also focus on two-dimensional systems. 
 	
 	\vspace{0.5cm}
-	Physically: From a physical point of view, the quantum dots are interesting as they are simple systems that can model a long range of phenomena. An example is the Wigner localization. 
-	
-	We will look at circular quantum dots with electron.
+	Physically: From a physical point of view, the quantum dots are interesting as they are simple systems that can model a long range of phenomena. An example is the Wigner localization.
 }
 
 \iffalse
@@ -187,7 +178,7 @@ Technologically: Quantum dots are expected to be the next big thing in display t
 
 \titleframe{Quantum Theory}
 
-\note{I will give a breif introduction to the essential quantum theory.}
+\note{Now we will give a breif introduction to the essential quantum theory.}
 
 \mframe{The Schrödinger Equation}{}{
 	\begin{empheq}[box={\mybluebox[5pt]}]{equation}
@@ -204,13 +195,13 @@ Technologically: Quantum dots are expected to be the next big thing in display t
 	\end{equation}
 }
 
-\note{The Schrödinger equation describes the motion of any quantum mechanical system, and is the equation that I have spent one year solving. Since we will limit us to stationary systems only, the time-independent Schrödinger equation will be our focus. In linear algebra terms, it is an eigenvalue equation with the Hamilton operator, $\hat{\mathcal{H}}$, as a matrix and the wave function, $\Psi_n$, as the eigen function. $E_n$ is the energy of state $n$, which is the eigenvalue.
+\note{The Schrödinger equation describes the motion of any quantum mechanical system, and is the equation that I have spent one year solving. Since we will limit us to stationary systems only, the time-independent Schrödinger equation will be our focus. In linear algebra terms, it is an eigenvalue equation with the Hamilton operator, $\hat{\mathcal{H}}$, as a matrix and the wave function, $\Psi$, as the eigen function. $E$ is the energy, which is the eigenvalue.
 
 \vspace{0.5cm}
-The most natural way of solving this equation, is to simply express the Hamiltonian as a matrix and obtain the wave function and the energy from diagonalize the matrix. This is known as configuration interaction. However, we can only do this for small systems, as it is very computational intensive. 
+The most natural way of solving this equation, is to simply express the Hamiltonian as a matrix and obtain the wave function and the energy from diagonalizing the matrix. This is known as configuration interaction. However, we can only do this for small systems, as it is very computational intensive. 
 }
 
-\note{Instead, we separate the equation with respect to the energy, and obtain a equation consisting of some integrals. }
+\note{Instead, we separate the equation with respect to the energy, and obtain a equation consisting of some integrals. This equation is hard to solve due to the electron-electron correlations. }
 
 \mframe{The Variational Principle}{}{
 	
@@ -222,7 +213,7 @@ The most natural way of solving this equation, is to simply express the Hamilton
 	Thus, by minimizing the obtained energy, $E$, we can estimate the ground state energy. 
 }
 
-\note{The variational principle is used by variaitonal methods to obtain the ground state energy. Loosely speaking, it states that by solving this integral with an arbitrary wave function, $\Psi_T$, the obtained energy is always larger or equal to the ground state energy. This means that we can estimate the ground state energy by minimizing the obtained energy.}
+\note{We also have the variational principle, which is used by variational methods to obtain the ground state energy. Loosely speaking, it states that by solving this integral with an arbitrary wave function, $\Psi_T$, the obtained energy is always larger or equal to the ground state energy. This means that we can estimate the ground state energy by minimizing the obtained energy.}
 
 \titleframe{Machine Learning Theory}
 
@@ -244,7 +235,7 @@ The most natural way of solving this equation, is to simply express the Hamilton
 
 \titleframe{Methods}
 
-\note{Similar to the theory, also the methods will be discussed briefely.}
+\note{Similar to the theory, also the methods that we have used will be discussed briefely.}
 
 \mframe{Variational Monte Carlo (VMC)}{}{
 	Exploit the variational principle in order to obtain the ground state energy
@@ -273,7 +264,7 @@ The most natural way of solving this equation, is to simply express the Hamilton
 	\end{equation}
 }
 
-\note{This makes it on the form of a general expectation value, which straightforward can be approached using Monte Carlo integration, shown here with $M$ Monte Carlo cycles. This does only give an energy, but by adjusting the trial wave function, $\Psi_T$, in order to minimize the energy and repeat the exercise multiple times, we may estimate the ground state energy. }
+\note{By doing this, the integral becomes in the form of a general expectation value, which straightforward can be approached using Monte Carlo integration, shown here with $M$ Monte Carlo cycles. This does only give an energy, but by adjusting the trial wave function, $\Psi_T$, in order to minimize the energy and repeat the exercise multiple times, we may estimate the ground state energy. }
 
 \mframe{Trial Wave Function Ansatz}{}{
 	
@@ -313,7 +304,7 @@ The most natural way of solving this equation, is to simply express the Hamilton
 	\end{equation}
 }
 
-\note{...and are traditionally taylored to every particular system. For quantum dots, the Hermite functions are often used as the single-particle functions. An important finding, is that the gaussian part (point) can be factorized out from the Slater determinant such that the determinant no longer contains variational parameters. Our contribution is to let a restricted Boltzmann machine control the single-particle function...}
+\note{...and are traditionally taylored to every particular system. For quantum dots, the Hermite functions are often used as the single-particle functions. Here, $H_n$ is the Hermite polynomial of $n$'th order, $\omega$ is the frequency (strength) of the quantum dot and $\alpha$ is a variational parameter. An important finding, is that the gaussian part (point) can be factorized out from the Slater determinant such that the determinant no longer contains variational parameters. Our contribution is to let a restricted Boltzmann machine control the single-particle function...}
 
 \mframe{Restricted Boltzmann Machine}{}{
 	As suggested by \citet{carleo_solving_2017}, we use the marginal distribution of the visible units as the single-particle functions in the Slater determinant, and see if them can model the correlations 
@@ -332,7 +323,7 @@ The most natural way of solving this equation, is to simply express the Hamilton
 	\end{equation}
 }
 
-\note{...as suggested by Carleo and Troyer. }
+\note{...as suggested by Carleo and Troyer. We then simply replace the Gaussian part by the marginal distribution of a restricted Boltzmann machine and obtain this expression of the determinant. This serves our goal because we no longer need to taylor the single-particle functions to the system, making it require less physical intuition. }
 
 
 \mframe{Jastrow Factor}{}{
@@ -349,7 +340,7 @@ J(\bs{r};\beta) = \exp(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij
 \end{equation}
 }
 
-\note{We have decided to study two different Jastrow factors. The simple Jastrow factor does only contain variational parameters multiplied with the relative distances between the particles, $r_{ij}$, and contains a minimum of physical intuition. It is interesting since we want to develop a method that does not require a significant amount of physical intuition. The Padé-Jastrow factor is, on the other hand, taylored to model the electron-electron correlations correctly, and contains therefore more physical information. }
+\note{We also mentioned the Jastrow factor, which can be added in order to model the electron-electron correlations. We have decided to study two different Jastrow factors. The simple Jastrow factor does only contain variational parameters, $\beta_{ij}$, multiplied with the relative distances between the particles, $r_{ij}$, and contains a minimum of physical intuition. It is interesting since we want to develop a method that does not require a significant amount of physical intuition. The Padé-Jastrow factor is, on the other hand, taylored to model the electron-electron correlations correctly, and contains therefore more physical information. $\beta$ is a variational parameter and $a_{ij}$ is a factor depending on the electrons $i$ and $j$. }
 
 \mframe{Our Trial Wave Function Ansätze}{}{
 	\begin{itemize}
@@ -361,7 +352,7 @@ J(\bs{r};\beta) = \exp(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij
 	\end{itemize}
 }
 
-\note{Based on this, we have four wave function ansätze. In the following, we will compare their performance in the form of results. }
+\note{We end up with four wave function ansätze: We have the RBM ansatz, which is just the Slater determinant with the restricted Boltzmann machines as the single-particle functions. Then we have the RBM+SJ ansatz, which is simply the RBM ansatz multiplied with the simple Jastrow factor. We also have the RBM ansatz multiplied with the Padé-Jastrow factor, denoted by the RBM+PJ ansatz. In the end, we have the standard Slater-Jastrow ansatz also containing the Padé-Jastrow factor which we call the VMC ansatz. In the following, we will compare their performance in the form of results. }
 
 \titleframe{Results}
 
@@ -379,6 +370,8 @@ J(\bs{r};\beta) = \exp(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij
 \end{table}
 }
 
+\note{The first results that I would like to present, is the ground state energy of a couple of quantum dots that we know the exact energy of. More precisely, we look at quantum dots with two electrons and frequency $\omega=1/6$ and 1. We see here that the RBM ansatz, in the first column, provides energies not very far from the analytical energies in this last column. They are also lower than the Hartree-Fock limit, which is interesting as the Hartree-Fock algorithm attempts to find the optimal Slater determinant without Jastrow factors. When we add more intuition in form of the simple Jastrow factor, the energy drops further towards the exact energy. The RBM+PJ ansatz is totally on pair with the VMC ansatz. }
+
 \mframe{Ground State Energy}{Number of electrons: $N=20$. Frequency: $\omega$.}{
 \begin{table}
 	%\caption{$N=20$}
@@ -395,6 +388,8 @@ J(\bs{r};\beta) = \exp(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij
 \end{table}
 }
 
+\note{We also investigate quantum dots with 20 electrons and frequencies $\omega=0.1$ and 1.0. For these systems, we do not have analytically energy, but we use the diffusion Monte Carlo energy as reference, which is believed to be more or less exact. What we see is that the RBM ansatz again is not far from the reference, but for high frequency the energy is larger than the Hartree-Fock limit. This illustrates that RBM is better at modelling correlations than Hartree-Fock. }
+
 \mframe{Energy distribution}{Number of electrons: $N=20$. Frequency: $\omega$.}{
 	Ratio between the kinetic energy, $\langle\hat{T}\rangle$, and the total potential energy, $\langle\hat{V}\rangle$.
 	\begin{figure}
@@ -403,6 +398,8 @@ J(\bs{r};\beta) = \exp(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij
 		%\caption{$N=20$}
 	\end{figure}
 }
+
+\note{We also look at the distribution between kinetic energy and total potential energy. Keep looking at quatum dots with 20 electrons, we see that the potential energy dominates over the potential energy when the frequency gets low. Also, the various ansätze differ more for high frequencies. }
 
 \mframe{One-body density}{Number of electrons: $N=20$. Frequency: $\omega=1.0$.}{
 	\begin{figure}
@@ -420,6 +417,8 @@ J(\bs{r};\beta) = \exp(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij
 	\end{figure}
 }
 
+\note{Now, we look at the one-body density provided by the varius ansätze. We observe that all the ansätze with a Jastrow factor, i.e. RBM+SJ, RBM+PJ and VMC, provide very similar density profiles, while RBM provides more distinct peaks. It looks like the RBM ansatz manages to find the same extrema as the other ansätze, but determines another density there. }
+
 \mframe{Two-body density}{Number of electrons: $N=20$. Frequency: $\omega=1.0$.}{
 	\begin{figure}
 		\centering
@@ -435,6 +434,8 @@ J(\bs{r};\beta) = \exp(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij
 		%\caption{$N=20$, $\omega=1.0$}
 	\end{figure}
 }
+
+\note{We have also studied the two-body density, which makes us able to study the electron-electron correlations in more detail. A similar phenomenon as we saw for the one-body density can be observed in the two-body density. RBM provides more distinct peaks than its fellow ansätze. }
 
 \mframe{Low-frequency dots}{Number of electrons: $N$. Frequency: $\omega=0.1$.}{
 	\begin{figure}
@@ -453,6 +454,8 @@ J(\bs{r};\beta) = \exp(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij
 	\end{figure}
 }
 
+\note{We now move on to quantum dots with frequency $\omega=0.1$. When comparing the RBM ansatz and the VMC ansatz, we see that the two ansätze give very different one-body density profiles. Apparently, the RBM ansatz provides an equal number of peaks as there are electrons, implying very localized particle positions. What is interesting, is that the energy is the respective methods are quite similar. This indicates that the energy itself might not be the best way to decide whether an ansatz is good or not. }
+
 \mframe{Computational Cost}{Number of electrons: $N$.}{
 	\begin{figure}
 		\centering 
@@ -460,7 +463,11 @@ J(\bs{r};\beta) = \exp(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij
 	\end{figure} 
 }
 
-\titleframe{Conclusion}
+\note{In the end, we will also compare the computational cost of the various methods. From the graphs, we see that the RBM and VMC ansätze are pairwise the computationally cheapest methods and RBM+SJ and RBM+PJ are the most computational intensive ones. This is no big surprise, as the two latter methods contain bith a neural network and a Jastrow factor. We also see that the cost of the RBM ansatz explodes for very large systems. This is probably because the ansatz then contains around 15,000 variational parameters, while the VMC ansatz contains two variational parameters. }
+
+\titleframe{Conclusions}
+
+\note{Now we will address some brief conclusions. }
 
 \mframe{Conclusions}{}{
 	\begin{itemize}
@@ -481,6 +488,8 @@ J(\bs{r};\beta) = \exp(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij
 }
 
 \titleframe{Thank you!}
+
+\note{Thank you all for listening! Since I have a few more minutes, I will show how the developed software can be used. }
 
 \mframe{References}{}{
 	\printbibliography
