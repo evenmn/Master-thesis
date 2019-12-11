@@ -34,7 +34,15 @@
 
 \titleframe{Motivation}
 
-\mframe{Machine Learning}{Studies of Quantum Dots using \textcolor{red}{\underline{Machine Learning}}}{
+\mframe{}{}{
+	\begin{center}
+		{\large Studies of Quantum Dots using \textcolor<2>{red}{Machine Learning}}
+	\end{center}
+}
+
+\note{First I suggest that we take a closer look at the title of my thesis: Studies of Quantum Dots using Machine Learning. We will decompose this, and start with the last term: machine learning.}
+
+\mframe{Machine Learning}{}{
 	\begin{itemize}
 		\setlength\itemsep{3em}
 		\item<1-> \begin{shadequote}{}
@@ -45,11 +53,11 @@
 	\end{itemize}	
 }
 
-\note{Split up the title and start with the last term: Machine Learning. This is the method that we use. Machine learning has experienced a booming popularity over the past years. Machine learning algorithms are based on studies of the human brain, and are therefore a branch of artificial intelligence. Neural networks have, for instance, revolutioned the field of image recognition, and they make phones and TVs able to recognize your voice.\bigskip
+\note{This is the method that we use. Machine learning has experienced a booming popularity over the past years. Machine learning algorithms are based on studies of the human brain, and are therefore a branch of artificial intelligence. Neural networks have, for instance, revolutioned the field of image recognition, and they make phones and TVs able to recognize your voice.\bigskip
 
 But this is not related to quantum mechanics, why do we want to use machine learning to solve quantum mechanical problems? Do we use it just because it sounds fancy?}
 
-\mframe{Machine Learning + Quantum Mechanics}{Studies of Quantum Dots using \textcolor{red}{\underline{Machine Learning}}}{
+\mframe{Machine Learning + Quantum Mechanics}{}{
 	\begin{itemize}
 		\setlength\itemsep{3em}
 		\item<1-> Neural networks are eminent function approximators
@@ -66,7 +74,13 @@ But this is not related to quantum mechanics, why do we want to use machine lear
 
 Even though this is a relatively new idea, there exist recent research with the same approach. In 2017, Carlo and Troyer solved the Ising model using restricted Boltzmann machines. A prior student at this group, Flugsrud, extended the work to small quantum dots, and we will again extend her work to larger quantum dots. Recently, \citet{pfau2019abinitio} used more traditional neural networks to study atoms and molecules. }
 
-\mframe{Quantum Dots}{Studies of \textcolor{red}{\underline{Quantum Dots}} using Machine Learning}{
+\mframe{}{}{
+	\begin{center}
+		{\large Studies of \textcolor<2>{red}{Quantum Dots} using Machine Learning}
+	\end{center}
+}
+
+\mframe{Quantum Dots}{}{
 	\begin{itemize}
 		\setlength\itemsep{3em}
 		\item<1-> \textbf{Technologically:} 
@@ -81,7 +95,7 @@ Even though this is a relatively new idea, there exist recent research with the 
 	\end{itemize}
 }
 
-\note{We now move back to quantum dots, which is the system we have studied. We could has studied other systems, such as atoms, but quantum dots are exciting for several reasons. 
+\note{We now move back to quantum dots, which is the system that we study. We could has studied other systems, such as atoms, but quantum dots are exciting for several reasons. 
 
 \vspace{0.5cm}
 {\large \textbf{But what are quantum dots?}}
@@ -173,7 +187,7 @@ Technologically: Quantum dots are expected to be the next big thing in display t
 
 \titleframe{Quantum Theory}
 
-\note{I will try to not spend much time on the theory, but there are some necessary parts that need to be covered.}
+\note{I will give a breif introduction to the essential quantum theory.}
 
 \mframe{The Schrödinger Equation}{}{
 	\begin{empheq}[box={\mybluebox[5pt]}]{equation}
@@ -208,6 +222,8 @@ The most natural way of solving this equation, is to simply express the Hamilton
 	Thus, by minimizing the obtained energy, $E$, we can estimate the ground state energy. 
 }
 
+\note{The variational principle is used by variaitonal methods to obtain the ground state energy. Loosely speaking, it states that by solving this integral with an arbitrary wave function, $\Psi_T$, the obtained energy is always larger or equal to the ground state energy. This means that we can estimate the ground state energy by minimizing the obtained energy.}
+
 \titleframe{Machine Learning Theory}
 
 \note{Now over to the machine learning theory.}
@@ -228,37 +244,44 @@ The most natural way of solving this equation, is to simply express the Hamilton
 
 \titleframe{Methods}
 
+\note{Similar to the theory, also the methods will be discussed briefely.}
+
 \mframe{Variational Monte Carlo (VMC)}{}{
-Exploit the variational principle in order to obtain the ground state energy
+	Exploit the variational principle in order to obtain the ground state energy
 	\begin{equation}
 	\begin{aligned}
-	E_0 < E_{\text{VMC}} &= \frac{\int d\bs{R}\Psi_T(\bs{R})^*\hat{\mathcal{H}}\Psi_T(\bs{R})}{\int d\bs{R}\Psi_T(\bs{R})^*\Psi_T(\bs{R})}\\
-	&= \int d\bs{R}\underbrace{\frac{\Psi_T(\bs{R})^*\Psi_T(\bs{R})}{\int d\bs{R}\Psi_T(\bs{R})^*\Psi_T(\bs{R})}}_{P(\bs{R})}\cdot\underbrace{\frac{1}{\Psi_T(\bs{R})}\hat{\mathcal{H}}\Psi_T(\bs{R})}_{E_L(\bs{R})}
+	E_0 < E_{\text{VMC}} &= \frac{\int d\bs{R}\Psi_T(\bs{R})^*\hat{\mathcal{H}}\Psi_T(\bs{R})}{\int d\bs{R}\Psi_T(\bs{R})^*\Psi_T(\bs{R})},\\
+	%&= \int d\bs{R}\underbrace{\frac{\Psi_T(\bs{R})^*\Psi_T(\bs{R})}{\int d\bs{R}\Psi_T(\bs{R})^*\Psi_T(\bs{R})}}_{P(\bs{R})}\cdot\underbrace{\frac{1}{\Psi_T(\bs{R})}\hat{\mathcal{H}}\Psi_T(\bs{R})}_{E_L(\bs{R})}\\
+	&=\int d\bs{R}E_L(\bs{R})P(\bs{R}),
 	\end{aligned}
 	\end{equation}
-	
+	with
+	\begin{equation}
+	E_L(\bs{R})=\frac{1}{\Psi_T(\bs{R})}\hat{\mathcal{H}}\Psi_T(\bs{R})\quad\wedge\quad P(\bs{R})=\frac{\Psi_T(\bs{R})^*\Psi_T(\bs{R})}{\int d\bs{R}\Psi_T(\bs{R})^*\Psi_T(\bs{R})}
+	\end{equation}
 }
+
+\note{The variational Monte Carlo method, which our work is based on, exploits the variational principle in order to obtain an estimate of the ground state energy. We also rewrite the integral in terms of the local energy, $E_L$, and the probability density function $P(\bs{R})$. }
 
 \mframe{Monte Carlo Integration}{}{
-	We attempt to solve the integral by sampling from the probability density function $P(\bs{R})$
+	We attempt to solve the integral by sampling from the probability density function $P(\bs{R})\propto\Psi_T(\bs{R})^*\Psi_T(\bs{R})$:
 	\begin{equation}
 	\begin{aligned}
-	E_{\text{VMC}} &= \int d\bs{R} E_L(\bs{R})P(\bs{R}) \\
-	&\approx\frac{1}{M}\sum_{i=1}^ME_L(\bs{R}_i)
+	E_{\text{VMC}} &= \int d\bs{R} E_L(\bs{R})P(\bs{R}),\\
+	&\approx\frac{1}{M}\sum_{i=1}^ME_L(\bs{R}_i).
 	\end{aligned}
 	\end{equation}
 }
 
-\mframe{Trial Wave Function}{}{
-	\begin{equation}
-	P(\bs{R})\propto\Psi_T(\bs{R})^*\Psi_T(\bs{R})
-	\end{equation}
+\note{This makes it on the form of a general expectation value, which straightforward can be approached using Monte Carlo integration, shown here with $M$ Monte Carlo cycles. This does only give an energy, but by adjusting the trial wave function, $\Psi_T$, in order to minimize the energy and repeat the exercise multiple times, we may estimate the ground state energy. }
+
+\mframe{Trial Wave Function Ansatz}{}{
 	
-	Use the Slater-Jastrow function as our trial wave function
+	The Slater-Jastrow function is the \textit{de facto} standard trial wave function for electronic structure systems,
 	\begin{equation}
-	\Psi_T(\bs{R})=|\hat{D}(\bs{R})|J(\bs{R})
+	\Psi_T(\bs{R})=|\hat{D}(\bs{R})|J(\bs{R}),
 	\end{equation}
-	where the Slater matrix, $\hat{D}(\bs{R})$, contains all the single-particle functions
+	where the Slater matrix,
 	\begin{equation}
 	\hat{D}(\bs{R})=
 	\begin{pmatrix}
@@ -266,16 +289,19 @@ Exploit the variational principle in order to obtain the ground state energy
 	\phi_1(\boldsymbol{r}_2) & \phi_2(\boldsymbol{r}_2) & \hdots & \phi_N(\boldsymbol{r}_2)\\
 	\vdots & \vdots & \ddots & \vdots \\
 	\phi_1(\boldsymbol{r}_N) & \phi_2(\boldsymbol{r}_N) & \hdots & \phi_N(\boldsymbol{r}_N)
-	\end{pmatrix}
+	\end{pmatrix},
 	\end{equation}
+	contains all the single-particle functions.
 }
+
+\note{The trial wave function can in principle be an arbitrary function with a few requirements. For electron systems, like our quantum dots, the wave function has to be anti-symmetric under exchange of two coordinates. The standard trial wave function for this purpose is named the Slater-Jastrow function and consists of a Slater determinant, $|\hat{D}(\bs{R})|$, to introduce the anti-symmetry and a Jastrow factor, $J(\bs{R})$, to model the electron-electron correlations. The function inside the Slater matrix are called the single-particle functions...}
 
 \mframe{Single-particle Functions}{}{
 	The Hermite functions,
 	\begin{equation}
 	\phi_n(\bs{r})\propto H_n(\bs{r})\exp(-\frac{1}{2}\alpha\omega|\bs{r}|^2),
 	\end{equation}
-	are used as the single-particle functions for quantum dots in standard VMC. The Gaussian can be factorized out from the Slater determinant.
+	are often used as the single-particle functions for quantum dots. The Gaussian can be factorized out from the Slater determinant,
 	\begin{equation}
 	|\hat{D}(\bs{R};\alpha)|\propto\exp(-\frac{1}{2}\alpha\omega|\bs{R}|^2)
 	\begin{vmatrix}
@@ -283,18 +309,20 @@ Exploit the variational principle in order to obtain the ground state energy
 	H_1(\boldsymbol{r}_2) & H_2(\boldsymbol{r}_2) & \hdots & H_N(\boldsymbol{r}_2)\\
 	\vdots & \vdots & \ddots & \vdots \\
 	H_1(\boldsymbol{r}_N) & H_2(\boldsymbol{r}_N) & \hdots & H_N(\boldsymbol{r}_N)
-	\end{vmatrix}
+	\end{vmatrix}.
 	\end{equation}
 }
 
+\note{...and are traditionally taylored to every particular system. For quantum dots, the Hermite functions are often used as the single-particle functions. An important finding, is that the gaussian part (point) can be factorized out from the Slater determinant such that the determinant no longer contains variational parameters. Our contribution is to let a restricted Boltzmann machine control the single-particle function...}
+
 \mframe{Restricted Boltzmann Machine}{}{
-	We use the marginal distribution of the visible units as the single-particle functions in the Slater determinant, and see if them can model the correlations 
+	As suggested by \citet{carleo_solving_2017}, we use the marginal distribution of the visible units as the single-particle functions in the Slater determinant, and see if them can model the correlations 
 	\begin{equation}
-	\phi_n(\bs{r})\propto H_n(\bs{r})P(\bs{r};\bs{a},\bs{b},\bs{W})
+	\phi_n(\bs{r})\propto H_n(\sqrt{\omega}\bs{r})P(\bs{r};\bs{\theta})
 	\end{equation}
 	where $P(\bs{r})$ is the marginal distribution of the visible units.
 	\begin{equation}
-	|\hat{D}(\bs{r};\bs{a},\bs{b},\bs{W})|\propto P(\bs{r};\bs{a},\bs{b},\bs{W})
+	|\hat{D}(\bs{r};\bs{\theta})|\propto P(\bs{r};\bs{\theta})
 	\begin{vmatrix}
 	H_1(\boldsymbol{r}_1) & H_2(\boldsymbol{r}_1) & \hdots & H_N(\boldsymbol{r}_1)\\
 	H_1(\boldsymbol{r}_2) & H_2(\boldsymbol{r}_2) & \hdots & H_N(\boldsymbol{r}_2)\\
@@ -303,6 +331,8 @@ Exploit the variational principle in order to obtain the ground state energy
 	\end{vmatrix}
 	\end{equation}
 }
+
+\note{...as suggested by Carleo and Troyer. }
 
 
 \mframe{Jastrow Factor}{}{
@@ -318,6 +348,20 @@ Padé-Jastrow factor
 J(\bs{r};\beta) = \exp(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij}}).
 \end{equation}
 }
+
+\note{We have decided to study two different Jastrow factors. The simple Jastrow factor does only contain variational parameters multiplied with the relative distances between the particles, $r_{ij}$, and contains a minimum of physical intuition. It is interesting since we want to develop a method that does not require a significant amount of physical intuition. The Padé-Jastrow factor is, on the other hand, taylored to model the electron-electron correlations correctly, and contains therefore more physical information. }
+
+\mframe{Our Trial Wave Function Ansätze}{}{
+	\begin{itemize}
+		\setlength\itemsep{3em}
+		\item $\Psi_{\text{RBM}}(\bs{R})=|\hat{D}(\bs{R})|$
+		\item $\Psi_{\text{RBM+SJ}}(\bs{R})=|\hat{D}(\bs{R})|J(\bs{R};\bs{\beta})$
+		\item $\Psi_{\text{RBM+PJ}}(\bs{R})=|\hat{D}(\bs{R})|J(\bs{R};\beta)$
+		\item $\Psi_{\text{VMC}}(\bs{R})=|\hat{D}(\bs{R})|J(\bs{R};\beta)$
+	\end{itemize}
+}
+
+\note{Based on this, we have four wave function ansätze. In the following, we will compare their performance in the form of results. }
 
 \titleframe{Results}
 
@@ -420,6 +464,7 @@ J(\bs{r};\beta) = \exp(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij
 
 \mframe{Conclusions}{}{
 	\begin{itemize}
+		\setlength\itemsep{3em}
 		\item RBM is able to account for most of the correlations
 		\item RBM+PJ implies to give a lower ground state energy and model the correlations better than a traditional VMC
 		\item RBM+SJ is both more expensive and less accurate than its fellow methods, and we see no reason to choose it
@@ -428,6 +473,7 @@ J(\bs{r};\beta) = \exp(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij
 
 \mframe{Future Work}{}{
 	\begin{itemize}
+		\setlength\itemsep{3em}
 		\item Repeat the exercise using spherical coordinates - interactions are easier to model in spherical coordinates
 		\item Check the ability of modeling the three-body correlations, considering nuclear systems
 		\item Reduce the computational cost
