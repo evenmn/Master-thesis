@@ -16,9 +16,9 @@
 	\item Quantum Theory
 	\item Machine Learning Theory
 	\item Methods
+	\item Software
 	\item Results
 	\item Conclusion
-	\item (Code)
 \end{itemize}
 }
 
@@ -64,8 +64,10 @@ But this is not related to quantum mechanics, why do we want to use machine lear
 }
 
 \note{No, there are some good reasons. Firstly, neural networks have shown impressive power as function approximators. In quantum mechanical calculations, the so-called wave function contains all the information about the system, and is therefore our ultimate goal to find.  By approximating the wave function by a neural network, the network can in principle provide all the desired information. \bigskip
+	
 Secondly, some quantum many-body methods, like the variational Monte Carlo method that we will discuss later, are similar to machine learning techniques. 
 \bigskip
+
 Even though this is a relatively new idea, there exist recent research with the same approach. In 2017, Carlo and Troyer solved the Ising model using restricted Boltzmann machines. A prior student at this group, Flugsrud, extended the work to small quantum dots, and we will again extend her work to larger quantum dots. Recently, Pfau et. al used more traditional neural networks to study atoms and molecules. }
 
 \mframe{}{}{
@@ -106,75 +108,19 @@ Technologically, quantum dots are expected to be the next big thing in display t
 	Physically: From a physical point of view, the quantum dots are interesting as they are simple systems that can model a long range of phenomena. An example is the Wigner localization.
 }
 
-\iffalse
-\mframe{Why quantum dots?}{}{
+\mframe{Ethics in Science}{}{
 	\begin{itemize}
-		\item \textbf{Technologically:} 
-		
-			Quantum dots are expected to be the next big thing in display technology \supercite{noauthor_samsung_nodate, manders_8.3:_2015}.
-		\item \textbf{Experimentally:}
-		
-			Researchers have managed to study two-dimensional quantum dots in the laboratory \supercite{brunner_sharp-line_1994}.
-		\item \textbf{Physically:}
-		
-			An array of interesting physical phenomena can be observed in quantum dots.
+		\setlength\itemsep{3em}
+		\item Respect for other's work
+		\item Reproducibility
+		%\item Ethical aspects in machine learning
 	\end{itemize}
 }
 
-\note{As mentioned initially, we have focused on quantum dots throughout this thesis. 
-	
-	\vspace{0.5cm}
-	{\large \textbf{But what are quantum dots?}}
-	
-	Quantum dots are small artificial particles, often called artificial atoms because of their many common features with atoms. For instance, both quantum dots and atoms have discrete energy spectra. 
-	
-	\vspace{0.5cm}
-	{\large \textbf{Why quantum dots?}}
-	
-	Technologically: Quantum dots are expected to be the next big thing in display technology. They have, for instance, the ability to emit light of specific wave lengths, meaning that the color can be controlled with high precision. Samsung already claim that they use quantum dots in their high-end TVs.
-	
+\note{In science as an entirety, there are some general guidelines that we all should follow in order to maintain ethical behavior. The first point is to respect other's work and credit other's whenever their work is used. This includes methods, text, code etc.. Also, the work that is done should be detailed in a such way that it can be reproduced. 
+%\bigskip
+%In machine learning, there are also ethical aspects that we need to pay attention to. This is mainly related to the fact that computers might learn themselves  
 }
-\note{Experimentally: Quantum dots can be investigated in laboratory experiments. This encourages computational experiments as well, since we can use the results from the laboratory experiments as 		references. Researchers have managed to study quantum dots squeezes between two plates, making the confinement in z-direction absent. This makes them essentially two-dimensional, which is the reason why we have decided to also focus on two-dimensional systems. 
-	
-	\vspace{0.5cm}
-	Physically: From a physical point of view, the quantum dots are interesting as they are simple systems that can model a long range of phenomena. An example is the Wigner localization. 
-	
-	We will look at circular quantum dots with electron.
-}
-\fi
-\iffalse
-
-\mframe{Why is it challenging?}{}{
-	\begin{itemize}
-		\item Many-body problem
-		\item Fermi-Dirac statistics
-		\item Hard to compute the wave function
-	\end{itemize}
-}
-
-\note{The many-body problem is encountered when simulating a quantum many-body system. The problem is caused by the correlations between the particles. A many-body system means more than two particles.
-	
-	\vspace{0.5cm}
-	Fermionic systems need to obey Fermi-Dirac statistics. This results in the requirement of an anti-symmetric wave function under exchange of two particle coordinates. 
-	
-	\vspace{0.5cm}
-	The wave function is categorized as nondeterministic polynomial hard to compute, which means that...
-}
-
-\mframe{How to overcome the challenges?}{}{
-	\begin{itemize}
-		\item Hartree-Fock (HF) theory
-		\item Variational Monte Carlo (VMC) method
-		\item Our approach: VMC with Machine Learning \supercite{carleo_solving_2017, pfau2019abinitio}
-	\end{itemize}
-}
-
-\note{There are several different ways to overcome the many-body problem. The Hartree-Fock method is a popular approach, which, loosely speaking, attempts to replace the electron-electron interactions with a mean field. 
-	
-	\vspace{0.5cm}
-	Then we have the variational Monte Carlo method, which attempts to solve the Schrödinger equation accurately using Monte Carlo integration. It is called variational because we need to introduce a trial wave function ansatz, which we vary. Our approach is to let machine learning define this ansatz, inspired by \citet{carleo_solving_2017} and \citet{flugsrud_vilde_moe_solving_nodate}. Also \citet{pfau2019abinitio} has done something similar. 
-}	
-\fi
 
 \titleframe{Quantum Theory}
 
@@ -217,7 +163,7 @@ The most natural way of solving this equation, is to simply express the Hamilton
 
 \titleframe{Machine Learning Theory}
 
-\note{Now over to the machine learning theory.}
+\note{Now over to the machine learning theory. We have already mentioned the artificial neural networks, and we will now look at how they actually works. }
 
 \mframe{Feed-forward Neural Network (FNN)}{}{
 	\begin{figure}[scale=0.2]
@@ -226,12 +172,16 @@ The most natural way of solving this equation, is to simply express the Hamilton
 	\end{figure}
 }
 
-\mframe{Restricted Boltzmann machines}{}{
+\note{This is an example of a feed-forward neural network, which is the traditional artificial neural network. This network requires labeled data to be trained, and after the training it can predict the label of some unlabeled data. The training procedure goes like this: we send in a data set and get an output. Then we adjust the parameters in the network in order to minimize the difference between the output and the actual label. After doing this multiple times, the network will be able to reproduce the label. Then it might also be able to predict the label of unlabeled data sets. }
+
+\mframe{Restricted Boltzmann Machines}{}{
 	\begin{figure}[width=5cm]
 		\centering
-		\input{../tikz/restricted_boltzmann_machine.tex}
+		\input{../tikz/restricted_boltzmann_machine_presentation.tex}
 	\end{figure}
 }
+
+\note{The neural network that we actually have used in out work, is the restricted Boltzmann machine. It consists of a visible layer and a hidden layer, where the data set is passed into the visible layer. What distinguishes this network from the feed-forward network, is that they might obey unsupervised learning, meaning that targets are not necessary. The network is then trained in order to obtain the most likely configuration. }
 
 \titleframe{Methods}
 
@@ -290,7 +240,7 @@ The most natural way of solving this equation, is to simply express the Hamilton
 \mframe{Single-particle Functions}{}{
 	The Hermite functions,
 	\begin{equation}
-	\phi_n(\bs{r})\propto H_n(\bs{r})\exp(-\frac{1}{2}\alpha\omega|\bs{r}|^2),
+	\phi_n(\bs{r})\propto H_n(\sqrt{\omega}\bs{r})\exp(-\frac{1}{2}\alpha\omega|\bs{r}|^2),
 	\end{equation}
 	are often used as the single-particle functions for quantum dots. The Gaussian can be factorized out from the Slater determinant,
 	\begin{equation}
@@ -345,14 +295,29 @@ J(\bs{r};\beta) = \exp(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij
 \mframe{Our Trial Wave Function Ansätze}{}{
 	\begin{itemize}
 		\setlength\itemsep{3em}
-		\item $\Psi_{\text{RBM}}(\bs{R})=|\hat{D}(\bs{R})|$
-		\item $\Psi_{\text{RBM+SJ}}(\bs{R})=|\hat{D}(\bs{R})|J(\bs{R};\bs{\beta})$
-		\item $\Psi_{\text{RBM+PJ}}(\bs{R})=|\hat{D}(\bs{R})|J(\bs{R};\beta)$
-		\item $\Psi_{\text{VMC}}(\bs{R})=|\hat{D}(\bs{R})|J(\bs{R};\beta)$
+		\item $\Psi_{\text{RBM}}(\bs{R})=|\hat{D}_{\text{RBM}}(\bs{R})|$
+		\item $\Psi_{\text{RBM+SJ}}(\bs{R})=|\hat{D}_{\text{RBM}}(\bs{R})|J(\bs{R};\bs{\beta})$
+		\item $\Psi_{\text{RBM+PJ}}(\bs{R})=|\hat{D}_{\text{RBM}}(\bs{R})|J(\bs{R};\beta)$
+		\item $\Psi_{\text{VMC}}(\bs{R})=|\hat{D}_{\text{Gauss}}(\bs{R})|J(\bs{R};\beta)$
 	\end{itemize}
 }
 
 \note{We end up with four wave function ansätze: We have the RBM ansatz, which is just the Slater determinant with the restricted Boltzmann machines as the single-particle functions. Then we have the RBM+SJ ansatz, which is simply the RBM ansatz multiplied with the simple Jastrow factor. We also have the RBM ansatz multiplied with the Padé-Jastrow factor, denoted by the RBM+PJ ansatz. In the end, we have the standard Slater-Jastrow ansatz also containing the Padé-Jastrow factor which we call the VMC ansatz. In the following, we will compare their performance in the form of results. }
+
+\titleframe{Software}
+
+\note{We have spent a lot of time developing software, so it deserves to be mentioned. The code is written in object-oriented C++, and was written from scratch since we wanted to test a new path. } 
+
+\mframe{Aims}{}{
+	\begin{itemize}
+		\setlength\itemsep{3em}
+		\item Efficient
+		\item Flexible
+		\item Easy to use
+	\end{itemize}
+}
+
+\note{We have developed a software with three aims. Even though our intention is not to compete with existing software, a lots of effort was spent on making the code efficient. This is described in detail in the thesis. Also, the implementation had to be flexible in order to support the restricted Boltzmann ansätze. Last, but not least, the developed code should be easy to use.}
 
 \titleframe{Results}
 
@@ -364,13 +329,14 @@ J(\bs{r};\beta) = \exp(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij
 		$\omega$ & RBM & RBM+SJ & RBM+PJ & VMC & HF \footnote{Computation of the Hartree-Fock limit by \citeauthor{mariadason_quantum_2018}, \citeyear{mariadason_quantum_2018} \cite{mariadason_quantum_2018}.} & Exact \footnote{Semi-analytical ground state energy calculated by \citeauthor{taut_two_1993}, \citeyear{taut_two_1993} \cite{taut_two_1993}.} \\
 		\midrule \\
 		1/6 & 0.7036(1) & 0.67684(7) & 0.66715(6) & 0.66710(1) & 0.768675 & 2/3 \\ 
+		0.28 & 1.07050(4) & 1.03470(7) & 1.021668(7) & 1.02192(1) & 1.14171 \\
 		1 & 3.0803(2) & 3.02108(5) & 2.999587(5) & 2.99936(1) & 3.16190 & 3 \\
 		\bottomrule
 	\end{tabularx}
 \end{table}
 }
 
-\note{The first results that I would like to present, is the ground state energy of a couple of quantum dots that we know the exact energy of. More precisely, we look at quantum dots with two electrons and frequency $\omega=1/6$ and 1. We see here that the RBM ansatz, in the first column, provides energies not very far from the analytical energies in this last column. They are also lower than the Hartree-Fock limit, which is interesting as the Hartree-Fock algorithm attempts to find the optimal Slater determinant without Jastrow factors. When we add more intuition in form of the simple Jastrow factor, the energy drops further towards the exact energy. The RBM+PJ ansatz is totally on pair with the VMC ansatz. }
+\note{The first results that I would like to present, is the ground state energy of quantum dots with two electrons and some selected frequencies. We look at the frequencies $\omega=1/6$ and 1 because there exist exact energies for these two systems. Additionally, we present the frequency $\omega=0.28$. We see here that the RBM ansatz, in the first column, provides energies not very far from the analytical energies in this last column. They are also lower than the Hartree-Fock limit, which is interesting as the Hartree-Fock algorithm attempts to find the optimal Slater determinant without Jastrow factors. When we add more intuition in the form of a simple Jastrow factor, the energy drops further towards the exact energy. The RBM+PJ ansatz is totally on pair with the VMC ansatz, and for $\omega=0.28$ the ansatz provides a significantly lower energy. This is also the case for other frequencies that we have tested, and indicates that the RBM+PJ ansatz is able to obtain a better estimate of the ground state energy than the standard VMC ansatz. }
 
 \mframe{Ground State Energy}{Number of electrons: $N=20$. Frequency: $\omega$.}{
 \begin{table}
@@ -388,7 +354,7 @@ J(\bs{r};\beta) = \exp(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij
 \end{table}
 }
 
-\note{We also investigate quantum dots with 20 electrons and frequencies $\omega=0.1$ and 1.0. For these systems, we do not have analytically energy, but we use the diffusion Monte Carlo energy as reference, which is believed to be more or less exact. What we see is that the RBM ansatz again is not far from the reference, but for high frequency the energy is larger than the Hartree-Fock limit. This illustrates that RBM is better at modelling correlations than Hartree-Fock. }
+\note{We also investigate quantum dots with 20 electrons and frequencies $\omega=0.1$ and 1.0. For these systems, we do not have analytically energy, but we use the diffusion Monte Carlo energy as reference, which is believed to be more or less exact. What we see is that the RBM ansatz again is not far from the reference, but for high frequency the energy is larger than the Hartree-Fock limit. This illustrates that RBM is better at modelling correlations than Hartree-Fock. The reason why the energy is larger than HF for frequency $\omega=1.0$, might be that it has not fully converged. This ansatz is equipped with 860 variational parameters, making it an optimization problem. }
 
 \mframe{Energy distribution}{Number of electrons: $N=20$. Frequency: $\omega$.}{
 	Ratio between the kinetic energy, $\langle\hat{T}\rangle$, and the total potential energy, $\langle\hat{V}\rangle$.
@@ -417,7 +383,7 @@ J(\bs{r};\beta) = \exp(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij
 	\end{figure}
 }
 
-\note{Now, we look at the one-body density provided by the varius ansätze. We observe that all the ansätze with a Jastrow factor, i.e. RBM+SJ, RBM+PJ and VMC, provide very similar density profiles, while RBM provides more distinct peaks. It looks like the RBM ansatz manages to find the same extrema as the other ansätze, but determines another density there. }
+\note{Now, we look at the one-body density provided by the various ansätze. We observe that all the ansätze with a Jastrow factor, i.e. RBM+SJ, RBM+PJ and VMC, provide very similar density profiles, while RBM provides more distinct peaks. It looks like the RBM ansatz manages to find the same extrema as the other ansätze, but determines another density there. }
 
 \mframe{Two-body density}{Number of electrons: $N=20$. Frequency: $\omega=1.0$.}{
 	\begin{figure}
@@ -454,7 +420,7 @@ J(\bs{r};\beta) = \exp(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij
 	\end{figure}
 }
 
-\note{We now move on to quantum dots with frequency $\omega=0.1$. When comparing the RBM ansatz and the VMC ansatz, we see that the two ansätze give very different one-body density profiles. Apparently, the RBM ansatz provides an equal number of peaks as there are electrons, implying very localized particle positions. What is interesting, is that the energy is the respective methods are quite similar. This indicates that the energy itself might not be the best way to decide whether an ansatz is good or not. }
+\note{We now move on to quantum dots with frequency $\omega=0.1$. When comparing the RBM ansatz and the VMC ansatz, we see that the two ansätze give very different one-body density profiles. Apparently, the RBM ansatz provides an equal number of peaks as there are electrons, implying very localized particle positions. What is interesting, is that the energy for the respective methods are quite similar. This indicates that the energy itself might not be the best way to decide whether an ansatz is good or not. }
 
 \mframe{Computational Cost}{Number of electrons: $N$.}{
 	\begin{figure}
@@ -463,7 +429,7 @@ J(\bs{r};\beta) = \exp(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij
 	\end{figure} 
 }
 
-\note{In the end, we will also compare the computational cost of the various methods. From the graphs, we see that the RBM and VMC ansätze are pairwise the computationally cheapest methods and RBM+SJ and RBM+PJ are the most computational intensive ones. This is no big surprise, as the two latter methods contain bith a neural network and a Jastrow factor. We also see that the cost of the RBM ansatz explodes for very large systems. This is probably because the ansatz then contains around 15,000 variational parameters, while the VMC ansatz contains two variational parameters. }
+\note{In the end, we will also compare the computational cost of the various methods. From the curves, we see that the RBM and VMC ansätze are pairwise the computationally cheapest methods and RBM+SJ and RBM+PJ are the most computational intensive ones. This is no big surprise, as the two latter methods contain both a neural network and a Jastrow factor. We also see that the cost of the RBM ansatz explodes for very large systems. This is probably because the ansatz then contains around 15,000 variational parameters, while the VMC ansatz contains two variational parameters. }
 
 \titleframe{Conclusions}
 
@@ -471,21 +437,34 @@ J(\bs{r};\beta) = \exp(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij
 
 \mframe{Conclusions}{}{
 	\begin{itemize}
-		\setlength\itemsep{3em}
-		\item RBM is able to account for most of the correlations
-		\item RBM+PJ implies to give a lower ground state energy and model the correlations better than a traditional VMC
-		\item RBM+SJ is both more expensive and less accurate than its fellow methods, and we see no reason to choose it
+		\setlength\itemsep{2em}
+		\item The RBM ansatz is able to account for most of the correlations
+		\item The RBM+PJ ansatz might give a better ground state estimate of small quantum dots, compared to the traditional VMC ansatz
+		\item For larger quantum dots, RBM+PJ gives slightly larger energy than VMC
+		\item The energy distribution is different for the different methods, indicating different electron configurations.
+		\item The ground state energy might not be the best way to evaluate the various ansätze
 	\end{itemize}
 }
+
+\note{We have seen that the RBM method usually provides energies lower than the Hartree-Fock limit. This indicates that it is able to account for most of the electron-electron correlations. When adding a Padé-Jastrow factor to the RBM ansatz, it usually provides lower energy than the VMC ansatz for the smallest systems. This is an important result, as it indicates that RBM+PJ is able to provide a better estimate of the ground state energy than VMC. However, for larger quantum dots, VMC gives a slightly lower energy than RBM+PJ, which can be explained by the large number of variational parameters in the RBM+PJ ansatz. }
+
+\note{Even though the energy is quite similar for the various methods, the ratio between kinetic and potential energy reveals that the distribution between kinetic and potential energy is different. To change the potential energy, the electron configuration has to be different, meaning that the various ansätze provide different particle positions. We have also observed that different ansätze provide very different electron density plots even when the energy is similar. This indicates that the energy might not be the best way to evaluate various ansätze. }
 
 \mframe{Future Work}{}{
 	\begin{itemize}
 		\setlength\itemsep{3em}
-		\item Repeat the exercise using spherical coordinates - interactions are easier to model in spherical coordinates
-		\item Check the ability of modeling the three-body correlations, considering nuclear systems
-		\item Reduce the computational cost
+		\item Investigate restricted Boltzmann machines with other architectures
+		\item Pass more information to the restricted Boltzmann machine
+		\item Apply the method on more complex systems
 	\end{itemize}
 }
+
+\note{Even though we have investigated various restricted Boltzmann machine architectures and hyper parameter settings, there are still many things that should be investigated. Our results indicates that the number of hidden units used in the restricted Boltzmann machine might be too large. On the other hand, Carleo and Troyer consequently used a larger number of hidden nodes. 
+\bigskip
+
+We have only passed the electron coordinates to the Boltzmann machines. However, if we also pass the relative distances between the electrons, it might be able to model the electron-electron correlations more correctly. This was inspired by what Pfau et. al did. }
+
+\note{Quantum dots are very simple systems, but the main application of this method is on systems where we don't have much information about the wave function. It is therefore obvious that it should be applied on more complex systems. It has shown that it can model electron-electron correlations, so it might be able to model three-body correlations as well, which is found in nuclear systems. }
 
 \titleframe{Thank you!}
 
