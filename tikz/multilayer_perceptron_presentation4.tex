@@ -1,0 +1,106 @@
+\begin{tikzpicture}
+
+% Define outputs
+\node[] (center) {};
+\node[input, above=0.3em of center, fill=red] (y1) {};
+\node[input, below=0.3em of center, fill=red] (y2) {};
+
+% Draw lines from output nodes
+\node[right of=y1] (righty1) {};
+\node[right of=y2] (righty2) {};
+\path[draw,->, color=red] (y1) -- (righty1);
+\path[draw,->, color=red] (y2) -- (righty2);
+
+% Hidden nodes L
+\node[input,left=5em of center] (aL3) {};
+\node[input,above of=aL3] (aL2) {};
+\node[input,above of=aL2] (aL1) {};
+\node[input,below of=aL3] (aL4) {};
+\node[input,below of=aL4] (aL5) {};
+
+% Hidden nodes 1
+\node[input,left=15em of center] (a13) {};
+\node[input,above of=a13] (a12) {};
+\node[input,above of=a12] (a11) {};
+\node[input,below of=a13] (a14) {};
+\node[input,below of=a14] (a15) {};
+
+% Draw lines from hidden nodes
+\path[draw,->] (aL1) -- (y1);
+\path[draw,->] (aL2) -- (y1);
+\path[draw,->] (aL3) -- (y1);
+\path[draw,->] (aL4) -- (y1);
+\path[draw,->] (aL5) -- (y1);
+
+\path[draw,->] (aL1) -- (y2);
+\path[draw,->] (aL2) -- (y2);
+\path[draw,->] (aL3) -- (y2);
+\path[draw,->] (aL4) -- (y2);
+\path[draw,->] (aL5) -- (y2);
+
+% Define place left of left
+\node[input,left=5em of a13] (x2) {};
+\node[input,above of=x2] (x1) {};
+\node[input,below of=x2] (x3) {};
+
+% Draw lines from input nodes
+\path[draw,->] (x1) -- (a11);
+\path[draw,->] (x1) -- (a12);
+\path[draw,->] (x1) -- (a13);
+\path[draw,->] (x1) -- (a14);
+\path[draw,->] (x1) -- (a15);
+
+\path[draw,->] (x2) -- (a11);
+\path[draw,->] (x2) -- (a12);
+\path[draw,->] (x2) -- (a13);
+\path[draw,->] (x2) -- (a14);
+\path[draw,->] (x2) -- (a15);
+
+\path[draw,->] (x3) -- (a11);
+\path[draw,->] (x3) -- (a12);
+\path[draw,->] (x3) -- (a13);
+\path[draw,->] (x3) -- (a14);
+\path[draw,->] (x3) -- (a15);
+
+% Draw lines from first hidden layer
+\path[draw,->] (a11) -- (aL1);
+\path[draw,->] (a11) -- (aL2);
+\path[draw,->] (a11) -- (aL3);
+\path[draw,->] (a11) -- (aL4);
+\path[draw,->] (a11) -- (aL5);
+
+\path[draw,->] (a12) -- (aL1);
+\path[draw,->] (a12) -- (aL2);
+\path[draw,->] (a12) -- (aL3);
+\path[draw,->] (a12) -- (aL4);
+\path[draw,->] (a12) -- (aL5);
+
+\path[draw,->] (a13) -- (aL1);
+\path[draw,->] (a13) -- (aL2);
+\path[draw,->] (a13) -- (aL3);
+\path[draw,->] (a13) -- (aL4);
+\path[draw,->] (a13) -- (aL5);
+
+\path[draw,->] (a14) -- (aL1);
+\path[draw,->] (a14) -- (aL2);
+\path[draw,->] (a14) -- (aL3);
+\path[draw,->] (a14) -- (aL4);
+\path[draw,->] (a14) -- (aL5);
+
+\path[draw,->] (a15) -- (aL1);
+\path[draw,->] (a15) -- (aL2);
+\path[draw,->] (a15) -- (aL3);
+\path[draw,->] (a15) -- (aL4);
+\path[draw,->] (a15) -- (aL5);
+
+
+% Draw lines towards input nodes
+\node[left of=x1] (leftx1) {};
+\node[left of=x2] (leftx2) {};
+\node[left of=x3] (leftx3) {};
+\path[draw,->] (leftx1) -- (x1);
+\path[draw,->] (leftx2) -- (x2);
+\path[draw,->] (leftx3) -- (x3); 
+
+%\node[below=3em of y2] {$\tilde{\bs{y}}$};
+\end{tikzpicture}

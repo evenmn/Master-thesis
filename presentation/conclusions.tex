@@ -1,0 +1,34 @@
+\titleframe{Conclusions}
+
+\note{Now we will address some brief conclusions. }
+
+\mframe{Conclusions}{}{
+	\begin{itemize}
+		\setlength\itemsep{2em}
+		\item The RBM ansatz is able to account for most of the correlations
+		\item The RBM+PJ ansatz might give a better ground state estimate of small quantum dots, compared to the traditional VMC ansatz
+		\item For larger quantum dots, RBM+PJ gives slightly larger energy than VMC
+		\item The energy distribution is different for the different methods, indicating different electron configurations.
+		\item The ground state energy might not be the best way to evaluate the various ansätze
+	\end{itemize}
+}
+
+\note{We have seen that the RBM method usually provides energies lower than the Hartree-Fock limit. This indicates that it is able to account for most of the electron-electron correlations. When adding a Padé-Jastrow factor to the RBM ansatz, it usually provides lower energy than the VMC ansatz for the smallest systems. This is an important result, as it indicates that RBM+PJ is able to provide a better estimate of the ground state energy than VMC. However, for larger quantum dots, VMC gives a slightly lower energy than RBM+PJ, which can be explained by the large number of variational parameters in the RBM+PJ ansatz. }
+
+\note{Even though the energy is quite similar for the various methods, the ratio between kinetic and potential energy reveals that the distribution between kinetic and potential energy is different. To change the potential energy, the electron configuration has to be different, meaning that the various ansätze provide different particle positions. We have also observed that different ansätze provide very different electron density plots even when the energy is similar. This indicates that the energy might not be the best way to evaluate various ansätze. }
+
+\mframe{Future Work}{}{
+	\begin{itemize}
+		\setlength\itemsep{3em}
+		\item Investigate restricted Boltzmann machines with other architectures
+		\item Pass more information to the restricted Boltzmann machine
+		\item Apply the method on more complex systems
+	\end{itemize}
+}
+
+\note{Even though we have investigated various restricted Boltzmann machine architectures and hyper parameter settings, there are still many things that should be investigated. Our results indicates that the number of hidden units used in the restricted Boltzmann machine might be too large. On the other hand, Carleo and Troyer consequently used a larger number of hidden nodes. 
+\bigskip
+
+We have only passed the electron coordinates to the Boltzmann machines. However, if we also pass the relative distances between the electrons, it might be able to model the electron-electron correlations more correctly. This was inspired by what Pfau et. al did. }
+
+\note{Quantum dots are very simple systems, but the main application of this method is on systems where we don't have much information about the wave function. It is therefore obvious that it should be applied on more complex systems. It has shown that it can model electron-electron correlations, so it might be able to model three-body correlations as well, which is found in nuclear systems. }

@@ -1,0 +1,111 @@
+\titleframe{Quantum Theory}
+
+\note{Now we will give a breif introduction to the essential quantum theory.}
+
+\mframe{The Schrödinger Equation}{}{
+	\begin{empheq}[box={\mybluebox[5pt]}]{equation}
+	\hat{\mathcal{H}}\Psi=E\Psi
+	\end{empheq}
+	\pause
+	\vspace{0.2cm}
+	\begin{center}
+		{\large $\Downarrow$}
+	\end{center}
+	\vspace{0.3cm}
+	\begin{equation}
+	E=\frac{\int d\bs{X}\Psi^*(\bs{X})\hat{\mathcal{H}}\Psi(\bs{X})}{\int d\bs{X}\Psi^*(\bs{X})\Psi(\bs{X})}
+	\end{equation}
+}
+
+\note{The Schrödinger equation describes the motion of any quantum mechanical system, and is the equation that I have spent one year solving. Since we will limit us to stationary systems only, the time-independent Schrödinger equation will be our focus. In linear algebra terms, it is an eigenvalue equation with the Hamilton operator, $\hat{\mathcal{H}}$, as a matrix and the wave function, $\Psi$, as the eigen function. $E$ is the energy, which is the eigenvalue.
+
+\vspace{0.5cm}
+The most natural way of solving this equation, is to simply express the Hamiltonian as a matrix and obtain the wave function and the energy from diagonalizing the matrix. This is known as configuration interaction. However, we can only do this for small systems, as it is very computational intensive. 
+}
+
+\note{Instead, we separate the equation with respect to the energy, and obtain a equation consisting of some integrals. This equation is hard to solve due to the electron-electron correlations. }
+
+\mframe{The Variational Principle}{}{
+	
+	
+	The variational principle serves as a way of finding the ground state energy. For an arbitrary trial wave function $\Psi_T(\bs{X})$, it states that the obtained energy is larger or equal to the ground state,
+	\begin{equation}
+	E_0\leq E=\frac{\int d\bs{X}\Psi_T^*(\bs{X})\hat{\mathcal{H}}\Psi_T(\bs{X})}{\int d\bs{X}\Psi_T^*(\bs{X})\Psi_T(\bs{X})}.
+	\end{equation}
+	Thus, by minimizing the obtained energy, $E$, we can estimate the ground state energy. 
+}
+
+\note{We also have the variational principle, which is used by variational methods to obtain the ground state energy. Loosely speaking, it states that by solving this integral with an arbitrary wave function, $\Psi_T$, the obtained energy is always larger or equal to the ground state energy. This means that we can estimate the ground state energy by minimizing the obtained energy.}
+
+\titleframe{Machine Learning Theory}
+
+\note{Now over to the machine learning theory. We have already mentioned the artificial neural networks, and we will now look at how they actually works. }
+
+\mframe{Feed-forward Neural Network (FNN)}{}{
+	\begin{figure}
+		\centering
+		\begin{overprint}[9cm]
+		\onslide<1>\input{../tikz/multilayer_perceptron_presentation1.tex}
+		\onslide<2>\input{../tikz/multilayer_perceptron_presentation2.tex}
+		\onslide<3>\input{../tikz/multilayer_perceptron_presentation3.tex}
+		\onslide<4>\input{../tikz/multilayer_perceptron_presentation4.tex}
+		\end{overprint}
+	\end{figure}
+	\hspace{1.45cm}
+	\onslide<1-> $\bs{a}_0=\bs{x}$
+	\hspace{.95cm}
+	\onslide<2-> $\bs{a}_1=f_1(\bs{a}_0)$
+	\hspace{1.35cm}
+	\onslide<3-> $\bs{a}_2=f_2(\bs{a}_1)$
+	\hspace{.35cm}
+	\onslide<4-> $\tilde{\bs{y}}=f_3(\bs{a}_2)$
+}
+
+\note{This is an example of a feed-forward neural network, which is the traditional artificial neural network. This network requires labeled data to be trained, and after the training it can predict the label of some unlabeled data. The training procedure goes like this: we send in a data set and get an output. Then we adjust the parameters in the network in order to minimize the difference between the output and the actual label. After doing this multiple times, the network will be able to reproduce the label. Then it might also be able to predict the label of unlabeled data sets. }
+
+\mframe{Cost function}{}{
+	\begin{itemize}
+		\setlength\itemsep{3em}
+		\item<1-> The cost function defines the error
+		\item<2-> Mean square error (MSE): $$\mathcal{C}=\frac{1}{2}\sum_{i=1}^n(\bs{y}-\tilde{\bs{y}})^2.$$
+		\item<3-> Attempt to minimize the cost function
+	\end{itemize}
+}
+
+\note{To estimate the error from the network, we need a \textit{cost function}. For models with continous output, the mean square error is the standard cost function, presented here. $\bs{y}$ are the targets. In order to obtain reasonable predictions, we attempt to minimize this error.}
+
+\mframe{Optimization Algorithms}{}{
+	\begin{itemize}
+		\setlength\itemsep{3em}
+		\item<1-> Minimize the cost function
+		\item<2-> The gradient descent method: $$\theta^+=\theta-\frac{\partial\mathcal{C}}{\partial\theta}.$$
+	\end{itemize}
+	\begin{figure}
+		\centering
+		\begin{overprint}[7cm]
+		\onslide<3>\input{../pgf/gradient_minimization1.tex}
+		\onslide<4>\input{../pgf/gradient_minimization2.tex}
+		\onslide<5>\input{../pgf/gradient_minimization3.tex}
+		\end{overprint}
+	\end{figure}
+}
+
+\note{For the minimization, we use the optimization algorithms which basically find the minimum of any function. There are plenty of different algorithms, which have to tradeoff between simplicity and performance. Perhaps the most basic algorithm is gradient descent, which seeks the minimum based on the gradient. The function is then minimized with respect to the steepest slope, until we have found a minimum. }
+
+\mframe{Find Appropriate Complexity}{}{
+	\begin{figure}
+		\centering
+		\input{../tikz/traintest.tex}
+	\end{figure}
+}
+
+\note{As already mentioned, neural networks can be constructed in many different architectures with different complexities. The more complex the model is, the lower the training error will be. However, when predicting the output we are interested in the test error, which not nesseasrily get smaller as the model gets more complex. The best thing we can do is to run for various complexities and use the model with the lowest test error. When plotting the training and test errors, they might looks like this. }
+
+\mframe{Restricted Boltzmann Machines}{}{
+	\begin{figure}
+		\centering
+		\input{../tikz/restricted_boltzmann_machine_presentation.tex}
+	\end{figure}
+}
+
+\note{The neural network that we actually have used in out work, is the restricted Boltzmann machine. It consists of a visible layer and a hidden layer, where the data set is passed into the visible layer. What distinguishes this network from the feed-forward network, is that they might obey unsupervised learning, meaning that targets are not necessary. The network is then trained in order to obtain the most likely configuration. }

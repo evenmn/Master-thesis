@@ -1,0 +1,19 @@
+\begin{tikzpicture}[declare function={f(\x)=0.5*\x^2;}]
+
+\newcommand\h{2};			% Particle height
+\newcommand\s{1};			% Dashed spacing
+\newcommand\X{-2};			% Horizontal position
+
+\begin{axis}[domain=-2:2, samples=50,no markers, hide axis,y=1cm,thick]
+\addplot [black] {0.5*x^2};
+\node[circle,inner sep=3pt, draw=black, fill=myblue] at (axis cs:-1.7,\h) {};
+
+\draw[->, color=color0] (axis cs:-1.5,1.7) -- (axis cs:-1.3,1.4);
+\draw[->, color=color0] (axis cs:-1.,1.) -- (axis cs:-.7,.7);
+\draw[->, color=color0] (axis cs:-.4,.45) -- (axis cs:-.1,.25);
+
+\draw[color=color1, dashed]  (axis cs:0,0.1) -- (axis cs:0,1.7);
+\node[] at (axis cs:0,2.) {Bingo!};
+
+\end{axis}
+\end{tikzpicture}
