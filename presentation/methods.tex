@@ -1,6 +1,6 @@
 \titleframe{Methods}
 
-\note{Similar to the theory, also the methods that we have used will be discussed briefely.}
+\note{The applied methods will be discussed briefly}
 
 \mframe{Variational Monte Carlo (VMC)}{}{
 	Exploit the variational principle in order to obtain the ground state energy
@@ -17,7 +17,13 @@
 	\end{equation}
 }
 
-\note{The variational Monte Carlo method, which our work is based on, exploits the variational principle in order to obtain an estimate of the ground state energy. We also rewrite the integral in terms of the local energy, $E_L$, and the probability density function $P(\bs{R})$. }
+\note{
+	\begin{itemize}
+		\item Our work is based on VMC
+		\item Exploits variational principle
+		\item We start with rewriting the expression in terms of the local energy and the probability density function
+	\end{itemize}
+}
 
 \mframe{Monte Carlo Integration}{}{
 	We attempt to solve the integral by sampling from the probability density function $P(\bs{R})\propto\Psi_T(\bs{R})^*\Psi_T(\bs{R})$:
@@ -29,7 +35,14 @@
 	\end{equation}
 }
 
-\note{By doing this, the integral becomes in the form of a general expectation value, which straightforward can be approached using Monte Carlo integration, shown here with $M$ Monte Carlo cycles. This does only give an energy, but by adjusting the trial wave function, $\Psi_T$, in order to minimize the energy and repeat the exercise multiple times, we may estimate the ground state energy. }
+\note{
+	\begin{itemize}
+		\item The reason $\rightarrow$ On the form of a general expectation value
+		\item Can be solved by Monte Carlo integration
+		\item Only gives an energy
+		\item Find the ground state energy by adjusting the trial wave fucntion with respect to minimizing the energy. Repeat exercise. When the energy has converged, we have a ground state energy estimate.
+	\end{itemize}
+}
 
 \mframe{Trial Wave Function Ansatz}{}{
 	
@@ -50,7 +63,12 @@
 	contains all the single-particle functions.
 }
 
-\note{The trial wave function can in principle be an arbitrary function with a few requirements. For electron systems, like our quantum dots, the wave function has to be anti-symmetric under exchange of two coordinates. The standard trial wave function for this purpose is named the Slater-Jastrow function and consists of a Slater determinant, $|\hat{D}(\bs{R})|$, to introduce the anti-symmetry and a Jastrow factor, $J(\bs{R})$, to model the electron-electron correlations. The function inside the Slater matrix are called the single-particle functions...}
+\note{
+	\begin{itemize}
+		\item Arbitrary function $\rightarrow$ Few requirements $\rightarrow$ electron systems
+		\item Standard Slater-Jastrow function
+	\end{itemize}
+}
 
 \mframe{Single-particle Functions}{}{
 	The Hermite functions,
@@ -69,7 +87,13 @@
 	\end{equation}
 }
 
-\note{...and are traditionally taylored to every particular system. For quantum dots, the Hermite functions are often used as the single-particle functions. Here, $H_n$ is the Hermite polynomial of $n$'th order, $\omega$ is the frequency (strength) of the quantum dot and $\alpha$ is a variational parameter. An important finding, is that the gaussian part (point) can be factorized out from the Slater determinant such that the determinant no longer contains variational parameters. Our contribution is to let a restricted Boltzmann machine control the single-particle function...}
+\note{
+	\begin{itemize}
+		\item Hermite functions often used for circular quantum dots $\rightarrow$ quantities
+		\item An important finding
+		\item Slater determinant exchange correlation
+	\end{itemize}
+}
 
 \mframe{Restricted Boltzmann Machine}{}{
 	As suggested by \citet{carleo_solving_2017}, we use the marginal distribution of the visible units as the single-particle functions in the Slater determinant, and see if them can model the correlations 
@@ -88,7 +112,13 @@
 	\end{equation}
 }
 
-\note{...as suggested by Carleo and Troyer. We then simply replace the Gaussian part by the marginal distribution of a restricted Boltzmann machine and obtain this expression of the determinant. This serves our goal because we no longer need to taylor the single-particle functions to the system, making it require less physical intuition. }
+\note{
+	\begin{itemize}
+		\item Our contribution $\rightarrow$ Marginal distribution
+		\item Gives us a wave function where less physical intuition is needed
+		\item Interesting because many systems, for instance nuclear systems, have very complex wave functions. We struggle with investigating those systems as we do not have the needed physical intuition
+	\end{itemize}
+}
 
 
 \mframe{Jastrow Factor}{}{
@@ -105,7 +135,13 @@ J(\bs{r};\beta) = \exp(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij
 \end{equation}
 }
 
-\note{We also mentioned the Jastrow factor, which can be added in order to model the electron-electron correlations. We have decided to study two different Jastrow factors. The simple Jastrow factor does only contain variational parameters, $\beta_{ij}$, multiplied with the relative distances between the particles, $r_{ij}$, and contains a minimum of physical intuition. It is interesting since we want to develop a method that does not require a significant amount of physical intuition. The Padé-Jastrow factor is, on the other hand, taylored to model the electron-electron correlations correctly, and contains therefore more physical information. $\beta$ is a variational parameter and $a_{ij}$ is a factor depending on the electrons $i$ and $j$. }
+\note{
+	\begin{itemize}
+		\item Two Jastrow factors investigated
+		\item Interesting as we want to see how much physical intuition we need to get acceptable results
+		\item PJ is a complication of the simple Jastrow
+	\end{itemize}
+}
 
 \mframe{Our Trial Wave Function Ansätze}{}{
 	\begin{itemize}
@@ -117,4 +153,6 @@ J(\bs{r};\beta) = \exp(\sum_{i=1}^N\sum_{j>i}^N\frac{a_{ij}r_{ij}}{1+\beta r_{ij
 	\end{itemize}
 }
 
-\note{We end up with four wave function ansätze: We have the RBM ansatz, which is just the Slater determinant with the restricted Boltzmann machines as the single-particle functions. Then we have the RBM+SJ ansatz, which is simply the RBM ansatz multiplied with the simple Jastrow factor. We also have the RBM ansatz multiplied with the Padé-Jastrow factor, denoted by the RBM+PJ ansatz. In the end, we have the standard Slater-Jastrow ansatz also containing the Padé-Jastrow factor which we call the VMC ansatz. In the following, we will compare their performance in the form of results. }
+\note{
+	Present ansätze
+}

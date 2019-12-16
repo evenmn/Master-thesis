@@ -11,7 +11,6 @@
 \usepackage{float}		% fix object
 \usepackage{color}
 \usepackage{array} 		% For column alignment
-\usepackage{pgfplots}	% Plotting directly in latex
 \usepackage{listings}
 \usepackage{hyperref}
 \usepackage{amsmath}
@@ -35,11 +34,9 @@
 \usepackage{mathtools}
 \usepackage{epstopdf}
 \usepackage{appendixnumberbeamer}
-%\usepackage[symbol]{footmisc} % Footnote
-
-\mathtoolsset{showonlyrefs}
-\usefonttheme{serif}
-\renewcommand*{\thefootnote}{\fnsymbol{footnote}}
+\usepackage{pgfplots}	% Plotting directly in latex
+\usepackage{pgfpages}	% Separate note slides
+\usepackage[duration=35, lastminutes=10]{pdfpcnotes} % Display frames and notes separately
 
 % Colors
 \definecolor{color0}{RGB}{28, 39, 131}
@@ -47,6 +44,7 @@
 \definecolor{color2}{rgb}{0.274509803921569,0.470588235294118,0.129411764705882}
 \colorlet{color3}{orange}
 \definecolor{myblue}{rgb}{0.6, 0.6, 1}
+\definecolor{myred}{rgb}{1,0.8,0.856862745098039}
 \definecolor{azul}{RGB}{1,80,159}
 \definecolor{azulclaro}{RGB}{230,230,255}
 
@@ -129,6 +127,3 @@
 \newcommand{\mauthor}{Even Marius Nordhagen}
 \newcommand{\mmail}{evenmn@fys.uio.no}
 \newcommand{\massignn}{.}
-
-\input{frames.tex}
-\input{defs.tex}

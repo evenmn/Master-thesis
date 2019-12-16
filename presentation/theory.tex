@@ -15,8 +15,19 @@
 	\begin{equation}
 	E=\frac{\int d\bs{X}\Psi^*(\bs{X})\hat{\mathcal{H}}\Psi(\bs{X})}{\int d\bs{X}\Psi^*(\bs{X})\Psi(\bs{X})}
 	\end{equation}
+	\note<1->{
+		\begin{itemize}
+			\item Describes the mechanics of all QM systems
+			\item Stationary systems $\rightarrow$ Time-independent SE
+			\item Linear algebra terms
+			\item Configuration interaction
+			\item One year on solving 
+			\item Difficult to solve bco interactions between particles
+		\end{itemize}
+	}
 }
 
+\iffalse
 \note{The Schrödinger equation describes the motion of any quantum mechanical system, and is the equation that I have spent one year solving. Since we will limit us to stationary systems only, the time-independent Schrödinger equation will be our focus. In linear algebra terms, it is an eigenvalue equation with the Hamilton operator, $\hat{\mathcal{H}}$, as a matrix and the wave function, $\Psi$, as the eigen function. $E$ is the energy, which is the eigenvalue.
 
 \vspace{0.5cm}
@@ -24,6 +35,7 @@ The most natural way of solving this equation, is to simply express the Hamilton
 }
 
 \note{Instead, we separate the equation with respect to the energy, and obtain a equation consisting of some integrals. This equation is hard to solve due to the electron-electron correlations. }
+\fi
 
 \mframe{The Variational Principle}{}{
 	
@@ -35,11 +47,34 @@ The most natural way of solving this equation, is to simply express the Hamilton
 	Thus, by minimizing the obtained energy, $E$, we can estimate the ground state energy. 
 }
 
-\note{We also have the variational principle, which is used by variational methods to obtain the ground state energy. Loosely speaking, it states that by solving this integral with an arbitrary wave function, $\Psi_T$, the obtained energy is always larger or equal to the ground state energy. This means that we can estimate the ground state energy by minimizing the obtained energy.}
+\note{
+	\begin{itemize}
+		\item To obtain the ground state energy
+		\item States $\rightarrow$ minimizing
+	\end{itemize}
+}
+
+\mframe{Quantum Dots}{}{
+	Circular quantum dots $\rightarrow$ electrons confined in a harmonic oscillator potential:
+	\begin{equation} 		\hat{\mathcal{H}}=\sum_{i=1}^N\left[-\frac{1}{2}\nabla_i^2+\frac{1}{2}\omega^2|\bs{r}_i|^2+\sum_{j>i}^N\frac{1}{r_{ij}}\right].
+	\end{equation}
+	The number of electrons that give full shells are given by
+	\begin{equation}
+	N=2\binom{n+d}{d},
+	\end{equation}
+	which are the magic numbers. 
+}
+
+\note{
+	\begin{itemize}
+		\item Hamiltonian of the circular quantum dots consisting of electrons. In natural units.
+		\item The magic numbers give the number of electron in each shell. Looked at closed-shell systems only
+	\end{itemize}
+}
 
 \titleframe{Machine Learning Theory}
 
-\note{Now over to the machine learning theory. We have already mentioned the artificial neural networks, and we will now look at how they actually works. }
+\note{Now over to the machine learning theory. We have already mentioned the artificial neural networks, and we will now look at how they actually work. }
 
 \mframe{Feed-forward Neural Network (FNN)}{}{
 	\begin{figure}
@@ -59,9 +94,16 @@ The most natural way of solving this equation, is to simply express the Hamilton
 	\onslide<3-> $\bs{a}_2=f_2(\bs{a}_1)$
 	\hspace{.35cm}
 	\onslide<4-> $\tilde{\bs{y}}=f_3(\bs{a}_2)$
+	\note<1->{
+		\begin{itemize}
+			\item FNNs are among the most popular neural networks
+			\item Here a FNN
+			\item Many different architectures
+			\item Data set $\rightarrow$ propagating
+			\item 
+		\end{itemize}
+	}
 }
-
-\note{This is an example of a feed-forward neural network, which is the traditional artificial neural network. This network requires labeled data to be trained, and after the training it can predict the label of some unlabeled data. The training procedure goes like this: we send in a data set and get an output. Then we adjust the parameters in the network in order to minimize the difference between the output and the actual label. After doing this multiple times, the network will be able to reproduce the label. Then it might also be able to predict the label of unlabeled data sets. }
 
 \mframe{Cost function}{}{
 	\begin{itemize}
@@ -70,9 +112,14 @@ The most natural way of solving this equation, is to simply express the Hamilton
 		\item<2-> Mean square error (MSE): $$\mathcal{C}=\frac{1}{2}\sum_{i=1}^n(\bs{y}-\tilde{\bs{y}})^2.$$
 		\item<3-> Attempt to minimize the cost function
 	\end{itemize}
+	\note<1->{
+		\begin{itemize}
+			\item To decide how good the model performs
+			\item Continuous model $\rightarrow$ MSE
+			\item Want the error to be small $\rightarrow$ minimize the cost function
+		\end{itemize}
+	}
 }
-
-\note{To estimate the error from the network, we need a \textit{cost function}. For models with continous output, the mean square error is the standard cost function, presented here. $\bs{y}$ are the targets. In order to obtain reasonable predictions, we attempt to minimize this error.}
 
 \mframe{Optimization Algorithms}{}{
 	\begin{itemize}
@@ -88,9 +135,17 @@ The most natural way of solving this equation, is to simply express the Hamilton
 		\onslide<5>\input{../pgf/gradient_minimization3.tex}
 		\end{overprint}
 	\end{figure}
+	\note<1->{
+		\begin{itemize}
+			\item For this, we use optimization algorithms
+			\item Plenty of methods $\rightarrow$ tradeoff between simplicity and performance
+			\item GD perhaps the simplest $\rightarrow$ move in the direction that minimizes the cost function
+			\item We have used the ADAM optimizer, which is slightly more complex. Contains momentum
+		\end{itemize}
+	}
 }
 
-\note{For the minimization, we use the optimization algorithms which basically find the minimum of any function. There are plenty of different algorithms, which have to tradeoff between simplicity and performance. Perhaps the most basic algorithm is gradient descent, which seeks the minimum based on the gradient. The function is then minimized with respect to the steepest slope, until we have found a minimum. }
+%\note{For the minimization, we use the optimization algorithms which basically find the minimum of any function. There are plenty of different algorithms, which have to tradeoff between simplicity and performance. Perhaps the most basic algorithm is gradient descent, which seeks the minimum based on the gradient. The function is then minimized with respect to the steepest slope, until we have found a minimum. }
 
 \mframe{Find Appropriate Complexity}{}{
 	\begin{figure}
@@ -99,13 +154,49 @@ The most natural way of solving this equation, is to simply express the Hamilton
 	\end{figure}
 }
 
-\note{As already mentioned, neural networks can be constructed in many different architectures with different complexities. The more complex the model is, the lower the training error will be. However, when predicting the output we are interested in the test error, which not nesseasrily get smaller as the model gets more complex. The best thing we can do is to run for various complexities and use the model with the lowest test error. When plotting the training and test errors, they might looks like this. }
+\note{
+	\begin{itemize}
+		\item Different architectures with different complexities
+		\item Spkit data set in training and test set
+		\item Want to minimize test error $\rightarrow$ trial and error
+	\end{itemize}
+}
 
 \mframe{Restricted Boltzmann Machines}{}{
 	\begin{figure}
 		\centering
 		\input{../tikz/restricted_boltzmann_machine_presentation.tex}
 	\end{figure}
+	\pause
+	\begin{equation}
+	E(\bs{x},\bs{h})=-\sum_{i=1}^V\frac{(x_i-a_i)^2}{2\sigma_i^2}-\sum_{j=1}^Hh_jb_j-\sum_{i=1}^V\sum_{j=1}^H\frac{x_iw_{ij}h_j}{\sigma_i^2}
+	\end{equation}
 }
 
-\note{The neural network that we actually have used in out work, is the restricted Boltzmann machine. It consists of a visible layer and a hidden layer, where the data set is passed into the visible layer. What distinguishes this network from the feed-forward network, is that they might obey unsupervised learning, meaning that targets are not necessary. The network is then trained in order to obtain the most likely configuration. }
+\note{
+	\begin{itemize}
+		\item What we have used in our work
+		\item Energy based model
+		\item Differs from FNN $\rightarrow$ obey unsupervised $\rightarrow$ no labeled data
+		\item Finds the most likely configuration by minimizing the system energy
+	\end{itemize}
+}
+
+\mframe{Probability Distribution}{}{
+	The joint probability distribution is given by the Boltzmann distribution:
+	
+	\begin{equation}
+	P(\bs{x},\bs{h})=\frac{1}{Z}\exp(-E(\bs{x},\bs{h})/kT).
+	\end{equation}
+	The marginal distribution of the visible units is given by
+	\begin{equation}
+	P(\bs{x})=\sum_{\{\bs{h}\}}P(\bs{x},\bs{h}).
+	\end{equation}
+}
+
+\note{
+	\begin{itemize}
+		\item Named Boltzmann machine because of the joint probability distribution
+		\item Find the marginal distribution of the visible units by integrating over all the hidden units
+	\end{itemize}
+}

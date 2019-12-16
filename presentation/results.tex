@@ -1,5 +1,7 @@
 \titleframe{Results}
 
+\note{Finally ready to present the results}
+
 \mframe{Ground State Energy}{Number of electrons: $N=2$. Frequency: $\omega$.}{
 \begin{table}
 	%\caption{$N=2$}
@@ -15,7 +17,16 @@
 \end{table}
 }
 
-\note{The first results that I would like to present, is the ground state energy of quantum dots with two electrons and some selected frequencies. We look at the frequencies $\omega=1/6$ and 1 because there exist exact energies for these two systems. Additionally, we present the frequency $\omega=0.28$. We see here that the RBM ansatz, in the first column, provides energies not very far from the analytical energies in this last column. They are also lower than the Hartree-Fock limit, which is interesting as the Hartree-Fock algorithm attempts to find the optimal Slater determinant without Jastrow factors. When we add more intuition in the form of a simple Jastrow factor, the energy drops further towards the exact energy. The RBM+PJ ansatz is totally on pair with the VMC ansatz, and for $\omega=0.28$ the ansatz provides a significantly lower energy. This is also the case for other frequencies that we have tested, and indicates that the RBM+PJ ansatz is able to obtain a better estimate of the ground state energy than the standard VMC ansatz. }
+\note{
+	\begin{itemize}
+		\item First look at ground state energy estimates
+		\item Two electrons $\rightarrow$ some analytical results
+		\item The RBM ansatz provides energy close to exact for $\omega=1$
+		\item Also closer than HF, which is interesting as they both attempt to approximate the wave function with a Slater determinant
+		\item Same can be observed for $\omega=1/6$
+		\item For $\omega=0.28$, the RBM+PJ provides significantly lower energu than VMC $\rightarrow$ indicates a better estimate
+	\end{itemize}
+}
 
 \mframe{Ground State Energy}{Number of electrons: $N=20$. Frequency: $\omega$.}{
 \begin{table}
@@ -33,7 +44,15 @@
 \end{table}
 }
 
-\note{We also investigate quantum dots with 20 electrons and frequencies $\omega=0.1$ and 1.0. For these systems, we do not have analytically energy, but we use the diffusion Monte Carlo energy as reference, which is believed to be more or less exact. What we see is that the RBM ansatz again is not far from the reference, but for high frequency the energy is larger than the Hartree-Fock limit. This illustrates that RBM is better at modelling correlations than Hartree-Fock. The reason why the energy is larger than HF for frequency $\omega=1.0$, might be that it has not fully converged. This ansatz is equipped with 860 variational parameters, making it an optimization problem. }
+\note{
+	\begin{itemize}
+		\item No longer analytical results $\rightarrow$ Rely on diffusion Monte Carlo results which are expected to be almost exact
+		\item The RBM+PJ ansatz now provides energies that are slightly larger than the VMC energy
+		\item Large number of variational parameters (860)
+		\item Low frequencies $\rightarrow$ RBM<HF $\rightarrow$ better to model interactions
+		\item High frequencies $\rightarrow$ RBM>HF $\rightarrow$ Interactions less important
+	\end{itemize}
+}
 
 \mframe{Energy distribution}{Number of electrons: $N=20$. Frequency: $\omega$.}{
 	Ratio between the kinetic energy, $\langle\hat{T}\rangle$, and the total potential energy, $\langle\hat{V}\rangle$.
@@ -44,9 +63,15 @@
 	\end{figure}
 }
 
-\note{We also look at the distribution between kinetic energy and total potential energy. Keep looking at quatum dots with 20 electrons, we see that the potential energy dominates over the potential energy when the frequency gets low. Also, the various ansätze differ more for high frequencies. }
+\note{
+	\begin{itemize}
+		\item Still looking at 20 electrons $\rightarrow$ Distribution between kinetic and potential energy 
+		\item Low frequency $\rightarrow$ Potential energy dominates over kinetic energy
+		\item High frequency $\rightarrow$ Ansätze differ $\rightarrow$ Different electron configurations
+	\end{itemize}
+}
 
-\mframe{One-body density}{Number of electrons: $N=20$. Frequency: $\omega=1.0$.}{
+\mframe{One-body Density}{Number of electrons: $N=20$. Frequency: $\omega=1.0$.}{
 	\begin{figure}
 		\centering
 		\captionsetup[subfigure]{labelformat=empty}
@@ -62,9 +87,15 @@
 	\end{figure}
 }
 
-\note{Now, we look at the one-body density provided by the various ansätze. We observe that all the ansätze with a Jastrow factor, i.e. RBM+SJ, RBM+PJ and VMC, provide very similar density profiles, while RBM provides more distinct peaks. It looks like the RBM ansatz manages to find the same extrema as the other ansätze, but determines another density there. }
+\note{
+	\begin{itemize}
+		\item One-body density describes how electrons distribute throughout the space
+		\item Ansätze with Jastrow factor almost identical
+		\item RBM provides more distinct peaks $\rightarrow$ model the electrons
+	\end{itemize}
+}
 
-\mframe{Two-body density}{Number of electrons: $N=20$. Frequency: $\omega=1.0$.}{
+\mframe{Two-body Density}{Number of electrons: $N=20$. Frequency: $\omega=1.0$.}{
 	\begin{figure}
 		\centering
 		\captionsetup[subfigure]{labelformat=empty}
@@ -80,9 +111,14 @@
 	\end{figure}
 }
 
-\note{We have also studied the two-body density, which makes us able to study the electron-electron correlations in more detail. A similar phenomenon as we saw for the one-body density can be observed in the two-body density. RBM provides more distinct peaks than its fellow ansätze. }
+\note{
+	\begin{itemize}
+		\item Two-body density describes how the electrons distribute pairwise
+		\item The same can be observed here, where RBM stands out
+	\end{itemize}
+}
 
-\mframe{Low-frequency dots}{Number of electrons: $N$. Frequency: $\omega=0.1$.}{
+\mframe{Low-frequency Dots}{Number of electrons: $N$. Frequency: $\omega=0.1$.}{
 	\begin{figure}
 		\centering
 		\captionsetup[subfigure]{labelformat=empty}
@@ -99,7 +135,15 @@
 	\end{figure}
 }
 
-\note{We now move on to quantum dots with frequency $\omega=0.1$. When comparing the RBM ansatz and the VMC ansatz, we see that the two ansätze give very different one-body density profiles. Apparently, the RBM ansatz provides an equal number of peaks as there are electrons, implying very localized particle positions. What is interesting, is that the energy for the respective methods are quite similar. This indicates that the energy itself might not be the best way to decide whether an ansatz is good or not. }
+\note{
+	\begin{itemize}
+		\item Move on to low=frequency dots
+		\item Interesting since RBM gives very different profiles from VMC
+		\item $N$=peaks
+		\item Indicates very localized electrons
+		\item Indicates that energy is not the best way of evaluate an ansatz
+	\end{itemize}
+}
 
 \mframe{Computational Cost}{Number of electrons: $N$.}{
 	\begin{figure}
@@ -108,4 +152,10 @@
 	\end{figure} 
 }
 
-\note{In the end, we will also compare the computational cost of the various methods. From the curves, we see that the RBM and VMC ansätze are pairwise the computationally cheapest methods and RBM+SJ and RBM+PJ are the most computational intensive ones. This is no big surprise, as the two latter methods contain both a neural network and a Jastrow factor. We also see that the cost of the RBM ansatz explodes for very large systems. This is probably because the ansatz then contains around 15,000 variational parameters, while the VMC ansatz contains two variational parameters. }
+\note{
+	\begin{itemize}
+		\item RBM and VMC pairwise
+		\item RBM explodes for large systems $\rightarrow$ 10,000 parameters vs 2
+		\item RBM+PJ and RBM+SJ pairwise most computationally intensive $\rightarrow$ No point to choose RBM+PJ considering the other results
+	\end{itemize}
+}

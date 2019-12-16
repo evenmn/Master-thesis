@@ -2,12 +2,21 @@
 %\documentclass[notes]{beamer}		% frames + notes
 %\documentclass[notes=only]{beamer}	% notes
 \input{preamble.tex}
+\input{frames.tex}
+\input{defs.tex}
 
 \begin{document}
 
 \frontframe
 
-\note{Welcome to my master presentation! It is nice to see that so many of you could be here today! My name is Even, and I will talk about my last years work. It resulted in a master's thesis titled Studies of quantum dots using machine learning. Since I need to compress one years work into 30 minutes, this presentation will not be very technically. For details, I relegate you to this wonderful thesis. }
+%\note{Welcome to my master presentation! It is nice to see that so many of you could be here today! My name is Even, and I will talk about my last years work. It resulted in a master's thesis titled Studies of quantum dots using machine learning. Since I need to compress one years work into 30 minutes, this presentation will not be very technically. For details, I relegate you to my thesis. }
+
+\note{
+	\begin{itemize}
+		\item Welcome
+		\item Compress
+	\end{itemize}
+}
 
 \mframe{Outline}{}{
 \begin{itemize}
@@ -16,18 +25,19 @@
 	\item Quantum Theory
 	\item Machine Learning Theory
 	\item Methods
-	\item Software
 	\item Results
-	\item Conclusion
+	\item Conclusions
 \end{itemize}
 }
 
-\note{We will start with some motivation. Thereafter, we present the essential theory, first quantum theory and then machine learning theory. Our primary focus will be on the results, as that's the most interesting outcome of our work. }
+%\note{We will start with some motivation. Thereafter, we present the essential theory, first quantum theory and then machine learning theory. Our primary focus will be on the results, as that's the most interesting outcome of our work. }
+
+\note{Results most interesting outcome}
 
 \input{motivation.tex}
 \input{theory.tex}
 \input{methods.tex}
-\input{software.tex}
+%\input{software.tex}
 \input{results.tex}
 \input{conclusions.tex}
 
@@ -43,8 +53,103 @@
 \appendix
 
 % Backup slides
-\mframe{Test}{Test}{TEST}
-\mframe{Test}{Test}{TEST}
-\mframe{Test}{Test}{TEST}
+
+\titleframe{Machine Learning}
+
+\mframe{Bias-variance Decomposition}{}{
+	\begin{figure}
+	\centering
+	\input{../tikz/biasvariancedecomp.tex}
+	\end{figure}
+}
+\mframe{Different models}{}{
+	\begin{figure}
+		\centering
+		\input{../tikz/biasvariancemodels.tex}
+	\end{figure}
+}
+
+\mframe{Polynomial Regression}{}{
+	\begin{figure}
+		\centering
+		\subfloat[Data set]{{\includegraphics[width=5cm]{../Images/datapoints.eps}}}
+		\subfloat[Data set with fitted polynomials]{{\includegraphics[width=5cm]{../Images/datacurve.eps} }}
+	\end{figure}
+}
+
+\mframe{Ordinary Linear Regression}{}{
+	The output from ordinary linear regression is given by
+	\begin{equation}
+		f(x_i)=\sum_{j=0}^pX_{ij}(x_i)\theta_j.
+	\end{equation}
+	Using the mean square error as the cost function, we obtain
+	\begin{equation}
+		\mathcal{C}(\bs{\theta})=\sum_{i=1}^{n}\Big(y_i-\sum_{j=0}^pX_{ij}\theta_j\Big)^2,
+	\end{equation}
+	which is equivalent to
+	\begin{equation}
+		\bs{\theta}=(\bs{X}^T\bs{X})^{-1}\bs{X}^T\bs{y}.
+	\end{equation}
+}
+
+\mframe{Singular Value Decomposition}{}{
+	Decomposing a matrix into three matrices
+	\begin{equation}
+		\bs{X}=\bs{U}\bs{\Sigma}\bs{V}^T.
+	\end{equation}
+}
+
+\mframe{Ridge Regression}{}{
+	\begin{equation}
+		\mathcal{C}(\bs{\theta})=\sum_{i=1}^{n}\Big(y_i-\sum_{j=0}^pX_{ij}\theta_j\Big)^2+\lambda\sum_{j=1}^p|\theta_j|^2,
+	\end{equation}
+	\begin{equation}
+		\bs{\theta}=(\bs{X}^T\bs{X}+\lambda\mathbb{1})^{-1}\bs{X}^T\bs{y}
+	\end{equation}
+}
+
+\mframe{Lasso Regression}{}{
+	\begin{equation}
+		\mathcal{C}(\bs{\theta})=\sum_{i=1}^{n}\Big(y_i-\sum_{j=0}^pX_{ij}\theta_j\Big)^2+\lambda\sum_{j=1}^p|\theta_j|.
+	\end{equation}
+}
+
+\mframe{Logistic Regression}{}{
+	\begin{figure}
+		\centering
+		\input{../tikz/singlelayer_perceptron.tex}
+	\end{figure}
+}
+
+\mframe{Activation Functions}{}{
+	\begin{figure}
+		\centering
+		\subfloat{{\includegraphics[width=5cm]{../Images/sigmoid.eps}}}
+		\subfloat{{\includegraphics[width=5cm]{../Images/ReLU.eps}}}\\[-0.5cm]
+		
+		\subfloat{{\includegraphics[width=5cm]{../Images/LeakyReLU.eps}}}
+		\subfloat{{\includegraphics[width=5cm]{../Images/ELU.eps}}}
+	\end{figure}
+}
+
+\mframe{FNN: Forward Phase}{}{
+	The output before activation reads
+	\begin{equation}
+		z_j^{(l+1)}=\sum_{i=1}^{N_{l}+1}a_i^{(l)}w_{ij}^{(l)}
+	\end{equation}
+	while after the activation we have
+	\begin{equation}
+		a_j^{(l+1)}=f(z_j^{(l+1)})=f\left(\sum_{i=1}^{N_{l}+1}a_i^{(l)}w_{ij}^{(l)}\right)
+	\end{equation}
+}
+
+\mframe{Backpropagation}{}{
+	\begin{equation}
+		\frac{\partial\mathcal{C}(\bs{w})}{\partial w_{jk}^{(l)}}=\delta_j^{(l+1)}a_k^{(l)}
+	\end{equation}
+	\begin{equation}
+		\delta_j^{(l)}=\sum_k\delta_k^{(l+1)}w_{kj}^{(l)}f'(z_j^{(l)})
+	\end{equation}
+}
 
 \end{document}

@@ -6,7 +6,12 @@
 
 \setbeamertemplate{itemize items}{\color{color0}$\blacktriangleright$}
 \setbeamertemplate{bibliography item}{\insertbiblabel}
+%\setbeamertemplate{note page}[plain]
+\setbeameroption{show notes on second screen=bottom}
 \addtobeamertemplate{footnote}{}{\vspace{10ex}}
+\mathtoolsset{showonlyrefs}
+\usefonttheme{serif}
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}}
 
 \renewcommand*{\bibfont}{\tiny}
 
@@ -14,6 +19,11 @@
 \setbeamercolor{block title}{fg=white}
 \setbeamercolor{block title}{bg=black}
 \setbeamercolor{block body}{bg=color0}
+
+\setbeamerfont{itemize/enumerate body}{size=\scriptsize}
+\setbeamerfont{itemize/enumerate subbody}{size=\scriptsize}
+\setbeamerfont{itemize/enumerate subsubbody}{size=\scriptsize}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % FRONT FRAME

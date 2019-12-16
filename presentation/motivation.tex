@@ -2,71 +2,64 @@
 
 \mframe{}{}{
 	\begin{center}
-		{\large Studies of Quantum Dots using \textcolor<2>{red}{Machine Learning}}
-	\end{center}
-}
-
-\note{First I suggest that we take a closer look at the title of my thesis: Studies of Quantum Dots using Machine Learning. We will decompose this to make it more clear, and start with the last term: machine learning.}
-
-\mframe{Machine Learning}{}{
-	\begin{itemize}
-		\setlength\itemsep{3em}
-		\item<1-> \begin{shadequote}{}
-			Machine learning is the science of getting computers to act without being explicitly programmed \supercite{noauthor_machine_nodate}.
-		\end{shadequote}
-		\item<2-> Image recognition 
-		\item<3-> Voice commands
-	\end{itemize}	
-}
-
-\note{Many of you have probbaly heard of the term Machine Learning. To define it, we will use the definition by Stanford university: "Machine learning is the science of getting computers to act without being explicitly programmed." In other words, we don't need to hard-code everything, the machine learning algorithms are supposed to find out what to do themselves. Machine learning has experienced a booming popularity over the past years. Machine learning algorithms are based on studies of the human brain, and are therefore a branch of artificial intelligence. Neural networks have, for instance, revolutioned the field of image recognition, and they make phones and TVs able to recognize your voice.\bigskip
-
-But this is not related to quantum mechanics, why do we want to use machine learning to solve quantum mechanical problems? Do we use it just because it sounds fancy?}
-
-\mframe{Machine Learning + Quantum Mechanics}{}{
-	\begin{itemize}
-		\item<1-> Neural networks are eminent function approximators
-	\end{itemize}	
-	\pause\vspace{0.6cm}
-	\begin{figure}
-		\centering
-		\input{../tikz/simple_perceptron.tex}
-	\end{figure}
-	\begin{itemize}
-		\item<3-> Existing methods are reminiscent of machine learning algorithms
-	\end{itemize}
-}
-
-\note{No, there are some good reasons. Firstly, neural networks have shown impressive power as function approximators. In quantum mechanical calculations, the so-called wave function contains all the information about the system, and is therefore our ultimate goal to find.  By approximating the wave function by a neural network, the network can in principle provide all the desired information. \bigskip
-	
-Secondly, some quantum many-body methods, like the variational Monte Carlo method that we will discuss later, are similar to machine learning techniques. 
-\bigskip
-
-Even though this is a relatively new idea, there exist recent research with the same approach. In 2017, Carlo and Troyer solved the Ising model using restricted Boltzmann machines. A prior student at this group, Flugsrud, extended the work to small quantum dots, and we will again extend her work to larger quantum dots. Recently, Pfau et. al used more traditional neural networks to study atoms and molecules. }
-
-\mframe{}{}{
-	\begin{center}
 		{\large Studies of \textcolor<2>{red}{Quantum Dots} using Machine Learning}
+		\note<1->{
+			\begin{itemize}
+				\item Closer look at the title
+				\item Decompose $\rightarrow$ Quantum dots
+			\end{itemize}
+		}
 	\end{center}
 }
-
-\note{So now we have discussed the last term, but we will also consider the system that we have investigated: Quantum dots. }
 
 \mframe{Quantum Dots}{}{
 	\begin{itemize}
 		\setlength\itemsep{3em}
-		\item<1-> \textbf{Technologically:} 
-		
-		Quantum dots are expected to be the next big thing in display technology \supercite{noauthor_samsung_nodate, manders_8.3:_2015}.
-		\item<2-> \textbf{Experimentally:}
-		
-		Researchers have managed to study two-dimensional quantum dots in the laboratory \supercite{brunner_sharp-line_1994}.
-		\item<3-> \textbf{Physically:}
-		
-		An array of interesting physical phenomena can be observed in quantum dots.
+		\item<1-> What are quantum dots?
+		\note[item]<1->{
+			\begin{itemize}
+				\item Small particles consisting of a bunch of subatomic particles confined in a external potential
+				\item Artificial atoms
+			\end{itemize}
+		}
+		\item<2-> Why are quantum dots interesting?\vspace{0.5cm}
+		\begin{itemize}
+			\setlength\itemsep{2em}
+			\item Quantum dots are expected to be the next big thing in display technology \supercite{noauthor_samsung_nodate, manders_8.3:_2015}
+			\item Quantum dots are used in quantum computers
+			\item Researchers have managed to study two-dimensional quantum dots in the laboratory \supercite{brunner_sharp-line_1994}
+			\item An array of interesting physical phenomena can be observed in quantum dots
+		\end{itemize}
+		\note[item]<2-> {
+			\begin{itemize}
+				\item Emit one wave length $\rightarrow$ Samsung
+				\item Quantum circuits and quantum computers
+				\item Does also encourage $\rightarrow$ more specific
+				\item Wigner crystallization
+			\end{itemize}
+		}
 	\end{itemize}
 }
+\iffalse
+\note{
+	\begin{itemize}
+		\item What is a quantum dot?
+		\begin{itemize}
+			\item Small particles consisting of a bunch of subatomic particles confined in a external potential
+			\item Artificial atoms
+		\end{itemize}
+		\item Why are quantum dots interesting?
+		\begin{itemize}
+			\item Emit one wave length $\rightarrow$ Samsung
+			\item Quantum circuits and quantum computers
+			\item Does also encourage $\rightarrow$ more specific
+			\item Wigner crystallization
+		\end{itemize}
+	\end{itemize}
+}
+\fi
 
+\iffalse
 \note{{\large \textbf{First: What are quantum dots?}}
 
 Quantum dots are small artificial particles, often called artificial atoms because of their many common features with atoms. For instance, both quantum dots and atoms have discrete energy spectra. 
@@ -81,6 +74,81 @@ Technologically, quantum dots are expected to be the next big thing in display t
 	\vspace{0.5cm}
 	Physically: From a physical point of view, the quantum dots are interesting as they are simple systems that can model a long range of phenomena. An example is the Wigner localization.
 }
+\fi
+
+\mframe{}{}{
+	\begin{center}
+		{\large Studies of Quantum Dots using \textcolor<2>{red}{Machine Learning}}
+	\end{center}
+	\note<1->{
+		\begin{itemize}
+			\item Discussed quantum dot systems $\rightarrow$ Last term Machine learning
+		\end{itemize}
+	}
+}
+
+\mframe{Machine Learning}{}{
+	\begin{itemize}
+		\setlength\itemsep{3em}
+		\item<1-> \begin{shadequote}{}
+			Machine learning is the science of getting computers to act without being explicitly programmed \supercite{noauthor_machine_nodate}.
+		\end{shadequote}
+		\note[item]<1->{
+			\begin{itemize}
+				\item Many of you probably know
+				\item For our work $\rightarrow$ Definition by Stanford university
+				\item Has experienced a booming popularity over the past decade $\rightarrow$ neural networks
+				\item Image recognition (CNNs)
+				\item Voice recognition (RNNs)
+				\item Nothing to do with quantum mechanical problems
+			\end{itemize}
+		}
+		\item<2-> Image recognition 
+		\item<3-> Natural language processing
+	\end{itemize}	
+}
+
+\iffalse
+\note{Many of you have probbaly heard of the term Machine Learning. To define it, we will use the definition by Stanford university: "Machine learning is the science of getting computers to act without being explicitly programmed." In other words, we don't need to hard-code everything, the machine learning algorithms are supposed to find out what to do themselves. Machine learning has experienced a booming popularity over the past years. Machine learning algorithms are based on studies of the human brain, and are therefore a branch of artificial intelligence. Neural networks have, for instance, revolutioned the field of image recognition, and they make phones and TVs able to recognize your voice.\bigskip
+	
+	But this is not related to quantum mechanics, why do we want to use machine learning to solve quantum mechanical problems? Do we use it just because it sounds fancy?}
+\fi
+
+\mframe{Machine Learning + Quantum Mechanics}{}{
+	\begin{itemize}
+		\item<1-> Neural networks are eminent function approximators
+	\end{itemize}
+	\note<1->{
+		\begin{itemize}
+			\item Impressive power
+			\item According to the universal function approximation theorem
+			\item Let the wave function be represented by a neural network
+			\item Some popular quantum many-body methods, like VMC, are similar to machine learning algorithms
+			\item \citeauthor{carleo_solving_2017} Ising model
+			\item \citeauthor{flugsrud_vilde_moe_solving_nodate} small quantum dots
+			\item \citeauthor{pfau2019abinitio} neural networks to inestigate atoms and molecules
+		\end{itemize}
+	}
+	\pause\vspace{0.4cm}
+	\begin{figure}
+		\centering
+		\input{../tikz/simple_perceptron.tex}
+	\end{figure}
+	\begin{itemize}
+		\setlength\itemsep{3em}
+		\item<3-> Existing methods are reminiscent of machine learning algorithms
+		\item<4-> Literature study (\citet{carleo_solving_2017}, \citet{flugsrud_vilde_moe_solving_nodate}, \citet{pfau2019abinitio})
+	\end{itemize}
+}
+
+\iffalse
+\note{No, there are some good reasons. Firstly, neural networks have shown impressive power as function approximators. In quantum mechanical calculations, the so-called wave function contains all the information about the system, and is therefore our ultimate goal to find.  By approximating the wave function by a neural network, the network can in principle provide all the desired information. \bigskip
+	
+	Secondly, some quantum many-body methods, like the variational Monte Carlo method that we will discuss later, are similar to machine learning techniques. 
+	\bigskip
+	
+	Even though this is a relatively new idea, there exist recent research with the same approach. In 2017, Carlo and Troyer solved the Ising model using restricted Boltzmann machines. A prior student at this group, Flugsrud, extended the work to small quantum dots, and we will again extend her work to larger quantum dots. Recently, Pfau et. al used more traditional neural networks to study atoms and molecules. }
+\fi
 
 \mframe{Ethics in Science}{}{
 	\begin{itemize}
@@ -89,9 +157,12 @@ Technologically, quantum dots are expected to be the next big thing in display t
 		\item<2> Reproducibility
 		%\item Ethical aspects in machine learning
 	\end{itemize}
+	\note<1->{
+		\begin{itemize}
+			\item Whenever others work is used $\rightarrow$ Credit sources $\rightarrow$ text...
+			\item When doing experiments $\rightarrow$ Always describe details in a such way
+			\item Raw files are available on zenodo
+			\item Open source code
+		\end{itemize}
+	}
 }
-
-\note{In science as an entirety, there are some general guidelines that we all should follow in order to maintain ethical behavior. The first point is to respect other's work and credit other's whenever their work is used. This includes methods, text, code etc.. Also, the work that is done should be detailed in a such way that it can be reproduced. 
-%\bigskip
-%In machine learning, there are also ethical aspects that we need to pay attention to. This is mainly related to the fact that computers might learn themselves  
-%}
